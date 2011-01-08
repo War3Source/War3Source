@@ -1,0 +1,16 @@
+"Games"
+{
+	"cstrike"
+	{
+		"Signatures"
+		{
+			
+			"CSWeaponDrop"
+			{
+				"library"	"server"
+				"windows"	"\x55\x8B\xEC\x81\xEC\x2A\x2A\x2A\x2A\x89\x8D\x2A\x2A\x2A\x2A\xC6\x2A\x2A\x00\x8B\x8D\x2A\x2A\x2A\x2A\xE8"
+				"linux"		"@_ZN9CCSPlayer12CSWeaponDropEP17CBaseCombatWeaponbb"
+			}
+		}
+	}
+}

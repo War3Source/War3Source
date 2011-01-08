@@ -1,0 +1,60 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"bh_RaceName"
+	{
+		"en"		"Blood Hunter"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"bh_skill_BloodCrazy"
+	{
+		"en"		"Blood Crazy"
+	}
+	"bh_skill_BloodCrazy_desc"
+	{
+		"en"		"Those damaged by you will bleed for 2 HP per second for 4 - 10 seconds"
+	}
+
+	"bh_skill_Feast"
+	{
+		"en"		"Feast"
+	}
+	"bh_skill_Feast_desc"
+	{
+		"en"		"Heal 5-20 percent of the victim's max HP on kill"
+	}
+
+	"bh_skill_BloodSense"
+	{
+		"en"		"Blood Sense"
+	}
+	"bh_skill_BloodSense_desc"
+	{
+		"en"		"Those who are below 5-20%% max HP take critical damage"
+	}
+
+	"bh_skill_Hemorrhage"
+	{
+		"en"		"Hemorrhage"
+	}
+	"bh_skill_Hemorrhage_desc"
+	{
+		"en"		"The target will take damage if he moves"
+	}
+
+	"You have been ruptured! You take damage if you move!"
+	{
+		"en"		"You have been ruptured! You take damage if you move!"
+	}
+	"Rupture!"
+	{
+		"en"		"Rupture!"
+	}
+	"Double Damage against low HP enemies!"
+	{
+		"en"		"[W3S] Double Damage against low HP enemies!"
+	}
+}

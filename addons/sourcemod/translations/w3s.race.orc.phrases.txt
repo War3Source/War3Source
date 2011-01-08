@@ -1,0 +1,96 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"orc_RaceName"
+	{
+		"en"		"Orcish Horde"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"orc_skill_CriticalStrike"
+	{
+		"en"		"Critical Strike"
+	}
+	"orc_skill_CriticalStrike_desc"
+	{
+		"en"		"Chance of doing critical damage"
+	}
+
+	"orc_skill_CriticalGrenade"
+	{
+		"en"		"Critical Grenade"
+	}
+	"orc_skill_CriticalGrenade_desc"
+	{
+		"en"		"Grenades will do 40-240%% more damage"
+	}
+
+	"orc_skill_Reincarnation"
+	{
+		"en"		"Reincarnation"
+	}
+	"orc_skill_Reincarnation_desc"
+	{
+		"en"		"Gives you a 15-80%% chance of respawning once"
+	}
+
+	"orc_skill_WindWalker"
+	{
+		"en"		"Wind Walker"
+	}
+	"orc_skill_WindWalker_desc"
+	{
+		"en"		"Partial invisibility unless you\nare attacking an enemy."
+	}
+
+	"orc_skill_HealingWard"
+	{
+		"en"		"Healing Ward"
+	}
+	"orc_skill_HealingWard_desc"
+	{
+		"en"		"Use +ability to make healing wards!\nBe strategic, ward heals both teams!"
+	}
+
+	"orc_skill_ChainLightning"
+	{
+		"en"		"Chain Lightning"
+	}
+	"orc_skill_ChainLightning_desc"
+	{
+		"en"		"Discharges a bolt of lightning that jumps to\nnearby enemies 150-300 units in range,\ndealing each damage"
+	}
+
+	"Hit by Chain Lightning -{amount} HP"
+	{
+		"#format"	"{1:d}"
+		"en"		"Hit by Chain Lightning -{1} HP"
+	}
+	"You fade slightly into the backdrop"
+	{
+		"en"		"You fade slightly into the backdrop."
+	}
+	"You fade well into the backdrop"
+	{
+		"en"		"You fade well into the backdrop."
+	}
+	"You fade greatly into the backdrop"
+	{
+		"en"		"You fade greatly into the backdrop."
+	}
+	"You fade dramatically into the backdrop"
+	{
+		"en"		"You fade dramatically into the backdrop."
+	}
+	"REINCARNATION IN {amount} SECONDS!"
+	{
+		"#format"	"{1:.1f}"
+		"en"		"REINCARNATION IN {1} SECONDS!"
+	}
+	"Reincarnated via skill"
+	{
+		"en"		"Reincarnated via skill"
+	}
+}

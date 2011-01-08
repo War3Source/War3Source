@@ -1,0 +1,108 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"succubus_RaceName"
+	{
+		"en"		"Succubus Hunter"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"succubus_skill_HeadHunter"
+	{
+		"en"		"Head Hunter"
+	}
+	"succubus_skill_HeadHunter_desc"
+	{
+		"en"		"Chance to do extra damage proportional\nto the number of skulls you have.\nYou gain your victim's SKULLs on kill"
+	}
+
+	"succubus_skill_TIncantation"
+	{
+		"en"		"Totem Incantation"
+	}
+	"succubus_skill_TIncantation_desc"
+	{
+		"en"		"You gain 1-2%% HP, 25-50$ or credits and 1-5XP on spawn for each skull you collected"
+	}
+
+	"succubus_skill_ATackle"
+	{
+		"en"		"Assault Tackle"
+	}
+	"succubus_skill_ATackle_desc"
+	{
+		"en"		"Gives you a boost of speed when you jump."
+	}
+
+	"succubus_skill_DTransformation"
+	{
+		"en"		"Deamonic Transformation"
+	}
+	"succubus_skill_DTransformation_desc"
+	{
+		"en"		"Get less gravity, more speed, and more HP. Costs 1/2/3/4 SKULLs"
+	}
+
+	"[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP"
+	{
+		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
+		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} dollars and {5} XP."
+	}
+	"[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP"
+	{
+		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
+		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} credits and {5} XP."
+	}
+	"[Daemonic Knife] You inflicted +{amount} Damage"
+	{
+		"#format"	"{1:c},{2:c},{3:d}"
+		"en"		"{1}[Daemonic Knife] {2}You inflicted +{3} Damage"
+	}
+	"[Head Hunter] You inflicted +{amount} Damage"
+	{
+		"#format"	"{1:c},{2:c},{3:d}"
+		"en"		"{1}[Head Hunter] {2}You inflicted +{3} Damage"
+	}
+	"You gained a SKULL [{amount}/{amount}]"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"You gained a SKULL [{1}/{2}]."
+	}
+	"[Daemonic transformation] You do not have enough skulls: {amount} more required"
+	{
+		"#format"	"{1:c},{2:c},{3:d}"
+		"en"		"{1}[Daemonic transformation] {2}You don't have enough skulls: {3} more required."
+	}
+	"[Daemonic transformation] Your daemonic powers boost your strength"
+	{
+		"#format"	"{1:c},{2:c}"
+		"en"		"{1}[Daemonic transformation] {2}Your daemonic powers boost your strength."
+	}
+	"[Daemonic transformation] You transformed back to normal"
+	{
+		"#format"	"{1:c},{2:c}"
+		"en"		"{1}[Daemonic transformation] {2}You transformed back to normal."
+	}
+	"You have ({amount}/{amount}) SKULLs"
+	{
+		"#format"	"{1:d},{2:d},{3:ñ},{4:ñ}"
+		"en"		"You have ({1}/{2}) {3}SKULL{4}s."
+	}
+	"You have {amount} SKULLs"
+	{
+		"#format"	"{1:d},{2:ñ},{3:ñ}"
+		"en"		"You have {1} {2}SKULL{3}s."
+	}
+	"Entity limit is nearly reached: {amount}/{amount} ({amount}):{message}"
+	{
+		"#format"	"{1:d},{2:d},{3:d},{4:s}"
+		"en"		"[W3S] Entity limit is nearly reached: {1}/{12} ({3}): {4}"
+	}
+	"Entity count is getting high: {amount}/{amount} ({amount}):{message}"
+	{
+		"#format"	"{1:d},{2:d},{3:d},{4:s}"
+		"en"		"[W3S] Entity count is getting high: {1}/{2} ({3}): {4}"
+	}
+}

@@ -1,0 +1,59 @@
+"Phrases"
+{
+	"human_RaceName"
+	{
+		"ru"		"Человек"
+	}
+	"human_skill_Invisibility"
+	{
+		"ru"		"Невидимость"
+	}
+	"human_skill_Invisibility_desc"
+	{
+		"ru"		"Дает вам частичную невидимость"
+	}
+	"human_skill_DevotionAura"
+	{
+		"ru"		"Аура Жизни"
+	}
+	"human_skill_DevotionAura_desc"
+	{
+		"ru"		"Дает дополнительное здоровье\nпри возрождении"
+	}
+	"human_skill_Bash"
+	{
+		"ru"		"Удар"
+	}
+	"human_skill_Bash_desc"
+	{
+		"ru"		"Шанс обездвижить врага"
+	}
+	"human_skill_Teleport"
+	{
+		"ru"		"Телепорт"
+	}
+	"human_skill_Teleport_desc"
+	{
+		"ru"		"Телепортирует куда вы смотрите"
+	}
+	"Teleported"
+	{
+		"ru"		"Телепортирован!"
+	}
+	"CantTeleportHere"
+	{
+		"ru"		"Туда телепортироваться нельзя"
+	}
+	"NoEmptyLocation"
+	{
+		"ru"		"Не найдено свободной локации"
+	}
+	"RcvdBash"
+	{
+		"ru"		"Вас ударил Человек"
+	}
+	"Bashed"
+	{
+		"ru"		"Вы ударили врага"
+	}
+}

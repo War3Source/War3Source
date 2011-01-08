@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"helm_ItemName"
+	{
+		"en"		"Helm of the Black Legion"
+	}
+	"helm_ItemDesc"
+	{
+		"en"		"Protects you from Headshots"
+	}
+}

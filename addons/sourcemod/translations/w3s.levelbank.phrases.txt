@@ -1,0 +1,33 @@
+"Phrases"
+{
+	"You have {amount} levels in your levelbank"
+	{
+		"#format"	"{1:d}"
+		"en"		"You have {1} levels in your levelbank"
+	}
+	"Add a level to current race from bank:"
+	{
+		"en"		"Add a level to current race from bank:"
+	}
+	"You do not have any levels in the level bank"
+	{
+		"en"		"You do not have any levels in the level bank"
+	}
+	"You do not have a valid race"
+	{
+		"en"		"You don't have a valid race"
+	}
+	"Your race is already maxed"
+	{
+		"en"		"Your race is already maxed"
+	}
+	"Successfully added a level to race"
+	{
+		"en"		"Successfully added a level to race"
+	}
+	"You have {amount} levels in your levelbank, say levelbank to use them"
+	{
+		"#format"	"{1:d}"
+		"en"		"You have {1} levels in your levelbank, say levelbank to use them"
+	}
+}

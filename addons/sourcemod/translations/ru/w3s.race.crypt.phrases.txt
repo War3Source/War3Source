@@ -1,0 +1,79 @@
+"Phrases"
+{
+	"crypt_RaceName"
+	{
+		"ru"		"Владыка Склепа"
+	}
+	"crypt_skill_Impale"
+	{
+		"ru"		"Встряска"
+	}
+	"crypt_skill_Impale_desc"
+	{
+		"ru"		"Трясет вражеский прицел"
+	}
+	"crypt_skill_SpikedCarapaceCS"
+	{
+		"ru"		"Зубчатый Щит"
+	}
+	"crypt_skill_SpikedCarapaceCS_desc"
+	{
+		"ru"		"Уменьшает получаемый урон\nРанит атакуещего вас врага\nА также вы получаеие броню"
+	}
+	"crypt_skill_SpikedCarapaceTF"
+	{
+		"ru"		"Зубчатый Щит"
+	}
+	"crypt_skill_SpikedCarapaceTF_desc"
+	{
+		"ru"		"Уменьшает получаемый урон\nОтражает некоторый урон\nк атакующему вас врагу"
+	}
+	"crypt_skill_CarrionBeetles"
+	{
+		"ru"		"Жучки"
+	}
+	"crypt_skill_CarrionBeetles_desc"
+	{
+		"ru"		"Шанс нанести дополнительный урон"
+	}
+	"crypt_skill_LocustSwarm"
+	{
+		"ru"		"Рой Саранчи"
+	}
+	"crypt_skill_LocustSwarm_desc"
+	{
+		"ru"		"Выпускает рой саранчи,\nкоторый наносит урон врагам"
+	}
+	"Returned {amount} damage to {player}"
+	{
+		"ru"		"[W3S] Возвращено {1} урона игроку {2}"
+	}
+	"Received {amount} damage from Spiked Carapace from {player}"
+	{
+		"ru"		"[W3S] Получено {1} урона от навыка Шипастый Щит игрока {2}"
+	}
+	"Blocked Impale"
+	{
+		"ru"		"Вы блокировали встряску"
+	}
+	"Enemy Blocked Impale"
+	{
+		"ru"		"Враг блокировал встряску"
+	}
+	"Impaled enemy"
+	{
+		"ru"		"Вы встряхнули экран врагу"
+	}
+	"You got impaled by enemy"
+	{
+		"ru"		"Враг встряхнул вам экран"
+	}
+	"You blocked beetles attack"
+	{
+		"ru"		"Вы блокировали атаку жучков"
+	}
+	"Beetles attack was blocked"
+	{
+		"ru"		"Атака жучков была блокирована"
+	}
+}

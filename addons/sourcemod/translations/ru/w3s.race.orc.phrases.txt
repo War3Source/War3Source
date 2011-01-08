@@ -1,0 +1,83 @@
+"Phrases"
+{
+	"orc_RaceName"
+	{
+		"ru"		"Орк"
+	}
+	"orc_skill_CriticalStrike"
+	{
+		"ru"		"Супер-Удар"
+	}
+	"orc_skill_CriticalStrike_desc"
+	{
+		"ru"		"Шанс нанести критический урон"
+	}
+	"orc_skill_CriticalGrenade"
+	{
+		"ru"		"Супер-Граната"
+	}
+	"orc_skill_CriticalGrenade_desc"
+	{
+		"ru"		"Гранаты наносят на 40-240%% больше урона"
+	}
+	"orc_skill_Reincarnation"
+	{
+		"ru"		"Возрождение"
+	}
+	"orc_skill_Reincarnation_desc"
+	{
+		"ru"		"Дает вам 15-80%% шанс возродиться"
+	}
+	"orc_skill_WindWalker"
+	{
+		"ru"		"Ветродуй"
+	}
+	"orc_skill_WindWalker_desc"
+	{
+		"ru"		"Частичная невидимость\nПока вы не атакуете врага"
+	}
+	"orc_skill_HealingWard"
+	{
+		"ru"		"Целитель"
+	}
+	"orc_skill_HealingWard_desc"
+	{
+		"ru"		"Используйте +ability для исцеления\nБудьте осторожны, действует на обе команды"
+	}
+	"orc_skill_ChainLightning"
+	{
+		"ru"		"Молния"
+	}
+	"orc_skill_ChainLightning_desc"
+	{
+		"ru"		"Наносит урон молнией в радиусе 15-30 футов"
+	}
+	"Hit by Chain Lightning -{amount} HP"
+	{
+		"ru"		"Вас ударило молнией: -{1} здоровья"
+	}
+	"You fade slightly into the backdrop"
+	{
+		"ru"		"Вы слабо сливаетесь с фоном"
+	}
+	"You fade well into the backdrop"
+	{
+		"ru"		"Вы немного сливаетесь с фоном"
+	}
+	"You fade greatly into the backdrop"
+	{
+		"ru"		"Вы хорошо сливаетесь с фоном"
+	}
+	"You fade dramatically into the backdrop"
+	{
+		"ru"		"Вы сильно сливаетесь с фоном"
+	}
+	"REINCARNATION IN {amount} SECONDS!"
+	{
+		"ru"		"Реинкарнация через {1} секунд!"
+	}
+	"Reincarnated via skill"
+	{
+		"ru"		"Вы возродились при помоши навыка"
+	}
+}
