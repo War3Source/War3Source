@@ -1,5 +1,5 @@
 /*
-* File: War3Source.sp test
+* File: War3Source.sp
 * Description: The main file for War3Source.
 * Author(s): Anthony Iacono  & OwnageOwnz
 */
