@@ -24,7 +24,7 @@
 	}
 	"sacredw_skill_BurningSpear_desc"
 	{
-		"en"		"Passively lose 5%% maxHP, but set enemies ablaze.\nThe more you hit them, the more damage they take\n(#1#)"
+		"en"		"Passively lose 5%% maxHP, but set enemies ablaze.\nDeals #1# damage for next #2# seconds.\nStacks #3# times."
 	}
 
 	"sacredw_skill_BerserkersBlood"
