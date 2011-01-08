@@ -43,20 +43,20 @@ public OnPluginStart()
     CreateTimer(1.0,InnerVitalityTimer,_,TIMER_REPEAT); // Healing Timer
     CreateTimer(0.3,BerserkerCalculateTimer,_,TIMER_REPEAT);      // Berserker ASPD Buff timer
     CreateTimer(1.0,BurningSpearTimer,_,TIMER_REPEAT);  // Burning Spear DoT Timer
-    
+    LoadTranslations("w3s.race.sacredw.phrases");
     ultCooldownCvar=CreateConVar("war3_sacredw_ult_cooldown","20","Cooldown time for ult.");
 }
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==160)
 	{
-	    thisRaceID=War3_CreateNewRace("Sacred Warrior","sacredw");
-	    SKILL_VITALITY=War3_AddRaceSkill(thisRaceID,"Inner Vitality","Passively recover 1/2/3/4 HP/sec.\nHeal twice as fast when you are below 40 percent max health.",false,4);
-	    SKILL_SPEAR=War3_AddRaceSkill(thisRaceID,"Burning Spear","Lose 5 percent HP/sec.\nDeals 1/2/3/4 damage for next 3 seconds.\nStacks 3 times. (Up to 12 DPS)",false,4);
-	    SKILL_BLOOD=War3_AddRaceSkill(thisRaceID,"Berserkers Blood","Gain 1/2/3/4 percent attack speed for each 7 percent of your health missing.",false,4);
-	    ULT_BREAK=War3_AddRaceSkill(thisRaceID,"Life Break","Damages the enemy for 20-50 percent of his max health\nwhile you lose 10-25 percent of your max health.",true,4); 
-	    War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
-    }
+		thisRaceID=War3_CreateNewRaceT("sacredw");
+		SKILL_VITALITY=War3_AddRaceSkillT(thisRaceID,"InnerVitality",false,4,"1/2/3/4");
+		SKILL_SPEAR=War3_AddRaceSkillT(thisRaceID,"BurningSpear",false,4,"1-2/2-4/3-6/4-8");
+		SKILL_BLOOD=War3_AddRaceSkillT(thisRaceID,"BerserkersBlood",false,4);
+		ULT_BREAK=War3_AddRaceSkillT(thisRaceID,"LifeBreak",true,4,"10/15/20/25","20/30/40/50");
+		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+	}
 }
 public OnWar3EventSpawn(client)
 {
@@ -215,12 +215,12 @@ public OnAbilityCommand(client,ability,bool:pressed)
     {
         if(!bSpearActivated[client])
         {
-            PrintHintText(client, "Activated Burning Spear");
+            PrintHintText(client,"%T","Activated Burning Spear",client);
             bSpearActivated[client] = true;
         }
         else
         {
-            PrintHintText(client, "Deactivated Burning Spear");
+            PrintHintText(client,"%T","Deactivated Burning Spear",client);
             bSpearActivated[client] = false;
         }
     }
@@ -241,7 +241,7 @@ public OnUltimateCommand(client,race,bool:pressed)
             {
                 if(!bUltPossible)
                 {
-                    PrintHintText(client, "You do not have enough HP to cast that...");
+					PrintHintText(client,"%T","You do not have enough HP to cast that...",client);
                 }
                 else
                 {
@@ -264,7 +264,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					        War3_DealDamage(client,SelfDamage,client,DMG_BULLET,"lifebreak"); // Do damage to attacker
 					        War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_BREAK,_,_,_,"Life Break"); // invoke cooldown
 					        
-					        PrintHintText(client, "Life Break");
+					        PrintHintText(client,"%T","Life Break",client);
 					    }
 					}
 					else{
