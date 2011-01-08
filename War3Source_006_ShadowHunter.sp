@@ -27,6 +27,7 @@ new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 //skill 1
 new HealingWaveAmountArr[]={0,1,2,3,4};
 new Float:HealingWaveDistanceArr[]={0.0,300.0,400.0,500.0,600.0};
+new ParticleEffect[MAXPLAYERS][MAXPLAYERS]; // ParticleEffect[Source][Destination]
 
 //skill 2
 new Float:CurrentHexChance[MAXPLAYERS];
@@ -79,6 +80,7 @@ public OnPluginStart()
 	ultCooldownCvar=CreateConVar("war3_hunter_voodoo_cooldown","20","Cooldown between Big Bad Voodoo (ultimate)");
 	CreateTimer(0.14,CalcWards,_,TIMER_REPEAT);
 	CreateTimer(1.0,CalcHexHealWaves,_,TIMER_REPEAT);
+	CreateTimer(0.3,HealingWaveParticleTimer,_,TIMER_REPEAT);
 	
 	LoadTranslations("w3s.race.hunter.phrases");
 }
@@ -295,6 +297,17 @@ public OnW3TakeDmgAll(victim,attacker,Float:damage)
 public OnWar3EventSpawn(client){
 	bVoodoo[client]=false;
 	RemoveWards(client);
+	StopParticleEffect(client, true);
+}
+
+public OnClientDisconnect(client)
+{
+	StopParticleEffect(client, true);
+}
+
+public OnWar3EventDeath(victim, attacker)
+{
+	StopParticleEffect(victim, false);
 }
 
 
@@ -477,9 +490,145 @@ public HealWave(client)
 	}
 }
 
+//=======================================================================
+//                  HEALING WAVE PARTICLE EFFECT (TF2 ONLY!)
+//=======================================================================
 
+// Written by FoxMulder with some tweaks by me https://forums.alliedmods.net/showpost.php?p=909189&postcount=7
+AttachParticle(ent, String:particleType[], controlpoint)
+{
+	if(War3_GetGame() == Game_TF)
+	{
+		new particle  = CreateEntityByName("info_particle_system");
+		new particle2 = CreateEntityByName("info_particle_system");
+		if (IsValidEdict(particle))
+		{ 
+			new String:tName[128];
+			Format(tName, sizeof(tName), "target%i", ent);
+			DispatchKeyValue(ent, "targetname", tName);
+			
+			new String:cpName[128];
+			Format(cpName, sizeof(cpName), "target%i", controlpoint);
+			DispatchKeyValue(controlpoint, "targetname", cpName);
+			
+			//--------------------------------------
+			new String:cp2Name[128];
+			Format(cp2Name, sizeof(cp2Name), "tf2particle%i", controlpoint);
+			
+			DispatchKeyValue(particle2, "targetname", cp2Name);
+			DispatchKeyValue(particle2, "parentname", cpName);
+			
+			SetVariantString(cpName);
+			AcceptEntityInput(particle2, "SetParent");
+			
+			SetVariantString("flag");
+			AcceptEntityInput(particle2, "SetParentAttachment");
+			//-----------------------------------------------
+			
+			DispatchKeyValue(particle, "targetname", "tf2particle");
+			DispatchKeyValue(particle, "parentname", tName);
+			DispatchKeyValue(particle, "effect_name", particleType);
+			DispatchKeyValue(particle, "cpoint1", cp2Name);
+			
+			DispatchSpawn(particle);
+			
+			SetVariantString(tName);
+			AcceptEntityInput(particle, "SetParent");
+			
+			SetVariantString("flag");
+			AcceptEntityInput(particle, "SetParentAttachment");
+			
+			//The particle is finally ready
+			ActivateEntity(particle);
+			AcceptEntityInput(particle, "start");
+			
+			ParticleEffect[ent][controlpoint] = particle;
+		}
+	}
+}
 
+StopParticleEffect(client, bKill)
+{
+	if(War3_GetGame() == Game_TF)
+	{
+		for(new i=1; i <= MaxClients; i++)
+		{
+			decl String:className[64];
+			decl String:className2[64];
+				
+			if(IsValidEdict(ParticleEffect[client][i]))
+				GetEdictClassname(ParticleEffect[client][i], className, sizeof(className));
+			if(IsValidEdict(ParticleEffect[i][client]))
+			GetEdictClassname(ParticleEffect[i][client], className2, sizeof(className2));
+			
+			if(StrEqual(className, "info_particle_system"))
+			{
+				AcceptEntityInput(ParticleEffect[client][i], "stop");
+				if(bKill)
+				{
+					AcceptEntityInput(ParticleEffect[client][i], "kill");
+					ParticleEffect[client][i] = 0;
+				}
+			}
+			
+			if(StrEqual(className2, "info_particle_system"))
+			{
+				AcceptEntityInput(ParticleEffect[i][client], "stop");
+				if(bKill)
+				{
+					AcceptEntityInput(ParticleEffect[i][client], "kill");
+					ParticleEffect[i][client] = 0;
+				}
+			}
+		}
+	}
+}
 
-
-
-
+public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
+{
+	if(War3_GetGame() == Game_TF)
+		for(new client=1; client <= MaxClients; client++)
+			if(ValidPlayer(client, true))
+				if(War3_GetRace(client) == thisRaceID)
+				{
+					new skill = War3_GetSkillLevel(client, thisRaceID, SKILL_HEALINGWAVE);
+					if(skill > 0)
+					{ 
+						new Float:HealerPos[3];
+						new Float:TeammatePos[3];
+						new Float:maxDistance = HealingWaveDistanceArr[skill];
+						
+						GetClientAbsOrigin(client, HealerPos);
+	
+						for(new i=1; i <= MaxClients; i++)
+							if(ValidPlayer(i, true) && GetClientTeam(i) == GetClientTeam(client) && (i != client))
+							{
+								if(IsValidEdict(ParticleEffect[client][i]))
+								{
+									decl String:className[64];
+									GetEdictClassname(ParticleEffect[client][i], className, sizeof(className));
+									
+									GetClientAbsOrigin(i, TeammatePos);
+									if(GetVectorDistance(HealerPos, TeammatePos) <= maxDistance)
+									{
+										if(StrEqual(className, "info_particle_system"))
+											AcceptEntityInput(ParticleEffect[client][i], "start");
+										else
+											switch(GetClientTeam(client))
+											{
+												case(2):
+													AttachParticle(client, "medicgun_beam_red", i);
+												case(3):
+													AttachParticle(client, "medicgun_beam_blue", i);
+											}
+									}
+									else
+									{
+										if(StrEqual(className, "info_particle_system"))
+											AcceptEntityInput(ParticleEffect[client][i], "stop");
+									}
+								}
+							}
+					}
+				}
+}
