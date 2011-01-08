@@ -1,4 +1,3 @@
-// test change
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 
 #include <sourcemod>
