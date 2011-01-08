@@ -1,7 +1,7 @@
 /*
 * File: War3Source.sp
 * Description: The main file for War3Source.
-* Author(s): Anthony Iacono  & OwnageOwnz
+* Author(s): Anthony Iacono  & OwnageOwnz test 3
 */
 
 #pragma semicolon 1
