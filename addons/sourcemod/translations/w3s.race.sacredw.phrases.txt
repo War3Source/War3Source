@@ -24,7 +24,7 @@
 	}
 	"sacredw_skill_BurningSpear_desc"
 	{
-		"en"		"Passively lose 5%% maxHP, but set enemies ablaze.\nDeals #1# damage for next #2# seconds.\nStacks #3# times."
+		"en"		"Passively lose 5%% maxHP, but set enemies ablaze.\nDeals #1# DPS for next #2# seconds.\nStacks #3# times."
 	}
 
 	"sacredw_skill_BerserkersBlood"
@@ -33,7 +33,7 @@
 	}
 	"sacredw_skill_BerserkersBlood_desc"
 	{
-		"en"		"Passively gain damage and attack speed\nas your health sinks."
+		"en"		"Gain #1# percent attack speed for each #2# percent of your health missing"
 	}
 
 	"sacredw_skill_LifeBreak"

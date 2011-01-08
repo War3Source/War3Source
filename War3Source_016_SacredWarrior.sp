@@ -52,8 +52,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	{
 		thisRaceID=War3_CreateNewRaceT("sacredw");
 		SKILL_VITALITY=War3_AddRaceSkillT(thisRaceID,"InnerVitality",false,4,"1/2/3/4");
-		SKILL_SPEAR=War3_AddRaceSkillT(thisRaceID,"BurningSpear",false,4,"1/2/3/4");
-		SKILL_BLOOD=War3_AddRaceSkillT(thisRaceID,"BerserkersBlood",false,4);
+		SKILL_SPEAR=War3_AddRaceSkillT(thisRaceID,"BurningSpear",false,4,"1/2/3/4","3","3");
+		SKILL_BLOOD=War3_AddRaceSkillT(thisRaceID,"BerserkersBlood",false,4,"1/2/3/4","7");
 		ULT_BREAK=War3_AddRaceSkillT(thisRaceID,"LifeBreak",true,4,"10/15/20/25","20/30/40/50");
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 	}
