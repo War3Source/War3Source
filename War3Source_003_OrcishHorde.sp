@@ -218,7 +218,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 			if(War3_SkillNotInCooldown(client,thisRaceID,3,true)&&!Silenced(client))
 			{
 					
-				for(new x=0;x<65;x++)
+				for(new x=1;x<=MaxClients;x++)
 					bBeenHit[client][x]=false;
 				
 				new Float:distance=ChainDistance[skill];
