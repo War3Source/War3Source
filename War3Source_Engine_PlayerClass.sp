@@ -81,118 +81,174 @@ public NWar3_SetRace(Handle:plugin,numParams){
 	//set old race
 	new client=GetNativeCell(1);
 	new newrace=GetNativeCell(2);
-	new oldrace=p_properties[client][CurrentRace];
-	W3SetVar(OldRace,p_properties[client][CurrentRace]);
-	
-	if(oldrace>0){
-		W3SaveXP(client,oldrace);
+	if (client > 0 && client <= MaxClients)
+	{
+		new oldrace=p_properties[client][CurrentRace];
+		W3SetVar(OldRace,p_properties[client][CurrentRace]);
+		
+		if(oldrace>0){
+			W3SaveXP(client,oldrace);
+		}
+		
+		
+		p_properties[client][CurrentRace]=newrace;
+		
+		Call_StartForward(g_OnRaceSelectedHandle);
+		Call_PushCell(client);
+		Call_PushCell(newrace);
+		new result;
+		Call_Finish(result);
+		
+		
+		if(newrace>0) {
+			if(IsPlayerAlive(client)){
+				EmitSoundToAll(levelupSound,client);
+			}
+			else{
+				EmitSoundToClient(client,levelupSound);
+			}
+			
+			if(W3SaveEnabled()){ //save enabled
+			}
+			else {//if(oldrace>0)
+				War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
+				War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
+				W3DoLevelCheck(client);
+			}
+			
+			decl String:buf[64];
+			War3_GetRaceName(newrace,buf,sizeof(buf));
+			War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
+			
+			if(oldrace==0){
+				War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
+			}
+		}
 	}
-	
-	
-	p_properties[client][CurrentRace]=newrace;
-	
-	Call_StartForward(g_OnRaceSelectedHandle);
-	Call_PushCell(client);
-	Call_PushCell(newrace);
-	new result;
-	Call_Finish(result);
-	
-	
-	if(newrace>0) {
-		if(IsPlayerAlive(client)){
-			EmitSoundToAll(levelupSound,client);
-		}
-		else{
-			EmitSoundToClient(client,levelupSound);
-		}
-		
-		if(W3SaveEnabled()){ //save enabled
-		}
-		else {//if(oldrace>0)
-			War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
-			War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
-			W3DoLevelCheck(client);
-		}
-		
-		decl String:buf[64];
-		War3_GetRaceName(newrace,buf,sizeof(buf));
-		War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
-		
-		if(oldrace==0){
-			War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
-		}
-	}
-	
 	
 	
 }
 public NWar3_GetRace(Handle:plugin,numParams){
-	return p_properties[GetNativeCell(1)][CurrentRace];
+	new client = GetNativeCell(1);
+	if (client > 0 && client <= MaxClients)
+		return p_properties[client][CurrentRace];
+	else
+		return 0;
 }
 
 public NWar3_SetLevel(Handle:plugin,numParams){
-	p_level[GetNativeCell(1)][GetNativeCell(2)]=GetNativeCell(3);
+	new client = GetNativeCell(1);
+	new race = GetNativeCell(2);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+	{
+		p_level[client][race]=GetNativeCell(3);
+	}
 }
 public NWar3_GetLevel(Handle:plugin,numParams){
-	return p_level[GetNativeCell(1)][GetNativeCell(2)];
+	new client = GetNativeCell(1);
+	new race = GetNativeCell(2);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+	{
+		return p_level[client][race];
+	}
+	else
+		return 0;
 }
 
 
 public NWar3_SetXP(Handle:plugin,numParams){
-	p_xp[GetNativeCell(1)][GetNativeCell(2)]=GetNativeCell(3);
+	new client = GetNativeCell(1);
+	new race = GetNativeCell(2);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+		p_xp[client][race]=GetNativeCell(3);
 }
 public NWar3_GetXP(Handle:plugin,numParams){
-	return p_xp[GetNativeCell(1)][GetNativeCell(2)];
+	new client = GetNativeCell(1);
+	new race = GetNativeCell(2);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+		return p_xp[client][race];
+	else
+		return 0;
 }
 public NWar3_SetSkillLevel(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
 	new skill=GetNativeCell(3);
 	new level=GetNativeCell(4);
-	p_skilllevel[client][race][skill]=level;
-	Call_StartForward(g_OnSkillLevelChangedHandle);
-	Call_PushCell(client);
-	Call_PushCell(race);
-	Call_PushCell(skill);
-	Call_PushCell(level);
-	Call_Finish(dummy);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+	{
+		p_skilllevel[client][race][skill]=level;
+		Call_StartForward(g_OnSkillLevelChangedHandle);
+		Call_PushCell(client);
+		Call_PushCell(race);
+		Call_PushCell(skill);
+		Call_PushCell(level);
+		Call_Finish(dummy);
+	}
 	
 }
 public NWar3_GetSkillLevel(Handle:plugin,numParams){
-	return p_skilllevel[GetNativeCell(1)][GetNativeCell(2)][GetNativeCell(3)];
+	new client=GetNativeCell(1);
+	new race=GetNativeCell(2);
+	new skill=GetNativeCell(3);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES && skill >=0 && skill < MAXSKILLCOUNT)
+	{
+		return p_skilllevel[client][race][skill];
+	}
+	else
+		return 0;
 }
 public NW3GetPlayerProp(Handle:plugin,numParams){
-	return p_properties[GetNativeCell(1)][W3PlayerProp:GetNativeCell(2)];
+	new client=GetNativeCell(1);
+	if (client > 0 && client <= MaxClients)
+	{
+		return p_properties[client][W3PlayerProp:GetNativeCell(2)];		
+	}
+	else
+		return 0;
 }
 public NW3SetPlayerProp(Handle:plugin,numParams){
-	p_properties[GetNativeCell(1)][W3PlayerProp:GetNativeCell(2)]=GetNativeCell(3);
+	new client=GetNativeCell(1);
+	if (client > 0 && client <= MaxClients)
+	{	
+		p_properties[client][W3PlayerProp:GetNativeCell(2)]=GetNativeCell(3);
+	}
 }
 public NW3GetTotalLevels(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new total_level=0;
-	for(new r=1;r<=War3_GetRacesLoaded();r++)
+	if (client > 0 && client <= MaxClients)
 	{
-		total_level+=War3_GetLevel(client,r);
+		new racesLoaded = War3_GetRacesLoaded(); 
+		for(new r=1;r<=racesLoaded;r++)
+		{
+			total_level+=War3_GetLevel(client,r);
+		}
 	}
 	return  total_level;
 }
 public NW3ClearSkillLevels(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
-	new race=GetNativeCell(2);
-	for(new i=0;i<War3_GetRaceSkillCount(race);i++){
-		War3_SetSkillLevel(client,race,i,0);
-		
+	if (client > 0 && client <= MaxClients)
+	{
+		new race=GetNativeCell(2);
+		new raceSkillCount = War3_GetRaceSkillCount(race)
+		for(new i=0;i<raceSkillCount;i++){
+			War3_SetSkillLevel(client,race,i,0);			
+		}
 	}
 }
 public NW3GetLevelsSpent(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
-
 	new ret=0;
-	for(new i=0;i<War3_GetRaceSkillCount(race);i++)
-		ret+=War3_GetSkillLevel(client,race,i);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+	{
+		new raceSkillCount = War3_GetRaceSkillCount(race);
+		for(new i=0;i<raceSkillCount;i++)
+			ret+=War3_GetSkillLevel(client,race,i);
+	}
 	return ret;
-
 }
 
 
