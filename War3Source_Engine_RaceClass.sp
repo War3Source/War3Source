@@ -37,6 +37,8 @@ new RestrictLimitCvar[MAXRACES][2];
 
 new Handle:m_MinimumUltimateLevel;
 
+new bool:racecreationended=true;
+new String:creatingraceshortname[16];
 
 //END race instance variables
 
@@ -142,9 +144,12 @@ native War3_GetRaceIDByShortname(String:raceshortname[]);
 
 public NWar3_CreateNewRace(Handle:plugin,numParams){
 	
+	
 	decl String:name[64],String:shortname[16];
 	GetNativeString(1,name,sizeof(name));
 	GetNativeString(2,shortname,sizeof(shortname));
+	
+	W3Log("add race %s %s",name,shortname);
 	
 	return CreateNewRace(name,shortname);
 
@@ -152,6 +157,9 @@ public NWar3_CreateNewRace(Handle:plugin,numParams){
 
 
 public NWar3_AddRaceSkill(Handle:plugin,numParams){
+	
+
+
 	new raceid=GetNativeCell(1);
 	new String:skillname[64];
 	new String:skilldesc[2001];
@@ -159,11 +167,16 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 	GetNativeString(3,skilldesc,sizeof(skilldesc));
 	new bool:isult=GetNativeCell(4);
 	new tmaxskilllevel=GetNativeCell(5);
+	
+	W3Log("add skill %s %s",skillname,skilldesc);
+	
 	return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
 }
 
 //translated
 public NWar3_CreateNewRaceT(Handle:plugin,numParams){
+
+	
 	
 	decl String:name[64],String:shortname[32];
 	GetNativeString(1,shortname,sizeof(shortname));
@@ -173,13 +186,15 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
 	Format(buf,sizeof(buf),"w3s.race.%s.phrases",shortname);
 	LoadTranslations(buf);
 	
-	
+	W3Log("add raceT %s %d",shortname,newraceid);
 
 	return newraceid;
 
 }
 //translated
 public NWar3_AddRaceSkillT(Handle:plugin,numParams){
+
+
 	new raceid=GetNativeCell(1);
 	new String:skillname[64];
 	new String:skilldesc[1]; //DUMMY
@@ -187,7 +202,8 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 	new bool:isult=GetNativeCell(3);
 	new tmaxskilllevel=GetNativeCell(4);
 	
-	
+	W3Log("add skill T %d %s",raceid,skillname);
+		
 	new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
 	
 	
@@ -202,6 +218,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 }
 
 public NWar3_CreateRaceEnd(Handle:plugin,numParams){
+	W3Log("race end %d",GetNativeCell(1));
 	CreateRaceEnd(GetNativeCell(1));
 }
 ///this is get raceid, not NAME!
@@ -455,6 +472,15 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
 		return 0;
 	}
 	
+	if(racecreationended==false){
+		new String:error[512];
+		Format(error,sizeof(error),"CreateNewRace was called before previous race creation was ended!!! first race not ended: %s second race: %s ",creatingraceshortname,traceshortname)
+		War3Failed(error);
+	}
+	
+	racecreationended=false;
+	Format(creatingraceshortname,sizeof(creatingraceshortname),"%s",traceshortname);
+	
 	//first race registering, fill in the  zeroth race along
 	if(totalRacesLoaded==0){
 		for(new i=0;i<MAXSKILLCOUNT;i++){
@@ -617,6 +643,8 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 
 
 CreateRaceEnd(raceid){
+	racecreationended=true;
+	Format(creatingraceshortname,sizeof(creatingraceshortname),"");
 	///now we put shit into the database and create cvars
 	if(!ignoreRaceEnd[raceid]&&raceid>0)
 	{
