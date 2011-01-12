@@ -95,7 +95,7 @@ ShowMenuShop(client){
 					Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
 				}
 			}
-			AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(race,x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
+			AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(War3_GetRace(client),x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
 		}
 	}
 	DisplayMenu(shopMenu,client,20);
