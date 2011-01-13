@@ -4,6 +4,7 @@
 B4
 
 optimizations, error checking
+error in string comparisons dude to length difference, this fixes duplicate skills
 
 B3
  

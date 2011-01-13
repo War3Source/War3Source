@@ -11,7 +11,7 @@ new totalRacesLoaded=0;  ///USE raceid=1;raceid<=GetRacesLoaded();raceid++ for l
 new String:raceName[MAXRACES][32];
 new String:raceShortname[MAXRACES][16];
 new bool:raceTranslated[MAXRACES];
-new bool:ignoreRaceEnd[MAXRACES]; ///dont do anything on CreateRaceEnd cuz this its already done once
+new bool:ignoreRaceEnd; ///dont do anything on CreateRaceEnd cuz this its already done once
 
 //zeroth skill is used
 new raceSkillCount[MAXRACES];
@@ -73,7 +73,12 @@ public OnPluginStart()
 {
 	//htrie=CreateTrie();
 	m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
-
+	RegConsoleCmd("skillcount",cmdskillcount);
+}
+public Action:cmdskillcount(client,args){
+	for(new i=1;i<=War3_GetRacesLoaded();i++){
+		ReplyToCommand(client,"War3_GetRaceSkillCount %d %d",i,War3_GetRaceSkillCount(i));
+	}
 }
 
 bool:InitNativesForwards()
@@ -161,7 +166,7 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 
 
 	new raceid=GetNativeCell(1);
-	new String:skillname[64];
+	new String:skillname[32];
 	new String:skilldesc[2001];
 	GetNativeString(2,skillname,sizeof(skillname));
 	GetNativeString(3,skilldesc,sizeof(skilldesc));
@@ -194,9 +199,9 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
 //translated
 public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 
-
+	
 	new raceid=GetNativeCell(1);
-	new String:skillname[64];
+	new String:skillname[32];
 	new String:skilldesc[1]; //DUMMY
 	GetNativeString(2,skillname,sizeof(skillname));
 	new bool:isult=GetNativeCell(3);
@@ -207,7 +212,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 	new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
 	
 	
-	if(ignoreRaceEnd[raceid]==false&&numParams>4){
+	if(ignoreRaceEnd==false&&numParams>4){
 		for(new arg=5;arg<=numParams;arg++){
 			GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
 			raceSkillDescReplaceNum[raceid][newskillnum]++;
@@ -463,7 +468,7 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
 	if(RaceExistsByShortname(traceshortname)){
 		new oldraceid=GetRaceIDByShortname(traceshortname);
 		PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
-		ignoreRaceEnd[oldraceid]=true;
+		ignoreRaceEnd=true;
 		return oldraceid;
 	}
 	
@@ -615,8 +620,12 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 			//GetRaceSkillName(raceid,i,existingskillname,sizeof(existingskillname));
 			if(StrEqual(skillname,raceSkillName[raceid][i],false)){ ////need raw skill name, because of translations
 				//PrintToServer("Skill exists %s, returning old skillid %d",skillname,i);
+				
 				return i;
 			}
+		}
+		if(ignoreRaceEnd){
+			W3Log("%s skill not found, REadding for race %d",skillname,raceid);
 		}
 		
 		//not existing, will it exceeded maximum?
@@ -627,7 +636,7 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		
 		
 		
-		strcopy(raceSkillName[raceid][raceSkillCount[raceid]], 31, skillname);
+		strcopy(raceSkillName[raceid][raceSkillCount[raceid]], 32, skillname);
 		strcopy(raceSkillDescription[raceid][raceSkillCount[raceid]], 2000, skilldescription);
 		skillIsUltimate[raceid][raceSkillCount[raceid]]=isUltimate;
 		
@@ -646,7 +655,7 @@ CreateRaceEnd(raceid){
 	racecreationended=true;
 	Format(creatingraceshortname,sizeof(creatingraceshortname),"");
 	///now we put shit into the database and create cvars
-	if(!ignoreRaceEnd[raceid]&&raceid>0)
+	if(!ignoreRaceEnd&&raceid>0)
 	{
 		new Handle:DBIDB=Handle:W3GetVar(hDatabase);
 		
@@ -716,6 +725,7 @@ CreateRaceEnd(raceid){
 			
 		}
 	}
+	ignoreRaceEnd=false;
 }
 
 public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:raceid)
