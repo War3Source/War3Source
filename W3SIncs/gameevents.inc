@@ -241,7 +241,10 @@ CheckPendingRace(client){
 	{
 		W3SetPendingRace(client,-1);
 		
-		if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&GetRacesOnTeam(pendingrace,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client))&&!W3IsDeveloper(client)){   //already at limit
+		if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&
+		GetRacesOnTeam(pendingrace,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client))
+		&&!W3IsDeveloper(client))
+		{   //already at limit
 			War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client)));
 			W3Log("race %d blocked on client %d due to restrictions limit (CheckPendingRace)",pendingrace,client);
 			W3CreateEvent(DoShowChangeRaceMenu,client);

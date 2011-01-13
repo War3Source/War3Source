@@ -1,5 +1,10 @@
 1.2.0
 
+B5
+
+constants change
+100 maxitems
+200 maxraces
 
 B4
 

@@ -226,7 +226,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 					
 					decl String:buf[192];
 					War3_GetRaceName(race_selected,buf,sizeof(buf));
-					if(race_selected==War3_GetRace(client)&&(W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client))){ //has no other pending race, cuz user might wana switch back
+					if(race_selected==War3_GetRace(client)&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    )){ //has no other pending race, cuz user might wana switch back
 						
 						War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
 						if(W3GetPendingRace(client)){
@@ -234,11 +234,16 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 						}
 						
 					}
-					else if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&GetRacesOnTeam(racechosen,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client))&&!W3IsDeveloper(client)){   //already at limit
-						War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
-						W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu)",racechosen,client,W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
-						War3Source_ChangeRaceMenu(client);
-						allowChooseRace=false;
+					else if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
+						if(GetRacesOnTeam(racechosen,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client))){ //already at limit
+							if(!W3IsDeveloper(client)){   
+								War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
+								W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu)",racechosen,client,W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
+								War3Source_ChangeRaceMenu(client);
+								allowChooseRace=false;
+								
+							}
+						}
 					}
 				
 					//SCHEDULE

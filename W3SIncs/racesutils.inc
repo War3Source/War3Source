@@ -8,7 +8,7 @@
 
 ///check race limit and force re-choose race
 CheckRaceTeamLimit(raceid,team){
-	new Float:oldest=-1.0;
+	new Float:youngest=-1.0;
 	new target=0;
 	for(new i=1;i<=MaxClients;i++){
 	    if(ValidPlayer(i))
@@ -17,9 +17,9 @@ CheckRaceTeamLimit(raceid,team){
 			{
 				if(GetClientTeam(i)==team)
 				{
-					if(W3GetPlayerProp(i,RaceChosenTime)>oldest){
+					if(W3GetPlayerProp(i,RaceChosenTime)>youngest){
 						target=i;
-						oldest=W3GetPlayerProp(i,RaceChosenTime);
+						youngest=W3GetPlayerProp(i,RaceChosenTime);
 					}
 				}
 			}
