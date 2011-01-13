@@ -42,7 +42,6 @@ new String:creatingraceshortname[16];
 
 //END race instance variables
 
-//new Handle:htrie;
 
 public Plugin:myinfo= 
 {
@@ -71,38 +70,14 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 
 public OnPluginStart()
 {
-	//htrie=CreateTrie();
+	
 	m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
-	RegConsoleCmd("skillcount",cmdskillcount);
+	
 }
-public Action:cmdskillcount(client,args){
-	for(new i=1;i<=War3_GetRacesLoaded();i++){
-		ReplyToCommand(client,"War3_GetRaceSkillCount %d %d",i,War3_GetRaceSkillCount(i));
-	}
-}
+
 
 bool:InitNativesForwards()
 {
-
-/*	native War3_CreateNewRace(String:name[],String:shortname[]);
-
-//adds a skill or a ultimate
-native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult,maxskilllevel=DEF_MAX_SKILL_LEVEL);
-
-//ends race creation!!! MUST CALL THIS!!!
-native War3_CreateRaceEnd(raceid);
-
-
-
-native War3_GetRaceName(raceid,String:retstr[],maxlen);
-native War3_GetRaceShortname(raceid,String:retstr[],maxlen);
-native War3_GetRacesLoaded();
-native W3GetRaceMaxLevel(race);
-
-native War3_IsSkillUltimate(raceid,skillnum);
-native War3_GetRaceSkillCount(raceid);
-native War3_GetRaceIDByShortname(String:raceshortname[]);
-*/
 
 	CreateNative("War3_CreateNewRace",NWar3_CreateNewRace);
 	CreateNative("War3_AddRaceSkill",NWar3_AddRaceSkill);
@@ -154,7 +129,7 @@ public NWar3_CreateNewRace(Handle:plugin,numParams){
 	GetNativeString(1,name,sizeof(name));
 	GetNativeString(2,shortname,sizeof(shortname));
 	
-	W3Log("add race %s %s",name,shortname);
+	//W3Log("add race %s %s",name,shortname);
 	
 	return CreateNewRace(name,shortname);
 
@@ -173,7 +148,7 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 	new bool:isult=GetNativeCell(4);
 	new tmaxskilllevel=GetNativeCell(5);
 	
-	W3Log("add skill %s %s",skillname,skilldesc);
+	//W3Log("add skill %s %s",skillname,skilldesc);
 	
 	return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
 }
@@ -191,7 +166,7 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
 	Format(buf,sizeof(buf),"w3s.race.%s.phrases",shortname);
 	LoadTranslations(buf);
 	
-	W3Log("add raceT %s %d",shortname,newraceid);
+	//W3Log("add raceT %s %d",shortname,newraceid);
 
 	return newraceid;
 
@@ -207,7 +182,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 	new bool:isult=GetNativeCell(3);
 	new tmaxskilllevel=GetNativeCell(4);
 	
-	W3Log("add skill T %d %s",raceid,skillname);
+	//W3Log("add skill T %d %s",raceid,skillname);
 		
 	new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
 	
@@ -223,7 +198,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 }
 
 public NWar3_CreateRaceEnd(Handle:plugin,numParams){
-	W3Log("race end %d",GetNativeCell(1));
+	//W3Log("race end %d",GetNativeCell(1));
 	CreateRaceEnd(GetNativeCell(1));
 }
 ///this is get raceid, not NAME!
@@ -624,9 +599,9 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 				return i;
 			}
 		}
-		if(ignoreRaceEnd){
-			W3Log("%s skill not found, REadding for race %d",skillname,raceid);
-		}
+		//if(ignoreRaceEnd){
+		//	W3Log("%s skill not found, REadding for race %d",skillname,raceid);
+		//}
 		
 		//not existing, will it exceeded maximum?
 		if(raceSkillCount[raceid]==MAXSKILLCOUNT){
