@@ -111,6 +111,7 @@ native War3_GetRaceIDByShortname(String:raceshortname[]);
 native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);
 native W3GetRaceItemRestrictionsStr(raceid,String:ret[],maxlen);
 native W3GetRaceMaxLimitTeam(raceid,team);
+native W3GetRaceMaxLimitTeamCvar(raceid,team); //returns the internal cvar pointer
 native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
@@ -852,7 +853,7 @@ native W3SetCvar(cvarid,String:cvarvalue[]);
 native W3FindCvar(String:cvar[]);
 native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values, names only
 native W3GetCvarByString(String:cvarstr[],String:returnstr[],maxlen);
-
+native W3GetCvarActualString(cvarid,String:returnstr[],maxlen); //get actual cvar name: undead_blah
 
 stock W3CreateCvarInt(String:cvarstr[],intval,String:cvardesc[]){
 	decl String:str[1024];
