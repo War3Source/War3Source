@@ -238,7 +238,19 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 						if(GetRacesOnTeam(racechosen,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client))){ //already at limit
 							if(!W3IsDeveloper(client)){   
 								War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
-								W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu)",racechosen,client,W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)));
+								
+								new cvar=W3GetRaceMaxLimitTeamCvar(racechosen,GetClientTeam(client));
+								new String:cvarstr[64];
+								if(cvar>-1){
+									W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
+								}
+								cvar=W3FindCvar(cvarstr);
+								new String:cvarvalue[64];
+								if(cvar>-1){
+									W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
+								}
+								
+								W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu) %s %s",racechosen,client,W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)),cvarstr,cvarvalue);
 								War3Source_ChangeRaceMenu(client);
 								allowChooseRace=false;
 								

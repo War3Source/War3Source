@@ -111,6 +111,7 @@ bool:InitNativesForwards()
 	CreateNative("W3GetRaceItemRestrictionsStr",NW3GetRaceItemRestrictionsStr);
 	CreateNative("W3GetRaceMinLevelRequired",NW3GetRaceMinLevelRequired);
 	CreateNative("W3GetRaceMaxLimitTeam",NW3GetRaceMaxLimitTeam);
+	CreateNative("W3GetRaceMaxLimitTeamCvar",NW3GetRaceMaxLimitTeamCvar);
 	CreateNative("W3GetRaceSkillMaxLevel",NW3GetRaceSkillMaxLevel);
 	
 	CreateNative("W3GetRaceList",NW3GetRaceList);
@@ -382,6 +383,21 @@ public NW3GetRaceMaxLimitTeam(Handle:plugin,numParams)
 		}
 	}
 	return 99;
+}
+public NW3GetRaceMaxLimitTeamCvar(Handle:plugin,numParams)
+{
+	new raceid=GetNativeCell(1);
+	if(raceid>0){
+		
+		new team=GetNativeCell(2);
+		if(team==TEAM_T||team==TEAM_RED){
+			return RestrictLimitCvar[raceid][0];
+		}
+		if(team==TEAM_CT||team==TEAM_BLUE){
+			return RestrictLimitCvar[raceid][1];
+		}
+	}
+	return -1;
 }
 public NW3GetRaceMinLevelRequired(Handle:plugin,numParams){
 	return W3GetCvarInt(MinLevelCvar[GetNativeCell(1)]);

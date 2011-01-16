@@ -44,6 +44,8 @@ bool:InitNativesForwards()
 	
 	CreateNative("W3CvarList",NW3CvarList);
 	CreateNative("W3GetCvarByString",NW3GetCvarByString);
+	
+	CreateNative("W3GetCvarActualString",NW3GetCvarActualString);
 	return true;
 }
 public NW3CreateCvar(Handle:plugin,numParams){
@@ -65,7 +67,7 @@ public NW3CreateCvar(Handle:plugin,numParams){
 
 public NW3GetCvar(Handle:plugin,numParams){
 	new cvarid=GetNativeCell(1);
-	new String:cvarstr[32];
+	new String:cvarstr[64];
 	GetArrayString(Cvararraylist, cvarid,cvarstr,sizeof(cvarstr));
 	
 	
@@ -79,7 +81,7 @@ public NW3GetCvar(Handle:plugin,numParams){
 }
 public NW3SetCvar(Handle:plugin,numParams){
 	new cvarid=GetNativeCell(1);
-	new String:cvarstr[32];
+	new String:cvarstr[64];
 	GetArrayString(Cvararraylist, cvarid,cvarstr,sizeof(cvarstr));
 	
 	new String:setvalue[1024];
@@ -116,7 +118,11 @@ public NW3GetCvarByString(Handle:plugin,numParams){
 	SetNativeString(2,outstr,GetNativeCell(3));
 	
 }
-
+public NW3GetCvarActualString(Handle:plugin,numParams){
+	new String:ret[64];
+	GetArrayString(Cvararraylist,GetNativeCell(1),ret,sizeof(ret));
+	SetNativeString(2,ret,GetNativeCell(3));
+}
 
 
 
