@@ -16,6 +16,8 @@ new Game:g_Game;
 new dummyreturn; //for your not used return values
 
 new Handle:hW3Log;
+new Handle:hW3LogError;
+new Handle:hW3LogNotError;
 
 /*
  * single event variables 
