@@ -126,13 +126,13 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:pack) {
 	if(socket!=INVALID_HANDLE){
 		CloseHandle(socket);
 	}
-	W3LogError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
-//	if(errorNum==10061){
-//		W3LogError("No connection could be made because the target computer actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host—that is, one with no server application running.");
-//	}
-//	if(errorNum==10060){
-//		W3LogError("A connection attempt failed because the connected party did not properly respond after a period of time, or the established connection failed because the connected host has failed to respond.");
-//	}
+	W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
+	if(errorNum==10061){
+		W3LogNotError("Conn refused");
+	}
+	if(errorNum==10060){
+		W3LogNotError("Timout");
+	}
 	
 	ResetPack(pack);
 	decl String:path[2000];

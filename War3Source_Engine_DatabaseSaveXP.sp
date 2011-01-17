@@ -792,9 +792,11 @@ War3_SavePlayerRace(client,race)
 	{
 		//PrintToServer("race %d client %d",race,client);
 		decl String:steamid[64];
-		decl String:name[64];
-		if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name)))
+	
+		if(GetClientAuthString(client,steamid,sizeof(steamid)))
 		{
+		
+			
 			new level=War3_GetLevel(client,race);
 			new xp=War3_GetXP(client,race);
 			

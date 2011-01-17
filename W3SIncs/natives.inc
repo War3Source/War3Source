@@ -386,7 +386,8 @@ public bool:War3Source_InitNatives()
 	CreateNative("W3SetVar",NW3SetVar);
 	
 	CreateNative("W3Log",NW3Log);
-	CreateNative("W3LogError",NW3Log);
+	CreateNative("W3LogError",NW3LogError);
+	CreateNative("W3LogNotError",NW3LogNotError);
 	return true;
 }
 
