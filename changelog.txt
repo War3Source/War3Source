@@ -3,6 +3,10 @@
 
 B5
 
+debuging stuff
+
+w3log w3logerror w3lognoterror (new) are now in separate files
+
 constants change
 100 maxitems
 200 maxraces
