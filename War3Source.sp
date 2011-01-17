@@ -112,6 +112,8 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	}
 
 	hW3Log=OpenFile(path_log,"a+");
+	hW3LogError=OpenFile(path_log,"a+");
+	hW3LogNotError=OpenFile(path_log,"a+");
 	
 	return APLRes_Success;
 }
