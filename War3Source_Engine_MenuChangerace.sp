@@ -223,7 +223,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 					W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
 					W3SetPlayerProp(client,RaceSetByAdmin,false);
 					
-					
+					PrintToChatAll("1");
 					decl String:buf[192];
 					War3_GetRaceName(race_selected,buf,sizeof(buf));
 					if(race_selected==War3_GetRace(client)&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    )){ //has no other pending race, cuz user might wana switch back
@@ -251,31 +251,39 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 								}
 								
 								W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu) %s %s",racechosen,client,W3GetRaceMaxLimitTeam(racechosen,GetClientTeam(client)),cvarstr,cvarvalue);
+					
 								War3Source_ChangeRaceMenu(client);
 								allowChooseRace=false;
 								
 							}
 						}
 					}
-				
-					//SCHEDULE
-					else if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
-					{
-						W3SetPendingRace(client,race_selected);
-						
-						War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+					
+					
+					
+					
+					
+					if(allowChooseRace){
+						if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+						{
+							W3SetPendingRace(client,race_selected);
+							
+							War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+						}
+						//HAS NO RACE, CHANGE NOW
+						else //schedule the race change
+						{
+							W3SetPendingRace(client,-1);
+							War3_SetRace(client,race_selected);
+							
+							PrintToChatAll("2");
+							//print is in setrace
+							//War3_ChatMessage(client,"You are now %s",buf);
+							
+							W3DoLevelCheck(client);
+						}
 					}
-					//HAS NO RACE, CHANGE NOW
-					else //schedule the race change
-					{
-						W3SetPendingRace(client,-1);
-						War3_SetRace(client,race_selected);
 						
-						//print is in setrace
-						//War3_ChatMessage(client,"You are now %s",buf);
-						
-						W3DoLevelCheck(client);
-					}
 				}
 			}
 		}
