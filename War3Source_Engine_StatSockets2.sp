@@ -111,7 +111,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	new String:exploded[2][2000];
 	new index=StrContains(responsestr,"\r\n\r\n");
 	if(index==-1){
-		LogError("\r\n\r\n rnrn not found");
+		W3LogNotError("\r\n\r\n rnrn not found");
 	}
 	else{
 		

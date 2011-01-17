@@ -105,7 +105,7 @@ public OnSocketDisconnected(Handle:socket, any:pack) {
 	new String:exploded[2][2000];
 	new index=StrContains(buff,"\r\n\r\n");
 	if(index==-1){
-		LogError("not found");
+		W3LogNotError("rnrn not found");
 	}
 	else{
 		
