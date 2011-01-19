@@ -38,7 +38,7 @@
 	}
 	"Your Maximum HP Increased by {amount}"
 	{
-		"ru"		"Ваше максимальное здоровье увеличено до {1}"
+		"ru"		"Ваше максимальное здоровье увеличено на {1}"
 	}
 	"Could not infest, you are hexed"
 	{
