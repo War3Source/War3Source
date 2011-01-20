@@ -53,6 +53,7 @@ native W3GetW3Revision();//int
 native W3GetStatsVersion();//int
 native W3Socket(String:url[],Function:callback);
 native W3Socket2(String:url[],String:postdata[],Function:callback);
+native W3DropWeapon(client,weaponent);
 /**
  * Checks if we are in the freeze time. Certain games support this, like CS.
  * @return True if so, false if not.
@@ -1337,7 +1338,7 @@ stock SetCSMoney(client,newamount){
 
 stock UTIL_Remove(entity)
 {
-	if(IsValidEdict(entity))	RemoveEdict(entity);
+	if(IsValidEdict(entity))	AcceptEntityInput(entity, "Kill");
 }
 
 stock W3ShowSkillsInfo(client)

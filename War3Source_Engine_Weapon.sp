@@ -94,6 +94,7 @@ bool:InitNativesForwards()
 {
 	CreateNative("War3_WeaponRestrictTo",NWar3_WeaponRestrictTo);
 	CreateNative("W3GetCurrentWeaponEnt",NW3GetCurrentWeaponEnt);
+	CreateNative("W3DropWeapon",NW3DropWeapon);
 	return true;
 }
 
@@ -104,7 +105,13 @@ GetCurrentWeaponEnt(client){
 	return GetEntDataEnt2(client,m_OffsetActiveWeapon);
 }
 
-
+public NW3DropWeapon(Handle:plugin,numParams)
+{
+	new client = GetNativeCell(1)
+	new wpent = GetNativeCell(2);
+	if (ValidPlayer(client,true) && IsValidEdict(wpent))
+		SDKCall(hSDKWeaponDrop, client, wpent, false, false);
+}
 
 
 public NWar3_WeaponRestrictTo(Handle:plugin,numParams)
@@ -248,6 +255,7 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 						
 						
 						SDKCall(hSDKWeaponDrop, client, wpnent, false, false);
+						AcceptEntityInput(wpnent, "Kill");
 						//UTIL_Remove(wpnent);
 						
 					}

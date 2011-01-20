@@ -354,6 +354,7 @@ public Action:GivePlayerCachedDeathWeapons(Handle:t,any:client){ //not used beca
 				{
 					continue; // DONT REMOVE THESE
 				}
+				W3DropWeapon(client,ent);
 				UTIL_Remove(ent);
 			}
 		}
@@ -393,6 +394,7 @@ public Action:GivePlayerCachedDeathWPNFull(Handle:h,any:client){
 				{
 					continue; // DONT REMOVE THESE
 				}
+				W3DropWeapon(client,ent);
 				UTIL_Remove(ent);
 			}
 		}

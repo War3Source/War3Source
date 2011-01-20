@@ -458,6 +458,7 @@ public GiveDeathWeapons(client)
 				{
 					continue; // don't think we need to delete these
 				}
+				W3DropWeapon(client,ent);
 				UTIL_Remove(ent);
 			}
 		}
