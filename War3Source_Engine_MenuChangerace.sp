@@ -223,7 +223,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 					W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
 					W3SetPlayerProp(client,RaceSetByAdmin,false);
 					
-					PrintToChatAll("1");
+					//PrintToChatAll("1");
 					decl String:buf[192];
 					War3_GetRaceName(race_selected,buf,sizeof(buf));
 					if(race_selected==War3_GetRace(client)&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    )){ //has no other pending race, cuz user might wana switch back
@@ -276,7 +276,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 							W3SetPendingRace(client,-1);
 							War3_SetRace(client,race_selected);
 							
-							PrintToChatAll("2");
+							//PrintToChatAll("2");
 							//print is in setrace
 							//War3_ChatMessage(client,"You are now %s",buf);
 							
