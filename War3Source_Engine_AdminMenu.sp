@@ -220,8 +220,9 @@ public War3Source_Admin_PlayerInfo(client,target)
 		War3_GetRaceName(race,race_name,sizeof(race_name));
 		new gold=War3_GetGold(target);
 		new xp=War3_GetXP(target,race);
-		new level=War3_GetLevel(target,race);
-		SetMenuTitle(playerInfo,"%T","[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount}",client,playername,race_name,gold,xp,level);
+		new level=War3_GetLevel(target,race);new lvlbank=W3GetLevelBank(target);
+		new lvlbank=W3GetLevelBank(target);
+		SetMenuTitle(playerInfo,"%T","[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}",client,playername,race_name,gold,xp,level,lvlbank);
 		decl String:buf[4];
 		Format(buf,sizeof(buf),"%d",target);
 		

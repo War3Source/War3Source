@@ -199,10 +199,10 @@
 	{
 		"en"		"The player you selected has left the server."
 	}
-	"[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount}"
+	"[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}"
 	{
-		"#format"	"{1:s},{2:s},{3:d},{4:d},{5:d}"
-		"en"		"[War3Source] Info for {1}.\nRace: {2}\nGold: {3}\nXP: {4}\nLevel: {5}"
+		"#format"	"{1:s},{2:s},{3:d},{4:d},{5:d},{6:d}"
+		"en"		"[War3Source] Info for {1}.\nRace: {2}\nGold: {3}\nXP: {4}\nLevel: {5}\nLevelbank: {6}"
 	}
 	"Back to options"
 	{

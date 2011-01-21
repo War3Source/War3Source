@@ -1,5 +1,8 @@
 1.2.0
 
+B7
+added Levelbank info in detailed information (war3admin)
+
 B6
 event InitPlayerVariables
 fixed some race restrictions

@@ -176,9 +176,9 @@
 	{
 		"ru"		"Выбранный игрок покинул сервер"
 	}
-	"[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount}"
+	"[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}"
 	{
-		"ru"		"[ПОДРОБНАЯ ИНФОРМАЦИЯ]\nИгрок: {1}\n \nРаса: {2}\nЗолото: {3}\nОпыт: {4}\nУровень: {5}\n \n"
+		"ru"		"[ПОДРОБНАЯ ИНФОРМАЦИЯ]\nИгрок: {1}\n \nРаса: {2}\nЗолото: {3}\nОпыт: {4}\nУровень: {5}\nБанк Уровней: {6}"
 	}
 	"Back to options"
 	{
