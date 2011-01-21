@@ -15,7 +15,7 @@ new String:interfaceVersion[]="1.1.8"; ///this makes sure the race is compatable
 
 forward War3InterfaceExec();
 public War3InterfaceExec(){ //this runs once, does common tasks
-	LoadTranslations("w3s.common.phrases");
+	LoadTranslations("w3s._common.phrases");
 }
 public zzOnPluginEnd() //public OnMapEnd()
 {	
