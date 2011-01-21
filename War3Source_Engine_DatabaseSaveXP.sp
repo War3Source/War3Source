@@ -453,6 +453,8 @@ public OnClientPutInServer(client)
 	W3SetPlayerProp(client,xpLoaded,false);
 	
 	W3CreateEvent(ClearPlayerVariables,client); 
+	W3CreateEvent(InitPlayerVariables,client); 
+	
 	
 	if(W3SaveEnabled())
 	{

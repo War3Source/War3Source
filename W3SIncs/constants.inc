@@ -100,6 +100,9 @@ enum W3EVENT
 	OnDeathPre, //EventArg1 = attacker.  before w3 actual death forward is called to do some reading ( ie before items are lost)
 	DoShowMenuMyInfo, //MOVE or remove?
 	DoShowPlayerInfoTarget, ///EventArg1 = target = the person whos info is shown, client=SHOW TO 
+	
+	
+	InitPlayerVariables, //MOVE, player just joined, you can set player class properties 
 }
 enum W3XPAwardedBy{
 	XPAwardByGeneric, ///not defined
@@ -162,6 +165,8 @@ enum W3PlayerProp{
 	bool:RaceSetByAdmin,
 	bool:SpawnedOnce,
 	Float:sqlStartLoadXPTime,
+	
+	bool:isDeveloper,
 }
 
 //EXCLUSIVE: buffs that do not stack with itself: gravity, invisblity, however to make them stack use a second property ie gravity2, invisibilty2

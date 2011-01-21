@@ -396,11 +396,7 @@ public NW3IsDeveloper(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1); //offical W3 developers
 	if(ValidPlayer(client)){
-		new String:steamid[32];
-		GetClientAuthString(client,steamid,sizeof(steamid));
-		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
-			return true;
-		}
+		return W3GetPlayerProp(client,isDeveloper);
 	}
 	return false;
 }

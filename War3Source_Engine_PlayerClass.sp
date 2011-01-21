@@ -44,6 +44,7 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 
 public OnPluginStart()
 {
+	RegConsoleCmd("war3notdev",cmdwar3notdev);
 }
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
@@ -256,9 +257,21 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
 
 
 
-
+public Action:cmdwar3notdev(client,args){
+	if(ValidPlayer(client)){
+		W3SetPlayerProp(client,isDeveloper,false);
+	}
+}
 
 public OnWar3Event(W3EVENT:event,client){
+	if(event==InitPlayerVariables){
+		PrintToServer("sdfsdf");
+		new String:steamid[32];
+		GetClientAuthString(client,steamid,sizeof(steamid));
+		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
+			W3SetPlayerProp(client,isDeveloper,true);
+		}
+	}
 	if(event==ClearPlayerVariables){
 		
 		for(new i=0;i<MAXRACES;i++)
@@ -284,10 +297,11 @@ public OnWar3Event(W3EVENT:event,client){
 		W3SetPlayerProp(client,RaceSetByAdmin,false);
 		W3SetPlayerProp(client,SpawnedOnce,false);
 		W3SetPlayerProp(client,sqlStartLoadXPTime,0.0);
-
+		W3SetPlayerProp(client,isDeveloper,false);
+		
 		bResetSkillsOnSpawn[client]=false;
 	}
-	
+
 	if(event==DoResetSkills){
 		
 		new raceid=War3_GetRace(client);
