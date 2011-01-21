@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"scroll_ItemName"
+	{
+		"en"		"Scroll of Respawning"
+	}
+	"scroll_ItemDesc"
+	{
+		"en"		"You will respawn after death."
+	}
+}
