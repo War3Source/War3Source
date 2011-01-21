@@ -1,5 +1,8 @@
 1.2.0
 
+B6
+
+renamed 2 translation files (for each language) because TC admin likes to block them
 
 B5
 
