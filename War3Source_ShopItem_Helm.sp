@@ -17,7 +17,7 @@ new String:helmSound3[]="physics/metal/metal_solid_impact_bullet4.wav";
 
 public Plugin:myinfo= {
 	name="War3Source Shop - Helm",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source",
 	version="1.0",
 	url="http://war3source.com/"

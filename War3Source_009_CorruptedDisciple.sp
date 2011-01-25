@@ -1,7 +1,7 @@
 /**
  * 
  * Description:   CD from HON
- * Author(s): Ownz and pimpjuice
+ * Author(s): Ownz (DarkEnergy) and pimpjuice
  */
  
 #pragma semicolon 1
@@ -73,7 +73,7 @@ new BeamSprite,HaloSprite;
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Corrupted Disciple",
-	author = "PimpJuice and Ownz",
+	author = "PimpJuice and Ownz (DarkEnergy)",
 	description = "The Corrupted Disciple race for War3Source.",
 	version = "1.0",
 	url = "http://pimpinjuice.net/"

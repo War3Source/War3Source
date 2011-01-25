@@ -4,7 +4,7 @@
 * Description: The Succubus Hunter race for SourceCraft.
 * Author(s): DisturbeD 
 * Adapted to TF2 by: -=|JFH|=-Naris (Murray Wilson)
-* Offcially ported to War3Source by Ownz
+* Offcially ported to War3Source by Ownz (DarkEnergy)
 */
 
 #pragma semicolon 1

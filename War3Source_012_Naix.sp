@@ -43,7 +43,7 @@ new String:ultsnd[]="war3source/naix/predult.mp3";
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Lifestealer",
-	author = "Stinkyfax and Ownz",
+	author = "Stinkyfax and Ownz (DarkEnergy)",
 	description = "N'aix - the embodiment of lust and greed,\nbent on stealing the life of every living creature he encounters.",
 	version = "1.0",
 	url = "war3source.com"//http://sugardas.lt/~jozh/

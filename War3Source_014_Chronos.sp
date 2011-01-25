@@ -55,7 +55,7 @@ new bool:lastframewasground[MAXPLAYERS];
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Chronos",
-	author = "Ownz",
+	author = "Ownz (DarkEnergy)",
 	description = "Chronos",
 	version = "1.0.0.0",
 	url = "www.ownageclan.com"

@@ -7,7 +7,7 @@ new g_offsCollisionGroup;
 public Plugin:myinfo= 
 {
 	name="War3Source Engine Player Collisions",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"

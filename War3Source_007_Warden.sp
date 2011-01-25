@@ -1,7 +1,7 @@
 /**
  * File: War3Source_Warden.sp
  * Description: The Warden race for War3Source.
- * Author(s): Anthony Iacono & Ownage | Ownz
+ * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
  */
  
 #pragma semicolon 1
@@ -59,7 +59,7 @@ new MyWeaponsOffset,AmmoOffset;//,Clip1Offset;
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Warden",
-	author = "PimpinJuice & Ownz",
+	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Warden race for War3Source.",
 	version = "1.0.0.0",
 	url = "http://Www.OwnageClan.Com"

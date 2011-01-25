@@ -26,7 +26,7 @@ new timerskip;
 public Plugin:myinfo= 
 {
 	name="War3Source Engine Weapons",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"

@@ -8,7 +8,7 @@
 public Plugin:myinfo= 
 {
 	name="War3Source Admin Console",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"

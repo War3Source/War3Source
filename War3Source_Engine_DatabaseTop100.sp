@@ -27,7 +27,7 @@ new Top100totalxp[101];
 public Plugin:myinfo= 
 {
 	name="War3Source Engine Database top100",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"

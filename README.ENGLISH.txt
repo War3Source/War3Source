@@ -25,7 +25,7 @@ W3S came first to the source engine, WCS came later but matured faster under the
 languages but is limited in performance and features compared to W3S. 
 
 W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the founder of superhero mod (SH).
-Yi (Derek) Luo (AKA "Ownage | Ownz", "DarkEnergy") is the second developer of War3Source 
+Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
 and took over primary develpement after march 2010.
 
 

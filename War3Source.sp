@@ -1,7 +1,7 @@
 /*
 * File: War3Source.sp
 * Description: The main file for War3Source.
-* Author(s): Anthony Iacono  & OwnageOwnz
+* Author(s): Anthony Iacono  & OwnageOwnz (DarkEnergy)
 */
 
 #pragma semicolon 1
@@ -15,7 +15,7 @@
 #define REVISION_NUM 12006 //increment every release
 
 
-#define AUTHORS "PimpinJuice and Ownz" 
+#define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
 //variables needed by includes here
 

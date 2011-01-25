@@ -1,7 +1,7 @@
 /**
  * 
  * Description:   BH from HON
- * Author(s): Ownz 
+ * Author(s): Ownz (DarkEnergy) 
  */
  
 #pragma semicolon 1
@@ -42,7 +42,7 @@ new String:ultsnd[]="war3source/bh/ult.mp3";
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Blood Hunter",
-	author = "Ownz",
+	author = "Ownz (DarkEnergy)",
 	description = "Blood Hunter for War3Source.",
 	version = "1.0",
 	url = "War3Source.com"

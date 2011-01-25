@@ -1,4 +1,4 @@
-﻿"Phrases"
+"Phrases"
 {
 	"[War3Source]"
 	{
@@ -364,7 +364,7 @@
 	}
 	"War3Source Developers"
 	{
-		"ru"		"Разработчики: PimpinJuice и Ownz. Перевод на русский язык: Schmarotzer и Frenzzy"
+		"ru"		"Разработчики: PimpinJuice и Ownz (DarkEnergy). Перевод на русский язык: Schmarotzer и Frenzzy"
 	}
 	"Select a race first!!"
 	{

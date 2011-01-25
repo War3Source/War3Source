@@ -25,7 +25,7 @@ new bool:itemTranslated[MAXITEMS];
 public Plugin:myinfo= 
 {
 	name="War3Source Engine Item Class",
-	author="Ownz",
+	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"

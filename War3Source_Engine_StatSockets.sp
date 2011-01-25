@@ -8,7 +8,7 @@
 
 public Plugin:myinfo = {
 	name = "War3Source Engine Stats sockets",
-	author = "Ownz",
+	author = "Ownz (DarkEnergy)",
 	description = "statistics collector",
 	version = "1.0",
 	url = "war3source.com"

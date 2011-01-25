@@ -1,7 +1,7 @@
  /**
  * File: War3Source_ShadowHunter.sp
  * Description: The Shadow Hunter race for War3Source.
- * Author(s): Anthony Iacono & Ownage | Ownz
+ * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
  */
  
 #pragma semicolon 1
@@ -68,7 +68,7 @@ new BeamSprite,HaloSprite; //wards
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Shadow Hunter",
-	author = "PimpinJuice & Ownz",
+	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Shadow Hunter race for War3Source.",
 	version = "1.0.0.0",
 	url = "http://Www.OwnageClan.Com"

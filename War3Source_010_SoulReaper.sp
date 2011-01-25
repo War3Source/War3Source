@@ -1,7 +1,7 @@
 /**
  * 
  * Description:   SR FROM HON
- * Author(s): Ownz and pimpjuice
+ * Author(s): Ownz (DarkEnergy) and pimpjuice
  */
  
 #pragma semicolon 1
@@ -47,7 +47,7 @@ new String:ultsnd[]="war3source/sr/ult.mp3";
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Soul Reaper",
-	author = "Ownz",
+	author = "Ownz (DarkEnergy)",
 	description = "Soul Reaper for War3Source.",
 	version = "1.0",
 	url = "War3Source.com"

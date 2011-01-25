@@ -1577,7 +1577,7 @@ increased fan of knives TF radius to 300
 increased healing wards radius by 10 now 70
 
 
-1.0.0.5 OWNZ
+1.0.0.5 Ownz (DarkEnergy)
 war3dev command to list war3 developers (currently hardcoded)
 
 fixed locust ultimate cooldown not resetting after map change FS#52

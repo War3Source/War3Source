@@ -413,7 +413,7 @@
 	}
 	"War3Source Developers"
 	{
-		"en"		"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz STEAM_0:1:9724315 are developers for War3Source."
+		"en"		"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz (DarkEnergy) STEAM_0:1:9724315 are developers for War3Source."
 	}
 	"Select a race first!!"
 	{
