@@ -2,6 +2,7 @@
 
 B7
 added Levelbank info in detailed information (war3admin)
+added Levelbank Managing in war3admin
 
 B6
 event InitPlayerVariables

@@ -164,6 +164,10 @@
 	{
 		"ru"		"Редактирование золота"
 	}
+	"Levelbank Managing"
+	{
+		"ru"		"Управление банком уровней"
+	}
 	"Admin {admin} reset your skills"
 	{
 		"ru"		"Админ \"{1}\" сбросил ваши навыки"
@@ -340,7 +344,51 @@
 	{
 		"ru"		"Админ \"{1}\" забрал у вас {2} золота"
 	}
-
+	"&&&[War3Source] Select an option for {player}"
+	{
+		"ru"		"[УПРАВЛЕНИЕ БАНКОМ УРОВНЕЙ]\nИгрок: {1}\n \n"
+	}
+	"Give 1 level in levelbank"
+	{
+		"ru"		"Дать 1 уровень в банк"
+	}
+	"Give 5 levels in levelbank"
+	{
+		"ru"		"Дать 5 уровней в банк"
+	}
+	"Give 10 levels in levelbank"
+	{
+		"ru"		"Дать 10 уровней в банк"
+	}
+	"Remove 1 level from levelbank"
+	{
+		"ru"		"Забрать 1 уровень из банка"
+	}
+	"Remove 5 levels from levelbank"
+	{
+		"ru"		"Забрать 5 уровней из банка"
+	}
+	"Remove 10 levels from levelbank"
+	{
+		"ru"		"Забрать 10 уровней из банка"
+	}
+	"You gave {player} {amount} level(s) in levelbank"
+	{
+		"ru"		"Вы дали \"{1}\" {2} уровней в банк уровней."
+	}
+	"You recieved {amount} level(s) in levelbank from admin {player}"
+	{
+		"ru"		"Вы получили {1} уровней в банк уровней от админа \"{2}\"."
+	}
+	"You removed {amount} level(s) from levelbank of {player}"
+	{
+		"ru"		"Вы забрали {1} уровней из банка уровней \"{2}\"."
+	}
+	"Admin {player} removed {amount} level(s) from your levelbank"
+	{
+		"ru"		"Админ \"{1}\" забрал {2} уровней из вашего банка уровней."
+	}
+	
 	//War3Source_Engine_CommandHook.sp
 	"Your max speed is {amount}"
 	{

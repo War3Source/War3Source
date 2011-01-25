@@ -185,6 +185,10 @@
 	{
 		"en"		"Increase/Decrease Gold"
 	}
+	"Levelbank Managing"
+	{
+		"en"		"Levelbank Managing"
+	}
 	"Admin {admin} reset your skills"
 	{
 		"#format"	"{1:s}"
@@ -387,7 +391,56 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"Admin \"{1}\" removed {2} gold(s) from you."
 	}
-
+	"&&&[War3Source] Select an option for {player}"
+	{
+		"#format"	"{1:s}"
+		"en"		"[War3Source] Select an option for {1}."
+	}
+	"Give 1 level in levelbank"
+	{
+		"en"		"Give 1 level in levelbank"
+	}
+	"Give 5 levels in levelbank"
+	{
+		"en"		"Give 5 levels in levelbank"
+	}
+	"Give 10 levels in levelbank"
+	{
+		"en"		"Give 10 levels in levelbank"
+	}
+	"Remove 1 level from levelbank"
+	{
+		"en"		"Remove 1 level from levelbank"
+	}
+	"Remove 5 levels from levelbank"
+	{
+		"en"		"Remove 5 levels from levelbank"
+	}
+	"Remove 10 levels from levelbank"
+	{
+		"en"		"Remove 10 levels from levelbank"
+	}
+	"You gave {player} {amount} level(s) in levelbank"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"You gave \"{1}\" {2} level(s) in levelbank."
+	}
+	"You recieved {amount} level(s) in levelbank from admin {player}"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"		"You recieved {1} level(s) in levelbank from admin \"{2}\"."
+	}
+	"You removed {amount} level(s) from levelbank of {player}"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"		"You removed {1} level(s) from levelbank of \"{2}\"."
+	}
+	"Admin {player} removed {amount} level(s) from your levelbank"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"Admin \"{1}\" removed {2} level(s) from your levelbank."
+	}
+	
 	//War3Source_Engine_CommandHook.sp
 	"Your max speed is {amount}"
 	{

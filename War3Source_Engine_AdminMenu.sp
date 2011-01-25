@@ -105,6 +105,7 @@ public War3Source_Admin_Player(client,target)
 	new String:managxp[64];
 	new String:managlevel[64];
 	new String:managgold[64];
+	new String:managlvlbank[64];
 	
 	Format(details,sizeof(details),"%T","View detailed information",client);
 	Format(shopitem,sizeof(shopitem),"%T","Give shop item",client);
@@ -113,7 +114,8 @@ public War3Source_Admin_Player(client,target)
 	Format(managxp,sizeof(managxp),"%T","Increase/Decrease XP",client);
 	Format(managlevel,sizeof(managlevel),"%T","Increase/Decrease Level",client);
 	Format(managgold,sizeof(managgold),"%T","Increase/Decrease Gold",client);
-	
+	Format(managlvlbank,sizeof(managlvlbank),"%T","Levelbank Managing",client);
+		
 	AddMenuItem(adminMenu_Player,buf,details);
 	AddMenuItem(adminMenu_Player,buf,shopitem);
 	AddMenuItem(adminMenu_Player,buf,setrace);
@@ -124,6 +126,7 @@ public War3Source_Admin_Player(client,target)
 		AddMenuItem(adminMenu_Player,buf,managlevel);
 		AddMenuItem(adminMenu_Player,buf,managgold);
 	}
+	AddMenuItem(adminMenu_Player,buf,managlvlbank);
 	DisplayMenu(adminMenu_Player,client,20);
 	
 }
@@ -189,6 +192,11 @@ public War3Source_Admin_Player_Select(Handle:menu,MenuAction:action,client,selec
 					// Increase/Decrease Gold
 					War3Source_Admin_Gold(client,target);
 				}
+				case 7:
+				{
+					// Increase/Decrease Levelbank
+					War3Source_Admin_Lvlbank(client,target);
+				}
 			}
 			if(selection==3)
 				War3Source_Admin_Player(client,target);
@@ -220,7 +228,7 @@ public War3Source_Admin_PlayerInfo(client,target)
 		War3_GetRaceName(race,race_name,sizeof(race_name));
 		new gold=War3_GetGold(target);
 		new xp=War3_GetXP(target,race);
-		new level=War3_GetLevel(target,race);new lvlbank=W3GetLevelBank(target);
+		new level=War3_GetLevel(target,race);
 		new lvlbank=W3GetLevelBank(target);
 		SetMenuTitle(playerInfo,"%T","[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}",client,playername,race_name,gold,xp,level,lvlbank);
 		decl String:buf[4];
@@ -684,6 +692,109 @@ public War3Source_Admin_Gold_Select(Handle:menu,MenuAction:action,client,selecti
 				War3_ChatMessage(client,"%T","You removed {amount} gold(s) from player {player}",client,credrem,targetname);
 				War3_ChatMessage(target,"%T","Admin {player} removed {amount} gold(s) from you",target,adminname,credrem);
 				War3Source_Admin_Gold(client,target);
+			}
+		}
+		else
+			War3_ChatMessage(client,"%T","The player has disconnected from the server",client);
+	}
+	if(action==MenuAction_End)
+	{
+		CloseHandle(menu);
+	}
+}
+
+public War3Source_Admin_Lvlbank(client,target)
+{
+	
+	if(ValidPlayer(target,false))
+	{
+		new Handle:menu=CreateMenu(War3Source_Admin_Lvlbank_Select);
+		SetMenuExitButton(menu,true);
+		decl String:playername[64];
+		GetClientName(target,playername,sizeof(playername));
+		SetMenuTitle(menu,"%T","&&&[War3Source] Select an option for {player}",client,playername);
+		decl String:buf[4];
+		Format(buf,sizeof(buf),"%d",target);
+		
+		new String:give1lvlb[64];
+		new String:give5lvlb[64];
+		new String:give10lvlb[64];
+		new String:remove1lvlb[64];
+		new String:remove5lvlb[64];
+		new String:remove10lvlb[64];
+		
+		Format(give1lvlb,sizeof(give1lvlb),"%T","Give 1 level in levelbank",client);
+		Format(give5lvlb,sizeof(give5lvlb),"%T","Give 5 levels in levelbank",client);
+		Format(give10lvlb,sizeof(give10lvlb),"%T","Give 10 levels in levelbank",client);
+		Format(remove1lvlb,sizeof(remove1lvlb),"%T","Remove 1 level from levelbank",client);
+		Format(remove5lvlb,sizeof(remove5lvlb),"%T","Remove 5 levels from levelbank",client);
+		Format(remove10lvlb,sizeof(remove10lvlb),"%T","Remove 10 levels from levelbank",client);
+		
+		AddMenuItem(menu,buf,give1lvlb);
+		AddMenuItem(menu,buf,give5lvlb);
+		AddMenuItem(menu,buf,give10lvlb);
+		AddMenuItem(menu,buf,remove1lvlb);
+		AddMenuItem(menu,buf,remove5lvlb);
+		AddMenuItem(menu,buf,remove10lvlb);
+		DisplayMenu(menu,client,20);
+	}
+	else
+		War3_ChatMessage(client,"%T","The player has disconnected from the server",client);
+
+}
+
+public War3Source_Admin_Lvlbank_Select(Handle:menu,MenuAction:action,client,selection)
+{
+	if(action==MenuAction_Select)
+	{
+		decl String:SelectionInfo[4];
+		decl String:SelectionDispText[256];
+		new SelectionStyle;
+		GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
+		new target=StringToInt(SelectionInfo);
+		if(ValidPlayer(target,false))
+		{
+			decl String:adminname[64];
+			GetClientName(client,adminname,sizeof(adminname));
+			decl String:targetname[64];
+			GetClientName(target,targetname,sizeof(targetname));
+			if(selection<3)
+			{
+				new lvlbadd;
+				switch(selection)
+				{
+					case 0:
+						lvlbadd=1;
+					case 1:
+						lvlbadd=5;
+					case 2:
+						lvlbadd=10;
+				}
+				new newlvlb=W3GetLevelBank(target)+lvlbadd;
+				W3SetLevelBank(target,newlvlb);
+				War3_ChatMessage(client,"%T","You gave {player} {amount} level(s) in levelbank",client,targetname,lvlbadd);
+				War3_ChatMessage(target,"%T","You recieved {amount} level(s) in levelbank from admin {player}",target,lvlbadd,adminname);
+				War3Source_Admin_Lvlbank(client,target);
+			}
+			else
+			{
+				new lvlbrem;
+				switch(selection)
+				{
+					case 3:
+						lvlbrem=1;
+					case 4:
+						lvlbrem=5;
+					case 5:
+						lvlbrem=10;
+				}
+				new newlvlb=W3GetLevelBank(target)-lvlbrem;
+				if(newlvlb<0)
+					newlvlb=0;
+				W3SetLevelBank(target,newlvlb);
+				War3_ChatMessage(client,"%T","You removed {amount} level(s) from levelbank of {player}",client,lvlbrem,targetname);
+				War3_ChatMessage(target,"%T","Admin {player} removed {amount} level(s) from your levelbank",target,adminname,lvlbrem);
+				War3Source_Admin_Lvlbank(client,target);
 			}
 		}
 		else
