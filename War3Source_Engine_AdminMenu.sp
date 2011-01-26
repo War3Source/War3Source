@@ -387,8 +387,8 @@ public War3Source_Admin_GiveShopItem(client,target)
 		decl String:itemname[64];
 		decl String:buf[4];
 		Format(buf,sizeof(buf),"%d",target);
-		
-		for(new x=1;x<=W3GetItemsLoaded();x++)
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new x=1;x<=ItemsLoaded;x++)
 		{
 			W3GetItemName(x,itemname,sizeof(itemname));
 			AddMenuItem(menu,buf,itemname);
@@ -459,7 +459,8 @@ public War3Source_Admin_SetRace(client,target)
 		decl String:buf[4];
 		Format(buf,sizeof(buf),"%d",target);
 		SetTrans(client);
-		for(new x=1;x<=War3_GetRacesLoaded();x++)
+		new RacesLoaded = War3_GetRacesLoaded();
+		for(new x=1;x<=RacesLoaded;x++)
 		{
 			War3_GetRaceName(x,racename,sizeof(racename));
 			AddMenuItem(menu,buf,racename);

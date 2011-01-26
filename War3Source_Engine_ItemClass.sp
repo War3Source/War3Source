@@ -147,7 +147,8 @@ public NWar3_GetItemIdByShortname(Handle:plugin,numParams)
 
 	new String:itemshortname[16],String:argstr[16];
 	GetNativeString(1,argstr,16);
-	for(new i=1;i<=W3GetItemsLoaded();i++){
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new i=1;i<=ItemsLoaded;i++){
 		GetItemShortname(i,itemshortname,sizeof(itemshortname));
 		if(StrEqual(argstr,itemshortname)){
 			return i;
@@ -245,7 +246,8 @@ CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescripti
 	}
 	else{
 		decl String:shortnameexisted[16];
-		for(new i=1;i<=W3GetItemsLoaded();i++){
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new i=1;i<=ItemsLoaded;i++){
 			GetItemShortname(i,shortnameexisted,sizeof(shortnameexisted));
 			if(StrEqual(titemshortname,shortnameexisted)){
 				return i; //item already exists

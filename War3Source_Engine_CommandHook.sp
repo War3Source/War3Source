@@ -255,8 +255,8 @@ public Action:War3Source_SayCommand(client,args)
 			return returnblocking;
 		}
 		new String:itemshort[100];
-		
-		for(new itemid=1;itemid<=W3GetItemsLoaded();itemid++){
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new itemid=1;itemid<=ItemsLoaded;itemid++){
 			W3GetItemShortname(itemid,itemshort,sizeof(itemshort));
 			if(CommandCheckStartsWith(arg1,itemshort)&&!W3ItemHasFlag(itemid,"hidden")){
 			

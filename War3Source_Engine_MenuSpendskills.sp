@@ -72,7 +72,8 @@ War3Source_SkillMenu(client)
 			
 			decl String:sbuf[4];
 			decl String:buf[192];
-			for(new x=0;x<War3_GetRaceSkillCount(race_num);x++)
+			new SkillCount = War3_GetRaceSkillCount(race_num);
+			for(new x=0;x<SkillCount;x++)
 			{
 				
 				

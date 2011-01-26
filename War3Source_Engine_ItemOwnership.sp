@@ -154,8 +154,8 @@ public OnWar3Event(W3EVENT:event,client){
 
 CheckForRestrictedItemsOnRace(client)
 {
-
-	for(new itemid=1;itemid<=W3GetItemsLoaded();itemid++){
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new itemid=1;itemid<=ItemsLoaded;itemid++){
 		if(War3_GetOwnsItem(client,itemid)){
 			new race=War3_GetRace(client);
 			if(W3IsItemDisabledForRace(race,itemid)){

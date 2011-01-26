@@ -327,7 +327,8 @@ public Action:UberTest(client,args){
 
 public Action:FullSkilltest(client,args){
 	new race=War3_GetRace(client);
-	for(new i;i<War3_GetRaceSkillCount(race);i++){
+	new SkillCount = War3_GetRaceSkillCount(race);
+	for(new i;i<SkillCount;i++){
 		War3_SetSkillLevel(client,race,i,4);
 	}
 }

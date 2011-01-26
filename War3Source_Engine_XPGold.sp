@@ -736,7 +736,8 @@ LevelCheck(client){
 	
 	///skill or ult is more than what he can be? ie level 4 skill when he is only level 4...
 	new curlevel=War3_GetLevel(client,race);
-	for(new i=0;i<War3_GetRaceSkillCount(race);i++){
+	new SkillCount = War3_GetRaceSkillCount(race);
+	for(new i=0;i<SkillCount;i++){
 		skilllevel=War3_GetSkillLevel(client,race,i);
 		if(!War3_IsSkillUltimate(race,i))
 		{
@@ -810,7 +811,8 @@ LevelCheck(client){
 
 
 ClearSkillLevels(client,race){
-	for(new i=0;i<War3_GetRaceSkillCount(race);i++){
+	new SkillCount =War3_GetRaceSkillCount(race); 
+	for(new i=0;i<SkillCount;i++){
 		War3_SetSkillLevel(client,race,i,0);
 	}
 }

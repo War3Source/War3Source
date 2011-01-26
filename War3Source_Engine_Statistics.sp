@@ -442,7 +442,8 @@ public Action:ExecOnceTimer(Handle:h){
 		
 	new String:racename[64];
 	new String:raceshort[16];
-	for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++){
+	new RacesLoaded = War3_GetRacesLoaded();
+	for(new raceid=1;raceid<=RacesLoaded;raceid++){
 	
 		War3_GetRaceShortname(raceid,raceshort,sizeof(raceshort));
 		
@@ -583,7 +584,8 @@ public Action:ExecOnceTimer(Handle:h){
 	
 	//RACES
 	Format(longquery,sizeof(longquery),"ip=%s:%d&races=",serverip,serverport);
-	for(new i=1;i<=War3_GetRacesLoaded();i++){
+	new RacesLoaded = War3_GetRacesLoaded();
+	for(new i=1;i<=RacesLoaded;i++){
 		 War3_GetRaceShortname(i,raceshort,sizeof(raceshort));
 		 PHPEscape(raceshort,sizeof(raceshort));
 		 StrCat(longquery,sizeof(longquery),raceshort);
@@ -601,7 +603,8 @@ public Action:ExecOnceTimer(Handle:h){
 	//ITEMS
 	decl String:itemshort[16];
 	Format(longquery,sizeof(longquery),"ip=%s:%d&items=",serverip,serverport);
-	for(new i=1;i<=W3GetItemsLoaded();i++){
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new i=1;i<=ItemsLoaded;i++){
 		 W3GetItemShortname(i,itemshort,sizeof(itemshort));
 		 PHPEscape(raceshort,sizeof(itemshort));
 		 StrCat(longquery,sizeof(longquery),itemshort);

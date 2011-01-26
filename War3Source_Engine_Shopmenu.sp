@@ -72,7 +72,8 @@ ShowMenuShop(client){
 	decl String:itembuf[4];
 	decl String:linestr[96];
 	decl cost;
-	for(new x=1;x<=W3GetItemsLoaded();x++)
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new x=1;x<=ItemsLoaded;x++)
 	{
 		//if(W3RaceHasFlag(x,"hidden")){
 		//	PrintToServer("hidden %d",x);
@@ -208,7 +209,8 @@ War3M_ExceededMaxItemsMenuBuy(client)
 	
 	decl String:itembuf[4];
 	decl String:linestr[96];
-	for(new x=1;x<=W3GetItemsLoaded();x++)
+	new ItemsLoaded = W3GetItemsLoaded()
+	for(new x=1;x<=ItemsLoaded;x++)
 	{
 		if(War3_GetOwnsItem(client,x)){
 			Format(itembuf,sizeof(itembuf),"%d",x);
@@ -281,7 +283,8 @@ bool:BuyUseCSMoney(){
 	
 GetClientItemsOwned(client){
 	new num=0;
-	for(new i=1;i<=W3GetItemsLoaded();i++){
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new i=1;i<=ItemsLoaded;i++){
 		if(War3_GetOwnsItem(client,i)){
 			num++;
 		}

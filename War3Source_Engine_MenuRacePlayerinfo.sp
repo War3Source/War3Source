@@ -169,7 +169,8 @@ public War3_ShowParticularRaceInfoMenu(client,raceid){
 
 	
 	new level;
-	for(new x=0;x<War3_GetRaceSkillCount(raceid);x++)
+	new SkillCount = War3_GetRaceSkillCount(raceid);
+	for(new x=0;x<SkillCount;x++)
 	{
 		decl String:str[1000];
 		W3GetRaceSkillName(raceid,x,skillname,sizeof(skillname));
@@ -469,7 +470,8 @@ War3_playertargetMenu(client,target) {
 	}
 	Format(title,sizeof(title),"%s\n",title);
 	
-	for(new x=0;x<War3_GetRaceSkillCount(raceid);x++)
+	new SkillCount = War3_GetRaceSkillCount(raceid);
+	for(new x=0;x<SkillCount;x++)
 	{
 		W3GetRaceSkillName(raceid,x,skillname,sizeof(skillname));
 		level=War3_GetSkillLevel(target,raceid,x) ;
@@ -486,7 +488,8 @@ War3_playertargetMenu(client,target) {
 	
 	new String:itemname[64];
 	new moleitemid=War3_GetItemIdByShortname("mole");
-	for(new itemid=1;itemid<=W3GetItemsLoaded();itemid++){
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new itemid=1;itemid<=ItemsLoaded;itemid++){
 		if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid){
 			W3GetItemName(itemid,itemname,sizeof(itemname));
 			Format(title,sizeof(title),"%s\n%s",title,itemname);
@@ -575,7 +578,8 @@ public War3_playertargetMenuSelected(Handle:menu,MenuAction:action,client,select
 
 GetClientTotalLevels(client)
 {	new total_level=0;
-	for(new r=1;r<=War3_GetRacesLoaded();r++)
+	new RacesLoaded = War3_GetRacesLoaded();
+	for(new r=1;r<=RacesLoaded;r++)
 	{
 		total_level+=War3_GetLevel(client,r);
 	}

@@ -50,7 +50,8 @@ ShowMenuItemsinfo(client){
 	decl String:str[64];
 	decl String:numstr[4];
 	
-	for(new x=1;x<=W3GetItemsLoaded();x++)
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new x=1;x<=ItemsLoaded;x++)
 	{
 		W3GetItemName(x,str,sizeof(str));
 		IntToString(x,numstr,sizeof(numstr));

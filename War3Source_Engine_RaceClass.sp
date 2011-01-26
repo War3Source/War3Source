@@ -207,7 +207,8 @@ public Native_War3_GetRaceByShortname(Handle:plugin,numParams)
 {
 	new String:short_lookup[16];
 	GetNativeString(1,short_lookup,sizeof(short_lookup));
-	for(new x=1;x<=GetRacesLoaded();x++)
+	new RacesLoaded = GetRacesLoaded();
+	for(new x=1;x<=RacesLoaded;x++)
 	{
 		
 		new String:short_name[16];
@@ -337,7 +338,8 @@ public NW3GetRaceList(Handle:plugin,numParams){
 	new listcount=0;
 	
 	new Handle:hdynamicarray=CreateArray(1,War3_GetRacesLoaded()); //2 indexes
-	for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++){
+	new RacesLoaded = War3_GetRacesLoaded();
+	for(new raceid=1;raceid<=RacesLoaded;raceid++){
 		if(!W3RaceHasFlag(raceid,"hidden")){
 	
 	
@@ -571,7 +573,8 @@ GetRaceSkillCount(raceid){
 
 stock GetRaceSkillNonUltimateCount(raceid){
 	new num;
-	for(new i=0;i<GetRaceSkillCount(raceid);i++){
+	new skillcount = GetRaceSkillCount(raceid);
+	for(new i=0;i<skillcount;i++){
 		if(!IsSkillUltimate(raceid,i)) //regular skill
 		{
 			num++;
@@ -581,7 +584,8 @@ stock GetRaceSkillNonUltimateCount(raceid){
 }
 stock GetRaceSkillIsUltimateCount(raceid){
 	new num;
-	for(new i=0;i<GetRaceSkillCount(raceid);i++){
+	new SkillCount = GetRaceSkillCount(raceid);
+	for(new i=0;i<SkillCount;i++){
 		if(IsSkillUltimate(raceid,i)) //regular skill
 		{
 			num++;
@@ -592,7 +596,8 @@ stock GetRaceSkillIsUltimateCount(raceid){
 //gets max level based on the max levels of its skills
 GetRaceMaxLevel(raceid){
 	new num=0;
-	for(new skill=0;skill<GetRaceSkillCount(raceid);skill++){
+	new SkillCount = GetRaceSkillCount(raceid);
+	for(new skill=0;skill<SkillCount;skill++){
 		num+=skillMaxLevel[raceid][skill];
 	}
 	return num;
@@ -607,7 +612,8 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 	if(raceid>0){
 		//ok is it an existing skill?
 		//new String:existingskillname[64];
-		for(new i=0;i<GetRaceSkillCount(raceid);i++){
+		new SkillCount = GetRaceSkillCount(raceid);
+		for(new i=0;i<SkillCount;i++){
 			//GetRaceSkillName(raceid,i,existingskillname,sizeof(existingskillname));
 			if(StrEqual(skillname,raceSkillName[raceid][i],false)){ ////need raw skill name, because of translations
 				//PrintToServer("Skill exists %s, returning old skillid %d",skillname,i);
@@ -735,7 +741,8 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	Format(longquery,sizeof(longquery),"%s name='%s'",longquery,escapedstr);
 	
 	
-	for(new i=0;i<GetRaceSkillCount(raceid);i++){
+	new SkillCount = GetRaceSkillCount(raceid);
+	for(new i=0;i<SkillCount;i++){
 		GetRaceSkillName(raceid,i,retstr,sizeof(retstr));
 		SQL_EscapeString(DBIDB,retstr,escapedstr,sizeof(escapedstr));
 		Format(longquery,sizeof(longquery),"%s, skill%d='%s %s'",longquery,i,IsSkillUltimate(raceid,i)?"Ultimate":"",escapedstr);
@@ -782,7 +789,8 @@ stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:pr
 bool:RaceExistsByShortname(String:shortname[]){
 	new String:buffer[16];
 	
-	for(new raceid=1;raceid<=GetRacesLoaded();raceid++){
+	new RacesLoaded = GetRacesLoaded();
+	for(new raceid=1;raceid<=RacesLoaded;raceid++){
 		GetRaceShortname(raceid,buffer,sizeof(buffer));
 		if(StrEqual(shortname, buffer, false)){
 			return true;
@@ -793,7 +801,8 @@ bool:RaceExistsByShortname(String:shortname[]){
 GetRaceIDByShortname(String:shortname[]){
 	new String:buffer[16];
 	
-	for(new raceid=1;raceid<=GetRacesLoaded();raceid++){
+	new RacesLoaded =GetRacesLoaded();
+	for(new raceid=1;raceid<=RacesLoaded;raceid++){
 		GetRaceShortname(raceid,buffer,sizeof(buffer));
 		if(StrEqual(shortname, buffer, false)){
 			return raceid;

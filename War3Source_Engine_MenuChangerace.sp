@@ -165,7 +165,8 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			// Minimum level?
 			
 			new total_level=0;
-			for(new x=1;x<=War3_GetRacesLoaded();x++)
+			new RacesLoaded = War3_GetRacesLoaded();
+			for(new x=1;x<=RacesLoaded;x++)
 			{
 				total_level+=War3_GetLevel(client,x);
 			}

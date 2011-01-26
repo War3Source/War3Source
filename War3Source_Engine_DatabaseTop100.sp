@@ -252,7 +252,8 @@ public War3Source_Stats_Player(client,target)
 		SetMenuExitButton(playerInfo,true);
 		decl String:playername[64];
 		GetClientName(target,playername,sizeof(playername));
-		for(new x=1;x<=War3_GetRacesLoaded();x++)
+		new RacesLoaded = War3_GetRacesLoaded();
+		for(new x=1;x<=RacesLoaded;x++)
 		{
 			
 			decl String:race_name[64];
@@ -323,7 +324,8 @@ public War3Source_Stats_Player_Race(client,target,race_num)
 		
 		Format(longbuf,sizeof(longbuf),"%T\n","[War3Source] {racename} info for {player}. Level: {amount} XP: {amount}",client,race_name,playername,level,xp);
 		
-		for(new i=0;i<War3_GetRaceSkillCount(race_num);i++){
+		new SkillCount = War3_GetRaceSkillCount(race_num);
+		for(new i=0;i<SkillCount;i++){
 			new String:skillname[64];
 			W3GetRaceSkillName(race_num,i,skillname,sizeof(skillname));
 			new skilllevel=War3_GetSkillLevel(target,race_num,i);

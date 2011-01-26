@@ -558,7 +558,8 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				if(GetConVarInt(hSetRaceOnJoinCvar)>0)
 				{
 					//Scan all the races
-					for(new x=1;x<=War3_GetRacesLoaded();x++)
+					new RacesLoaded = War3_GetRacesLoaded();
+					for(new x=1;x<=RacesLoaded;x++)
 					{
 						new String:short[16];
 						War3_GetRaceShortname(x,short,sizeof(short));
@@ -590,7 +591,8 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				
 				// Get data from the player vector I guess this allows the player to play before the queries are
 				// done but it is probably zero all the time
-				for(new z=1;z<=War3_GetRacesLoaded();z++)
+				new RacesLoaded = War3_GetRacesLoaded();
+				for(new z=1;z<=RacesLoaded;z++)
 				{
 					total_xp+=War3_GetXP(client,z);
 				}
@@ -674,7 +676,8 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 					
 					new String:column[32];
 					new skilllevel;
-					for(new skillid=0;skillid<War3_GetRaceSkillCount(raceid);skillid++){
+					new RacesSkillCount = War3_GetRaceSkillCount(raceid);
+					for(new skillid=0;skillid<RacesSkillCount;skillid++){
 						Format(column,sizeof(column),"skill%d",skillid);
 						skilllevel=W3SQLPlayerInt(hndl,column);
 						War3_SetSkillLevel(client,raceid,skillid,skilllevel);
@@ -695,7 +698,8 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 			W3CreateEvent(PlayerIsNewToServer,client);
 		}
 		new inserts;
-		for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++)
+		new RacesLoaded = War3_GetRacesLoaded()
+		for(new raceid=1;raceid<=RacesLoaded;raceid++)
 		{
 			
 			if(raceloaded[raceid]==false){
@@ -809,7 +813,8 @@ War3_SavePlayerRace(client,race)
 			new String:longquery[4000];
 			Format(longquery,sizeof(longquery),"UPDATE war3source_racedata1 SET level='%d',xp='%d' ",level,xp);
 			
-			for(new skillid=0;skillid<War3_GetRaceSkillCount(race);skillid++){
+			new SkillCount = War3_GetRaceSkillCount(race);
+			for(new skillid=0;skillid<SkillCount;skillid++){
 				Format(longquery,sizeof(longquery),"%s, skill%d=%d ",longquery,skillid,War3_GetSkillLevel(client,race,skillid));
 			}
 			
@@ -853,7 +858,8 @@ War3_SavePlayerMainData(client){
 			new String:longquery[4000];
 			new total_level=W3GetTotalLevels(client);
 			new total_xp=0;
-			for(new z=1;z<=War3_GetRacesLoaded();z++)
+			new RacesLoaded = War3_GetRacesLoaded();
+			for(new z=1;z<=RacesLoaded;z++)
 			{
 				total_xp+=War3_GetXP(client,z);
 			}

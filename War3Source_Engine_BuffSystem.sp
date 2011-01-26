@@ -229,13 +229,15 @@ public Action:cmdbufflist(client,args){
 		new String:arg[32];
 		GetCmdArg(1,arg,sizeof(arg));
 		new int=StringToInt(arg);
-		for(new i=1;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++){
+		new ItemsLoaded = W3GetItemsLoaded();
+		new RacesPlusItems = ItemsLoaded+War3_GetRacesLoaded();
+		for(new i=1;i<=RacesPlusItems;i++){
 			new String:name[32];
-			if(i<=W3GetItemsLoaded()){
+			if(i<=ItemsLoaded){
 				W3GetItemShortname(i,name,sizeof(name));
 			}
 			else{
-				War3_GetRaceShortname(i-W3GetItemsLoaded(),name,sizeof(name));
+				War3_GetRaceShortname(i-ItemsLoaded,name,sizeof(name));
 			}
 			W3Log("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
 		
@@ -375,7 +377,8 @@ public Action:DeciSecondTimer(Handle:timer)
 					if(wpn>0){
 						if(GetBuffHasOneTrue(client,bInvisWeaponOverride)){
 							new alphaw=-1;
-							for(new i=0;i<=BuffLoopLimit();i++){
+							new buffloop = BuffLoopLimit();
+							for(new i=0;i<=buffloop;i++){
 								if(W3GetBuff(client,bInvisWeaponOverride,i,true)){
 									alphaw=W3GetBuff(client,iInvisWeaponOverrideAmount,i,true);
 								}
@@ -580,7 +583,8 @@ ResetBuff(client,W3Buff:buffindex){
 	
 	if(ValidBuff(buffindex))
 	{
-		for(new i=0;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
 		{
 			buffdebuff[client][buffindex][i]=BuffDefault(buffindex);
 			
@@ -628,7 +632,8 @@ stock any:CalcBuffMax(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new any:value=buffdebuff[client][buffindex][0];
-		for(new i=1;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
 		{
 			new any:value2=buffdebuff[client][buffindex][i];
 			//PrintToChatAll("%f",value2);
@@ -646,7 +651,8 @@ stock any:CalcBuffMin(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new any:value=buffdebuff[client][buffindex][0];
-		for(new i=1;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
 		{
 			new any:value2=buffdebuff[client][buffindex][i];
 			if(value2<value){
@@ -663,7 +669,8 @@ CalcBuffMinInt(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new value=buffdebuff[client][buffindex][0];
-		for(new i=1;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
 		{
 			new value2=buffdebuff[client][buffindex][i];
 			if(value2<value){
@@ -679,7 +686,8 @@ stock bool:CalcBuffHasOneTrue(client,W3Buff:buffindex)
 {
 	if(ValidBuff(buffindex))
 	{
-		for(new i=0;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
 		{
 			if(buffdebuff[client][buffindex][i])
 			{
@@ -701,7 +709,8 @@ stock Float:CalcBuffStackedFloat(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new Float:value=buffdebuff[client][buffindex][0];
-		for(new i=1;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
 		{
 			value=FloatMul(value,buffdebuff[client][buffindex][i]);
 		}
@@ -719,7 +728,8 @@ stock CalcBuffSumInt(client,W3Buff:buffindex)
 	{
 		new any:value=0;
 		//this one starts from zero
-		for(new i=0;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
 		{
 			
 			value=value+buffdebuff[client][buffindex][i];
@@ -739,7 +749,8 @@ stock CalcBuffSumFloat(client,W3Buff:buffindex)
 	{
 		new any:value=0;
 		//this one starts from zero
-		for(new i=0;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
+		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
+		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
 		{
 			
 			value=Float:value+Float:(buffdebuff[client][buffindex][i]);
