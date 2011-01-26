@@ -458,7 +458,7 @@ public War3Source_Admin_SetRace(client,target)
 		decl String:racename[64];
 		decl String:buf[4];
 		Format(buf,sizeof(buf),"%d",target);
-		
+		SetTrans(client);
 		for(new x=1;x<=War3_GetRacesLoaded();x++)
 		{
 			War3_GetRaceName(x,racename,sizeof(racename));
