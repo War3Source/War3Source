@@ -125,6 +125,7 @@ enum War3Immunity
 	Immunity_MagicDamage, // Immune from magic based stuff (doesnt not include ultimates)
 	Immunity_Items, // Immune from shop items
 	Immunity_Skills, // Immune from all skills
+	Immunity_Wards, // Immune ward modifiers/damage. skill immunity includes ward immunity
 };
 
 enum War3DamageOrigin
@@ -245,13 +246,15 @@ enum W3Buff {
 	fGlowSetTime, //time is recorded, those with same prioirty will compete via time. not something u set
 	
 	//move
-	bSlowImmunity,
+	bSlowImmunity, //MOVE
 	
+	
+	bImmunityWards, // MOVE    is immune to wards, skill immunity includes ward immunity
 	////////////////
 	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
-	bImmunityWards, // is immune to wards
+	
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 

@@ -1282,11 +1282,9 @@ stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 		return W3GetBuffHasTrue(client,bImmunityUltimates);
 	}
 	if(immunityindex==Immunity_Wards){
-		return W3GetBuffHasTrue(client,bImmunityWards);
+		return W3GetBuffHasTrue(client,bImmunityWards)||W3GetBuffHasTrue(client,bImmunitySkills);
 	}
-	
-	
-	
+
 	
 	return false;
 	

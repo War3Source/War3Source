@@ -422,7 +422,7 @@ public WardEffectAndDamage(owner,wardindex)
 				// now compare z
 				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
 				{
-					if(W3HasImmunity(i,Immunity_Skills))
+					if(W3HasImmunity(i,Immunity_Wards))
 					{
 						W3MsgSkillBlocked(i,_,"Wards");
 					}
