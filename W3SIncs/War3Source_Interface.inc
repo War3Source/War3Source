@@ -1281,6 +1281,9 @@ stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 	if(immunityindex==Immunity_Ultimates){
 		return W3GetBuffHasTrue(client,bImmunityUltimates);
 	}
+	if(immunityindex==Immunity_Wards){
+		return W3GetBuffHasTrue(client,bImmunityWards);
+	}
 	
 	
 	

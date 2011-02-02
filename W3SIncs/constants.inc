@@ -251,6 +251,7 @@ enum W3Buff {
 	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
+	bImmunityWards, // is immune to wards
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 
@@ -315,6 +316,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ bImmunitySkills ][DefaultValue]=false;
 	buffpropertiesarray[ bImmunitySkills ][BuffStackType]=bHasOneTrue;	
+	
+	buffpropertiesarray[ bImmunityWards ][DefaultValue]=false;
+	buffpropertiesarray[ bImmunityWards ][BuffStackType]=bHasOneTrue;	
 	
 	buffpropertiesarray[ bImmunityUltimates ][DefaultValue]=false;
 	buffpropertiesarray[ bImmunityUltimates ][BuffStackType]=bHasOneTrue;	
