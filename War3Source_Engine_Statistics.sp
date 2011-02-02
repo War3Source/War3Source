@@ -584,7 +584,6 @@ public Action:ExecOnceTimer(Handle:h){
 	
 	//RACES
 	Format(longquery,sizeof(longquery),"ip=%s:%d&races=",serverip,serverport);
-	new RacesLoaded = War3_GetRacesLoaded();
 	for(new i=1;i<=RacesLoaded;i++){
 		 War3_GetRaceShortname(i,raceshort,sizeof(raceshort));
 		 PHPEscape(raceshort,sizeof(raceshort));
