@@ -140,10 +140,10 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	}
 	W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
 	if(errorNum==10061){
-		W3LogError("Conn Refused");
+		W3LogNotError("Conn Refused");
 	}
 	if(errorNum==10060){
-		W3LogError("Timeout");
+		W3LogNotError("Timeout");
 	}
 	
 
