@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"antiward_ItemName"
+	{
+		"ru"		"Антиловушки"
+	}
+	"antiward_ItemDesc"
+	{
+		"ru"		"Защищает Вас от действия ловушек"
+	}
+}
