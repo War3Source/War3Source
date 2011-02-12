@@ -265,7 +265,7 @@ public Action:cmdwar3notdev(client,args){
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==InitPlayerVariables){
-		PrintToServer("sdfsdf");
+		//PrintToServer("sdfsdf");
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
 		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
