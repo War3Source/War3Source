@@ -133,10 +133,6 @@ public OnMapStart()
 	War3_PrecacheSound(lightningSound);
 }
 
-public OnWar3PlayerAuthed(client)
-{
-}
-
 public OnRaceSelected(client,newrace)
 {
 	if(newrace!=thisRaceID && War3_GetGame()==Game_TF)

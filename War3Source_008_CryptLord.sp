@@ -58,9 +58,7 @@ public OnPluginStart()
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==80)
-	{
-
-								
+	{						
 		thisRaceID=War3_CreateNewRaceT("crypt");
 		SKILL_IMPALE=War3_AddRaceSkillT(thisRaceID,"Impale",false,4);
 		SKILL_SPIKE=War3_AddRaceSkillT(thisRaceID,War3_GetGame()==Game_CS?"SpikedCarapaceCS":"SpikedCarapaceTF",false,4);
@@ -73,22 +71,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	
 	War3_PrecacheSound(ultimateSound);
 }
-
-public OnWar3PlayerAuthed(client)
-{
-	
-}
-
-public OnRaceSelected(client,race)
-{
-	if(race!=thisRaceID)
-	{
-	}
-}
-
 
 public OnUltimateCommand(client,race,bool:pressed)
 {

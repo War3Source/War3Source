@@ -1009,7 +1009,7 @@ forward OnWar3LoadRaceOrItemOrdered2(num);
 forward OnWar3PluginReady();
 
 /**
- * Gets called when the War3Player has been authed. (XP retrieved)
+ * Gets called when after PutInServer, xp retrievcal has started, initial variables may have been set
  * @param client: The client's index.
  */
 forward OnWar3PlayerAuthed(client);

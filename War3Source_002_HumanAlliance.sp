@@ -108,10 +108,6 @@ public Action:LoadSounds(Handle:h){
 	}
 }
 
-public OnWar3PlayerAuthed(client)
-{
-}
-
 public OnRaceSelected(client,newrace)
 {
 	if(newrace!=thisRaceID)
