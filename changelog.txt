@@ -1,8 +1,23 @@
 1.2.0
 
+
+
+
+
 B7
+
+NEW RACE: HAMMERSTORM (please translate)
+
 added Levelbank info in detailed information (war3admin)
 added Levelbank Managing in war3admin
+A little for loop optimisations
+resource precache stocks from Frezzy
+disabled SH heal wave beam for now
+Added bImmunityWards buff (skill immunity will include ward immunity)
+socket errors now will print to NotError log
+Added AntiWards item
+fixed xp retrieve time count
+
 
 B6
 event InitPlayerVariables
