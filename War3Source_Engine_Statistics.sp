@@ -4,20 +4,10 @@
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
+#pragma dynamic 10000
+
 new war3statsversion = 2;
 
-//#tryinclude "../War3Source_SQL_Password"
-
-//#if !defined _war3sqlpass
-//#include "PLEASE DO NOT COMPILE ENGINE_STATISTICS, USE PRECOMPILED .SMX" //error
-//#endif
-
-///THIS FILE IS __NOT__ MEANT TO BE COMPILED BY END USERS.
-///War3Source_SQL_Password is not distributed for security reasons
-///THIS PLUGIN NOTIFIES YOU WHEN AN UPDATE (new version of war3source) IS AVAILABLE
-///THIS PLUGIN ONLY COLLECTS PUBLIC STATS (like Game-Monitor) and war3source relates stats, we are not here to hack you. 
-///This plugin allows you and war3source developers to recieve bug reports.
-///In case you are wondering, War3Source_SQL_Password only contains one function: SetPassword(kv); which sets the mysql password.
 
 new reportBugDelayTracker[MAXPLAYERS];
 new Handle:hSecondDBCvar;
@@ -316,8 +306,8 @@ public OnWar3PlayerAuthed(client){
 		
 		new String:clientip[32];
 		GetClientIP(client, clientip, sizeof(clientip));
-		new String:longquery[4000];
 		
+		new String:longquery[4000];
 		Format(longquery,sizeof(longquery),"w3stat/playerinfo.php?steamid=%s&name=%s&clientip=%s&hostname=%s&ipport=%s:%d&totallevels=%d",steamid,name,clientip,hostname,serverip,serverport,W3GetTotalLevels(client));
 		W3Socket(longquery,SockCallbackPlayerInfo);
 	

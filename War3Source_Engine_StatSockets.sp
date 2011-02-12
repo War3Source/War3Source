@@ -5,6 +5,7 @@
 //use ur own natives and stocks
 #include "W3SIncs/War3Source_Interface"
 
+#pragma dynamic 10000
 
 public Plugin:myinfo = {
 	name = "War3Source Engine Stats sockets",
@@ -33,8 +34,8 @@ bool:InitNativesForwards()
 	return true;
 }
 public NW3Socket(Handle:plugin,numParams){
-	new String:path[2000];
-	GetNativeString(1,path,sizeof(path));
+	new String:path[2000]; 
+	GetNativeString(1,path,sizeof(path)); 
 	ReplaceString(path,sizeof(path)," ","%20");
 	if(strlen(path)>sizeof(path)-10){
 		W3LogError("socket path exceeds 1990 string chars");
