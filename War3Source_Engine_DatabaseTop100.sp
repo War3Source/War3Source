@@ -308,7 +308,7 @@ public War3Source_Stats_Player_Select(Handle:menu,MenuAction:action,client,selec
 
 public War3Source_Stats_Player_Race(client,target,race_num)
 {
-	if(target>0)
+	if(ValidPlayer(target))
 	{
 		new Handle:playerInfo=CreateMenu(War3Source_Stats_PRS);
 		SetMenuExitButton(playerInfo,true);
