@@ -733,7 +733,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 		
 		W3SetPlayerProp(client,xpLoaded,true);
 		War3_ChatMessage(client,"%T","Successfully retrieved save data",client);
-		PrintToConsole(client,"%T","[War3Source] XP RETRIEVED IN {amount} seconds",client,GetGameTime()-W3GetPlayerProp(client,sqlStartLoadXPTime)) ;
+		PrintToConsole(client,"%T","[War3Source] XP RETRIEVED IN {amount} seconds",client,GetGameTime()-Float:W3GetPlayerProp(client,sqlStartLoadXPTime)) ;
 		DoForwardOnWar3PlayerAuthed(client);
 		
 		if(War3_GetRace(client)<=0){
