@@ -124,6 +124,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
 			if(oldrace==0){
 				War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
 			}
+			W3CreateEvent(DoCheckRestrictedItems,client);
 		}
 	}
 	
