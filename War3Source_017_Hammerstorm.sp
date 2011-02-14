@@ -55,11 +55,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==170)
 	{
-		thisRaceID=War3_CreateNewRace("Hammerstorm","hammerstorm");
-		SKILL_BOLT=War3_AddRaceSkill(thisRaceID,"Storm Bolt (Ability)","Stuns enemies in 150-225 radius for 0.1-0.3 seconds, deals 5-20 damage.",false,4);
-		SKILL_CLEAVE=War3_AddRaceSkill(thisRaceID,"Great Cleave","Your attacks splash 10-40 percent damage to enemys within 150 units",false,4);
-		SKILL_WARCRY=War3_AddRaceSkill(thisRaceID,"Warcry","Gain 1-4 physical armor, increases your speed by 6-15 percent",false,4);
-		ULT_STRENGTH=War3_AddRaceSkill(thisRaceID,"Gods Strength (Ultimate)","Greatly enhance your damage by 20-50 percent for a short amount of time.",true,4); 
+		thisRaceID=War3_CreateNewRaceT("hammerstorm");
+		SKILL_BOLT=War3_AddRaceSkillT(thisRaceID,"StormBolt",false,4,"150/175/200/225","5/10/15/20");
+		SKILL_CLEAVE=War3_AddRaceSkillT(thisRaceID,"GreatCleave",false,4,"10/20/30/40","150");
+		SKILL_WARCRY=War3_AddRaceSkillT(thisRaceID,"Warcry",false,4,"1/2/3/4","6/9/12/15");
+		ULT_STRENGTH=War3_AddRaceSkillT(thisRaceID,"GodsStrength",true,4,"20/30/40/50"); 
 		War3_CreateRaceEnd(thisRaceID); 
 	}
 }
@@ -67,6 +67,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnPluginStart()
 {
 	ultCooldownCvar=CreateConVar("war3_hammerstorm_strength_cooldown","25","Cooldown timer.");
+	LoadTranslations("w3s.race.hammerstorm.phrases");
 }
 
 public OnMapStart()
@@ -202,7 +203,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 								W3FlashScreen(i,RGBA_COLOR_RED);
 								CreateTimer(BoltStunDuration,UnstunPlayer,i);
 								
-								PrintHintText(i,"You were stunned by Storm Bolt");
+								PrintHintText(i,"%T","You were stunned by Storm Bolt",i);
 								
 							}
 						}
@@ -232,7 +233,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 			{
 				EmitSoundToAll(ultsnd,client);
 				EmitSoundToAll(ultsnd,client);
-				PrintHintText(client, "The gods lend you their strength");
+				PrintHintText(client,"%T","The gods lend you their strength",client);
 				bStrengthActivated[client] = true;
 				CreateTimer(5.0,stopUltimate,client);
 				
@@ -247,6 +248,6 @@ public OnUltimateCommand(client,race,bool:pressed)
 public Action:stopUltimate(Handle:t,any:client){
 	bStrengthActivated[client] = false;
 	if(ValidPlayer(client,true)){
-		PrintHintText(client,"You feel less powerful");
+		PrintHintText(client,"%T","You feel less powerful",client);
 	}
 }
