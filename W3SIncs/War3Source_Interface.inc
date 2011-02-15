@@ -142,6 +142,7 @@ native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
 
 native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
 native War3_GetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY);
+
 //returns -1 if not found
 //remember itemid that is valid is more than 0
 native War3_GetItemIdByShortname(String:itemshortname[]) ;
@@ -172,23 +173,15 @@ native War3_CreateHelpCommand(String:name[],String:desc[]);
 native W3GetLevelsSpent(client,race);
 native W3ClearSkillLevels(client,race);
 
-/**
- * Gets the current race for the war3player.
- * @param client: Client index
- * @return The return value will be the race of the player, if -1 then it failed.
-*/
+
 /**
  * Gets the kill XP for a player, useful for simulating an explosion or anything else.
  * @param client: Client index
  * @param race: The race ID returned from War3_CreateRace
  * @return Will be kill XP, or -1 for failed
  */
-#pragma deprecated use W3GetKillXP
-native War3_GetKillXP(client,race);
-
-native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 native W3GetKillXP(level);
-
+native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
 
 /**
@@ -198,7 +191,7 @@ native W3GetKillXP(level);
  */
 native War3_ShowXP(client);
 
-
+//max gold a player can have (cvar read)
 native W3GetMaxGold();
 
 
@@ -305,9 +298,6 @@ native War3_GetWar3DamageDealt();
  * @noreturn
  */
 
-#pragma deprecated Use W3FlashScreen with new parameters
-native War3_FlashScreen(client,color[4],Float:holdduration=0.1,flags=FFADE_IN);
- 
 native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
 
 ///is last damage a bullet first triggered damage? works on posthurt and dmgall
@@ -328,10 +318,7 @@ native W3ForceDamageIsBullet();
  */
 native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);     
 
-#pragma deprecated Use ValidPlayer(client,bool:check_alive=false)
-stock bool:War3_ValidPlayer(client,bool:check_alive=false){
-	return ValidPlayer(client,check_alive);
-}
+
 stock bool:ValidPlayer(client,bool:check_alive=false){
 	if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client))
 	{
@@ -532,26 +519,13 @@ native War3_CachedDeadWeaponName(client,weapon_iterator,String:output_buffer[],o
 
 
 
-
-
-
 /**
- * Called when a an entity takes damage, requires SDK Hooks until SM natively supports this.
- * @param sound: the sound string under sounds/<blah> ie war3source/omfg.wav
- * @return: true on precache success, false on FATAL FAILURE, plugin should detect false and set fail state!!
- */      
-//native War3_PrecacheSound(String:sound[]);
-
-
-
-
-/**
- * Is player uberd
+ * Is player ubered (TF2)
  * @param client:
  * @return: true false
  */  
    
-native War3_IsUbered(client);
+native bool:War3_IsUbered(client);
 
 
 
@@ -561,7 +535,7 @@ native War3_IsUbered(client);
  * @param client:
  * @return: true false
  */  
-native War3_HasFlag(client);
+native bool:War3_HasFlag(client);
 
 
 
@@ -573,10 +547,11 @@ native War3_HasFlag(client);
  * @return: true false
  */  
    
-native War3_IsCloaked(client);
+native bool:War3_IsCloaked(client);
 
 /*
  * forces the damage to be multiplied by @num
+ * shall only be done inside SDKHOOKS damage forward (when damage hasnt been dealt yet) 
  * @noreturn
  */      
 native War3_DamageModPercent(Float:num);  
@@ -600,9 +575,10 @@ native War3_HealToBuffHP(client,addhp);
 
 /* direcly decreases the player's hp by X amount*/
 //WILL NOT GO BELOW 1 (cs glitch)
+*/
 native War3_DecreaseHP(client,decrease);
 
-
+//LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
 //we essentially move the cooldown system out of our races into our main plugin
 /**
  * cooldown manager
@@ -617,14 +593,14 @@ native War3_DecreaseHP(client,decrease);
  * @noreturn
  */  
  //REMOVE uneeded arguments
-native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:resetOnDeathNOLONGERUSED=true,bool:printMsgOnExpireByTime=true,String:CDNPrintMsgNameNoLongerUsed[]="");  
+native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:resetOnDeathNOLONGERUSED=true,bool:printMsgOnExpireByTime=true,String:CDNDEPRECATEDPARAM[]="");  
 
 //tells the cooldown manager to create a predefined cooldown time when player spawns. 
 //cooldown is created regardless of resetOnSpawn in War3_CooldownMGR(...) calls
 //cooldown is created regardless of race of the client
 //only prints if client is that race
 //set this when u register your skills
-native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsg=true,String:skillname[]);
+native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsg=true,String:skillnameDEPRECATEDPARAM[]);
 /**
  * how much time is left on this particular cooldown?
  * returns an int (rounted up from the float)
@@ -701,9 +677,6 @@ native War3_GetAimTraceMaxLen(client,Float:endpos[3],Float:maxdistance);
 //use 1 priorty for ur base race restrictions, USE AT OWN RISK!
 native War3_WeaponRestrictTo(client,raceid,String:onlyallowedweaponsnames[],priority=1);
 
-#pragma deprecated SEE W3SetPlayerColor(...)
-stock War3_SetPlayerColor(client,r=255,b=255,g=255,a=255){
-}
 
 //set player shell glowish color (blood mage, shadow hunter), highest override priority takes effect, all integers
 stock W3SetPlayerColor(client,raceid,r,g,b,a=255,overridepriority=GLOW_DEFAULT){
@@ -752,8 +725,6 @@ native W3GetDamageInflictor();
  * @param damagetype: Type of damage.
  * @return Float modifier, 1.0 for 100% chance otherwise percentage between 0.0 and 1.0
  */  
- #pragma deprecated Use W3ChanceModifier(attacker)
-native Float:War3_ChanceModifier(attacker,inflictor=0,damagetype);
 
 //helper, directly uses last inflictor and damagetype
 native Float:W3ChanceModifier(attacker);
@@ -1080,10 +1051,6 @@ forward OnW3TakeDmgBullet(victim,attacker,Float:damage);
 
 
 
-#pragma deprecated See OnW3TakeDmgBullet or OnW3TakeDmgAll
-forward Action:OnWar3TakeDamage(victim,attacker,inflictor,Float:damage,damagetype);  
-
-
 
 
 
@@ -1270,8 +1237,6 @@ stock bool:War3_PrecacheSound(String:sound[]){
 	return false;
 }
 
-#pragma deprecated Use W3HasImmunity
-native War3_GetImmunity(client,War3Immunity:immunityindex);
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 
 	//add magic immunity etc later
