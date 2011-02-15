@@ -48,7 +48,7 @@ public OnWar3Event(W3EVENT:event,client){
 		ShowMenuShop(client);
 	}
 	if(event==DoTriedToBuyItem){ //via say?
-		War3_TriedToBuyItem(client,W3GetVar(EventArg1));
+		War3_TriedToBuyItem(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
 	}
 }
 new WantsToBuy[MAXPLAYERS];
@@ -112,7 +112,7 @@ public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selecti
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new item=StringToInt(SelectionInfo);
-			War3_TriedToBuyItem(client,item) ;
+			War3_TriedToBuyItem(client,item,true) ;
 			
 		}
 	}
@@ -121,7 +121,7 @@ public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selecti
 		CloseHandle(menu);
 	}
 }
-War3_TriedToBuyItem(client,item){
+War3_TriedToBuyItem(client,item,bool:reshowmenu=true){
 	if(item>0&&item<=W3GetItemsLoaded())
 	{	
 		SetTrans(client);
@@ -158,7 +158,9 @@ War3_TriedToBuyItem(client,item){
 		}
 		else if((BuyUseCSMoney()?money:cred)<cost_num){
 			War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
-			ShowMenuShop(client);
+			if(reshowmenu){
+				ShowMenuShop(client);
+			}
 			canbuy=false;
 		}
 		if(canbuy){

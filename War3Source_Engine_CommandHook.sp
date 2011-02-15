@@ -259,15 +259,16 @@ public Action:War3Source_SayCommand(client,args)
 		for(new itemid=1;itemid<=ItemsLoaded;itemid++){
 			W3GetItemShortname(itemid,itemshort,sizeof(itemshort));
 			if(CommandCheckStartsWith(arg1,itemshort)&&!W3ItemHasFlag(itemid,"hidden")){
-			
+				W3SetVar(EventArg1,itemid);
+				W3SetVar(EventArg2,false); //dont show menu again
 				if(CommandCheckStartsWith(arg1,"tome")){//item is tome
 					new multibuy;
 					if(   (multibuy=CommandCheckEx(arg1,"tomes"))>0   ||    (multibuy=CommandCheckEx(arg1,"tome"))>0    )
 					{
 //						PrintToChatAll("passed commandx");
 						if(multibuy>10) multibuy=10;
-						for(new i=1;i<multibuy;i++){
-							W3SetVar(EventArg1,itemid);
+						for(new i=1;i<multibuy;i++){ //doesnt itterate if its 1
+							
 							W3CreateEvent(DoTriedToBuyItem,client);
 						}
 					}
@@ -276,7 +277,6 @@ public Action:War3Source_SayCommand(client,args)
 					}
 				}
 				
-				W3SetVar(EventArg1,itemid);
 				W3CreateEvent(DoTriedToBuyItem,client);
 				
 				
