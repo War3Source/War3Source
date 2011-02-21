@@ -696,11 +696,11 @@
 	}
 	"HelpMenu16"
 	{
-		"ru"		"say showskills"
+		"ru"		"say myinfo"
 	}
 	"HelpMenu16desc"
 	{
-		"ru"		"Показывает уровни ваших навыков"
+		"ru"		"Отображает информацию о вас"
 	}
 	"HelpMenu17"
 	{

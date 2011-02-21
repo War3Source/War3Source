@@ -773,11 +773,11 @@
 	}
 	"HelpMenu16"
 	{
-		"en"		"say showskills"
+		"en"		"say myinfo"
 	}
 	"HelpMenu16desc"
 	{
-		"en"		"Show which skill levels you currently have"
+		"en"		"View your own player information"
 	}
 	"HelpMenu17"
 	{
