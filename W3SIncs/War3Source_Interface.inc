@@ -573,7 +573,7 @@ native War3_HealToMaxHP(client,addhp);
  */  
 native War3_HealToBuffHP(client,addhp);  
 
-/* direcly decreases the player's hp by X amount*/
+/* direcly decreases the player's hp by X amount
 //WILL NOT GO BELOW 1 (cs glitch)
 */
 native War3_DecreaseHP(client,decrease);
