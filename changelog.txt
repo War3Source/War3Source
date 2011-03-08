@@ -1,8 +1,17 @@
 1.2.0
 
+B8
 
-
-
+playerinfo was displaying own armor
+ShowXP was not always displaying correct translation
+showskills -> myinfo (in helpmenu)
+removed deprecated functions
+dont show menu when buying item via say, and could not afford item
+Hammerstorm tranlated
+check restricted items on SetRace
+level 7 gains less xp fix
+removed empty functions
+increased stack size, maybe it would prevent errors?
 
 B7
 
