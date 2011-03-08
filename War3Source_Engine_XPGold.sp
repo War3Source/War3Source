@@ -282,6 +282,7 @@ ParseXPSettingsFile(){
 
 public ShowXP(client)
 {
+	SetTrans(client);
 	new race=War3_GetRace(client);
 	if(race==0)
 	{

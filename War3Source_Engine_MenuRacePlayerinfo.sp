@@ -495,11 +495,11 @@ War3_playertargetMenu(client,target) {
 			Format(title,sizeof(title),"%s\n%s",title,itemname);
 		}
 	}
-	new Float:armorred=(1.0-W3GetPhysicalArmorMulti(client))*100;
-	Format(title,sizeof(title),"%s\n \n%T",title,"Physical Armor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(client,fArmorPhysical),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
+	new Float:armorred=(1.0-W3GetPhysicalArmorMulti(target))*100;
+	Format(title,sizeof(title),"%s\n \n%T",title,"Physical Armor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(target,fArmorPhysical),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
 	
-	armorred=(1.0-W3GetMagicArmorMulti(client))*100;
-	Format(title,sizeof(title),"%s\n%T",title,"PImagicArmor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(client,fArmorMagic),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
+	armorred=(1.0-W3GetMagicArmorMulti(target))*100;
+	Format(title,sizeof(title),"%s\n%T",title,"PImagicArmor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(target,fArmorMagic),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
 	
 	Format(title,sizeof(title),"%s\n \n",title);
 	
