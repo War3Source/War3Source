@@ -262,7 +262,8 @@ public OnClientPutInServer(client){
 }
 public SDK_Forwarded_PostThinkPost(client)
 {	
-	if(ValidPlayer(client,true)){
+	//does not work, flickers
+	/*if(ValidPlayer(client,true)){
     	if(invisWeaponAttachments[client]){
 					
 				if(War3_GetGame()==CS){
@@ -277,7 +278,7 @@ public SDK_Forwarded_PostThinkPost(client)
 				}
 			}
 		}
-	}
+	}*/
 }
 
 new Float:speedBefore[MAXPLAYERS];
