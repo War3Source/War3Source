@@ -43,7 +43,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
+new bool:invisWeaponAttachments[MAXPLAYERS];
 
 public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 {
@@ -254,8 +254,31 @@ public OnClientPutInServer(client){
 	{
 		ResetBuff(client,W3Buff:buffindex);
 	}
-}
+	
 
+	//SDKHook(client, SDKHook_PreThink, OnPreThink);
+	//SDKHook(client, SDKHook_PostThinkPost, OnPreThink);
+	SDKHook(client,SDKHook_PostThinkPost,SDK_Forwarded_PostThinkPost);
+}
+public SDK_Forwarded_PostThinkPost(client)
+{	
+	if(ValidPlayer(client,true)){
+    	if(invisWeaponAttachments[client]){
+					
+				if(War3_GetGame()==CS){
+					
+					SetEntProp(client, Prop_Send, "m_iAddonBits", 0); //m_iAddonBits //"m_iPrimaryAddon" and "m_iSecondaryAddon
+					SetEntProp(client, Prop_Send, "m_iPrimaryAddon",0);
+					SetEntProp(client, Prop_Send, "m_iSecondaryAddon",0);
+					//if(W3Chance(0.1)){
+					ChangeEdictState(client,  0);
+						PrintToServer("m_iAddonBits %d %f",client,GetGameTime());
+					//}
+				}
+			}
+		}
+	}
+}
 
 new Float:speedBefore[MAXPLAYERS];
 new Float:speedWeSet[MAXPLAYERS];
@@ -329,7 +352,7 @@ public Action:DeciSecondTimer(Handle:timer)
 						set=true;
 					if(GetPlayerB(client)!=b)
 						set=true;
-					//alpha set is after invis block
+					//alpha set is after invis block, not here
 					if(set){
 						//	PrintToChatAll("%d %d %d %d",r,g,b,alpha);
 						SetPlayerRGB(client,r,g,b);
@@ -372,6 +395,11 @@ public Action:DeciSecondTimer(Handle:timer)
 					//PrintToChatAll("%d",alpha);
 					if(GetEntityAlpha(client)!=alpha)
 						SetEntityAlpha(client,alpha);
+						
+					invisWeaponAttachments[client]=alpha<200?true:false;
+					
+						
+						
 						
 					new wpn=W3GetCurrentWeaponEnt(client);
 					if(wpn>0){
@@ -462,6 +490,8 @@ public OnGameFrame()
 		{
 			if(ValidPlayer(client,true))//&&!bIgnoreTrackGF[client])
 			{
+				
+				
 				new Float:currentmaxspeed=GetEntDataFloat(client,m_OffsetSpeed);
 				if(currentmaxspeed!=speedWeSet[client]) ///SO DID engien set a new speed? copy that!! //TFIsDefaultMaxSpeed(client,currentmaxspeed)){ //ONLY IF NOT SET YET
 				{	//PrintToChatAll("3");
