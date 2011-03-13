@@ -29,15 +29,15 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 public OnPluginStart()
 {
 	
-	RegAdminCmd("war3_setxp",War3Source_CMDSetXP,ADMFLAG_RCON,"Set a player's XP");
-	RegAdminCmd("war3_givexp",War3Source_CMD_GiveXP,ADMFLAG_RCON,"Give a player XP");
-	RegAdminCmd("war3_removexp",War3Source_CMD_RemoveXP,ADMFLAG_RCON,"Remove some XP from a player");
+	RegConsoleCmd("war3_setxp",War3Source_CMDSetXP,"Set a player's XP");
+	RegConsoleCmd("war3_givexp",War3Source_CMD_GiveXP,"Give a player XP");
+	RegConsoleCmd("war3_removexp",War3Source_CMD_RemoveXP,"Remove some XP from a player");
 	RegConsoleCmd("war3_setlevel",War3Source_CMD_War3_SetLevel,"Set a player's level");
-	RegAdminCmd("war3_givelevel",War3Source_CMD_GiveLevel,ADMFLAG_RCON,"Give a player a single level");
-	RegAdminCmd("war3_removelevel",War3Source_CMD_RemoveLevel,ADMFLAG_RCON,"Remove a single level from a player");
-	RegAdminCmd("war3_setgold",War3Source_CMD_War3_SetGold,ADMFLAG_RCON,"Set a player's gold count");
-	RegAdminCmd("war3_givegold",War3Source_CMD_GiveGold,ADMFLAG_RCON,"Give a player gold");
-	RegAdminCmd("war3_removegold",War3Source_CMD_RemoveGold,ADMFLAG_RCON,"Remove some gold from a player");
+	RegConsoleCmd("war3_givelevel",War3Source_CMD_GiveLevel,"Give a player a single level");
+	RegConsoleCmd("war3_removelevel",War3Source_CMD_RemoveLevel,"Remove a single level from a player");
+	RegConsoleCmd("war3_setgold",War3Source_CMD_War3_SetGold,"Set a player's gold count");
+	RegConsoleCmd("war3_givegold",War3Source_CMD_GiveGold,"Give a player gold");
+	RegConsoleCmd("war3_removegold",War3Source_CMD_RemoveGold,"Remove some gold from a player");
 
 }
 
@@ -130,7 +130,10 @@ public War3Source_PlayerParse(String:matchstr[],playerlist[])
 
 public Action:War3Source_CMDSetXP(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_setxp <player> <xp>",client);
 	else
 	{
@@ -170,7 +173,10 @@ public Action:War3Source_CMDSetXP(client,args)
 
 public Action:War3Source_CMD_GiveXP(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_givexp <player> <xp>",client);
 	else
 	{
@@ -217,7 +223,10 @@ public Action:War3Source_CMD_GiveXP(client,args)
 
 public Action:War3Source_CMD_RemoveXP(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_removexp <player> <xp>",client);
 	else
 	{
@@ -260,11 +269,11 @@ public Action:War3Source_CMD_RemoveXP(client,args)
 
 public Action:War3Source_CMD_War3_SetLevel(client,args)
 {
-	if(client!=0&&!HasSMAccess(client,ADMFLAG_CUSTOM6)){
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
 		ReplyToCommand(client,"No Access");
 	}
 	else if(args!=2)
-		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_War3_SetLevel <player> <level>",client);
+		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_setlevel <player> <level>",client);
 	else
 	{
 		decl String:match[64];
@@ -319,7 +328,10 @@ public Action:War3Source_CMD_War3_SetLevel(client,args)
 
 public Action:War3Source_CMD_GiveLevel(client,args)
 {
-	if(args!=1)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=1)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_givelevel <player>",client);
 	else
 	{
@@ -365,7 +377,10 @@ public Action:War3Source_CMD_GiveLevel(client,args)
 
 public Action:War3Source_CMD_RemoveLevel(client,args)
 {
-	if(args!=1)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=1)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_removelevel <player>",client);
 	else
 	{
@@ -412,7 +427,10 @@ public Action:War3Source_CMD_RemoveLevel(client,args)
 
 public Action:War3Source_CMD_War3_SetGold(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_War3_SetGold <player> <gold>",client);
 	else
 	{
@@ -454,7 +472,10 @@ public Action:War3Source_CMD_War3_SetGold(client,args)
 
 public Action:War3Source_CMD_GiveGold(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_givegold <player> <gold>",client);
 	else
 	{
@@ -500,7 +521,10 @@ public Action:War3Source_CMD_GiveGold(client,args)
 
 public Action:War3Source_CMD_RemoveGold(client,args)
 {
-	if(args!=2)
+	if(client!=0&&!HasSMAccess(client,ADMFLAG_RCON)){
+		ReplyToCommand(client,"No Access");
+	}
+	else if(args!=2)
 		PrintToConsole(client,"%T","[War3Source] The syntax of the command is: war3_givegold <player> <gold>",client);
 	else
 	{
