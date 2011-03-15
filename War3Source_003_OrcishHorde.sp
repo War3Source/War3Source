@@ -385,7 +385,7 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 			if(race_attacker==thisRaceID && skill_cg_attacker>0 && !Hexed(attacker,false))
 			{
 				new gloveitem=War3_GetItemIdByShortname("glove");
-				if(GetConVarInt(hCvarDisableCritWithGloves)>0&&gloveitem>0&&War3_GetOwnsItem(victim,gloveitem)){
+				if(GetConVarInt(hCvarDisableCritWithGloves)>0&&gloveitem>0&&War3_GetOwnsItem(attacker,gloveitem)){
 					///no crit nade of he has gloves
 				}
 				else
