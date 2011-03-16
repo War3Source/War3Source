@@ -399,7 +399,7 @@ War3Source_War3Top(client,top_num,cur_place=0)
 		new xp=GetArrayCell(hPlayer,3);*/
 		Format(menuText,sizeof(menuText),"%s%T\n",menuText,"{rank} - {player} (Lvl. {amount}, {amount} XP)",client,x+1,Top100Name[x],Top100totallevel[x],Top100totalxp[x]);
 		
-		PrintToServer("1");
+		// PrintToServer("1");
 	}
 	SetMenuTitle(topMenu,menuText);
 	new String:data_str[18];
@@ -416,7 +416,7 @@ War3Source_War3Top(client,top_num,cur_place=0)
 	Format(data_str,sizeof(data_str),"p.%d.%d",top_num,cur_place);
 	if(cur_place>0) AddMenuItem(topMenu,data_str,menuprevious);
 	
-	PrintToServer("2");
+	// PrintToServer("2");
 	DisplayMenu(topMenu,client,20);
 }
 
