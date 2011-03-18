@@ -11,12 +11,17 @@
 #include "W3SIncs/colors"
 #include "W3SIncs/constants"
 
+//sh include is at the end of this file
+
 new String:interfaceVersion[]="1.1.8"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
 forward War3InterfaceExec();
 public War3InterfaceExec(){ //this runs once, does common tasks
 	LoadTranslations("w3s._common.phrases");
 }
+
+forward W3FWDStartupSEQ(sequenceNumber);
+
 public zzOnPluginEnd() //public OnMapEnd()
 {	
 	new String:name[64];
@@ -1759,3 +1764,16 @@ stock W3AddDecal(const String:decal[], bool:precache = true, bool:preload = true
 	}
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+//SUPER HERO INDLUDE FILE, many stock requires war3 functions to be delcared first...
+#include "W3SIncs/SuperHero_Interface"
