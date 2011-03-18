@@ -103,6 +103,14 @@ enum W3EVENT
 	
 	
 	InitPlayerVariables, //MOVE, player just joined, you can set player class properties 
+	
+	
+	
+	//sh?
+	
+	SHMyHeroes, //select a race to drop
+	SHClearPowers, //drop all heroes
+	
 }
 enum W3XPAwardedBy{
 	XPAwardByGeneric, ///not defined
