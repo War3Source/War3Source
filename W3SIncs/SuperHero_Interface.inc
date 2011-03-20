@@ -3,7 +3,7 @@
 
 
 ///SH wrappers
-native bool:SH();
+
 
 native SHHasHero(client,heroid);
 native SHSetHasHero(client,hero,bool:hasThisHero);

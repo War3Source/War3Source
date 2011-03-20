@@ -112,6 +112,12 @@ enum W3EVENT
 	SHClearPowers, //drop all heroes
 	
 }
+
+enum W3ForwardedVarsEnum{
+	ValveGame, //cs tf2
+	W3Mode, //true false
+	SHMode, //true false
+}
 enum W3XPAwardedBy{
 	XPAwardByGeneric, ///not defined
 	XPAwardByKill,
@@ -151,7 +157,7 @@ enum War3DamageType
 }
 
 // Games that War3Source Supports
-enum Game {
+enum ValveGameEnum {
 	Game_None=0,
 	Game_CS=1,
 	Game_DOD=2,

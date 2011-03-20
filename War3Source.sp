@@ -11,8 +11,8 @@
 
 
 
-#define VERSION_NUM "1.2.0.7"
-#define REVISION_NUM 12007 //increment every release
+#define VERSION_NUM "1.2.1.1"
+#define REVISION_NUM 12101 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
@@ -68,33 +68,6 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	{
 		LogError("[War3Source] There was a failure in creating the forward based functions, definately halting.");
 		return APLRes_Failure;
-	}
-	
-	
-	
-	new String:gameDir[64];
-	GetGameFolderName(gameDir,sizeof(gameDir));
-	//new Handle:dummyCvar=CreateConVar("war3_dummy_cvar","0","DO NOT TOUCH THIS!");
-	if(StrContains(gameDir,"cstrike",false)==0)
-	{
-		
-		g_Game=Game_CS;
-		PrintToServer("[War3Source] Game set: Counter-Strike Source g_Game %d",g_Game);
-		ServerCommand("sv_allowminmodels 0");
-	}
-	else if(StrContains(gameDir,"dod",false)==0)
-	{
-		PrintToServer("[War3Source] Game set: Day of Defeat Source (ONLY DEVELOPER SUPPORT!)");
-		g_Game=Game_DOD;
-	}
-	else if(StrContains(gameDir,"tf",false)==0)
-	{
-		PrintToServer("[War3Source] Game set: Team Fortress 2");
-		g_Game=Game_TF;
-	}
-	else
-	{
-		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error.");
 	}
 	
 	
@@ -353,8 +326,9 @@ public OnMapStart()
 	CreateTimer(5.0, CheckCvars, 0);
 
 	
-	DelayedWar3SourceCfgExecute();//
-	
+	if(W3()){
+		DelayedWar3SourceCfgExecute();//
+	}
 	
 	OneTimeForwards();
 
@@ -399,7 +373,7 @@ public Action:CheckCvars(Handle:timer, any:client)
 
 public Action:OnGetGameDescription(String:gameDesc[64])
 {
-	if(GetConVarInt(hChangeGameDescCvar)>0){
+	if(W3()&&GetConVarInt(hChangeGameDescCvar)>0){
 		Format(gameDesc,sizeof(gameDesc),"War3Source %s",VERSION_NUM);
 		return Plugin_Changed;
 	}
@@ -424,22 +398,34 @@ public LoadRacesAndItems()
 	new Float:starttime=GetEngineTime();
 	//ordered loads
 	new res;
-	for(new i;i<=MAXRACES*10;i++){
-		Call_StartForward(g_OnWar3PluginReadyHandle);
-		Call_PushCell(i);		
+	if(W3()){
+		for(new i;i<=MAXRACES*10;i++){
+			Call_StartForward(g_OnWar3PluginReadyHandle);
+			Call_PushCell(i);		
+			Call_Finish(res);
+		}
+		
+		//orderd loads 2
+		for(new i;i<=MAXRACES*10;i++){
+			Call_StartForward(g_OnWar3PluginReadyHandle2);
+			Call_PushCell(i);		
+			Call_Finish(res);
+		}
+		
+		//unorderd loads
+		Call_StartForward(g_OnWar3PluginReadyHandle3);
 		Call_Finish(res);
 	}
 	
-	//orderd loads 2
-	for(new i;i<=MAXRACES*10;i++){
-		Call_StartForward(g_OnWar3PluginReadyHandle2);
-		Call_PushCell(i);		
-		Call_Finish(res);
+	if(SH()){
+		//SH ordered load
+		for(new i;i<=MAXRACES*10;i++){
+			Call_StartForward(hOnSHLoadHeroOrItemOrdered);
+			Call_PushCell(i);		
+			Call_Finish(res);
+		}
 	}
 	
-	//unorderd loads
-	Call_StartForward(g_OnWar3PluginReadyHandle3);
-	Call_Finish(res);
 
 	PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
 }

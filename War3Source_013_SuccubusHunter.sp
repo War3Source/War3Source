@@ -24,7 +24,7 @@ new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offs
 new bool:hurt_flag = true;
 new bool:m_IsULT_TRANSFORMformed[MAXPLAYERS];
 new skulls[MAXPLAYERS];
-new Game:g_GameType;
+new ValveGameEnum:g_GameType;
 //Effects
 new BeamSprite;
 new Laser;

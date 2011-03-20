@@ -18,43 +18,30 @@ public Plugin:myinfo=
 new raceinfoshowskillnumber[MAXPLAYERS];
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
 	
 }
 
-bool:InitNativesForwards()
-{
-
-	return true;
-}
 public OnWar3Event(W3EVENT:event,client){
-	if(event==DoShowRaceinfoMenu){
-		ShowMenuRaceinfo(client);
+	if(W3()){
+		if(event==DoShowRaceinfoMenu){
+			ShowMenuRaceinfo(client);
+		}
+		if(event==DoShowPlayerinfoMenu){
+			War3_PlayerInfoMenu(client,"")
+		}
+		if(event==DoShowPlayerinfoEntryWithArg){
+			PlayerInfoMenuEntry(client);
+		}
+		if(event==DoShowParticularRaceInfo){
+			War3_ShowParticularRaceInfoMenu(client,W3GetVar(RaceinfoRaceToShow));
+		}
+		if(event==DoShowPlayerInfoTarget){
+			War3_playertargetMenu(client,W3GetVar(EventArg1)) ;
+		}
 	}
-	if(event==DoShowPlayerinfoMenu){
-		War3_PlayerInfoMenu(client,"")
-	}
-	if(event==DoShowPlayerinfoEntryWithArg){
-		PlayerInfoMenuEntry(client);
-	}
-	if(event==DoShowParticularRaceInfo){
-		War3_ShowParticularRaceInfoMenu(client,W3GetVar(RaceinfoRaceToShow));
-	}
-	if(event==DoShowPlayerInfoTarget){
-		War3_playertargetMenu(client,W3GetVar(EventArg1)) ;
-	}
-	
 }
 ShowMenuRaceinfo(client){
 	SetTrans(client);

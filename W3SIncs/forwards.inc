@@ -42,7 +42,7 @@ new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
 new Handle:g_OnWar3PluginReadyHandle2; //other races
 new Handle:g_OnWar3PluginReadyHandle3; //other races backwards compatable
 
-
+new Handle:hOnSHLoadHeroOrItemOrdered;
 
 
 new Handle:g_OnWar3EventSpawnFH;
@@ -63,6 +63,7 @@ public bool:War3Source_InitForwards()
 	g_OnWar3PluginReadyHandle2=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2",ET_Ignore,Param_Cell);//ordered
 	g_OnWar3PluginReadyHandle3=CreateGlobalForward("OnWar3PluginReady",ET_Ignore); //unodered rest of the items or races. backwards compatable..
 	
+	hOnSHLoadHeroOrItemOrdered=CreateGlobalForward("OnSHLoadHeroOrItemOrdered",ET_Ignore,Param_Cell);
 	
 	g_OnWar3EventSpawnFH=CreateGlobalForward("OnWar3EventSpawn",ET_Ignore,Param_Cell);
 	g_OnWar3EventDeathFH=CreateGlobalForward("OnWar3EventDeath",ET_Ignore,Param_Cell,Param_Cell);

@@ -40,31 +40,32 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 public OnPluginStart()
 {
 	Cvar_ChatBlocking=CreateConVar("war3_command_blocking","0","block chat commands from showing up");
-
-
-	RegConsoleCmd("say",War3Source_SayCommand);
-	RegConsoleCmd("say_team",War3Source_SayCommand);
-	RegConsoleCmd("+ultimate",War3Source_UltimateCommand);
-	RegConsoleCmd("-ultimate",War3Source_UltimateCommand);
-	RegConsoleCmd("+ability",War3Source_NoNumAbilityCommand);
-	RegConsoleCmd("-ability",War3Source_NoNumAbilityCommand); //dont blame me if ur race is a failure because theres too much buttons to press
-	RegConsoleCmd("+ability1",War3Source_AbilityCommand);
-	RegConsoleCmd("-ability1",War3Source_AbilityCommand);
-	RegConsoleCmd("+ability2",War3Source_AbilityCommand);
-	RegConsoleCmd("-ability2",War3Source_AbilityCommand);
-	RegConsoleCmd("+ability3",War3Source_AbilityCommand);
-	RegConsoleCmd("-ability3",War3Source_AbilityCommand);
-	RegConsoleCmd("+ability4",War3Source_AbilityCommand);
-	RegConsoleCmd("-ability4",War3Source_AbilityCommand);
+	if(W3()){
 	
-	RegConsoleCmd("ability",War3Source_OldWCSCommand);
-	RegConsoleCmd("ability1",War3Source_OldWCSCommand);
-	RegConsoleCmd("ability2",War3Source_OldWCSCommand);
-	RegConsoleCmd("ability3",War3Source_OldWCSCommand);
-	RegConsoleCmd("ability4",War3Source_OldWCSCommand);
-	RegConsoleCmd("ultimate",War3Source_OldWCSCommand);
-
-	RegConsoleCmd("shopmenu",War3Source_CmdShopmenu);
+		RegConsoleCmd("say",War3Source_SayCommand);
+		RegConsoleCmd("say_team",War3Source_SayCommand);
+		RegConsoleCmd("+ultimate",War3Source_UltimateCommand);
+		RegConsoleCmd("-ultimate",War3Source_UltimateCommand);
+		RegConsoleCmd("+ability",War3Source_NoNumAbilityCommand);
+		RegConsoleCmd("-ability",War3Source_NoNumAbilityCommand); //dont blame me if ur race is a failure because theres too much buttons to press
+		RegConsoleCmd("+ability1",War3Source_AbilityCommand);
+		RegConsoleCmd("-ability1",War3Source_AbilityCommand);
+		RegConsoleCmd("+ability2",War3Source_AbilityCommand);
+		RegConsoleCmd("-ability2",War3Source_AbilityCommand);
+		RegConsoleCmd("+ability3",War3Source_AbilityCommand);
+		RegConsoleCmd("-ability3",War3Source_AbilityCommand);
+		RegConsoleCmd("+ability4",War3Source_AbilityCommand);
+		RegConsoleCmd("-ability4",War3Source_AbilityCommand);
+		
+		RegConsoleCmd("ability",War3Source_OldWCSCommand);
+		RegConsoleCmd("ability1",War3Source_OldWCSCommand);
+		RegConsoleCmd("ability2",War3Source_OldWCSCommand);
+		RegConsoleCmd("ability3",War3Source_OldWCSCommand);
+		RegConsoleCmd("ability4",War3Source_OldWCSCommand);
+		RegConsoleCmd("ultimate",War3Source_OldWCSCommand);
+	
+		RegConsoleCmd("shopmenu",War3Source_CmdShopmenu);
+	}
 }
 
 bool:InitNativesForwards()

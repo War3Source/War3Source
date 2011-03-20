@@ -10,7 +10,6 @@
 
 new W3VarArr[W3Var];
 
-new Game:g_Game;
 
 
 new dummyreturn; //for your not used return values

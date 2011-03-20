@@ -38,32 +38,35 @@ public Plugin:myinfo=
 };
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public bool:InitNativesForwards()
 {
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
+	if(W3()){
+		PrintToServer("W3 MODE");
+		CreateNative("W3SaveXP" ,NW3SaveXP)
+		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
+		CreateNative("W3GetDBHandle" ,NW3GetDBHandle)
 	}
-	return APLRes_Success;
+	return true;
 }
 
 public OnPluginStart()
 {
-	m_SaveXPConVar=CreateConVar("war3_savexp","1");
-	W3SetVar(hSaveEnabledCvar,m_SaveXPConVar);
+	if(W3()){
+		m_SaveXPConVar=CreateConVar("war3_savexp","1");
+		W3SetVar(hSaveEnabledCvar,m_SaveXPConVar);
+			
+		hSetRaceOnJoinCvar=CreateConVar("war3_set_race_on_join","1");
+	
+		m_AutosaveTime=CreateConVar("war3_autosavetime","60");
+		hCvarPrintOnSave=CreateConVar("war3_print_on_autosave","0","Print a message to chat when xp is auto saved?");
+	
+		g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
+	
 		
-	hSetRaceOnJoinCvar=CreateConVar("war3_set_race_on_join","1");
-
-	m_AutosaveTime=CreateConVar("war3_autosavetime","60");
-	hCvarPrintOnSave=CreateConVar("war3_print_on_autosave","0","Print a message to chat when xp is auto saved?");
-
-	g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
-
-	
-	ConnectDB();
-	
-	CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
+		ConnectDB();
+		
+		CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
+	}
 	
 }
 public OnMapStart(){
@@ -79,13 +82,7 @@ public OnAllPluginsLoaded() //called once only, will not call again when map cha
 	if(DBIDB)
 		War3Source_SQLTable();
 }
-bool:InitNativesForwards()
-{
-	CreateNative("W3SaveXP" ,NW3SaveXP)
-	CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
-	CreateNative("W3GetDBHandle" ,NW3GetDBHandle)
-	return true;
-}
+
 public NW3SaveXP(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);

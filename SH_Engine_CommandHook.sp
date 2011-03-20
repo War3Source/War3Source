@@ -9,7 +9,7 @@
 
 new Handle:Cvar_ChatBlocking;
 
-new Handle:g_OnAbilityCommandHandle;
+new Handle:g_OnPowerCommandHandle;
 
 
 
@@ -64,7 +64,7 @@ public OnPluginStart()
 
 bool:InitNativesForwards()
 {
-	g_OnAbilityCommandHandle=CreateGlobalForward("OnPowerCommand",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+	g_OnPowerCommandHandle=CreateGlobalForward("OnPowerCommand",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 	
 	return true;
 }
@@ -310,7 +310,7 @@ public Action:SH_PowerCommand(client,args)
 	new bool:pressed=false;
 	if(StrContains(command,"+")>-1)
 		pressed=true;
-	Call_StartForward(g_OnAbilityCommandHandle);
+	Call_StartForward(g_OnPowerCommandHandle);
 	Call_PushCell(client);
 	Call_PushCell(SHGetPowerBind(client,powerindex));
 	Call_PushCell(pressed);

@@ -15,12 +15,41 @@
 
 new String:interfaceVersion[]="1.1.8"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
+
+stock dummy; //variable for dummies!
+stock String:dummystr[32];
+
+
+
+//variables forwarded to every w3 plugin
+new W3ForwarededVars[W3ForwardedVarsEnum];
+public W3SetForwarededVar(index,value){
+	W3ForwarededVars[index]=value;
+}
+//use this when W3 native hasn't been bound yet, however dont call this before it has been determined
+stock W3(){
+	return W3ForwarededVars[W3Mode];
+}
+//use this when SH native hasn't been bound yet,  however dont call this before it has been determined
+stock SH(){
+	return W3ForwarededVars[SHMode];
+}
+// dont call this before it has been determined
+stock ValveGameEnum:War3_GetGame(){
+	return ValveGameEnum:W3ForwarededVars[ValveGame];
+}
+
+
+
 forward War3InterfaceExec();
 public War3InterfaceExec(){ //this runs once, does common tasks
 	LoadTranslations("w3s._common.phrases");
 }
 
-forward W3FWDStartupSEQ(sequenceNumber);
+
+///call to initiate your forwards, done right after game W3 or SH is determiend and the game CS/TF
+//at this point natives are not bound! you must use W3Early and SHEarly W3GetGameEarly...etc
+forward bool:InitNativesForwards();
 
 public zzOnPluginEnd() //public OnMapEnd()
 {	
@@ -31,8 +60,7 @@ public zzOnPluginEnd() //public OnMapEnd()
 }
 
 
-stock dummy; //variable for dummies!
-stock String:dummystr[32];
+
 /*
  * Natives and misc stocks
  * Natives and misc stocks
@@ -47,11 +75,6 @@ stock String:dummystr[32];
  * Natives and misc stocks
 */ 
 
-/**
- * Gets the detected game.
- * @return The game detected.
- */
-native Game:War3_GetGame();
 
 native W3GetW3Version(String:retstr[],maxlen);//str
 native W3GetW3Revision();//int

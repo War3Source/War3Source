@@ -13,12 +13,7 @@ Author(s): Anthony Iacono
 
 
 
-public Native_War3_GetGame(Handle:plugin,numParams)
-{
-	//return _:g_Game;
-	//PrintToChatAll("War3_GetGame %d",g_Game);
-	return _:g_Game;
-}
+
 public NW3GetW3Revision(Handle:plugin,numParams){
 	return REVISION_NUM;
 }
@@ -350,7 +345,7 @@ public Native_War3_DecreaseHP(Handle:plugin,numParams)
 public bool:War3Source_InitNatives()
 {
 	///LIST ALL THESE NATIVES IN INTERFACE
-	CreateNative("War3_GetGame",Native_War3_GetGame);
+	
 	CreateNative("W3GetW3Version",NW3GetW3Version);
 	CreateNative("W3GetW3Revision",NW3GetW3Revision);
 	
