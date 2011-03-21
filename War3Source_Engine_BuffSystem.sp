@@ -21,7 +21,7 @@ new m_OffsetSpeed;
 new reapplyspeed[MAXPLAYERS];
 
 //for debuff index, see constants, its in an enum
-new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES+CUSTOMMODIFIERS]; ///a race may only modify a property once
+new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
 //start loop for items only: i=1;i<MAXITEMS   
 //start loop for races only: i=MAXITEMS;i<MAXITEMS+MAXRACES]
 //buffs may be bool, float, or int
@@ -83,6 +83,7 @@ public bool:InitNativesForwards()
 	
 	CreateNative("War3_SetBuff",Native_War3_SetBuff);//for races
 	CreateNative("War3_SetBuffItem",Native_War3_SetBuffItem);//foritems
+	CreateNative("War3_SetBuffItem2",Native_War3_SetBuffItem2);//foritems
 	CreateNative("W3GetPhysicalArmorMulti",NW3GetPhysicalArmorMulti);
 	CreateNative("W3GetMagicArmorMulti",NW3GetMagicArmorMulti);
 	
@@ -105,7 +106,7 @@ public bool:InitNativesForwards()
 	return true;
 }
 ItemsPlusRacesLoaded(){
-	return W3GetItemsLoaded()+War3_GetRacesLoaded()+CUSTOMMODIFIERS;
+	return W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded()+CUSTOMMODIFIERS;
 }
 
 public Native_War3_SetBuff(Handle:plugin,numParams)
@@ -138,6 +139,23 @@ public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
 			new String:buf[64];
 			GetPluginFilename(plugin, buf, sizeof(buf));
 			LogError("warning, war3_setbuffitem passed zero itemid %s",buf);
+		}
+	}
+}
+public Native_War3_SetBuffItem2(Handle:plugin,numParams) //buff is from an item
+{
+	if(numParams==4) //client,race,buffindex,value
+	{
+		new client=GetNativeCell(1);
+		new W3Buff:buffindex=GetNativeCell(2);
+		new itemid=GetNativeCell(3);
+		new any:value=GetNativeCell(4);
+		SetBuff(client,buffindex,W3GetItemsLoaded()+War3_GetRacesLoaded()+itemid,value); //not offseted
+		
+		if(itemid==0){
+			new String:buf[64];
+			GetPluginFilename(plugin, buf, sizeof(buf));
+			LogError("warning, war3_setbuffitem2 passed zero itemid %s",buf);
 		}
 	}
 }
@@ -546,7 +564,9 @@ public OnGameFrame()
 						
 						//new Float:speedadd=1.0;
 						if(!GetBuffHasOneTrue(client,bBuffDenyAll)){
-							speedmulti=FloatMul(speedmulti,GetBuffMaxFloat(client,fMaxSpeed));
+							new Float:speedmulti1=GetBuffMaxFloat(client,fMaxSpeed);
+							new Float:speedmulti2=GetBuffMaxFloat(client,fMaxSpeed2);
+							speedmulti=speedmulti1+(speedmulti2-1.0); ///1.0 + 1.0 - 1.0 = 1.0
 						}
 						if(GetBuffHasOneTrue(client,bStunned)||GetBuffHasOneTrue(client,bBashed)){
 							speedmulti=0.0;

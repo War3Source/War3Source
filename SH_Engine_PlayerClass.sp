@@ -69,7 +69,7 @@ public NSHHasHero(Handle:plugin,numParams){
 	if(SH()){
 		return player[GetNativeCell(1)][hasHero][GetNativeCell(2)];
 	}
-	return -1;
+	return _:false;
 }
 public NSHSetHasHero(Handle:plugin,numParams){
 	new bool:oldhas=player[GetNativeCell(1)][hasHero][GetNativeCell(2)];
@@ -109,8 +109,10 @@ public NSHGetHeroesClientCanHave(Handle:plugin,numParams){
 
 
 public OnWar3Event(W3EVENT:event,client){
-	if(event==ClearPlayerVariables){
-		InternalClearPlayerVars(client);
+	if(SH()){
+		if(event==ClearPlayerVariables){
+			InternalClearPlayerVars(client);
+		}
 	}
 }
 InternalClearPlayerVars(client){

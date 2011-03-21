@@ -65,6 +65,7 @@ public OnPluginStart()
 		RegConsoleCmd("ultimate",War3Source_OldWCSCommand);
 	
 		RegConsoleCmd("shopmenu",War3Source_CmdShopmenu);
+		RegConsoleCmd("shopmenu2",War3Source_CmdShopmenu2);
 	}
 }
 
@@ -120,6 +121,11 @@ public bool:CommandCheckStartsWith(String:compare[],String:lookingfor[]) {
 public Action:War3Source_CmdShopmenu(client,args)
 {
 	W3CreateEvent(DoShowShopMenu,client);
+	return Plugin_Handled;
+}
+public Action:War3Source_CmdShopmenu2(client,args)
+{
+	W3CreateEvent(DoShowShopMenu2,client);
 	return Plugin_Handled;
 }
 public Action:War3Source_SayCommand(client,args)
@@ -200,6 +206,11 @@ public Action:War3Source_SayCommand(client,args)
 		else if(CommandCheck(arg1,"shopmenu"))
 		{
 			W3CreateEvent(DoShowShopMenu,client);
+			return returnblocking;
+		}
+		else if(CommandCheck(arg1,"shopmenu2"))
+		{
+			W3CreateEvent(DoShowShopMenu2,client);
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"war3menu"))

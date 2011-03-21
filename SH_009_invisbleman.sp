@@ -103,6 +103,7 @@ public Invsing(client)
 		now[client]=0;
 		temp=(10-now[client])*0.1;
 		SetWeaponColor(client,255,255,255,255);
+	
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,temp);	
 		if(StrEqual(weapon,"weapon_knife") && now[client]<1)
 		{
@@ -115,6 +116,7 @@ public Invsing(client)
 		{
 			if(now[client]>=7)
 			{
+				
 				War3_SetBuff(client,fInvisibilitySkill,thisRaceID,0.0);
 				PrintHintText(client,"You are completely invisible Man.");
 				SetWeaponColor(client,255,255,255,0);
@@ -156,6 +158,7 @@ public Action:WeaponFire(Handle:event, const String:name[], bool:dontBroadcast)
 	{
 		now[client]=0;
 		temp=(10-now[client])*0.1;
+		
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0-temp);	
 		if(StrEqual(weapon,"weapon_knife") && now[client]<1)
 		{

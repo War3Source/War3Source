@@ -16,6 +16,7 @@
 #define MAXRACES 200 //20 = [1]-[19]  ///can only hold X-1 races, IE 20 can only hold 19 races, we skip zeroth race!
 
 #define MAXITEMS 100  // [1]-[19] //(+1 of real number of items, if there are 8 items to load, use 9!! ignore zeroth rule)
+#define MAXITEMS2 100 
 //zeroth item not used
 /////#define MAXITEMPROPERTIES 1
 
@@ -111,6 +112,12 @@ enum W3EVENT
 	SHMyHeroes, //select a race to drop
 	SHClearPowers, //drop all heroes
 	SHSelectHeroesMenu, //sh changerace
+	
+	
+	DoShowShopMenu2,
+	DoTriedToBuyItem2,
+	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
+	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
 }
 
 enum W3ForwardedVarsEnum{
@@ -266,9 +273,16 @@ enum W3Buff {
 	bImmunityWards, // MOVE    is immune to wards, skill immunity includes ward immunity
 	////////////////
 	
+	fMaxSpeed2, //for increasing speeds only!, added onto fMaxSpeed buff, MUST BE MORE THAN 1.0
+	//MOVE
+	
+	
+	
+	
+	
+	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
-	
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 
@@ -320,6 +334,10 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fMaxSpeed ][DefaultValue]=1.0;
 	buffpropertiesarray[ fMaxSpeed ][BuffStackType]=fMaximum;
+	
+	buffpropertiesarray[ fMaxSpeed2 ][DefaultValue]=1.0;
+	buffpropertiesarray[ fMaxSpeed2 ][BuffStackType]=fMaximum;
+	
 	
 	buffpropertiesarray[ fSlow ][DefaultValue]=1.0;
 	buffpropertiesarray[ fSlow ][BuffStackType]=fStacked;	

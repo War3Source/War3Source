@@ -127,7 +127,7 @@ public NWar3_GetRace(Handle:plugin,numParams){
 			return p_properties[client][CurrentRace];
 	}
 	
-	return -1;
+	return -2; //return -2 because u usually compare your race
 }
 
 public NWar3_SetLevel(Handle:plugin,numParams){

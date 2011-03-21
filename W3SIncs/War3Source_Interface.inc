@@ -188,10 +188,41 @@ native W3GetItemCost(itemid,bool:csmoney);
 native W3GetItemOrder(itemid);
 native W3ItemHasFlag(itemid,String:flagsearch[]);
 native W3GetItemCatagory(itemid,String:retcatagorystr[],maxlen);
-
+native W3GetItemsLoaded(); //how many items are loaded?
 
 native bool:W3IsItemDisabledGlobal(itemid);
 native bool:W3IsItemDisabledForRace(race,itemid);
+
+
+
+
+
+native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
+//translated
+native War3_CreateShopItem2T(String:shortname[],cost);
+
+
+native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
+native War3_GetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY);
+
+//returns -1 if not found
+//remember itemid that is valid is more than 0
+native War3_GetItem2IdByShortname(String:itemshortname[]) ;
+
+
+native W3GetItem2Name(itemid,String:ret[],maxlen);
+native W3GetItem2Shortname(itemid,String:ret[],maxlen);
+native W3GetItem2Description(itemid,String:ret[],maxlen);
+
+native W3GetItem2Cost(itemid);
+native W3GetItem2Order(itemid);
+native W3Item2HasFlag(itemid,String:flagsearch[]);
+native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
+native W3GetItems2Loaded(); //how many items are loaded?
+
+native bool:W3IsItem2DisabledGlobal(itemid);
+native bool:W3IsItem2DisabledForRace(race,itemid);
+
 /**
  * Registers a help command with the War3Source plugin for war3help
  * @param name: The name of the command. (max 64)
@@ -234,6 +265,7 @@ native W3GetMaxGold();
  * @return The return value will be 1 if they own it, if 0 they don't, if -1 then it failed.
  */
 native War3_GetOwnsItem(client,item);
+native War3_GetOwnsItem2(client,item);
 
 
 
@@ -248,6 +280,7 @@ native War3_GetOwnsItem(client,item);
  *	ITEM IS NOT LOST AUTOMATICALLY ON DEATH  
  */
 native War3_SetOwnsItem(client,item,bool:ownsitem);
+native War3_SetOwnsItem2(client,item,bool:ownsitem);
 
 
 
@@ -675,6 +708,7 @@ native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
 * 
 */
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
+native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
 
 native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:initialbuffvalue,Float:duration);
 
@@ -725,7 +759,7 @@ stock W3ResetPlayerColor(client,raceid){
 
 native Float:W3GetPhysicalArmorMulti(client); //damage multipler for client by accounting for physical armor (warcraft physical armor, not cs armor)
 native Float:W3GetMagicArmorMulti(client); //damage multipler for client by accounting for magic armor
-native W3GetItemsLoaded(); //how many items are loaded?
+
 native W3GetCurrentWeaponEnt(client); //get the entity of the current (active) weapon
 
 
@@ -1049,6 +1083,7 @@ forward OnAbilityCommand(client,ability,bool:pressed);
  * PLAYER ALREADY HAS OWNERSHIP BY THIS POINT  
  */
 forward OnItemPurchase(client,item);
+forward OnItem2Purchase(client,item);
 
 
 /**
@@ -1058,6 +1093,7 @@ forward OnItemPurchase(client,item);
  * PLAYER ALREADY HAS LOST OWNERSHIP BY THIS POINT   
  */
 forward OnItemLost(client,item);
+forward OnItem2Lost(client,item);
 
 
 /**
