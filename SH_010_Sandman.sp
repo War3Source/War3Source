@@ -40,9 +40,9 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
-	if(SH()){
+	
 		//PrintToChatAll("SPAWN %d",client);
 	
 		if(SHHasHero(client,thisRaceID))
@@ -54,10 +54,10 @@ public OnWar3EventSpawn(client)
 			War3_SetBuff(client,bStunned,thisRaceID,false);
 			W3ResetPlayerColor(client,thisRaceID);
 		}
-	}
+	
 }
 
-public OnRaceSelected(client)
+public OnHeroChanged(client)
 {
 	if(SH()){
 		if(!SHHasHero(client,thisRaceID))

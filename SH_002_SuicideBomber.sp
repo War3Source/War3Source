@@ -81,7 +81,7 @@ public OnMapStart()
 
 }
 
-public OnWar3EventDeath(victim,attacker)
+public OnSHEventDeath(victim,attacker)
 {
 	//if(!bSuicided[victim])
 	//{
@@ -257,7 +257,7 @@ public SuicideBomber(client,level)
 }
 
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
 	suicidedAsTeam[client]=GetClientTeam(client);
 	if(SHHasHero(client,thisRaceID))

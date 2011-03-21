@@ -46,15 +46,15 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
-	if(SH()){
-		if(SHHasHero(client,thisRaceID))
-		{
-			bNoclip[client]=false;
-			War3_SetBuff(client,bNoClipMode,thisRaceID,false);	
-		}
+	
+	if(SHHasHero(client,thisRaceID))
+	{
+		bNoclip[client]=false;
+		War3_SetBuff(client,bNoClipMode,thisRaceID,false);	
 	}
+	
 }
 public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);

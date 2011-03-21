@@ -52,7 +52,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 		);
 	}
 }
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
 	//PrintToChatAll("SPAWN %d",client);
 	

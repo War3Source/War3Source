@@ -46,7 +46,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
 	if(SH()){//PrintToChatAll("SPAWN %d",client);
 	
@@ -57,7 +57,7 @@ public OnWar3EventSpawn(client)
 	}
 }
 
-public OnRaceSelected(client)
+public OnHeroChanged(client)
 {
 	if(SH()){
 		if(!SHHasHero(client,thisRaceID))

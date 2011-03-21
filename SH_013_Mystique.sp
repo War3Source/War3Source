@@ -42,7 +42,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
 	if(!SHHasHero(client,thisRaceID))
 	{

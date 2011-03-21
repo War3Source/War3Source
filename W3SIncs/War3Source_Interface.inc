@@ -1108,10 +1108,10 @@ stock W3DoLevelCheck(client){
 }
 
 
-//when player spawns
+//when player spawns, fires only in war3 mode
 forward OnWar3EventSpawn(client);
 
-//when player dies
+//when player dies, fires only in war3 mode
 forward OnWar3EventDeath(victim,attacker);
 
 //very generic damage event

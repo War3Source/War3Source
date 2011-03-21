@@ -11,7 +11,7 @@ enum SHPlayer{
 }
 new player[MAXPLAYERS][SHPlayer];
 
-new Handle:g_OnRaceSelectedHandle;
+new Handle:g_OnHeroChangedHandle;
 
 new Handle:hMaxHeroesPerPlayer;
 
@@ -32,7 +32,7 @@ public OnPluginStart()
 
 public bool:InitNativesForwards()
 {
-	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell);
+	g_OnHeroChangedHandle=CreateGlobalForward("OnHeroChanged",ET_Ignore,Param_Cell);
 	
 	CreateNative("SHGetLevel",NSHGetLevel);
 	CreateNative("SHSetLevel",NSHSetLevel);
@@ -85,7 +85,7 @@ public NSHSetHasHero(Handle:plugin,numParams){
 		War3_ChatMessage(GetNativeCell(1),"You no longer have hero %s",heroname);
 	}
 	
-	Call_StartForward(g_OnRaceSelectedHandle);
+	Call_StartForward(g_OnHeroChangedHandle);
 	Call_PushCell(GetNativeCell(1));
 	new result;
 	Call_Finish(result);

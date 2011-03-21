@@ -14,7 +14,14 @@ native SHSetHasHero(client,hero,bool:hasThisHero);
 native SHGetHeroHasPowerBind(hero);
 native SHSetHeroHasPowerBind(hero,bool:hasPowerBind=true);
 
+//when player spawns, fires only in sh mode
+forward OnSHEventSpawn(client);
 
+//when player dies, fires only in sh mode
+forward OnSHEventDeath(victim,attacker);
+
+//when a player's heros change
+forward OnHeroChanged(client);
 
 //returns hero id!!
 stock SHRegisterHero(String:heroname[],String:shortheroname[],String:shortSkillName[]="no activateble skill",String:longDescription[],bool:hasPowerBind=false){

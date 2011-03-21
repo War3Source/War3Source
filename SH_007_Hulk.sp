@@ -47,7 +47,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
+public OnSHEventSpawn(client)
 {
 	if(SH()){	//PrintToChatAll("SPAWN %d",client);
 		War3_SetBuff(client,bStunned,thisRaceID,false);	
