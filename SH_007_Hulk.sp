@@ -49,35 +49,13 @@ public OnSHLoadHeroOrItemOrdered(num)
 
 public OnWar3EventSpawn(client)
 {
-	//PrintToChatAll("SPAWN %d",client);
-	if(!SHHasHero(client,thisRaceID))
-	{
+	if(SH()){	//PrintToChatAll("SPAWN %d",client);
 		War3_SetBuff(client,bStunned,thisRaceID,false);	
-	}
-	if(SHHasHero(client,thisRaceID))
-	{
 		War3_SetBuff(client,bStunned,thisRaceID,false);
 	}
 }
 
-public OnRaceSelected(client)
-{
-	if(!SHHasHero(client,thisRaceID))
-	{
-	}
-	else
-	{	
-		if(IsPlayerAlive(client)){
-		}	
-	}
-}
 
-
-public InitPassiveSkills(client){
-	if(SHHasHero(client,thisRaceID))
-	{
-	}
-}
 
 public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
@@ -115,7 +93,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 }
 public Action:EndStunned(Handle:timer,any:client)
 {
-	if(ValidPlayer(client,true))
+	if(ValidPlayer(client))
 	{
 		War3_SetBuff(client,bStunned,thisRaceID,false);
 	}

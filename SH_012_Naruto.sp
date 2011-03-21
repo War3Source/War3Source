@@ -47,17 +47,6 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnWar3EventSpawn(client)
-{
-	if(!SHHasHero(client,thisRaceID))
-	{
-		War3_SetBuff(client,bStunned,thisRaceID,false);	
-	}
-	if(SHHasHero(client,thisRaceID))
-	{
-		War3_SetBuff(client,bStunned,thisRaceID,false);
-	}
-}
 new Float:oldpos[66][3];
 new Float:dirRasen[3];
 new Float:endpos[3];

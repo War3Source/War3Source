@@ -48,13 +48,12 @@ public OnSHLoadHeroOrItemOrdered(num)
 
 public OnWar3EventSpawn(client)
 {
-	if(!SHHasHero(client,thisRaceID))
-	{
-	}
-	if(SHHasHero(client,thisRaceID))
-	{
-		bNoclip[client]=false;
-		War3_SetBuff(client,bNoClipMode,thisRaceID,false);	
+	if(SH()){
+		if(SHHasHero(client,thisRaceID))
+		{
+			bNoclip[client]=false;
+			War3_SetBuff(client,bNoClipMode,thisRaceID,false);	
+		}
 	}
 }
 public OnPowerCommand(client,herotarget,bool:pressed){

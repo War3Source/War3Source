@@ -48,25 +48,28 @@ public OnSHLoadHeroOrItemOrdered(num)
 
 public OnWar3EventSpawn(client)
 {
-	//PrintToChatAll("SPAWN %d",client);
-
-	if(SHHasHero(client,thisRaceID))
-	{
-		InitPassiveSkills(client); //sets suicide
+	if(SH()){//PrintToChatAll("SPAWN %d",client);
+	
+		if(SHHasHero(client,thisRaceID))
+		{
+			InitPassiveSkills(client); //sets suicide
+		}
 	}
 }
 
 public OnRaceSelected(client)
 {
-	if(!SHHasHero(client,thisRaceID))
-	{
-		War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
-	}
-	else
-	{	
-		if(IsPlayerAlive(client)){
-			InitPassiveSkills(client);	
-		}	
+	if(SH()){
+		if(!SHHasHero(client,thisRaceID))
+		{
+			War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
+		}
+		else
+		{	
+			if(IsPlayerAlive(client)){
+				InitPassiveSkills(client);	
+			}	
+		}
 	}
 }
 

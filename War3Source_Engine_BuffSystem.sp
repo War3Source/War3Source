@@ -21,7 +21,7 @@ new m_OffsetSpeed;
 new reapplyspeed[MAXPLAYERS];
 
 //for debuff index, see constants, its in an enum
-new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES]; ///a race may only modify a property once
+new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES+CUSTOMMODIFIERS]; ///a race may only modify a property once
 //start loop for items only: i=1;i<MAXITEMS   
 //start loop for races only: i=MAXITEMS;i<MAXITEMS+MAXRACES]
 //buffs may be bool, float, or int
@@ -45,15 +45,6 @@ public Plugin:myinfo=
 
 new bool:invisWeaponAttachments[MAXPLAYERS];
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -87,7 +78,7 @@ public OnPluginStart()
 public OnMapStart(){
 	halo=PrecacheModel("materials/sprites/halo01.vmt");
 }
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	
 	CreateNative("War3_SetBuff",Native_War3_SetBuff);//for races
@@ -113,7 +104,9 @@ bool:InitNativesForwards()
 
 	return true;
 }
-
+ItemsPlusRacesLoaded(){
+	return W3GetItemsLoaded()+War3_GetRacesLoaded()+CUSTOMMODIFIERS;
+}
 
 public Native_War3_SetBuff(Handle:plugin,numParams)
 {
@@ -124,6 +117,11 @@ public Native_War3_SetBuff(Handle:plugin,numParams)
 		new raceid=GetNativeCell(3);
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,raceid+W3GetItemsLoaded(),value); //ofsetted
+		if(raceid==0){
+			new String:buf[64];
+			GetPluginFilename(plugin, buf, sizeof(buf));
+			LogError("warning, war3_setbuff passed zero raceid %s",buf);
+		}
 	}
 }
 public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
@@ -135,6 +133,12 @@ public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
 		new itemid=GetNativeCell(3);
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,itemid,value); //not offseted
+		
+		if(itemid==0){
+			new String:buf[64];
+			GetPluginFilename(plugin, buf, sizeof(buf));
+			LogError("warning, war3_setbuffitem passed zero itemid %s",buf);
+		}
 	}
 }
 public NW3GetBuff(Handle:plugin,numParams)
@@ -614,8 +618,8 @@ ResetBuff(client,W3Buff:buffindex){
 	
 	if(ValidBuff(buffindex))
 	{
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=0;i<=loop;i++) //reset starts at 0
 		{
 			buffdebuff[client][buffindex][i]=BuffDefault(buffindex);
 			
@@ -663,8 +667,8 @@ stock any:CalcBuffMax(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new any:value=buffdebuff[client][buffindex][0];
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			new any:value2=buffdebuff[client][buffindex][i];
 			//PrintToChatAll("%f",value2);
@@ -682,8 +686,8 @@ stock any:CalcBuffMin(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new any:value=buffdebuff[client][buffindex][0];
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			new any:value2=buffdebuff[client][buffindex][i];
 			if(value2<value){
@@ -700,8 +704,8 @@ CalcBuffMinInt(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new value=buffdebuff[client][buffindex][0];
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			new value2=buffdebuff[client][buffindex][i];
 			if(value2<value){
@@ -717,8 +721,8 @@ stock bool:CalcBuffHasOneTrue(client,W3Buff:buffindex)
 {
 	if(ValidBuff(buffindex))
 	{
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			if(buffdebuff[client][buffindex][i])
 			{
@@ -740,8 +744,8 @@ stock Float:CalcBuffStackedFloat(client,W3Buff:buffindex)
 	if(ValidBuff(buffindex))
 	{
 		new Float:value=buffdebuff[client][buffindex][0];
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=1;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			value=FloatMul(value,buffdebuff[client][buffindex][i]);
 		}
@@ -759,8 +763,8 @@ stock CalcBuffSumInt(client,W3Buff:buffindex)
 	{
 		new any:value=0;
 		//this one starts from zero
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			
 			value=value+buffdebuff[client][buffindex][i];
@@ -780,8 +784,8 @@ stock CalcBuffSumFloat(client,W3Buff:buffindex)
 	{
 		new any:value=0;
 		//this one starts from zero
-		new ItemsPlusRacesLoaded = W3GetItemsLoaded()+War3_GetRacesLoaded();
-		for(new i=0;i<=ItemsPlusRacesLoaded;i++)
+		new loop = ItemsPlusRacesLoaded();
+		for(new i=1;i<=loop;i++)
 		{
 			
 			value=Float:value+Float:(buffdebuff[client][buffindex][i]);

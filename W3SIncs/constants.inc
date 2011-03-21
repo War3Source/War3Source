@@ -25,7 +25,7 @@
 
 #define MAXLEVELXPDEFINED 16 //maximum where level XP is defined, if a race has more than MAXLEVELXPDEFINED levles, xp given and xp to next level is still MAXLEVELXPDEFINED
 
-
+#define CUSTOMMODIFIERS 3 //how many race indexes extra for modifying buffs without conflicting other races
 
 enum W3Var
 {

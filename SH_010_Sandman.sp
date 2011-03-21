@@ -42,28 +42,32 @@ public OnSHLoadHeroOrItemOrdered(num)
 
 public OnWar3EventSpawn(client)
 {
-	//PrintToChatAll("SPAWN %d",client);
-
-	if(SHHasHero(client,thisRaceID))
-	{
-		War3_SetBuff(client,bStunned,thisRaceID,false);
-		W3ResetPlayerColor(client,thisRaceID);
-	}
-	else{
-		War3_SetBuff(client,bStunned,thisRaceID,false);
-		W3ResetPlayerColor(client,thisRaceID);
+	if(SH()){
+		//PrintToChatAll("SPAWN %d",client);
+	
+		if(SHHasHero(client,thisRaceID))
+		{
+			War3_SetBuff(client,bStunned,thisRaceID,false);
+			W3ResetPlayerColor(client,thisRaceID);
+		}
+		else{
+			War3_SetBuff(client,bStunned,thisRaceID,false);
+			W3ResetPlayerColor(client,thisRaceID);
+		}
 	}
 }
 
 public OnRaceSelected(client)
 {
-	if(!SHHasHero(client,thisRaceID))
-	{
-	}
-	else
-	{	
-		if(IsPlayerAlive(client)){
-		}	
+	if(SH()){
+		if(!SHHasHero(client,thisRaceID))
+		{
+		}
+		else
+		{	
+			if(IsPlayerAlive(client)){
+			}	
+		}
 	}
 }
 
