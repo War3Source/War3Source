@@ -109,7 +109,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 					}
 				}
 			}
-			War3_CooldownMGR(client,20.0,thisRaceID,0,_,_,_,"Power Stomp");
+			SH_CooldownMGR(client,20.0,thisRaceID,_,_);
 		}
 	}
 }

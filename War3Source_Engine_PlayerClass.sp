@@ -32,16 +32,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	RegConsoleCmd("war3notdev",cmdwar3notdev);
@@ -49,7 +39,7 @@ public OnPluginStart()
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
 }
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
@@ -131,11 +121,13 @@ public NWar3_SetRace(Handle:plugin,numParams){
 	
 }
 public NWar3_GetRace(Handle:plugin,numParams){
-	new client = GetNativeCell(1);
-	if (client > 0 && client <= MaxClients)
-		return p_properties[client][CurrentRace];
-	else
-		return 0;
+	if(W3()){
+		new client = GetNativeCell(1);
+		if (client > 0 && client <= MaxClients)
+			return p_properties[client][CurrentRace];
+	}
+	
+	return -1;
 }
 
 public NWar3_SetLevel(Handle:plugin,numParams){

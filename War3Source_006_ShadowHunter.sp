@@ -142,7 +142,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 				W3SetPlayerColor(client,thisRaceID,255,200,0,_,GLOW_ULTIMATE); //255,200,0);
 				CreateTimer(UltimateDuration[ult_level],EndVoodoo,client);
 				new Float:cooldown=	GetConVarFloat(ultCooldownCvar);
-				War3_CooldownMGR(client,cooldown,thisRaceID,ULT_VOODOO,_,_,_,"Voodoo");
+				War3_CooldownMGR(client,cooldown,thisRaceID,ULT_VOODOO,_,_);
 				W3MsgUsingVoodoo(client);
 				EmitSoundToAll(ultimateSound,client);
 				EmitSoundToAll(ultimateSound,client);

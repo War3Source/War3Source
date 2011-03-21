@@ -26,16 +26,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	Cvar_ChatBlocking=CreateConVar("war3_command_blocking","0");
@@ -62,7 +52,7 @@ public OnPluginStart()
 		
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	g_OnPowerCommandHandle=CreateGlobalForward("OnPowerCommand",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 	
@@ -113,6 +103,7 @@ public bool:CommandCheckStartsWith(String:compare[],String:lookingfor[]) {
 
 public Action:War3Source_SayCommand(client,args)
 {
+
 	decl String:arg1[70];
 	GetCmdArg(1,arg1,70);
 	
@@ -125,7 +116,6 @@ public Action:War3Source_SayCommand(client,args)
 	
 	if(CommandCheck(arg1,"myheroes")){
 		W3CreateEvent(SHMyHeroes,client);
-		PrintToChatAll("1");
 		return returnblocking;
 	}
 	
@@ -138,7 +128,7 @@ public Action:War3Source_SayCommand(client,args)
 	}
 	else if(CommandCheck(arg1,"changerace")||CommandCheck(arg1,"showmenu"))
 	{
-		W3CreateEvent(DoShowChangeRaceMenu,client);
+		W3CreateEvent(SHSelectHeroesMenu,client);
 		return returnblocking;
 	}
 	else if(CommandCheck(arg1,"war3help")||CommandCheck(arg1,"help")||CommandCheck(arg1,"wchelp"))
@@ -278,7 +268,7 @@ public Action:War3Source_SayCommand(client,args)
 			if(W3IsPlayerXPLoaded(client))
 			{
 				War3_ChatMessage(client,"Select a race first!!");
-				W3CreateEvent(DoShowChangeRaceMenu,client);
+				W3CreateEvent(SHSelectHeroesMenu,client);
 			}
 			return returnblocking;
 		}

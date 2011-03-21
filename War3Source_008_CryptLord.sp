@@ -123,7 +123,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 							W3FlashScreen(bestTarget,RGBA_COLOR_RED);
 							
 							EmitSoundToAll(ultimateSound,client);
-							War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_LOCUST,false,false,_,"Locust");
+							War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_LOCUST,false,true);
 						}
 					}
 				}

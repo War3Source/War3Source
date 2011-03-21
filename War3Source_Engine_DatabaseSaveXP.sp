@@ -79,7 +79,7 @@ public OnPluginEnd(){
 
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
-	if(DBIDB)
+	if(DBIDB&&W3())
 		War3Source_SQLTable();
 }
 
@@ -447,31 +447,35 @@ public bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
 //retrieve
 public OnClientPutInServer(client)
 {
-	W3SetPlayerProp(client,xpLoaded,false);
+	if(W3()){
+		W3SetPlayerProp(client,xpLoaded,false);
 	
-	W3CreateEvent(ClearPlayerVariables,client); 
-	W3CreateEvent(InitPlayerVariables,client); 
-	
-	
-	if(W3SaveEnabled())
-	{
-		War3_ChatMessage(client,"%T","Loading player data...",client);
-		War3Source_LoadPlayerData(client);
+		W3CreateEvent(ClearPlayerVariables,client); 
+		W3CreateEvent(InitPlayerVariables,client); 
+		
+		
+		if(W3SaveEnabled())
+		{
+			War3_ChatMessage(client,"%T","Loading player data...",client);
+			War3Source_LoadPlayerData(client);
+		}
+		else{
+			DoForwardOnWar3PlayerAuthed(client);
+		}
+		if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
+			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 	}
-	else{
-		DoForwardOnWar3PlayerAuthed(client);
-	}
-	if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
-		W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 }
 public OnClientDisconnect(client)
 {
-	if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
-		War3Source_SavePlayerData(client,War3_GetRace(client));
-	
-	W3CreateEvent(ClearPlayerVariables,client); 
-	
-	desiredRaceOnJoin[client]=0;
+	if(W3()){
+		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
+			War3Source_SavePlayerData(client,War3_GetRace(client));
+		
+		W3CreateEvent(ClearPlayerVariables,client); 
+		
+		desiredRaceOnJoin[client]=0;
+	}
 }
 
 //SELECT STATEMENTS HERE

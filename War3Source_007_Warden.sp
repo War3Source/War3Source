@@ -150,7 +150,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					EmitSoundToAll(ultimateSound,client);
 					EmitSoundToAll(ultimateSound,client);
 					
-					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_VENGENCE,_,_,_,"Vengence");
+					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_VENGENCE,_,_);
 					
 				}
 				else
@@ -520,7 +520,7 @@ public Action:VengenceRespawn(Handle:t,any:userid)
 				War3_SetCSArmorHasHelmet(client,true);
 				//}	
 				ultUsedTimes[client]++;
-				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_VENGENCE,false,false,_,"Vengence");
+				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_VENGENCE,false,true);
 			}
 		}
 	}

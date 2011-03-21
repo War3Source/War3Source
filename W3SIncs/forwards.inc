@@ -55,7 +55,7 @@ new Handle:g_War3InterfaceExecFH;
 ///END forwards
 
 
-public bool:War3Source_InitForwards()
+bool:War3Source_InitForwards()
 {
 	
 	

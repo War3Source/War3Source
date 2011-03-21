@@ -107,7 +107,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					GetClientAbsOrigin(target,lastRuptureLocation[target]);
 					
 					
-					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RUPTURE,true,true,true,"Hemmorrhage");
+					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RUPTURE,true,true);
 				
 					EmitSoundToAll(ultsnd,client);
 					

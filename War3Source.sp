@@ -229,7 +229,7 @@ public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
 		new raceid=War3_GetRace(client);
 		for( new skillnum;skillnum<MAXSKILLCOUNT;skillnum++){
-			War3_CooldownMGR(client,0.0,raceid,skillnum,_,_,false);
+			War3_CooldownMGR(client,0.0,raceid,skillnum,_,_);
 		}
 		
 	}
@@ -393,12 +393,14 @@ public DelayedWar3SourceCfgExecute()
 	}
 }
 
-public LoadRacesAndItems()
+LoadRacesAndItems()
 {	
+	PrintToServer("RACE ITEM LOAD");
 	new Float:starttime=GetEngineTime();
 	//ordered loads
 	new res;
 	if(W3()){
+
 		for(new i;i<=MAXRACES*10;i++){
 			Call_StartForward(g_OnWar3PluginReadyHandle);
 			Call_PushCell(i);		
@@ -418,6 +420,7 @@ public LoadRacesAndItems()
 	}
 	
 	if(SH()){
+		
 		//SH ordered load
 		for(new i;i<=MAXRACES*10;i++){
 			Call_StartForward(hOnSHLoadHeroOrItemOrdered);

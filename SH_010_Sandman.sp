@@ -96,7 +96,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 					PrintHintText(client,"Bury enemy!");
 					PrintHintText(target,"You are buring!");
 					War3_SetBuff(target,bStunned,thisRaceID,true);
-					War3_CooldownMGR(client,30.0,thisRaceID,SKILL_BURY,_,_,_,"Bury");
+					SH_CooldownMGR(client,30.0,thisRaceID,_,_);
 					W3SetPlayerColor(target,thisRaceID,255,200,0,_,GLOW_ULTIMATE); //255,200,0);
 				}
 			}

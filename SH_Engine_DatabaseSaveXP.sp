@@ -75,8 +75,8 @@ public OnMapStart(){
 }
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
-	if(DBIDB)
-		War3Source_SQLTable();
+	if(DBIDB&&SH())
+		SH_SQLTable();
 }
 
 
@@ -214,22 +214,22 @@ W3SQLPlayerString(Handle:query,const String:columnname[],String:out_buffer[],siz
 
 
 
-War3Source_SQLTable()
+SH_SQLTable()
 {
-	PrintToServer("War3Source_SQLTable war3source table check handling");
+	PrintToServer("SH_SQLTable table check handling");
 	if(DBIDB!=INVALID_HANDLE)
 	{
 		// Check if the table exists
 		SQL_LockDatabase(DBIDB); //non threading operations here, done once on plugin load only, not map change
 		
 		//war3sourceraces
-		PrintToServer("[War3Source] Dropping war3sourceraces and recreating it (normal)") ;
-		if(!SQL_FastQueryLogOnError(DBIDB,"DROP TABLE war3sourceraces")){
-			PrintToServer("[War3Source] Table: war3sourceraces didnt exist or failed to drop it");
+		PrintToServer("[SH] Dropping shheroes and recreating it (normal)") ;
+		if(!SQL_FastQueryLogOnError(DBIDB,"DROP TABLE shheroes")){
+			PrintToServer("[SH] Table: shheroes didnt exist or failed to drop it");
 		}
 		
 		new String:longquery[4000];
-		Format(longquery,4000,"CREATE TABLE war3sourceraces (");
+		Format(longquery,4000,"CREATE TABLE shheroes (");
 		Format(longquery,4000,"%s %s",longquery,"shortname varchar(16) UNIQUE,");
 		Format(longquery,4000,"%s %s",longquery,"name  varchar(32)");
 		
@@ -282,11 +282,11 @@ War3Source_SQLTable()
 		
 		if(dropandcreatetable)
 		{
-			PrintToServer("[War3Source] Dropping shplayer main table and recreating it!!!") ;
+			PrintToServer("[SH] Dropping shplayer main table and recreating it!!!") ;
 			SQL_FastQueryLogOnError(DBIDB,"DROP TABLE shplayer");
 			if(!SQL_FastQueryLogOnError(DBIDB,"CREATE TABLE shplayer (steamid varchar(64) UNIQUE , name varchar(64), level int, xp int , heroeschosen varchar(1000),   timestamp TIMESTAMP)"  ))
 			{
-				SetFailState("[War3Source] ERROR in the creation of the SQL table shplayer.");
+				SetFailState("[SH] ERROR in the creation of the SQL table shplayer.");
 			}
 		}
 		
@@ -419,27 +419,31 @@ public bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
 //retrieve
 public OnClientPutInServer(client)
 {
-	W3SetPlayerProp(client,xpLoaded,false);
-	
-	W3CreateEvent(ClearPlayerVariables,client); 
-	
-	if(W3SaveEnabled())
-	{
-		War3_ChatMessage(client,"Loading player data...");
-		SH_LoadPlayerData(client);
+	if(SH()){
+		W3SetPlayerProp(client,xpLoaded,false);
+		
+		W3CreateEvent(ClearPlayerVariables,client); 
+		
+		if(W3SaveEnabled())
+		{
+			War3_ChatMessage(client,"Loading player data...");
+			SH_LoadPlayerData(client);
+		}
+		else{
+			DoForwardOnWar3PlayerAuthed(client);
+		}
+		if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
+			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 	}
-	else{
-		DoForwardOnWar3PlayerAuthed(client);
-	}
-	if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
-		W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 }
 public OnClientDisconnect(client)
 {
-	if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
-		SHSaveXP(client);
-	
-	W3CreateEvent(ClearPlayerVariables,client); 
+	if(SH()){
+		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
+			SHSaveXP(client);
+		
+		W3CreateEvent(ClearPlayerVariables,client); 
+	}
 }
 
 
@@ -523,7 +527,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				W3SetPlayerProp(client,xpLoaded,true);
 				War3_ChatMessage(client,"XP loaded successfully");
 				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
-					W3CreateEvent(DoShowChangeRaceMenu,client);
+					W3CreateEvent(SHSelectHeroesMenu,client);
 				}
 			}
 		}
@@ -547,7 +551,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				War3_ChatMessage(client,"Creating new XP entries");
 				
 				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
-					W3CreateEvent(DoShowChangeRaceMenu,client);
+					W3CreateEvent(SHSelectHeroesMenu,client);
 				}
 			}
 			

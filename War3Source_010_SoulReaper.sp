@@ -119,7 +119,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				PrintHintText(client,"%T","+/- {amount} HP",client,amount);
 				EmitSoundToAll(judgesnd,client);
 				EmitSoundToAll(judgesnd,client);
-				War3_CooldownMGR(client,JudgementCooldownTime,thisRaceID,SKILL_JUDGE,true,true,true,"Judgement");
+				War3_CooldownMGR(client,JudgementCooldownTime,thisRaceID,SKILL_JUDGE,true,true);
 				
 			}
 		}
@@ -149,7 +149,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					if(War3_DealDamage(target,dmg,client,_,"demonicexecution"))
 					{
 						PrintToConsole(client,"T%","Executed for {amount} damage",client,War3_GetWar3DamageDealt());
-						War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_EXECUTE,true,true,true,"Demonic Execution");
+						War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_EXECUTE,true,true);
 					
 						EmitSoundToAll(ultsnd,client);
 						

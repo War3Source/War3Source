@@ -19,7 +19,7 @@ public War3Source_IntroMenu(client)
 
 public War3Source_IntroMenu_Select(Handle:menu,MenuAction:action,client,selection)
 {
-	if(ValidPlayer(client)&&War3_GetRace(client)==0)
+	if(W3()&&ValidPlayer(client)&&War3_GetRace(client)==0)
 	{
 		if(W3IsPlayerXPLoaded(client)){
 			W3CreateEvent(DoShowChangeRaceMenu,client);

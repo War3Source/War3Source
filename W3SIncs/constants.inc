@@ -110,7 +110,7 @@ enum W3EVENT
 	
 	SHMyHeroes, //select a race to drop
 	SHClearPowers, //drop all heroes
-	
+	SHSelectHeroesMenu, //sh changerace
 }
 
 enum W3ForwardedVarsEnum{

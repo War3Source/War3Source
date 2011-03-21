@@ -74,7 +74,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 
 stock bool:IsOurRace(client) {
-  return War3_GetRace(client)==thisRaceID;
+
+  return W3()&&(War3_GetRace(client)==thisRaceID);
 }
 
 
@@ -184,7 +185,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 				CreateTimer(RageDuration[ultLevel],stopRage,client);
 				EmitSoundToAll(ultsnd,client);
 				EmitSoundToAll(ultsnd,client);
-				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RAGE,_,_,_,"Rage");
+				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RAGE,_,_);
 				
 			}
 			

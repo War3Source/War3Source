@@ -409,7 +409,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				*/
 				
 				SetEntDataVector(client,m_vecBaseVelocity,velocity,true);
-				War3_CooldownMGR(client,3.0,thisRaceID,SKILL_ASSAULT,_,_,false);
+				War3_CooldownMGR(client,3.0,thisRaceID,SKILL_ASSAULT,_,_);
 				
 				new String:wpnstr[32];
 				GetClientWeapon(client, wpnstr, 32);
@@ -511,7 +511,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 					//velocity[1]*=amt;
 					//TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 					
-					War3_CooldownMGR(client,5.0,thisRaceID,SKILL_ASSAULT,_,_,true);
+					War3_CooldownMGR(client,5.0,thisRaceID,SKILL_ASSAULT,_,_);
 					//new color[4] = {255,127,0,255};
 					
 					
@@ -590,7 +590,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					
 					PrintToChat(client,"%T","[Daemonic transformation] Your daemonic powers boost your strength",client,0x04,0x01);
 					CreateTimer(10.0,Finishtrans,client);
-					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_TRANSFORM,_,_,_,"Daemonic transformation");
+					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_TRANSFORM,_,_);
 				}
 			}
 		}

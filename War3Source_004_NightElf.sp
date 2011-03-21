@@ -158,7 +158,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					W3MsgEntangle(target,client);
 				
 					
-					War3_CooldownMGR(client,GetConVarFloat(EntangleCooldownCvar),thisRaceID,ULT_ENTANGLE,_,_,_,"Entangle");
+					War3_CooldownMGR(client,GetConVarFloat(EntangleCooldownCvar),thisRaceID,ULT_ENTANGLE,_,_);
 				}
 				else
 				{

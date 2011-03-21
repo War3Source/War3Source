@@ -124,7 +124,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					CreateTimer(0.17,BurnLoop,client); //damage
 					
 					
-					War3_CooldownMGR(client,AbilityCooldownTime,thisRaceID,SKILL_FROSTNOVA,_,_,_,"Frost Nova");
+					War3_CooldownMGR(client,AbilityCooldownTime,thisRaceID,SKILL_FROSTNOVA,_,_);
 					//EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
 					//EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
 					//EmitSoundToAll(taunt2,client);
@@ -299,7 +299,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 							}
 						}
 						PrintHintText(client,"%T","Death and Decay attacked for {amount} total damage!",client,damage*targetsfound);
-						War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_DEATHDECAY,_,_,_,"Death and Decay");
+						War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_DEATHDECAY,_,_);
 						EmitSoundToAll(ultsnd,client);
 					}
 				}

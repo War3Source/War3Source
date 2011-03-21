@@ -119,7 +119,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		ULT_LIGHTNING=War3_AddRaceSkillT(thisRaceID,"ChainLightning",true,4); //TEST
 		
 		
-		W3SkillCooldownOnSpawn(thisRaceID,ULT_LIGHTNING,10.0,_,"Chain Lightning"); //translated doesnt use this "Chain Lightning"?
+		W3SkillCooldownOnSpawn(thisRaceID,ULT_LIGHTNING,10.0,_); //translated doesnt use this "Chain Lightning"?
 		War3_CreateRaceEnd(thisRaceID);
 	
 	}
@@ -181,7 +181,7 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 		{
 			// alright, time to cooldown
 			new Float:cooldown=GetConVarFloat(ultCooldownCvar);
-			War3_CooldownMGR(client,cooldown,thisRaceID,ULT_LIGHTNING,_,_,_,"Chain Lightning");
+			War3_CooldownMGR(client,cooldown,thisRaceID,ULT_LIGHTNING,_,_);
 		}
 	}
 	else

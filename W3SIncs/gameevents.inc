@@ -70,53 +70,57 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 			War3_SetMaxHP(client,GetClientHealth(client));
 			//PrintToChatAll("%d",GetClientHealth(index)); 
 			
-			CheckPendingRace(client);
-			
-			if(IsFakeClient(client)&&W3IsPlayerXPLoaded(client)&&War3_GetRace(client)==0){ //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
-				new tries=100;
-				if(tries>0){
-					new race=GetRandomInt(1,War3_GetRacesLoaded());
-					if(!W3RaceHasFlag(race,"nobots")){
-						tries=0;
-						//PrintToServer("race to be %d",race);
-						War3_SetRace(client,race);
-						War3_SetLevel(client,race,W3GetRaceMaxLevel(race));
-						for(new i=0;i<War3_GetRaceSkillCount(race);i++){
-							War3_SetSkillLevel(client,race,i,W3GetRaceSkillMaxLevel(race,i));
+			if(W3()){
+				CheckPendingRace(client);
+				
+				if(IsFakeClient(client)&&W3IsPlayerXPLoaded(client)&&War3_GetRace(client)==0){ //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
+					new tries=100;
+					if(tries>0){
+						new race=GetRandomInt(1,War3_GetRacesLoaded());
+						if(!W3RaceHasFlag(race,"nobots")){
+							tries=0;
+							//PrintToServer("race to be %d",race);
+							War3_SetRace(client,race);
+							War3_SetLevel(client,race,W3GetRaceMaxLevel(race));
+							for(new i=0;i<War3_GetRaceSkillCount(race);i++){
+								War3_SetSkillLevel(client,race,i,W3GetRaceSkillMaxLevel(race,i));
+							}
+							W3DoLevelCheck(client);
 						}
-						W3DoLevelCheck(client);
 					}
+					//PrintToServer("race %d level %d %d",War3_GetRace(client),War3_GetLevel(client,race),War3_GetSkillLevel(client,race,0));
+				
 				}
-				//PrintToServer("race %d level %d %d",War3_GetRace(client),War3_GetLevel(client,race),War3_GetSkillLevel(client,race,0));
-			
-			}
-			
-			
-			
-			new raceid=War3_GetRace(client);
-			if(!W3GetPlayerProp(client,SpawnedOnce))
-			{
-				War3Source_IntroMenu(client);
-				W3SetPlayerProp(client,SpawnedOnce,true);
-			}
-			else if(raceid<1&&W3IsPlayerXPLoaded(client))
-			{
-				ShowChangeRaceMenu(client);
-			}
-			else if(raceid>0&&GetConVarInt(hRaceLimitEnabled)>0&&GetRacesOnTeam(raceid,GetClientTeam(client),true)>W3GetRaceMaxLimitTeam(raceid,GetClientTeam(client))){
-				CheckRaceTeamLimit(raceid,GetClientTeam(client));  //show changerace inside
-			}
-			raceid=War3_GetRace(client);//get again it may have changed
-			if(raceid>0){
 				
-				W3DoLevelCheck(client);
-				War3_ShowXP(client);
 				
-				W3CreateEvent(DoCheckRestrictedItems,client);
+				
+				new raceid=War3_GetRace(client);
+				if(!W3GetPlayerProp(client,SpawnedOnce))
+				{
+					War3Source_IntroMenu(client);
+					W3SetPlayerProp(client,SpawnedOnce,true);
+				}
+				else if(raceid<1&&W3IsPlayerXPLoaded(client))
+				{
+					ShowChangeRaceMenu(client);
+				}
+				else if(raceid>0&&GetConVarInt(hRaceLimitEnabled)>0&&GetRacesOnTeam(raceid,GetClientTeam(client),true)>W3GetRaceMaxLimitTeam(raceid,GetClientTeam(client))){
+					CheckRaceTeamLimit(raceid,GetClientTeam(client));  //show changerace inside
+				}
+				raceid=War3_GetRace(client);//get again it may have changed
+				if(raceid>0){
+					
+					W3DoLevelCheck(client);
+					War3_ShowXP(client);
+					
+					W3CreateEvent(DoCheckRestrictedItems,client);
+				}
+				
+				
 			}
-			
-			
-			
+			if(SH()){
+				SHShowCRMenuIfCanChoose(client);
+			}
 			
 			//forward to all other plugins last
 			DoForward_OnWar3EventSpawn(client);

@@ -67,7 +67,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 			sectemp[client]=skill_sec;
 			War3_SetBuff(client,bNoClipMode,thisRaceID,true);
 			CreateTimer(0.0,TurnNoClip,client);
-			War3_CooldownMGR(client,25.0,thisRaceID,SKILL_NOCLIP,_,_,_,"Noclip");
+			SH_CooldownMGR(client,25.0,thisRaceID,_,_);
 		}
 	}
 }

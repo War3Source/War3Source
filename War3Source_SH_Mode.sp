@@ -2,7 +2,7 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-
+#include "W3SIncs/war3ext"
 
 
 
@@ -22,6 +22,7 @@ public Plugin:myinfo=
 
 public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 {
+
 	PrintToServer("#       #######    #    ######  ### #     #  #####  ");
 	PrintToServer("#       #     #   # #   #     #  #  ##    # #     # ");
 	PrintToServer("#       #     #  #   #  #     #  #  # #   # #       ");
@@ -38,7 +39,7 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	}
 
 	//DETERMIE GAME MODE
-	LogMessage("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
+	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
 	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "a+"); //creates new file if one not exists
 	
 	new String:buffer[256]
@@ -46,12 +47,12 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	{
 		if(strncmp(buffer, "shsource",strlen( "shsource"), false)==0){
 			SHMODE=true;
-			LogMessage("[SH] SHSource MODE ENABLED");
-			CloseHandle(file);
+			PrintToServer("[SH] SHSource MODE ENABLED");
 			break;
 		}
 	}
-	LogMessage("[SH] FINISHED READING shsourcemode.cfg");
+	CloseHandle(file);
+	PrintToServer("[SH] FINISHED READING shsourcemode.cfg");
 
 
 
@@ -132,7 +133,9 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 
 public OnPluginStart()
 {
-	
+	new String:buf[32];
+	PrintToServer("%f",OurTestNative(3.0,"OnPluginStart",3,buf,sizeof(buf)));
+	PrintToServer("%s",buf);
 }
 
 bool:InitNativesForwards()

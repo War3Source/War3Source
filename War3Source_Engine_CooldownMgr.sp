@@ -14,9 +14,8 @@
 
 
 new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];
-new bool:CooldownOnSpawnPrint[MAXRACES][MAXSKILLCOUNT];
+new bool:CdOnSpawnPrintOnExpire[MAXRACES][MAXSKILLCOUNT];
 new Float:CooldownOnSpawnDuration[MAXRACES][MAXSKILLCOUNT];
-new String:CooldownOnSpawnSkillname[MAXRACES][MAXSKILLCOUNT][32];
 
 new String:ultimateReadySound[]="war3source/ult_ready.wav";
 new String:abilityReadySound[]="war3source/ability_refresh.mp3";
@@ -35,7 +34,6 @@ enum CooldownClass
 	bool:cexpireonspawn,
 	bool:cexpireondeath,
 	bool:cprintmsgonexpire,
-	String:cskillname[32],
 	cnext,
 }
 
@@ -138,9 +136,8 @@ public NW3SkillCooldownOnSpawn(Handle:plugin,numParams)
 	new Float:cooldowntime=GetNativeCell(3);
 	new bool:print=GetNativeCell(4);
 	CooldownOnSpawn[raceid][skillid]=true;
-	CooldownOnSpawnPrint[raceid][skillid]=print;
+	CdOnSpawnPrintOnExpire[raceid][skillid]=print;
 	CooldownOnSpawnDuration[raceid][skillid]=cooldowntime;
-	Format(CooldownOnSpawnSkillname[raceid][skillid],32,"ERR deprecated cooldown on spawn");
 }
 
 	
@@ -161,30 +158,19 @@ public NW3SkillCooldownOnSpawn(Handle:plugin,numParams)
 	
 public Native_War3_CooldownMGR(Handle:plugin,numParams)
 {
-	if(numParams>=4){
+	
 		new client = GetNativeCell(1);
 		new Float:cooldownTime= GetNativeCell(2);
 		new raceid = GetNativeCell(3);
 		new skillNum = GetNativeCell(4); ///can use skill numbers
-		new bool:resetOnSpawn=true;
-		if(numParams>4){
-			resetOnSpawn = GetNativeCell(5);
-		}
-		new bool:resetOnDeath=true;
-		if(numParams>5){
-			resetOnDeath = GetNativeCell(6);
-		}
+		new bool:resetOnSpawn = GetNativeCell(5);
 		new bool:printMsgOnExpireByTime=true;
 		if(numParams>6){
 			printMsgOnExpireByTime = GetNativeCell(7);
 		}
-		new String:skillNameStr[64];
-		//if(numParams>7){
-		//	GetNativeString(8,skillNameStr,sizeof(skillNameStr));
-		//}
-		Format(skillNameStr,sizeof(skillNameStr),"ERR deprecated cooldown ");
-		Internal_CreateCooldown(client,cooldownTime,raceid,skillNum,resetOnSpawn,resetOnDeath,printMsgOnExpireByTime,skillNameStr);
-	}
+
+		Internal_CreateCooldown(client,cooldownTime,raceid,skillNum,resetOnSpawn,printMsgOnExpireByTime);
+	
 }
 public Native_War3_CooldownRMN(Handle:plugin,numParams) //cooldown remaining time
 {
@@ -278,7 +264,7 @@ ClearAllCooldowns()
 }
 
 
-Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn,bool:resetOnDeath,bool:printMsgOnExpireByTime,String:skillNameStr[]){
+Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn,bool:printMsgOnExpireByTime){
 
 	new indextouse=-1;
 	new bool:createlinks=true;
@@ -310,10 +296,8 @@ Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSp
 		Cooldown[indextouse][crace]=raceid;
 		Cooldown[indextouse][cskill]=skillNum;
 		Cooldown[indextouse][cexpireonspawn]=resetOnSpawn;
-		Cooldown[indextouse][cexpireondeath]=resetOnDeath;
 		Cooldown[indextouse][cprintmsgonexpire]=printMsgOnExpireByTime;
-		Format(Cooldown[indextouse][cskillname],64,"%s",skillNameStr);
-		
+
 		CooldownPointer[client][raceid][skillNum]=indextouse;
 	}
 }
@@ -365,9 +349,7 @@ CheckCooldownsForExpired(bool:expirespawn,bool:expiredeath,client=0)
 			}
 		}
 		tempnext=Cooldown[i][cnext];
-		
-		//PrintToChatAll("cooldown for: %d %d %d %s @ %f, skip to %d",Cooldown[i][cclient],Cooldown[i][crace],Cooldown[i][cskill],Cooldown[i][cskillname],Cooldown[i][cexpiretime],tempnext);
-		
+	
 		if(tempnext==0){
 			//PrintToChatAll("DeciSecondTimer break because next is zero at index %d",i);
 			break;
@@ -391,28 +373,15 @@ CooldownExpired(i,bool:expiredByTimer)
 	CooldownPointer[client][raceid][skillNum]=-1;
 
 	if(expiredByTimer){
-		if(ValidPlayer(client,true)&&Cooldown[i][cprintmsgonexpire]&&War3_GetRace(client)==raceid){ //if still the same race and alive
-			if(War3_GetSkillLevel(client,raceid,skillNum)>0){
-			//if(War3_IsSkillUltimate(raceid,skillNum)){
+		if(ValidPlayer(client,true)&&Cooldown[i][cprintmsgonexpire]&&(War3_GetRace(client)==raceid||SHHasHero(client,raceid))){ //if still the same race and alive
+			if(War3_GetSkillLevel(client,raceid,skillNum)>0||SH()){
+			
 				new String:skillname[64];
 				SetTrans(client);
 				W3GetRaceSkillName(raceid,skillNum,skillname,sizeof(skillname));
-			//	if(strlen(Cooldown[i][cskillname])>0){
+				//{ultimate} is just an argument, we fill it in with skillname
 				PrintHintText(client,"%T","{ultimate} Is Ready",client,skillname);
-			//	PrintHintText(client,"%T","{ultimate} Is Ready",client,Cooldown[i][cskillname]);
-				//}
-			//	else{
-				//	PrintHintText(client,"%T","Ultimate Is Ready",client);
-			//	}
-			//}
-			//else{
-		//		if(strlen(Cooldown[i][cskillname])>0){
-		//			PrintHintText(client,"%T","{ability} Is Ready",client,Cooldown[i][cskillname]);
-			//	}
-			//	else{
-			//		PrintHintText(client,"%T","Ability Is Ready",client);
-			//	}
-		//	}
+		
 			
 				EmitSoundToAll( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);
 			}
@@ -444,30 +413,14 @@ GetCooldownIndexByCRS(client,raceid,skillNum){
 
 public Internal_PrintSkillNotAvailable(cooldownindex){
 	new client=Cooldown[cooldownindex][cclient];
-	//new String:skillname[64];
 	new race=Cooldown[cooldownindex][crace];
 	new skill=Cooldown[cooldownindex][cskill];
-	//Format(skillname,sizeof(skillname),"%s",Cooldown[cooldownindex][cskillname]);
 	if(ValidPlayer(client,true)){
 		new String:skillname[64];
 		SetTrans(client);
 		W3GetRaceSkillName(race,skill,skillname,sizeof(skillname));
 		PrintHintText(client,"%T","{skill} Is Not Ready. {amount} Seconds Remaining",client,skillname,War3_CooldownRemaining(client,race,skill));
-		/*if(strlen(skillname)>0)
-		{
-			PrintHintText(client,"%T","{skill} Is Not Ready. {amount} Seconds Remaining",client,skillname,War3_CooldownRemaining(client,race,skill));
-		}
-		else
-		{
-			if(War3_IsSkillUltimate(race,skill))
-			{
-				PrintHintText(client,"%T","Ultimate Is Not Ready. {amount} Seconds Remaining",client,War3_CooldownRemaining(client,race,skill));
-			}
-			else
-			{
-				PrintHintText(client,"%T","Ability Is Not Ready. {amount} Seconds Remaining",client,War3_CooldownRemaining(client,race,skill));
-			}
-		}*/
+
 	}
 }
 
@@ -475,14 +428,25 @@ public OnWar3EventSpawn(client){
 	
 
 	CheckCooldownsForExpired(true,false,client)
-	
-	new race=War3_GetRace(client);
-	for(new i=0;i<MAXSKILLCOUNT;i++){
-		if(CooldownOnSpawn[race][i]){ //only his race
+	if(W3()){
+		new race=War3_GetRace(client);
+		for(new i=0;i<MAXSKILLCOUNT;i++){
+			if(CooldownOnSpawn[race][i]){ //only his race
+				
+				Internal_CreateCooldown(client,CooldownOnSpawnDuration[race][i],race,i,false,CdOnSpawnPrintOnExpire[race][i]);
+			}
 			
-			Internal_CreateCooldown(client,CooldownOnSpawnDuration[race][i],race,i,false,true,CooldownOnSpawnPrint[race][i],CooldownOnSpawnSkillname[race][i]);
 		}
-		
+	}
+	if(SH()){
+		new skillindex=0; //zeroth skill always in SH
+		for(new hero=1;hero<=War3_GetRacesLoaded();hero++){
+			if(CooldownOnSpawn[hero][skillindex]){ 
+				
+				Internal_CreateCooldown(client,CooldownOnSpawnDuration[hero][skillindex],hero,skillindex,false,CdOnSpawnPrintOnExpire[hero][skillindex]);
+			}
+			
+		}
 	}
 }
 public OnWar3EventDeath(victim){

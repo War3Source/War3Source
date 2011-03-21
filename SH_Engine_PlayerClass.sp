@@ -33,18 +33,19 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell);
-	
-	CreateNative("SHGetLevel",NSHGetLevel);
-	CreateNative("SHSetLevel",NSHSetLevel);
-	CreateNative("SHGetXP",NSHGetXP);
-	CreateNative("SHSetXP",NSHSetXP);
-	CreateNative("SHHasHero",NSHHasHero);
-	CreateNative("SHSetHasHero",NSHSetHasHero);
-	
-	CreateNative("SHGetPowerBind",NSHGetPowerBind);
-	CreateNative("SHSetPowerBind",NSHSetPowerBind);
-	
-	CreateNative("SHGetHeroesClientCanHave",NSHGetHeroesClientCanHave);
+	if(SH()){
+		CreateNative("SHGetLevel",NSHGetLevel);
+		CreateNative("SHSetLevel",NSHSetLevel);
+		CreateNative("SHGetXP",NSHGetXP);
+		CreateNative("SHSetXP",NSHSetXP);
+		CreateNative("SHHasHero",NSHHasHero);
+		CreateNative("SHSetHasHero",NSHSetHasHero);
+		
+		CreateNative("SHGetPowerBind",NSHGetPowerBind);
+		CreateNative("SHSetPowerBind",NSHSetPowerBind);
+		
+		CreateNative("SHGetHeroesClientCanHave",NSHGetHeroesClientCanHave);
+	}
 	return true;
 }
 
@@ -65,7 +66,10 @@ public NSHSetXP(Handle:plugin,numParams){
 
 public NSHHasHero(Handle:plugin,numParams){
 	//PrintToServer("%d %d",GetNativeCell(1),GetNativeCell(2));
-	return player[GetNativeCell(1)][hasHero][GetNativeCell(2)];
+	if(SH()){
+		return player[GetNativeCell(1)][hasHero][GetNativeCell(2)];
+	}
+	return -1;
 }
 public NSHSetHasHero(Handle:plugin,numParams){
 	new bool:oldhas=player[GetNativeCell(1)][hasHero][GetNativeCell(2)];

@@ -4,6 +4,8 @@
 
 ///SH wrappers
 
+//
+forward OnSHLoadHeroOrItemOrdered(num);
 
 native SHHasHero(client,heroid);
 native SHSetHasHero(client,hero,bool:hasThisHero);
@@ -73,9 +75,13 @@ native SHTryToGiveClientHero(client,herotogive,bool:showchangeracemenuagain);
 stock SHShowCRMenuIfCanChoose(client){ //show changerace menu if player can select more races
 	if(W3IsPlayerXPLoaded(client)){
 		if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
-			W3CreateEvent(DoShowChangeRaceMenu,client);
+			W3CreateEvent(SHSelectHeroesMenu,client);
 			return true;
 		}
 	}
 	return false;
 }
+
+stock SH_CooldownMGR(client,Float:cooldownTime,heroID,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true){
+	War3_CooldownMGR(client,Float:cooldownTime,heroID,0,resetOnSpawn, printMsgOnExpireByTime);  
+} 

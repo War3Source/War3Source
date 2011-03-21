@@ -72,7 +72,7 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 		
 	}
 	if(allowshowchangeraceagain&&SHHasHeroesNum(client)<maxheroes){
-		InternalShowChangeRaceMenu(client);
+		InternalSHChangeRaceMenu(client);
 	}
 }
 
@@ -87,18 +87,20 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 
 
 public OnWar3Event(W3EVENT:event,client){
-	if(event==DoShowChangeRaceMenu){
-		InternalShowChangeRaceMenu(client);
-	}
-	if(event==SHClearPowers){
-		InternalClearPowers(client);
-	}
-	if(event==SHMyHeroes){
-		InternalShowMyHeroes(client);
+	if(SH()){
+	
+		if(event==SHSelectHeroesMenu){
+			InternalSHChangeRaceMenu(client);
+		}
+		if(event==SHClearPowers){
+			InternalClearPowers(client);
+		}
+		if(event==SHMyHeroes){
+			InternalShowMyHeroes(client);
+		}
 	}
 }
-InternalShowChangeRaceMenu(client){
-	//PrintToChatAll("changeracemenu");
+InternalSHChangeRaceMenu(client){
 	new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
 	SetMenuExitButton(crMenu,true);
 	
@@ -106,6 +108,7 @@ InternalShowChangeRaceMenu(client){
 	Format(title,400,"[SuperHero:Source] Select your desired heroes\nYou have %d out of %d heroes",SHHasHeroesNum(client),SHGetHeroesClientCanHave(client)) ;
 	//AddMenuItem(crMenu,"0","0");
 	for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++){
+		
 		decl String:rbuf[5];
 		Format(rbuf,sizeof(rbuf),"%d",raceid); //DATA FOR MENU!
 		
@@ -155,16 +158,19 @@ InternalClearPowers(client){
 		for(new i=0;i<3;i++){
 			SHSetPowerBind(client,i,0);
 		}
-		InternalShowChangeRaceMenu(client);
+		InternalSHChangeRaceMenu(client);
 	//}
 }
 
 InternalShowMyHeroes(client){
+
 	if(SHHasHeroesNum(client)==0){
+		
 		War3_ChatMessage(client,"You do not have any heroes");
-		InternalShowChangeRaceMenu(client);
+		InternalSHChangeRaceMenu(client);
 	}
 	else{
+		//PrintToChatAll("3");
 		new Handle:hMenu=CreateMenu(InternalShowMyHeroesSelected);
 		SetMenuExitButton(hMenu,true);
 		
@@ -185,9 +191,10 @@ InternalShowMyHeroes(client){
 				AddMenuItem(hMenu,rbuf,rdisp);
 			}
 		}
-	
+		//PrintToChatAll("4");
 		SetMenuTitle(hMenu,"%s\n \n",title);
 		DisplayMenu(hMenu,client,MENU_TIME_FOREVER);
+		//PrintToChatAll("5");
 	}
 }
 

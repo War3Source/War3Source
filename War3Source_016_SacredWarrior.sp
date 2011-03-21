@@ -262,7 +262,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					        
 					        //EmitSoundToAll(ultimateSound,client);
 					        War3_DealDamage(client,SelfDamage,client,DMG_BULLET,"lifebreak"); // Do damage to attacker
-					        War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_BREAK,_,_,_,"Life Break"); // invoke cooldown
+					        War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_BREAK,_,_); // invoke cooldown
 					        
 					        PrintHintText(client,"%T","Life Break",client);
 					    }

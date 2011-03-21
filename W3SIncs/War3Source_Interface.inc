@@ -11,6 +11,10 @@
 #include "W3SIncs/colors"
 #include "W3SIncs/constants"
 
+
+//test 
+//native OurTestNative(Float:f,
+
 //sh include is at the end of this file
 
 new String:interfaceVersion[]="1.1.8"; ///this makes sure the race is compatable with the compiled version of war3source.smx
@@ -621,14 +625,14 @@ native War3_DecreaseHP(client,decrease);
  * @noreturn
  */  
  //REMOVE uneeded arguments
-native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:resetOnDeathNOLONGERUSED=true,bool:printMsgOnExpireByTime=true,String:CDNDEPRECATEDPARAM[]="");  
+native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
 
 //tells the cooldown manager to create a predefined cooldown time when player spawns. 
 //cooldown is created regardless of resetOnSpawn in War3_CooldownMGR(...) calls
 //cooldown is created regardless of race of the client
 //only prints if client is that race
 //set this when u register your skills
-native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsg=true,String:skillnameDEPRECATEDPARAM[]);
+native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsgonexpire=true);
 /**
  * how much time is left on this particular cooldown?
  * returns an int (rounted up from the float)
@@ -1791,6 +1795,16 @@ stock W3AddDecal(const String:decal[], bool:precache = true, bool:preload = true
 
 
 
+stock DP(const String:szMessage[], any:...)
+{
+	
+	decl String:szBuffer[100];
+
+	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
+	PrintToServer("[Debug Print] %s", szBuffer);
+	PrintToChatAll("[Debug Print] %s", szBuffer);
+
+}
 
 
 

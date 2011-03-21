@@ -92,7 +92,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 					PrintHintText(client,"Disguise : On");
 				}
 			}				
-			War3_CooldownMGR(client,10.0,thisRaceID,SKILL_CHANGE,_,_,_,"Disguise");
+			SH_CooldownMGR(client,10.0,thisRaceID,_,_);
 		}
 	}
 }

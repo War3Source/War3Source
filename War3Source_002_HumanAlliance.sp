@@ -72,7 +72,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_HEALTH=War3_AddRaceSkillT(thisRaceID,"DevotionAura",false,4,"15/25/35/45");
 		SKILL_BASH=War3_AddRaceSkillT(thisRaceID,"Bash",false,4,"7/13/19/25%","0.2");
 		ULT_TELEPORT=War3_AddRaceSkillT(thisRaceID,"Teleport",true,4,"600/800/1000/1200");
-		W3SkillCooldownOnSpawn(thisRaceID,ULT_TELEPORT,10.0,_,"Teleport");
+		W3SkillCooldownOnSpawn(thisRaceID,ULT_TELEPORT,10.0,_);
 		War3_CreateRaceEnd(thisRaceID);
 		
 		
@@ -380,7 +380,7 @@ public Action:checkTeleport(Handle:h,any:client){
 		PrintHintText(client,"%T","Teleported",client);
 		
 		new Float:cooldown=GetConVarFloat(ultCooldownCvar);
-		War3_CooldownMGR(client,cooldown,thisRaceID,3,_,_,_,"Teleport");
+		War3_CooldownMGR(client,cooldown,thisRaceID,3,_,_);
 	}
 }
 public bool:AimTargetFilter(entity,mask)

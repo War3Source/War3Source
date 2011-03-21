@@ -125,7 +125,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 					SetEntDataVector(client,m_vecBaseVelocity,velocity,true);
 					EmitSoundToAll(leapsnd,client);
 					EmitSoundToAll(leapsnd,client);
-					War3_CooldownMGR(client,10.0,thisRaceID,SKILL_LEAP,_,_,_,"Time Leap");
+					War3_CooldownMGR(client,10.0,thisRaceID,SKILL_LEAP,_,_);
 				}
 			}
 		}
@@ -202,7 +202,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 					//velocity[1]*=amt;
 					//TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 					
-					War3_CooldownMGR(client,10.0,thisRaceID,SKILL_LEAP,_,_,true);
+					War3_CooldownMGR(client,10.0,thisRaceID,SKILL_LEAP,_,_);
 					//new color[4] = {255,127,0,255};
 					
 				}
@@ -273,7 +273,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 				
 				TE_SetupGlowSprite(endpos,glowsprite,life,3.57,255);
 				TE_SendToAll();
-				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_SPHERE,_,_,_,"Chronosphere");
+				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_SPHERE,_,_);
 			}
 		}
 		else

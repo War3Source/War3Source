@@ -99,7 +99,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		ULT_OVERLOAD=War3_AddRaceSkillT(thisRaceID,"Overload",true,4); 
 		War3_CreateRaceEnd(thisRaceID);
 		
-		W3SkillCooldownOnSpawn(thisRaceID,ULT_OVERLOAD,10.0,_,"Overload"); //translated doesnt use this "Chain Lightning"
+		W3SkillCooldownOnSpawn(thisRaceID,ULT_OVERLOAD,10.0,_); //translated doesnt use this "Chain Lightning"
 	}
 
 }
@@ -145,7 +145,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				
 				CreateTimer(0.5,SecondRing,GetClientUserId(client));
 				
-				War3_CooldownMGR(client,AbilityCooldownTime,thisRaceID,SKILL_TIDE,_,_,_,"Electric Tide");
+				War3_CooldownMGR(client,AbilityCooldownTime,thisRaceID,SKILL_TIDE,_,_);
 				EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
 				EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
 				EmitSoundToAll(taunt2,client);
@@ -234,7 +234,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 				UltimateZapsRemaining[client]=OverloadDuration;
 			
 				PlayerDamageIncrease[client]=1.0;
-				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_OVERLOAD,_,_,_,"Overload");
+				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_OVERLOAD,_,_);
 				
 				CreateTimer(0.25,UltimateLoop,GetClientUserId(client)); //damage
 				
@@ -404,7 +404,7 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 						ConduitUntilTime[victim]=GetGameTime()+float(ConduitDuration);	
 						ConduitSubtractDamage[victim]+=ConduitPerHit[skill_level];
 						ConduitBy[victim]=attacker;
-						War3_CooldownMGR(attacker,float(ConduitCooldown),thisRaceID,SKILL_CONDUIT,_,_,false);
+						War3_CooldownMGR(attacker,float(ConduitCooldown),thisRaceID,SKILL_CONDUIT,_,false);
 						
 						PrintHintText(victim,"%T","Conduit activated on you!",victim);
 						PrintHintText(attacker,"%T","Activated Conduit!",attacker);

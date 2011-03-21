@@ -160,7 +160,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					BeingBurnedBy[target]=GetClientUserId(client);
 					BurnsRemaining[target]=UltimateDamageDuration[ult_level];
 					CreateTimer(1.0,BurnLoop,GetClientUserId(target));
-					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_FLAMESTRIKE,_,_,_,"Flame Strike");
+					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_FLAMESTRIKE,_,_);
 					PrintHintText(client,"%T","Flame Strike!",client);
 					PrintHintText(target,"%T","You have been struck with Flame Strike!",target);
 					W3SetPlayerColor(target,thisRaceID,255,128,0,_,GLOW_ULTIMATE);
