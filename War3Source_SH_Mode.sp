@@ -31,12 +31,6 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	PrintToServer("####### ####### #     # ######  ### #     #  #####  ");
 
 
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-
 	//DETERMIE GAME MODE
 	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
 	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "a+"); //creates new file if one not exists
@@ -132,16 +126,11 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 
 public OnPluginStart()
 {
-	new String:buf[32];
-	PrintToServer("%f",OurTestNative(3.0,"OnPluginStart",3,buf,sizeof(buf)));
-	PrintToServer("%s",buf);
+	//new String:buf[32];
+	//PrintToServer("%f",OurTestNative(3.0,"OnPluginStart",3,buf,sizeof(buf)));
+	//PrintToServer("%s",buf);
 }
 
-bool:InitNativesForwards()
-{
-	
-	return true;
-}
 
 
 

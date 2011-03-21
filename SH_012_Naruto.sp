@@ -9,7 +9,7 @@
 new Float:teleportpos[66][3];
 new thisRaceID;
 new BeamSprite,HaloSprite;
-new String:Rasengang[]="SH/Rasengang.wav";
+//new String:Rasengang[]="SH/Rasengang.wav";
 new Raattacker[66];
 public Plugin:myinfo = 
 {
@@ -28,7 +28,7 @@ public OnMapStart()
 {
 	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
 	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
-	War3_PrecacheSound(Rasengang);
+	//War3_PrecacheSound(Rasengang);
 }
 
 public OnSHLoadHeroOrItemOrdered(num)
