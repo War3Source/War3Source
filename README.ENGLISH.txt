@@ -1,7 +1,7 @@
 
-====== About War3Source (W3S) ======
+====== War3Source (W3S) ======
 
-War3Source (W3S) brings the Warcraft 3 leveling style and races into the game.
+War3Source  brings the Warcraft 3 leveling style and races into the game.
 It is originally based on the amxmodx (AMX) version War3FT.
 
 Each standard race has total of 16 levels, made up of 3 skills and 1 ultimate 
@@ -28,3 +28,17 @@ W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the
 Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
 and took over primary develpement after march 2010.
 
+
+========= SuperHero Source (SH)========
+
+SuperHero Source  runs on top of war3source, uses its powerful engines and interfaces.
+
+Superhero Source is a modification for the popular Game Counter Strike Source
+and is made after the successfull Superhero Mod from Counter Strike 1.6.
+The point is to Kill other Players and gain Experience from that. When you reach a certain amount of Experience you get a Level Up.
+Each Level Up allows you to Pick one additional Hero to your Arsenal.
+Each Hero possesses a unique Power, enabling you to do unbelievable stuff, which may seem to be cheats or hacks first, but they are not!
+But remember: You are not alone with those Powers!
+
+
+See installation and follow directions on how to run SuperHero Source mode.

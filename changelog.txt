@@ -1,7 +1,16 @@
-1.2.0
 
-B8
+1.2.1
 
+
+B1
+
+SUPERHERO SOURCE INTEGRATION, ALL PLUGINS ARE REQUIRED
+
+INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
+
+fixed war3_orc_nocritgloves 	
+invis weapon attatchments on css players (not working, test code is there) 	
+1fixed setlevel as custom 6 flag (t) to rcom 	
 playerinfo was displaying own armor
 ShowXP was not always displaying correct translation
 showskills -> myinfo (in helpmenu)
@@ -12,6 +21,10 @@ check restricted items on SetRace
 level 7 gains less xp fix
 removed empty functions
 increased stack size, maybe it would prevent errors?
+
+
+1.2.0
+
 
 B7
 

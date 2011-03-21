@@ -1,13 +1,12 @@
 ====== INSTALLATION ======
 
-Please read all instructions before installing or follow the directions below: 
-http://war3source.com/wiki/
+Please read all instructions before installing, additional documentation is at http://war3source.com/wiki/
 
-War3Source REQUIRES SDKHOOKS
+War3Source/SH REQUIRES SDKHOOKS
 http://forums.alliedmods.net/showthread.php?t=106748
 download the correct version (likely CSS/TF2/DODS)
 
-DO NOT USE COMMAND SPAMMING KICKER ON YOUR SERVER! WAR3SOURCE IS COMMAND INPUT INTENSIVE!
+DO NOT USE COMMAND SPAMMING KICKER ON YOUR SERVER! WAR3SOURCE/SH IS COMMAND INPUT INTENSIVE!
 
 We do not recomend strict sv_pure. You should know what you are doing if you are using sv_pure.
 
@@ -19,8 +18,8 @@ It is recommended to always update translations folder, gamedata folder, and sou
 
 Each version may have specific installation instructions, please read the release notes (the topic on the release) and the changelog(.txt)
 
---------------
-The installation breakdown:
+------------------------------------
+The INSTALLATION:
 
 Put stuff in the 'addons' beings in your 'addons' folder 
 
@@ -30,9 +29,21 @@ Put stuff in 'sound' beings in your 'sound' folder (always overwrite all on this
 
 If you have a fast download mirror, put 'sound' into the appropriate location on your fast download mirror
 
+
 (Advanced users only:) If you wish to add custom races or content / learn to program SM and W3S, put "*.sp" files and "W3SIncs" in your designated programming (scripting) folder
 
 ----------------------------------
+CONFIGURATION:
+
+war3source.cfg is executed after war3source is loaded
+
+To enable SuperHero:Source mode:
+Create a file called shsourcemode.cfg in /cfg folder (same place as ur war3source.cfg)
+Put "shsource" without quotes as the first line in shsourcemode.cfg
+
+
+
+---------------------------------
 Note on upgrading while server is running:
 
 You may overwrite the files while the server is running. YOU MUST do an "sm plugins unload_all", and then CHANGE THE MAP to force sm plugins to reload. This may or may not work for you.
@@ -40,6 +51,6 @@ You may overwrite the files while the server is running. YOU MUST do an "sm plug
 War3Source will execute /cfg/war3source.cfg (case sensitive on linux) ONCE, after all races and items are loaded. 
 Please put war3source specific cvars in here such as cooldowns etc
 
-see war3source associated Cvars and Commands, use "cvarlist war3" AND "war3 cvarlist" on the server console
+see war3source associated Cvars and Commands, use "cvarlist war3" "war3 cvarlist" "cvarlist sh_" on the server console
 
-ALWAYS check your ERROR LOGS if war3source does not load correctly! Go to the forums for further help.
+ALWAYS check your ERROR LOGS if war3source/SH does not load correctly! Go to the forums for further help.
