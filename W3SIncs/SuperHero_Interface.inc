@@ -17,18 +17,15 @@ native SHSetHeroHasPowerBind(hero,bool:hasPowerBind=true);
 
 
 //returns hero id!!
-stock SHRegisterHero(String:heroname[],String:shortheroname[],String:shortDescription[],String:longDescription[],bool:hasPowerBind=false){
-	new rrid=War3_CreateNewRace(heroname,shortheroname);
-	War3_AddRaceSkill(rrid,shortDescription,longDescription,false,4); ///
-	
-	if(hasPowerBind){
-		SHSetHeroHasPowerBind(rrid,true);
-	}
-	
-	War3_CreateRaceEnd(rrid);
-	
-	
-	return rrid;
+stock SHRegisterHero(String:heroname[],String:shortheroname[],String:shortSkillName[]="no activateble skill",String:longDescription[],bool:hasPowerBind=false){
+	new heroid=War3_CreateNewRace(heroname,shortheroname);
+	War3_AddRaceSkill(heroid,shortSkillName,longDescription,false,4); ///
+
+	SHSetHeroHasPowerBind(heroid,hasPowerBind);
+
+	War3_CreateRaceEnd(heroid);
+
+	return heroid;
 }
 stock SHGetHeroName(heroid,String:str[],maxlen){
 	War3_GetRaceName(heroid,str,maxlen);

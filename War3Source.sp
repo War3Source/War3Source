@@ -229,7 +229,7 @@ public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
 		new raceid=War3_GetRace(client);
 		for( new skillnum;skillnum<MAXSKILLCOUNT;skillnum++){
-			War3_CooldownMGR(client,0.0,raceid,skillnum,_,_);
+			War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
 		}
 		
 	}

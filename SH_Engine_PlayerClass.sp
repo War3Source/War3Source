@@ -33,19 +33,19 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell);
-	if(SH()){
-		CreateNative("SHGetLevel",NSHGetLevel);
-		CreateNative("SHSetLevel",NSHSetLevel);
-		CreateNative("SHGetXP",NSHGetXP);
-		CreateNative("SHSetXP",NSHSetXP);
-		CreateNative("SHHasHero",NSHHasHero);
-		CreateNative("SHSetHasHero",NSHSetHasHero);
-		
-		CreateNative("SHGetPowerBind",NSHGetPowerBind);
-		CreateNative("SHSetPowerBind",NSHSetPowerBind);
-		
-		CreateNative("SHGetHeroesClientCanHave",NSHGetHeroesClientCanHave);
-	}
+	
+	CreateNative("SHGetLevel",NSHGetLevel);
+	CreateNative("SHSetLevel",NSHSetLevel);
+	CreateNative("SHGetXP",NSHGetXP);
+	CreateNative("SHSetXP",NSHSetXP);
+	CreateNative("SHHasHero",NSHHasHero);
+	CreateNative("SHSetHasHero",NSHSetHasHero);
+	
+	CreateNative("SHGetPowerBind",NSHGetPowerBind);
+	CreateNative("SHSetPowerBind",NSHSetPowerBind);
+	
+	CreateNative("SHGetHeroesClientCanHave",NSHGetHeroesClientCanHave);
+	
 	return true;
 }
 

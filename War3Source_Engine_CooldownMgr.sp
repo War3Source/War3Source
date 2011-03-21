@@ -32,7 +32,6 @@ enum CooldownClass
 	crace,
 	cskill,
 	bool:cexpireonspawn,
-	bool:cexpireondeath,
 	bool:cprintmsgonexpire,
 	cnext,
 }
@@ -164,10 +163,7 @@ public Native_War3_CooldownMGR(Handle:plugin,numParams)
 		new raceid = GetNativeCell(3);
 		new skillNum = GetNativeCell(4); ///can use skill numbers
 		new bool:resetOnSpawn = GetNativeCell(5);
-		new bool:printMsgOnExpireByTime=true;
-		if(numParams>6){
-			printMsgOnExpireByTime = GetNativeCell(7);
-		}
+		new bool:printMsgOnExpireByTime = GetNativeCell(6);
 
 		Internal_CreateCooldown(client,cooldownTime,raceid,skillNum,resetOnSpawn,printMsgOnExpireByTime);
 	
@@ -303,9 +299,9 @@ Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSp
 }
 public Action:DeciSecondTimer(Handle:h,any:data){
 	
-	CheckCooldownsForExpired(false,false);
+	CheckCooldownsForExpired(false);
 }
-CheckCooldownsForExpired(bool:expirespawn,bool:expiredeath,client=0)
+CheckCooldownsForExpired(bool:expirespawn,client=0)
 {
 	
 	new Float:currenttime=GetGameTime();
@@ -322,10 +318,6 @@ CheckCooldownsForExpired(bool:expirespawn,bool:expiredeath,client=0)
 				bytime=true;
 			}
 			else if(expirespawn&&Cooldown[i][cclient]==client&&Cooldown[i][cexpireonspawn]){
-				expired=true;
-			}
-			
-			else if(expiredeath&&Cooldown[i][cclient]==client&&Cooldown[i][cexpireondeath]){
 				expired=true;
 			}
 			
@@ -427,7 +419,7 @@ public Internal_PrintSkillNotAvailable(cooldownindex){
 public OnWar3EventSpawn(client){
 	
 
-	CheckCooldownsForExpired(true,false,client)
+	CheckCooldownsForExpired(true,client)
 	if(W3()){
 		new race=War3_GetRace(client);
 		for(new i=0;i<MAXSKILLCOUNT;i++){
@@ -448,7 +440,4 @@ public OnWar3EventSpawn(client){
 			
 		}
 	}
-}
-public OnWar3EventDeath(victim){
-	CheckCooldownsForExpired(false,true,victim)
 }

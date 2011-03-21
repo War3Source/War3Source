@@ -53,7 +53,7 @@ new Handle:AssistGoldCvar;
 
 public OnPluginStart()
 {
-
+	
 	BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
 	HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
 	MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
@@ -717,8 +717,10 @@ GetAssistGold(){
 
 
 public OnWar3Event(W3EVENT:event,client){
-	if(event==DoLevelCheck){
-		LevelCheck(client);
+	if(W3()){
+		if(event==DoLevelCheck){
+			LevelCheck(client);
+		}
 	}
 }
 
