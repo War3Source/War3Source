@@ -46,8 +46,19 @@ public NWar3_GetOwnsItem(Handle:plugin,numParams)
 
 public NWar3_SetOwnsItem(Handle:plugin,numParams)
 {
-
-	playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)]=bool:GetNativeCell(3);
+	new client=GetNativeCell(1);
+	new item=GetNativeCell(2);
+	new bool:hasownership=GetNativeCell(3);
+	
+	new Handle:DBIDB=W3GetDBHandle();
+	if(DBIDB){
+	
+		playerOwnsItem[client][item]=bool:hasownership;
+	}
+	else{
+		return false;
+	}
+	return true;
 }
 public NW3IsItemDisabledGlobal(Handle:plugin,numParams)
 {

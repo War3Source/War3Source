@@ -83,20 +83,15 @@ public OnMapStart()
 
 public OnSHEventDeath(victim,attacker)
 {
-	//if(!bSuicided[victim])
-	//{
-		if(SHHasHero(victim,thisRaceID)&& !Hexed(victim))
-		{
-			PrintToChatAll("t");
-			bSuicided[victim]=true;
-			suicidedAsTeam[victim]=GetClientTeam(victim); //NOW set in spawn, because when switch team he may aleady have changed team
-			GetClientAbsOrigin(victim,SuicideLocation[victim]);
-			CreateTimer(0.15,DelayedBomber,victim);
-		}
-		else{
-//			PrintToChatAll("f");
-		}
-	//}
+
+	if(SHHasHero(victim,thisRaceID)&& !Hexed(victim))
+	{
+		bSuicided[victim]=true;
+		suicidedAsTeam[victim]=GetClientTeam(victim); //NOW set in spawn, because when switch team he may aleady have changed team
+		GetClientAbsOrigin(victim,SuicideLocation[victim]);
+		CreateTimer(0.15,DelayedBomber,victim);
+	}
+		
 }
 public Action:DelayedBomber(Handle:h,any:client){
 	if(ValidPlayer(client)&&!IsPlayerAlive(client)){

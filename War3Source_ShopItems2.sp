@@ -17,6 +17,44 @@
 enum ITEMENUM{ ///
 	POSTHASTE=0,
 	
+	/*
+	//basic "Accessories"
+	striders
+	Fortified Bracelet
+	soulscream ring , Alchemist's Bones, charged hammer
+	Trinket of Restoration
+	sustainer
+	
+	//support
+	ring of the teacher
+	Refreshing Ornament
+	Shield of the Five
+	helm
+	headdress
+	
+	//protective
+	Iron Shield
+	daemonic breastplate
+	frostfield plate	
+	behe's heart
+	snake bracelet
+	barbed armor
+	//combata
+	spell shards??? needs some recoding
+	thunderclaw
+	modk of brilliance
+	warclept - attack speed
+	//morph 
+	shiel dbreakder
+	frostburn
+	some leech 
+	
+	
+	
+	
+	
+	
+	*/
 }
 new ItemID[ITEMENUM];
 

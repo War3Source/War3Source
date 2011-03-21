@@ -7,7 +7,8 @@
 
 native OurTestNative(Float:f=22.2,String:str[]="didnt pass string",int=55,String:returnstring[],maxlen);
 
-native W3ExtVersion(String:returnstr[],maxlen,Function:Func);
+native W3ExtVersion(String:returnstr[],maxlen);
+native W3ExtTestFunc(Function:FuncToCall,Handle:somepluginhandle);
 
 
 /**

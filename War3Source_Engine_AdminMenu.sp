@@ -16,16 +16,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 
@@ -35,10 +25,6 @@ public OnPluginStart()
 	RegConsoleCmd("say_team war3admin",War3Source_Admin,"Brings up the War3Source admin panel.");
 }
 
-bool:InitNativesForwards()
-{
-	return true;
-}
 
 public Action:War3Source_Admin(client,args)
 {
@@ -379,6 +365,7 @@ public War3Source_Admin_GiveShopItem(client,target)
 {
 	if(ValidPlayer(target,false))
 	{
+		SetTrans(client);
 		new Handle:menu=CreateMenu(War3Source_Admin_GSI_Select);
 		SetMenuExitButton(menu,true);
 		decl String:playername[64];
@@ -448,6 +435,7 @@ public War3Source_Admin_SetRace(client,target)
 {
 	if(ValidPlayer(target,false))
 	{
+		SetTrans(client);
 		new Handle:menu=CreateMenu(War3Source_Admin_SetRace_Select);
 		SetMenuExitButton(menu,true);
 		decl String:playername[64];
@@ -458,7 +446,6 @@ public War3Source_Admin_SetRace(client,target)
 		decl String:racename[64];
 		decl String:buf[4];
 		Format(buf,sizeof(buf),"%d",target);
-		SetTrans(client);
 		new RacesLoaded = War3_GetRacesLoaded();
 		for(new x=1;x<=RacesLoaded;x++)
 		{
