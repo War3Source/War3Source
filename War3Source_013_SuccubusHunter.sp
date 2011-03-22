@@ -16,6 +16,7 @@
 #include <sdktools_sound>
 
 #include "W3SIncs/War3Source_Interface"
+public W3ONLY(){} //unload this?
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
 new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets

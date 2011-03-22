@@ -10,7 +10,7 @@ public Plugin:myinfo =
 	description = "Hammerstorm (The Rogue Knight) race for War3Source.",
 	version = "1.2",
 };
-
+public W3ONLY(){} //unload this?
 /* Changelog
  * 1.2 - Fixed speed buff not being removed on race switch
  */

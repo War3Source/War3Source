@@ -24,13 +24,12 @@ public Plugin:myinfo =
 	author = "GGHH3322",
 	description = "SH Race",
 	version = "1.0.0.0",
-	url = "not"
+	url = "war3source.com"
 };
 
 // War3Source Functions
 public OnPluginStart()
 {
-	HookEvent("weapon_fire", WeaponFire);
 	CreateTimer(1.0,Invisble,_,TIMER_REPEAT);	
 }
 public OnSHLoadHeroOrItemOrdered(num)
@@ -148,21 +147,21 @@ public SetWeaponColor(client,r,g,b,o)
         } 
     }     
 }  
-public Action:WeaponFire(Handle:event, const String:name[], bool:dontBroadcast)
-{
-	new userid=GetEventInt(event,"userid");
-	new client=GetClientOfUserId(userid);
-	new String:weapon[128];//weapon Char Array
-	GetClientWeapon(client, weapon, 128);// Get client Weapon(Knife)
-	if(SHHasHero(client,thisRaceID) && StrEqual(weapon,"weapon_knife"))
-	{
-		now[client]=0;
-		temp=(10-now[client])*0.1;
-		
-		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0-temp);	
-		if(StrEqual(weapon,"weapon_knife") && now[client]<1)
+public OnWeaponFired(client)
+{	
+	if(SH()){
+		new String:weapon[128];//weapon Char Array
+		GetClientWeapon(client, weapon, 128);// Get client Weapon(Knife)
+		if(SHHasHero(client,thisRaceID) && StrEqual(weapon,"weapon_knife"))
 		{
-			PrintHintText(client,"You are not invisbleman. reason : attacked");
+			now[client]=0;
+			temp=(10-now[client])*0.1;
+			
+			War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0-temp);	
+			if(StrEqual(weapon,"weapon_knife") && now[client]<1)
+			{
+				PrintHintText(client,"You are not invisbleman. reason : attacked");
+			}
 		}
 	}
 }

@@ -11,6 +11,8 @@
 //see u only include this file
 #include <sdktools>
 
+public W3ONLY(){} //unload this?
+
 new thisRaceID;
 
 new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets

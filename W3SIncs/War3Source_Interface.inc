@@ -1117,7 +1117,8 @@ forward OnW3TakeDmgAll(victim,attacker,Float:damage);
 // BULLET GAME DAMAGE ONLY or Warcraft damage that is allowed to be retriggered (allow more item and skill modifiers), (FILTERED)
 forward OnW3TakeDmgBullet(victim,attacker,Float:damage);  
 
-
+//when a weapon fires, via weapon_fire or TF2 Calc critical (which crits must be on)
+forward OnWeaponFired(victim,attacker,Float:damage);  
 
 
 

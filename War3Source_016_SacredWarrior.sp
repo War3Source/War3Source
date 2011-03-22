@@ -10,7 +10,7 @@ public Plugin:myinfo =
     description = "The Sacred Warrior race for War3Source.",
     version = "1.1",
 };
-
+public W3ONLY(){} //unload this?
 new thisRaceID;
 new SKILL_VITALITY, SKILL_SPEAR, SKILL_BLOOD, ULT_BREAK;
 

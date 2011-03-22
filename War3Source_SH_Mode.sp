@@ -98,12 +98,12 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 			
 			Call_StartFunction(plugin, func);
 			Call_PushCell(W3Mode);
-			Call_PushCell(SHMODE==false);
+			Call_PushCell(INTERNAL_W3());
 			Call_Finish(dummy);
 			
 			Call_StartFunction(plugin, func);
 			Call_PushCell(SHMode);
-			Call_PushCell(SHMODE==true);
+			Call_PushCell(INTERNAL_SH());
 			Call_Finish(dummy);
 		}
 		else{
@@ -126,12 +126,91 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 
 public OnPluginStart()
 {
-	//new String:buf[32];
-	//PrintToServer("%f",OurTestNative(3.0,"OnPluginStart",3,buf,sizeof(buf)));
-	//PrintToServer("%s",buf);
+	PrintToServer("OnPluginStart");
+	RegServerCmd("war3mode",cmdwar3mode);  
+	RegServerCmd("w3mode",cmdwar3mode);
+	RegServerCmd("shmode",cmdshmode);
+	RegServerCmd("whichmode",cmdwhichmode);
+	
 }
-
-
+public Action:cmdwar3mode(args)
+{
+	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "w"); //overwrite
+	WriteFileLine(file, "//shsource");
+	WriteFileLine(file, "//uncomment above line to enable sh mode");
+	CloseHandle(file);
+	PrintToServer("War3 mode configured. Please do a full restart")
+	return Plugin_Handled;
+}
+public Action:cmdshmode(args){
+	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "w"); //overwrite
+	WriteFileLine(file, "shsource");
+	WriteFileLine(file, "//comment above line to disable sh mode");
+	CloseHandle(file);
+	PrintToServer("SH mode configured. Please do a full restart")
+	return Plugin_Handled;
+}
+public Action:cmdwhichmode(args){
+	PrintToServer("W3? %d",INTERNAL_W3());
+	PrintToServer("SH? %d",INTERNAL_SH());
+	
+}
+INTERNAL_W3(){
+	return SHMODE==false;
+}
+INTERNAL_SH(){
+	return SHMODE==true
+}
+public OnWar3Event(W3EVENT:event,client){
+	if(event==UNLOADPLUGINSBYMODE){
+		new Handle:iter=GetPluginIterator();
+		
+		new i=0;
+		while(MorePlugins(iter)){
+			i++;
+			
+			new String:buf[64];
+			new Handle:plugin=ReadPlugin(iter);
+			GetPluginFilename(plugin,buf, 64);
+			
+			new String:bufff[99];
+			if(INTERNAL_W3()){
+				Format(bufff,sizeof(bufff),"Only active in W3 mode");
+			}
+			else if(INTERNAL_SH()){
+				Format(bufff,sizeof(bufff),"Not active in SH mode");
+			}
+			new String:lookforfunc[32];
+			Format(lookforfunc,sizeof(lookforfunc),"UNLOADME");
+			if(!INTERNAL_W3()){
+				Format(lookforfunc,sizeof(lookforfunc),"W3ONLY");
+			}
+			if(!INTERNAL_SH()){
+				Format(lookforfunc,sizeof(lookforfunc),"SHONLY");
+			}
+			new Function:func=GetFunctionByName(plugin,lookforfunc );
+			if(func!=INVALID_FUNCTION){
+			
+			
+				//we someohwo want to throw errors silently.....
+				//by unload command
+				ServerCommand("sm plugins unload %d",i);
+				i--;
+				
+				
+				
+				//or by set fail state which is not silent
+				/*Call_StartFunction(plugin, GetFunctionByName(plugin,"War3FailedSignal"));
+				Call_PushString(bufff);
+				Call_Finish(dummy);*/
+				
+				
+				
+			}
+			
+		}
+	}
+}
 
 
 

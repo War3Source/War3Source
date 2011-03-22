@@ -13,7 +13,7 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 #include <sdkhooks>
-
+public W3ONLY(){} //unload this?
 new thisRaceID;
 
 new Handle:ultCooldownCvar;

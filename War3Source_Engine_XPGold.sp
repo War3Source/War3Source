@@ -53,80 +53,80 @@ new Handle:AssistGoldCvar;
 
 public OnPluginStart()
 {
-	
-	BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
-	HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
-	MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
-	AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
-	RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
-	DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
-	PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
-	RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
-	PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
-	PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
-	CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
-	hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
-	minplayersXP=CreateConVar("war3_min_players_xp_gain","2","minimum amount of players needed on teams for people to gain xp");
-	MaxGoldCvar=CreateConVar("war3_maxgold","1000");
-	
-	KillGoldCvar=CreateConVar("war3_killgold","2");
-	AssistGoldCvar=CreateConVar("war3_assistgold","1");
-	
-	ParseXPSettingsFile();
-	
-	
-	if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
-	{
-		PrintToServer("[War3Source] Could not hook the player_spawn event.");
-	}
-	
-	if(War3_GetGame()==CS){
-		if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
+	if(W3()){
+		BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
+		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
+		MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
+		AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
+		RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
+		DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
+		PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
+		RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
+		PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
+		PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
+		CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
+		hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
+		minplayersXP=CreateConVar("war3_min_players_xp_gain","2","minimum amount of players needed on teams for people to gain xp");
+		MaxGoldCvar=CreateConVar("war3_maxgold","1000");
+		
+		KillGoldCvar=CreateConVar("war3_killgold","2");
+		AssistGoldCvar=CreateConVar("war3_assistgold","1");
+		
+		ParseXPSettingsFile();
+		
+		
+		if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
 		{
-			PrintToServer("[War3Source] Could not hook the bomb_defused event.");
-			
-		}
-		if(!HookEventEx("bomb_planted",War3Source_BombPlantedEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the bomb_planted event.");
-			
-		}
-		if(!HookEventEx("hostage_rescued",War3Source_HostageRescuedEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
-			
+			PrintToServer("[War3Source] Could not hook the player_spawn event.");
 		}
 		
-		if(!HookEventEx("round_end",War3Source_RoundOverEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the round_end event.");
-		}
-	}
-	
-	else if(War3_GetGame()==Game_TF)
-	{
-		if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
+		if(War3_GetGame()==CS){
+			if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the bomb_defused event.");
+				
+			}
+			if(!HookEventEx("bomb_planted",War3Source_BombPlantedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the bomb_planted event.");
+				
+			}
+			if(!HookEventEx("hostage_rescued",War3Source_HostageRescuedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+				
+			}
 			
+			if(!HookEventEx("round_end",War3Source_RoundOverEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the round_end event.");
+			}
 		}
-		if(!HookEventEx("teamplay_point_captured",War3Source_PointCapturedEvent))
+		
+		else if(War3_GetGame()==Game_TF)
 		{
-			PrintToServer("[War3Source] Could not hook the teamplay_point_captured event.");
-			
+			if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
+				
+			}
+			if(!HookEventEx("teamplay_point_captured",War3Source_PointCapturedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the teamplay_point_captured event.");
+				
+			}
+			if(!HookEventEx("teamplay_capture_blocked",War3Source_PointCapBlockedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the teamplay_capture_blocked event.");
+				
+			}
+			if(!HookEventEx("teamplay_flag_event",War3Source_FlagEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the teamplay_flag_event event.");
+				
+			}
 		}
-		if(!HookEventEx("teamplay_capture_blocked",War3Source_PointCapBlockedEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the teamplay_capture_blocked event.");
-			
-		}
-		if(!HookEventEx("teamplay_flag_event",War3Source_FlagEvent))
-		{
-			PrintToServer("[War3Source] Could not hook the teamplay_flag_event event.");
-			
-		}
-	}
-	
+	}	
 }
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);

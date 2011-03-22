@@ -17,7 +17,7 @@
 #undef REQUIRE_EXTENSIONS
 #include <cstrike>
 #define REQUIRE_EXTENSIONS
-
+public W3ONLY(){} //unload this?
 new thisRaceID;
 new bool:bHasRespawned[MAXPLAYERS]; //cs
 new Handle:RespawnDelayCvar;

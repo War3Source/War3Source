@@ -13,6 +13,8 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 
+public W3ONLY(){} //unload this?
+
 new thisRaceID;
 
 new SKILL_FROSTNOVA,SKILL_FROSTARMOR,SKILL_DARKRITUAL,ULT_DEATHDECAY;
@@ -47,7 +49,7 @@ public Plugin:myinfo =
 	version = "1.0.0.0",
 	url = "warcraft-source.net"
 }
-
+public W3ONLY(){} //unload this?
 public OnPluginStart()
 {
 	
@@ -83,6 +85,9 @@ public OnRaceSelected(client,newrace){
 	InitPassive(client); //checks race inside
 }
 public OnSkillLevelChanged(client,race,skill,level){
+	if(W3Chance(0.1)){
+		PrintToServer(" OnSkillLevelChanged licH");
+	}
 	InitPassive(client);
 }
 InitPassive(client){

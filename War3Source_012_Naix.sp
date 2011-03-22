@@ -11,7 +11,7 @@
 #include <sdktools_functions>	//For teleport
 #include <sdktools_sound>		//For sound effect
 #include "W3SIncs/War3Source_Interface"
-
+public W3ONLY(){} //unload this?
 
 // Colors
 #define COLOR_DEFAULT 0x01

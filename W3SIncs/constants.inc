@@ -118,6 +118,8 @@ enum W3EVENT
 	DoTriedToBuyItem2,
 	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
 	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
+	
+	UNLOADPLUGINSBYMODE,//test
 }
 
 enum W3ForwardedVarsEnum{

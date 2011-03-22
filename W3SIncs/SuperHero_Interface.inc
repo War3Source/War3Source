@@ -94,3 +94,38 @@ stock SH_SetBuff(client,W3Buff:buffindex,heroid,any:value){
 		War3_SetBuff(client,W3Buff:buffindex,heroid,any:value);
 	}
 }
+
+
+/** 
+ * Prints a message in the chat area with [War3Source] pre-appended.
+ * Support color tags: {default}, {green}, {lightgreen}, {red}, {blue}, {olive}.
+ * 
+ * @param client      Client index, pass 0 for message to all.
+ * @param szMessage   Message (formatting rules).
+ * @return            No return
+ */
+stock SH_ChatMessage(client, const String:szMessage[], any:...)
+{
+	if (client == 0)
+	{
+		decl String:szBuffer[MAX_MESSAGE_LENGTH];
+		for (new i = 1; i <= MaxClients; i++)
+		{
+			if (IsClientInGame(i) && !IsFakeClient(i))
+			{
+				SetGlobalTransTarget(i);
+				VFormat(szBuffer, sizeof(szBuffer), szMessage, 3);
+				Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", i, szBuffer);
+				CPrintToChat(i, szBuffer);
+			}
+		}
+	}
+	else
+	{
+		decl String:szBuffer[MAX_MESSAGE_LENGTH];
+		SetGlobalTransTarget(client);
+		VFormat(szBuffer, sizeof(szBuffer), szMessage, 3);
+		Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", client, szBuffer);
+		CPrintToChat(client, szBuffer);
+	}
+}

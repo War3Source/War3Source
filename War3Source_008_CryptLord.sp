@@ -12,7 +12,7 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
-
+public W3ONLY(){} //unload this?
 new thisRaceID;
 
 new SKILL_IMPALE,SKILL_SPIKE,SKILL_BEETLES,ULT_LOCUST;

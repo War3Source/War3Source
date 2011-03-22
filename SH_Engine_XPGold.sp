@@ -29,39 +29,40 @@ new Handle:hLevelDifferenceBounus;
 
 public OnPluginStart()
 {
-
-	hXPMultiCvar=CreateConVar("sh_xp_multi","100","how much additional xp required per level");
-	hMaxLevelCvar=CreateConVar("sh_maxlevel","10000","What level do people stop gaining XP?")
-
-	HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
-	MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
-	AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
-	RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
-	//DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
-	//PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
-	//RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
-	//PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
-	//PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
-	//CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
-	hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
-
-	if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
-	{
-		PrintToServer("[War3Source] Could not hook the player_spawn event.");
-	}
+	if(SH()){
+		hXPMultiCvar=CreateConVar("sh_xp_multi","100","how much additional xp required per level");
+		hMaxLevelCvar=CreateConVar("sh_maxlevel","10000","What level do people stop gaining XP?")
 	
-	if(War3_GetGame()==CS)
-	{
-		if(!HookEventEx("round_end",War3Source_RoundOverEvent))
+		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
+		MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
+		AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
+		RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
+		//DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
+		//PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
+		//RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
+		//PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
+		//PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
+		//CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
+		hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
+	
+		if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
 		{
-			PrintToServer("[War3Source] Could not hook the round_end event.");
+			PrintToServer("[War3Source] Could not hook the player_spawn event.");
 		}
-	}
-	else if(War3_GetGame()==Game_TF)
-	{
-		if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
+		
+		if(War3_GetGame()==CS)
 		{
-			PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
+			if(!HookEventEx("round_end",War3Source_RoundOverEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the round_end event.");
+			}
+		}
+		else if(War3_GetGame()==Game_TF)
+		{
+			if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
+			}
 		}
 	}
 }

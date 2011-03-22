@@ -12,7 +12,7 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
-
+public W3ONLY(){} //unload this?
 // TODO: Effects
 
 new thisRaceID;

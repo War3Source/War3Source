@@ -23,6 +23,7 @@ new bool:zdebug[66];
 
 new timerskip;
 
+new Handle:hweaponFiredFwd;
 public Plugin:myinfo= 
 {
 	name="War3Source Engine Weapons",
@@ -33,16 +34,6 @@ public Plugin:myinfo=
 };
 
 
-
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -90,11 +81,13 @@ public Action:weapontest(client,args){
 
 
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("War3_WeaponRestrictTo",NWar3_WeaponRestrictTo);
 	CreateNative("W3GetCurrentWeaponEnt",NW3GetCurrentWeaponEnt);
 	CreateNative("W3DropWeapon",NW3DropWeapon);
+	
+	hweaponFiredFwd=CreateGlobalForward("OnWeaponFired",ET_Ignore,Param_Cell);
 	return true;
 }
 
@@ -305,6 +298,10 @@ public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
         g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
         g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
     } 
+    W3SetVar(SmEvent,event);
+    Call_StartForward(hweaponFiredFwd);
+	Call_PushCell(client);
+	Call_Finish(dummyreturn);
 }
 
 
@@ -323,6 +320,10 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
         g_iWeaponRateQueue[g_iWeaponRateQueueLength][1] = client;
         g_iWeaponRateQueueLength++;
     } 
+    
+    Call_StartForward(hweaponFiredFwd);
+	Call_PushCell(client);
+	Call_Finish(dummyreturn);
 }
 
 public OnGameFrame(){

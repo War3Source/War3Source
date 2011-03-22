@@ -143,6 +143,15 @@ public OnPluginStart()
 	RegConsoleCmd("armortest",armortest);
 	RegConsoleCmd("calltest",calltest);
 	RegConsoleCmd("calltest2",calltest2);
+	
+	RegServerCmd("whichmode",cmdwhichmode);
+	
+
+}
+
+public Action:cmdwhichmode(args){
+	PrintToServer("W3? %d",W3());
+	PrintToServer("SH? %d",SH());
 }
 public Action:calltest(client,args){
 	new Handle:plugins[100];
@@ -383,6 +392,7 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
 	PrintToServer("OnAllPluginsLoaded");
+	W3CreateEvent(UNLOADPLUGINSBYMODE,0);
 }
 public DelayedWar3SourceCfgExecute()
 {
@@ -395,6 +405,11 @@ public DelayedWar3SourceCfgExecute()
 
 LoadRacesAndItems()
 {	
+	
+		CreateTimer(0.2,LoadRacesAndItems2);
+}
+public Action:LoadRacesAndItems2(Handle:h)
+{
 	PrintToServer("RACE ITEM LOAD");
 	new Float:starttime=GetEngineTime();
 	//ordered loads

@@ -118,11 +118,11 @@ public Native_War3_SetBuff(Handle:plugin,numParams)
 		new raceid=GetNativeCell(3);
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,raceid+W3GetItemsLoaded(),value); //ofsetted
-		if(raceid==0){
+		/*if(raceid==0){
 			new String:buf[64];
 			GetPluginFilename(plugin, buf, sizeof(buf));
-			LogError("warning, war3_setbuff passed zero raceid %s",buf);
-		}
+			ThrowError("warning, war3_setbuff passed zero raceid %s",buf);
+		}*/
 	}
 }
 public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
@@ -135,11 +135,11 @@ public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,itemid,value); //not offseted
 		
-		if(itemid==0){
+		/*if(itemid==0){
 			new String:buf[64];
 			GetPluginFilename(plugin, buf, sizeof(buf));
-			LogError("warning, war3_setbuffitem passed zero itemid %s",buf);
-		}
+			ThrowError("warning, war3_setbuffitem passed zero itemid %s",buf);
+		}*/
 	}
 }
 public Native_War3_SetBuffItem2(Handle:plugin,numParams) //buff is from an item
@@ -152,11 +152,11 @@ public Native_War3_SetBuffItem2(Handle:plugin,numParams) //buff is from an item
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,W3GetItemsLoaded()+War3_GetRacesLoaded()+itemid,value); //not offseted
 		
-		if(itemid==0){
+		/*if(itemid==0){
 			new String:buf[64];
 			GetPluginFilename(plugin, buf, sizeof(buf));
 			LogError("warning, war3_setbuffitem2 passed zero itemid %s",buf);
-		}
+		}*/
 	}
 }
 public NW3GetBuff(Handle:plugin,numParams)

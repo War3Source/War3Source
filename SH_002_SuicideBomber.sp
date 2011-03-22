@@ -267,6 +267,6 @@ public OnSHEventSpawn(client)
 
 public OnPowerCommand(client,herotarget,bool:pressed){
 	if(herotarget==thisRaceID&&pressed){
-		PrintToChatAll("power bomber");
+		SH_ChatMessage(client,"power bomber");
 	}
 }
