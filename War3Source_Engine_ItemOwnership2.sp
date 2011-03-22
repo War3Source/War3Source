@@ -5,6 +5,7 @@
 
 
 new bool:playerOwnsItem[MAXPLAYERS][MAXITEMS];
+new playerOwnsItemExpireTime[MAXPLAYERS][MAXITEMS];
 new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 
@@ -23,6 +24,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
+
 }
 
 public bool:InitNativesForwards()
@@ -35,6 +37,9 @@ public bool:InitNativesForwards()
 	
 	CreateNative("W3IsItem2DisabledGlobal",NW3IsItemDisabledGlobal);
 	CreateNative("W3IsItem2DisabledForRace",NW3IsItemDisabledForRace);
+	
+	CreateNative("W3GetItem2ExpireTime",NW3GetItem2ExpireTime);
+	CreateNative("W3SetItem2ExpireTime",NW3SetItem2ExpireTime);
 	return true;
 }
 
@@ -50,14 +55,14 @@ public NWar3_SetOwnsItem(Handle:plugin,numParams)
 	new item=GetNativeCell(2);
 	new bool:hasownership=GetNativeCell(3);
 	
-	new Handle:DBIDB=W3GetDBHandle();
-	if(DBIDB){
+	//new Handle:DBIDB=W3GetDBHandle();
+	//if(DBIDB){
 	
-		playerOwnsItem[client][item]=bool:hasownership;
-	}
-	else{
-		return false;
-	}
+	playerOwnsItem[client][item]=bool:hasownership;
+	//}
+	//else{
+	//	return false;
+	//}
 	return true;
 }
 public NW3IsItemDisabledGlobal(Handle:plugin,numParams)
@@ -112,7 +117,24 @@ public NW3IsItemDisabledForRace(Handle:plugin,numParams)
 	return false;*/
 }
 
+public NW3GetItem2ExpireTime(Handle:plugin,numParams)
+{
 
+	return _:playerOwnsItemExpireTime[GetNativeCell(1)][GetNativeCell(2)];
+
+
+
+}
+public NW3SetItem2ExpireTime(Handle:plugin,numParams)
+{
+	new client=GetNativeCell(1);
+	new item=GetNativeCell(2);
+	new time=GetNativeCell(3);	
+	//new Handle:DBIDB=W3GetDBHandle();
+	//if(DBIDB){
+	
+	playerOwnsItemExpireTime[client][item]=time;
+}
 
 
 
@@ -132,7 +154,7 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==DoForwardClientBoughtItem2){
 		new itemid=W3GetVar(TheItemBoughtOrLost);
 		War3_SetOwnsItem2(client,itemid,true);
-	
+		W3SetItem2ExpireTime(client,itemid,NOW()+3600);
 		Call_StartForward(g_OnItemPurchaseHandle); 
 		Call_PushCell(client);
 		Call_PushCell(itemid);
@@ -156,7 +178,8 @@ public OnWar3Event(W3EVENT:event,client){
 
 CheckForRestrictedItemsOnRace(client)
 {
-	new ItemsLoaded = W3GetItems2Loaded();
+	client=client+0; //silence warning
+	/*new ItemsLoaded = W3GetItems2Loaded();
 	for(new itemid=1;itemid<=ItemsLoaded;itemid++){
 		if(War3_GetOwnsItem2(client,itemid)){
 			new race=War3_GetRace(client);
@@ -175,5 +198,5 @@ CheckForRestrictedItemsOnRace(client)
 			}
 			
 		}
-	}
+	}*/
 }

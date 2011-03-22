@@ -3,6 +3,14 @@
 
 date: 3/21/2011
 
+
+B2
+
+
+SH_ files no longer required for war3
+War3Source_SH_Mode renamed to War3Source_SH_Mode_Select, this file is always required!
+
+
 B1
 
 SUPERHERO SOURCE INTEGRATION, ALL PLUGINS ARE REQUIRED

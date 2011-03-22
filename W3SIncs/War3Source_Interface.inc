@@ -43,6 +43,15 @@ stock ValveGameEnum:War3_GetGame(){
 	return ValveGameEnum:W3ForwarededVars[ValveGame];
 }
 
+//in order to run W3 without SH, we mark some natives OPTIONAL so plugins still run
+//calling a non-existent native results in runtime error (not a direct crash)
+///every plugin will be called this
+forward GlobalOptionalNatives(); 
+public GlobalOptionalNatives(){
+	MarkNativeAsOptional("SHHasHero"); 
+	MarkNativeAsOptional("SHGetHeroesClientCanHave"); 
+	MarkNativeAsOptional("SHHasHero"); 
+}
 
 
 forward War3InterfaceExec();
@@ -266,7 +275,8 @@ native W3GetMaxGold();
  */
 native War3_GetOwnsItem(client,item);
 native War3_GetOwnsItem2(client,item);
-
+native W3GetItem2ExpireTime(client,item);
+native W3SetItem2ExpireTime(client,item,time); //use full linux time , NOW()+duration
 
 
 
@@ -1842,7 +1852,10 @@ stock DP(const String:szMessage[], any:...)
 	PrintToChatAll("[Debug Print] %s", szBuffer);
 
 }
-
+//unix time, integer
+stock NOW(){
+	return GetTime();
+}
 
 
 

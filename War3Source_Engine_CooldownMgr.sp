@@ -62,15 +62,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -88,8 +79,9 @@ public OnMapStart(){
 	ClearAllCooldowns();
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
+	
 	///LIST ALL THESE NATIVES IN INTERFACE
 	CreateNative("War3_CooldownMGR",Native_War3_CooldownMGR);
 	CreateNative("War3_CooldownRemaining",Native_War3_CooldownRMN);
@@ -365,7 +357,7 @@ CooldownExpired(i,bool:expiredByTimer)
 	CooldownPointer[client][raceid][skillNum]=-1;
 
 	if(expiredByTimer){
-		if(ValidPlayer(client,true)&&Cooldown[i][cprintmsgonexpire]&&(War3_GetRace(client)==raceid||SHHasHero(client,raceid))){ //if still the same race and alive
+		if(ValidPlayer(client,true)&&Cooldown[i][cprintmsgonexpire]&& (  (W3()&&War3_GetRace(client)==raceid) ||(SH()&&SHHasHero(client,raceid))    )   ){ //if still the same race and alive
 			if(War3_GetSkillLevel(client,raceid,skillNum)>0||SH()){
 			
 				new String:skillname[64];

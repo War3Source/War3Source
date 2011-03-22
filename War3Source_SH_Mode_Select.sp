@@ -90,7 +90,7 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 		
 		
 		new Function:func=GetFunctionByName(plugin, "W3SetForwarededVar");
-		if(func!=INVALID_FUNCTION){
+		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
 			Call_StartFunction(plugin, func);
 			Call_PushCell(ValveGame);
 			Call_PushCell(tValveGame);
@@ -106,8 +106,10 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 			Call_PushCell(INTERNAL_SH());
 			Call_Finish(dummy);
 		}
-		else{
-			//LogError("Plugin %s does not have required function, interface compatability?",buf);
+		func=GetFunctionByName(plugin, "GlobalOptionalNatives");
+		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+			Call_StartFunction(plugin, func);
+			Call_Finish(dummy);
 		}
 		//PrintToServer("%s",buf);
 		func=GetFunctionByName(plugin, "InitNativesForwards");

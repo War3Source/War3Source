@@ -177,12 +177,12 @@ InternalExceededMaxItemsMenuBuy(client)
 	
 	decl String:itembuf[4];
 	decl String:linestr[96];
-	new ItemsLoaded = W3GetItemsLoaded()
+	new ItemsLoaded = W3GetItems2Loaded()
 	for(new x=1;x<=ItemsLoaded;x++)
 	{
 		if(War3_GetOwnsItem2(client,x)){
 			Format(itembuf,sizeof(itembuf),"%d",x);
-			W3GetItemName(x,itemname,sizeof(itemname));
+			W3GetItem2Name(x,itemname,sizeof(itemname));
 			
 			Format(linestr,sizeof(linestr),"%s",itemname);
 			AddMenuItem(hMenu,itembuf,linestr);
@@ -202,13 +202,13 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new item=StringToInt(SelectionInfo);
-			if(item>0&&item<=W3GetItemsLoaded())
+			if(item>0&&item<=W3GetItems2Loaded())
 			{	
 				
 				new cred=War3_GetGold(client);
 				new cost_num=W3GetItem2Cost(WantsToBuy[client]);
 				decl String:itemname[64];
-				W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
+				W3GetItem2Name(WantsToBuy[client],itemname,sizeof(itemname));
 				
 			
 				if(cred<cost_num){
@@ -217,7 +217,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 				}
 				else{
 					W3SetVar(TheItemBoughtOrLost,item);
-					W3CreateEvent(DoForwardClientLostItem,client); //old item
+					W3CreateEvent(DoForwardClientLostItem2,client); //old item
 					
 					
 					
@@ -226,7 +226,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 					War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 					
 					W3SetVar(TheItemBoughtOrLost,WantsToBuy[client])
-					W3CreateEvent(DoForwardClientBoughtItem,client); //old item
+					W3CreateEvent(DoForwardClientBoughtItem2,client); //old item
 				}
 			}
 		}

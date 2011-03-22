@@ -11,8 +11,8 @@
 
 
 
-#define VERSION_NUM "1.2.1.1"
-#define REVISION_NUM 12101 //increment every release
+#define VERSION_NUM "1.2.1.2"
+#define REVISION_NUM 12102 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
@@ -31,7 +31,16 @@
 
 
 
-
+// This is public for the following reasons:
+// If you have access to a plugin's pointer or context, you can FindPublicByName
+// Once you find a public named myinfo, you can interpret that information elsewhere:
+// This is applied for sm plugins info, as you can probably tell.
+// Psuedo code:
+// void PrintPluginList() {
+// // iterate plugins
+// foreach(plugins as plugin)
+// find public myinfo
+// get string
 public Plugin:myinfo= 
 {
 	name="War3Source",
