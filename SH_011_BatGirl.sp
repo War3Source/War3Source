@@ -84,45 +84,17 @@ Bat_Attach(client)
 		hookOrigin[client]=end;
 		War3_SetBuff(client,fLowGravitySkill,heroID,0.001);
 		EmitSoundToAll("weapons/crossbow/hit1.wav",client);
-		new r,g,b,a;
-		a=255;
-		if(GetConVarInt(cvarColor)==1)
-		{
-			r=255;
-			b=255;
-			g=255;
-		}
-		else
-		{
-			if(GetClientTeam(client)==2)
-				r=255;
-			else
-				b=255;
-		}
-		origin[2]+=20.0;
 	
-		new color[4];
-		color[0]=r;
-		color[1]=g;
-		color[2]=b;
-		color[3]=a;
+		origin[2]+=20.0;
 
-		TE_SetupBeamPoints(origin,hookOrigin[client],beamPrecache,0,     1,         10,   0.2, 10.0  ,1.0,      0,0.0,color,50);
-		TE_SendToAll(0.0);
+		DrawBeam(client,origin,hookOrigin[client]);
+	
 		origin[2]-=20.0;
 		
-		
-		new Float:nil[3],Float:velocity[3],Float:A[3];
-		
+		///give player initial upward boost, maybe help him get off the ground, jump is nicer thou
+		new Float:velocity[3];
 		GetEntPropVector(client,Prop_Data,"m_vecVelocity",velocity);
-		
-		A[0]=hookOrigin[client][0]-origin[0];
-		A[1]=hookOrigin[client][1]-origin[1];
-		A[2]=hookOrigin[client][2]-origin[2];
-		new Float:dist=GetVectorDistance(nil,A);
-		velocity[0]+=A[0]*GetConVarFloat(cvarSpeed)/dist;
-		velocity[1]+=A[1]*GetConVarFloat(cvarSpeed)/dist;
-		velocity[2]+=A[2]*GetConVarFloat(cvarSpeed)/dist;
+		velocity[2]+=70.0;
 		TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 		
 		CreateTimer(0.1,HookTask,client);
@@ -143,47 +115,57 @@ public Action:HookTask(Handle:timer,any:client)
         return;
     }
     new Float:origin[3]
-    new r,g,b,a;
-    a=255;
-    if(GetConVarInt(cvarColor)==1)
-    {
-        r=255;
-        b=255;
-        g=255;
-    }
-    else
-    {
-        if(GetClientTeam(client)==2)
-            r=255;
-        else
-            b=255;
-    }
+    
     GetClientAbsOrigin(client,origin);
     origin[2]+=20.0;
     
-    new color[4];
-    color[0]=r;
-    color[1]=g;
-    color[2]=b;
-    color[3]=a;
-    TE_SetupBeamPoints(origin,hookOrigin[client],beamPrecache,0,     1,         10,   0.2, 10.0  ,1.0,      0,0.0,color,50);
-    TE_SendToAll(0.0);
-    
+    DrawBeam(client,origin,hookOrigin[client]);
     origin[2]-=20.0;
+    
+    
+    ///move player toward hook location
     new Float:velocity[3];
-    
-    velocity[0]=hookOrigin[client][0]-origin[0];
-    velocity[1]=hookOrigin[client][1]-origin[1];
-    velocity[2]=hookOrigin[client][2]-origin[2];
-    
+
+    SubtractVectors(hookOrigin[client],origin,velocity);
     NormalizeVector(velocity,velocity);
-    velocity[0]*=GetConVarFloat(cvarSpeed);
-    velocity[1]*=GetConVarFloat(cvarSpeed);
-    velocity[2]*=GetConVarFloat(cvarSpeed);
+    
+    new Float:distance=GetVectorDistance(hookOrigin[client],origin);
+    if(distance<100.0){ //reduce speed when close to hoook, less jittery
+    	new Float:scale=(GetConVarFloat(cvarSpeed)*(100.0-distance*4.0)/100.0);
+    	ScaleVector(velocity, (scale>10.0)?scale:10.0) ;
+    }
+    else{
+    	ScaleVector(velocity, GetConVarFloat(cvarSpeed));
+    }
+    //PrintToChat(client,"speed %f: %f %f %f Distance %f",GetVectorLength(velocity),velocity[0],velocity[1],velocity[2],distance);
+    
     TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
     CreateTimer(0.1,HookTask,client);
 }
-
+DrawBeam(client,Float:tplayerorigin[3],Float:thookorigin[3]){
+	new r,g,b,a;
+	a=255;
+	if(GetConVarInt(cvarColor)==1)
+	{
+		r=255;
+		b=255;
+		g=255;
+	}
+	else
+	{
+		if(GetClientTeam(client)==2)
+			r=255;
+		else
+			b=255;
+	}
+	new color[4];
+	color[0]=r;
+	color[1]=g;
+	color[2]=b;
+	color[3]=a;
+	TE_SetupBeamPoints(tplayerorigin,thookorigin,beamPrecache,0,     1,         10,   0.2, 10.0  ,1.0,      0,0.0,color,50);
+	TE_SendToAll(0.0);
+}
 public bool:TraceFilter(entity,mask)
 {
     if(entity==traceDeny)

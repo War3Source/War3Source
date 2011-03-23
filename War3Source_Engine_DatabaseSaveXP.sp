@@ -44,7 +44,6 @@ public bool:InitNativesForwards()
 		PrintToServer("W3 MODE");
 		CreateNative("W3SaveXP" ,NW3SaveXP)
 		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
-		CreateNative("W3GetDBHandle" ,NW3GetDBHandle)
 	}
 	return true;
 }
@@ -195,25 +194,6 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 	
 }
 
-W3SQLPlayerInt(Handle:query,const String:columnname[]) //fech from query
-{
-	new column;
-	SQL_FieldNameToNum(query,columnname,column);
-	decl String:result[16];
-	SQL_FetchString(query,column,result,sizeof(result));
-	return StringToInt(result);
-}
-
-W3SQLPlayerString(Handle:query,const String:columnname[],String:out_buffer[],size_out) //fech from query
-{
-	new column;
-	if(SQL_FieldNameToNum(query,columnname,column))
-	{
-		SQL_FetchString(query,column,out_buffer,size_out);
-		return true;
-	}
-	return false;
-}
 
 
 
@@ -390,52 +370,6 @@ War3Source_SavePlayerData(client,race)
 
 
 
-
-
-/// General callback for threaded queries.  No Actions
-public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], any:data)
-{
-	//unansweredqueries--;
-	//if(idebug>0){
-	//	PrintToServer("[mysqlgolddebug] Got answer, query UNANSWERED %d",unansweredqueries);
-	//}
-	
-	
-	SQLCheckForErrors(hndl,error,"SQLWar3GeneralCallback");
-}
-
-stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]=""){
-	if(!StrEqual("", originalerror))
-		LogError("SQL error: [%s] %s", prependstr, originalerror);
-	else if(hndl == INVALID_HANDLE)
-	{
-		decl String:err[512];
-		SQL_GetError(hndl, err, sizeof(err));
-		LogError("SQLCheckForErrors: [%s] %s", prependstr, err);
-	}
-}
-
-public bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
-	if(!SQL_FastQuery(DB,query)){
-		new String:error[256];
-		SQL_GetError(DB, error, sizeof(error));
-		LogError("SQLFastQuery %s failed, Error: %s",query,error);
-		return false;
-	}
-	return true;
-}
-
-public bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
-	new Handle:result= SQL_Query(DB, querystr);
-	if(result==INVALID_HANDLE) {
-		new String:error[256];
-		SQL_GetError(DB, error, sizeof(error));
-		LogError("SQL_War3_NormalQuery %s failed, Error: %s",querystr,error);
-		return false;
-	}
-	return true;
-}
-	
 
 
 

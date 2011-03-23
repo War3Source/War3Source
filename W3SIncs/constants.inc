@@ -18,7 +18,7 @@
 #define MAXITEMS 100  // [1]-[19] //(+1 of real number of items, if there are 8 items to load, use 9!! ignore zeroth rule)
 #define MAXITEMS2 100 
 //zeroth item not used
-/////#define MAXITEMPROPERTIES 1
+
 
 #define MAXSKILLCOUNT 7 //0-6   //A SKILL IS GENERIC, set the property "ultimate" to true for ultmates
 
@@ -37,7 +37,7 @@ enum W3Var
 	hSaveEnabledCvar,
 	hRaceLimitEnabledCvar,
 	hNewPlayerLevelbankCvar,
-	REMOVEsafsdfes,
+
 	TheItemBoughtOrLost,
 	hPlayerInfoArgStr,
 	RaceinfoRaceToShow,
@@ -72,13 +72,6 @@ enum W3EVENT
 	ClearPlayerVariables,
 	DoLevelCheck,
 	
-	OnPreGiveXPGold, //client, arg1,2,3=W3XPAwardedBy , xp, gold
-	//sh
-	
-	
-	
-	//w3
-	
 	
 	DoForwardClientBoughtItem, //tell item ownership to call lost and bought forwards
 	DoForwardClientLostItem, //uses TheItemBoughtOrLost
@@ -94,12 +87,13 @@ enum W3EVENT
 	
 	PlayerLeveledUp,
 	DoCheckRestrictedItems,
+	OnPreGiveXPGold, //client, arg1,2,3=W3XPAwardedBy , xp, gold
 	OnPostGiveXPGold, ///xp gold already given, same args as pre
 	
 	CanBuyItem, //client, arg1=itemid, if eventarg2 is non zero, he can buy// you have to do the message on the reason why he can't buy
 	
 	OnDeathPre, //EventArg1 = attacker.  before w3 actual death forward is called to do some reading ( ie before items are lost)
-	DoShowMenuMyInfo, //MOVE or remove?
+	DoShowMenuMyInfo, //
 	DoShowPlayerInfoTarget, ///EventArg1 = target = the person whos info is shown, client=SHOW TO 
 	
 	
@@ -113,13 +107,14 @@ enum W3EVENT
 	SHClearPowers, //drop all heroes
 	SHSelectHeroesMenu, //sh changerace
 	
-	
+	//shopmenu2
 	DoShowShopMenu2,
 	DoTriedToBuyItem2,
 	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
 	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
 	
 	UNLOADPLUGINSBYMODE,//test
+	
 }
 
 enum W3ForwardedVarsEnum{
@@ -140,6 +135,7 @@ enum W3XPAwardedBy{
 }
 //#define IMMUNITY_COUNT 5
 // The types of immunities you can get/set from.
+///corresponds to a buff system immunity
 enum War3Immunity
 {
 	Immunity_None = 0, //generic zero
@@ -181,6 +177,7 @@ enum W3PlayerProp{
 	CurrentRace,
 	PendingRace,
 	PlayerGold,
+	PlayerDiamonds,
 	iMaxHP,
 	bIsDucking,
 	
@@ -236,12 +233,15 @@ enum W3Buff {
 	iInvisWeaponOverrideAmount, ///amolunt of 0-255 , do not have to set back to 255, just set bInvisWeaponOverride to false
 	
 	fMaxSpeed, //for increasing speeds only! MUST BE MORE THAN 1.0
+	fMaxSpeed2, //for increasing speeds only!, added onto fMaxSpeed buff, MUST BE MORE THAN 1.0
+	
 	fSlow, //for decreeasing speeds only! MUST BE LESS THAN 1.0
 	fSlow2, //for decreeasing speeds only! MUST BE LESS THAN 1.0. allows a race to have stacking slows
-	
+	bSlowImmunity, //immune to slow?
 	
 	bImmunitySkills, //is immune to skills
-	bImmunityUltimates, // is immune to ultimates
+	bImmunityUltimates, // is immune to ultimates	
+	bImmunityWards, // is immune to wards, skill immunity includes ward immunity
 	
 	fAttackSpeed, //attack speed multipler!
 	
@@ -268,17 +268,9 @@ enum W3Buff {
 	iGlowPriority, //highest priority takes effect
 	fGlowSetTime, //time is recorded, those with same prioirty will compete via time. not something u set
 	
-	//move
-	bSlowImmunity, //MOVE
+
 	
-	
-	bImmunityWards, // MOVE    is immune to wards, skill immunity includes ward immunity
-	////////////////
-	
-	fMaxSpeed2, //for increasing speeds only!, added onto fMaxSpeed buff, MUST BE MORE THAN 1.0
-	//MOVE
-	
-	
+
 	
 	
 	

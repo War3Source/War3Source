@@ -163,7 +163,7 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 			}
 		}
 		
-		new Handle:DBIDB=W3GetDBHandle();
+		new Handle:DBIDB=W3GetVar(hDatabase);
 		if(DBIDB){
 			SQL_LockDatabase(DBIDB);   //DB must not ERROR! else u will not unlock databaase!!!
 			
@@ -211,15 +211,7 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 	}
 	return;
 }
-bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
-	if(!SQL_FastQuery(DB,query)){
-		new String:error[256];
-		SQL_GetError(DB, error, sizeof(error));
-		LogError("SQLFastQuery %s failed, Error: %s",query,error);
-		return false;
-	}
-	return true;
-}
+
 public OnWar3EventSpawn(client){
 	if(GetConVarInt(hCvarPrintLevelBank)&&W3GetLevelBank(client)>0){
 		War3_ChatMessage(client,"%T","You have {amount} levels in your levelbank, say levelbank to use them",client,W3GetLevelBank(client));

@@ -49,7 +49,6 @@ public Plugin:myinfo =
 	version = "1.0.0.0",
 	url = "warcraft-source.net"
 }
-public W3ONLY(){} //unload this?
 public OnPluginStart()
 {
 	
@@ -85,10 +84,9 @@ public OnRaceSelected(client,newrace){
 	InitPassive(client); //checks race inside
 }
 public OnSkillLevelChanged(client,race,skill,level){
-	if(W3Chance(0.1)){
-		PrintToServer(" OnSkillLevelChanged licH");
+	if(race==thisRaceID){
+		InitPassive(client);
 	}
-	InitPassive(client);
 }
 InitPassive(client){
 	if(War3_GetRace(client)==thisRaceID){

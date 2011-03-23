@@ -80,7 +80,7 @@ public OnWar3Event(W3EVENT:event,client){
 
 War3Source_UpdateStats()
 {
-	new Handle:DBIDB=W3GetDBHandle();
+	new Handle:DBIDB=W3GetVar(hDatabase);
 	if(DBIDB)
 	{
 		for(new x=0;x<=MaxClients;x++)
@@ -134,7 +134,7 @@ GetRank(client)
 	}
 	else
 	{
-		new Handle:DBIDB=W3GetDBHandle();
+		new Handle:DBIDB=W3GetVar(hDatabase);
 		SQL_TQuery(DBIDB,T_RetrieveRankCache,"SELECT steamid FROM war3source ORDER BY total_level DESC,total_xp DESC",GetClientUserId(client));
 	}
 }
@@ -176,25 +176,6 @@ public T_RetrieveRankCache(Handle:owner,Handle:query,const String:error[],any:us
 }
 
 
-W3SQLPlayerInt(Handle:query,const String:columnname[]) //fech from query
-{
-	new column;
-	SQL_FieldNameToNum(query,columnname,column);
-	decl String:result[16];
-	SQL_FetchString(query,column,result,sizeof(result));
-	return StringToInt(result);
-}
-
-W3SQLPlayerString(Handle:query,const String:columnname[],String:out_buffer[],size_out) //fech from query
-{
-	new column;
-	if(SQL_FieldNameToNum(query,columnname,column))
-	{
-		SQL_FetchString(query,column,out_buffer,size_out);
-		return true;
-	}
-	return false;
-}
 
 
 

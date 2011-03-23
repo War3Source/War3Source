@@ -37,16 +37,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {	
@@ -110,7 +100,7 @@ public OnPluginStart()
 }
 
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("W3GetStatsVersion",NW3GetStatsVersion);
 	return true;
@@ -339,7 +329,7 @@ public Action:ConnectSecondDB(Handle:h){
 		}
 		else{
 			//SQL_TQuery(hdatabase,SQLTCallbackNone,"SET NAMES 'utf8'");
-			SQL_TQuery(hdatabase2,SQLTCallbackNone,"CREATE TABLE IF NOT EXISTS w3bugreport (steamid VARCHAR(64),	name  VARCHAR(64),	clientip VARCHAR(64),	hostname VARCHAR(64),	serverip VARCHAR(64),	version VARCHAR(64),	reportstring VARCHAR(1000) COLLATE utf8_unicode_ci,	time INT,	timestamp timestamp)");
+			SQL_TQuery(hdatabase2,SQLWar3GeneralCallback,"CREATE TABLE IF NOT EXISTS w3bugreport (steamid VARCHAR(64),	name  VARCHAR(64),	clientip VARCHAR(64),	hostname VARCHAR(64),	serverip VARCHAR(64),	version VARCHAR(64),	reportstring VARCHAR(1000) COLLATE utf8_unicode_ci,	time INT,	timestamp timestamp)");
 		}
 	}
 }
@@ -402,18 +392,16 @@ FileBugReport(client,String:reportstr[]){
 	steamid,name,clientip,hostname,serverip,serverport,version,reportstr);
 	
 	W3Socket(longquery,SockCallbackBufReport);
-	//PrintToServer(longquery);
-	Format(longquery,sizeof(longquery),"INSERT INTO w3bugreport SET steamid='%s' ,name='%s'  ,time='%d' , clientip='%s', hostname='%s',serverip='%s:%d' ,version='%s' ,reportstring='%s'",
-	steamid,name,GetTime(),clientip,hostname,serverip,serverport,version,reportstr);
 	
 	if(hdatabase2){
+		Format(longquery,sizeof(longquery),"INSERT INTO w3bugreport SET steamid='%s' ,name='%s'  ,time='%d' , clientip='%s', hostname='%s',serverip='%s:%d' ,version='%s' ,reportstring='%s'",
+		steamid,name,GetTime(),clientip,hostname,serverip,serverport,version,reportstr);
+	
+	
 		
 		SQL_TQuery(hdatabase2,SQLTCallbackFileBug,longquery,client);
 	}
-//	PrintToServer("%s",longquery);
-	//if(!hdatabase2){
-	//	War3_ChatMessage(client,"%T","Could not file bug report, database not connected",client);
-	//}
+
 }
 public SockCallbackBufReport(bool:success,bool:fail,String:str[]){
 
@@ -734,7 +722,9 @@ public SockCallbackWinLoss(succ,fail,String:buf[]){
 
 
 public SQLTCallbackFileBug(Handle:owner,Handle:hndl,const String:error[],any:client){
-	SQLCheckForErrors(hndl,error,"SQLTCallbackFileBug",client);
+	if(GetConVarInt(hShowError)){
+		SQLCheckForErrors(hndl,error,"SQLTCallbackFileBug");
+	}
 	if(hndl==INVALID_HANDLE){
 		if(ValidPlayer(client)){
 			War3_ChatMessage(client,"%T","Could not file bug report, contact server owner",client);
@@ -748,60 +738,6 @@ public SQLTCallbackFileBug(Handle:owner,Handle:hndl,const String:error[],any:cli
 }
 
 
-
-public SQLTCallbackNone(Handle:owner,Handle:hndl,const String:error[],any:client){
-	SQLCheckForErrors(hndl,error,"SQLTCallbackNone",client);
-}
-stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]="",any:client=0){
-	if(GetConVarInt(hShowError)){
-		if(!StrEqual("", originalerror)){
-			LogError("SQL error: [%s] (%d) %s", prependstr,client,originalerror);
-		}
-		else if(hndl == INVALID_HANDLE)
-		{
-		
-			decl String:err[512];
-			SQL_GetError(hndl, err, sizeof(err));
-			LogError("SQLCheckForErrors: [%s] (%d) %s", prependstr, client,err);
-			
-		}
-	}
-}
-
-
-stock W3SQLPlayerInt(Handle:query,const String:columnname[]) //fech from query
-{
-	new column;
-	SQL_FieldNameToNum(query,columnname,column);
-	decl String:result[16];
-	SQL_FetchString(query,column,result,sizeof(result));
-	return StringToInt(result);
-}
-
-
-stock W3GetSQLResultString(Handle:query,const String:columnname[],String:out_buffer[],size_out) //fech from query
-{
-	new column;
-	if(SQL_FieldNameToNum(query,columnname,column))
-	{
-		SQL_FetchString(query,column,out_buffer,size_out);
-		return true;
-	}
-	return false;
-}
-
-stock bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
-	if(!SQL_FastQuery(DB,query)){
-	
-		if(GetConVarInt(hShowError)){
-			new String:error[256];
-			SQL_GetError(DB, error, sizeof(error));
-			LogError("SQLFastQuery %s failed, Error: %s",query,error);
-		}
-		return false;
-	}
-	return true;
-}
 
 stock PHPEscape(String:str[],len){
 	ReplaceString(str,len,"&","%26");

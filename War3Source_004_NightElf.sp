@@ -14,7 +14,7 @@ new thisRaceID;
 
 new bool:bIsEntangled[MAXPLAYERS];
 
-new Handle:EntangleNoShootCvar;//cannot shoot?
+
 new Handle:EntangleCooldownCvar; // cooldown
 
 //new Handle:hWeaponDrop;
@@ -48,7 +48,6 @@ public OnPluginStart()
 	
 
 	EntangleCooldownCvar=CreateConVar("war3_nightelf_entangle_cooldown","20","Cooldown timer.");
-	EntangleNoShootCvar=CreateConVar("war3_nightelf_entangle_noshoot","0","Disable shooting when entangled?");
 	
 	LoadTranslations("w3s.race.nightelf.phrases");
 }
@@ -74,17 +73,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	}
 }
 
-public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
-{
-	if(bIsEntangled[client] && War3_GetGame()==Game_TF)
-	{
-		if(GetConVarInt(EntangleNoShootCvar)>0){
-			if((buttons & IN_ATTACK) || (buttons & IN_ATTACK2))
-				return Plugin_Handled;
-		}
-	}
-	return Plugin_Continue;
-}
+
 
 public DropWeapon(client,weapon)
 {

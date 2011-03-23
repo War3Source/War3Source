@@ -66,8 +66,8 @@ public OnPluginStart()
 		if(hSDKWeaponDrop == INVALID_HANDLE){
 			SetFailState("Unable to find WeaponDrop Signature");
 		}
-
-	
+		
+		
 		HookEvent("weapon_fire",WeaponFireEvent, EventHookMode_Pre); //CS
 	}
 	RegConsoleCmd("weapontest",weapontest);
@@ -114,7 +114,7 @@ public NWar3_WeaponRestrictTo(Handle:plugin,numParams)
 	new raceid=GetNativeCell(2);
 	new String:restrictedto[300];
 	GetNativeString(3,restrictedto,sizeof(restrictedto));
-
+	
 	restrictionPriority[client][raceid]=GetNativeCell(4);
 	//new String:pluginname[100];
 	//GetPluginFilename(plugin, pluginname, 100);
@@ -131,8 +131,8 @@ CalculateWeaponRestCache(client){
 	for(new raceid=0;raceid<=limit;raceid++){
 		restrictionEnabled[client][raceid]=(strlen(weaponsAllowed[client][raceid])>0)?true:false;
 		if(restrictionEnabled[client][raceid]){
-		
-		
+			
+			
 			num++;
 			if(restrictionPriority[client][raceid]>highestpri){
 				highestpri=restrictionPriority[client][raceid];
@@ -197,11 +197,11 @@ public Action:OnWeaponCanUse(client, weaponent)
 	if(hasAnyRestriction[client]){
 		if(CheckCanUseWeapon(client,weaponent))
 		{
-     	 	return Plugin_Continue; //ALLOW
+			return Plugin_Continue; //ALLOW
 		}
 		return Plugin_Handled;
 	}
-
+	
 	return Plugin_Continue;
 }
 public Action:DeciSecondTimer(Handle:h,any:a){
@@ -210,16 +210,16 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 		timerskip=10;
 		for(new client=1;client<=MaxClients;client++){
 			/*if(true){ //test
-				new wpnent = GetCurrentWeaponEnt(client);
-				if(FindSendPropOffs("CWeaponUSP","m_bSilencerOn")>0){
-				
-					SetEntData(wpnent,FindSendPropOffs("CWeaponUSP","m_bSilencerOn"),true,true);
-					}
-					
-			}*/
-		
-			if(hasAnyRestriction[client]&&ValidPlayer(client,true)){
+			new wpnent = GetCurrentWeaponEnt(client);
+			if(FindSendPropOffs("CWeaponUSP","m_bSilencerOn")>0){
 			
+			SetEntData(wpnent,FindSendPropOffs("CWeaponUSP","m_bSilencerOn"),true,true);
+			}
+			
+			}*/
+			
+			if(hasAnyRestriction[client]&&ValidPlayer(client,true)){
+				
 				new String:name[32];
 				GetClientName(client,name,sizeof(name));
 				//PrintToChatAll("ValidPlayer %d",client);
@@ -229,11 +229,11 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 				//new String:WeaponName[32];
 				
 				//if(IsValidEdict(wpnent)){
-					
-			//	}
-	
+				
+				//	}
+				
 				//PrintIfDebug(client,"    %s res: (%s) weapon: %s",name,weaponsAllowed[client],WeaponName);		
-			//	if(strlen(weaponsAllowed[client])>0){
+				//	if(strlen(weaponsAllowed[client])>0){
 				if(wpnent>0&&IsValidEdict(wpnent)){
 					
 					
@@ -252,13 +252,13 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 						//UTIL_Remove(wpnent);
 						
 					}
-		
+					
 				}
 				else{
 					//PrintIfDebug(client,"no weapon");
 					//PrintToChatAll("no weapon");
 				}
-			//	}
+				//	}
 			}
 		}
 	}
@@ -274,60 +274,60 @@ stock PrintIfDebug(client,String:fmt[],any:...){
 	}
 }
 
-		
 
-		
-		
-		
+
+
+
+
 public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
 { 
-
-    new client = GetClientOfUserId(GetEventInt(event,"userid"));
-    
-    ///PrintToServer("3");
+	
+	new client = GetClientOfUserId(GetEventInt(event,"userid"));
+	
+	///PrintToServer("3");
 	//SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", Float:{0.0,0.0,0.0});
-    
-    //if(!IsRace(client))
-    //  return;
-   // if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
-  //    return;
-    new ent = GetCurrentWeaponEnt(client);
-    if(ent != -1)
-    {
-        //fill the stack for next frame
-        g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
-        g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
-    } 
-    W3SetVar(SmEvent,event);
-    Call_StartForward(hweaponFiredFwd);
+	
+	//if(!IsRace(client))
+	//  return;
+	// if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
+	//    return;
+	new ent = GetCurrentWeaponEnt(client);
+	if(ent != -1)
+	{
+		//fill the stack for next frame
+		g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
+		g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
+	} 
+	W3SetVar(SmEvent,event);
+	Call_StartForward(hweaponFiredFwd);
 	Call_PushCell(client);
-	Call_Finish(dummyreturn);
+	Call_Finish(dummy);	
 }
 
 
 public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &bool:result)
 {
-   // new client = GetClientOfUserId(GetEventInt(event,"userid"));
-    //if(!IsRace(client))
-    //  return;
-   // if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
-  //    return;
-    new ent = GetEntDataEnt2(client,m_OffsetActiveWeapon);
-    if(ent != -1)
-    {
-        //fill the stack for next frame
-        g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
-        g_iWeaponRateQueue[g_iWeaponRateQueueLength][1] = client;
-        g_iWeaponRateQueueLength++;
-    } 
-    
-    Call_StartForward(hweaponFiredFwd);
+	// new client = GetClientOfUserId(GetEventInt(event,"userid"));
+	//if(!IsRace(client))
+	//  return;
+	// if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
+	//    return;
+	new ent = GetEntDataEnt2(client,m_OffsetActiveWeapon);
+	if(ent != -1)
+	{
+		//fill the stack for next frame
+		g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
+		g_iWeaponRateQueue[g_iWeaponRateQueueLength][1] = client;
+		g_iWeaponRateQueueLength++;
+	} 
+	
+	Call_StartForward(hweaponFiredFwd);
 	Call_PushCell(client);
-	Call_Finish(dummyreturn);
+	Call_Finish(dummy);
 }
 
 public OnGameFrame(){
-
+	
 	if(g_iWeaponRateQueueLength>0)       //see events
 	{
 		decl ent, client, Float:time;
@@ -347,9 +347,8 @@ public OnGameFrame(){
 		g_iWeaponRateQueueLength = 0; 
 	}
 }
-		
-		
-		
-	
-	
-	
+
+
+
+
+

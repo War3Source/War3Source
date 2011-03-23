@@ -80,16 +80,19 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	//we manually force every plugin to create their natives and forwards
 	//no natives have been "bound" at this point, aka they cannot call "W3", but they can call W3Early which forces a function call
 	PrintToServer("[War3Source] Initalizing Natives and Forwards");
+	
+	new i=0;
 	new Handle:iter=GetPluginIterator();
 	while(MorePlugins(iter)){
-		
+		i++;
 		new String:buf[64];
 		new Handle:plugin=ReadPlugin(iter);
 		GetPluginFilename(plugin,buf, 64);
+		new Function:func;
 		
+	
 		
-		
-		new Function:func=GetFunctionByName(plugin, "W3SetForwarededVar");
+		func=GetFunctionByName(plugin, "W3SetForwarededVar");
 		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
 			Call_StartFunction(plugin, func);
 			Call_PushCell(ValveGame);
@@ -111,6 +114,11 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 			Call_StartFunction(plugin, func);
 			Call_Finish(dummy);
 		}
+		
+		
+		
+		
+		
 		//PrintToServer("%s",buf);
 		func=GetFunctionByName(plugin, "InitNativesForwards");
 		if(func!=INVALID_FUNCTION){
@@ -165,16 +173,16 @@ INTERNAL_SH(){
 }
 public OnWar3Event(W3EVENT:event,client){
 	if(event==UNLOADPLUGINSBYMODE){
-		new Handle:iter=GetPluginIterator();
-		
 		new i=0;
+		new Handle:iter=GetPluginIterator();
 		while(MorePlugins(iter)){
 			i++;
-			
 			new String:buf[64];
 			new Handle:plugin=ReadPlugin(iter);
 			GetPluginFilename(plugin,buf, 64);
 			
+			
+			//UNLOAD plugins
 			new String:bufff[99];
 			if(INTERNAL_W3()){
 				Format(bufff,sizeof(bufff),"Only active in W3 mode");
@@ -191,27 +199,14 @@ public OnWar3Event(W3EVENT:event,client){
 				Format(lookforfunc,sizeof(lookforfunc),"SHONLY");
 			}
 			new Function:func=GetFunctionByName(plugin,lookforfunc );
+			
 			if(func!=INVALID_FUNCTION){
-			
-			
-				//we someohwo want to throw errors silently.....
-				//by unload command
+				
 				ServerCommand("sm plugins unload %d",i);
 				i--;
-				
-				
-				
-				//or by set fail state which is not silent
-				/*Call_StartFunction(plugin, GetFunctionByName(plugin,"War3FailedSignal"));
-				Call_PushString(bufff);
-				Call_Finish(dummy);*/
-				
-				
-				
 			}
-			
 		}
-	}
+	}	
 }
 
 

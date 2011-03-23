@@ -315,191 +315,188 @@ public Action:DeciSecondTimer(Handle:timer)
 			if(ValidPlayer(client,true))
 			{
 				
-				new raceid=War3_GetRace(client);
-				if(raceid>0)
+		
+				//PrintToChatAll("sdf %d",client);
+				new Float:gravity=1.0; //default
+				if(!GetBuffHasOneTrue(client,bLowGravityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) //can we change gravity?
 				{
-					//PrintToChatAll("sdf %d",client);
-					new Float:gravity=1.0; //default
-					if(!GetBuffHasOneTrue(client,bLowGravityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) //can we change gravity?
-					{
-						//if(!GetBuffHasOneTrue(client,bLowGravityDenySkill)){
-						new Float:gravity1=FloatMul(gravity,GetBuffMinFloat(client,fLowGravitySkill));
-						//}
-						//if(!GetBuffHasOneTrue(client,bLowGravityDenyItem)){
-						new Float:gravity2=FloatMul(gravity,GetBuffMinFloat(client,fLowGravityItem));
-						
-						gravity=gravity1<gravity2?gravity1:gravity2;
-						//}
-						//gravity=; //replace
-						//PrintToChat(client,"mingrav=%f",gravity);
+					//if(!GetBuffHasOneTrue(client,bLowGravityDenySkill)){
+					new Float:gravity1=GetBuffMinFloat(client,fLowGravitySkill);
+					//}
+					//if(!GetBuffHasOneTrue(client,bLowGravityDenyItem)){
+					new Float:gravity2=GetBuffMinFloat(client,fLowGravityItem);
+					
+					gravity=gravity1<gravity2?gravity1:gravity2;
+					//}
+					//gravity=; //replace
+					//PrintToChat(client,"mingrav=%f",gravity);
+				}
+				///now lets set the grav
+				if(GetEntDataFloat(client,m_OffsetGravity[client])!=gravity) ///gravity offset is somewhoe different for each person? this offset is got on PutInServer
+					SetEntDataFloat(client,m_OffsetGravity[client],gravity);
+				
+				
+				new r=255,g=255,b=255,alpha=255;
+			//	new bool:skipinvis=false;
+				
+				new bestindex=-1;
+				new highestvalue=0;
+				new Float:settime=0.0;
+				
+				new limit=W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded();
+				for(new i=0;i<=limit;i++){
+					if(GetBuff(client,iGlowPriority,i)>highestvalue){
+						highestvalue=GetBuff(client,iGlowPriority,i);
+						bestindex=i;
+						settime=Float:GetBuff(client,fGlowSetTime,i);
 					}
-					///now lets set the grav
-					if(GetEntDataFloat(client,m_OffsetGravity[client])!=gravity) ///gravity offset is somewhoe different for each person? this offset is got on PutInServer
-						SetEntDataFloat(client,m_OffsetGravity[client],gravity);
-					
-					
-					new r=255,g=255,b=255,alpha=255;
-				//	new bool:skipinvis=false;
-					
-					new bestindex=-1;
-					new highestvalue=0;
-					new Float:settime=0.0;
-					
-					new limit=W3GetItemsLoaded()+War3_GetRacesLoaded();
-					for(new i=0;i<=limit;i++){
-						if(GetBuff(client,iGlowPriority,i)>highestvalue){
+					else if(GetBuff(client,iGlowPriority,i)==highestvalue&&highestvalue>0){ //equal priority
+						if(GetBuff(client,fGlowSetTime,i)>settime){ //only if this one set it sooner
 							highestvalue=GetBuff(client,iGlowPriority,i);
 							bestindex=i;
 							settime=Float:GetBuff(client,fGlowSetTime,i);
 						}
-						else if(GetBuff(client,iGlowPriority,i)==highestvalue&&highestvalue>0){ //equal priority
-							if(GetBuff(client,fGlowSetTime,i)>settime){ //only if this one set it sooner
-								highestvalue=GetBuff(client,iGlowPriority,i);
-								bestindex=i;
-								settime=Float:GetBuff(client,fGlowSetTime,i);
+					}
+				}
+				if(bestindex>-1){
+					r=GetBuff(client,iGlowRed,bestindex);
+					g=GetBuff(client,iGlowGreen,bestindex);
+					b=GetBuff(client,iGlowBlue,bestindex);
+					alpha=GetBuff(client,iGlowAlpha,bestindex);
+				//	skipinvis=true;
+				}
+				
+				new bool:set=false;
+				if(GetPlayerR(client)!=r)
+					set=true;
+				if(GetPlayerG(client)!=g)
+					set=true;
+				if(GetPlayerB(client)!=b)
+					set=true;
+				//alpha set is after invis block, not here
+				if(set){
+					//	PrintToChatAll("%d %d %d %d",r,g,b,alpha);
+					SetPlayerRGB(client,r,g,b);
+				}
+				
+				
+				
+				
+				
+				///invisbility!
+				//PrintToChatAll("GetBuffMinFloat(client,fInvisibility) %f %f %f ",GetBuffMinFloat(client,fInvisibility),float(alpha),float(alpha)*GetBuffMinFloat(client,fInvisibility));
+				if(!GetBuffHasOneTrue(client,bInvisibilityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) ///buff is not denied
+				{
+					new Float:falpha=1.0;
+					if(!GetBuffHasOneTrue(client,bInvisibilityDenySkill))
+					{
+						falpha=FloatMul(falpha,GetBuffMinFloat(client,fInvisibilitySkill));
+						
+					}
+					//if(!GetBuffHasOneTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
+					new Float:itemalpha=GetBuffMinFloat(client,fInvisibilityItem);
+					if(falpha!=1.0){
+						//PrintToChatAll("has skill invis");
+						//has skill, reduce stack
+						itemalpha=Pow(itemalpha,0.75);
+					}
+					falpha=FloatMul(falpha,itemalpha);
+					
+					//PrintToChatAll("%f",GetBuffMinFloat(client,fInvisibilityItem));
+					
+					new alpha2=RoundFloat(       FloatMul(255.0,falpha)  ); 
+					//PrintToChatAll("alpha2 = %d",alpha2);
+					if(alpha2>=0&&alpha2<=255){
+						alpha=alpha2;
+					}
+					else{
+						LogError("alpha playertracking out of bounds 0 - 255");
+					}
+				}
+				//PrintToChatAll("%d",alpha);
+				if(GetEntityAlpha(client)!=alpha)
+					SetEntityAlpha(client,alpha);
+					
+				invisWeaponAttachments[client]=alpha<200?true:false;
+				
+					
+					
+					
+				new wpn=W3GetCurrentWeaponEnt(client);
+				if(wpn>0){
+					if(GetBuffHasOneTrue(client,bInvisWeaponOverride)){
+						new alphaw=-1;
+						new buffloop = BuffLoopLimit();
+						for(new i=0;i<=buffloop;i++){
+							if(W3GetBuff(client,bInvisWeaponOverride,i,true)){
+								alphaw=W3GetBuff(client,iInvisWeaponOverrideAmount,i,true);
 							}
 						}
+						if(alphaw==-1){
+							ThrowError("could not find a valid weapon alpha");
+						}
+						if(GetWeaponAlpha(client)!=alphaw){
+							SetEntityAlpha(wpn,alphaw);
+						}
 					}
-					if(bestindex>-1){
-						r=GetBuff(client,iGlowRed,bestindex);
-						g=GetBuff(client,iGlowGreen,bestindex);
-						b=GetBuff(client,iGlowBlue,bestindex);
-						alpha=GetBuff(client,iGlowAlpha,bestindex);
-					//	skipinvis=true;
-					}
-					
-					new bool:set=false;
-					if(GetPlayerR(client)!=r)
-						set=true;
-					if(GetPlayerG(client)!=g)
-						set=true;
-					if(GetPlayerB(client)!=b)
-						set=true;
-					//alpha set is after invis block, not here
-					if(set){
-						//	PrintToChatAll("%d %d %d %d",r,g,b,alpha);
-						SetPlayerRGB(client,r,g,b);
-					}
-					
-					
-					
-					
-					
-					///invisbility!
-					//PrintToChatAll("GetBuffMinFloat(client,fInvisibility) %f %f %f ",GetBuffMinFloat(client,fInvisibility),float(alpha),float(alpha)*GetBuffMinFloat(client,fInvisibility));
-					if(!GetBuffHasOneTrue(client,bInvisibilityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) ///buff is not denied
-					{
-						new Float:falpha=1.0;
-						if(!GetBuffHasOneTrue(client,bInvisibilityDenySkill))
-						{
-							falpha=FloatMul(falpha,GetBuffMinFloat(client,fInvisibilitySkill));
+					else if(!GetBuffHasOneTrue(client,bDoNotInvisWeapon)){
+						if(GetWeaponAlpha(client)!=alpha){
+							SetEntityAlpha(wpn,alpha);
 							
 						}
-						//if(!GetBuffHasOneTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
-						new Float:itemalpha=GetBuffMinFloat(client,fInvisibilityItem);
-						if(falpha!=1.0){
-							//PrintToChatAll("has skill invis");
-							//has skill, reduce stack
-							itemalpha=Pow(itemalpha,0.75);
-						}
-						falpha=FloatMul(falpha,itemalpha);
-						
-						//PrintToChatAll("%f",GetBuffMinFloat(client,fInvisibilityItem));
-						
-						new alpha2=RoundFloat(       FloatMul(255.0,falpha)  ); 
-						//PrintToChatAll("alpha2 = %d",alpha2);
-						if(alpha2>=0&&alpha2<=255){
-							alpha=alpha2;
-						}
-						else{
-							LogError("alpha playertracking out of bounds 0 - 255");
-						}
-					}
-					//PrintToChatAll("%d",alpha);
-					if(GetEntityAlpha(client)!=alpha)
-						SetEntityAlpha(client,alpha);
-						
-					invisWeaponAttachments[client]=alpha<200?true:false;
-					
-						
-						
-						
-					new wpn=W3GetCurrentWeaponEnt(client);
-					if(wpn>0){
-						if(GetBuffHasOneTrue(client,bInvisWeaponOverride)){
-							new alphaw=-1;
-							new buffloop = BuffLoopLimit();
-							for(new i=0;i<=buffloop;i++){
-								if(W3GetBuff(client,bInvisWeaponOverride,i,true)){
-									alphaw=W3GetBuff(client,iInvisWeaponOverrideAmount,i,true);
-								}
-							}
-							if(alphaw==-1){
-								ThrowError("could not find a valid weapon alpha");
-							}
-							if(GetWeaponAlpha(client)!=alphaw){
-								SetEntityAlpha(wpn,alphaw);
-							}
-						}
-						else if(!GetBuffHasOneTrue(client,bDoNotInvisWeapon)){
-							if(GetWeaponAlpha(client)!=alpha){
-								SetEntityAlpha(wpn,alpha);
-								
-							}
-						}
-						
 					}
 					
-					
-					/*for(new i=0;i<10;i++){
-						new ent=GetPlayerWeaponSlot(client,i);
-						if(ent>0){
-							PrintToChatAll("2 ent %d %d %d",ent,GetEntityAlpha(ent),alpha);
-							if(GetEntityAlpha(ent)!=alpha)
-							{
-								PrintToChatAll("3");
-								
-								
-				
-								SetEntityRenderMode(ent,RENDER_NONE);
-								SetEntityRenderFx(ent,RENDERFX_FADE_FAST);
-								SetEntityRenderColor(ent,0,0,0,0);	
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iParentAttachment"),0,_,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","moveparent"),0,_,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","movetype"),0,_,true);
-								
-								TeleportEntity(ent,Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0});
-								//SetEntityAlpha(ent,alpha);
-								TE_SetupKillPlayerAttachments(client);
-								TE_SendToAll();
-								TE_SetupKillPlayerAttachments(ent);
-								TE_SendToAll();
-								ChangeEdictState(ent);
-								
-								
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bIsPlayerSimulated")  ,0,1,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bSimulatedEveryTick")  ,0,1,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
-								SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flAnimTime") ,0.0,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0.0,_,true);
-								SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flSimulationTime") ,0.0,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nNextThinkTick") ,9999,true);
-								
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iViewModelIndex")  ,halo,1,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iWorldModelIndex")  ,halo,1,true);
-								SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nModelIndex")  ,halo,1,true);
-								
-								
-								
-								PrintToChatAll("weapon alpha %d %f",alpha,GetGameTime());
-							}
-						}
-					}*/
-					
-					///NEED 4 SPEED!
-					///SPEED IS IN PLAYER FRAME	
 				}
+				
+				
+				/*for(new i=0;i<10;i++){
+					new ent=GetPlayerWeaponSlot(client,i);
+					if(ent>0){
+						PrintToChatAll("2 ent %d %d %d",ent,GetEntityAlpha(ent),alpha);
+						if(GetEntityAlpha(ent)!=alpha)
+						{
+							PrintToChatAll("3");
+							
+							
+			
+							SetEntityRenderMode(ent,RENDER_NONE);
+							SetEntityRenderFx(ent,RENDERFX_FADE_FAST);
+							SetEntityRenderColor(ent,0,0,0,0);	
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iParentAttachment"),0,_,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","moveparent"),0,_,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","movetype"),0,_,true);
+							
+							TeleportEntity(ent,Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0});
+							//SetEntityAlpha(ent,alpha);
+							TE_SetupKillPlayerAttachments(client);
+							TE_SendToAll();
+							TE_SetupKillPlayerAttachments(ent);
+							TE_SendToAll();
+							ChangeEdictState(ent);
+							
+							
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bIsPlayerSimulated")  ,0,1,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bSimulatedEveryTick")  ,0,1,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
+							SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flAnimTime") ,0.0,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0.0,_,true);
+							SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flSimulationTime") ,0.0,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nNextThinkTick") ,9999,true);
+							
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iViewModelIndex")  ,halo,1,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iWorldModelIndex")  ,halo,1,true);
+							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nModelIndex")  ,halo,1,true);
+							
+							
+							
+							PrintToChatAll("weapon alpha %d %f",alpha,GetGameTime());
+						}
+					}
+				}*/
+				
+				///NEED 4 SPEED!
+				///SPEED IS IN PLAYER FRAME	
 			}
 		}
 	}

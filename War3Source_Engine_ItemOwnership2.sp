@@ -159,6 +159,10 @@ public OnWar3Event(W3EVENT:event,client){
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish(dummy);
+		
+		
+		
+		W3SaveItem2ExpireTime(client,itemid);
 	}
 	if(event==DoForwardClientLostItem2){
 		new itemid=W3GetVar(TheItemBoughtOrLost);

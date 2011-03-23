@@ -17,7 +17,7 @@
 
 //sh include is at the end of this file
 
-new String:interfaceVersion[]="1.1.8"; ///this makes sure the race is compatable with the compiled version of war3source.smx
+new String:interfaceVersion[]="1.2.1.2"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
 
 stock dummy; //variable for dummies!
@@ -232,6 +232,8 @@ native W3GetItems2Loaded(); //how many items are loaded?
 native bool:W3IsItem2DisabledGlobal(itemid);
 native bool:W3IsItem2DisabledForRace(race,itemid);
 
+//client must own item already
+native W3SaveItem2ExpireTime(client,itemid);
 /**
  * Registers a help command with the War3Source plugin for war3help
  * @param name: The name of the command. (max 64)
@@ -667,7 +669,6 @@ native War3_DecreaseHP(client,decrease);
  * when a cooldown expires (by time, by death, by spawn, by force reset), it will forward to OnCooldownExpired(....) forward, use if u need to
  * @noreturn
  */  
- //REMOVE uneeded arguments
 native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
 
 //tells the cooldown manager to create a predefined cooldown time when player spawns. 
@@ -957,11 +958,17 @@ stock War3_SetGold(client,newgold){
 stock War3_GetGold(client){
 	return W3GetPlayerProp(client,PlayerGold);
 }
+stock War3_SetDiamonds(client,newd){
+	W3SetPlayerProp(client,PlayerDiamonds,newd);
+}
+stock War3_GetDiamonds(client){
+	return W3GetPlayerProp(client,PlayerDiamonds);
+}
 
 native W3IsDeveloper(client);
 
-///returns the handle to the database which your xp is saved, so you dont have to connect again for your addon scipts
-native Handle:W3GetDBHandle();
+///use W3GetVar(hDatabase) to get the handle to the database which your xp is saved, so you dont have to connect again for your addon scipts
+
 native bool:W3SaveEnabled();
 native W3SaveXP(client,race);
 
@@ -1550,6 +1557,77 @@ stock TE_SetupKillPlayerAttachments(client)
 
 
 
+
+/// General callback for threaded queries.  No Actions
+public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], any:data)
+{
+	SQLCheckForErrors(hndl,error,"SQLWar3GeneralCallback");
+}
+
+stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]=""){
+	if(!StrEqual("", originalerror))
+		LogError("SQL error: [%s] %s", prependstr, originalerror);
+	else if(hndl == INVALID_HANDLE)
+	{
+		decl String:err[512];
+		SQL_GetError(hndl, err, sizeof(err));
+		LogError("SQLCheckForErrors: [%s] %s", prependstr, err);
+	}
+}
+
+public bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
+	if(!SQL_FastQuery(DB,query)){
+		new String:error[256];
+		SQL_GetError(DB, error, sizeof(error));
+		LogError("SQLFastQuery %s failed, Error: %s",query,error);
+		return false;
+	}
+	return true;
+}
+
+//normal query like SQL_QUERY, database must be locked 
+stock bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
+	new Handle:result= SQL_Query(DB, querystr);
+	if(result==INVALID_HANDLE) {
+		new String:error[256];
+		SQL_GetError(DB, error, sizeof(error));
+		LogError("SQL_War3_NormalQuery %s failed, Error: %s",querystr,error);
+		return false;
+	}
+	else{
+		CloseHandle(result);
+	}
+	return true;
+}
+//fetch using column string
+stock W3SQLPlayerInt(Handle:query,const String:columnname[]) //fech from query
+{
+	new column;
+	SQL_FieldNameToNum(query,columnname,column);
+	decl String:result[16];
+	SQL_FetchString(query,column,result,sizeof(result));
+	return StringToInt(result);
+}	
+//fetch using column string
+stock W3SQLPlayerFloat(Handle:query,const String:columnname[]) //fech from query
+{
+	new column;
+	SQL_FieldNameToNum(query,columnname,column);
+	decl String:result[16];
+	SQL_FetchString(query,column,result,sizeof(result));
+	return StringToFloat(result);
+}
+//fetch using column string
+stock W3SQLPlayerString(Handle:query,const String:columnname[],String:out_buffer[],size_out) //fech from query
+{
+	new column;
+	if(SQL_FieldNameToNum(query,columnname,column))
+	{
+		SQL_FetchString(query,column,out_buffer,size_out);
+		return true;
+	}
+	return false;
+}
 
 
 

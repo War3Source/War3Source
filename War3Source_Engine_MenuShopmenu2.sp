@@ -21,8 +21,8 @@ new Handle:hCvarMaxShopitems;
 
 public OnPluginStart()
 {
-	
-	hCvarMaxShopitems=CreateConVar("war3_max_shopitems","3");
+	LoadTranslations("w3s.shopmenu2.phrases");
+	hCvarMaxShopitems=CreateConVar("war3_max_shopitems2","3");
 	
 }
 
@@ -40,11 +40,11 @@ ShowMenuShop(client){
 	SetTrans(client);
 	new Handle:shopMenu=CreateMenu(War3Source_ShopMenu_Selected);
 	SetMenuExitButton(shopMenu,true);
-	new gold=War3_GetGold(client);
+	new Diamonds=War3_GetDiamonds(client);
 	
 	new String:title[300];
 	Format(title,sizeof(title),"%T\n","[War3Source] Select an item to buy. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-	Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold",GetTrans(),gold);
+	Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Diamonds",GetTrans(),Diamonds);
 	
 	SetMenuTitle(shopMenu,title);
 	decl String:itemname[64];
@@ -62,10 +62,10 @@ ShowMenuShop(client){
 			W3GetItem2Name(x,itemname,sizeof(itemname));
 			cost=W3GetItem2Cost(x);
 			if(War3_GetOwnsItem2(client,x)){
-				Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Gold",client,itemname,cost);
+				Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Diamonds",client,itemname,cost);
 			}
 			else{
-				Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
+				Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Diamonds",client,itemname,cost);
 			}
 			AddMenuItem(shopMenu,itembuf,linestr,(W3IsItem2DisabledForRace(War3_GetRace(client),x) || W3IsItem2DisabledGlobal(x) || War3_GetOwnsItem2(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
 		}
@@ -101,7 +101,7 @@ InternalTriedToBuyItem2(client,item,bool:reshowmenu=true){
 		W3GetItem2Name(item,itemname,sizeof(itemname));
 		
 		
-		new cred=War3_GetGold(client);
+		new cred=War3_GetDiamonds(client);
 		new cost_num=W3GetItem2Cost(item);
 		
 		new bool:canbuy=true;
@@ -153,7 +153,7 @@ InternalTriedToBuyItem2(client,item,bool:reshowmenu=true){
 		
 		
 		if(canbuy){
-			War3_SetGold(client,cred-cost_num);
+			War3_SetDiamonds(client,cred-cost_num);
 
 			War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 			
@@ -173,7 +173,7 @@ InternalExceededMaxItemsMenuBuy(client)
 	decl String:itemname[64];
 	W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
 	
-	SetMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get gold back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
+	SetMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get Diamonds back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
 	
 	decl String:itembuf[4];
 	decl String:linestr[96];
@@ -205,7 +205,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 			if(item>0&&item<=W3GetItems2Loaded())
 			{	
 				
-				new cred=War3_GetGold(client);
+				new cred=War3_GetDiamonds(client);
 				new cost_num=W3GetItem2Cost(WantsToBuy[client]);
 				decl String:itemname[64];
 				W3GetItem2Name(WantsToBuy[client],itemname,sizeof(itemname));
@@ -221,7 +221,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 					
 					
 					
-					War3_SetGold(client,cred-cost_num);
+					War3_SetDiamonds(client,cred-cost_num);
 					
 					War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 					

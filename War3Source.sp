@@ -155,9 +155,15 @@ public OnPluginStart()
 	
 	RegServerCmd("whichmode",cmdwhichmode);
 	
+	RegConsoleCmd("diamonds",cmddiamonds);
+	
 
 }
-
+public Action:cmddiamonds(client,args){
+	if(W3IsDeveloper(client)){
+		War3_SetDiamonds(client,1000);
+	}
+}
 public Action:cmdwhichmode(args){
 	PrintToServer("W3? %d",W3());
 	PrintToServer("SH? %d",SH());
@@ -337,6 +343,8 @@ public Action:FullSkilltest(client,args){
 public OnMapStart()
 {
 	PrintToServer("OnMapStart");
+	W3CreateEvent(UNLOADPLUGINSBYMODE,0);
+		
 	DoWar3InterfaceExecForward();
 	
 	LoadRacesAndItems();
@@ -399,17 +407,17 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
 	PrintToServer("OnAllPluginsLoaded");
-	W3CreateEvent(UNLOADPLUGINSBYMODE,0);
+
 }
 
 
 LoadRacesAndItems()
 {	
 	
-		CreateTimer(0.2,LoadRacesAndItems2);
-}
-public Action:LoadRacesAndItems2(Handle:h)
-{
+//		CreateTimer(0.1,LoadRacesAndItems2);
+//}
+//public Action:LoadRacesAndItems2(Handle:h)
+//{
 	PrintToServer("RACE ITEM LOAD");
 	new Float:starttime=GetEngineTime();
 	//ordered loads
@@ -447,10 +455,10 @@ public Action:LoadRacesAndItems2(Handle:h)
 
 	PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
 	
-	CreateTimer(1.0,LoadRacesAndItems3);
-}
-public Action:LoadRacesAndItems3(Handle:h)
-{
+//	CreateTimer(1.0,LoadRacesAndItems3);
+//}
+//public Action:LoadRacesAndItems3(Handle:h)
+//{
 	
 	DelayedWar3SourceCfgExecute();//
 	

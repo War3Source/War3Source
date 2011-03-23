@@ -258,7 +258,6 @@ public Action:cmdwar3notdev(client,args){
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==InitPlayerVariables){
-		//PrintToServer("sdfsdf");
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
 		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
@@ -279,10 +278,15 @@ public OnWar3Event(W3EVENT:event,client){
 			W3SetVar(TheItemBoughtOrLost,i);
 			W3CreateEvent(DoForwardClientLostItem,client);
 		}
+		for(new i=0;i<MAXITEMS2;i++){
+			W3SetVar(TheItemBoughtOrLost,i);
+			W3CreateEvent(DoForwardClientLostItem2,client);
+		}
 		
 		W3SetPlayerProp(client,CurrentRace,0);
 		W3SetPlayerProp(client,PendingRace,0);
 		W3SetPlayerProp(client,PlayerGold,0);
+		W3SetPlayerProp(client,PlayerDiamonds,0);
 		W3SetPlayerProp(client,iMaxHP,0);
 		W3SetPlayerProp(client,bIsDucking,false);
 		W3SetPlayerProp(client,xpLoaded,false);

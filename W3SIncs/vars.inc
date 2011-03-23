@@ -37,13 +37,3 @@ new Float:LastLoadingHintMsg[MAXPLAYERS];
 
 
 
-////////
-////////
-///////
-
-
-
-//move iMaxHP
-
-
-

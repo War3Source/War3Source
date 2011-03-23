@@ -754,17 +754,6 @@ public T_CallbackInsertRace2(Handle:owner,Handle:hndl,const String:error[],any:r
 	//PrintToServer("[War3Source] SQL operations done for war3sourceraces: race %s",racename);
 }
 
-stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]=""){
-	if(!StrEqual("", originalerror))
-		LogError("SQL error: [%s] %s", prependstr, originalerror);
-	else if(hndl == INVALID_HANDLE)
-	{
-		decl String:err[512];
-		SQL_GetError(hndl, err, sizeof(err));
-		LogError("SQLCheckForErrors: [%s] %s", prependstr, err);
-	}
-}
-
 
 
 
