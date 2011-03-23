@@ -157,8 +157,12 @@ InternalTriedToBuyItem2(client,item,bool:reshowmenu=true){
 
 			War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 			
+			
 			W3SetVar(TheItemBoughtOrLost,item);
 			W3CreateEvent(DoForwardClientBoughtItem2,client); //old item//forward, and set has item true inside
+			
+			W3SetItem2ExpireTime(client,item,NOW()+3600);
+			W3SaveItem2ExpireTime(client,item);
 		}
 	}	
 }

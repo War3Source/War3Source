@@ -11,7 +11,7 @@
 
 
 
-new Handle:DBIDB;
+new Handle:hDB;
 //new Handle:vecLevelConfiguration;
 new String:sCachedDBIName[256];
 new String:dbErrorMsg[512];
@@ -61,9 +61,7 @@ public OnPluginStart()
 		hCvarPrintOnSave=CreateConVar("sh_print_on_autosave","0","Print a message to chat when xp is auto saved?");
 	
 		g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
-	
-		
-		ConnectDB();
+
 		
 		CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
 	}
@@ -74,8 +72,13 @@ public OnMapStart(){
 }
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
-	if(DBIDB&&SH())
+	if(SH()){
+		ConnectDB();
+	}
+	if(hDB){
 		SH_SQLTable();
+	}
+		
 }
 
 
@@ -91,7 +94,7 @@ public NW3SaveEnabled(Handle:plugin,numParams)
 }
 public NW3GetDBHandle(Handle:plugin,numParams)
 {
-	return _:DBIDB;
+	return _:hDB;
 }
 
 
@@ -124,15 +127,15 @@ ConnectDB(){
 	
 	if(StrEqual(database_connect,"",false) || StrEqual(database_connect,"default",false))
 	{
-		DBIDB=SQL_DefConnect(error,256);	///use default connect, returns a handle...
+		hDB=SQL_DefConnect(error,256);	///use default connect, returns a handle...
 	}
 	else
 	{
-		DBIDB=SQL_Connect(database_connect,true,error,256);
+		hDB=SQL_Connect(database_connect,true,error,256);
 	}
-	if(!DBIDB)
+	if(!hDB)
 	{
-		LogError("[War3Source] ERROR: DBIDB invalid handle, Check SourceMod database config, could not connect. ");
+		LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
 		Format(dbErrorMsg,200,"ERR: Could not connect to DB. \n%s",error);
 		LogError("ERRMSG:(%s)",error);
 	}
@@ -140,7 +143,7 @@ ConnectDB(){
 	{
 		
 		new String:driver_ident[64];
-		SQL_ReadDriver(DBIDB,driver_ident,64);
+		SQL_ReadDriver(hDB,driver_ident,64);
 		if(StrEqual(driver_ident,"mysql",false))
 		{
 			g_SQLType=SQLType_MySQL;
@@ -155,7 +158,7 @@ ConnectDB(){
 		}
 		PrintToServer("[SH] SQL connection successful, driver %s",driver_ident);
 		
-		W3SetVar(hDatabase,DBIDB);
+		W3SetVar(hDatabase,hDB);
 		W3SetVar(hDatabaseType,g_SQLType);
 	}
 	return true;
@@ -182,14 +185,6 @@ public Action:DoAutosave(Handle:timer,any:data)
 
 
 
-stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],const String:table_name[])
-{
-	decl String:query[256];
-	Format(query,256,"ALTER TABLE %s ADD COLUMN %s %s DEFAULT '0'",table_name,columnname,datatype);
-	//SQL_TQuery(DB,  SQLWar3GeneralCallback,query);//
-	SQL_FastQueryLogOnError(DB,query);
-	
-}
 
 
 
@@ -197,14 +192,14 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 SH_SQLTable()
 {
 	PrintToServer("SH_SQLTable table check handling");
-	if(DBIDB!=INVALID_HANDLE)
+	if(hDB!=INVALID_HANDLE)
 	{
 		// Check if the table exists
-		SQL_LockDatabase(DBIDB); //non threading operations here, done once on plugin load only, not map change
+		SQL_LockDatabase(hDB); //non threading operations here, done once on plugin load only, not map change
 		
 		//war3sourceraces
 		PrintToServer("[SH] Dropping shheroes and recreating it (normal)") ;
-		if(!SQL_FastQueryLogOnError(DBIDB,"DROP TABLE shheroes")){
+		if(!SQL_FastQueryLogOnError(hDB,"DROP TABLE shheroes")){
 			PrintToServer("[SH] Table: shheroes didnt exist or failed to drop it");
 		}
 		
@@ -220,7 +215,7 @@ SH_SQLTable()
 		
 		Format(longquery,4000,"%s )",longquery);
 		
-		SQL_FastQueryLogOnError(DBIDB,longquery);
+		SQL_FastQueryLogOnError(hDB,longquery);
 		
 		
 		
@@ -228,7 +223,7 @@ SH_SQLTable()
 		//war3source main table
 		new bool:dropandcreatetable=false;
 		// Database conversion methods
-		new Handle:query=SQL_Query(DBIDB,"SELECT * from shplayer LIMIT 1");
+		new Handle:query=SQL_Query(hDB,"SELECT * from shplayer LIMIT 1");
 		
 		
 		if(query==INVALID_HANDLE)
@@ -247,7 +242,7 @@ SH_SQLTable()
 				new dummyfield;
 				if(!SQL_FieldNameToNum(query, "heroeschosen", dummyfield))
 				{
-					AddColumn(DBIDB,"heroeschosen","varchar(1000)","shplayer");
+					AddColumn(hDB,"heroeschosen","varchar(1000)","shplayer");
 					PrintToServer("[War3Source] Tried to ADD column heroeschosen in TABLE shplayer");
 				}
 			}
@@ -263,8 +258,8 @@ SH_SQLTable()
 		if(dropandcreatetable)
 		{
 			PrintToServer("[SH] Dropping shplayer main table and recreating it!!!") ;
-			SQL_FastQueryLogOnError(DBIDB,"DROP TABLE shplayer");
-			if(!SQL_FastQueryLogOnError(DBIDB,"CREATE TABLE shplayer (steamid varchar(64) UNIQUE , name varchar(64), level int, xp int , heroeschosen varchar(1000),   timestamp TIMESTAMP)"  ))
+			SQL_FastQueryLogOnError(hDB,"DROP TABLE shplayer");
+			if(!SQL_FastQueryLogOnError(hDB,"CREATE TABLE shplayer (steamid varchar(64) UNIQUE , name varchar(64), level int, xp int , heroeschosen varchar(1000),   timestamp TIMESTAMP)"  ))
 			{
 				SetFailState("[SH] ERROR in the creation of the SQL table shplayer.");
 			}
@@ -275,7 +270,7 @@ SH_SQLTable()
 		
 		///NEW DATABASE STRUCTURE
 		new bool:createtablexpdata=false;
-		query=SQL_Query(DBIDB,"SELECT * from war3source_racedata1 LIMIT 1");
+		query=SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1");
 		if(query==INVALID_HANDLE)
 		{   
 			//query failed no result, re create table (table doesnt exist)
@@ -296,7 +291,7 @@ SH_SQLTable()
 				
 				if(!SQL_FieldNameToNum(query, columnname , dummyfield))
 				{
-					AddColumn(DBIDB,columnname,"int","war3source_racedata1");
+					AddColumn(hDB,columnname,"int","war3source_racedata1");
 					PrintToServer("Tried to ADD column in TABLE %s: %s ","war3source_racedata1",columnname);
 				}
 				
@@ -318,9 +313,9 @@ SH_SQLTable()
 			Format(longquery2,4000,"%s, last_seen int)",longquery2);
 			
 			
-			if(!SQL_FastQueryLogOnError(DBIDB,longquery2)
+			if(!SQL_FastQueryLogOnError(hDB,longquery2)
 			||
-			!SQL_FastQueryLogOnError(DBIDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
+			!SQL_FastQueryLogOnError(hDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
 			)
 			{
 				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
@@ -333,10 +328,10 @@ SH_SQLTable()
 		
 		
 		
-		SQL_UnlockDatabase(DBIDB);
+		SQL_UnlockDatabase(hDB);
 	}
 	else
-		PrintToServer("DBIDB invalid 123");
+		PrintToServer("hDB invalid 123");
 }
 
 //SAVING SECTION
@@ -367,7 +362,7 @@ public OnClientPutInServer(client)
 		else{
 			DoForwardOnWar3PlayerAuthed(client);
 		}
-		if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
+		if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
 			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 	}
 }
@@ -391,13 +386,13 @@ SH_LoadPlayerData(client) //war3source calls this
 	//need space for steam id
 	decl String:steamid[64];
 	
-	if(DBIDB && /*!IsFakeClient(client) && */GetClientAuthString(client,steamid,64)) // no bots and steamid
+	if(hDB && /*!IsFakeClient(client) && */GetClientAuthString(client,steamid,64)) // no bots and steamid
 	{
 		new String:longquery[4000];
 		//Prepare select query for main data
 		Format(longquery,256,"SELECT level,xp,heroeschosen FROM shplayer WHERE steamid='%s'",steamid);
 		//Pass off to threaded call back at normal prority
-		SQL_TQuery(DBIDB,T_CallbackSelectPDataMain,longquery,client);
+		SQL_TQuery(hDB,T_CallbackSelectPDataMain,longquery,client);
 		
 		PrintToConsole(client,"[War3Source] XP retrieval query: sending MAIN request! Time: %.2f",GetGameTime());
 		W3SetPlayerProp(client,sqlStartLoadXPTime,GetGameTime());
@@ -479,7 +474,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				new String:longquery[4000];
 				// Main table query
 				Format(longquery,4000,"INSERT INTO shplayer (steamid,name) VALUES ('%s','%s')",steamid,name);
-				SQL_TQuery(DBIDB,T_CallbackInsertPDataMain,longquery,client);
+				SQL_TQuery(hDB,T_CallbackInsertPDataMain,longquery,client);
 				
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
 				W3SetPlayerProp(client,xpLoaded,true);
@@ -535,7 +530,7 @@ public T_CallbackInsertPDataMain(Handle:owner,Handle:query,const String:error[],
 //save a race using new db style
 SH_SavePlayerData(client)
 {
-	if(DBIDB && W3SaveEnabled() && W3GetPlayerProp(client,xpLoaded))
+	if(hDB && W3SaveEnabled() && W3GetPlayerProp(client,xpLoaded))
 	{
 		
 		decl String:steamid[64];
@@ -570,7 +565,7 @@ SH_SavePlayerData(client)
 		
 			PrintToConsole(client,"[War3Source] Saving XP : LVL %d XP %d",level,xp);
 			
-			SQL_TQuery(DBIDB,T_CallbackSavePlayerRace,longquery,client);
+			SQL_TQuery(hDB,T_CallbackSavePlayerRace,longquery,client);
 			
 		}
 	}

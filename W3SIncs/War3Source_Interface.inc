@@ -1629,6 +1629,14 @@ stock W3SQLPlayerString(Handle:query,const String:columnname[],String:out_buffer
 	return false;
 }
 
+///add a column to table, be careful of parameters
+///table should be locked!!!
+stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],const String:table_name[])
+{
+	decl String:query[256];
+	Format(query,256,"ALTER TABLE %s ADD COLUMN %s %s DEFAULT '0'",table_name,columnname,datatype);
+	SQL_FastQueryLogOnError(DB,query);
+}
 
 
 

@@ -11,7 +11,7 @@
 
 
 
-#define VERSION_NUM "0.1"
+#define VERSION_NUM "0.2.1"
 #define REVISION_NUM 10001 //increment every release
 
 

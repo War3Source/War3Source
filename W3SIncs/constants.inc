@@ -114,6 +114,7 @@ enum W3EVENT
 	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
 	
 	UNLOADPLUGINSBYMODE,//test
+	DatabaseConnected,
 	
 }
 

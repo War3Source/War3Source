@@ -80,8 +80,8 @@ public OnWar3Event(W3EVENT:event,client){
 
 War3Source_UpdateStats()
 {
-	new Handle:DBIDB=W3GetVar(hDatabase);
-	if(DBIDB)
+	new Handle:hDB=W3GetVar(hDatabase);
+	if(hDB)
 	{
 		for(new x=0;x<=MaxClients;x++)
 		{
@@ -93,7 +93,7 @@ War3Source_UpdateStats()
 	//		hTop100[x]=INVALID_HANDLE;
 	//	}
 		iTopCount=0;
-		SQL_TQuery(DBIDB,T_RetrieveTopCallback,"SELECT steamid,name,total_level,total_xp FROM war3source ORDER BY total_level DESC,total_xp DESC LIMIT 0,100");
+		SQL_TQuery(hDB,T_RetrieveTopCallback,"SELECT steamid,name,total_level,total_xp FROM war3source ORDER BY total_level DESC,total_xp DESC LIMIT 0,100");
 	}
 }
 
@@ -134,8 +134,8 @@ GetRank(client)
 	}
 	else
 	{
-		new Handle:DBIDB=W3GetVar(hDatabase);
-		SQL_TQuery(DBIDB,T_RetrieveRankCache,"SELECT steamid FROM war3source ORDER BY total_level DESC,total_xp DESC",GetClientUserId(client));
+		new Handle:hDB=W3GetVar(hDatabase);
+		SQL_TQuery(hDB,T_RetrieveRankCache,"SELECT steamid FROM war3source ORDER BY total_level DESC,total_xp DESC",GetClientUserId(client));
 	}
 }
 

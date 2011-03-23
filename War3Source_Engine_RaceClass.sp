@@ -641,7 +641,7 @@ CreateRaceEnd(raceid){
 	///now we put shit into the database and create cvars
 	if(!ignoreRaceEnd&&raceid>0)
 	{
-		new Handle:DBIDB=Handle:W3GetVar(hDatabase);
+		new Handle:hDB=Handle:W3GetVar(hDatabase);
 		
 		new String:shortname[16];
 		GetRaceShortname(raceid,shortname,sizeof(shortname));
@@ -692,7 +692,7 @@ CreateRaceEnd(raceid){
 		SetTrieString(htrie,buf,"99");*/
 		
 		// create war3sourceraces structure, shouldn't be harmful if already exists
-		if(DBIDB)
+		if(hDB)
 		{
 			PrintToServer("---Starting Threaded race operations: %s----------",shortname);
 			//PrintToServer("Creating race into war3sourceraces if not exists %s",shortname);
@@ -703,7 +703,7 @@ CreateRaceEnd(raceid){
 			
 			Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO war3sourceraces (shortname) VALUES ('%s')",W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",shortname);
 			
-			SQL_TQuery(DBIDB,T_CallbackInsertRace1,longquery,raceid,DBPrio_High);
+			SQL_TQuery(hDB,T_CallbackInsertRace1,longquery,raceid,DBPrio_High);
 			
 			
 			
@@ -715,7 +715,7 @@ CreateRaceEnd(raceid){
 public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:raceid)
 {
 	SQLCheckForErrors(hndl,error,"T_CallbackInsertRace1");
-	new Handle:DBIDB=Handle:W3GetVar(hDatabase);
+	new Handle:hDB=Handle:W3GetVar(hDatabase);
 	
 	
 	new String:retstr[2000];
@@ -724,18 +724,18 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	Format(longquery,sizeof(longquery),"UPDATE war3sourceraces SET ");
 	
 	GetRaceName(raceid,retstr,sizeof(retstr));
-	SQL_EscapeString(DBIDB,retstr,escapedstr,sizeof(escapedstr));
+	SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));
 	Format(longquery,sizeof(longquery),"%s name='%s'",longquery,escapedstr);
 	
 	
 	new SkillCount = GetRaceSkillCount(raceid);
 	for(new i=0;i<SkillCount;i++){
 		GetRaceSkillName(raceid,i,retstr,sizeof(retstr));
-		SQL_EscapeString(DBIDB,retstr,escapedstr,sizeof(escapedstr));
+		SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));
 		Format(longquery,sizeof(longquery),"%s, skill%d='%s %s'",longquery,i,IsSkillUltimate(raceid,i)?"Ultimate":"",escapedstr);
 		
 		GetRaceSkillDesc(raceid,i,retstr,sizeof(retstr));
-		SQL_EscapeString(DBIDB,retstr,escapedstr,sizeof(escapedstr));
+		SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));
 		Format(longquery,sizeof(longquery),"%s, skilldesc%d='%s'",longquery,i,escapedstr);
 	}
 	
@@ -743,7 +743,7 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	GetRaceShortname(raceid,shortname,sizeof(shortname));
 	
 	Format(longquery,sizeof(longquery),"%s WHERE shortname = '%s'",longquery,shortname);
-	SQL_TQuery(DBIDB,  T_CallbackInsertRace2,longquery,raceid,DBPrio_High);//
+	SQL_TQuery(hDB,  T_CallbackInsertRace2,longquery,raceid,DBPrio_High);//
 }
 public T_CallbackInsertRace2(Handle:owner,Handle:hndl,const String:error[],any:raceid)
 {

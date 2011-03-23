@@ -324,7 +324,7 @@ public Action:ConnectSecondDB(Handle:h){
 		
 		if(!hdatabase2)
 		{
-			LogError("[War3Source] ERROR: DBIDB invalid handle, Check SourceMod database config, could not connect. ");
+			LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
 			LogError("ERRMSG:(%s)",error);
 		}
 		else{

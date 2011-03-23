@@ -163,9 +163,9 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 			}
 		}
 		
-		new Handle:DBIDB=W3GetVar(hDatabase);
-		if(DBIDB){
-			SQL_LockDatabase(DBIDB);   //DB must not ERROR! else u will not unlock databaase!!!
+		new Handle:hDB=W3GetVar(hDatabase);
+		if(hDB){
+			SQL_LockDatabase(hDB);   //DB must not ERROR! else u will not unlock databaase!!!
 			
 			
 			
@@ -173,7 +173,7 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 			new oldlevelbank;
 			if(!playerwasingame){   ///not in game, we retrieve level bank
 				Format(query_buffer,sizeof(query_buffer),"SELECT levelbankV2 FROM war3source WHERE steamid='%s'",steamid);
-				new Handle:result=SQL_Query(DBIDB, query_buffer);
+				new Handle:result=SQL_Query(hDB, query_buffer);
 				
 				if(result!=INVALID_HANDLE&&SQL_MoreRows(result)){
 					ReplyToCommand(client,"steamid appears to exist");
@@ -183,7 +183,7 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 				}
 				else{
 					ReplyToCommand(client,"ERR: NO RESULT SET, player never joined the server once? Add Failed");
-					SQL_UnlockDatabase(DBIDB);
+					SQL_UnlockDatabase(hDB);
 					return;
 				}
 			}
@@ -196,13 +196,13 @@ public Action:War3Source_CMD_addlevelbank(client,args){
 			new newlevelbank=oldlevelbank+num;
 
 			Format(query_buffer,sizeof(query_buffer),"UPDATE war3source SET levelbankV2='%d' WHERE steamid='%s'",newlevelbank,steamid);
-			if(!SQL_FastQueryLogOnError(DBIDB,query_buffer)){
+			if(!SQL_FastQueryLogOnError(hDB,query_buffer)){
 				ReplyToCommand(client,"insert failed");
 			}
 			else{
 				ReplyToCommand(client,"no sql error, success? %s    new level bank: %d",steamid,newlevelbank);
 			}
-			SQL_UnlockDatabase(DBIDB);
+			SQL_UnlockDatabase(hDB);
 		}
 		else{
 			ReplyToCommand(client,"Failed: no database connection");

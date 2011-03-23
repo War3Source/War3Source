@@ -1,17 +1,22 @@
 
 1.2.1
 
-date: 3/21/2011
+
 
 
 B2
 
+INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
 
 SH_ files no longer required for war3
 War3Source_SH_Mode renamed to War3Source_SH_Mode_Select, this file is always required!
+Many additional features
+shopmenu2 currency = diamonds
+no diamonds are currently given, however all shopmenu2 items are free currently
+diamonds are saved like xp, database will automatically change
+three items are available, boots has effect, the other 2 doesnt do anything right now
 
-
-B1
+B1 date: 3/21/2011
 
 SUPERHERO SOURCE INTEGRATION, ALL PLUGINS ARE REQUIRED
 

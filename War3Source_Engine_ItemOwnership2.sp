@@ -55,8 +55,8 @@ public NWar3_SetOwnsItem(Handle:plugin,numParams)
 	new item=GetNativeCell(2);
 	new bool:hasownership=GetNativeCell(3);
 	
-	//new Handle:DBIDB=W3GetDBHandle();
-	//if(DBIDB){
+	//new Handle:hDB=W3GetDBHandle();
+	//if(hDB){
 	
 	playerOwnsItem[client][item]=bool:hasownership;
 	//}
@@ -130,8 +130,8 @@ public NW3SetItem2ExpireTime(Handle:plugin,numParams)
 	new client=GetNativeCell(1);
 	new item=GetNativeCell(2);
 	new time=GetNativeCell(3);	
-	//new Handle:DBIDB=W3GetDBHandle();
-	//if(DBIDB){
+	//new Handle:hDB=W3GetDBHandle();
+	//if(hDB){
 	
 	playerOwnsItemExpireTime[client][item]=time;
 }
@@ -154,15 +154,13 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==DoForwardClientBoughtItem2){
 		new itemid=W3GetVar(TheItemBoughtOrLost);
 		War3_SetOwnsItem2(client,itemid,true);
-		W3SetItem2ExpireTime(client,itemid,NOW()+3600);
+		
 		Call_StartForward(g_OnItemPurchaseHandle); 
 		Call_PushCell(client);
 		Call_PushCell(itemid);
 		Call_Finish(dummy);
 		
 		
-		
-		W3SaveItem2ExpireTime(client,itemid);
 	}
 	if(event==DoForwardClientLostItem2){
 		new itemid=W3GetVar(TheItemBoughtOrLost);

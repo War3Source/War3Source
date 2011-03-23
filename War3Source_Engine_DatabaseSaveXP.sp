@@ -11,7 +11,7 @@
 
 
 
-new Handle:DBIDB;
+new Handle:hDB;
 //new Handle:vecLevelConfiguration;
 new String:sCachedDBIName[256];
 new String:dbErrorMsg[512];
@@ -62,7 +62,7 @@ public OnPluginStart()
 		g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
 	
 		
-		ConnectDB();
+		
 		
 		CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
 	}
@@ -78,8 +78,12 @@ public OnPluginEnd(){
 
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
-	if(DBIDB&&W3())
+	if(W3()){
+		ConnectDB();
+	}
+	if(hDB){
 		War3Source_SQLTable();
+	}
 }
 
 public NW3SaveXP(Handle:plugin,numParams)
@@ -94,7 +98,7 @@ public NW3SaveEnabled(Handle:plugin,numParams)
 }
 public NW3GetDBHandle(Handle:plugin,numParams)
 {
-	return _:DBIDB;
+	return _:hDB;
 }
 
 
@@ -127,15 +131,15 @@ ConnectDB(){
 	
 	if(StrEqual(database_connect,"",false) || StrEqual(database_connect,"default",false))
 	{
-		DBIDB=SQL_DefConnect(error,sizeof(error));	///use default connect, returns a handle...
+		hDB=SQL_DefConnect(error,sizeof(error));	///use default connect, returns a handle...
 	}
 	else
 	{
-		DBIDB=SQL_Connect(database_connect,true,error,sizeof(error));
+		hDB=SQL_Connect(database_connect,true,error,sizeof(error));
 	}
-	if(!DBIDB)
+	if(!hDB)
 	{
-		LogError("[War3Source] ERROR: DBIDB invalid handle, Check SourceMod database config, could not connect. ");
+		LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
 		Format(dbErrorMsg,sizeof(dbErrorMsg),"ERR: Could not connect to DB. \n%s",error);
 		LogError("ERRMSG:(%s)",error);
 	}
@@ -143,7 +147,7 @@ ConnectDB(){
 	{
 		
 		new String:driver_ident[64];
-		SQL_ReadDriver(DBIDB,driver_ident,sizeof(driver_ident));
+		SQL_ReadDriver(hDB,driver_ident,sizeof(driver_ident));
 		if(StrEqual(driver_ident,"mysql",false))
 		{
 			g_SQLType=SQLType_MySQL;
@@ -158,8 +162,9 @@ ConnectDB(){
 		}
 		PrintToServer("[War3Source] SQL connection successful, driver %s",driver_ident);
 		
-		W3SetVar(hDatabase,DBIDB);
+		W3SetVar(hDatabase,hDB);
 		W3SetVar(hDatabaseType,g_SQLType);
+		W3CreateEvent(DatabaseConnected,0);
 	}
 	return true;
 }
@@ -185,14 +190,6 @@ public Action:DoAutosave(Handle:timer,any:data)
 
 
 
-stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],const String:table_name[])
-{
-	decl String:query[256];
-	Format(query,sizeof(query),"ALTER TABLE %s ADD COLUMN %s %s DEFAULT '0'",table_name,columnname,datatype);
-	//SQL_TQuery(DB,  SQLWar3GeneralCallback,query);//
-	SQL_FastQueryLogOnError(DB,query);
-	
-}
 
 
 
@@ -200,14 +197,14 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 War3Source_SQLTable()
 {
 	PrintToServer("War3Source_SQLTable war3source table check handling");
-	if(DBIDB!=INVALID_HANDLE)
+	if(hDB!=INVALID_HANDLE)
 	{
 		// Check if the table exists
-		SQL_LockDatabase(DBIDB); //non threading operations here, done once on plugin load only, not map change
+		SQL_LockDatabase(hDB); //non threading operations here, done once on plugin load only, not map change
 		
 		//war3sourceraces
 		PrintToServer("[War3Source] Dropping war3sourceraces and recreating it (normal)") ;
-		if(!SQL_FastQueryLogOnError(DBIDB,"DROP TABLE war3sourceraces")){
+		if(!SQL_FastQueryLogOnError(hDB,"DROP TABLE war3sourceraces")){
 			PrintToServer("[War3Source] Table: war3sourceraces didnt exist or failed to drop it");
 		}
 		
@@ -223,7 +220,7 @@ War3Source_SQLTable()
 		
 		Format(longquery,sizeof(longquery),"%s )",longquery);
 		
-		SQL_FastQueryLogOnError(DBIDB,longquery);
+		SQL_FastQueryLogOnError(hDB,longquery);
 		
 		
 		
@@ -231,7 +228,7 @@ War3Source_SQLTable()
 		//war3source main table
 		new bool:dropandcreatetable=false;
 		// Database conversion methods
-		new Handle:query=SQL_Query(DBIDB,"SELECT * from war3source LIMIT 1");
+		new Handle:query=SQL_Query(hDB,"SELECT * from war3source LIMIT 1");
 		
 		
 		if(query==INVALID_HANDLE)
@@ -249,7 +246,7 @@ War3Source_SQLTable()
 			new dummyfield;
 			if(!SQL_FieldNameToNum(query, "levelbankV2", dummyfield))
 			{
-				AddColumn(DBIDB,"levelbankV2","int","war3source");
+				AddColumn(hDB,"levelbankV2","int","war3source");
 				PrintToServer("[War3Source] Tried to ADD column in TABLE %s: %s","war3source","levelbankV2");
 			}
 			
@@ -257,12 +254,17 @@ War3Source_SQLTable()
 			{
 				if(g_SQLType==SQLType_SQLite){
 					//sqlite cannot rename column
-					AddColumn(DBIDB,"gold","INT","war3source");
+					AddColumn(hDB,"gold","INT","war3source");
 				}
 				else{
-					SQL_FastQueryLogOnError(DBIDB,"ALTER TABLE war3source CHANGE credits gold INT");
+					SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
 				}
 				PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
+			}
+			if(!SQL_FieldNameToNum(query, "diamonds", dummyfield))
+			{
+				AddColumn(hDB,"diamonds","int","war3source");
+				PrintToServer("[War3Source] Tried to ADD column in TABLE %s: %s","war3source","diamonds");
 			}
 			
 			//}
@@ -277,8 +279,8 @@ War3Source_SQLTable()
 		if(dropandcreatetable)
 		{
 			PrintToServer("[War3Source] Dropping war3source main table and recreating it!!!") ;
-			SQL_FastQueryLogOnError(DBIDB,"DROP TABLE war3source");
-			if(!SQL_FastQueryLogOnError(DBIDB,"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,      total_level int,     total_xp int, levelbankV2 int,   last_seen int)"  ))
+			SQL_FastQueryLogOnError(hDB,"DROP TABLE war3source");
+			if(!SQL_FastQueryLogOnError(hDB,"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,    diamonds int,  total_level int,     total_xp int, levelbankV2 int,   last_seen int)"  ))
 			{
 				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
 			}
@@ -289,7 +291,7 @@ War3Source_SQLTable()
 		
 		///NEW DATABASE STRUCTURE
 		new bool:createtablexpdata=false;
-		query=SQL_Query(DBIDB,"SELECT * from war3source_racedata1 LIMIT 1");
+		query=SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1");
 		if(query==INVALID_HANDLE)
 		{   
 			//query failed no result, re create table (table doesnt exist)
@@ -310,7 +312,7 @@ War3Source_SQLTable()
 				
 				if(!SQL_FieldNameToNum(query, columnname , dummyfield))
 				{
-					AddColumn(DBIDB,columnname,"int","war3source_racedata1");
+					AddColumn(hDB,columnname,"int","war3source_racedata1");
 					PrintToServer("Tried to ADD column in TABLE %s: %s ","war3source_racedata1",columnname);
 				}
 				
@@ -332,9 +334,9 @@ War3Source_SQLTable()
 			Format(longquery2,sizeof(longquery2),"%s, last_seen int)",longquery2);
 			
 			
-			if(!SQL_FastQueryLogOnError(DBIDB,longquery2)
+			if(!SQL_FastQueryLogOnError(hDB,longquery2)
 			||
-			!SQL_FastQueryLogOnError(DBIDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
+			!SQL_FastQueryLogOnError(hDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
 			)
 			{
 				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
@@ -347,10 +349,10 @@ War3Source_SQLTable()
 		
 		
 		
-		SQL_UnlockDatabase(DBIDB);
+		SQL_UnlockDatabase(hDB);
 	}
 	else
-		PrintToServer("DBIDB invalid 123");
+		PrintToServer("hDB invalid 123");
 }
 
 //SAVING SECTION
@@ -359,7 +361,7 @@ War3Source_SQLTable()
 
 War3Source_SavePlayerData(client,race)
 {
-	if(DBIDB && !IsFakeClient(client)&&W3IsPlayerXPLoaded(client))
+	if(hDB && !IsFakeClient(client)&&W3IsPlayerXPLoaded(client))
 	{
 		War3_SavePlayerRace(client,race); //only save their current race
 		War3_SavePlayerMainData(client);//main data
@@ -396,7 +398,7 @@ public OnClientPutInServer(client)
 		else{
 			DoForwardOnWar3PlayerAuthed(client);
 		}
-		if(!W3SaveEnabled() || DBIDB==INVALID_HANDLE)
+		if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
 			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 	}
 }
@@ -418,14 +420,14 @@ War3Source_LoadPlayerData(client) //war3source calls this
 	//need space for steam id
 	decl String:steamid[64];
 	
-	if(DBIDB && /*!IsFakeClient(client) && */GetClientAuthString(client,steamid,sizeof(steamid))) // no bots and steamid
+	if(hDB && /*!IsFakeClient(client) && */GetClientAuthString(client,steamid,sizeof(steamid))) // no bots and steamid
 	{
 		
 		new String:longquery[4000];
 		//Prepare select query for main data
-		Format(longquery,sizeof(longquery),"SELECT currentrace,gold,levelbankV2 FROM war3source WHERE steamid='%s'",steamid);
+		Format(longquery,sizeof(longquery),"SELECT currentrace,gold,diamonds,levelbankV2 FROM war3source WHERE steamid='%s'",steamid);
 		//Pass off to threaded call back at normal prority
-		SQL_TQuery(DBIDB,T_CallbackSelectPDataMain,longquery,client);
+		SQL_TQuery(hDB,T_CallbackSelectPDataMain,longquery,client);
 		
 		PrintToConsole(client,"%T","[War3Source] XP retrieval query: sending MAIN and load all races request! Time: {amount}",client,GetGameTime());
 		W3SetPlayerProp(client,sqlStartLoadXPTime,GetGameTime());
@@ -433,7 +435,7 @@ War3Source_LoadPlayerData(client) //war3source calls this
 		//Lets get race data too
 		
 		Format(longquery,sizeof(longquery),"SELECT * FROM war3source_racedata1 WHERE steamid='%s'",steamid);
-		SQL_TQuery(DBIDB,T_CallbackSelectPDataRace,longquery,client);
+		SQL_TQuery(hDB,T_CallbackSelectPDataRace,longquery,client);
 		
 	}
 }
@@ -471,6 +473,10 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				//Set the gold for player
 				War3_SetGold(client,cred);
 				
+				new diamonds=W3SQLPlayerInt(hndl,"diamonds");
+				//Set the gold for player
+				War3_SetDiamonds(client,diamonds);
+				
 				new levelbankamount=W3SQLPlayerInt(hndl,"levelbankV2");
 				
 				if(W3GetLevelBank(client)>levelbankamount){ //whichever is higher
@@ -488,6 +494,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 					return;
 				}
 				PrintToConsole(client,"%T","[War3Source] War3 MAIN retrieval: gold {amount} Time {amount}",client,cred,GetGameTime());
+				PrintToConsole(client,"[War3Source] Diamonds %d",diamonds);
 				
 				new raceFound=0; // worst case senario set player to race 0
 				if(GetConVarInt(hSetRaceOnJoinCvar)>0)
@@ -538,7 +545,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				new String:longquery[4000];
 				// Main table query
 				Format(longquery,sizeof(longquery),"INSERT INTO war3source (steamid,name,currentrace,total_level,total_xp) VALUES ('%s','%s','%s','%d','%d')",steamid,name,short_name,total_level,total_xp);
-				SQL_TQuery(DBIDB,T_CallbackInsertPDataMain,longquery,client);
+				SQL_TQuery(hDB,T_CallbackInsertPDataMain,longquery,client);
 			}
 			
 		}
@@ -654,7 +661,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 					new last_seen=GetTime();
 					Format(longquery,sizeof(longquery),"INSERT INTO war3source_racedata1 (steamid,raceshortname,level,xp,last_seen) VALUES ('%s','%s','%d','%d','%d')",steamid,short,War3_GetLevel(client,raceid),War3_GetXP(client,raceid),last_seen);
 					
-					SQL_TQuery(DBIDB,T_CallbackInsertPDataRace,longquery,client);
+					SQL_TQuery(hDB,T_CallbackInsertPDataRace,longquery,client);
 					inserts++;
 				}
 			}
@@ -729,7 +736,7 @@ public T_CallbackInsertPDataRace(Handle:owner,Handle:query,const String:error[],
 //save a race using new db style
 War3_SavePlayerRace(client,race)
 {
-	if(DBIDB && W3SaveEnabled() && W3GetPlayerProp(client,xpLoaded)&&race>0)
+	if(hDB && W3SaveEnabled() && W3GetPlayerProp(client,xpLoaded)&&race>0)
 	{
 		//PrintToServer("race %d client %d",race,client);
 		decl String:steamid[64];
@@ -767,7 +774,7 @@ War3_SavePlayerRace(client,race)
 			//	}
 			
 			
-			SQL_TQuery(DBIDB,T_CallbackSavePlayerRace,longquery,client);
+			SQL_TQuery(hDB,T_CallbackSavePlayerRace,longquery,client);
 			
 		}
 	}
@@ -780,7 +787,7 @@ public T_CallbackSavePlayerRace(Handle:owner,Handle:hndl,const String:error[],an
 
 
 War3_SavePlayerMainData(client){
-	if(DBIDB &&W3IsPlayerXPLoaded(client))
+	if(hDB &&W3IsPlayerXPLoaded(client))
 	{
 		//PrintToServer("client %d mainxp",client);
 		decl String:steamid[64];
@@ -803,8 +810,8 @@ War3_SavePlayerMainData(client){
 			
 			new String:short[16];
 			War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
-			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",name,short,War3_GetGold(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
-			SQL_TQuery(DBIDB,T_CallbackUpdatePDataMain,longquery,client);
+			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",name,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
+			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,client);
 		}
 	}
 }
