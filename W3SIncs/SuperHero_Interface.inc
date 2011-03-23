@@ -86,8 +86,8 @@ stock SHShowCRMenuIfCanChoose(client){ //show changerace menu if player can sele
 	return false;
 }
 
-stock SH_CooldownMGR(client,Float:cooldownTime,heroID,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true){
-	War3_CooldownMGR(client,Float:cooldownTime,heroID,0,resetOnSpawn, printMsgOnExpireByTime);  
+stock SH_CooldownMGR(client,Float:cooldownTime,ttheroID,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true){
+	War3_CooldownMGR(client,Float:cooldownTime,ttheroID,0,resetOnSpawn, printMsgOnExpireByTime);  
 } 
 stock SH_SetBuff(client,W3Buff:buffindex,heroid,any:value){
 	if(SH()){

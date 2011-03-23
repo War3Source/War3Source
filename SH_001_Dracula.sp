@@ -65,7 +65,7 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 					new leechhealth=RoundToFloor(damage*percent_health);
 					if(leechhealth>40) leechhealth=40; // woah, woah, woah, AWPs!
 				
-					PrintToConsole(attacker,"%T","Leeched",attacker,leechhealth);
+					PrintToConsole(attacker,"Leeched %d health",leechhealth);
 					new Float:victimoriginp[3];
 					new Float:attackeroriginp[3];
 					GetClientAbsOrigin(victim,victimoriginp);

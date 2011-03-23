@@ -336,7 +336,7 @@ public Action:FullSkilltest(client,args){
 
 public OnMapStart()
 {
-	
+	PrintToServer("OnMapStart");
 	DoWar3InterfaceExecForward();
 	
 	LoadRacesAndItems();
@@ -344,9 +344,7 @@ public OnMapStart()
 	CreateTimer(5.0, CheckCvars, 0);
 
 	
-	if(W3()){
-		DelayedWar3SourceCfgExecute();//
-	}
+	
 	
 	OneTimeForwards();
 
@@ -403,14 +401,7 @@ public OnAllPluginsLoaded() //called once only, will not call again when map cha
 	PrintToServer("OnAllPluginsLoaded");
 	W3CreateEvent(UNLOADPLUGINSBYMODE,0);
 }
-public DelayedWar3SourceCfgExecute()
-{
-	if(FileExists("cfg/war3source.cfg"))
-	{
-		ServerCommand("exec war3source.cfg");
-		PrintToServer("[War3Source] Executed war3source.cfg");
-	}
-}
+
 
 LoadRacesAndItems()
 {	
@@ -455,9 +446,39 @@ public Action:LoadRacesAndItems2(Handle:h)
 	
 
 	PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
+	
+	CreateTimer(1.0,LoadRacesAndItems3);
 }
-
-
+public Action:LoadRacesAndItems3(Handle:h)
+{
+	
+	DelayedWar3SourceCfgExecute();//
+	
+}
+DelayedWar3SourceCfgExecute()
+{
+	if(W3())
+	{
+		if(FileExists("cfg/war3source.cfg")){
+			ServerCommand("exec war3source.cfg");
+			PrintToServer("[War3Source] Exec war3source.cfg");
+		}
+		else{
+			PrintToServer("[SH] war3source.cfg Not Found");
+		}
+	}
+	
+	if(SH()){
+		if(FileExists("cfg/superhero.cfg"))
+		{
+			ServerCommand("exec superhero.cfg");
+			PrintToServer("[SH] Exec superhero.cfg");
+		}
+		else{
+			PrintToServer("[SH] superhero.cfg Not Found");
+		}
+	}
+}
 
 
 public zOnPluginEnd() //public OnMapEnd()
