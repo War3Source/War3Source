@@ -24,7 +24,7 @@ new bool:bIsBashed[MAXPLAYERS];
 
 // Chance/Info Arrays
 new Float:BashChance[5]={0.0,0.07,0.13,0.19,0.25};
-new Float:TeleportDistance[5]={0.0,600.0,800.0,1000.0,1200.0};
+new Float:TeleportDistance[5]={0.0,600.0,700.0,850.0,1000.0};
 
 new Float:InvisibilityAlphaTF[5]={1.0,0.84,0.68,0.56,0.40};
 

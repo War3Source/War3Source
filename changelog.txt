@@ -2,7 +2,14 @@
 1.2.1
 
 
+b3
 
+hp REGENERATION ENGINE
+Aura tracking engine
+shadow hunter and shop items now use HP regen engine
+shadow hunter now uses aura tracking
+human teleport range reduced to 1000 from 1200 max
+shadow hunter now has a static heal distance of 500
 
 B2
 

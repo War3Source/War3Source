@@ -28,6 +28,8 @@
 
 #define CUSTOMMODIFIERS 3 //how many race indexes extra for modifying buffs without conflicting other races
 
+#define MAXAURAS 100 // [1- ] ignore zeroth index
+
 enum W3Var
 {
 	OldRace, //the race he was before OnRaceSelected
@@ -206,8 +208,8 @@ enum W3BuffProperties{
 enum BuffStackCacheType{ //each buff can only have one stacking operation:aa
 	DoNotCache=0,
 	bHasOneTrue,
-	iAbsolute, 
-	fAbsolute,
+	iAbsolute, //sum
+	fAbsolute, //sum
 	fStacked, /// all float multiplied
 	
 	fMaximum,
@@ -271,7 +273,7 @@ enum W3Buff {
 	
 
 	
-
+	fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second
 	
 	
 	
@@ -340,7 +342,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fSlow2 ][DefaultValue]=1.0;
 	buffpropertiesarray[ fSlow2 ][BuffStackType]=fStacked;
 	
-
+	buffpropertiesarray[ bSlowImmunity ][DefaultValue]=false;
+	buffpropertiesarray[ bSlowImmunity ][BuffStackType]=bHasOneTrue;
+	
 //	buffpropertiesarray[ fIncomingDamage ][DefaultValue]=1.0;
 //	buffpropertiesarray[ fIncomingDamage ][BuffStackType]=fStacked;
 	
@@ -412,11 +416,10 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fGlowSetTime ][DefaultValue]=0;
 	buffpropertiesarray[ fGlowSetTime ][BuffStackType]=DoNotCache;	
 	
-	//move	
-	buffpropertiesarray[ bSlowImmunity ][DefaultValue]=false;
-	buffpropertiesarray[ bSlowImmunity ][BuffStackType]=bHasOneTrue;
 	
 	
+	buffpropertiesarray[ fHPRegen][DefaultValue]=0.0;
+	buffpropertiesarray[ fHPRegen][BuffStackType]=fAbsolute;	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++){
 		if(buffpropertiesarray[W3Buff:i][DefaultValue]==-99){

@@ -37,9 +37,14 @@ CONFIGURATION:
 
 war3source.cfg is executed after war3source is loaded
 
+SH_....smx is not required for war3source to run.
+War3Source_.....smx is REQUIRED for SH to run.
+
 To enable SuperHero:Source mode:
-Create a file called shsourcemode.cfg in /cfg folder (same place as ur war3source.cfg)
-Put "shsource" without quotes as the first line in shsourcemode.cfg
+enter shmode in server console, then restart server
+
+To go back to war3source mode:
+enter w3mode in server console, then restart server
 
 
 

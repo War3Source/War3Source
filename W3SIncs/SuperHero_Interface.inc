@@ -24,9 +24,10 @@ forward OnSHEventDeath(victim,attacker);
 forward OnHeroChanged(client);
 
 //returns hero id!!
-stock SHRegisterHero(String:heroname[],String:shortheroname[],String:shortSkillName[]="no activateble skill",String:longDescription[],bool:hasPowerBind=false){
+//Skill name is displayed in cooldowns
+stock SHRegisterHero(String:heroname[],String:shortheroname[],String:tttSkillName[]="No Activateble Skill",String:longDescription[],bool:hasPowerBind=false){
 	new heroid=War3_CreateNewRace(heroname,shortheroname);
-	War3_AddRaceSkill(heroid,shortSkillName,longDescription,false,4); ///
+	War3_AddRaceSkill(heroid,tttSkillName,longDescription,false,4); ///
 
 	SHSetHeroHasPowerBind(heroid,hasPowerBind);
 

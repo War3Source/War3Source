@@ -160,9 +160,7 @@ public OnMapStart()
 
 public Action:SecondLoop(Handle:timer,any:data)
 {
-	if(war3ready){
-		doRingRegen();
-	}
+	
 }
 
 public Action:PointOneSecondLoop(Handle:timer,any:data)
@@ -196,28 +194,7 @@ public doCloak() //this loop should detec weapon chnage and add a new alpha
 	//CreateTimer(1.0,Cloak);
 }
 
-public doRingRegen()
-{
-	for(new x=1;x<=MaxClients;x++)
-	{
-		if(ValidPlayer(x,true)&&War3_GetOwnsItem(x,shopItem[RING]))
-		{
-			new regen_hp=GetConVarInt((War3_GetGame()==Game_CS)?RegenHPCSCvar:RegenHPTFCvar);
-			if(regen_hp<0)	regen_hp=0;
-			if(regen_hp){
-				War3_HealToMaxHP(x,regen_hp);
-				if(War3_GetGame()==TF){
-					new Float:VecPos[3];
-					GetClientAbsOrigin(x,VecPos);
-					VecPos[2]+=55.0;
-					War3_TF_ParticleToClient(0, GetClientTeam(x)==2?"healthgained_red":"healthgained_blu", VecPos);
-				}
-			}
-			
-		}
-	}
-	//CreateTimer(GetConVarFloat(RegenTimeCvar),Regen);
-}
+//gloves giving nades
 public Action:GrenadeLoop(Handle:timer,any:data)
 {
 	if(war3ready&&War3_GetGame()==Game_CS){
@@ -296,6 +273,11 @@ public OnItemPurchase(client,item)
 		}
 		
 	}
+	if(item==shopItem[RING]) 
+	{
+		new Float:regen_hp=GetConVarFloat((War3_GetGame()==Game_CS)?RegenHPCSCvar:RegenHPTFCvar);
+		War3_SetBuffItem(client,fHPRegen,shopItem[RING],regen_hp);
+	}
 	if(War3_GetGame()!=Game_TF && item==shopItem[RESPAWN])
 	{
 		bSpawnedViaScrollRespawn[client]=false;
@@ -333,6 +315,10 @@ public OnItemLost(client,item){ //deactivate passives , client may have disconne
 	if(item==shopItem[NECKLACE]) // immunity
 	{
 		War3_SetBuffItem(client,bImmunityUltimates,shopItem[NECKLACE],false);
+	}
+	if(item==shopItem[RING]) 
+	{
+		War3_SetBuffItem(client,fHPRegen,shopItem[RING],0.0);
 	}
 }
 public Action:DoAnkhAction(Handle:t,any:client){ //just respawned, passed that he didnt respawn from scroll, too bad if he respawned from orc or mage

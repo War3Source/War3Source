@@ -655,23 +655,54 @@ native War3_HealToBuffHP(client,addhp);
 */
 native War3_DecreaseHP(client,decrease);
 
+stock Entity_SetHealth(entity, health)
+{
+	SetEntProp(entity, Prop_Data, "m_iHealth", health);
+	ChangeEdictState(entity, offset = 0);
+}
+
+
+///AURA SYSTEM, keeps track of players aura via distance
+//by default tracks teammates only
+//returns an number, save it as your AuraID
+//aura does not require line of sight
+native W3RegisterAura(String:auraShortName[],Float:distance,bool:trackotherteam=false);
+
+//set and unset a player if he has or no longer has the origin of the aura
+//removed if disconnects
+//level is a integer for a priority system, such as teammate has level 1 heal wave and another teammate has level 4 heal wave
+//the player recieves the level heal wave and does not stack with level 1 heal wave
+native W3SetAuraFromPlayer(tAuraID,client,bool:auraOriginatesFromPlayer=true,level=1);
+
+///is this player under the influence of this aura?
+///it means it is within distance of an aura origin (ie player)
+///level is passed by reference and will be set
+native bool:W3HasAura(tAuraID,client,&level);
+
+//forward when a player's aura state changes, ie leaves the area, or dies
+//however player may still be alive while the aura lingers, always check for alive
+forward OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level);
+
+
+
+
+
+
+
+
 //LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
 //we essentially move the cooldown system out of our races into our main plugin
 /**
  * cooldown manager
  * basically self explainatory parameters, creates a cooldown for a skill (term skill used here is generic for skill/ability/ultimate)
  * printMsgOnExpireByTime prints message to client (if alive and same race) when this skill expires by time (will not print when expired by spawn or death or force reset)
- * CooldownPrintMsgName[] is the name of the skill that will be printed: ie Voodoo is ready. You pass "Voodoo".  
- * If left empty, it will say "Ability" for skillnum 0-2 and "Ultimate"
- * This string will also be used in War3_PrintSkillIsNotReady and is the only way to set it. you should never call  War3_PrintSkillIsNotReady before calling this manager
- * If there is a skill that has cooldown but not counted as an ability, you should not have it print on expiration
- * 
+ * The skill name of the skill will be in ready and not ready messages.
  * when a cooldown expires (by time, by death, by spawn, by force reset), it will forward to OnCooldownExpired(....) forward, use if u need to
  * @noreturn
  */  
 native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
 
-//tells the cooldown manager to create a predefined cooldown time when player spawns. 
+//tells the cooldown manager to create a predefined cooldown time when player spawns with that race. 
 //cooldown is created regardless of resetOnSpawn in War3_CooldownMGR(...) calls
 //cooldown is created regardless of race of the client
 //only prints if client is that race
@@ -699,12 +730,21 @@ native bool:War3_SkillNotInCooldown(client,raceid,skillNum,bool:printTextIfNotRe
 
 
 /**
- * prints Ability/Ultimate Is Not Ready or something
- * the String can replace "Ultimate", its copied from the creation of CooldownMGR
+ * prints Skill Is Not Ready
  */  
 native War3_PrintSkillIsNotReady(client,raceid,skillNum);
 
 
+
+
+
+
+////BUFF SYSTEM
+////BUFF SYSTEM
+////BUFF SYSTEM
+////BUFF SYSTEM
+////BUFF SYSTEM
+////BUFF SYSTEM
 
 
 /*
@@ -729,6 +769,37 @@ native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
 ///RESETS ALL BUFFS PERTAIINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
 native W3ResetAllBuffRace(client,raceid);
 
+
+
+//set player shell glowish color (blood mage, shadow hunter), highest override priority takes effect, all integers
+stock W3SetPlayerColor(client,raceid,r,g,b,a=255,overridepriority=GLOW_DEFAULT){
+	War3_SetBuff(client,iGlowRed,raceid,r);
+	War3_SetBuff(client,iGlowGreen,raceid,g);
+	War3_SetBuff(client,iGlowBlue,raceid,b);
+	War3_SetBuff(client,iGlowAlpha,raceid,a);
+	War3_SetBuff(client,iGlowPriority,raceid,overridepriority);
+	War3_SetBuff(client,fGlowSetTime,raceid,GetGameTime());
+}
+stock W3ResetPlayerColor(client,raceid){
+	W3SetPlayerColor(client,raceid,255,255,255,_,0);
+}
+
+//getting buffs
+native any:W3GetBuff(client,W3Buff:buffindex,RaceIDorItemID,IPassedItemID=false);
+native bool:W3GetBuffHasTrue(client,W3Buff:buffindex); //does this buff have one true (activated?)
+native Float:W3GetBuffStackedFloat(client,W3Buff:buffindex); //get buff stacked value of an buff, use appropriately
+native Float:W3GetBuffSumFloat(client,W3Buff:buffindex);
+native Float:W3GetBuffMinFloat(client,W3Buff:buffindex);
+native Float:W3GetBuffMaxFloat(client,W3Buff:buffindex);
+native W3GetBuffMinInt(client,W3Buff:buffindex);
+
+//DELAY TRACKER
+//DELAY TRACKER
+//DELAY TRACKER
+//DELAY TRACKER
+//DELAY TRACKER
+//DELAY TRACKER
+
 ///registers a tracker and returns an index that you must keep. usually do this for each each player or once if global
 // Register once on plugin start please!
 //returns -1 if tracker is full. LogErrors on Full
@@ -739,6 +810,13 @@ native War3_TrackDelay(trackerIndex,Float:delay);
 
 //did the delay expire?
 native War3_TrackDelayExpired(trackerIndex);
+
+
+///PLAYER  TRACE
+///PLAYER  TRACE
+///PLAYER  TRACE
+///PLAYER  TRACE
+///PLAYER  TRACE
 
 //get location of where the player is aiming (trace to the end of your crosshair)
 native War3_GetAimEndPoint(client,Float:endpos[3]);
@@ -755,18 +833,6 @@ native War3_GetAimTraceMaxLen(client,Float:endpos[3],Float:maxdistance);
 native War3_WeaponRestrictTo(client,raceid,String:onlyallowedweaponsnames[],priority=1);
 
 
-//set player shell glowish color (blood mage, shadow hunter), highest override priority takes effect, all integers
-stock W3SetPlayerColor(client,raceid,r,g,b,a=255,overridepriority=GLOW_DEFAULT){
-	War3_SetBuff(client,iGlowRed,raceid,r);
-	War3_SetBuff(client,iGlowGreen,raceid,g);
-	War3_SetBuff(client,iGlowBlue,raceid,b);
-	War3_SetBuff(client,iGlowAlpha,raceid,a);
-	War3_SetBuff(client,iGlowPriority,raceid,overridepriority);
-	War3_SetBuff(client,fGlowSetTime,raceid,GetGameTime());
-}
-stock W3ResetPlayerColor(client,raceid){
-	W3SetPlayerColor(client,raceid,255,255,255,_,0);
-}
 
 native Float:W3GetPhysicalArmorMulti(client); //damage multipler for client by accounting for physical armor (warcraft physical armor, not cs armor)
 native Float:W3GetMagicArmorMulti(client); //damage multipler for client by accounting for magic armor
@@ -774,13 +840,6 @@ native Float:W3GetMagicArmorMulti(client); //damage multipler for client by acco
 native W3GetCurrentWeaponEnt(client); //get the entity of the current (active) weapon
 
 
-native any:W3GetBuff(client,W3Buff:buffindex,RaceIDorItemID,IPassedItemID=false);
-native bool:W3GetBuffHasTrue(client,W3Buff:buffindex); //does this buff have one true (activated?)
-native Float:W3GetBuffStackedFloat(client,W3Buff:buffindex); //get buff stacked value of an buff, use appropriately
-native W3GetBuffSumFloat(client,W3Buff:buffindex);
-native Float:W3GetBuffMinFloat(client,W3Buff:buffindex);
-native Float:W3GetBuffMaxFloat(client,W3Buff:buffindex);
-native W3GetBuffMinInt(client,W3Buff:buffindex);
 
 native W3GetMinUltLevel();
 
@@ -1942,7 +2001,9 @@ stock DP(const String:szMessage[], any:...)
 stock NOW(){
 	return GetTime();
 }
-
+stock IntMax(one,two){
+	return  one>two?one:two;
+}
 
 
 

@@ -89,9 +89,17 @@ public OnMapStart()
 
 public OnItem2Purchase(client,item)
 {
-	if(item==ItemID[POSTHASTE] ) // boots of speed
+	if(item==ItemID[POSTHASTE] )
 	{
-		War3_SetBuffItem2(client,fMaxSpeed2,ItemID[POSTHASTE],1.039);
+		War3_SetBuffItem2(client,fMaxSpeed2,ItemID[POSTHASTE],1.034);
+	}
+	if(item==ItemID[TRINKET] ) 
+	{
+		War3_SetBuffItem2(client,fHPRegen,ItemID[TRINKET],0.5);
+	}
+	if(item==ItemID[LIFETUBE] ) 
+	{
+		War3_SetBuffItem2(client,fHPRegen,ItemID[LIFETUBE],1.0);
 	}
 }
 
@@ -100,5 +108,12 @@ public OnItem2Lost(client,item){ //deactivate passives , client may have disconn
 	if(item==ItemID[POSTHASTE]){
 		War3_SetBuffItem2(client,fMaxSpeed2,ItemID[POSTHASTE],1.0);
 	}
-	
+	if(item==ItemID[TRINKET] ) // boots of speed
+	{
+		War3_SetBuffItem2(client,fHPRegen,ItemID[TRINKET],0.0);
+	}
+	if(item==ItemID[LIFETUBE] ) // boots of speed
+	{
+		War3_SetBuffItem2(client,fHPRegen,ItemID[LIFETUBE],0.0);
+	}
 }

@@ -25,12 +25,11 @@ new thisRaceID;
 new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 
 //skill 1
-new HealingWaveAmountArr[]={0,1,2,3,4};
-new Float:HealingWaveDistanceArr[]={0.0,300.0,400.0,500.0,600.0};
+new Float:HealingWaveAmountArr[]={0.0,1.0,2.0,3.0,4.0};
+new Float:HealingWaveDistance=500.0;
 new ParticleEffect[MAXPLAYERS][MAXPLAYERS]; // ParticleEffect[Source][Destination]
 
 //skill 2
-new Float:CurrentHexChance[MAXPLAYERS];
 new Float:HexChanceArr[]={0.00,0.02,0.050,0.075,0.100};
 
 //skill 3
@@ -64,7 +63,7 @@ new bool:particled[MAXPLAYERS]; //heal particle
 
 
 new BeamSprite,HaloSprite; //wards
-
+new AuraID;
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Shadow Hunter",
@@ -97,6 +96,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_WARD=War3_AddRaceSkillT(thisRaceID,"SerpentWards",false,4);
 		ULT_VOODOO=War3_AddRaceSkillT(thisRaceID,"BigBadVoodoo",true,4); 
 		War3_CreateRaceEnd(thisRaceID);
+		AuraID=W3RegisterAura("hunter_healwave",HealingWaveDistance);
+		
 	}
 
 }
@@ -118,14 +119,30 @@ public OnWar3PlayerAuthed(client)
 
 public OnRaceSelected(client,race)
 {
-	if(race!=thisRaceID)
+	if(race==thisRaceID)
 	{
+		new level=War3_GetSkillLevel(client,race,SKILL_HEALINGWAVE);
+		W3SetAuraFromPlayer(client,AuraID,level>0?true:false,level);
+		
+	}
+	else{
 		War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
+		W3SetAuraFromPlayer(client,AuraID,false);
 		RemoveWards(client);
 	}
 }
 
-
+public OnSkillLevelChanged(client,race,skill,newskilllevel)
+{
+	
+	if(race==thisRaceID)
+	{
+		if(skill==SKILL_HEALINGWAVE) //1
+		{
+			W3SetAuraFromPlayer(client,AuraID,newskilllevel>0?true:false,newskilllevel);
+		}
+	}
+}
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
@@ -155,20 +172,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 		}
 	}
 }
-public OnCooldownExpired(client,raceID,skillNum,bool:expiredbytime){
-	if(raceID==thisRaceID){
-		if(skillNum==ULT_VOODOO){
-			
-			if(expiredbytime){
-				//PrintHintText(client,"UltimateReady");
-			}
-		}
-	}
-}
 
-public UltimateNotReadyMSG(client){
-	PrintHintText(client,"%T","Ultimate not ready, {amount} seconds remaining",client,War3_CooldownRemaining(client,thisRaceID,ULT_VOODOO));
-}
+
 
 public Action:EndVoodoo(Handle:timer,any:client)
 {
@@ -235,23 +240,6 @@ public OnAbilityCommand(client,ability,bool:pressed)
 	}
 }
 
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-	
-	if(race==thisRaceID)
-	{
-		if(newskilllevel>=0){ //self resets race to zero if the skill level is zero
-			if(skill==SKILL_HEALINGWAVE) //1
-			{
-		
-			}
-			if(skill==SKILL_HEX) //2
-			{
-				CurrentHexChance[client]=HexChanceArr[newskilllevel];
-			}
-		}
-	}
-}
 
 
 
@@ -311,7 +299,7 @@ public OnWar3EventDeath(victim, attacker)
 }
 
 
-public CreateWard(client)
+CreateWard(client)
 {
 	for(new i=0;i<MAXWARDS;i++)
 	{
@@ -325,7 +313,7 @@ public CreateWard(client)
 	}
 }
 
-public RemoveWards(client)
+RemoveWards(client)
 {
 	for(new i=0;i<MAXWARDS;i++)
 	{
@@ -349,7 +337,7 @@ public Action:CalcHexHealWaves(Handle:timer,any:userid)
 				{
 					new bool:value=(GetRandomFloat(0.0,1.0)<=HexChanceArr[War3_GetSkillLevel(i,thisRaceID,SKILL_HEX)]&&!Hexed(i,false));
 					War3_SetBuff(i,bImmunitySkills,thisRaceID,value);
-					HealWave(i); //check leves later
+		//			HealWave(i); //check leves later
 				}
 			}
 		}
@@ -437,7 +425,8 @@ public WardEffectAndDamage(owner,wardindex)
 						W3FlashScreen(i,DamageScreen);
 						if(War3_DealDamage(i,WARDDAMAGE,owner,DMG_ENERGYBEAM,"wards",_,W3DMGTYPE_MAGIC))
 						{
-							if(LastThunderClap[i]<GetGameTime()-2){
+							if(LastThunderClap[i]<GetGameTime()-2)
+							{
 								EmitSoundToAll(wardDamageSound,i,SNDCHAN_WEAPON);
 								LastThunderClap[i]=GetGameTime();
 							}
@@ -447,10 +436,18 @@ public WardEffectAndDamage(owner,wardindex)
 			}
 		}
 	}
+	
 }
 
-
-public HealWave(client)
+public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
+{
+	if(aura==AuraID)
+	{
+		War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealingWaveAmountArr[level]:0.0);
+		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
+	}
+}
+/*public HealWave(client)
 {
 	//assuming client exists and has this race
 	new skill = War3_GetSkillLevel(client,thisRaceID,SKILL_HEALINGWAVE);
@@ -463,7 +460,8 @@ public HealWave(client)
 		new Float:VecPos[3];
 
 		
-		
+		War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
+		asdf fix aura
 		for(new i=1;i<=MaxClients;i++)
 		{
 			if(ValidPlayer(i,true)&&GetClientTeam(i)==HealerTeam)
@@ -489,7 +487,7 @@ public HealWave(client)
 		}
 	}
 }
-
+*/
 //=======================================================================
 //                  HEALING WAVE PARTICLE EFFECT (TF2 ONLY!)
 //=======================================================================
@@ -584,6 +582,7 @@ StopParticleEffect(client, bKill)
 	}
 }
 
+//not used
 public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
 {
 	if(War3_GetGame() == Game_TF)
@@ -596,7 +595,7 @@ public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
 					{ 
 						new Float:HealerPos[3];
 						new Float:TeammatePos[3];
-						new Float:maxDistance = HealingWaveDistanceArr[skill];
+						new Float:maxDistance = HealingWaveDistance;
 						
 						GetClientAbsOrigin(client, HealerPos);
 	

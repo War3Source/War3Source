@@ -41,8 +41,8 @@ public OnSHLoadHeroOrItemOrdered(num)
 		
 		thisRaceID=SHRegisterHero(
 		"Dracula",
-		"leech",
-		"Suck some of your victims blood draining their health",
+		"dracula",
+		"Leech",
 		"Gain a percent of the damage dealt to enemies as health",
 		false
 		);
