@@ -658,7 +658,7 @@ native War3_DecreaseHP(client,decrease);
 stock Entity_SetHealth(entity, health)
 {
 	SetEntProp(entity, Prop_Data, "m_iHealth", health);
-	ChangeEdictState(entity, offset = 0);
+	ChangeEdictState(entity, 0);
 }
 
 
