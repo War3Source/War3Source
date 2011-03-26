@@ -9,8 +9,10 @@
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.1.3"
-#define REVISION_NUM 12103 //increment every release
+#define VERSION_NUM "1.2.1.4"
+#define REVISION_NUM 12104 //increment every release
+
+
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
 #include <sourcemod>
