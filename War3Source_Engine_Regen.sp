@@ -14,8 +14,8 @@ public Plugin:myinfo=
 };
 
 
-new Float:nextRegenTime[MAXPLAYERS];
-new tf2displayskip[MAXPLAYERS];
+new Float:nextRegenTime[MAXPLAYERSCUSTOM];
+new tf2displayskip[MAXPLAYERSCUSTOM];
 public OnPluginStart()
 {
 

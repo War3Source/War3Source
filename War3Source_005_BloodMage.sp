@@ -20,19 +20,19 @@ new thisRaceID;
 new SKILL_REVIVE, SKILL_BANISH, SKILL_MONEYSTEAL,ULT_FLAMESTRIKE;
 
 //skill 1
-new Float:MaxRevivalChance[MAXPLAYERS]; //chance for first attempt at revival
-new Float:CurrentRevivalChance[MAXPLAYERS]; //decays by half per revival attempt, will stay at minimum of 10% after decays
+new Float:MaxRevivalChance[MAXPLAYERSCUSTOM]; //chance for first attempt at revival
+new Float:CurrentRevivalChance[MAXPLAYERSCUSTOM]; //decays by half per revival attempt, will stay at minimum of 10% after decays
 new Float:RevivalChancesArr[]={0.00,0.25,0.50,0.75,1.00};
-new RevivedBy[MAXPLAYERS];
-new bool:bRevived[MAXPLAYERS];
-new Float:fLastRevive[MAXPLAYERS];
+new RevivedBy[MAXPLAYERSCUSTOM];
+new bool:bRevived[MAXPLAYERSCUSTOM];
+new Float:fLastRevive[MAXPLAYERSCUSTOM];
  
 //skill 2
-new Float:BanishChance[MAXPLAYERS];
+new Float:BanishChance[MAXPLAYERSCUSTOM];
 new Float:BanishChancesArr[5]={0.00,0.02,0.050,0.075,0.100};
 
 //skill 3
-new Float:MoneyStealPercent[MAXPLAYERS];
+new Float:MoneyStealPercent[MAXPLAYERSCUSTOM];
 new Float:MoneyStealPercentArr[]={0.00,0.0025,0.0050,0.0075,0.01};  //how much is stolen
 //for TF only:
 new Float:CreditStealChanceTF[]={0.00,0.02,0.04,0.06,0.08};   //what are the chances of stealing
@@ -45,9 +45,9 @@ new Handle:hrevivalDelayCvar;
 new Float:UltimateMaxDistance[]={0.0,500.0,500.0,500.0,500.0}; //max distance u can target your ultimate
 new UltimateDamageDuration[]={0,4,6,8,10}; ///how many times damage is taken (like pyro's fire)
 
-new BurnsRemaining[MAXPLAYERS]; //burn count for victims
-new BeingBurnedBy[MAXPLAYERS];
-new UltimateUsed[MAXPLAYERS];
+new BurnsRemaining[MAXPLAYERSCUSTOM]; //burn count for victims
+new BeingBurnedBy[MAXPLAYERSCUSTOM];
+new UltimateUsed[MAXPLAYERSCUSTOM];
 
 new ULT_DAMAGE_CS = 5;
 new ULT_DAMAGE_TF = 10;

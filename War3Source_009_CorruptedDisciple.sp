@@ -44,21 +44,21 @@ new Float:OverloadDamageIncrease[5]={1.0,1.01,1.015,1.020,1.025};
 ////
 
 
-new Float:ElectricTideOrigin[MAXPLAYERS][3];
-new ElectricTideLoopCountdown[MAXPLAYERS];
+new Float:ElectricTideOrigin[MAXPLAYERSCUSTOM][3];
+new ElectricTideLoopCountdown[MAXPLAYERSCUSTOM];
 
-new bool:HitOnForwardTide[MAXPLAYERS][MAXPLAYERS]; //[VICTIM][ATTACKER]
-new bool:HitOnBackwardTide[MAXPLAYERS][MAXPLAYERS];
-
-
-
-new Float:ConduitUntilTime[MAXPLAYERS]; // less than 1.0 is considered not activated, eles if curren ttime is more than  GetGameTime()
-new ConduitSubtractDamage[MAXPLAYERS];
-new ConduitBy[MAXPLAYERS]; //[VICTIM]
+new bool:HitOnForwardTide[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; //[VICTIM][ATTACKER]
+new bool:HitOnBackwardTide[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM];
 
 
-new UltimateZapsRemaining[MAXPLAYERS];
-new Float:PlayerDamageIncrease[MAXPLAYERS];
+
+new Float:ConduitUntilTime[MAXPLAYERSCUSTOM]; // less than 1.0 is considered not activated, eles if curren ttime is more than  GetGameTime()
+new ConduitSubtractDamage[MAXPLAYERSCUSTOM];
+new ConduitBy[MAXPLAYERSCUSTOM]; //[VICTIM]
+
+
+new UltimateZapsRemaining[MAXPLAYERSCUSTOM];
+new Float:PlayerDamageIncrease[MAXPLAYERSCUSTOM];
 
 new String:taunt1[]="war3source/cd/feeltheburn2.mp3";
 new String:taunt2[]="war3source/cd/feeltheburn3.mp3";

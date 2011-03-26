@@ -11,8 +11,8 @@ public Plugin:myinfo =
 };
 
 new heroID;
-new bool:isHooked[MAXPLAYERS+1];
-new Float:hookOrigin[MAXPLAYERS+1][3];
+new bool:isHooked[MAXPLAYERSCUSTOM+1];
+new Float:hookOrigin[MAXPLAYERSCUSTOM+1][3];
 new Handle:cvarColor,Handle:cvarSpeed;
 new traceDeny;
 new beamPrecache;

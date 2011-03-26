@@ -33,7 +33,7 @@ new Handle:hW3LogNotError;
 new bInFreezeTime; // again, kinda hacky
 
 
-new Float:LastLoadingHintMsg[MAXPLAYERS];
+new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
 
 
 

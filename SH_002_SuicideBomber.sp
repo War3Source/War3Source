@@ -13,10 +13,10 @@
 
 // War3Source stuff
 new thisRaceID;
-new suicidedAsTeam[MAXPLAYERS];
+new suicidedAsTeam[MAXPLAYERSCUSTOM];
 new String:explosionSound1[]="war3source/particle_suck1.wav";
 new ExplosionModel;
-new bSuicided[MAXPLAYERS];
+new bSuicided[MAXPLAYERSCUSTOM];
 new BeamSprite;
 new HaloSprite;
 
@@ -29,7 +29,7 @@ new Float:SuicideBomberRadius[5]={0.0,200.0,233.0,275.0,333.0};
 new Float:SuicideBomberDamage[5]={0.0,166.0,200.0,233.0,266.0};
 new Float:SuicideBomberDamageTF[5]={0.0,133.0,175.0,250.0,300.0}; 
 
-new Float:SuicideLocation[MAXPLAYERS][3];
+new Float:SuicideLocation[MAXPLAYERSCUSTOM][3];
 
 
 public Plugin:myinfo = 

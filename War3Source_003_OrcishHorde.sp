@@ -19,11 +19,11 @@
 #define REQUIRE_EXTENSIONS
 public W3ONLY(){} //unload this?
 new thisRaceID;
-new bool:bHasRespawned[MAXPLAYERS]; //cs
+new bool:bHasRespawned[MAXPLAYERSCUSTOM]; //cs
 new Handle:RespawnDelayCvar;
 new Handle:ultCooldownCvar;
 
-new bool:bBeenHit[MAXPLAYERS][MAXPLAYERS]; // [caster][victim] been hit this chain lightning?
+new bool:bBeenHit[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // [caster][victim] been hit this chain lightning?
 
 
 new MyWeaponsOffset,AmmoOffset;
@@ -40,7 +40,7 @@ new Float:ChainDistance[5]={0.0,150.0,200.0,250.0,300.0};
 new Float:WindWalkAlpha[5]={1.0,0.84,0.68,0.56,0.40};
 new Float:WindWalkVisibleDuration[5]={5.0,4.2,3.4,2.6,2.0};
 // TF2 Specific
-new Float:WindWalkReinvisTime[MAXPLAYERS]; //when can he invis again?
+new Float:WindWalkReinvisTime[MAXPLAYERSCUSTOM]; //when can he invis again?
 
 new Handle:hCvarDisableCritWithGloves;
 
@@ -50,7 +50,7 @@ new Handle:hCvarDisableCritWithGloves;
 #define WARDHEAL 4
 #define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
 #define WARDABOVE 160.0
-new CurrentWardCount[MAXPLAYERS];
+new CurrentWardCount[MAXPLAYERSCUSTOM];
 new WardStartingArr[]={0,1,2,3,4}; 
 new Float:WardLocation[MAXWARDS][3]; 
 new WardOwner[MAXWARDS];
@@ -61,7 +61,7 @@ new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_RECARN_WARD,ULT_LIGHTNING;
 // Effects
 new BeamSprite,HaloSprite; 
 
-new bool:flashedscreen[MAXPLAYERS];
+new bool:flashedscreen[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {

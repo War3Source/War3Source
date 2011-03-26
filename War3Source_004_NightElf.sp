@@ -12,7 +12,7 @@
 public W3ONLY(){} //unload this?
 new thisRaceID;
 
-new bool:bIsEntangled[MAXPLAYERS];
+new bool:bIsEntangled[MAXPLAYERSCUSTOM];
 
 
 new Handle:EntangleCooldownCvar; // cooldown

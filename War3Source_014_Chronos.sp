@@ -17,7 +17,7 @@ new thisRaceID;
 
 new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
-new bool:bTrapped[MAXPLAYERS];
+new bool:bTrapped[MAXPLAYERSCUSTOM];
 
 new SKILL_LEAP, SKILL_REWIND, SKILL_TIMELOCK, ULT_SPHERE;
 ////we add stuff later
@@ -28,7 +28,7 @@ new Float:leapPowerTF[5]={0.0,500.0,550.0,600.0,650.0};
 
 //rewind
 new Float:RewindChance[5]={0.0,0.1,0.15,0.2,0.25}; 
-new RewindHPAmount[MAXPLAYERS];
+new RewindHPAmount[MAXPLAYERSCUSTOM];
 
 //bash
 new Float:TimeLockChance[5]={0.0,0.1,0.15,0.2,0.25};
@@ -43,17 +43,17 @@ new String:spheresnd[]="war3source/chronos/sphere.mp3";
 
 new Float:sphereRadius=150.0;
 
-new bool:hasSphere[MAXPLAYERS];
-new Float:SphereLocation[MAXPLAYERS][3];
-new Float:SphereEndTime[MAXPLAYERS];
+new bool:hasSphere[MAXPLAYERSCUSTOM];
+new Float:SphereLocation[MAXPLAYERSCUSTOM][3];
+new Float:SphereEndTime[MAXPLAYERSCUSTOM];
 
 
 new BeamSprite;
 new HaloSprite;
 
 
-stock oldbuttons[MAXPLAYERS];
-new bool:lastframewasground[MAXPLAYERS];
+stock oldbuttons[MAXPLAYERSCUSTOM];
+new bool:lastframewasground[MAXPLAYERSCUSTOM];
 public Plugin:myinfo = 
 {
 	name = "War3Source Race - Chronos",

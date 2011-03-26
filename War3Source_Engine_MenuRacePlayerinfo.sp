@@ -15,7 +15,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-new raceinfoshowskillnumber[MAXPLAYERS];
+new raceinfoshowskillnumber[MAXPLAYERSCUSTOM];
 
 
 

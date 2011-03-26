@@ -22,9 +22,9 @@ new SKILL_FROSTNOVA,SKILL_FROSTARMOR,SKILL_DARKRITUAL,ULT_DEATHDECAY;
 //skill 1
 new Float:FrostNovaArr[]={1.0,0.95,0.9,0.85,0.8,0.75}; 
 new Float:FrostNovaRadius=500.0;
-new FrostNovaLoopCountdown[MAXPLAYERS];
-new bool:HitOnForwardTide[MAXPLAYERS][MAXPLAYERS]; //[VICTIM][ATTACKER]
-new Float:FrostNovaOrigin[MAXPLAYERS][3];
+new FrostNovaLoopCountdown[MAXPLAYERSCUSTOM];
+new bool:HitOnForwardTide[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; //[VICTIM][ATTACKER]
+new Float:FrostNovaOrigin[MAXPLAYERSCUSTOM][3];
 new Float:AbilityCooldownTime=10.0;
 
 //skill 2
@@ -264,7 +264,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					new Float:otherVec[3];
 					new team = GetClientTeam(client);
 					new maxtargets=15;
-					new targetlist[MAXPLAYERS];
+					new targetlist[MAXPLAYERSCUSTOM];
 					new targetsfound=0;
 					new Float:ultmaxdistance=GetConVarFloat(ultRangeCvar);
 					for(new i=1;i<=MaxClients;i++)

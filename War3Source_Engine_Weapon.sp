@@ -8,15 +8,15 @@ new m_OffsetActiveWeapon;
 new m_OffsetNextPrimaryAttack;
 new Handle:hSDKWeaponDrop;
 
-new String:weaponsAllowed[MAXPLAYERS][MAXRACES][300];
-new restrictionPriority[MAXPLAYERS][MAXRACES];
-new highestPriority[MAXPLAYERS];
-new bool:restrictionEnabled[MAXPLAYERS][MAXRACES]; ///if restriction has length, then this should be true (caching allows quick skipping)
-new bool:hasAnyRestriction[MAXPLAYERS]; //if any of the races said client has restriction, this is true (caching allows quick skipping)
+new String:weaponsAllowed[MAXPLAYERSCUSTOM][MAXRACES][300];
+new restrictionPriority[MAXPLAYERSCUSTOM][MAXRACES];
+new highestPriority[MAXPLAYERSCUSTOM];
+new bool:restrictionEnabled[MAXPLAYERSCUSTOM][MAXRACES]; ///if restriction has length, then this should be true (caching allows quick skipping)
+new bool:hasAnyRestriction[MAXPLAYERSCUSTOM]; //if any of the races said client has restriction, this is true (caching allows quick skipping)
 
 
 
-new g_iWeaponRateQueue[MAXPLAYERS][2]; //ent, client
+new g_iWeaponRateQueue[MAXPLAYERSCUSTOM][2]; //ent, client
 new g_iWeaponRateQueueLength;
 
 new bool:zdebug[66];

@@ -19,8 +19,8 @@ enum BuffHelperObject{
 }
 
 
-new W3Buff:BuffHelperSimpleModifier[MAXPLAYERS][MAXRACES];
-new Float:BuffHelperSimpleRemoveTime[MAXPLAYERS][MAXRACES];
+new W3Buff:BuffHelperSimpleModifier[MAXPLAYERSCUSTOM][MAXRACES];
+new Float:BuffHelperSimpleRemoveTime[MAXPLAYERSCUSTOM][MAXRACES];
 
 public Plugin:myinfo= 
 {

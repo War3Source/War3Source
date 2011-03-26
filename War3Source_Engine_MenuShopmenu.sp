@@ -51,7 +51,7 @@ public OnWar3Event(W3EVENT:event,client){
 		War3_TriedToBuyItem(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
 	}
 }
-new WantsToBuy[MAXPLAYERS];
+new WantsToBuy[MAXPLAYERSCUSTOM];
 
 ShowMenuShop(client){
 	SetTrans(client);

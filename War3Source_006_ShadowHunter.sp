@@ -27,7 +27,7 @@ new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 //skill 1
 new Float:HealingWaveAmountArr[]={0.0,1.0,2.0,3.0,4.0};
 new Float:HealingWaveDistance=500.0;
-new ParticleEffect[MAXPLAYERS][MAXPLAYERS]; // ParticleEffect[Source][Destination]
+new ParticleEffect[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // ParticleEffect[Source][Destination]
 
 //skill 2
 new Float:HexChanceArr[]={0.00,0.02,0.050,0.075,0.100};
@@ -39,12 +39,12 @@ new Float:HexChanceArr[]={0.00,0.02,0.050,0.075,0.100};
 #define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
 #define WARDABOVE 160.0
 
-new CurrentWardCount[MAXPLAYERS];
+new CurrentWardCount[MAXPLAYERSCUSTOM];
 new WardStartingArr[]={0,1,2,3,4}; 
 new Float:WardLocation[MAXWARDS][3]; 
 new WardOwner[MAXWARDS];
 
-new Float:LastThunderClap[MAXPLAYERS];
+new Float:LastThunderClap[MAXPLAYERSCUSTOM];
 
 //ultimate
 new Handle:ultCooldownCvar;
@@ -59,7 +59,7 @@ new String:ultimateSound[]="war3source/divineshield.wav";
 new String:wardDamageSound[]="war3source/thunder_clap.wav";
 
 
-new bool:particled[MAXPLAYERS]; //heal particle
+new bool:particled[MAXPLAYERSCUSTOM]; //heal particle
 
 
 new BeamSprite,HaloSprite; //wards

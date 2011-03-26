@@ -15,7 +15,7 @@
 public W3ONLY(){} //unload this?
 new thisRaceID;
 
-new String:sOldModel[MAXPLAYERS][256];
+new String:sOldModel[MAXPLAYERSCUSTOM][256];
 new OriginOffset;
 
 //skill 1
@@ -32,14 +32,14 @@ new const ShadowStrikeInitialDamage=20;
 new const ShadowStrikeTrailingDamage=5;
 new Float:ShadowStrikeChanceArr[]={0.0,0.05,0.1,0.15,0.2};
 new ShadowStrikeTimes[]={0,2,3,4,5};
-new BeingStrikedBy[MAXPLAYERS];
-new StrikesRemaining[MAXPLAYERS];
+new BeingStrikedBy[MAXPLAYERSCUSTOM];
+new StrikesRemaining[MAXPLAYERSCUSTOM];
 
 //ultimate
 new Handle:ultCooldownCvar;
 new Handle:ultMaxCvar;
 
-new ultUsedTimes[MAXPLAYERS];
+new ultUsedTimes[MAXPLAYERSCUSTOM];
 new VengenceCSStartHP[]={0,40,50,60,70}; 
 new Float:VengenceTFHealHPPercent[]={0.0,0.25,0.5,0.75,1.0}; 
 

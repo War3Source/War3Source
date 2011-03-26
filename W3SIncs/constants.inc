@@ -1,16 +1,13 @@
 /**
 * File: 
-* 
+* While we do this, lets document this file. I saw a forum post requesting documentation in this file.
 */
 
 
+//for all war3source or SH plugins, we define MAXPlAYERS as 66
+//just so pigs dont fly when you run a 64 slot server with HLTV
+#define MAXPLAYERSCUSTOM 66   //+1 of real for normal servers, add +X number of HLTV slots
 
-
-
-////#if !defined(MAXPLAYERS) //only for creating arrays, do not use this number as loop limit , use <=MaxClients variable
-#undef MAXPLAYERS    //we undefined it cuz we want 66!
-#define MAXPLAYERS 66   //+1 of real for normal servers, add +X number of HLTV slots
-////#endif
 
 
 #define MAXRACES 200 //20 = [1]-[19]  ///can only hold X-1 races, IE 20 can only hold 19 races, we skip zeroth race!
@@ -30,34 +27,39 @@
 
 #define MAXAURAS 100 // [1- ] ignore zeroth index
 
+// The enum W3Var is used with function W3SetVar and W3GetVar.
+// It is the first parameter, eg: new deathRace = W3GetVar(DeathRace)
 enum W3Var
 {
 	OldRace, //the race he was before OnRaceSelected
 	DeathRace, //race when player died 
-	hDatabase,
-	hDatabaseType,
-	hSaveEnabledCvar,
-	hRaceLimitEnabledCvar,
-	hNewPlayerLevelbankCvar,
+	hDatabase, // Handle to database
+	hDatabaseType, // DBI driver, ie sqlite or mysql
+	hSaveEnabledCvar, //Handle to war3_savexp
+	hRaceLimitEnabledCvar, // war3_racelimit_enable
+	hNewPlayerLevelbankCvar, // war3_new_player_levelbank
 
-	TheItemBoughtOrLost,
-	hPlayerInfoArgStr,
-	RaceinfoRaceToShow,
-	EventArg1,
+	TheItemBoughtOrLost, // item in question in events such as item bought or item lost
+	hPlayerInfoArgStr, // string argument after player says "playerinfo <arg>" if any
+	RaceinfoRaceToShow, // who to show the raceinfo  ....
+	EventArg1, //generic war3event arguments
 	EventArg2,
 	EventArg3,
 	
 	TransClient,//who to translate
 	
-	hUseMetricCvar,
+	hUseMetricCvar, //handle to cvar
 	
-	SmEvent, ///usual game events from sm hookked events
-	
+	SmEvent, ///usual game events from sm hooked events
+
 }
 
+//These are just used as constants, and enum orders them incrementally
+// They are to be used for War3CreateEvent and OnWar3Event, these constants define the type of the event/
+//War3Events are basically used kind of like Natives and Forwards, without the trouble of creating actual natives/forwards
 enum W3EVENT
 {
-	Moled,
+	Moled=0,
 	BombPlanted,
 	BombDefused,
 	ToBeRevived,
@@ -72,6 +74,7 @@ enum W3EVENT
 	DoShowParticularRaceInfo,
 
 	ClearPlayerVariables,
+	InitPlayerVariables,
 	DoLevelCheck,
 	
 	
@@ -95,15 +98,10 @@ enum W3EVENT
 	CanBuyItem, //client, arg1=itemid, if eventarg2 is non zero, he can buy// you have to do the message on the reason why he can't buy
 	
 	OnDeathPre, //EventArg1 = attacker.  before w3 actual death forward is called to do some reading ( ie before items are lost)
-	DoShowMenuMyInfo, //
+	DoShowMenuMyInfo,
 	DoShowPlayerInfoTarget, ///EventArg1 = target = the person whos info is shown, client=SHOW TO 
 	
-	
-	InitPlayerVariables, //MOVE, player just joined, you can set player class properties 
-	
-	
-	
-	//sh?
+
 	
 	SHMyHeroes, //select a race to drop
 	SHClearPowers, //drop all heroes
@@ -115,17 +113,21 @@ enum W3EVENT
 	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
 	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
 	
-	UNLOADPLUGINSBYMODE,//test
+	UNLOADPLUGINSBYMODE,//testing plugin unload
 	DatabaseConnected,
 	
 }
 
+// Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
 enum W3ForwardedVarsEnum{
 	ValveGame, //cs tf2
 	W3Mode, //true false
 	SHMode, //true false
 }
-enum W3XPAwardedBy{
+
+//Used as constants...identifies why a player was rewarded XP/Gold
+enum W3XPAwardedBy
+{
 	XPAwardByGeneric, ///not defined
 	XPAwardByKill,
 	XPAwardByAssist,
@@ -136,7 +138,7 @@ enum W3XPAwardedBy{
 	XPAwardByPointCapBlock,
 	XPAwardByFlagCap,
 }
-//#define IMMUNITY_COUNT 5
+
 // The types of immunities you can get/set from.
 ///corresponds to a buff system immunity
 enum War3Immunity
@@ -148,35 +150,42 @@ enum War3Immunity
 	Immunity_Items, // Immune from shop items
 	Immunity_Skills, // Immune from all skills
 	Immunity_Wards, // Immune ward modifiers/damage. skill immunity includes ward immunity
-};
+}; // The last of PimpinJuice's sexy syntax
 
+//where damage is from   skill or ultimate etc
 enum War3DamageOrigin
-{ //where damage is from   skill or ultimate etc
+{
 	W3DMGORIGIN_UNDEFINED=0,
 	W3DMGORIGIN_SKILL,
 	W3DMGORIGIN_ULTIMATE,
 	W3DMGORIGIN_ITEM,
 }
+
+//damage types
 enum War3DamageType
-{//damage types
+{
 	W3DMGTYPE_TRUEDMG=0,       //normal damage without accout for physical or magic armor
 	W3DMGTYPE_PHYSICAL,
 	W3DMGTYPE_MAGIC,
 }
 
 // Games that War3Source Supports
-enum ValveGameEnum {
+enum ValveGameEnum
+{
 	Game_None=0,
 	Game_CS=1,
 	Game_DOD=2,
 	Game_TF=3,
 	
-	CS=1,
-	DOD=2,
-	TF=3,
+	//Are you feeling Lazy? use this!
+	CS=Game_CS,
+	DOD=Game_DOD,
+	TF=Game_TF,
 }
 
-enum W3PlayerProp{
+//Basically Instance variables for the Player Class
+enum W3PlayerProp
+{
 	CurrentRace,
 	PendingRace,
 	PlayerGold,
@@ -198,14 +207,17 @@ enum W3PlayerProp{
 //STACKING: buffs that stack with itself
 //EACH BUFF SHOULD HAVE A CONCENSUS ON WHAT TYPE OF VALUE IT USES: bool, int, float
 ///NOT ALL BUFFS HAVE THE SAME DENIES, some only need skill deny or item deny only
-//#define MAX_BUFFS 50 //number of indexes, for creating the array
 
 
-enum W3BuffProperties{
+
+enum W3BuffProperties
+{
 	any:DefaultValue=0, //array index 1
 	BuffStackCacheType:BuffStackType=1, //array index 1
 }
-enum BuffStackCacheType{ //each buff can only have one stacking operation:aa
+
+enum BuffStackCacheType
+{ //each buff can only have one stacking operation:aa
 	DoNotCache=0,
 	bHasOneTrue,
 	iAbsolute, //sum
@@ -219,7 +231,8 @@ enum BuffStackCacheType{ //each buff can only have one stacking operation:aa
 }
 
 
-enum W3Buff {
+enum W3Buff
+{
 	buffdummy=0,
 	bBuffDenyAll, //DENY=not allowed to have any buffs, aka "purge"
 	
@@ -286,9 +299,11 @@ stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 
 //create an buffpropertiesarray[W3Buff][W3BuffProperties]; (separate from the array that stores every client's buffs)
 //we fill the array with its properties
-stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties]){
+stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
+{
 	
-	for(new i=0;i<MaxBuffLoopLimit;i++){
+	for(new i=0;i<MaxBuffLoopLimit;i++)
+	{
 		buffpropertiesarray[W3Buff:i][DefaultValue]=-99;
 		buffpropertiesarray[W3Buff:i][BuffStackType]=ERRUNDEFINED;
 	}
@@ -421,11 +436,14 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fHPRegen][DefaultValue]=0.0;
 	buffpropertiesarray[ fHPRegen][BuffStackType]=fAbsolute;	
 	//check that all indexes have been set
-	for(new i=0;i<MaxBuffLoopLimit;i++){
-		if(buffpropertiesarray[W3Buff:i][DefaultValue]==-99){
+	for(new i=0;i<MaxBuffLoopLimit;i++)
+	{
+		if(buffpropertiesarray[W3Buff:i][DefaultValue]==-99)
+		{
 			SetFailState("Buff index %d [DefaultValue] was not set properly!",i);
 		}
-		if(buffpropertiesarray[W3Buff:i][BuffStackType]==ERRUNDEFINED){
+		if(buffpropertiesarray[W3Buff:i][BuffStackType]==ERRUNDEFINED)
+		{
 			SetFailState("Buff index %d [BuffStackType] was not set properly!",i);
 		}
 	}
@@ -433,22 +451,26 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 }
 
 ///not yet used
-enum RaceString{
+enum RaceString
+{
 	RaceName,
 	RaceShortname,
 	RaceStory,
 	RaceDescription,
 	RaceTechnical,
 }
-enum SkillString{
+
+enum SkillString
+{
 	SkillName,
 	SkillStory,
 	SkillDescription,
 	SkillTechnical,
 }
 
-
-enum  { //W3GlowPriority
+// War3 Glow constants
+enum  
+{
 	GLOW_NONE=0,
 	GLOW_BASE=1, //if ur race needs a glow
 	GLOW_BASE2, //temporary glow of ur race over ur orignal glow? like mole u can add a glow for another priority
@@ -458,12 +480,11 @@ enum  { //W3GlowPriority
 	GLOW_OVERRIDE=255, //override all glow
 }
 
-enum W3ItemProp {
+enum W3ItemProp 
+{
 	ITEM_USED_ON_BUY=0,
 	ITEM_SELFSTACK,
 }
-
-
 
 enum War3SQLType
 {
@@ -471,9 +492,6 @@ enum War3SQLType
 	SQLType_MySQL,
 	SQLType_SQLite,
 }
-
-
-
 
 // The following are color presets for the War3_FlashScreen function
 #define RGBA_COLOR_RED		{255,0,0,4}
@@ -500,12 +518,8 @@ enum War3SQLType
 #define FFADE_STAYOUT		0x0008		// ignores the duration, stays faded out until new ScreenFade message received
 #define FFADE_PURGE			0x0010		// Purges all other fades, replacing them with this one
 
-
-
+// Team ID's for the Valve specific game
 #define  TEAM_T 2
 #define  TEAM_CT 3
 #define  TEAM_RED 2
 #define  TEAM_BLUE 3
-
-
-

@@ -26,7 +26,7 @@ new Handle:m_AutosaveTime;
 new Handle:hCvarPrintOnSave;
 
 new Handle:g_OnWar3PlayerAuthedHandle;
-new desiredRaceOnJoin[MAXPLAYERS];
+new desiredRaceOnJoin[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo= 
 {

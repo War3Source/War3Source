@@ -9,7 +9,7 @@ enum SHPlayer{
 	bool:hasHero[MAXRACES],
 	powerbind[3],
 }
-new player[MAXPLAYERS][SHPlayer];
+new player[MAXPLAYERSCUSTOM][SHPlayer];
 
 new Handle:g_OnHeroChangedHandle;
 

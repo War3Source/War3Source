@@ -4,8 +4,8 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new bool:playerOwnsItem[MAXPLAYERS][MAXITEMS];
-new playerOwnsItemExpireTime[MAXPLAYERS][MAXITEMS];
+new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
+new playerOwnsItemExpireTime[MAXPLAYERSCUSTOM][MAXITEMS];
 new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 

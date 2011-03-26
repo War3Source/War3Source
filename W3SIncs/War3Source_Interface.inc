@@ -17,7 +17,7 @@
 
 //sh include is at the end of this file
 
-new String:interfaceVersion[]="1.2.1.2"; ///this makes sure the race is compatable with the compiled version of war3source.smx
+new String:interfaceVersion[]="1.2.1.4"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
 
 stock dummy; //variable for dummies!
@@ -1712,7 +1712,52 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 
 
 
+///string?
 
+
+
+
+// Stocks
+stock StrToken(const String:inputstr[],tokennum,String:outputstr[],maxlen)
+{
+	new String:buf[maxlen+1];
+	new cur_idx;
+	new idx;
+	new curind;
+	idx=BreakString(inputstr,buf,maxlen);
+	if(tokennum==1)
+	{
+		strcopy(outputstr,maxlen,buf);
+		return;
+	}
+	curind=1;
+	while(idx!=-1)
+	{
+		cur_idx+=idx;
+		idx=BreakString(inputstr[cur_idx],buf,maxlen);
+		curind++;
+		if(tokennum==curind)
+		{
+			strcopy(outputstr,maxlen,buf);
+			break;
+		}
+	}
+}
+
+stock StrTokenCount(const String:input[])
+{
+	decl String:buf[32];
+	new cur_idx;
+	new idx;
+	new curind;
+	while(idx!=-1)
+	{
+		cur_idx+=idx;
+		idx=BreakString(input[cur_idx],buf,sizeof(buf));
+		curind++;
+	}
+	return curind;
+}
 
 
 

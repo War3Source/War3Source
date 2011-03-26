@@ -9,7 +9,7 @@
 new war3statsversion = 2;
 
 
-new reportBugDelayTracker[MAXPLAYERS];
+new reportBugDelayTracker[MAXPLAYERSCUSTOM];
 new Handle:hSecondDBCvar;
 new Handle:hShowError;
 
@@ -244,7 +244,7 @@ public Action:UpdateServerInfo(Handle:t,any:a){
 	
 	new String:mapname[64];
 	GetCurrentMap(mapname,sizeof(mapname));
-	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&maxplayers=%d&ip=%s:%d",hostname,ourversion,game,mapname,clientcount,MaxClients,serverip,serverport);
+	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&MAXPLAYERSCUSTOM=%d&ip=%s:%d",hostname,ourversion,game,mapname,clientcount,MaxClients,serverip,serverport);
 	
 	W3Socket2("w3stat/serverinfo.php",longquery,SockCallbackServerInfo);
 	//new Handle:trie=CreateTrie();

@@ -19,9 +19,9 @@ new SKILL_CRAZY, SKILL_FEAST,SKILL_SENSE,ULT_RUPTURE;
 
 // Chance/Data Arrays
 new Float:CrazyDuration[5]={0.0,4.0,6.0,8.0,10.0};
-new Float:CrazyUntil[MAXPLAYERS];
-new bool:bCrazyDot[MAXPLAYERS];
-new CrazyBy[MAXPLAYERS];
+new Float:CrazyUntil[MAXPLAYERSCUSTOM];
+new bool:bCrazyDot[MAXPLAYERSCUSTOM];
+new CrazyBy[MAXPLAYERSCUSTOM];
 
 new Float:FeastAmount[5]={0.0,0.05,0.1,0.15,0.2}; 
 
@@ -30,11 +30,11 @@ new Float:BloodSense[5]={0.0,0.1,0.15,0.2,0.25};
 new Float:ultRange=300.0;
 new Float:ultiDamageMultiPerDistance[5]={0.0,0.06,0.073,0.086,0.10}; 
 new Float:ultiDamageMultiPerDistanceCS[5]={0.0,0.09,0.11,0.13,0.15}; 
-new Float:lastRuptureLocation[MAXPLAYERS][3];
+new Float:lastRuptureLocation[MAXPLAYERSCUSTOM][3];
 new Float:RuptureDuration=8.0;
-new Float:RuptureUntil[MAXPLAYERS];
-new bool:bRuptured[MAXPLAYERS];
-new RupturedBy[MAXPLAYERS];
+new Float:RuptureUntil[MAXPLAYERSCUSTOM];
+new bool:bRuptured[MAXPLAYERSCUSTOM];
+new RupturedBy[MAXPLAYERSCUSTOM];
 
 new String:ultsnd[]="war3source/bh/ult.mp3";
 

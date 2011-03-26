@@ -12,7 +12,7 @@
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
 
-new clientParticle[MAXPLAYERS];
+new clientParticle[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {

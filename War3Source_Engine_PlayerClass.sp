@@ -4,15 +4,15 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new p_xp[MAXPLAYERS][MAXRACES];
-new p_level[MAXPLAYERS][MAXRACES];
-new p_skilllevel[MAXPLAYERS][MAXRACES][MAXSKILLCOUNT];
+new p_xp[MAXPLAYERSCUSTOM][MAXRACES];
+new p_level[MAXPLAYERSCUSTOM][MAXRACES];
+new p_skilllevel[MAXPLAYERSCUSTOM][MAXRACES][MAXSKILLCOUNT];
 
-new p_properties[MAXPLAYERS][W3PlayerProp];
+new p_properties[MAXPLAYERSCUSTOM][W3PlayerProp];
 
 
-new bool:bResetSkillsOnSpawn[MAXPLAYERS];
-new RaceIDToReset[MAXPLAYERS];
+new bool:bResetSkillsOnSpawn[MAXPLAYERSCUSTOM];
+new RaceIDToReset[MAXPLAYERSCUSTOM];
 
 
 new String:levelupSound[]="war3source/levelupcaster.wav";

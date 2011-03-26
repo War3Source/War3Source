@@ -17,7 +17,7 @@ public W3ONLY(){} //unload this?
 new thisRaceID;
 
 new Handle:ultCooldownCvar;
-new bool:bIsBashed[MAXPLAYERS];
+new bool:bIsBashed[MAXPLAYERSCUSTOM];
 
 //new Handle:FreezeTimeCvar;
 
@@ -34,7 +34,7 @@ new Float:InvisibilityAlphaCS[5]={1.0,0.90,0.8,0.7,0.6};
 new DevotionHealth[5]={0,15,25,35,45};
 new health_Offset;
 
-new Float:LastDamageTime[MAXPLAYERS];
+new Float:LastDamageTime[MAXPLAYERSCUSTOM];
 
 // Effects
 new BeamSprite,HaloSprite;
@@ -161,7 +161,7 @@ public ActivateSkills(client)
 
 	}
 }
-new bool:inteleportcheck[MAXPLAYERS];
+new bool:inteleportcheck[MAXPLAYERSCUSTOM];
 public OnUltimateCommand(client,race,bool:pressed)
 {
 	new userid=GetClientUserId(client);
@@ -261,8 +261,8 @@ public Action:UnfreezePlayer(Handle:timer,any:client)
 // Much thanks, this would be a nightmare without him.
 new ClientTracer;
 new Float:emptypos[3];
-new Float:oldpos[MAXPLAYERS][3];
-new Float:teleportpos[MAXPLAYERS][3];
+new Float:oldpos[MAXPLAYERSCUSTOM][3];
+new Float:teleportpos[MAXPLAYERSCUSTOM][3];
 
 bool:TeleportPlayerView(client,Float:distance)
 {

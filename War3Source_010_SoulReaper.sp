@@ -31,7 +31,7 @@ new Float:JudgementRange=200.0;
 
 new PresenseSkipAmount[5]={0,4,3,2,1}; //skip per .5 seconds
 new Float:PresenceRange=400.0;
-new PresenceSkipPlayer[MAXPLAYERS];
+new PresenceSkipPlayer[MAXPLAYERSCUSTOM];
 
 new InhumanAmount[5]={0,5,10,15,20};
 new Float:InhumanRange=400.0;

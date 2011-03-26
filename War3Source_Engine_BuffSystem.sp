@@ -15,13 +15,13 @@
 new m_OffsetClrRender;
 
 
-new m_OffsetGravity[MAXPLAYERS];
+new m_OffsetGravity[MAXPLAYERSCUSTOM];
 new m_OffsetSpeed;
 
-new reapplyspeed[MAXPLAYERS];
+new reapplyspeed[MAXPLAYERSCUSTOM];
 
 //for debuff index, see constants, its in an enum
-new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
+new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
 //start loop for items only: i=1;i<MAXITEMS   
 //start loop for races only: i=MAXITEMS;i<MAXITEMS+MAXRACES]
 //buffs may be bool, float, or int
@@ -29,7 +29,7 @@ new any:buffdebuff[MAXPLAYERS][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIE
 
 new BuffProperties[W3Buff][W3BuffProperties];
 
-new any:BuffCached[MAXPLAYERS][W3Buff];// instead of looping, we cache everything in the last dimension, see enum W3BuffCache
+new any:BuffCached[MAXPLAYERSCUSTOM][W3Buff];// instead of looping, we cache everything in the last dimension, see enum W3BuffCache
 
 new bool:skiptest;
 
@@ -43,7 +43,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-new bool:invisWeaponAttachments[MAXPLAYERS];
+new bool:invisWeaponAttachments[MAXPLAYERSCUSTOM];
 
 
 public OnPluginStart()
@@ -303,8 +303,8 @@ public SDK_Forwarded_PostThinkPost(client)
 	}*/
 }
 
-new Float:speedBefore[MAXPLAYERS];
-new Float:speedWeSet[MAXPLAYERS];
+new Float:speedBefore[MAXPLAYERSCUSTOM];
+new Float:speedWeSet[MAXPLAYERSCUSTOM];
 
 public Action:DeciSecondTimer(Handle:timer)
 {

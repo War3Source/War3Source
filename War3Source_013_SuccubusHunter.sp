@@ -23,14 +23,14 @@ new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offs
 
 
 new bool:hurt_flag = true;
-new bool:m_IsULT_TRANSFORMformed[MAXPLAYERS];
-new skulls[MAXPLAYERS];
+new bool:m_IsULT_TRANSFORMformed[MAXPLAYERSCUSTOM];
+new skulls[MAXPLAYERSCUSTOM];
 new ValveGameEnum:g_GameType;
 //Effects
 new BeamSprite;
 new Laser;
 
-new bool:lastframewasground[MAXPLAYERS];
+new bool:lastframewasground[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar;
 
 

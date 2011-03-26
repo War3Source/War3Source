@@ -10,15 +10,15 @@
 
 
 ///caching player angles, pos, ducking, weapons etc
-new Float:pfAngle[MAXPLAYERS][3];
-new Float:pfPos[MAXPLAYERS][3];
-new bool:pbDucking[MAXPLAYERS];
-new piWeapon[MAXPLAYERS][10]; //10 is probably slot number
-new piWeaponClip[MAXPLAYERS][10]; //loaded in gun
-new piWeaponAmmo[MAXPLAYERS][32]; //32 types of ammo?
-new piWeaponDeadClip[MAXPLAYERS][10]; 
-new piWeaponDeadAmmo[MAXPLAYERS][32]; 
-new String:psWeaponName[MAXPLAYERS][10][32];//cached weapon name
+new Float:pfAngle[MAXPLAYERSCUSTOM][3];
+new Float:pfPos[MAXPLAYERSCUSTOM][3];
+new bool:pbDucking[MAXPLAYERSCUSTOM];
+new piWeapon[MAXPLAYERSCUSTOM][10]; //10 is probably slot number
+new piWeaponClip[MAXPLAYERSCUSTOM][10]; //loaded in gun
+new piWeaponAmmo[MAXPLAYERSCUSTOM][32]; //32 types of ammo?
+new piWeaponDeadClip[MAXPLAYERSCUSTOM][10]; 
+new piWeaponDeadAmmo[MAXPLAYERSCUSTOM][32]; 
+new String:psWeaponName[MAXPLAYERSCUSTOM][10][32];//cached weapon name
 
 new MyWeaponsOffset; //get weapon per slot
 new Clip1Offset;

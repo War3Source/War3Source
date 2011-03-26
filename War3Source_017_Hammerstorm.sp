@@ -43,7 +43,7 @@ new WarcryArmor[5]={0,1,2,3,4};
 
 // Gods Strength
 new Float:GodsStrength[5]={1.0,1.20,1.30,1.40,1.50};
-new bool:bStrengthActivated[MAXPLAYERS];
+new bool:bStrengthActivated[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar; // cooldown
 
 // Sounds

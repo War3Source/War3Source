@@ -2,45 +2,28 @@
 * File: War3Source.sp
 * Description: The main file for War3Source.
 * Author(s): Anthony Iacono  & OwnageOwnz (DarkEnergy)
+* OnPluginEnd is currently broken, along with the fact that the CloseHandle would be redundant. All handle leaks have been considered.
+* If you don't like it, read through the whole thing yourself and prove yourself wrong.
 */
 
 #pragma semicolon 1
 
-#include <sourcemod>
-#include <sdkhooks>
-
-
 
 #define VERSION_NUM "1.2.1.3"
 #define REVISION_NUM 12103 //increment every release
-
-
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
-//variables needed by includes here
-
-
-
-//use ur own natives and stocks
+#include <sourcemod>
+#include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
-
-
-
-// War3Source Includes
 #include "W3SIncs/War3SourceMain"
 
 
 
-// This is public for the following reasons:
-// If you have access to a plugin's pointer or context, you can FindPublicByName
-// Once you find a public named myinfo, you can interpret that information elsewhere:
-// This is applied for sm plugins info, as you can probably tell.
-// Psuedo code:
-// void PrintPluginList() {
-// // iterate plugins
-// foreach(plugins as plugin)
-// find public myinfo
-// get string
+
+
+
+
 public Plugin:myinfo= 
 {
 	name="War3Source",
@@ -49,8 +32,6 @@ public Plugin:myinfo=
 	version=VERSION_NUM,
 	url="http://war3source.com/"
 };
-
-
 
 
 
@@ -110,7 +91,6 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	}
 	hW3LogNotError=OpenFile(path_log,"a+");
 	
-	
 	return APLRes_Success;
 }
 
@@ -122,8 +102,6 @@ public OnPluginStart()
 	if(GetExtensionFileStatus("sdkhooks.ext") < 1)
 		SetFailState("SDK Hooks is not loaded.");
 	
-		
-	
 	if(!War3Source_HookEvents())
 		SetFailState("[War3Source] There was a failure in initiating event hooks.");
 	if(!War3Source_InitCVars()) //especially sdk hooks
@@ -131,18 +109,15 @@ public OnPluginStart()
 
 	if(!War3Source_InitOffset())
 		SetFailState("[War3Source] There was a failure in finding the offsets required.");
-	
-	
-	
-	// MaxSpeed/MinGravity/MinAlpha/OverrideSpeed/OverrideGravity/OverrideAlpha
+
 	CreateTimer(0.1,DeciSecondLoop,_,TIMER_REPEAT);
 		
 	PrintToServer("[War3Source] Plugin finished loading.\n-------------------END OnPluginStart-------------------");
 	
-	RegServerCmd("loadraces",CmdLoadRaces);
+/*	RegServerCmd("loadraces",CmdLoadRaces);
 	
 	RegConsoleCmd("dmgtest",CmdDmgTest);
-	
+	#if defined WAR3DEBUGBUILD
 	//testihng commands here
 	RegConsoleCmd("flashscreen",FlashTest);
 	RegConsoleCmd("ubertest",UberTest);
@@ -156,11 +131,16 @@ public OnPluginStart()
 	RegServerCmd("whichmode",cmdwhichmode);
 	
 	RegConsoleCmd("diamonds",cmddiamonds);
+	#endif
 	
-
+*/
 }
-public Action:cmddiamonds(client,args){
-	if(W3IsDeveloper(client)){
+
+/*
+public Action:cmddiamonds(client,args)
+{
+	if(W3IsDeveloper(client))
+	{
 		War3_SetDiamonds(client,1000);
 	}
 }
@@ -336,14 +316,14 @@ public Action:FullSkilltest(client,args){
 
 
 
-
+*/
 
 
 
 public OnMapStart()
 {
 	PrintToServer("OnMapStart");
-	W3CreateEvent(UNLOADPLUGINSBYMODE,0);
+	W3CreateEvent(UNLOADPLUGINSBYMODE,0); // not something that is considered unapprovable but make sure your defines have naming schemas like War3Event_Blah
 		
 	DoWar3InterfaceExecForward();
 	
@@ -387,9 +367,6 @@ public Action:CheckCvars(Handle:timer, any:client)
 		CloseHandle(convarList);
 	
 	return Plugin_Handled;
-	//new String:buffer2[70];
-	//GetConVarString(hWar3versionConvarHandle, buffer2, sizeof(buffer2));
-	//SetConVarString(hWar3versionConvarHandle, buffer2, false, false);
 }
 
 
@@ -397,7 +374,9 @@ public Action:CheckCvars(Handle:timer, any:client)
 
 public Action:OnGetGameDescription(String:gameDesc[64])
 {
-	if(W3()&&GetConVarInt(hChangeGameDescCvar)>0){
+// Lol @ function named W3
+	if(W3()&&GetConVarInt(hChangeGameDescCvar)>0)
+	{
 		Format(gameDesc,sizeof(gameDesc),"War3Source %s",VERSION_NUM);
 		return Plugin_Changed;
 	}
@@ -407,31 +386,28 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 public OnAllPluginsLoaded() //called once only, will not call again when map changes
 {
 	PrintToServer("OnAllPluginsLoaded");
-
 }
 
 
 LoadRacesAndItems()
 {	
-	
-//		CreateTimer(0.1,LoadRacesAndItems2);
-//}
-//public Action:LoadRacesAndItems2(Handle:h)
-//{
+
 	PrintToServer("RACE ITEM LOAD");
 	new Float:starttime=GetEngineTime();
 	//ordered loads
 	new res;
-	if(W3()){
-
-		for(new i;i<=MAXRACES*10;i++){
+	if(W3())
+	{
+		for(new i;i<=MAXRACES*10;i++)
+		{
 			Call_StartForward(g_OnWar3PluginReadyHandle);
 			Call_PushCell(i);		
 			Call_Finish(res);
 		}
 		
 		//orderd loads 2
-		for(new i;i<=MAXRACES*10;i++){
+		for(new i;i<=MAXRACES*10;i++)
+		{
 			Call_StartForward(g_OnWar3PluginReadyHandle2);
 			Call_PushCell(i);		
 			Call_Finish(res);
@@ -442,63 +418,52 @@ LoadRacesAndItems()
 		Call_Finish(res);
 	}
 	
-	if(SH()){
+	if(SH())
+	{
 		
 		//SH ordered load
-		for(new i;i<=MAXRACES*10;i++){
+		for(new i;i<=MAXRACES*10;i++)
+		{
 			Call_StartForward(hOnSHLoadHeroOrItemOrdered);
 			Call_PushCell(i);		
 			Call_Finish(res);
 		}
 	}
-	
 
 	PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
 	
-//	CreateTimer(1.0,LoadRacesAndItems3);
-//}
-//public Action:LoadRacesAndItems3(Handle:h)
-//{
-	
-	DelayedWar3SourceCfgExecute();//
+	DelayedWar3SourceCfgExecute();
 	
 }
+
 DelayedWar3SourceCfgExecute()
 {
 	if(W3())
 	{
-		if(FileExists("cfg/war3source.cfg")){
+		if(FileExists("cfg/war3source.cfg"))
+		{
 			ServerCommand("exec war3source.cfg");
-			PrintToServer("[War3Source] Exec war3source.cfg");
+			PrintToServer("[War3Source] Executing war3source.cfg");
 		}
-		else{
-			PrintToServer("[SH] war3source.cfg Not Found");
+		else
+		{
+			PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
 		}
 	}
 	
-	if(SH()){
+	if(SH())
+	{
 		if(FileExists("cfg/superhero.cfg"))
 		{
 			ServerCommand("exec superhero.cfg");
-			PrintToServer("[SH] Exec superhero.cfg");
+			PrintToServer("[War3Source] Executing superhero.cfg");
 		}
-		else{
-			PrintToServer("[SH] superhero.cfg Not Found");
+		else
+		{
+			PrintToServer("[War3Source] Could not find superhero.cfg, we recommend all servers have this file");
 		}
 	}
 }
-
-
-public zOnPluginEnd() //public OnMapEnd()
-{	
-	PrintToServer("[War3Source] OnPluginEnd ");
-}
-
-public OnConfigsExecuted()
-{
-}
-
-
 
 public OnClientPutInServer(client)
 {

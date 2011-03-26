@@ -18,8 +18,8 @@ new Handle:FriendlyFireSuicideCvar;
 new Handle:SuicideDamageSentryCvar;
 new Handle:MPFFCvar;
 new ExplosionModel;
-new bool:bSuicided[MAXPLAYERS];
-new suicidedAsTeam[MAXPLAYERS];
+new bool:bSuicided[MAXPLAYERSCUSTOM];
+new suicidedAsTeam[MAXPLAYERSCUSTOM];
 new String:explosionSound1[]="war3source/particle_suck1.wav";
 
 new BeamSprite;
@@ -37,7 +37,7 @@ new Float:LevitationGravity[5]={1.0,0.85,0.7,0.6,0.5};
 //new Float:VampirePercent[5]={0.0,0.07,0.14,0.22,0.30};
 new Float:VampirePercent[5]={0.0,0.07,0.13,0.19,0.25};
 
-new Float:SuicideLocation[MAXPLAYERS][3];
+new Float:SuicideLocation[MAXPLAYERSCUSTOM][3];
 
 new SKILL_LEECH,SKILL_SPEED,SKILL_LOWGRAV,SKILL_SUICIDE;
 

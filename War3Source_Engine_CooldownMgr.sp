@@ -23,7 +23,7 @@ new String:abilityReadySound[]="war3source/ability_refresh.mp3";
 new Handle:g_CooldownExpiredForwardHandle;
 
 
-new CooldownPointer[MAXPLAYERS][MAXRACES][MAXSKILLCOUNT];
+new CooldownPointer[MAXPLAYERSCUSTOM][MAXRACES][MAXSKILLCOUNT];
 
 enum CooldownClass
 {

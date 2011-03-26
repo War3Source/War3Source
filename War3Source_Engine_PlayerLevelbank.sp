@@ -4,7 +4,7 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new levelbank[MAXPLAYERS];
+new levelbank[MAXPLAYERSCUSTOM];
 new Handle:hCvar_NewPlayerLevelbank;
 
 new Handle:hCvarPrintLevelBank;

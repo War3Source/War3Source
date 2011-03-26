@@ -8,9 +8,9 @@
 
 
 
-new bool:bRankCached[MAXPLAYERS];
-new iRank[MAXPLAYERS];
-new iTotalPlayersDB[MAXPLAYERS]; // this is also cached per client, eg one player might see 1/20 when another sees 2/21
+new bool:bRankCached[MAXPLAYERSCUSTOM];
+new iRank[MAXPLAYERSCUSTOM];
+new iTotalPlayersDB[MAXPLAYERSCUSTOM]; // this is also cached per client, eg one player might see 1/20 when another sees 2/21
 
 new iTopCount; // there might not be 100 in the array.
 

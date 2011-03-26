@@ -30,7 +30,7 @@ new Float:feastPercent[5] = { 0.0, 0.04,  0.06,  0.08,  0.10 };   //Feast ratio 
 new Float:RageAttackSpeed[5] = {1.0, 1.15,  1.25,  1.3334,  1.4001 };   //Rage Attack Rate
 new Float:RageDuration[5] = {0.0, 3.0,  4.0,   5.0,  6.0 };   //Rage duration
 
-new bool:bDucking[MAXPLAYERS];
+new bool:bDucking[MAXPLAYERSCUSTOM];
 //End of skill Settings
 
 new Handle:ultCooldownCvar;

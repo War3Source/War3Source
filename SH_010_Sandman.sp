@@ -7,7 +7,7 @@
 
 // War3Source stuff
 new thisRaceID;
-new bool:bDucking[MAXPLAYERS];
+new bool:bDucking[MAXPLAYERSCUSTOM];
 new Float:burypos[66][3];
 new Float:oldpos[66][3];
 new SKILL_BURY;

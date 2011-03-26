@@ -129,16 +129,19 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 
 
 	new raceid=GetNativeCell(1);
-	new String:skillname[32];
-	new String:skilldesc[2001];
-	GetNativeString(2,skillname,sizeof(skillname));
-	GetNativeString(3,skilldesc,sizeof(skilldesc));
-	new bool:isult=GetNativeCell(4);
-	new tmaxskilllevel=GetNativeCell(5);
-	
-	//W3Log("add skill %s %s",skillname,skilldesc);
-	
-	return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
+	if(raceid>0){
+		new String:skillname[32];
+		new String:skilldesc[2001];
+		GetNativeString(2,skillname,sizeof(skillname));
+		GetNativeString(3,skilldesc,sizeof(skilldesc));
+		new bool:isult=GetNativeCell(4);
+		new tmaxskilllevel=GetNativeCell(5);
+		
+		//W3Log("add skill %s %s",skillname,skilldesc);
+		
+		return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
+	}
+	return 0;
 }
 
 //translated
@@ -149,13 +152,13 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
 	decl String:name[64],String:shortname[32];
 	GetNativeString(1,shortname,sizeof(shortname));
 	new newraceid=CreateNewRace(name,shortname);
-	raceTranslated[newraceid]=true;
-	new String:buf[64];
-	Format(buf,sizeof(buf),"w3s.race.%s.phrases",shortname);
-	LoadTranslations(buf);
-	
-	//W3Log("add raceT %s %d",shortname,newraceid);
-
+	if(newraceid)
+	{
+		raceTranslated[newraceid]=true;
+		new String:buf[64];
+		Format(buf,sizeof(buf),"w3s.race.%s.phrases",shortname);
+		LoadTranslations(buf);
+	}
 	return newraceid;
 
 }
@@ -164,25 +167,29 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 
 	
 	new raceid=GetNativeCell(1);
-	new String:skillname[32];
-	new String:skilldesc[1]; //DUMMY
-	GetNativeString(2,skillname,sizeof(skillname));
-	new bool:isult=GetNativeCell(3);
-	new tmaxskilllevel=GetNativeCell(4);
-	
-	//W3Log("add skill T %d %s",raceid,skillname);
+	if(raceid>0)
+	{
+		new String:skillname[32];
+		new String:skilldesc[1]; //DUMMY
+		GetNativeString(2,skillname,sizeof(skillname));
+		new bool:isult=GetNativeCell(3);
+		new tmaxskilllevel=GetNativeCell(4);
 		
-	new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
-	
-	
-	if(ignoreRaceEnd==false&&numParams>4){
-		for(new arg=5;arg<=numParams;arg++){
-			GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
-			raceSkillDescReplaceNum[raceid][newskillnum]++;
+		//W3Log("add skill T %d %s",raceid,skillname);
+			
+		new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
+		
+		
+		if(ignoreRaceEnd==false&&numParams>4){
+			for(new arg=5;arg<=numParams;arg++){
+				GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
+				raceSkillDescReplaceNum[raceid][newskillnum]++;
+			}
 		}
+		
+		return newskillnum;
 	}
-	
-	return newskillnum;
+	return 0;//failed
 }
 
 public NWar3_CreateRaceEnd(Handle:plugin,numParams){
@@ -636,80 +643,60 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 
 
 CreateRaceEnd(raceid){
-	racecreationended=true;
-	Format(creatingraceshortname,sizeof(creatingraceshortname),"");
-	///now we put shit into the database and create cvars
-	if(!ignoreRaceEnd&&raceid>0)
-	{
-		new Handle:hDB=Handle:W3GetVar(hDatabase);
-		
-		new String:shortname[16];
-		GetRaceShortname(raceid,shortname,sizeof(shortname));
-		
-		///min level cvar
-		//new String:cvar_min[64];
-		//Format(cvar_min,sizeof(cvar_min),"war3_%s_minlevel",shortname);
-		
-		//hcvar_MinLevel[raceid]=CreateConVar(cvar_min,"0","Minimum level for race");
-		new String:cvarstr[64];
-		Format(cvarstr,sizeof(cvarstr),"%s_minlevel",shortname);
-		MinLevelCvar[raceid]=W3CreateCvar(cvarstr,"0","Minimum level for race");
-
-		Format(cvarstr,sizeof(cvarstr),"%s_accessflag",shortname);
-		AccessFlagCvar[raceid]=W3CreateCvar(cvarstr,"0","Admin access flag required for race");
-		
-		Format(cvarstr,sizeof(cvarstr),"%s_raceorder",shortname);
-		new String:buf[16];
-		Format(buf,sizeof(buf),"%d",raceid*100);
-		RaceOrderCvar[raceid]=W3CreateCvar(cvarstr,buf,"This race's Race Order on changerace menu");
-		
-		Format(cvarstr,sizeof(cvarstr),"%s_flags",shortname);
-		RaceFlagsCvar[raceid]=W3CreateCvar(cvarstr,"","This race's flags, ie 'hidden,etc");
-		
-		Format(cvarstr,sizeof(cvarstr),"%s_restrict_items",shortname);
-		RestrictItemsCvar[raceid]=W3CreateCvar(cvarstr,"","Which items to restrict for people on this race. Separate by comma, ie 'claw,orb'");
-		
-		Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,1);
-		RestrictLimitCvar[raceid][0]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 1 (RED/T)");
-		Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,2);
-		RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)");
-		
-	
-		
-		
-		
-		/*new String:buf[32];
-		Format(buf,sizeof(buf),"%s minlevel",shortname);
-		SetTrieString(htrie,buf,"0");
-		
-		Format(buf,sizeof(buf),"%s accessflag",shortname);
-		SetTrieString(htrie,buf,"0");
-		Format(buf,sizeof(buf),"%s restrict items",shortname);
-		SetTrieString(htrie,buf,"");
-		Format(buf,sizeof(buf),"%s team1 limit",shortname);
-		SetTrieString(htrie,buf,"99");
-		Format(buf,sizeof(buf),"%s team2 limit",shortname);
-		SetTrieString(htrie,buf,"99");*/
-		
-		// create war3sourceraces structure, shouldn't be harmful if already exists
-		if(hDB)
+	if(raceid>0){
+		racecreationended=true;
+		Format(creatingraceshortname,sizeof(creatingraceshortname),"");
+		///now we put shit into the database and create cvars
+		if(!ignoreRaceEnd&&raceid>0)
 		{
-			PrintToServer("---Starting Threaded race operations: %s----------",shortname);
-			//PrintToServer("Creating race into war3sourceraces if not exists %s",shortname);
+			new Handle:hDB=Handle:W3GetVar(hDatabase);
 			
+			new String:shortname[16];
+			GetRaceShortname(raceid,shortname,sizeof(shortname));
 			
-			new String:longquery[4001];
-			// populate war3sourceraces
+			new String:cvarstr[64];
+			Format(cvarstr,sizeof(cvarstr),"%s_minlevel",shortname);
+			MinLevelCvar[raceid]=W3CreateCvar(cvarstr,"0","Minimum level for race");
+	
+			Format(cvarstr,sizeof(cvarstr),"%s_accessflag",shortname);
+			AccessFlagCvar[raceid]=W3CreateCvar(cvarstr,"0","Admin access flag required for race");
 			
-			Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO war3sourceraces (shortname) VALUES ('%s')",W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",shortname);
+			Format(cvarstr,sizeof(cvarstr),"%s_raceorder",shortname);
+			new String:buf[16];
+			Format(buf,sizeof(buf),"%d",raceid*100);
+			RaceOrderCvar[raceid]=W3CreateCvar(cvarstr,buf,"This race's Race Order on changerace menu");
 			
-			SQL_TQuery(hDB,T_CallbackInsertRace1,longquery,raceid,DBPrio_High);
+			Format(cvarstr,sizeof(cvarstr),"%s_flags",shortname);
+			RaceFlagsCvar[raceid]=W3CreateCvar(cvarstr,"","This race's flags, ie 'hidden,etc");
 			
+			Format(cvarstr,sizeof(cvarstr),"%s_restrict_items",shortname);
+			RestrictItemsCvar[raceid]=W3CreateCvar(cvarstr,"","Which items to restrict for people on this race. Separate by comma, ie 'claw,orb'");
 			
+			Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,1);
+			RestrictLimitCvar[raceid][0]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 1 (RED/T)");
+			Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,2);
+			RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)");
 			
+			// create war3sourceraces structure, shouldn't be harmful if already exists
+			if(hDB)
+			{
+				PrintToServer("---Starting Threaded race operations: %s----------",shortname);
+				//PrintToServer("Creating race into war3sourceraces if not exists %s",shortname);
+				
+				
+				new String:longquery[4001];
+				// populate war3sourceraces
+				
+				Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO war3sourceraces (shortname) VALUES ('%s')",W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",shortname);
+				
+				SQL_TQuery(hDB,T_CallbackInsertRace1,longquery,raceid,DBPrio_High);
+				
+				
+				
+			}
 		}
+		ignoreRaceEnd=false;
 	}
-	ignoreRaceEnd=false;
 }
 
 public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:raceid)

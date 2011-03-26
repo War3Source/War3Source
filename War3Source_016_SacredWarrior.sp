@@ -20,12 +20,12 @@ new VitalityHealed[]={0,1,2,3,4}; // How much HP Vitality heals each second
 // Burning Spear stacking effect
 new SpearDamage[]={0,1,2,3,4}; // How much damage does a stack do?
 new MaxSpearStacks=3; // How many stacks can the attacker dish out?
-//new Float:SpearUntil[MAXPLAYERS]; // Until when is the victim affected?
-new VictimSpearStacks[MAXPLAYERS]; // How many stacks does the victim have?
-new VictimSpearTicks[MAXPLAYERS];
-//new bool:bSpeared[MAXPLAYERS]; // Is this player speared (has DoT on him)?
-new SpearedBy[MAXPLAYERS]; // Who was the victim speared by?
-new bool:bSpearActivated[MAXPLAYERS]; // Does the player have Burning Spear activated?
+//new Float:SpearUntil[MAXPLAYERSCUSTOM]; // Until when is the victim affected?
+new VictimSpearStacks[MAXPLAYERSCUSTOM]; // How many stacks does the victim have?
+new VictimSpearTicks[MAXPLAYERSCUSTOM];
+//new bool:bSpeared[MAXPLAYERSCUSTOM]; // Is this player speared (has DoT on him)?
+new SpearedBy[MAXPLAYERSCUSTOM]; // Who was the victim speared by?
+new bool:bSpearActivated[MAXPLAYERSCUSTOM]; // Does the player have Burning Spear activated?
 
 // Buffs that berserker applys
 //new Float:BerserkerBuffDamage[]={0.0,0.005,0.01,0.015,0.02};  // each 7% you add one of these 

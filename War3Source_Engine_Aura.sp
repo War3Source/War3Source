@@ -4,11 +4,11 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new bool:AuraOrigin[MAXPLAYERS][MAXAURAS];
-new bool:AuraOriginLevel[MAXPLAYERS][MAXAURAS];
+new bool:AuraOrigin[MAXPLAYERSCUSTOM][MAXAURAS];
+new bool:AuraOriginLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 
-new HasAura[MAXPLAYERS][MAXAURAS]; //int, we just count up
-new HasAuraLevel[MAXPLAYERS][MAXAURAS];
+new HasAura[MAXPLAYERSCUSTOM][MAXAURAS]; //int, we just count up
+new HasAuraLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 
 new String:AuraShort[MAXAURAS][32];
 new Float:AuraDistance[MAXAURAS];
@@ -104,8 +104,8 @@ public Action:CalcAura(Handle:t)
 {
 	lastCalcAuraTime=GetEngineTime();
 	//store old aura count
-	new OldHasAura[MAXPLAYERS][MAXAURAS];
-	new OldHasAuraLevel[MAXPLAYERS][MAXAURAS];
+	new OldHasAura[MAXPLAYERSCUSTOM][MAXAURAS];
+	new OldHasAuraLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 	for(new client=1;client<=MaxClients;client++)
 	{
 		for(new aura=1;aura<=AuraCount;aura++){
@@ -117,7 +117,7 @@ public Action:CalcAura(Handle:t)
 	}
 	
 	
-	new Float:Distances[MAXPLAYERS][MAXPLAYERS];
+	new Float:Distances[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM];
 	new Float:vec1[3];
 	new Float:vec2[3];
 	for(new client=1;client<=MaxClients;client++)

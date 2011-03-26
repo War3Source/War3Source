@@ -14,7 +14,7 @@ public Plugin:myinfo=
 
 
 
-//new WantsRace[MAXPLAYERS];
+//new WantsRace[MAXPLAYERSCUSTOM];
 
 
 public OnPluginStart()
