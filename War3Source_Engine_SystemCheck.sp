@@ -30,15 +30,11 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
-
 public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 {
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
+	g_War3FailedFH=CreateGlobalForward("War3FailedSignal",ET_Ignore,Param_String);
+
+	CreateNative("War3Failed",Native_War3Failed);
 	return APLRes_Success;
 }
 
@@ -47,14 +43,6 @@ public OnPluginStart()
 	CreateTimer(2.0,TwoSecondTimer,_,TIMER_REPEAT);
 }
 
-
-bool:InitNativesForwards()
-{
-	g_War3FailedFH=CreateGlobalForward("War3FailedSignal",ET_Ignore,Param_String);
-
-	CreateNative("War3Failed",Native_War3Failed);
-	return true;
-}
 public Native_War3Failed(Handle:plugin,numParams)
 {
 	new String:str[2000];

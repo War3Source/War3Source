@@ -31,7 +31,15 @@ public Plugin:myinfo=
 };
 
 
-
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 public OnPluginStart()
 {
 	RegConsoleCmd("war3notdev",cmdwar3notdev);
@@ -39,7 +47,8 @@ public OnPluginStart()
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
 }
-public bool:InitNativesForwards()
+
+bool:InitNativesForwards()
 {
 	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
@@ -67,6 +76,7 @@ public bool:InitNativesForwards()
 	CreateNative("W3ClearSkillLevels",NW3ClearSkillLevels);
 	return true;
 }
+
 public NWar3_SetRace(Handle:plugin,numParams){
 	
 	//set old race

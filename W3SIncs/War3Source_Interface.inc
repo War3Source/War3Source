@@ -42,7 +42,55 @@ stock SH(){
 stock ValveGameEnum:War3_GetGame(){
 	return ValveGameEnum:W3ForwarededVars[ValveGame];
 }
-
+stock W3Early(){
+	new Handle:iter=GetPluginIterator();
+	while(MorePlugins(iter)){
+		new Handle:plugin=ReadPlugin(iter);
+		new String:buf[64];
+		GetPluginFilename(plugin,buf,sizeof(buf));
+		PrintToServer("%s",buf);
+		new Function:func;
+		func=GetFunctionByName(plugin, "W3EarlyPublic");
+		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+			Call_StartFunction(plugin, func);
+			Call_Finish(dummy);
+			return dummy;
+		}
+	}
+	SetFailState("W3EarlyPublic NOT FOUND");
+	return 0;
+}
+//use this when SH native hasn't been bound yet,  however dont call this before it has been determined
+stock SHEarly(){
+	new Handle:iter=GetPluginIterator();
+	while(MorePlugins(iter)){
+		new Handle:plugin=ReadPlugin(iter);
+		new Function:func;
+		func=GetFunctionByName(plugin, "SHEarlyPublic");
+		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+			Call_StartFunction(plugin, func);
+			Call_Finish(dummy);
+		}
+	}
+	SetFailState("SHEarlyPublic NOT FOUND");
+	return 0;
+}
+// dont call this before it has been determined
+stock ValveGameEnum:War3_GetGameEarly(){
+	new Handle:iter=GetPluginIterator();
+	while(MorePlugins(iter)){
+		new Handle:plugin=ReadPlugin(iter);
+		new Function:func;
+		func=GetFunctionByName(plugin, "War3_GetGameEarlyPublic");
+		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+			Call_StartFunction(plugin, func);
+			Call_Finish(dummy);
+			return ValveGameEnum:dummy;
+		}
+	}
+	SetFailState("War3_GetGameEarlyPublic NOT FOUND");
+	return ValveGameEnum:-1;
+}
 //in order to run W3 without SH, we mark some natives OPTIONAL so plugins still run
 //calling a non-existent native results in runtime error (not a direct crash)
 ///every plugin will be called this
@@ -59,18 +107,6 @@ public War3InterfaceExec(){ //this runs once, does common tasks
 	LoadTranslations("w3s._common.phrases");
 }
 
-
-///call to initiate your forwards, done right after game W3 or SH is determiend and the game CS/TF
-//at this point natives are not bound! you must use W3Early and SHEarly W3GetGameEarly...etc
-forward bool:InitNativesForwards();
-
-public zzOnPluginEnd() //public OnMapEnd()
-{	
-	new String:name[64];
-	new Handle:plugin=GetMyHandle();
-	GetPluginFilename(plugin, name, sizeof(name)); 
-	PrintToServer("[War3Source] OnPluginEnd %s",name);
-}
 
 
 
@@ -1089,7 +1125,7 @@ native W3LogNotError(const String:fmt[],any:...);
 
 forward War3FailedSignal(String:str[]);
 public War3FailedSignal(String:str[]){
-	W3LogError(str);
+	LogError(str); //must be a non dependent native log error
 	SetFailState(str);
 }
 
@@ -2035,7 +2071,7 @@ stock W3AddDecal(const String:decal[], bool:precache = true, bool:preload = true
 stock DP(const String:szMessage[], any:...)
 {
 	
-	decl String:szBuffer[100];
+	decl String:szBuffer[1000];
 
 	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
 	PrintToServer("[Debug Print] %s", szBuffer);

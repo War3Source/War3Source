@@ -20,6 +20,15 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 
 public OnPluginStart()
 {
@@ -27,7 +36,7 @@ public OnPluginStart()
 
 }
 
-public bool:InitNativesForwards()
+bool:InitNativesForwards()
 {
 	g_OnItemPurchaseHandle=CreateGlobalForward("OnItem2Purchase",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnItemLostHandle=CreateGlobalForward("OnItem2Lost",ET_Ignore,Param_Cell,Param_Cell);

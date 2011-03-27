@@ -45,6 +45,15 @@ public Plugin:myinfo=
 
 new bool:invisWeaponAttachments[MAXPLAYERSCUSTOM];
 
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 
 public OnPluginStart()
 {
@@ -78,7 +87,7 @@ public OnPluginStart()
 public OnMapStart(){
 	halo=PrecacheModel("materials/sprites/halo01.vmt");
 }
-public bool:InitNativesForwards()
+bool:InitNativesForwards()
 {
 	
 	CreateNative("War3_SetBuff",Native_War3_SetBuff);//for races

@@ -17,26 +17,11 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
-{
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	
 }
 
-bool:InitNativesForwards()
-{
-
-	return true;
-}
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowItemsInfoMenu){
 		ShowMenuItemsinfo(client);

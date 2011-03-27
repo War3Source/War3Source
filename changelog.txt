@@ -1,6 +1,12 @@
 
 1.2.1
 
+B4
+
+INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
+
+shopmenu2 translated, thanks to schmarotzer
+major documentation changes
 
 b3
 

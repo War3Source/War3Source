@@ -52,18 +52,27 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 
 
 public OnPluginStart()
 {
 	
 	m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
-	
+	PrintToServer("SH %d",SH());
+	PrintToServer("W3 %d",W3());
 }
 
 
-public bool:InitNativesForwards()
+bool:InitNativesForwards()
 {
 
 	CreateNative("War3_CreateNewRace",NWar3_CreateNewRace);

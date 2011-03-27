@@ -18,23 +18,27 @@ War3Source is not WCS (warcraft-source), and we ask that you do not call it
 or refer to it as WCS (or even just "warcraft source") for any reason. 
 W3S and WCS are similar such as they can feature the same races and they bring forth the same style of gameplay, 
 but they are two completely different projects.
-War3Source offerers unbeatable performance and quality under SourcePawn and involves more interaction between races,
-and has a buff/debuff system where races are expected to respect other race's buffs and debuffs.
 
-W3S came first to the source engine, WCS came later but matured faster under the nature of ES/Python prototyping 
-languages but is limited in performance and features compared to W3S. 
+War3Source offerers unbeatable performance and quality under SourcePawn and involves much more interaction between races.
+Many subsystems are available to the coder that EventScripts does not offer, such as:
+A Cooldown System which simplifies skills and ultimate cooldowns
+A buff/debuff system where races are expected to respect other race's buffs and debuffs, resolves conflicts between races.
+A Aura tracking system which simplifies the coding and application of Auras.
+
+W3S came first to the source engine, WCS came later and matured faster under the nature of ES/Python prototyping 
+languages, but reached its limit in performance and features compared to W3S. 
 
 W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the founder of superhero mod (SH).
 Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
 and took over primary develpement after march 2010.
 
 
-========= SuperHero Source (SH)========
+==== SuperHero Source (SH) ====
 
 SuperHero Source  runs on top of war3source, uses its powerful engines and interfaces.
 
 Superhero Source is a modification for the source engine
-and is made after the successfull Superhero Mod from Counter Strike 1.6.
+and is made after the successful Superhero Mod from Counter Strike 1.6.
 The point is to Kill other Players and gain Experience. When you reach a certain amount of Experience you get a Level Up.
 Each Level Up allows you to Pick one additional Hero up to a maximum number of heroes.
 Each Hero possesses a unique Power, enabling you to do unbelievable stuff, which may seem to be cheats or hacks first, but they are not!

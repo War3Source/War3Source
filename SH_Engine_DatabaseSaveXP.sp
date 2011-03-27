@@ -37,11 +37,19 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
-public bool:InitNativesForwards()
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
+bool:InitNativesForwards()
 {	
 	CreateNative("SHSaveXP" ,NW3SaveXP)
-	if(SH()){
+	if(SHEarly()){
 		PrintToServer("SH MODE");
 		CreateNative("W3SaveXP" ,NW3SaveXP)
 		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)

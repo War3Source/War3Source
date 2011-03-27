@@ -23,14 +23,22 @@ public Plugin:myinfo=
 	version="1.0",
 	url="http://war3source.com/"
 };
-
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 
 public OnPluginStart()
 {
 	hMaxHeroesPerPlayer=CreateConVar("sh_heroes_per_player","3","How many heroes can a player have");
 }
 
-public bool:InitNativesForwards()
+bool:InitNativesForwards()
 {
 	g_OnHeroChangedHandle=CreateGlobalForward("OnHeroChanged",ET_Ignore,Param_Cell);
 	

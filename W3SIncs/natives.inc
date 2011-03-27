@@ -342,7 +342,7 @@ public Native_War3_DecreaseHP(Handle:plugin,numParams)
 
 
 
-public bool:War3Source_InitNatives()
+bool:War3Source_InitNatives()
 {
 	///LIST ALL THESE NATIVES IN INTERFACE
 	

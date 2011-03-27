@@ -35,7 +35,15 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+{
+	if(!InitNativesForwards())
+	{
+		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
+		return APLRes_Failure;
+	}
+	return APLRes_Success;
+}
 
 
 public OnPluginStart()
@@ -100,7 +108,7 @@ public OnPluginStart()
 }
 
 
-public bool:InitNativesForwards()
+bool:InitNativesForwards()
 {
 	CreateNative("W3GetStatsVersion",NW3GetStatsVersion);
 	return true;
@@ -153,18 +161,13 @@ public OnMapStart(){
 	lastserverinfoupdate=0.0;
 }
 	
-public Action:PerMapQueries(Handle:h){
-	
-	
-	
-	
-	
-	new String:longquery[1000];	
-	Format(longquery,sizeof(longquery),"w3stat/war3minver.php");
-	W3Socket(longquery,SockCallbackMinVersion);
+public Action:PerMapQueries(Handle:h)
+{
+	W3Socket("w3stat/war3minver.php",SockCallbackMinVersion);
 }
-public SockCallbackMinVersion(bool:success,fail,String:ret[]){
-	
+
+public SockCallbackMinVersion(bool:success,fail,String:ret[])
+{
 	if(success){
 		new String:exploded[2][32];
 		ExplodeString(ret, "::", exploded, 2, 32);
@@ -175,7 +178,6 @@ public SockCallbackMinVersion(bool:success,fail,String:ret[]){
 		if(W3GetW3Revision()<minimum){
 			War3Failed("War3Source is out of date, please update war3source");
 		}
-
 	}
 }
 
@@ -185,15 +187,13 @@ public Action:ManyMinTimer(Handle:h,any:a){
 	new String:ourversion[32];
 	W3GetW3Version(ourversion,32); //string version, only used to see if ours is beta etc
 	
-	new String:longquery[1000];	
-	if(StrContains(ourversion, "b", false)>-1 || StrContains(ourversion, "rc", false)>-1 || StrContains(ourversion, "dev", false)>-1){
-			
-		Format(longquery,sizeof(longquery),"w3stat/latestbeta.php");
-		W3Socket(longquery,SockCallbackVersion);
+	if(StrContains(ourversion, "b", false)>-1 || StrContains(ourversion, "rc", false)>-1 || StrContains(ourversion, "dev", false)>-1)
+	{
+		W3Socket("w3stat/latestbeta.php",SockCallbackVersion);
 	}
-	else{
-		Format(longquery,sizeof(longquery),"w3stat/lateststable.php");
-		W3Socket(longquery,SockCallbackVersion);
+	else
+	{
+		W3Socket("w3stat/lateststable.php",SockCallbackVersion);
 	}
 }
 public SockCallbackVersion(bool:success,fail,String:ret[]){
@@ -201,14 +201,11 @@ public SockCallbackVersion(bool:success,fail,String:ret[]){
 	if(success){
 		new String:exploded[2][32];
 		ExplodeString(ret, "::", exploded, 2, 32);
-		
-		
+
 		new otherversion=StringToInt(exploded[1]);
-		//PrintToServer("%s %d",exploded[1],otherversion);
 		if(otherversion>revour){
 			UpdateMsg();
 		}
-
 	}
 }
 
@@ -229,47 +226,51 @@ public Action:UpdateServerInfo(Handle:t,any:a){
 
 	new String:hostname[64];
 	GetConVarString(FindConVar("hostname"),hostname,64);
-	PHPEscape(hostname,sizeof(hostname));
+	URLEncode(hostname,sizeof(hostname));
 	
 	new String:ourversion[32];
 	W3GetW3Version(ourversion,32);
+	URLEncode(ourversion,sizeof(ourversion));
 	
-	new String:longquery[4000];
+	new String:longquery[512];
 	new clientcount=0;
-	for(new i=1;i<=MaxClients;i++){
-		if(ValidPlayer(i)&&!IsFakeClient(i)){
+	for(new i=1;i<=MaxClients;i++)
+	{
+		if(ValidPlayer(i)&&!IsFakeClient(i))
+		{
 			clientcount++;
 		}
 	}
 	
 	new String:mapname[64];
 	GetCurrentMap(mapname,sizeof(mapname));
-	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&MAXPLAYERSCUSTOM=%d&ip=%s:%d",hostname,ourversion,game,mapname,clientcount,MaxClients,serverip,serverport);
+	URLEncode(mapname, sizeof(mapname));
 	
+	new String:gameencoded[64];
+	Format(gameencoded, sizeof(gameencoded), "%s", game);
+	URLEncode(gameencoded, sizeof(gameencoded));
+	
+	new String:ipencoded[64];
+	Format(ipencoded, sizeof(ipencoded), "%s", serverip);
+	URLEncode(ipencoded, sizeof(ipencoded)); // should work now :D
+	
+	// This URL follows URLEncode() standards.
+	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&maxplayers=%d&ip=%s:%d",hostname,ourversion,gameencoded,mapname,clientcount,MaxClients,ipencoded,serverport);
+
 	W3Socket2("w3stat/serverinfo.php",longquery,SockCallbackServerInfo);
-	//new Handle:trie=CreateTrie();
-	//for(new i=0;i<100;i++){
-	//	decl String:str[10];
-	//	Format(str,sizeof(str),"z%d",i);
-	//	SetTrieString(trie,str,longquery);
-	//}
-	
-	//CreateTimer(1.0,handletest,trie);
 }
-public SockCallbackServerInfo(bool:success,fail,String:ret[]){
-	//PrintToServer("%f suc%d fail%d %s",GetEngineTime(),success, fail,ret);
-}
-public Action:handletest(Handle:h,any:trie){
-	PrintToServer("closing %d",trie);
-	CloseHandle(Handle:trie);
+public SockCallbackServerInfo(bool:success,fail,String:ret[])
+{
 }
 
 
-public bool:OnClientConnect(client,String:rejectmsg[], maxlen){
+public bool:OnClientConnect(client,String:rejectmsg[], maxlen)
+{
 	MayUpdateServerInfo();
 	return true;
 }
-public OnClientPutInServer(client){
+public OnClientPutInServer(client)
+{
 	MayUpdateServerInfo();
 }
 
@@ -280,30 +281,33 @@ MayUpdateServerInfo(){
 	}
 }
 
-public OnWar3PlayerAuthed(client){
+public OnWar3PlayerAuthed(client)
+{
 	
 		new String:name[32];
 		GetClientName(client,name,sizeof(name));
-		PHPEscape(name,sizeof(name));
+		URLEncode(name,sizeof(name));
 		
 		new String:hostname[64];
 		GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
-		PHPEscape(hostname,sizeof(hostname));
+		URLEncode(hostname,sizeof(hostname));
 		
 		
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
+		URLEncode(steamid, sizeof(steamid));
 		
 		new String:clientip[32];
 		GetClientIP(client, clientip, sizeof(clientip));
+		URLEncode(clientip, sizeof(clientip));
 		
-		new String:longquery[4000];
+		new String:longquery[1000];
 		Format(longquery,sizeof(longquery),"w3stat/playerinfo.php?steamid=%s&name=%s&clientip=%s&hostname=%s&ipport=%s:%d&totallevels=%d",steamid,name,clientip,hostname,serverip,serverport,W3GetTotalLevels(client));
 		W3Socket(longquery,SockCallbackPlayerInfo);
 	
 }
-public SockCallbackPlayerInfo(suc,fail,String:buf[]){
-	//PrintToServer(buf);
+public SockCallbackPlayerInfo(suc,fail,String:buf[])
+{
 }
 
 public Action:ConnectSecondDB(Handle:h){
@@ -328,7 +332,6 @@ public Action:ConnectSecondDB(Handle:h){
 			LogError("ERRMSG:(%s)",error);
 		}
 		else{
-			//SQL_TQuery(hdatabase,SQLTCallbackNone,"SET NAMES 'utf8'");
 			SQL_TQuery(hdatabase2,SQLWar3GeneralCallback,"CREATE TABLE IF NOT EXISTS w3bugreport (steamid VARCHAR(64),	name  VARCHAR(64),	clientip VARCHAR(64),	hostname VARCHAR(64),	serverip VARCHAR(64),	version VARCHAR(64),	reportstring VARCHAR(1000) COLLATE utf8_unicode_ci,	time INT,	timestamp timestamp)");
 		}
 	}
@@ -336,24 +339,25 @@ public Action:ConnectSecondDB(Handle:h){
 
 
 public Action:cmdsay(client,args){
-	decl String:arg1[666];
-	GetCmdArg(1,arg1,666);
+	decl String:arg1[200];
+	GetCmdArg(1,arg1,sizeof(arg1));
 	
-	if(CommandCheckStartsWith(arg1,"war3bug")){
-		
-		if(War3_TrackDelayExpired(reportBugDelayTracker[client])){
-			
-			
-			if(strlen(arg1)<8){
+	if(CommandCheckStartsWith(arg1,"war3bug"))
+	{
+		if(War3_TrackDelayExpired(reportBugDelayTracker[client]))
+		{
+			if(strlen(arg1)<8)
+			{
 				War3_ChatMessage(client,"%T ","Report a war3source bug: say war3bug <detailed description>",client);
 			}
-			else{
+			else
+			{
 				FileBugReport(client,arg1[8]);
 				War3_TrackDelay(reportBugDelayTracker[client],1.0);
-				
 			}
 		}
-		else{
+		else
+		{
 			War3_ChatMessage(client,"%T","You cannot use war3bug again so soon",client);
 		}
 	}
@@ -364,43 +368,59 @@ public bool:CommandCheckStartsWith(String:compare[],String:lookingfor[]) {
 
 
 FileBugReport(client,String:reportstr[]){
-	
-	PHPEscape(reportstr,strlen(reportstr));
+	new String:longquery[2000];
 	
 	new String:name[32];
 	GetClientName(client,name,sizeof(name));
-	PHPEscape(name,sizeof(name));
-	
-	new String:hostname[64];
-	GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
-	PHPEscape(hostname,sizeof(hostname));
-	
-	new String:steamid[32];
-	GetClientAuthString(client,steamid,sizeof(steamid));
-	
 	new String:clientip[32];
 	GetClientIP(client, clientip, sizeof(clientip));
-	
+	new String:steamid[32];
+	GetClientAuthString(client,steamid,sizeof(steamid));
+	new String:hostname[64];
+	GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
 	new String:version[32];
 	W3GetW3Version(version,sizeof(version));
-
 	
-	new String:longquery[4000];
-	
-	ReplaceString(hostname,sizeof(hostname),"&","%%26");
-	Format(longquery,sizeof(longquery),"w3stat/bugreport.php?steamid=%s&name=%s&clientip=%s&hostname=%s&serverip=%s:%d&version=%s&reportstr=%s",
-	steamid,name,clientip,hostname,serverip,serverport,version,reportstr);
-	
-	W3Socket(longquery,SockCallbackBufReport);
-	
-	if(hdatabase2){
-		Format(longquery,sizeof(longquery),"INSERT INTO w3bugreport SET steamid='%s' ,name='%s'  ,time='%d' , clientip='%s', hostname='%s',serverip='%s:%d' ,version='%s' ,reportstring='%s'",
-		steamid,name,GetTime(),clientip,hostname,serverip,serverport,version,reportstr);
-	
-	
+	if(hdatabase2)
+	{
+		new String:hostname_sql[64];
+		SQL_EscapeString(hdatabase2,hostname,hostname_sql, sizeof(hostname_sql));
 		
+		new String:client_name_escaped[64];
+		SQL_EscapeString(hdatabase2,name, client_name_escaped, sizeof(client_name_escaped));
+		
+		new String:serverip_sql[64];
+		SQL_EscapeString(hdatabase2,serverip, serverip_sql, sizeof(serverip_sql));
+		
+		new String:version_sql[32];
+		SQL_EscapeString(hdatabase2,version, version_sql, sizeof(version_sql));
+	
+		new String:reportstr_sql[1024];
+		SQL_EscapeString(hdatabase2, reportstr, reportstr_sql, sizeof(reportstr_sql));
+
+		// lets do this before we escape it all. and technically these should be SQL_EscapeString'ed
+		Format(longquery,sizeof(longquery),"INSERT INTO w3bugreport SET steamid='%s' ,name='%s'  ,time='%d' , clientip='%s', hostname='%s',serverip='%s:%d' ,version='%s' ,reportstring='%s'",
+		steamid,client_name_escaped,GetTime(),clientip,hostname_sql,serverip_sql,serverport,version_sql,reportstr_sql);
 		SQL_TQuery(hdatabase2,SQLTCallbackFileBug,longquery,client);
 	}
+	new String:reportstr_url[1024];
+	Format(reportstr_url, sizeof(reportstr_url), "%s", reportstr);
+		
+	new String:serveripenc[64];
+	Format(serveripenc, 64, "%s", serverip); // good this is for url and is encoded after
+	
+	URLEncode(reportstr_url,sizeof(reportstr_url));
+	URLEncode(name,sizeof(name));
+	URLEncode(hostname,sizeof(hostname));
+	URLEncode(steamid, sizeof(steamid));
+	URLEncode(clientip, sizeof(clientip));
+	URLEncode(version,sizeof(version));
+	URLEncode(serveripenc, sizeof(serveripenc)); // see
+
+	Format(longquery,sizeof(longquery),"w3stat/bugreport.php?steamid=%s&name=%s&clientip=%s&hostname=%s&serverip=%s:%d&version=%s&reportstr=%s",
+	steamid,name,clientip,hostname,serveripenc,serverport,version,reportstr_url);
+	
+	W3Socket(longquery,SockCallbackBufReport);
 
 }
 public SockCallbackBufReport(bool:success,bool:fail,String:str[]){
@@ -414,45 +434,44 @@ public Action:ExecOnceTimer(Handle:h){
 	}
 
 	decl String:longquery[16000];
-	
-	
-	
+
 		
 	new String:racename[64];
 	new String:raceshort[16];
 	new RacesLoaded = War3_GetRacesLoaded();
-	for(new raceid=1;raceid<=RacesLoaded;raceid++){
-	
+	for(new raceid=1;raceid<=RacesLoaded;raceid++)
+	{
 		War3_GetRaceShortname(raceid,raceshort,sizeof(raceshort));
 		
 		new langnum=GetLanguageCount();
 		new langengid=-1;
-		//new bool:hasenglish=false;
 		
 		new bool:useserverlang;
 		new bool:parseTransFile;
-		for(new i=0;i<langnum;i++){
+		for(new i=0;i<langnum;i++)
+		{
 			decl String:langcode[32];
 			decl String:langname[32];
 			GetLanguageInfo(i, langcode, sizeof(langcode), langname, sizeof(langname));
-			if(StrEqual(langcode,"en")){
-		//		hasenglish=true;
+			if(StrEqual(langcode,"en"))
+			{
 				langengid=i;
-				if(langengid==GetServerLanguage()){
+				if(langengid==GetServerLanguage())
+				{
 					useserverlang=true;
 					break;
 				}
-				else if(W3IsRaceTranslated(i)){
+				else if(W3IsRaceTranslated(i))
+				{
 					parseTransFile=true;
 					break;
 				}
 			}
 		}
-		//new bool:success=false;
-		if(useserverlang){
-			SetTrans( 0);
+		if(useserverlang)
+		{
+			SetTrans(0);
 			War3_GetRaceName(raceid,racename,sizeof(racename));
-			//success=true;
 		}
 		else if(parseTransFile){
 			new Handle:keyValue=CreateKeyValues("Phrases");
@@ -465,51 +484,23 @@ public Action:ExecOnceTimer(Handle:h){
 			// Load level configuration
 			KvRewind(keyValue);
 			
-			//KvGetString(keyValue,"en",racename,sizeof(racename));
-			//PrintToServer("en %s",racename);
-			
-			//new String:section[32];
-			//KvGetSectionName(keyValue,section,sizeof(section));
-			//PrintToServer("section %s",section);
-			
 			new String:keyracename[32];
 			Format(keyracename,sizeof(keyracename),"%s_RaceName",raceshort);
 			if(!KvJumpToKey(keyValue, keyracename)){
 				PrintToServer("could not jump to key %s",keyracename);
 			}
-			//else{
-			//	PrintToServer("success jump to key %s",keyracename);
-			//}
-			
-			
-			//KvGotoFirstSubKey(keyValue); //enter branch
-			
-			//KvGetSectionName(keyValue,section,sizeof(section));
-			//PrintToServer("ur in section %s",section);
-		
-			//KvGetString(keyValue,"en",racename,sizeof(racename));
-			//PrintToServer("en %s",racename);
-			//if(strlen(racename)>0){
-			//	success=true;
-			//}
-			
 		}
-		
-		
-		//no english? or no translations? send nothing as race
+
+		//no english? or no translations? send nothing as racename
 		Format(longquery,sizeof(longquery),"w3stat/raceinsertV2.php?racename=%s&raceshort=%s",racename,raceshort);
 
 		W3Socket(longquery,RaceInsertCallback);
-		
-		
-		
-		
 		
 	}
 	
 	new String:hostname[64];
 	GetConVarString(FindConVar("hostname"),hostname,64);
-	PHPEscape(hostname,sizeof(hostname));
+	URLEncode(hostname,sizeof(hostname));
 	new String:version[32];
 	W3GetW3Version(version,sizeof(version));
 	Format(longquery,sizeof(longquery),"ip=%s:%d&hostname=%s&version=%s",serverip,serverport,hostname,version);
@@ -525,46 +516,40 @@ public Action:ExecOnceTimer(Handle:h){
 	decl String:concatstr[256];
 	new limit=GetArraySize(cvarlist);
 	Format(longquery,sizeof(longquery),"ip=%s:%d&config=",serverip,serverport);
-	for(new i=0;i<limit;i++){
+	for(new i=0;i<limit;i++)
+	{
 		GetArrayString(cvarlist,i,cvarstr,sizeof(cvarstr));
 		W3GetCvarByString(cvarstr,cvarvalue,sizeof(cvarvalue));
-		if(strlen(cvarvalue)>0){
-			PHPEscape(cvarstr,sizeof(cvarstr));
-			PHPEscape(cvarvalue,sizeof(cvarvalue));
+		if(strlen(cvarvalue)>0)
+		{
+			URLEncode(cvarstr,sizeof(cvarstr));
+			URLEncode(cvarvalue,sizeof(cvarvalue));
 			Format(concatstr,sizeof(concatstr),"%s=%s,",cvarstr,cvarvalue);
 			StrCat(longquery,sizeof(longquery),concatstr);
-			//PrintToServer("%s",concatstr);
 		}
 	}
-	for(new i=0;i<limit;i++){
+	for(new i=0;i<limit;i++)
+	{
 		GetArrayString(cvarlist,i,cvarstr,sizeof(cvarstr));
 		W3GetCvarByString(cvarstr,cvarvalue,sizeof(cvarvalue));
-		if(strlen(cvarvalue)>0){
-			PHPEscape(cvarstr,sizeof(cvarstr));
-			PHPEscape(cvarvalue,sizeof(cvarvalue));
+		if(strlen(cvarvalue)>0)
+		{
+			URLEncode(cvarstr,sizeof(cvarstr));
+			URLEncode(cvarvalue,sizeof(cvarvalue));
 			Format(concatstr,sizeof(concatstr),"%s=%s,",cvarstr,cvarvalue);
 			StrCat(longquery,sizeof(longquery),concatstr);
-			//PrintToServer("%s",concatstr);
+
 		}
 	}
-	//PrintToServer("SOCKET CALL  %d %s",strlen(longquery),longquery);
 	W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
 	CloseHandle(cvarlist);
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//RACES
 	Format(longquery,sizeof(longquery),"ip=%s:%d&races=",serverip,serverport);
-	for(new i=1;i<=RacesLoaded;i++){
+	for(new i=1;i<=RacesLoaded;i++)
+	{
 		 War3_GetRaceShortname(i,raceshort,sizeof(raceshort));
-		 PHPEscape(raceshort,sizeof(raceshort));
+		 URLEncode(raceshort,sizeof(raceshort));
 		 StrCat(longquery,sizeof(longquery),raceshort);
 		 StrCat(longquery,sizeof(longquery),",");
 	}
@@ -581,50 +566,48 @@ public Action:ExecOnceTimer(Handle:h){
 	decl String:itemshort[16];
 	Format(longquery,sizeof(longquery),"ip=%s:%d&items=",serverip,serverport);
 	new ItemsLoaded = W3GetItemsLoaded();
-	for(new i=1;i<=ItemsLoaded;i++){
+	for(new i=1;i<=ItemsLoaded;i++)
+	{
 		 W3GetItemShortname(i,itemshort,sizeof(itemshort));
-		 PHPEscape(raceshort,sizeof(itemshort));
+		 URLEncode(itemshort,sizeof(itemshort));
 		 StrCat(longquery,sizeof(longquery),itemshort);
 		 StrCat(longquery,sizeof(longquery),",");
 	}
 	W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
-	//PrintToServer("%s",longquery);
-	
-	
-	
+
 	
 }
-public RaceInsertCallback(bool:success,bool:fail,String:str[]){
-	//PrintToServer(str);
+public RaceInsertCallback(bool:success,bool:fail,String:str[])
+{
 }
-public CrashLogCallback(bool:success,bool:fail,String:str[]){
-	//PrintToServer(str);
+public CrashLogCallback(bool:success,bool:fail,String:str[])
+{
 }
-public GenericSocketCallback(bool:success,bool:fail,String:str[]){
-	//PrintToServer("serverinfolong %s",str);
+public GenericSocketCallback(bool:success,bool:fail,String:str[])
+{
 }
-public Action:MinuteTimer(Handle:h){
+
+public Action:MinuteTimer(Handle:h)
+{
 		
 	decl String:longquery[4000];
 	decl race;
-	for(new i=1;i<=MaxClients;i++){
-		if(ValidPlayer(i)&&!IsFakeClient(i)&&GetClientTeam(i)>1){
+	for(new i=1;i<=MaxClients;i++)
+	{
+		if(ValidPlayer(i)&&!IsFakeClient(i)&&GetClientTeam(i)>1)
+		{
 			race=War3_GetRace(i);
-			if(race>0){
+			if(race>0)
+			{
 				decl String:steamid[32];
 				GetClientAuthString(i,steamid,sizeof(steamid));
 				
 				decl String:raceshort[16];
 				War3_GetRaceShortname(race,raceshort,sizeof(raceshort));
-				
-				//Format(longquery,sizeof(longquery),"INSERT INTO racedataeventsv2 SET steamid='%s' , raceshort='%s' , ipport='%s:%d' , event='timeplayed' , data1='1' , data2='%s'",steamid,raceshort,serverip,serverport,IsPlayerAlive(i)?"alive":"dead");
-				//SQL_TQuery(hdatabase,SQLTCallbackNone,longquery,16000);
-				
+
 				Format(longquery,sizeof(longquery),"w3stat/timeplayed.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s",steamid,raceshort,serverip,serverport,game,"1",IsPlayerAlive(i)?"alive":"dead");
 
 				W3Socket(longquery,SockCallbackKill);
-				//PrintToServer("socketing %s",longquery);
-				
 			}
 		}
 	}
@@ -632,42 +615,33 @@ public Action:MinuteTimer(Handle:h){
 public OnWar3EventDeath(victim,attacker){
 	if(collectkdstats&&(ValidPlayer(victim)&&ValidPlayer(attacker)&&War3_GetRace(victim)>0&&War3_GetRace(attacker)>0&&!IsFakeClient(victim)&&!IsFakeClient(attacker)&&victim!=attacker)){
 		decl String:longquery[2000];
-		decl String:raceshortatt[16];
-		decl String:raceshortvic[16];
+		decl String:raceshortatt[32];
+		decl String:raceshortvic[32];
 		decl String:steamid[32];
 		decl String:victimsteamid[32];
 		GetClientAuthString(attacker,steamid,sizeof(steamid));
 		GetClientAuthString(victim,victimsteamid,sizeof(victimsteamid));
+		URLEncode(steamid,sizeof(steamid));
+		URLEncode(victimsteamid,sizeof(victimsteamid));
 		new raceatt=War3_GetRace(attacker);
 		new racevic=War3_GetRace(victim);
-		War3_GetRaceShortname(raceatt,raceshortatt,16);
-		War3_GetRaceShortname(racevic,raceshortvic,16);
-		//Format(longquerydd,sizeof(longquery),"INSERT INTO racedataeventsv2 SET steamid='%s' , ipport='%s:%d' , raceshort='%s' , game='%s', event='kill' , data1='%s' , data2='%s',killerlvl='%d',victimlvl='%d'",steamid,serverip,serverport,raceshortatt,game,victimsteamid,raceshortvic,War3_GetLevel(attacker,raceatt),War3_GetLevel(victim,racevic));
-		//SQL_TQuery(hdatabase,SQLTCallbackNone,longquerydd,160009);
-	
-		//GetClientAuthString(attacker,steamid,32);	
-		//War3_GetRaceShortname(War3_GetRace(attacker),raceshort,16);
-		//Format(longquery,sizeof(longquery),"UPDATE playerraces SET kills=kills+1 WHERE steamid='%s' AND ipport='%s:%d' AND raceshort='%s'",steamid,serverip,serverport,raceshort);
-		//SQL_TQuery(hdatabase,SQLTCallbackNone,longquery);
-		
-		
+		War3_GetRaceShortname(raceatt,raceshortatt,sizeof(raceshortatt));
+		War3_GetRaceShortname(racevic,raceshortvic,sizeof(raceshortvic));
+		URLEncode(raceshortatt,sizeof(raceshortatt));
+		URLEncode(raceshortvic,sizeof(raceshortvic));
 		Format(longquery,sizeof(longquery),"w3stat/kill.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s&killerlvl=%d&victimlvl=%d",steamid,raceshortatt,serverip,serverport,game,victimsteamid,raceshortvic,War3_GetLevel(attacker,raceatt),War3_GetLevel(victim,racevic));
 		
 		W3Socket(longquery,SockCallbackKill);
-		//PrintToServer("socketing %s",longquery);
 	}
 }
 public SockCallbackKill(bool:success,fail,String:ret[]){
-	//PrintToServer("%s",ret);
 }
 
 
 public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	if(collectwlstats&&   PlayersOnTeam(2)+PlayersOnTeam(3)>5){
-		
-	// cs - int winner
-	// tf2 - int team
+	if(collectwlstats&&   PlayersOnTeam(2)+PlayersOnTeam(3)>5)
+	{
 		new winteam=-1;
 		if(War3_GetGame()==Game_TF)
 		{
@@ -679,13 +653,6 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 		}
 		if(winteam>0)
 		{
-			//new losingteam=-2;
-			//if(winteam==2){
-			//	losingteam=3;
-			//}
-			//else if(winteam==3){
-			//	losingteam=2;
-			//}
 			for(new i=1;i<=MaxClients;i++)
 			{
 				
@@ -696,18 +663,18 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 					if(race>0)
 					{
 						new clientteam=GetClientTeam(i);
-						if(clientteam>1){
+						if(clientteam>1)
+						{
 							decl String:longquery[4000];
 						
 							decl String:steamid[32];
 							GetClientAuthString(i,steamid,sizeof(steamid));
-							
-							decl String:raceshort[16];
+							URLEncode(steamid,sizeof(steamid));
+							decl String:raceshort[32];
 							War3_GetRaceShortname(race,raceshort,sizeof(raceshort));
-					
+							URLEncode(raceshort,sizeof(raceshort));
 							Format(longquery,sizeof(longquery),"w3stat/winlossV2.php?steamid=%s&raceshort=%s&game=%s&ip=%s:%d&win=%d&clientteam=%d&lvl=%d",steamid,raceshort,game,serverip,serverport,clientteam==winteam?1:0,clientteam,War3_GetLevel(i,race));
 							W3Socket(longquery,SockCallbackWinLoss);
-							//PrintToServer("%s",longquery);
 						}
 					}
 				}
@@ -716,32 +683,40 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 	}
 }
 public SockCallbackWinLoss(succ,fail,String:buf[]){
-	//PrintToServer(buf);
 }
 
 
 
 public SQLTCallbackFileBug(Handle:owner,Handle:hndl,const String:error[],any:client){
-	if(GetConVarInt(hShowError)){
+	if(GetConVarInt(hShowError))
+	{
 		SQLCheckForErrors(hndl,error,"SQLTCallbackFileBug");
 	}
-	if(hndl==INVALID_HANDLE){
-		if(ValidPlayer(client)){
+	if(hndl==INVALID_HANDLE)
+	{
+		if(ValidPlayer(client))
+		{
 			War3_ChatMessage(client,"%T","Could not file bug report, contact server owner",client);
 		}
 	}
-	else{
-		if(ValidPlayer(client)){
+	else
+	{
+		if(ValidPlayer(client))
+		{
 			War3_ChatMessage(client,"%T","Successfully filed bug report",client);
 		}
 	}
 }
 
 
-
-stock PHPEscape(String:str[],len){
-	ReplaceString(str,len,"&","%26");
-	ReplaceString(str,len,"#","%23");
-	ReplaceString(str,len,"'","\'");
-	ReplaceString(str,len," ","%20");
+// Example usage: index.php?a=URLEncode(param_1)&b=URLEncode(param_2)&c=URLEncode(param_3)
+stock URLEncode(String:str[],len)
+{
+	// Make sure % is first to avoid collisions.
+	new String:ReplaceThis[20][] = {"%", " ", "!", "*", "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "#", "[", "]"};
+	new String:ReplaceWith[20][] = {"%25", "%20", "%21", "%2A", "%27", "%28", "%29", "%3B", "%3A", "%40", "%26", "%3D", "%2B", "%24", "%2C", "%2F", "%3F", "%23", "%5B", "%5D"};
+	for(new x=0;x<20;x++)
+	{
+		ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
+	}
 }
