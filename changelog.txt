@@ -8,7 +8,7 @@ INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
 shopmenu2 translated, thanks to schmarotzer
 major documentation changes
 
-changed how game mode is determined
+changed how game mode is determined to work with linux. Thanks to CGA for proving a linux server
 
 b3
 
