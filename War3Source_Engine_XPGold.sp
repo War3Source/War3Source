@@ -141,7 +141,7 @@ public OnMapStart(){
 }
 bool:InitNativesForwards()
 {
-	if(W3Early()){
+	if(W3()){
 		CreateNative("W3GetReqXP" ,NW3GetReqXP);
 		CreateNative("War3_ShowXP",Native_War3_ShowXP);
 	}

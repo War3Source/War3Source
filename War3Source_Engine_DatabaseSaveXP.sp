@@ -48,7 +48,7 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 }
 bool:InitNativesForwards()
 {
-	if(W3Early()){
+	if(W3()){
 		PrintToServer("W3 MODE");
 		CreateNative("W3SaveXP" ,NW3SaveXP)
 		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)

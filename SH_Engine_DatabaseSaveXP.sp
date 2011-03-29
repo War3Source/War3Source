@@ -49,7 +49,7 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 bool:InitNativesForwards()
 {	
 	CreateNative("SHSaveXP" ,NW3SaveXP)
-	if(SHEarly()){
+	if(SH()){
 		PrintToServer("SH MODE");
 		CreateNative("W3SaveXP" ,NW3SaveXP)
 		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)

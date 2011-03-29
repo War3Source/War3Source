@@ -15,6 +15,7 @@
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
+#define WAR3MAIN
 #include <sourcemod>
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"

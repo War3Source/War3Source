@@ -17,7 +17,7 @@
 
 //sh include is at the end of this file
 
-new String:interfaceVersion[]="1.2.1.4"; ///this makes sure the race is compatable with the compiled version of war3source.smx
+new String:interfaceVersion[]="1.2.1.4v2"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
 
 stock dummy; //variable for dummies!
@@ -30,70 +30,91 @@ new W3ForwarededVars[W3ForwardedVarsEnum];
 public W3SetForwarededVar(index,value){
 	W3ForwarededVars[index]=value;
 }
-//use this when W3 native hasn't been bound yet, however dont call this before it has been determined
+
+
+stock bool:bGameModeDetermined; ///used in interface only, can be read outside of interface
+stock tValveGame;
+stock bool:bWar3Mode;
+stock bool:bSHMode;
 stock W3(){
-	return W3ForwarededVars[W3Mode];
+	if(!bGameModeDetermined){
+		DetermineGameMode();
+	}
+	return bWar3Mode;
 }
-//use this when SH native hasn't been bound yet,  however dont call this before it has been determined
 stock SH(){
-	return W3ForwarededVars[SHMode];
+	if(!bGameModeDetermined){
+		DetermineGameMode();
+	}
+	return bSHMode;
 }
-// dont call this before it has been determined
 stock ValveGameEnum:War3_GetGame(){
-	return ValveGameEnum:W3ForwarededVars[ValveGame];
+	if(!bGameModeDetermined){
+		DetermineGameMode();
+	}
+	return ValveGameEnum:tValveGame;
 }
-stock W3Early(){
-	new Handle:iter=GetPluginIterator();
-	while(MorePlugins(iter)){
-		new Handle:plugin=ReadPlugin(iter);
-		new String:buf[64];
-		GetPluginFilename(plugin,buf,sizeof(buf));
-		PrintToServer("%s",buf);
-		new Function:func;
-		func=GetFunctionByName(plugin, "W3EarlyPublic");
-		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
-			Call_StartFunction(plugin, func);
-			Call_Finish(dummy);
-			return dummy;
+stock DetermineGameMode(){
+	//DETERMIE GAME MODE
+	#if defined WAR3MAIN
+	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
+	#endif
+	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "a+"); //creates new file if one not exists
+	
+	bWar3Mode=true; //default
+	bSHMode=false; //default
+	new String:buffer[256];
+	while (ReadFileLine(file, buffer, sizeof(buffer)))
+	{
+		if(strncmp(buffer, "shsource",strlen( "shsource"), false)==0){
+			bWar3Mode=false;
+			bSHMode=true;
+			#if defined WAR3MAIN
+			PrintToServer("[SH] SHSource MODE ENABLED");
+			#endif
+			break;
 		}
 	}
-	SetFailState("W3EarlyPublic NOT FOUND");
-	return 0;
-}
-//use this when SH native hasn't been bound yet,  however dont call this before it has been determined
-stock SHEarly(){
-	new Handle:iter=GetPluginIterator();
-	while(MorePlugins(iter)){
-		new Handle:plugin=ReadPlugin(iter);
-		new Function:func;
-		func=GetFunctionByName(plugin, "SHEarlyPublic");
-		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
-			Call_StartFunction(plugin, func);
-			Call_Finish(dummy);
-		}
+	CloseHandle(file);
+	#if defined WAR3MAIN
+	PrintToServer("[SH] FINISHED READING shsourcemode.cfg");
+	#endif
+	
+	
+
+
+	//DETERMINE GAME TYPE: CS TF ETC
+	new String:gameDir[64];
+	GetGameFolderName(gameDir,sizeof(gameDir));
+	if(StrContains(gameDir,"cstrike",false)==0)
+	{
+		tValveGame=_:Game_CS;
+		#if defined WAR3MAIN
+		PrintToServer("[War3Source] Game set: Counter-Strike Source ValveGame %d",tValveGame);
+		#endif
+		ServerCommand("sv_allowminmodels 0");
 	}
-	SetFailState("SHEarlyPublic NOT FOUND");
-	return 0;
-}
-// dont call this before it has been determined
-stock ValveGameEnum:War3_GetGameEarly(){
-	new Handle:iter=GetPluginIterator();
-	while(MorePlugins(iter)){
-		new Handle:plugin=ReadPlugin(iter);
-		new Function:func;
-		func=GetFunctionByName(plugin, "War3_GetGameEarlyPublic");
-		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
-			Call_StartFunction(plugin, func);
-			Call_Finish(dummy);
-			return ValveGameEnum:dummy;
-		}
+	else if(StrContains(gameDir,"dod",false)==0)
+	{
+		#if defined WAR3MAIN
+		PrintToServer("[War3Source] Game set: Day of Defeat Source (ONLY DEVELOPER SUPPORT!)");
+		#endif
+		tValveGame=_:Game_DOD;
 	}
-	SetFailState("War3_GetGameEarlyPublic NOT FOUND");
-	return ValveGameEnum:-1;
+	else if(StrContains(gameDir,"tf",false)==0)
+	{
+		#if defined WAR3MAIN
+		PrintToServer("[War3Source] Game set: Team Fortress 2");
+		#endif
+		tValveGame=_:Game_TF;
+	}
+	else
+	{
+		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error.");
+	}
+	bGameModeDetermined=true;
 }
-//in order to run W3 without SH, we mark some natives OPTIONAL so plugins still run
-//calling a non-existent native results in runtime error (not a direct crash)
-///every plugin will be called this
+
 forward GlobalOptionalNatives(); 
 public GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 

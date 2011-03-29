@@ -5,12 +5,6 @@
 
 
 
-new tValveGame;
-
-new bool:bGameModeDetermined;
-
-new bool:bWar3Mode;
-new bool:bSHMode;
 
 public Plugin:myinfo= 
 {
@@ -150,74 +144,4 @@ public OnWar3Event(W3EVENT:event,client){
 			}
 		}
 	}	
-}
-
-
-public W3EarlyPublic(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
-	return bWar3Mode;
-}
-public SHEarlyPublic(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
-	return bSHMode;
-}
-public ValveGameEnum:War3_GetGameEarlyPublic(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
-	return ValveGameEnum:tValveGame;
-}
-DetermineGameMode(){
-	//DETERMIE GAME MODE
-	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
-	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "a+"); //creates new file if one not exists
-	
-	bWar3Mode=true; //default
-	bSHMode=false; //default
-	new String:buffer[256]
-	while (ReadFileLine(file, buffer, sizeof(buffer)))
-	{
-		if(strncmp(buffer, "shsource",strlen( "shsource"), false)==0){
-			bWar3Mode=false;
-			bSHMode=true;
-
-			PrintToServer("[SH] SHSource MODE ENABLED");
-			break;
-		}
-	}
-	CloseHandle(file);
-	PrintToServer("[SH] FINISHED READING shsourcemode.cfg");
-	
-	
-	
-
-
-	//DETERMINE GAME TYPE: CS TF ETC
-	new String:gameDir[64];
-	GetGameFolderName(gameDir,sizeof(gameDir));
-	if(StrContains(gameDir,"cstrike",false)==0)
-	{
-		tValveGame=_:Game_CS;
-		PrintToServer("[War3Source] Game set: Counter-Strike Source ValveGame %d",tValveGame);
-		ServerCommand("sv_allowminmodels 0");
-	}
-	else if(StrContains(gameDir,"dod",false)==0)
-	{
-		PrintToServer("[War3Source] Game set: Day of Defeat Source (ONLY DEVELOPER SUPPORT!)");
-		tValveGame=_:Game_DOD;
-	}
-	else if(StrContains(gameDir,"tf",false)==0)
-	{
-		PrintToServer("[War3Source] Game set: Team Fortress 2");
-		tValveGame=_:Game_TF;
-	}
-	else
-	{
-		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error.");
-	}
-	
 }

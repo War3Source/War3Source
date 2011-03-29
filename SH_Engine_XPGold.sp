@@ -77,7 +77,7 @@ public OnPluginStart()
 
 bool:InitNativesForwards()
 {
-	if(SHEarly()){
+	if(SH()){
 		CreateNative("W3GetReqXP",NW3GetReqXP);
 		CreateNative("War3_ShowXP",Native_War3_ShowXP);
 	}
