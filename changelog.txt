@@ -8,6 +8,8 @@ INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
 shopmenu2 translated, thanks to schmarotzer
 major documentation changes
 
+changed how game mode is determined
+
 b3
 
 hp REGENERATION ENGINE
