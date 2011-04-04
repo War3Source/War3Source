@@ -1012,9 +1012,13 @@ native W3GiveXPGold(client,race,xpamount=0,goldamount=0,String:awardstringreason
 
 //TKV = trie key value , a abstract data storage, emulates cvars for war3
 ///Creates internal war3 cvars. returns a id to your cvar, store it!
+//cvarid of 0 is null null (filled auto)
 native W3CreateCvar(String:cvarstr[],String:cvarvalue[],String:cvardesc[]);
 native W3GetCvar(cvarid,String:returnstr[],maxlen);
 native W3SetCvar(cvarid,String:cvarvalue[]);
+
+
+//returns -1 if not found, otherwise returns cvar id
 native W3FindCvar(String:cvar[]);
 native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values, names only
 native W3GetCvarByString(String:cvarstr[],String:returnstr[],maxlen);
