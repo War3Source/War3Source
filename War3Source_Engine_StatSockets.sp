@@ -113,10 +113,12 @@ public OnSocketDisconnected(Handle:socket, any:pack) {
 		ExplodeString(buff, "\r\n\r\n", exploded, 2, 2000);
 	}
 	
+	index=StrContains(buff,"success");
+	
 	CloseHandle(pack);
 	
 	Call_StartFunction(plugin,func);
-	Call_PushCell(1);
+	Call_PushCell(index>=0?1:0);
 	Call_PushCell(0);
 	Call_PushString(exploded[1]);
 	Call_Finish(dummy);

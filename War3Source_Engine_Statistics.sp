@@ -122,6 +122,7 @@ public Action:cmdcheckupdate(client,args){
 	if(client==0){
 		ManyMinTimer(INVALID_HANDLE,0);
 	}
+	return Plugin_Handled;
 }
 public Action:cmdupdatestatus(client,args){
 	if(client==0){

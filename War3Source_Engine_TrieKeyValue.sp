@@ -37,6 +37,8 @@ bool:InitNativesForwards()
 	Cvartrie=CreateTrie();
 	Cvararraylist=CreateArray(ByteCountToCells(64));  //cvar
 	Cvararraylist2=CreateArray(ByteCountToCells(1024)); //cvar desc
+	PushArrayString(Cvararraylist, "null");
+	PushArrayString(Cvararraylist2, "null");
 	CreateNative("W3CreateCvar",NW3CreateCvar);
 	CreateNative("W3GetCvar",NW3GetCvar);
 	CreateNative("W3SetCvar",NW3SetCvar);

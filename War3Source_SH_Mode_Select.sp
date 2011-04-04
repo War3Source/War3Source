@@ -19,7 +19,9 @@ public Plugin:myinfo=
 
 public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 {
-
+	for(new i=0;i<20;i++){
+		PrintToServer("                                                  ");
+	}
 	PrintToServer("#       #######    #    ######  ### #     #  #####  ");
 	PrintToServer("#       #     #   # #   #     #  #  ##    # #     # ");
 	PrintToServer("#       #     #  #   #  #     #  #  # #   # #       ");
