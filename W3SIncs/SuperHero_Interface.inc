@@ -53,6 +53,9 @@ native SHSetLevel(client,newlevel);
 
 native SHGetXP(client);
 native SHSetXP(client,newxp);
+native SHShowXP(client);
+native SHGetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
+
 
 native SHGetHeroesClientCanHave(client);
 stock SHHasHeroesNum(client){

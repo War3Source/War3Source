@@ -11,18 +11,17 @@
 #include "W3SIncs/colors"
 #include "W3SIncs/constants"
 
+#include "W3SIncs/aura"
 
-//test 
-//native OurTestNative(Float:f,
 
 //sh include is at the end of this file
+//Interface version, change this when the API requirement changes to force a recompile
+//There will be a system check to make sure all plugins are compiled to the same interface.
+new String:interfaceVersion[]="1.2.1.4v2";
 
-new String:interfaceVersion[]="1.2.1.4v2"; ///this makes sure the race is compatable with the compiled version of war3source.smx
 
-
-stock dummy; //variable for dummies!
-stock String:dummystr[32];
-
+stock dummy; //variable for dummies! Use this where ever u want for a dummy return
+stock String:dummystr[32]; //just a dummy string! 
 
 
 //variables forwarded to every w3 plugin
@@ -31,8 +30,8 @@ public W3SetForwarededVar(index,value){
 	W3ForwarededVars[index]=value;
 }
 
-
-stock bool:bGameModeDetermined; ///used in interface only, can be read outside of interface
+//INTERFACE ONLY VARIABLES, use for determining game type
+stock bool:bGameModeDetermined;
 stock tValveGame;
 stock bool:bWar3Mode;
 stock bool:bSHMode;
@@ -54,6 +53,8 @@ stock ValveGameEnum:War3_GetGame(){
 	}
 	return ValveGameEnum:tValveGame;
 }
+
+//Do not manually call this, this determines the game mode and is called internally in the API
 stock DetermineGameMode(){
 	//DETERMIE GAME MODE
 	#if defined WAR3MAIN
@@ -115,6 +116,7 @@ stock DetermineGameMode(){
 	bGameModeDetermined=true;
 }
 
+//We mark some natives optional so different plugins can still startup
 forward GlobalOptionalNatives(); 
 public GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 
@@ -122,9 +124,9 @@ public GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 
 }
 
-
+//Warcraft required executions, does common tasks, such as loading translations.
 forward War3InterfaceExec();
-public War3InterfaceExec(){ //this runs once, does common tasks
+public War3InterfaceExec(){ 
 	LoadTranslations("w3s._common.phrases");
 }
 
@@ -149,45 +151,53 @@ public War3InterfaceExec(){ //this runs once, does common tasks
 native W3GetW3Version(String:retstr[],maxlen);//str
 native W3GetW3Revision();//int
 native W3GetStatsVersion();//int
+
+//Socket functions
 native W3Socket(String:url[],Function:callback);
 native W3Socket2(String:url[],String:postdata[],Function:callback);
+
+//forces weapon drop, given a weapon entity
 native W3DropWeapon(client,weaponent);
+
+
 /**
  * Checks if we are in the freeze time. Certain games support this, like CS.
  * @return True if so, false if not.
+ *  
  */
+#pragma deprecated
 native bool:War3_InFreezeTime();    
 
 
 
+/* BEGIN Race Class */
+
 //creates a new race, returns the race id
+//a valid race is >0
 native War3_CreateNewRace(String:name[],String:shortname[]);
 
 //adds a skill or a ultimate
 native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult,maxskilllevel=DEF_MAX_SKILL_LEVEL);
 
 
-///translated
+//translated
 //creates a new race, returns the race id
 native War3_CreateNewRaceT(String:shortname[]);
 
-///translated
+//translated
 //adds a skill or a ultimate
 //additional parameters replaces #1# #2# ... in the translation string (max 5)
 native War3_AddRaceSkillT(raceid,String:SkillNameIdentifier[],bool:isult,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
 
-
-
-
 //ends race creation!!! MUST CALL THIS!!!
 native War3_CreateRaceEnd(raceid);
-
-
 
 native War3_GetRaceName(raceid,String:retstr[],maxlen);
 native War3_GetRaceShortname(raceid,String:retstr[],maxlen);
 
+#pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
+#pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
 
 native War3_GetRacesLoaded();
@@ -199,30 +209,43 @@ native W3GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen);
 native W3GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen);
 native W3GetRaceSkillMaxLevel(raceid,skillnum);
 native W3GetRaceOrder(raceid);
+//Flag is a generic string. We compare the race_flags cvar to the string you passed
 native bool:W3RaceHasFlag(raceid,String:flag[]);
 
+//returns a simple array of race IDs, sorted properly.
+//Does not include "hidden" races
 //pass array of MAXRACES, returns number of races in the array. starts at 0
-///ordered properly
+//ordered properly
+//returns the size of the array
 native W3GetRaceList(racelist[]);
 
+//a valid race is >0
 native War3_GetRaceIDByShortname(String:raceshortname[]);
 
 native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);
 native W3GetRaceItemRestrictionsStr(raceid,String:ret[],maxlen);
 native W3GetRaceMaxLimitTeam(raceid,team);
-native W3GetRaceMaxLimitTeamCvar(raceid,team); //returns the internal cvar pointer
+native W3GetRaceMaxLimitTeamCvar(raceid,team); //returns the internal cvar id (int not handle)
 native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
+/* END RACE CLASS */
 
-///retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
+
+
+
+
+/* BEGIN GLOBAL VARS */
+//retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
 //this mostly used for accessing a variable without creating a special native just for it
 //this returns any:, you should tag it if return value is not suppose to be normal integer. like Float:W3GetVar( or Handle:W3GetVar(
 //most are temporary variables and this function should be called immidiately in the right functions
 //examples W3GetVar(OldRace)   W3GetVar(DeathRace)
+//See W3Var enum in constants to get a list
+//Do not get/set vars arbitrarily unless you know what you are doing
 native any:W3GetVar(W3Var:variabletoretrieve);
 native any:W3SetVar(W3Var:variabletoretrieve,any:value);
-
+/* END GLOBAL VARS */
 
 
 /**
@@ -237,12 +260,13 @@ native War3_CreateShopItem(String:name[],String:shortname[],String:desc[],costgo
 //translated
 native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
 
-
+//see W3ItemProp enum for available properties
 native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
 native War3_GetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY);
 
-//returns -1 if not found
+
 //remember itemid that is valid is more than 0
+//returns -1 if not found
 native War3_GetItemIdByShortname(String:itemshortname[]) ;
 
 
@@ -261,18 +285,16 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 
 
 
-
-
+//Shopmenu 2 item class
 native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
 //translated
 native War3_CreateShopItem2T(String:shortname[],cost);
-
 
 native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
 native War3_GetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY);
 
 //returns -1 if not found
-//remember itemid that is valid is more than 0
+//valid itemid if > 0
 native War3_GetItem2IdByShortname(String:itemshortname[]) ;
 
 
@@ -289,8 +311,16 @@ native W3GetItems2Loaded(); //how many items are loaded?
 native bool:W3IsItem2DisabledGlobal(itemid);
 native bool:W3IsItem2DisabledForRace(race,itemid);
 
+//Forces a save into database of when the item expires
 //client must own item already
 native W3SaveItem2ExpireTime(client,itemid);
+
+
+
+
+
+
+
 /**
  * Registers a help command with the War3Source plugin for war3help
  * @param name: The name of the command. (max 64)
@@ -306,10 +336,8 @@ native W3ClearSkillLevels(client,race);
 
 
 /**
- * Gets the kill XP for a player, useful for simulating an explosion or anything else.
+ * Gets the kill XP for a player depending on his level
  * @param client: Client index
- * @param race: The race ID returned from War3_CreateRace
- * @return Will be kill XP, or -1 for failed
  */
 native W3GetKillXP(level);
 native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
@@ -321,6 +349,7 @@ native W3GetReqXP(level); //get required xp for leveling to the level, use (leve
  * @noreturn
  */
 native War3_ShowXP(client);
+
 
 //max gold a player can have (cvar read)
 native W3GetMaxGold();
@@ -335,7 +364,7 @@ native W3GetMaxGold();
 native War3_GetOwnsItem(client,item);
 native War3_GetOwnsItem2(client,item);
 native W3GetItem2ExpireTime(client,item);
-native W3SetItem2ExpireTime(client,item,time); //use full linux time , NOW()+duration
+native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
 
 
 
@@ -369,6 +398,7 @@ native War3_GetTargetInViewCone(client,Float:max_distance=0.0,bool:include_frien
 native W3LOS(client,target);
 
 // The following are bit-flags for War3_DealDamage
+// Does not appear useful in any way
 #define DMG_GENERIC					0
 #define DMG_CRUSH					(1 << 0)
 #define DMG_BULLET					(1 << 1)
@@ -422,6 +452,16 @@ native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,Str
 native War3_GetWar3DamageDealt();
 
 
+///is last damage a bullet first triggered damage? works on posthurt and dmgall
+native W3GetDamageIsBullet();
+
+native W3ForceDamageIsBullet();
+// if u do damage within a takedmg, the original damage may be nullified as non bullet, 
+//use this function after you have dealt damage inside a takedmg
+//so you can allow other isdmgbullet proc
+
+
+
 
 /**
  * Flashes a player's screen a certain color for a duration.
@@ -431,16 +471,9 @@ native War3_GetWar3DamageDealt();
  * @param flags: Flags of Fade user message, optional.
  * @noreturn
  */
-
 native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
 
-///is last damage a bullet first triggered damage? works on posthurt and dmgall
-native W3GetDamageIsBullet();
 
-native W3ForceDamageIsBullet();
-// if u do damage within a takedmg, the original damage may be nullified as non bullet, 
-//use this function after you have dealt damage inside a takedmg
-//so you can allow other isdmgbullet proc
 
 /**
  * Shakes a player's screen at a magnitude and noise for a duration.
@@ -651,8 +684,6 @@ native War3_CachedDeadAmmo(client,game_weapon_id);
  */ 
 native War3_CachedDeadWeaponName(client,weapon_iterator,String:output_buffer[],output_size);
 
-
-
 /**
  * Is player ubered (TF2)
  * @param client:
@@ -661,19 +692,12 @@ native War3_CachedDeadWeaponName(client,weapon_iterator,String:output_buffer[],o
    
 native bool:War3_IsUbered(client);
 
-
-
-
 /**
  * Is player carrying intellegence
  * @param client:
  * @return: true false
  */  
 native bool:War3_HasFlag(client);
-
-
-
-
 
 /**
  * Is player cloaked
@@ -690,10 +714,8 @@ native bool:War3_IsCloaked(client);
  */      
 native War3_DamageModPercent(Float:num);  
 
-
-
+//Sends a particle to client like "miss_text"
 native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);  
-
 
 /**
  * heals with the limit of (warcraft ) max hp
@@ -703,13 +725,15 @@ native War3_HealToMaxHP(client,addhp);
 
 /**
  * heals to max hp * 1.5 buff in tf2
+ * no extra hp in other games 
  * @noreturn
  */  
 native War3_HealToBuffHP(client,addhp);  
 
-/* direcly decreases the player's hp by X amount
-//WILL NOT GO BELOW 1 (cs glitch)
-*/
+/** 
+ * direcly decreases the player's hp by X amount (Not via damage)
+ * //WILL NOT GO BELOW 1 (cs glitch)
+ */
 native War3_DecreaseHP(client,decrease);
 
 stock Entity_SetHealth(entity, health)
@@ -718,27 +742,6 @@ stock Entity_SetHealth(entity, health)
 	ChangeEdictState(entity, 0);
 }
 
-
-///AURA SYSTEM, keeps track of players aura via distance
-//by default tracks teammates only
-//returns an number, save it as your AuraID
-//aura does not require line of sight
-native W3RegisterAura(String:auraShortName[],Float:distance,bool:trackotherteam=false);
-
-//set and unset a player if he has or no longer has the origin of the aura
-//removed if disconnects
-//level is a integer for a priority system, such as teammate has level 1 heal wave and another teammate has level 4 heal wave
-//the player recieves the level heal wave and does not stack with level 1 heal wave
-native W3SetAuraFromPlayer(tAuraID,client,bool:auraOriginatesFromPlayer=true,level=1);
-
-///is this player under the influence of this aura?
-///it means it is within distance of an aura origin (ie player)
-///level is passed by reference and will be set
-native bool:W3HasAura(tAuraID,client,&level);
-
-//forward when a player's aura state changes, ie leaves the area, or dies
-//however player may still be alive while the aura lingers, always check for alive
-forward OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level);
 
 
 
@@ -1193,7 +1196,9 @@ forward OnWar3PlayerAuthed(client);
  * @param client: The client's index.
  * @param newrace: The player's new race.
  */
+ #pragma deprecated Use OnRaceChanged(client,oldrace,newrace);
 forward OnRaceSelected(client,newrace);
+forward OnRaceChanged(client,oldrace,newrace);
 
 /**
  * Gets called when the +ultimate or -ultimate command is called, IT ISNT ALWAYS FOR YOUR RACE, YOU NEED TO CHECK!!!
