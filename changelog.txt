@@ -1,7 +1,7 @@
 
 1.2.1
 B5
-
+Fixed shadow hunter aura leak
 deprecation: OnRaceSelected will change to OnRaceChanged(client,oldrace,newrace) for easier race management
 
 B4
