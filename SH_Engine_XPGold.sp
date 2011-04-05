@@ -78,19 +78,19 @@ public OnPluginStart()
 bool:InitNativesForwards()
 {
 	if(SH()){
-		CreateNative("W3GetReqXP",NW3GetReqXP);
-		CreateNative("War3_ShowXP",Native_War3_ShowXP);
+		CreateNative("SHGetReqXP",NShGetReqXP);
+		CreateNative("SHShowXP",NSHShowXP);
 	}
 	
 	CreateNative("SHMaxLevel",NSHMaxLevel);
 	return true;
 }
-public NW3GetReqXP(Handle:plugin,numParams)
+public NShGetReqXP(Handle:plugin,numParams)
 {
 	new level=GetNativeCell(1);
 	return GetConVarInt(hXPMultiCvar)*level
 }
-public Native_War3_ShowXP(Handle:plugin,numParams)
+public NSHShowXP(Handle:plugin,numParams)
 {
 	ShowXP(GetNativeCell(1));
 }

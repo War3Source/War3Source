@@ -135,7 +135,7 @@ public OnRaceSelected(client,race)
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
 	
-	if(race==thisRaceID)
+	if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
 	{
 		if(skill==SKILL_HEALINGWAVE) //1
 		{

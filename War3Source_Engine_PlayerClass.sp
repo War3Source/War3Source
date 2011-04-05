@@ -19,6 +19,7 @@ new String:levelupSound[]="war3source/levelupcaster.wav";
 
 
 new Handle:g_OnRaceSelectedHandle;
+new Handle:g_OnRaceChangedHandle;
 new Handle:g_OnSkillLevelChangedHandle;
 
 public Plugin:myinfo= 
@@ -51,6 +52,7 @@ public OnMapStart(){
 bool:InitNativesForwards()
 {
 	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
+	g_OnRaceChangedHandle=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 	g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 	
 	
@@ -94,12 +96,17 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		
 		p_properties[client][CurrentRace]=newrace;
 		
+		//REMOVE DEPRECATED
 		Call_StartForward(g_OnRaceSelectedHandle);
 		Call_PushCell(client);
 		Call_PushCell(newrace);
-		new result;
-		Call_Finish(result);
-		
+		Call_Finish(dummy);
+	
+		Call_StartForward(g_OnRaceChangedHandle);
+		Call_PushCell(client);
+		Call_PushCell(oldrace);
+		Call_PushCell(newrace);
+		Call_Finish(dummy);
 		
 		if(newrace>0) {
 			if(IsPlayerAlive(client)){

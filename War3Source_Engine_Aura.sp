@@ -99,6 +99,7 @@ InternalClearPlayerVars(client){
 		AuraOrigin[client][aura]=false;
 	}
 }
+//re calculate auras when one of these things happen, however a 0.1 delay minimum (like 32 players spawn at round start, we dont calculate 32 times)
 public OnWar3EventSpawn(){ ShouldCalcAura();}
 public OnSHEventSpawn(){ ShouldCalcAura();}
 public OnWar3EventDeath(){ ShouldCalcAura();}
