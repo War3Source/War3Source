@@ -19,7 +19,7 @@ or refer to it as WCS (or even just "warcraft source") for any reason.
 W3S and WCS are similar such as they can feature the same races and they bring forth the same style of gameplay, 
 but they are two completely different projects.
 
-War3Source offerers unbeatable performance and quality under SourcePawn and involves much more interaction between races.
+War3Source offers unbeatable performance and quality under SourcePawn and involves much more interaction between races.
 Many subsystems are available to the coder that EventScripts does not offer, such as:
 A Cooldown System which simplifies skills and ultimate cooldowns
 A buff/debuff system where races are expected to respect other race's buffs and debuffs, resolves conflicts between races.
