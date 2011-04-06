@@ -1431,22 +1431,7 @@ stock HasSMAccess(client,flag)
 	return W3IsDeveloper(client);
 }
 
-//precache sound    and adds to download table
-stock bool:War3_PrecacheSound(String:sound[]){
-	new String:longsound[512];
-	
-	Format(longsound,sizeof(longsound), "sound/%s", sound);
-	AddFileToDownloadsTable(longsound); 
-	
-	if(PrecacheSound(sound, true)){
-		//PrintToServer("TWar3_PrecacheSound %s",longsound);
-		return true;
-	}
-	else{
-		PrintToServer("Fail War3_PrecacheSound %s",longsound);	
-	}
-	return false;
-}
+
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 
@@ -2009,116 +1994,10 @@ stock W3MsgVengenceWasBlocked(client,String:reason[]){
 
 
 
-/**
- *
- * Description: Manage precaching resources.
- * Author(s): Frenzzy
- */
-
-/**
- * Adds a file to the downloadables network string table.
- *
- * @param filename		File that will be added to downloadables table.
- * @noreturn
- */
-stock W3AddFile(const String:filename[])
-{
-	if (FileExists(filename)) {
-		AddFileToDownloadsTable(filename);
-	} else {
-		ThrowError("File \"%s\" not found", filename);
-	}
-}
-
-/**
- * Add to downloads table and precaches a given sound.
- *
- * @param sound			Name of the sound to download and precache.
- * @param precache		If precache is true the file will be precached.
- * @param preload		If preload is true the file will be precached before level startup.
- * @return Returns the sound index if precache is true, 0 for error or precache is false. 
- */
-stock W3AddSound(const String:sound[], bool:precache = true, bool:preload = true)
-{
-	decl String:path[PLATFORM_MAX_PATH];
-	Format(path, sizeof(path), "sound/%s", sound);
-	if (FileExists(path)) {
-		AddFileToDownloadsTable(path);
-		if (precache){
-			return PrecacheSound(sound, preload);
-		}
-		
-	} else {
-		ThrowError("Sound file \"%s\" not found", path);
-	}
-	return 0;
-}
-
-/**
- * Add to downloads table and precaches a given model.
- *
- * @param model			Name of the model to download and precache.
- * @param precache		If precache is true the file will be precached.
- * @param preload		If preload is true the file will be precached before level startup.
- * @return Returns the model index if precache is true, 0 for error or precache is false. 
- */
-stock W3AddModel(const String:model[], bool:precache = true, bool:preload = true)
-{
-	if (FileExists(model)) {
-		AddFileToDownloadsTable(model);
-		if (precache)
-			return PrecacheModel(model, preload);
-		
-	} else {
-		ThrowError("Model file \"%s\" not found", model);
-	}
-	return 0;
-}
-
-/**
- * Add to downloads table and precaches a given decal.
- *
- * @param decal			Name of the decal to download and precache.
- * @param precache		If precache is true the file will be precached.
- * @param preload		If preload is true the file will be precached before level startup.
- * @return Returns the Decal index if precache is true, 0 for error or precache is false. 
- */
-stock W3AddDecal(const String:decal[], bool:precache = true, bool:preload = true)
-{
-	if (FileExists(decal)) {
-		AddFileToDownloadsTable(decal);
-		if (precache)
-			return PrecacheModel(decal, preload);
-	} else {
-		ThrowError("Decal file \"%s\" not found", decal);
-	}
-	return 0;
-}
 
 
-
-
-stock DP(const String:szMessage[], any:...)
-{
-	
-	decl String:szBuffer[1000];
-
-	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
-	PrintToServer("[Debug Print] %s", szBuffer);
-	PrintToChatAll("[Debug Print] %s", szBuffer);
-
-}
-//unix time, integer
-stock NOW(){
-	return GetTime();
-}
-stock IntMax(one,two){
-	return  one>two?one:two;
-}
-
-
-
-
+#include "W3SIncs/stocks_precache"
+#include "W3SIncs/stocks_misc"
 
 //SUPER HERO INDLUDE FILE, many stock requires war3 functions to be delcared first...
 #include "W3SIncs/SuperHero_Interface"
