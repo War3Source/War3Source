@@ -8,9 +8,9 @@
  */
 
 #include <sdktools>
-#include "W3SIncs/colors"
-#include "W3SIncs/constants"
 
+#include "W3SIncs/constants"
+#include "W3SIncs/colors"
 #include "W3SIncs/aura"
 
 
