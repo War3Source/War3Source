@@ -111,7 +111,7 @@ public ShowXP(client)
 		
 	}
 	else{
-		War3_ChatMessage(client,"Level %d - %d XP / %d XP.",level,SHGetXP(client),W3GetReqXP(level+1));
+		War3_ChatMessage(client,"Level %d - %d XP / %d XP.",level,SHGetXP(client),SHGetReqXP(level+1));
 	}
 
 }
@@ -272,13 +272,13 @@ InternalLevelCheck(client){
 	{	
 		new curlevel=SHGetLevel(client);
 		
-		if(curlevel<SHMaxLevel()&&SHGetXP(client)>=W3GetReqXP(curlevel+1))
+		if(curlevel<SHMaxLevel()&&SHGetXP(client)>=SHGetReqXP(curlevel+1))
 		{
 			//PrintToChatAll("LEVEL %d xp %d reqxp=%d",curlevel,GetXP(client,race),ReqLevelXP(curlevel+1));
 			
 			War3_ChatMessage(client,"You are now level %d.",SHGetLevel(client)+1);
 			
-			new newxp=SHGetXP(client)-W3GetReqXP(curlevel+1);
+			new newxp=SHGetXP(client)-SHGetReqXP(curlevel+1);
 			SHSetXP(client,newxp); //recurse first!!!! else u set level xp is same and it tries to use that xp again
 			
 			SHSetLevel(client,SHGetLevel(client)+1); 

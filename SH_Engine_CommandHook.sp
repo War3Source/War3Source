@@ -130,7 +130,7 @@ public Action:War3Source_SayCommand(client,args)
 	
 	if(CommandCheck(arg1,"showxp") || CommandCheck(arg1,"xp"))
 	{
-		War3_ShowXP(client);
+		SHShowXP(client);
 		return returnblocking;
 		
 	}

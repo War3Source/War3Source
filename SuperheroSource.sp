@@ -11,8 +11,8 @@
 
 
 
-#define VERSION_NUM "0.2.1"
-#define REVISION_NUM 10001 //increment every release
+#define VERSION_NUM "0.2.2"
+#define REVISION_NUM 10002 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 

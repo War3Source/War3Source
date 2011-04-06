@@ -28,7 +28,7 @@ new String:CTag[][] = {"{default}", "{green}", "{lightgreen}", "{red}", "{blue}"
 new String:CTagCode[][] = {"\x01", "\x04", "\x03", "\x03", "\x03", "\x05"};
 new bool:CTagReqSayText2[] = {false, false, true, true, true, false};
 new bool:CEventIsHooked = false;
-new bool:CSkipList[MAXPLAYERS] = {false,...};
+new bool:CSkipList[MAXPLAYERSCUSTOM] = {false,...};
 
 /* Game default profile */
 new bool:CProfile_Colors[] = {true, true, false, false, false, false};

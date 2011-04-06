@@ -54,7 +54,10 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 		War3_ChatMessage(client,"You already have %s",heroname);
 		allowselect=false;
 	}
-	
+	else if(W3GetRaceMinLevelRequired(race_selected)>SHGetLevel(client)){
+		War3_ChatMessage(client,"This Hero requires level %d",W3GetRaceMinLevelRequired(race_selected));
+		allowselect=false;
+	}
 	
 	
 	
@@ -126,7 +129,12 @@ InternalSHChangeRaceMenu(client){
 		
 		decl String:rdisp[100]
 		Format(rdisp,sizeof(rdisp),"%s%s",SHHasHero(client,raceid)?">":"",rname);
-		
+		new minlevel=W3GetRaceMinLevelRequired(raceid);
+		if(minlevel<0) minlevel=0;
+		if(minlevel)
+		{
+			Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
+		}
 		AddMenuItem(crMenu,rbuf,rdisp);
 	}
 	
@@ -186,13 +194,13 @@ InternalShowMyHeroes(client){
 		new String:title[400];
 		Format(title,400,"%s\n \n[SuperHero:Source] Your Heroes\nSelect the hero to remove",title) ;
 		//AddMenuItem(hMenu,"0","0");
-		for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++){
-			if(SHHasHero(client,raceid)){
+		for(new heroid=1;heroid<=War3_GetRacesLoaded();heroid++){
+			if(SHHasHero(client,heroid)){
 				decl String:rbuf[5];
-				Format(rbuf,sizeof(rbuf),"%d",raceid); //DATA FOR MENU!
+				Format(rbuf,sizeof(rbuf),"%d",heroid); //DATA FOR MENU!
 				
 				decl String:rname[32];
-				SHGetHeroName(raceid,rname,sizeof(rname));
+				SHGetHeroName(heroid,rname,sizeof(rname));
 				
 				decl String:rdisp[100]
 				Format(rdisp,sizeof(rdisp),">%s",rname);

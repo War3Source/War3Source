@@ -122,6 +122,10 @@ public GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 
 	MarkNativeAsOptional("SHGetHeroesClientCanHave"); 
 	MarkNativeAsOptional("SHHasHero"); 
+	MarkNativeAsOptional("SHShowXP");
+	MarkNativeAsOptional("War3_ShowXP");
+	MarkNativeAsOptional("W3GetReqXP");
+	MarkNativeAsOptional("War3_ShowXP");
 }
 
 //Warcraft required executions, does common tasks, such as loading translations.

@@ -114,7 +114,7 @@ public NW3GetCvarByString(Handle:plugin,numParams){
 	
 	new String:outstr[1024];
 	if(!GetTrieString(Cvartrie, cvarstr, outstr, sizeof(outstr))){
-		ThrowError("Could not GET Cvar");
+		ThrowError("Could not GET Cvar %s, not in Trie, not registered?",cvarstr);
 	}
 	//PrintToServer("%s %d",outstr,cvarid);
 	SetNativeString(2,outstr,GetNativeCell(3));
