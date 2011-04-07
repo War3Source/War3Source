@@ -1,0 +1,3 @@
+these .bat files are for you modify.
+RENAME them and ignore SVN ignore them so they don't get uploaded back to the repository
+compile.exe and spcomp.exe must be in this folder to use these batch files, copy them to this folder

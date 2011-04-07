@@ -8,7 +8,7 @@ SH: added minlevel
 SH: some native renaming for SH/W3 ie W3GetReqXP -> SHGetReqXP as these are in different engines
 war3 cvarid = 0 is no longer used, can help catch some errors
 graceful unload via AskPluginLoad2
-
+faster initial system failure  check to prevent spam
 
 B4
 
