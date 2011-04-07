@@ -54,6 +54,23 @@ enum W3Var
 
 }
 
+new String:W3VarStrings[][32] = {"OldRace",
+								"DeathRace",
+								"hDatabase",
+								"hDatabaseType",
+								"hSaveEnabledCvar",
+								"hRaceLimitEnabledCvar",
+								"hNewPlayerLevelbankCvar",
+								"TheItemBoughtOrLost",
+								"hPlayerInfoArgStr",
+								"RaceinfoRaceToShow",
+								"EventArg1",
+								"EventArg2",
+								"EventArg3",
+								"TransClient",
+								"hUseMetricCvar",
+								"SmEvent"};
+
 //These are just used as constants, and enum orders them incrementally
 // They are to be used for War3CreateEvent and OnWar3Event, these constants define the type of the event/
 //War3Events are basically used kind of like Natives and Forwards, without the trouble of creating actual natives/forwards
