@@ -17,8 +17,9 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	for(new i=0;i<20;i++){
 		PrintToServer("                                                  ");
 	}
@@ -30,15 +31,19 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 	PrintToServer("#       #     # #     # #     #  #  #    ## #     # ");
 	PrintToServer("####### ####### #     # ######  ### #     #  #####  ");
 
+	return APLRes_Success;
+}
 
-	
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
-	
-
-
-	
+public OnPluginStart()
+{
+	PrintToServer("OnPluginStart");
+	RegServerCmd("war3mode",cmdwar3mode);  
+	RegServerCmd("w3mode",cmdwar3mode);
+	RegServerCmd("shmode",cmdshmode);
+	RegServerCmd("whichmode",cmdwhichmode);
+}
+deadfunc(){
+	PrintToServer("Optional Natives");
 	new i=0;
 	new Handle:iter=GetPluginIterator();
 	while(MorePlugins(iter)){
@@ -75,16 +80,6 @@ public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 		
 		
 	}
-	return APLRes_Success;
-}
-
-public OnPluginStart()
-{
-	PrintToServer("OnPluginStart");
-	RegServerCmd("war3mode",cmdwar3mode);  
-	RegServerCmd("w3mode",cmdwar3mode);
-	RegServerCmd("shmode",cmdshmode);
-	RegServerCmd("whichmode",cmdwhichmode);
 	
 }
 public Action:cmdwar3mode(args)
@@ -111,7 +106,7 @@ public Action:cmdwhichmode(args){
 }
 
 public OnWar3Event(W3EVENT:event,client){
-	if(event==UNLOADPLUGINSBYMODE){
+	if(event==UNLOADPLUGINSBYMODE&&false){ ///NO LONGER USES THIS
 		new i=0;
 		new Handle:iter=GetPluginIterator();
 		while(MorePlugins(iter)){

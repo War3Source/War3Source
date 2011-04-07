@@ -23,6 +23,69 @@ new String:interfaceVersion[]="1.2.1.4v2";
 stock dummy; //variable for dummies! Use this where ever u want for a dummy return
 stock String:dummystr[32]; //just a dummy string! 
 
+/**********************
+ * CAUTION, THE War3 INTERFACE NOW HANDLES AskPluginLoad2Custom BECAUSE IT IS REQUIRED TO HANDLE CERTAIN TASKS
+ * It acually simplifies things for you:
+ * Determines game mode
+ * Mark Natives optional
+ * Calls your own functions (hackish way) if you have them:
+ * InitNativesForwards()   
+ * AskPluginLoad2CustomCustom(Handle:myself,bool:late,String:error[],err_max);
+ * So if you want to do something in AskPluginLoad2Custom, implement public AskPluginLoad2CustomCustom(...) instead. 
+ */ 
+public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
+{
+	GlobalOptionalNatives();
+	DetermineGameMode();
+	new Function:func;
+	func=GetFunctionByName(plugin, "InitNativesForwards");
+	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+		Call_StartFunction(plugin, func);
+		Call_Finish(dummy);
+		if(!dummy){
+			LogError("InitNativesForwards did not return true, possible failure");
+		}
+	}
+	func=GetFunctionByName(plugin, "AskPluginLoad2Custom");
+	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+		Call_StartFunction(plugin, func);
+		Call_PushCell(plugin);
+		Call_PushCell(late);
+		Call_PushString(error);
+		Call_PushCell(err_max);
+		Call_Finish(dummy);
+		if(APLRes:dummy!=APLRes_Success){
+			LogError("AskPluginLoad2Custom did not return true, possible failure");
+		}
+	}
+	
+	if(GetFunctionByName(plugin, "W3ONLY")!=INVALID_FUNCTION  &&  !W3()){
+		return APLRes_SilentFailure;
+	}
+	if(GetFunctionByName(plugin, "SHONLY")!=INVALID_FUNCTION  &&  !SH()){
+		return APLRes_SilentFailure;
+	}
+	return APLRes_Success;
+}
+/**********************
+ * Implement this if you have natives/forwards
+ */ 
+forward bool:InitNativesForwards();
+/**********************
+ * Implement this if you need AskPluginLoad2Custom
+ */ 
+forward APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max);
+/**********************
+ * Implement this with blank statement if you want this plugin to not load if it is not war3 mode
+ */ 
+forward W3ONLY();
+/**********************
+ * Implement this with blank statement if you want this plugin to not load if it is not sh mode
+ */ 
+forward SHONLY();
+
+
+
 
 //variables forwarded to every w3 plugin
 new W3ForwarededVars[W3ForwardedVarsEnum];
@@ -31,26 +94,16 @@ public W3SetForwarededVar(index,value){
 }
 
 //INTERFACE ONLY VARIABLES, use for determining game type
-stock bool:bGameModeDetermined;
 stock tValveGame;
 stock bool:bWar3Mode;
 stock bool:bSHMode;
 stock W3(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
 	return bWar3Mode;
 }
 stock SH(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
 	return bSHMode;
 }
 stock ValveGameEnum:War3_GetGame(){
-	if(!bGameModeDetermined){
-		DetermineGameMode();
-	}
 	return ValveGameEnum:tValveGame;
 }
 
@@ -113,19 +166,23 @@ stock DetermineGameMode(){
 	{
 		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error.");
 	}
-	bGameModeDetermined=true;
+	//bGameModeDetermined=true;
 }
 
 //We mark some natives optional so different plugins can still startup
-forward GlobalOptionalNatives(); 
-public GlobalOptionalNatives(){
+/**********************
+ * CALL THIS IN ASKPLUGINLOAD if you are using any of these or have native errors
+ */ 
+stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 
 	MarkNativeAsOptional("SHGetHeroesClientCanHave"); 
 	MarkNativeAsOptional("SHHasHero"); 
-	MarkNativeAsOptional("SHShowXP");
-	MarkNativeAsOptional("War3_ShowXP");
+	
 	MarkNativeAsOptional("W3GetReqXP");
+	MarkNativeAsOptional("SHGetReqXP");
+	
 	MarkNativeAsOptional("War3_ShowXP");
+	MarkNativeAsOptional("SHShowXP");
 }
 
 //Warcraft required executions, does common tasks, such as loading translations.
@@ -1201,7 +1258,7 @@ forward OnWar3PlayerAuthed(client);
  * @param newrace: The player's new race.
  */
  #pragma deprecated Use OnRaceChanged(client,oldrace,newrace);
-forward OnRaceSelected(client,newrace);
+forward OnRaceSelected(client,newrace); //to be removed
 forward OnRaceChanged(client,oldrace,newrace);
 
 /**

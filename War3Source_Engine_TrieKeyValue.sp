@@ -17,8 +17,9 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -38,8 +39,8 @@ bool:InitNativesForwards()
 	Cvartrie=CreateTrie();
 	Cvararraylist=CreateArray(ByteCountToCells(64));  //cvar
 	Cvararraylist2=CreateArray(ByteCountToCells(1024)); //cvar desc
-	PushArrayString(Cvararraylist, "null");
-	PushArrayString(Cvararraylist2, "null");
+	PushArrayString(Cvararraylist, "ZEROTH CVAR, INVALID CVARID PASSED");
+	PushArrayString(Cvararraylist2, "ZEROTH CVAR, INVALID CVARID PASSED");
 	CreateNative("W3CreateCvar",NW3CreateCvar);
 	CreateNative("W3GetCvar",NW3GetCvar);
 	CreateNative("W3SetCvar",NW3SetCvar);

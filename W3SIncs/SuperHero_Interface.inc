@@ -56,12 +56,21 @@ native SHSetXP(client,newxp);
 native SHShowXP(client);
 native SHGetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
-
+/**
+ * how many heroes a player can have
+ * sh_heroes_per_player read
+ */ 
 native SHGetHeroesClientCanHave(client);
+
+/**
+ * how many heroes this person have?
+ */ 
 stock SHHasHeroesNum(client){
 	new num;
-	for(new i=1;i<=War3_GetRacesLoaded();i++){
-		if(SHHasHero(client,i)){
+	for(new i=1;i<=War3_GetRacesLoaded();i++)
+	{
+		if(SHHasHero(client,i))
+		{
 			num++;
 		}
 	}
@@ -80,16 +89,21 @@ native SHSaveXP(client);
 
 native SHTryToGiveClientHero(client,herotogive,bool:showchangeracemenuagain);
 
-stock SHShowCRMenuIfCanChoose(client){ //show changerace menu if player can select more races
+/********
+ * //show changerace menu if player can select more races
+ */ 
+stock SHShowCRMenuIfCanChoose(client){ 
 	if(W3IsPlayerXPLoaded(client)){
-		if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
+		if(SHHasHeroesNum(client)<(client)){
 			W3CreateEvent(SHSelectHeroesMenu,client);
 			return true;
 		}
 	}
 	return false;
 }
-
+/**********************
+ * cooldown wrapper, see war3_cooldownmgr for specifics
+ */ 
 stock SH_CooldownMGR(client,Float:cooldownTime,ttheroID,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true){
 	War3_CooldownMGR(client,Float:cooldownTime,ttheroID,0,resetOnSpawn, printMsgOnExpireByTime);  
 } 

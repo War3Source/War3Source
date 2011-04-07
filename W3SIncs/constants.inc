@@ -31,7 +31,7 @@
 // It is the first parameter, eg: new deathRace = W3GetVar(DeathRace)
 enum W3Var
 {
-	OldRace, //the race he was before OnRaceSelected
+	OldRace, //the race he was before OnRaceChanged //REMOVE DEPRECATED
 	DeathRace, //race when player died 
 	hDatabase, // Handle to database
 	hDatabaseType, // DBI driver, ie sqlite or mysql

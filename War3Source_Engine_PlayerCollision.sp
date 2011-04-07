@@ -15,8 +15,9 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");

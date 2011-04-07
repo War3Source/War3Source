@@ -118,9 +118,9 @@ public OnWar3PlayerAuthed(client)
 	fLastRevive[client]=0.0;
 }
 
-public OnRaceSelected(client,race)
+public OnRaceChanged(client,oldrace,newrace)
 {
-	if( race!=thisRaceID)
+	if( newrace!=thisRaceID)
 	{
 		new userid=GetClientUserId(client);
 		for(new i=1;i<=MaxClients;i++)
@@ -146,10 +146,10 @@ public OnUltimateCommand(client,race,bool:pressed)
 		if(ult_level>0)
 		{
 			
-			if(War3_InFreezeTime())
-			{
-				W3MsgNoCastDuringFreezetime(client);
-			}
+			//if(War3_InFreezeTime())
+			//{
+			//	W3MsgNoCastDuringFreezetime(client);
+			//}
 			if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_FLAMESTRIKE,true))
 			{
 				/////Flame Strike

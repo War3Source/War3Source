@@ -55,9 +55,10 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-	PrintToServer("--------------------------AskPluginLoad2----------------------\n[War3Source] Plugin loading...");
+	GlobalOptionalNatives();
+	PrintToServer("--------------------------AskPluginLoad2Custom----------------------\n[War3Source] Plugin loading...");
 	
 	
 	new String:version[64];

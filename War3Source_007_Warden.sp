@@ -113,7 +113,7 @@ public OnWar3EventSpawn(client){
 	StrikesRemaining[client]=0;
 }
 
-public OnRaceSelected(client,race)
+public OnRaceChanged(client,oldrace,newrace)
 {
 	if(race!=thisRaceID)
 	{	
