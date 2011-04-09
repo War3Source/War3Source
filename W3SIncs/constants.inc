@@ -54,7 +54,8 @@ enum W3Var
 
 }
 
-new String:W3VarStrings[][32] = {"OldRace",
+// Used to match index with variable name.
+stock String:W3VarStrings[][32] = {"OldRace",
 								"DeathRace",
 								"hDatabase",
 								"hDatabaseType",
