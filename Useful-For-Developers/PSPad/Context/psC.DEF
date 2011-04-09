@@ -1,0 +1,279 @@
+; PSPad code template file for psC
+; author:  Luc Morin
+; E-mail: luc_morin@uqac.ca
+; last revision 26. mai 2008  17:07
+;
+;
+;   (black)
+; B (blue)
+; D (dark gray)
+; F (fuchsia)
+; G (green)
+; M (maroon)
+; N (navy)
+; P (purple)
+; R (red)
+;
+;
+
+[Macro definition]
+[/*...*/ |G comments /* ... */ ]
+/*
+    §|
+*/
+[#define|R ]
+|#define
+[#include|R ]
+|#include
+[component|B component definition]
+component | ()
+{
+
+}
+[for|B for statement]
+for(  |; ; )
+{
+
+}
+[if|B if statement]
+if( |)
+{
+
+}
+[start |N start function ]
+start ()
+{|
+
+}
+[stop |N stop function ]
+stop ()
+{|
+
+}
+[switch|B switch statement]
+switch( |)
+{
+	case :
+
+	case :
+
+	default:
+
+}
+[timerEnd |N timerEnd function ]
+timerEnd ();
+{|
+
+}
+
+[FORi|B for statement]
+for(int i=0;i  |;i++)
+{
+
+}
+[case |B switch case statement]
+case |:
+;
+;
+[abs | ]
+int abs (int j);
+[acos | ]
+double acos (double x);
+[asin | arcsinus x]
+double asin (double x);
+[atan | arctangent x]
+double atan (double x);
+[atan2 | ]
+double atan2 (double y, double x);
+[bit | ]
+any bit (any x, ubyte p);
+[bits | ]
+any bits (any x, ubyte l, ubyte h);
+[ceil | ]
+double ceil (double x);
+[cos | kosinus x]
+double cos (double x);
+[cosh | hyperbolický kosinus x]
+double cosh (double x);
+[exp | ]
+double exp (double x);
+[fabs | ]
+double fabs (double x);
+[getScanPeriod | ]
+time getScanPeriod (void);
+[getTimer | ]
+time getTimer (void);
+[isalnum | ]
+bool isalnum (ubyte c);
+[isalpha | ]
+bool isalpha (ubyte c);
+[isascii | ]
+bool isascii (ubyte c);
+[iscntrl | ]
+bool iscntrl (ubyte c);
+[isdigit | ]
+bool isdigit (ubyte c);
+[islower | ]
+bool islower (ubyte c);
+[isprint | ]
+bool isprint (ubyte c);
+[ispunct | ]
+bool ispunct (ubyte c);
+[isspace | ]
+bool isspace (ubyte c);
+[istrig | ]
+bool isspace (any port);
+[isupper | ]
+bool isupper (ubyte c);
+[isxdigit | ]
+bool isxdigit (ubyte c);
+[log | ]
+double log (double x);
+[log10 | ]
+double log10 (double x);
+[log2 | ]
+double log2 (double x);
+[manitssa | ]
+int manitssa (double x);
+[mulex | ]
+int mulex (int x, int y);
+[pow | ]
+double pow (double x, double y);
+[rand | ]
+int rand (void);
+[setbit | ]
+void setbit (any v, ubyte p, bit v);
+[setbits | ]
+void setbits (any v, ubyte h, ubyte l, any v);
+[setTimer | ]
+void setTimer (time t);
+[sign | ]
+bit sign (float v));
+[sin | ]
+double sin (double x);
+[sinh | ]
+double sinh (double x);
+[sqrt | ]
+double sqrt (double x);
+[srand | ]
+void srand (unsigned int seed);
+[startTimer | ]
+time startTimer (time t);
+[stopTimer | ]
+time stopTimer ();
+[tan | tangens x]
+double tan (double x);
+[tanh | ]
+double tanh (double x);
+[timetostep | ]
+long timetostep (time t);
+[tolower | ]
+int tolower (int c);
+[toupper | ]
+int toupper (int c);
+;
+[Tree Content]
+Statements
+ if
+ switch
+;
+[Keywords]
+active
+always
+case
+component
+const
+default
+else
+enum
+hard
+identifier
+if
+implementation
+in
+lexeme
+out
+passive
+return
+sizeof
+start
+stop
+struct
+switch
+template
+to
+typedef
+typeof
+void
+bit
+bool
+byte
+double
+false
+fix16
+fix32
+fix64
+fix8
+float
+int
+long
+short
+time
+trigger
+true
+ubyte
+uint
+ulong
+ushort
+abs()
+acos()
+asin()
+atan()
+atan2()
+bit(, )
+bits(, , )
+ceil()
+cos()
+cosh()
+exp()
+exponent()
+floor()
+getScanPeriod()
+getTimer()
+isalnum()
+isalpha()
+isascii()
+iscntrl()
+isdigit()
+islower()
+isprint()
+ispunct()
+isspace()
+istrig()
+isupper()
+isxdigit()
+log()
+log10()
+log2()
+mantissa()
+mulex(, )
+pow()
+rand()
+setbit(, , )
+setbits(, , , )
+setTimer()
+sign()
+sin()
+sinh()
+sqrt()
+srand()
+start()
+startTimer()
+stop()
+stopTimer()
+tan()
+tanh()
+timerEnd()
+timeToStep()
+tolower()
+toupper()

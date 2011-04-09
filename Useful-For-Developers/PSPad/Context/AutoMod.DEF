@@ -1,0 +1,144 @@
+; PSPad clip definition file for AutoMod
+; author:  Sven Oros
+; last revision 22.12.2005 14:33:49
+;
+
+[Macro definition]
+%proc%=@E Procedure name:,,,,
+%sub%=@E Subroutine name:,,,,
+%func%=@E Function name:,,,,
+%beschr%=@E Beschreibung:,,,,
+;
+%param1%=@E Parameter1:,,,,
+%param2%=@E Parameter2:,,,,
+%param3%=@E Parameter3:,,,,
+%param4%=@E Parameter4:,,,,
+%param1Type%=@C Parameter1 Type:,,,;integer;real;string;loadPtr,
+%param2Type%=@C Parameter2 Type:,,,;integer;real;string;loadPtr,
+%param3Type%=@C Parameter3 Type:,,,;integer;real;string;loadPtr,
+%param4Type%=@C Parameter4 Type:,,,;integer;real;string;loadPtr,
+%paramDesc1%=@E Parameter1 Description:,,,,
+%paramDesc2%=@E Parameter2 Description:,,,,
+%paramDesc3%=@E Parameter3 Description:,,,,
+%paramDesc4%=@E Parameter4 Description:,,,,
+;
+%author%=@E Author Name:,,,,
+%date%=@D Date:,,,,
+;****************************************
+; process, subroutines, functions
+;****************************************
+[begin procedure | creates a new arriving procedure]
+/*****************************************************
+	Procedure: %proc%
+	Author: %UserName%
+	Date: %date%
+	Beschreibung: %beschr%
+*****************************************************/
+begin %proc% arriving procedure
+
+	|
+
+end /* %proc%, by %UserName% */
+
+[begin subroutine | creates a new subroutine]
+/*****************************************************
+	Subroutine: %sub%
+	Author: %UserName%
+	Date: %date%
+	Beschreibung: %beschr%
+*****************************************************/
+begin %sub% procedure
+
+	|
+
+end /* %sub%, by %UserName% */
+
+[begin function | creates a new function]
+/*****************************************************
+	Function: %func%
+	Author: %UserName%
+	Parameters:
+		%param1% (%param1Type%): %paramDesc1%
+		%param2% (%param2Type%): %paramDesc2%
+		%param3% (%param3Type%): %paramDesc3%
+		%param4% (%param4Type%): %paramDesc4%
+	Date: %date%
+	Beschreibung: %beschr%
+*****************************************************/
+begin %func% function
+
+	|
+	return 0
+
+end /* %func%, by %UserName% */
+;
+;
+;
+[begin model initialization function | function called after model is loaded and before it gets ready]
+/*****************************************************
+	Function: Model initialization function
+	Author: %UserName%
+	Date: %date%
+*****************************************************/
+begin model initialization function
+
+		|
+		return true
+end /* Model initialization function, by %UserName% */
+;
+[begin model ready function | function called if model is ready]
+/*****************************************************
+	Function: Model ready function
+	Author: %UserName%
+	Date: %date%
+*****************************************************/
+begin model ready function
+
+		|
+		return true
+end /* Model ready function, by %UserName% */
+;
+[begin model nextclock function | function called if model steps to next clock]
+/*****************************************************
+	Function: Model NextClock function
+	Author: %UserName%
+	Date: %date%
+*****************************************************/
+begin model nextclock function
+
+		|
+		return true
+end /* Model NextClock function, by %UserName% */
+;
+[begin model finished function | function called if model terminates]
+/*****************************************************
+	Function: Model finished function
+	Author: %UserName%
+	Date: %date%
+*****************************************************/
+begin model finished function
+
+		|
+		return true
+end /* Model finished function, by %UserName% */
+;
+[call |R calles a function]
+call F_|
+[if | if statement]
+if | then begin
+	§
+end
+;
+[else | else statement]
+else begin
+	§|
+end
+;
+[order | order loads from an orderlist]
+order §| from OL_
+	to continue
+
+[print | print to message]
+print | to message
+;
+

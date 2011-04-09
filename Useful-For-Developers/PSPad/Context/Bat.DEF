@@ -1,0 +1,953 @@
+; PSPad clip definition file for MS-Dos BAT
+; author: ing. Jan Fiala pspad@wo.cz
+; last revision: 30.8.2003
+;
+[APPEND | Search path for data files]
+APPEND |[d:]path[;][d:]path[...]
+[APPEND1 |d Search path for data files]
+APPEND ;
+APPEND [d:]path[;][d:]path[...]
+APPEND |[/X:on|off][/path:on|off] [/E]
+Rem Displays or sets the search path for data files. DOS will search
+Rem the specified path(s) if the file is not found in the current path.
+Rem /X[:ON|:OFF]
+Rem     Specifies whether MS-DOS is to search (/X:ON) or not search (/X:OFF)
+Rem     appended directories. The default value is /X:OFF.
+Rem /PATH:ON|/PATH:OFF
+Rem     Specifies whether a program is to search appended directories for a data
+Rem     file when a path is already included with the name of the file the
+Rem     program is looking for. The default setting is /PATH:ON.
+Rem /E
+Rem     Assigns the list of appended directories to an environment variable
+Rem     named APPEND. This switch can be used only the first time.
+[ASSIGN | Redirects disk drive requests to a different drive]
+ASSIGN |x=y [...] /sta
+[ATTRIB | File attributes setting]
+ATTRIB |[+R|-R] [+A|-A] [+S|-S] [+H|-H] [d:][path]filename [/S]
+[ATTRIB1 |d File attributes setting]
+ATTRIB |[d:][path]filename [/S]
+ATTRIB [+R|-R] [+A|-A] [+S|-S] [+H|-H] [d:][path]filename [/S]
+Rem Sets or displays the read-only, archive, system,
+Rem and hidden attributes of a file or directory.
+Rem + sets attribute
+Rem - clear attribute
+Rem   R Read-Only file
+Rem   A Archive file
+Rem   S System file
+Rem   H Hidden file
+Rem /S processes files in the current directory and all of its subdirectories
+[BACKUP | Makes a backup copy of one or more files]
+BACKUP |d:[path][filename] d:[/S][/M][/A][/F:(size)] [/P][/D:date] [/T:time] [/L:[path]filename]
+[BREAK | Check for Ctrl + Break]
+BREAK=|on|off
+[BUFFERS | Number of disk buffers]
+BUFFERS=|number[,read_ahead_number]
+[BUFFERS1 |d Number of disk buffers]
+BUFFERS=|number[,read_ahead_number]
+Rem Used in the CONFIG.SYS file to set the number of disk buffers (number)
+Rem that willbe available for use during data input. Also used to set a value
+Rem for the numberof sectors to be read in advance (read-ahead) during
+Rem data input operations.
+Rem numbers = 0..99, read-ahead number = 1..8
+[CALL | Calls another batch file]
+CALL |[d:][path]batchfilename [options]
+[CHCP | Displays the current code page]
+CHCP (codepage)
+[CHDIR | Change working directory]
+CHDIR |(CD) [d:]path
+[CHKDSK | Checks a disk]
+CHKDSK |[d:][path][filename] [/F][/V]
+[CHKDSK1 |d Checks a disk]
+CHKDSK |[d:][path][filename] [/F][/V]
+Rem Checks a disk and provides a file and memory status report.
+Rem /F  fixes errors on the disk. Do not use this option when running CHKDSK
+Rem     from other programs In general, when fixing disk errors, use
+Rem     ScanDisk instead of CHKDSK.
+Rem /V  Displays the name of each file in every directory as the disk is
+Rem     checked.
+[CHOICE | Provides a prompt ofr user choice]
+CHOICE |[/C[:]keys] [/N][/S][/T[:]c,nn] [text]
+[CHOICE1 |d Provides a prompt ofr user choice]
+Rem CHOICE |[/C[:]keys] [/N][/S][/T[:]c,nn] [text]
+Rem Used to provide a prompt so that a user can make a choice
+Rem while a batch program is running.
+Rem /C[:]keys
+Rem     Specifies allowable keys in the prompt. When displayed, the keys will be
+Rem     separated by commas, will appear in brackets ([]), and will be followed
+Rem     by a question mark. If you don't specify the /C switch, CHOICE uses YN
+Rem     as the default. The colon (:) is optional.
+Rem /N  Causes CHOICE not to display the prompt. The text before the prompt is
+Rem     still displayed, however
+Rem /S  Causes CHOICE to be case sensitive
+Rem /T[:]c,nn
+Rem     Causes CHOICE to pause for a specified number of seconds before
+Rem     defaulting to a specified key.
+Rem     c  specifies the character to be default
+Rem     nn number of seconds
+[CLS | CLear screen]
+CLS|
+[COMMAND | Starts a new version of command processor]
+COMMAND |[d:][path] [device] [/P][/E:(size)] [/MSG][/Y [/C (command)|/K (command)]
+[COMMAND1 |d Starts a new version of command processor]
+COMMAND |[d:][path] [device] [/P][/E:(size)] [/MSG][/Y [/C (command)|/K (command)]
+Rem Starts a new version of the DOS command processor
+Rem (the program that loads the DOS Internal programs).
+Rem /C command
+Rem     Specifies that the command interpreter is to perform the specified
+Rem     command and then exit. This switch must be the last switch on the
+Rem     command line.
+Rem /E:nnnnn
+Rem     Specifies the environment size, where nnnnn is the size in bytes. The
+Rem     value of nnnnn must be in the range 160 through 32768. MS-DOS rounds
+Rem     this number up to a multiple of 16 bytes. The default value is 256.
+Rem /K command
+Rem     Runs the specified command, program, or batch program and then displays
+Rem     the MS-DOS command prompt. This switch must be the last switch on the
+Rem     COMMAND command line.
+Rem /P  switch makes the new copy of the command interpreter permanent.
+Rem     In this case, the EXIT command cannot be used to stop the command interpreter.
+Rem /MSG
+Rem     Specifies that all error messages should be stored in memory. Usually,
+Rem     some messages are stored only on disk. This switch is useful only if you
+Rem     are running MS-DOS from floppy disks. You must specify the /P switch
+Rem     when you use the /MSG switch.
+Rem /Y  Directs COMMAND.COM to step through the batch file specified by the /C
+Rem     or /K switches. This switch is useful for debugging batch files. For
+Rem     example, to step through the TEST.BAT batch file line by line, you would
+Rem     type COMMAND /Y /C TEST. The /Y switch requires either the /C or the /K
+Rem     switch.
+[COMP | Compares two groups of files]
+COMP |[d:][path][filename] [d:][path][filename] [/A][/C][/D][/L][/N:(number)]
+[COPY | Copies and appends files]
+COPY |[/Y|-Y] [/A][/B] [d:][path]filename [/A][/B] [d:][path][filename] [/V]
+[COPY1 |d Copies and appends files]
+COPY |[/Y|-Y] [/A][/B] [d:][path]filename [/A][/B] [d:][path][filename] [/V]
+Rem Copies and appends files.
+Rem /Y  Indicates that you want COPY to replace existing file(s) without
+Rem     prompting you for confirmation.
+Rem /-Y Indicates that you want COPY to prompt you for confirmation when
+Rem     replacing an existing file.
+Rem /A  Indicates an ASCII text file.
+Rem /B  Indicates a binary file.
+Rem /V  Verifies that new files are written correctly.
+[COUNTRY | Use country-specific text conventions]
+COUNTRY=|country code,[code page][,][d:][filename]
+[CTTY | Changes the standard console output]
+CTTY |device
+[DATE | Displays and/or sets the system date]
+DATE |mm-dd-yy
+[DBLSPACE |d Program for disk compress]
+DBLSPACE |/automount=drives
+DBLSPACE /chkdsk [/F] [d:]
+DBLSPACE /compress d: [/newdrive=host:] [/reserve=size] [/F]
+DBLSPACE /create d: [/newdrive=host:] [/reserve=size] [/size=size]
+DBLSPACE /defragment [d:] ]/F]
+DBLSPACE /delete d:
+DBLSPACE /doubleguard=0|1
+DBLSPACE /format d:
+DBLSPACE [/info] [d:]
+DBLSPACE /list
+DBLSPACE /mount[=nnn] host: [/newdrive=d:]
+DBLSPACE /ratio[=ratio] [d:] [/all]
+DBLSPACE /size[=size] [/reserve=size] d:
+DBLSPACE /uncompress d:
+DBLSPACE /unmount [d:]
+Rem A program that allows you to compress information on a disk.
+[DEBUG | Utility for other program debugging]
+DEBUG [pathname] [parameters]
+[DEFRAG | Reorganize the files on the disk]
+DEFRAG |[d:] [/F][/S[:]order] [/B][/skiphigh [/LCD|/BW|/GO] [/H]
+[DEFRAG1 |d Reorganize the files on the disk]
+DEFRAG |[d:] [/F][/S[:]order] [/B][/skiphigh [/LCD|/BW|/GO] [/H]
+DEFRAG [d:] [/V][/B][/skiphigh] [/LCD]|/BW|/GO] [/H]
+Rem Optimizes disk performance by reorganizing the files on the disk.
+Rem /F  Defragments files and ensures that the disk contains no empty spaces
+Rem     between files.
+Rem /U  Defragments files and leaves empty spaces, if any, between files.
+Rem /S  Controls how the files are sorted in their directories.
+Rem     Use any combination of the values, and do not separate with spaces:
+Rem       N   In alphabetic order by name
+Rem       N-  In reverse alphabetic order by name (Z through A)
+Rem       E   In alphabetic order by extension
+Rem       E-  In reverse alphabetic order by extension (Z through A)
+Rem       D   By date and time, earliest first
+Rem       D-  By date and time, latest first
+Rem       S   By size, smallest first
+Rem       S-  By size, largest first
+Rem /B  Restarts your computer after files have been reorganized.
+Rem /SKIPHIGH
+Rem     Loads DEFRAG into conventional memory. By default, DEFRAG is loaded into
+Rem     upper memory, if upper memory is available.
+Rem /LCD
+Rem     Starts DEFRAG using an LCD color scheme.
+Rem /BW Starts DEFRAG using a black and white color scheme.
+Rem /G0 Disables the graphic mouse and graphic character set.
+Rem /H  Moves hidden files.
+[DEL | Delete file(s)]
+DEL |[d:][path]filename [/P]
+[DELOLDOS | Deletes files from previous versions of DOS]
+DELOLDOS |[/B]
+[DELTREE | Deletes a directory including all files]
+DELTREE |[/Y] [d:]path [d:]path[...]
+[DEVICE | Load device driver]
+DEVICE=|(driver name)
+[DEVICEHIGH | Install the device driver into the upper memory]
+DEVICEHIGH=|(driver name)
+[DIR | Displays directory content]
+DIR |[d:][path][filename] [/A:(attributes)] [/O:(order)] [/B][/C][/CH][/L][/S][/P][/W]
+[DIR1 |d Displays directory content]
+DIR |[d:][path][filename] [/A:(attributes)] [/O:(order)] [/B][/C][/CH][/L][/S][/P][/W]
+Rem Displays directory of files and directories stored on disk.
+Rem /P  Displays one screen of the listing at a time.
+Rem /W  Displays the listing in wide format, with as many as five filenames or
+Rem     directory names on each line.
+Rem /A[[:] attributes]
+Rem     Displays only the names of those directories and files with the
+Rem     attributes you specify. If you omit this switch, DIR displays the names
+Rem     of all files except hidden and system files. If you use this switch
+Rem     without specifying attributes, DIR displays the names of all files,
+Rem     including hidden and system files. The following list describes each of
+Rem     the values you can use for attributes. The colon (:) is optional. Use
+Rem     any combination of these values, and do not separate the values with
+Rem     spaces.
+Rem       H   Hidden files
+Rem       -H  Files that are not hidden
+Rem       S   System files
+Rem       -S  Files other than system files
+Rem       D   Directories
+Rem       -D  Files only (not directories)
+Rem       A   Files ready for archiving (backup)
+Rem       -A  Files that have not changed since the last backup
+Rem       R   Read-only files
+Rem       -R  Files that are not read-only
+Rem /O[[:] sortorder]
+Rem     Controls the order in which DIR sorts and displays directory names and
+Rem     filenames. The following list
+Rem     describes each of the values you can use for sortorder. Use any
+Rem     combination of the values, and do not separate these values with
+Rem     spaces.
+Rem       N   In alphabetic order by name
+Rem       -N  In reverse alphabetic order by name (Z through A)
+Rem       E   In alphabetic order by extension
+Rem       -E  In reverse alphabetic order by extension (Z through A)
+Rem       D   By date and time, earliest first
+Rem       -D  By date and time, latest first
+Rem       S   By size, smallest first
+Rem       -S  By size, largest first
+Rem       G   With directories grouped before files
+Rem       -G  With directories grouped after files
+Rem       C   By compression ratio, lowest first.
+Rem       -C  By compression ratio, highest first.
+Rem /S  Lists every occurrence, in the specified directory and all
+Rem     subdirectories, of the specified filename.
+Rem /B  Lists each directory name or filename, one per line (including the
+Rem     filename extension). This switch displays no heading information and no
+Rem     summary. The /B switch overrides the /W switch.
+Rem /L  Displays unsorted directory names and filenames in lowercase. This
+Rem     switch does not convert extended characters to lowercase.
+Rem /C[H]
+Rem     Displays the compression ratio of files compressed using DoubleSpace or
+Rem     DriveSpace, based on an 8K cluster size. The optional H switch displays
+Rem     the compression ratio of files compressed using DoubleSpace or
+Rem     DriveSpace, based on the cluster size of the host drive. The /C[H]
+Rem     switch is ignored when used with the /W or /B switch.
+[DISKCOMP | Compares the contents of two diskettes]
+DISKCOMP |[d:] [d:][/1][/8]
+[DISKCOMP1 |d Compares the contents of two diskettes]
+DISKCOMP |[d:] [d:][/1][/8]
+Rem Compares the contents of two diskettes.
+Rem /1  Compares only the first sides of the disks, even if the disks are
+Rem     double-sided and the drives can read double-sided disks.
+Rem /8  Compares only the first 8 sectors per track, even if the disks contain 9
+Rem     or 15 sectors per track.
+[DISKCOPY | Makes an exact copy of a diskette]
+DISKCOPY |[d:] [d:][/1][/V][/M]
+[DISKCOPY1 |d Makes an exact copy of a diskette]
+DISKCOPY |[d:] [d:][/1][/V][/M]
+Rem Makes an exact copy of a diskette.
+Rem /1  Copies only the first side of a disk.
+Rem /V  Verifies that the information is copied correctly. Use of this switch
+Rem     slows the copying process.
+Rem /M  Forces DISKCOPY to use only conventional memory for interim storage. By
+Rem     default, DISKCOPY uses your hard disk as an interim storage area so you
+Rem     don't have to swap floppy disks.
+[DOS | Specify the memory location for DOS]
+DOS=[high|low],[umb|noumb]
+[DOSKEY | Program to recall DOS commands]
+DOSKEY |[reinstall] [/bufsize=size][/macros][/history][/insert|/overstrike] [macroname=[text]]
+[DOSKEY1 |d Program to recall DOS commands]
+DOSKEY |[reinstall] [/bufsize=size][/macros][/history][/insert|/overstrike] [macroname=[text]]
+Rem Loads the Doskey program into memory which can be used
+Rem to recall DOS commands so that you can edit them.
+Rem /REINSTALL
+Rem     Installs a new copy of the Doskey program, even if one is already
+Rem     installed. In the latter case, the /REINSTALL switch also clears the
+Rem     buffer.
+Rem /BUFSIZE=size
+Rem     Specifies the size of the buffer in which Doskey stores commands and
+Rem     Doskey macros. The default size is 512 bytes.
+Rem     The minimum buffer size is 256 bytes.
+Rem /MACROS
+Rem     Displays a list of all Doskey macros. You can use a redirection symbol
+Rem     (Rem) with the /MACROS switch to redirect the list to a file. You can
+Rem     abbreviate the /MACROS switch as /M.
+Rem /HISTORY
+Rem     Displays a list of all commands stored in memory. You can use
+Rem     a redirection symbol (Rem) with the /HISTORY switch to redirect
+Rem     the list to a file. You can abbreviate the /HISTORY switch as /H.
+Rem /INSERT|/OVERSTRIKE
+Rem     Specifies whether new text you type is to replace old text. If you use
+Rem     the /INSERT switch, new text that you type on a line is inserted into
+Rem     old text (as if you had pressed the INSERT key).
+Rem     If you use the /OVERSTRIKE switch, new text replaces old text.
+Rem     The default setting is /OVERSTRIKE.
+Rem /APPEDIT
+Rem     Submitted by Franc Zabkar:
+Rem     The undocumented APPEDIT switch (in Win9x) enables command line history
+Rem     in applications such as DEBUG.EXE.
+[DOSSHELL | Graphic shell program]
+DOSSHELL |[/B] [/G:[resolution][n]]|[/T:[resolution][n]]
+[DOSSHELL1 |d Graphic shell program]
+DOSSHELL |[/B] [/G:[resolution][n]]|[/T:[resolution][n]]
+Rem Initiates the graphic shell program using the specified screen resolution.
+Rem Parameters
+Rem   resolution
+Rem     Specifies a screen-resolution category. Valid values are L, M, and H to
+Rem     specify low, medium, and high resolution, respectively. The default
+Rem     value of res depends on your hardware.
+Rem   n Specifies a screen resolution when there is more than one choice within
+Rem     a category. For information about the valid values for this parameter,
+Rem     see the "Notes" screen. The default value of n depends on your
+Rem     hardware.
+Rem /T  Starts MS-DOS Shell in text mode.
+Rem /B  Starts MS-DOS Shell using a black-and-white color scheme.
+Rem /G  Starts MS-DOS Shell in graphics mode.
+[DRIVPARM | Set parameters for a disk drive]
+DRIVPARM= |/D:(number) [/C] [/F:(form factor)] [/H:(number)] [/I][/N][/S:(number)] [/T:(tracks)]
+[DRIVPARM1 |d Set parameters for a disk drive]
+DRIVPARM= |/D:(number) [/C] [/F:(form factor)] [/H:(number)] [/I][/N][/S:(number)] [/T:(tracks)]
+Rem Used in the CONFIG.SYS file to set parameters for a disk drive.
+Rem /D:number
+Rem     Specifies the physical drive number. Values for number must be in the
+Rem     range 0 through 255 (for example, drive number 0 = drive A, 1 = drive B,
+Rem     2 = drive C, and so on).
+Rem /C
+Rem     Specifies that the drive can detect whether the drive door is closed.
+Rem /F:factor
+Rem     Specifies the drive type. The following list shows the valid values for
+Rem     factor and a brief description of each. The default value is 2.
+Rem       0   160K/180K or 320K/360K
+Rem       1   1.2 megabyte (MB)
+Rem       2   720K (3.5-inch disk)
+Rem       5   Hard disk
+Rem       6   Tape
+Rem       7   1.44 MB (3.5-inch disk)
+Rem       8   Read/write optical disk
+Rem       9   2.88 MB (3.5-inch disk)
+Rem /H:heads
+Rem     Specifies the maximum number of heads. Values for heads must be in the
+Rem     range 1 through 99. The default value depends upon the value you specify
+Rem     for /F:factor.
+Rem /I  Specifies an electronically compatible 3.5-inch floppy disk drive.
+Rem     (Electronically compatible drives are installed on your computer and use
+Rem     your existing floppy-disk-drive controller.) Use the /I switch if your
+Rem     computer's ROM BIOS does not support 3.5-inch floppy disk drives.
+Rem /N  Specifies a non-Removable block device.
+Rem /S:sectors
+Rem     Specifies the number of sectors per track that the block device
+Rem     supports. Values for sectors must be in the range 1 through 99. The
+Rem     default value depends upon the value you specify for /F:factor.
+Rem /T:tracks
+Rem     Specifies the number of tracks per side that the block device supports.
+Rem     The default value depends upon the value you specify for /F:factor.
+[ECHO | Zobrazit hlášky v dávkovém souboru]
+ECHO |on|off
+ECHO (message)
+Rem Displays messages or turns on or off the display of commands in a batch file.
+[EDIT | Starts the MS-DOS editor]
+EDIT |[d:][path]filename [/B][/G][/H][/NOHI]
+[EDIT1 |d Starts the MS-DOS editor]
+EDIT |[d:][path]filename [/B][/G][/H][/NOHI]
+Rem Starts the MS-DOS editor, a text editor used to create and edit ASCII text files.
+Rem /B  Displays MS-DOS Editor in black and white. Use this option if MS-DOS
+Rem     Editor isn't displayed correctly on a monochrome monitor.
+Rem /G  Uses the fastest screen updating for a CGA monitor.
+Rem /H  Displays the maximum number of lines possible for the monitor you are
+Rem     using.
+Rem /NOHI
+Rem     Enables you to use 8-color monitors with MS-DOS Editor. Usually, MS-DOS
+Rem     uses 16 colors.
+[EMM386 | Expanded-memory support]
+EMM386 |[on|off|auto] [w=on|off]
+[EMM3861 |d Expanded-memory support]
+EMM386 |[on|off|auto] [w=on|off]
+Rem Enables or disables EMM386 expanded-memory support on a computer with
+Rem an 80386 or higher processor.
+Rem Parameters
+Rem ON|OFF|AUTO
+Rem     Activates the EMM386 device driver (if set to ON), or suspends the
+Rem     EMM386 device driver (if set to OFF), or places the EMM386 device driver
+Rem     in auto mode (if set to AUTO). Auto mode enables expanded-memory support
+Rem     only when a program calls for it. The default value is ON.
+Rem W=ON|W=OFF
+Rem     Enables (if set to W=ON) or disables (if set to W=OFF) Weitek
+Rem     coprocessor support. The default value is W=OFF.
+[EXE2BIN | Converts .EXE files to binary format]
+EXE2BIN |[d:][path]filename [d:][path]filename
+[EXIT | Exits a secondary command processor]
+EXIT|
+[EXPAND | Expands a compressed file]
+EXPAND |[d:][path]filename [[d:][path]filename[ . . .]]
+[FASTHELP | Displays a list of DOS commands]
+FASTHELP [command][command] /?
+[FASTOPEN | Keeps track of the locations of files for fast access]
+FASTOPEN d:|[=n][/X]
+[FASTOPEN1 |d Keeps track of the locations of files for fast access]
+FASTOPEN d:|[=n][/X]
+Rem Keeps track of the locations of files for fast access.
+Rem Parameters
+Rem n   Specifies the number of files Fastopen can work with at the same time.
+Rem     Valid values for n are in the range 10 through 999. The default is 48.
+Rem Switch
+Rem /X  Creates the name cache in expanded memory instead of in conventional
+Rem     memory. The name cache is an area of memory in which MS-DOS stores
+Rem     (caches) the locations and names of the files that you open. This cache
+Rem     conforms to version 4.0 of the Lotus/Intel/Microsoft Expanded Memory
+Rem     Specification (LIM EMS).
+[FC | Displays the differences between files]
+FC |[/A][/C][/L][/Lb n][/N][/T][/W][number] [d:][path]filename [d:][path]filename
+[FC1 |d Displays the differences between files]
+FC |[/A][/C][/L][/Lb n][/N][/T][/W][number] [d:][path]filename [d:][path]filename
+FC [/B][/number] [d:][path]filename [d:][path]filename
+Rem Displays the differences between two files or sets of files.
+Rem /A  Abbreviates the output of an ASCII comparison. Instead of displaying all
+Rem     the lines that are different, FC displays only the first and last line
+Rem     for each set of differences.
+Rem /C  Ignores the case of letters.
+Rem /L  Compares the files in ASCII mode. FC compares the two files line by line
+Rem     and attempts to resynchronize the files after finding a mismatch. This
+Rem     is the default mode for comparing files that do not have extensions of
+Rem     .EXE, .COM, .SYS, .OBJ, .LIB, or .BIN.
+Rem /LBn
+Rem     Sets the number of lines for the internal line buffer. The default
+Rem     length of the line buffer is 100 lines. If the files being compared have
+Rem     more than this number of consecutive differing lines, FC cancels the
+Rem     comparison.
+Rem /N  Displays the line numbers during an ASCII comparison.
+Rem /T  Does not expand tabs to spaces. The default behavior is to treat tabs as
+Rem     spaces, with stops at each eighth character position.
+Rem /W  Compresses white space (tabs and spaces) during the comparison. If a
+Rem     line contains many consecutive spaces or tabs, the /W switch treats
+Rem     these characters as a single space. When used with the /W switch, FC
+Rem     ignores (and does not compare) white space at the beginning and end of a
+Rem     line.
+Rem /nnnn
+Rem     Specifies the number of consecutive lines that must match before FC
+Rem     considers the files to be resynchronized. If the number of matching
+Rem     lines in the files is less than this number, FC displays the matching
+Rem     lines as differences. The default value is 2.
+Rem /B  Compares the files in binary mode. FC compares the two files byte by
+Rem     byte and does not attempt to resynchronize the files after finding a
+Rem     mismatch. This is the default mode for comparing files that have
+Rem     extensions of .EXE, .COM, .SYS, .OBJ, .LIB, or .BIN.
+[FCBS | Number of file-control blocks for file sharing]
+FCBS=|(number)
+[FDISK | Prepares a fixed disk]
+FDISK |[/status] [/mbr]
+Rem /mbr switch repair master boot record
+[FILES | Maximum number of files open at the same time.]
+FILES=(number)
+[FIND | Finds the location of a specific string in file(s)]
+FIND |[/V][/C][/I][/N] string [d:][path]filename[...]
+[FIND1 |b Finds the location of a specific string in file(s)]
+FIND |[/V][/C][/I][/N] string [d:][path]filename[...]
+Rem Finds and reports the location of a specific string of text characters
+Rem in one or more files.
+Rem /V  Displays all lines not containing the specified string.
+Rem /C  Displays only a count of the lines that contain the specified string.
+Rem /N  Precedes each line with the file's line number.
+Rem /I  Specifies that the search is not to be case-sensitive.
+[FOR | Repeated execution of commands]
+FOR |%%(variable) IN (set) DO (command)
+FOR %(variable) IN (set) DO (command)
+[FORMAT | Formats a disk]
+FORMAT |d:[/1][/4][/8][/F:(size)] [/N:(sectors)] [/T:(tracks)][/B|/S][/C][/V:(label)] [/Q][/U][/V]
+[FORMAT1 |d Formats a disk]
+FORMAT |d:[/1][/4][/8][/F:(size)] [/N:(sectors)] [/T:(tracks)][/B|/S][/C][/V:(label)] [/Q][/U][/V]
+Rem Formats a disk to accept DOS files.
+Rem /V:label
+Rem     Specifies the volume label. The /V switch is not compatible with the /8 switch.
+Rem /Q  Specifies a quick format of a disk. With this switch, FORMAT deletes the
+Rem     file allocation table (FAT) and the root directory of a previously
+Rem     formatted disk, but does not scan the disk for bad areas.
+Rem /U   Specifies an unconditional format of a disk. Unconditional formatting
+Rem     destroys all existing data on a disk and prevents you from later
+Rem     "unformatting" the disk. You should use /U if you have received read and
+Rem     write errors during use of a disk. For information about unformatting a
+Rem     disk, see the UNFORMAT command.
+Rem /F:size
+Rem     Specifies the size of the floppy disk to format. When possible, use this
+Rem     switch instead of the /T and /N switches. Use one of the following
+Rem     values for size:
+Rem        160  160K, single-sided, double-density, 5.25-inch disk
+Rem        180  180K, single-sided, double-density, 5.25-inch disk
+Rem        320  320K, double-sided, double-density, 5.25-inch disk
+Rem        360  360K, double-sided, double-density, 5.25-inch disk
+Rem        720  720K, double-sided, double-density, 3.5-inch disk
+Rem       1200  1.2-MB, double-sided, quadruple-density, 5.25-inch disk
+Rem       1440  1.44-MB, double-sided, quadruple-density, 3.5-inch disk
+Rem       2880  2.88-MB, double-sided, extra-high-density, 3.5-inch disk
+Rem /B  Reserves space for the system files IO.SYS and MSDOS.SYS (as hidden
+Rem     files) on a newly formatted disk. In previous versions of MS-DOS, it was
+Rem     necessary to reserve this space before using the SYS command to copy the
+Rem     system files to the disk. This switch is maintained in MS-DOS version
+Rem     6.0 for compatibility reasons only.
+Rem /S  Copies the operating system files IO.SYS, MSDOS.SYS, and COMMAND.COM
+Rem     from your system's startup drive to a newly formatted disk that you can
+Rem     use as a system disk. If FORMAT cannot find the operating system files,
+Rem     it prompts you to insert a system disk.
+Rem /T:tracks
+Rem     Specifies the number of tracks on the disk. When possible, use the /F
+Rem     switch instead of this switch. If you use the /T switch, you must also
+Rem     use the /N switch. These two switches provide an alternative method of
+Rem     specifying the size of the disk being formatted. You cannot use the /F
+Rem     switch with the /T switch.
+Rem /N:sectors
+Rem     Specifies the number of sectors per track. When possible, use the /F
+Rem     switch instead of this switch. If you use the /N switch, you must * also
+Rem     use the /T switch. These two switches provide an alternative method of
+Rem     specifying the size of the disk being formatted. You cannot use the /F
+Rem     switch with the /N switch.
+Rem /1  Formats a single side of a floppy disk. /4
+Rem     Formats a 5.25-inch, 360K, double-sided, double-density floppy disk on a
+Rem     1.2-MB disk drive. Some 360K drives cannot reliably read disks formatted
+Rem     with this switch. When used with the /1 switch, this switch formats a
+Rem     5.25-inch, 180K, single-sided floppy disk.
+Rem /8  Formats a 5.25-inch disk with 8 sectors per track. This switch formats a
+Rem     floppy disk to be compatible with MS-DOS versions earlier than 2.0.
+Rem /C  Retests bad clusters. By default, if a drive contains clusters that have
+Rem     been marked as "bad", FORMAT does not retest the clusters; it simply
+Rem     leaves them marked "bad". Use the /C switch if you want FORMAT to retest
+Rem     all bad clusters on the drive. (In previous versions of MS-DOS, FORMAT
+Rem     always retested any bad clusters.)
+[GOTO | Jump to the specified label]
+GOTO |(label)
+[GRAFTABL | Loads a table of character data into memory]
+GRAFTABL |[(code page)]
+GRAFTABL [status]
+[GRAPHICS | Print contents of a graphics screen display]
+GRAPHICS |[printer type][profile] [/B][/R][/LCD][/PB:(id)] [/C][/F][/P(port)]
+[GRAPHICS1 |d Print contents of a graphics screen display]
+GRAPHICS |[printer type][profile] [/B][/R][/LCD][/PB:(id)] [/C][/F][/P(port)]
+Rem Provides a way to print contents of a graphics screen display.
+Rem Parameters
+Rem type
+Rem   Specifies the type of printer:
+Rem   COLOR1      An IBM Personal Computer Color Printer with black ribbon
+Rem   COLOR4      An IBM Personal Computer Color Printer with RGB ribbon
+Rem   COLOR8      An IBM Personal Computer Color Printer with CMY ribbon
+Rem   HPDEFAULT   Any Hewlett-Packard PCL printer
+Rem   DESKJET     A Hewlett-Packard DeskJet printer
+Rem   GRAPHICS    An IBM Personal Graphics Printer, IBM Proprinter, or IBM Quietwriter
+Rem   GRAPHICSWIDE An IBM Personal Graphics Printer with an 11-inch-wide carriage
+Rem   LASERJET    A Hewlett-Packard LaserJet printer
+Rem   LASERJETII  A Hewlett-Packard LaserJet II printer
+Rem   PAINTJET    A Hewlett-Packard PaintJet printer
+Rem   QUIETJET    A Hewlett-Packard QuietJet printer
+Rem   QUIETJETPLUS  A Hewlett-Packard QuietJet Plus printer
+Rem   RUGGEDWRITER  A Hewlett-Packard RuggedWriter printer
+Rem   RUGGEDWRITERWIDE   A Hewlett-Packard RuggedWriterwide printer
+Rem   THERMAL     An IBM PC-convertible Thermal Printer
+Rem   THINKJET    A Hewlett-Packard ThinkJet printer [
+Rem /R  Prints the image as it appears on the screen (white characters on a
+Rem     black background) rather than reversed (black characters on a white
+Rem     background). The latter occurs by default.
+Rem /B  Prints the background in color. This switch is valid for COLOR4 and
+Rem     COLOR8 printers.
+Rem /LCD
+Rem     Prints an image by using the liquid crystal display (LCD) aspect ratio
+Rem     instead of the CGA aspect ratio
+[HELP | Displays information about a DOS command]
+HELP |[command] [/B][/G][/H][/NOHI]
+[HELP1 |d Displays information about a DOS command]
+HELP |[command] [/B][/G][/H][/NOHI]
+Rem Displays information about a DOS command.
+Rem /B  Allows use of a monochrome monitor with a color graphics card.
+Rem /G  Provides the fastest update of a CGA screen.
+Rem /H  Displays the maximum number of lines possible for your hardware.
+Rem /NOHI
+Rem     Allows the use of a monitor without high-intensity support.
+[IF | Conditional operations in batch processing]
+IF |[NOT] EXIST filename (command) [parameters]
+IF [NOT] (string1)==(string2) (command) [parameters]
+IF [NOT] ERRORLEVEL (number) (command) [parameters]
+Rem Allows for conditional operations in batch processing.
+[INCLUDE | Allow use the commands from one CONFIG.SYS block]
+INCLUDE=|blockname
+[INSTALL | Load memory-resident programs]
+INSTALL=|[d:][\path]filename [parameters]
+[INTERLINK | Connects two computers via parallel or serial ports]
+INTERLINK |[client[:]=[server][:]]
+[INTERSVR | Starts the Interlink server]
+INTERSVR |[d:][...][/X=d:][...] [/LPT:[n|address]] [/COM:[n|address]][/baud:rate] [/B][/V]
+[INTERSVR1 |d Starts the Interlink server]
+INTERSVR |[d:][...][/X=d:][...] [/LPT:[n|address]] [/COM:[n|address]][/baud:rate] [/B][/V]
+INTERSVR /RCOPY
+Rem Starts the Interlink server.
+Rem /X=drive:
+Rem     Specifies the letter(s) of drive(s) that will not be redirected. By
+Rem     default, all drives are redirected.
+Rem /LPT:[n|address]
+Rem     Specifies a parallel port to use. The n parameter specifies the number
+Rem     of the parallel port. The address parameter specifies the address of the
+Rem     parallel port. If you omit n or address, the Interlnk server uses the
+Rem     first parallel port that it finds connected to the client. If you
+Rem     specify the /LPT switch and omit the /COM switch, the server searches
+Rem     only for parallel ports. By default, all parallel and serial ports are
+Rem     scanned.
+Rem /COM:[n|address]
+Rem     Specifies a serial port to use. The n parameter specifies the number of
+Rem     the serial port. The address parameter specifies the address of the
+Rem     serial port. If you omit n or address, the Interlnk server searches all
+Rem     serial ports and uses the first port that it finds connected to the
+Rem     client. If you specify the /COM switch and omit the /LPT switch, the
+Rem     server searches only for serial ports. By default, all parallel and
+Rem     serial ports are scanned.
+Rem /BAUD:rate
+Rem     Sets a maximum serial baud rate. Valid values for rate are 9600, 19200,
+Rem     38400, 57600, and 115200. The default value is 115200.
+Rem /B  Displays the Interlnk server screen in black and white. Use this switch
+Rem     if you have problems reading your monochrome monitor.
+Rem /V  Prevents conflicts with a computer's timer. Use this switch if you have
+Rem     a serial connection between computers and one of them stops running when
+Rem     you use Interlnk to access a drive or printer port.
+Rem /RCOPY
+Rem     Copies Interlnk files from one computer to another, provided that the
+Rem     computers are connected with a 7-wire, null-modem serial cable and that
+Rem     the <MODERem command is available on the computer where you are installing
+Rem     Interlnk.
+[JOIN | Join disk of another content to directory]
+JOIN |d: [d:path]
+JOIN d: [/D]
+[KEYB | Loads support for non US keyboards]
+KEYB |[xx][,][yyy][,][d:][path]filename [/E][/ID:(number)]
+[LABEL | Changes volume label for a disk]
+LABEL |[d:][volume label]
+[LASTDRIVE | Set the maximum number of drives]
+LASTDRIVE=|(drive letter)
+[LOADFIX | Loads program above the first 64K]
+LOADFIX |[d:][path]filename [parameters]
+[LOADHIGH | Loads memory resident application into reserved area of memory]
+LOADHIGH |(LH) [d:][path]filename [parameters]
+[MEM | Displays amount of installed and available memory]
+MEM |[/program|/debug|/classify|/free|/module(name)] [/page]
+[MEMMAKER | Program lets you optimize your computer's memory]
+MEMMAKER |[/B][/batch][/session][/swap:d] [/T][/undo][/W:size1,size2]
+[MENUCOLOR | Set the colors that will be used by DOS menu]
+MENUCOLOR=|textcolor,[background]
+[MENUDEFAULT | Sets the startup configuration]
+MENUDEFAULT=|blockname, [timeout]
+[MENUITEM | Defines menu item in Config.SYS]
+MENUITEM=|blockname, [menutext]
+[MIRROR | Saves information that can be used to recover deleted files]
+MIRROR |[d:]path [d:] path [...]
+MIRROR [d1:][d2:][...] [/T(drive)(files)] [/partn][/U][/1]
+[MD | Creates a new subdirectory]
+MD |[d:]path
+[MODE | Sets mode of operation for devices or communications]
+MODE |n
+MODE LPT#[:][n][,][m][,][P][retry]
+MODE [n],m[,T]
+MODE (displaytype,linetotal)
+MODE COMn[:]baud[,][parity][,][databits][,][stopbits][,][retry]
+MODE LPT#[:]=COMn [retry]
+MODE CON[RATE=(number)][DELAY=(number)]
+MODE (device) CODEPAGE PREPARE=(codepage) [d:][path]filename
+MODE (device) CODEPAGE PREPARE=(codepage list) [d:][path]filename
+MODE (device) CODEPAGE SELECT=(codepage)
+MODE (device) CODEPAGE [/STATUS]
+MODE (device) CODEPAGE REFRESH
+Rem Sets mode of operation for devices or communications.
+[MORE | Sends output to console, one screen at a time]
+MORE |(filename or command)
+[MOVE | Moves one or more files to specified the location]
+MOVE |[/Y|/-Y] [d:][path]filename[,[d:][path]filename[...]] destination
+[MSBACKUP | Backup or restore one or more files]
+MSBACKUP |[setupfile] [/BW|/LCD|/MDA]
+[MSCDEX | Gain access to CD-ROM drives]
+MSCDEX |/D:driver [/D:driver2. . .] [/E][/K][/S][/V][/L:letter] [/M:number]
+[MSCDEX1 |d Gain access to CD-ROM drives]
+MSCDEX |/D:driver [/D:driver2. . .] [/E][/K][/S][/V][/L:letter] [/M:number]
+Rem Used to gain access to CD-ROM drives (new with DOS Version 6).
+Rem /E  Specifies that the CD-ROM driver be allowed to use expanded memory, if
+Rem     available, to store sector buffers.
+Rem /K  Specifies that MS-DOS should recognize CD-ROM volumes encoded in Kanji.
+Rem     By default, MS-DOS does not recognize Kanji CD-ROM volumes.
+Rem /S  Enables sharing of CD-ROM drives on MS-NET or Windows for Workgroups
+Rem     servers.
+Rem /V  Directs MSCDEX to display memory statistics when it starts.
+Rem /L:letter
+Rem     Specifies the drive letter to assign to the first CD-ROM drive. If you
+Rem     have more than one CD-ROM drive, MS-DOS assigns additional CD-ROM drives
+Rem     subsequent available drive letters.
+Rem /M:number
+Rem     Specifies the number of sector buffers.
+[MSD | Detailed technical computer information]
+MSD |[/B][/I]
+MSD [/I] [/F[d:][path]filename [/P[d:][path]filename [/S[d:][path]filename
+[NLSFUNC | Load a file with country-specific information]
+NLSFUNC |[d:][path]filename
+[NUMLOCK | Specify the state of the NumLock key]
+NUMLOCK=|on|off
+[PATH | Sets directories that will be searched for programs]
+PATH |[d:]path[;][d:]path[...]
+[PAUSE | Suspends execution of a batch file until a key is pressed]
+PAUSE |[comment]
+[POWER | Turn power management]
+POWER |[adv:max|reg|min]|std|off]
+[PRINT | Queues and print file(s)]
+PRINT |[/B:(buffersize)] [/D:(device)] [/M:(maxtick)] [/Q:(value] [/S:(timeslice)][/U:(busytick)] [/C][/P][/T] [d:][path][filename]
+[PRINT1 |d Queues and print file(s)]
+PRINT |[/B:(buffersize)] [/D:(device)] [/M:(maxtick)] [/Q:(value] [/S:(timeslice)][/U:(busytick)] [/C][/P][/T] [d:][path][filename]
+Rem Queues and prints data files.
+Rem /D:device
+Rem     Specifies the name of the print device. Valid values for parallel ports
+Rem     are LPT1, LPT2, and LPT3. Valid values for serial ports are COM1, COM2,
+Rem     COM3, and COM4. The default value is LPT1, which is also called PRN. The
+Rem     /D switch must precede any filename used on the command line.
+Rem /B:size
+Rem     Sets the size (in bytes) of the internal buffer, which is used to store
+Rem     data before it is sent to the printer. The minimum and default value for
+Rem     size is 512; the maximum value is 16384. Increasing this value decreases
+Rem     the amount of memory available for other purposes but may speed up the
+Rem     PRINT command.
+Rem /U:ticks1
+Rem     Specifies the maximum number of clock ticks PRINT is to wait for a
+Rem     printer to be available (clock ticks occur about 18 times per second).
+Rem     If the printer is not available within the time specified, the job does
+Rem     not print. Values for ticks1 must be in the range 1 through 255. The
+Rem     default value is 1.
+Rem /M:ticks2
+Rem     Specifies the maximum number of clock ticks PRINT can take to print a
+Rem     character on the printer. Values for ticks2 must be in the range 1
+Rem     through 255. The default value is 2. If a character is printed too
+Rem     slowly, MS-DOS displays an error message.
+Rem /S:ticks3
+Rem     Specifies the number of clock ticks the MS-DOS scheduler allocates for
+Rem     background printing. Values for ticks3 must be in the range 1 through
+Rem     255. The default value is 8. Increasing this value can speed up printing
+Rem     while slowing down other programs.
+Rem /Q:qsize
+Rem     Specifies the maximum number of files allowed in the print queue. Values
+Rem     for qsize must be in the range 4 through 32. The default value is 10.
+Rem /T  Removes all files from the print queue.
+Rem /C  Removes files from the print queue. You can use the /C and /P switches
+Rem     on the same command line.
+Rem /P  Adds files to the print queue.
+[PROMPT | Changes the DOS command prompt]
+PROMPT |[prompt text] [options]
+[PROMPT1 |d Changes the DOS command prompt]
+PROMPT |[prompt text] [options]
+Rem Changes the DOS command prompt.
+Rem Options:
+Rem     "$Q"  = (equal sign)
+Rem     "$$"  $ (dollar sign)
+Rem     "$T"  Current time
+Rem     "$D"  Current date
+Rem     "$P"  Current drive and path
+Rem     "$V"  MS-DOS version number
+Rem     "$N"  Current drive
+Rem     "$G"  Rem (greater-than sign)
+Rem     "$L"  < (less-than sign)
+Rem     "$B"  | (pipe)
+Rem     '$_'  ENTER-LINEFEED
+Rem     "$E"  ASCII escape code (code 27)
+Rem     "$H"  Backspace (to delete a character that has been written to the
+Rem           prompt command line)
+[RECOVER | Resolves sector problems on a file or a disk]
+RECOVER |[d:][path]filename
+RECOVER d:
+[REM | Comment in batch file]
+Rem |
+[RENAME | Changes the filename(s))]
+RENAME |(REN) [d:][path]filename [d:][path]filename
+[REPLACE | Replaces stored file(s)]
+REPLACE |[d:][path]filename [d:][path] [/A][/P][/R][/S][/U][/W]
+[REPLACE1 |d Replaces stored file(s)]
+REPLACE |[d:][path]filename [d:][path] [/A][/P][/R][/S][/U][/W]
+Rem Replaces stored files with files of the same name from a different
+Rem storage location.
+Rem /A  Adds new files to the destination directory instead of replacing
+Rem     existing files. You cannot use this switch with the /S or /U switch.
+Rem /P  Prompts you for confirmation before replacing a destination file or
+Rem     adding a source file.
+Rem /R  Replaces read-only files as well as unprotected files. If you do not
+Rem     specify this switch but attempt to replace a read-only file, an error
+Rem     results and stops the replacement operation.
+Rem /S  Searches all subdirectories of the destination directory and replaces
+Rem     matching files. You cannot use the /S switch with the /A switch. The
+Rem     REPLACE command does not search subdirectories specified in path1.
+Rem /W  Waits for you to insert a disk before REPLACE begins to search for
+Rem     source files. If you do not specify /W, REPLACE begins replacing or
+Rem     adding files immediately after you press ENTER.
+Rem /U  Replaces (updates) only those files on the destination directory that
+Rem     are older than those in the source directory. You cannot use the /U
+Rem     switch with the /A switch.
+[RESTORE | Restores files from Backup]
+RESTORE |d: [d:][path]filename [/P][/S][/B:mm-dd-yy] [/A:mm-dd-yy][/E:hh:mm:ss] [/L:hh:mm:ss] [/M][/N][/D]
+[RD (RMDIR)| Removes a subdirectory]
+RD |[d:]path
+[SCANDISK | Disk analysis and repair tool]
+SCANDISK |[d: [d: . . .]|/all][/checkonly|/autofix[/nosave]|/custom][/surface][/mono][/nosummay]
+[SCANDISK1 |d Disk analysis and repair tool]
+SCANDISK |[d: [d: . . .]|/all][/checkonly|/autofix[/nosave]|/custom][/surface][/mono][/nosummay]
+SCANDISK volume-name[/checkonly|/autofix[/nosave]|/custom][/mono][/nosummary]
+SCANDISK /fragment [d:][path]filename
+SCANDISK /undo [undo-d:][/mono]
+Rem Starts the Microsoft ScanDisk program which is a disk analysis and
+Rem repair tool used to check a drive for errors and correct
+Rem any problems that it finds.
+[SELECT | Formats a disk and installs country-specific information]
+SELECT |[d:] [d:][path] [country code][keyboard code]
+Rem Formats a disk and installs country-specific information and keyboard codes
+Rem (starting with DOS Version 6, this command is no longer available).
+[SET | Sets system variable]
+SET |(string1)=[string2]
+[SETVER | Sets the version table for programs]
+SETVER |[d:]:path][filename (number)][/delete][/quiet]
+[SHARE | Installs support for file sharing and locking]
+SHARE |[/F:space] [/L:locks]
+[SHELL | Specify the command interpreter]
+SHELL=|[d:][path]filename [parameters]
+[SHIFT | Increases number of replaceable parameters]
+SHIFT|
+[SORT | Sorts input and sends it to the screen]
+SORT |[/R][/+n][drive1:][path1]filename1 [Rem [drive2:][path2]filename2]
+[SORT1 |d Sorts input and sends it to the screen]
+SORT |[/R][/+n][drive1:][path1]filename1 [Rem [drive2:][path2]filename2]
+Rem Sorts input and sends it to the screen or to a file.
+Rem /R  Reverses the order of the sorting operation; that is, sorts from Z to A,
+Rem     and then from 9 to 0.
+Rem /+n Sorts the file according to the character in column n. If you do not use
+Rem     this switch, the SORT command sorts data according to the characters in
+Rem     column 1.
+[STACKS | Set the number of stack frames]
+STACKS=|(number),(size)
+[SUBMENU | Create a multilevel menu]
+SUBMENU=|blockname, [menutext]
+[SUBST | Creates virtual drive from directory]
+SUBST |d: d:path
+SUBST d: /D
+[SWITCHES | Configure DOS in a special way]
+SWITCHES=|[/K][/F][/N][/W]
+[SWITCHES1 |d Configure DOS in a special way]
+SWITCHES=|[/K][/F][/N][/W]
+Rem Used in the CONFIG.SYS file to configure DOS in a special way;
+Rem for example, to tell DOS to emulate different hardware configurations.
+Rem /F  Skips the 2-second delay after displaying the "Starting MS-DOS ..."
+Rem     message during startup.
+Rem /K  Forces an enhanced keyboard to behave like a conventional keyboard.
+Rem /N  Prevents you from using the F5 or F8 key to bypass startup commands.
+Rem /W  Specifies that the WINA20.386 file has been moved to a directory other
+Rem     than the root directory.
+[SYS | Transfers the system files to another disk]
+SYS |[source] d:
+[TIME | Displays or sets current time]
+TIME |hh:mm[:ss][.cc][A|P]
+[TREE | Displays directory tree]
+TREE |[d:][path] [/A][/F]
+Rem Displays directory paths and (optionally) files in each subdirectory.
+Rem /F  Displays the names of the files in each directory.
+Rem /A  Specifies that TREE is to use text characters instead of graphic
+Rem     characters to show the lines linking subdirectories.
+[TYPE | Displays the contents of a file]
+TYPE |[d:][path]filename
+[UNDELETE | Restores deleted files]
+UNDELETE |[d:][path][filename] [/DT|/DS|/DOS]
+[UNDELETE1 |d Restores deleted files]
+UNDELETE |[d:][path][filename] [/DT|/DS|/DOS]
+UNDELETE [/list|/all|/purge[d:]|/status|/load|/U|/S[d:]|/Td:[-entries]]
+Rem Restores files deleted with the DELETE command.
+Rem /LIST
+Rem     Only lists the deleted files that are available to be recovered
+Rem /ALL
+Rem     Recovers deleted files without prompting for confirmation on each file.
+Rem /DOS
+Rem     Recovers only those files that are internally listed as deleted by
+Rem     MS-DOS, prompting for confirmation on each file.
+Rem /DT Recovers only those files listed in the deletion-tracking file,
+Rem     prompting for confirmation on each file.
+Rem /DS Recovers only those files listed in the SENTRY directory, prompting for
+Rem     confirmation on each file.
+Rem /LOAD
+Rem     Loads the Undelete memory-resident program into memory using information
+Rem     defined in the UNDELETE.INI file. If the UNDELETE.INI file does not
+Rem     exist, UNDELETE uses default values.
+Rem /UNLOAD
+Rem     Unloads the memory-resident portion of the Undelete program from memory,
+Rem     turning off the capability to restore deleted files.
+Rem /PURGE[drive]
+Rem     Deletes the contents of the SENTRY directory. If no drive is specified,
+Rem     UNDELETE searches the current drive for the directory.
+Rem /STATUS
+Rem     Displays the type of delete protection in effect for each drive.
+Rem /S[drive]
+Rem     Enables the Delete Sentry level of protection and loads the
+Rem     memory-resident portion of the UNDELETE program. The program records
+Rem     information used to recover deleted files on the specified drive. If you
+Rem     do not specify a drive, using this switch enables the Delete Sentry
+Rem     level of protection on the current drive. Specifying the /S switch loads
+Rem     the memory-resident program into memory using the information defined in
+Rem     the UNDELETE.INI file.
+Rem /Tdrive[-entries]
+Rem     Enables the Delete Tracker level of protection and loads the
+Rem     memory-resident portion of the UNDELETE program. The program records
+Rem     information used to recover deleted files. The optional entries parameter,
+Rem     which must be a value in the range 1 through 999, specifies the maximum
+Rem     number of entries in the deletion-tracking file (PCTRACKR.DEL).
+[UNFORMAT | Undo the disk formatting]
+UNFORMAT |d: [/J][/L][/test][/partn][/P][/U]
+[UNFORMAT1 |d Undo the disk formatting]
+UNFORMAT |d: [/J][/L][/test][/partn][/P][/U]
+Rem Used to undo the effects of formatting a disk.
+Rem /L  Lists every file and subdirectory found by UNFORMAT. If you do not
+Rem     specify this switch, UNFORMAT lists only subdirectories and files that
+Rem     are fragmented. To suspend scrolling of the displayed list, press
+Rem     CTRL+S; to resume scrolling, press any key.
+Rem /TEST
+Rem     Shows how UNFORMAT would recreate the information on the disk, but does
+Rem     not actually unformat the disk.
+Rem /P  Sends output messages to the printer connected to LPT1.
+[VER | Displays the DOS version number]
+VER
+[VERIFY | Turns on the verify mode after copy]
+VERIFY |on|off
+[VOL | Displays a disk's volume label]
+VOL |[d:]
+[VSAFE | Memory-resident antivirus]
+VSAFE |[/option[+|-]...] [/NE][/NX][Ax|/Cx] [/N][/D][/U]
+[XCOPY | Copies directories, subdirectories, and files]
+XCOPY |[d:][path]filename [d:][path][filename] [/A][/D:(date)] [/E][/M][/P][/S][/V][/W][Y\-Y]
+[XCOPY1 |d Copies directories, subdirectories, and files]
+XCOPY |[d:][path]filename [d:][path][filename] [/A][/D:(date)] [/E][/M][/P][/S][/V][/W][Y\-Y]
+Rem Copies directories, subdirectories, and files.
+Rem /Y  Indicates that you want XCOPY to replace existing file(s) without
+Rem     prompting you for confirmation.
+Rem /-Y Indicates that you want XCOPY to prompt you for confirmation when
+Rem     replacing an existing file.
+Rem /A  Copies only source files that have their archive file attributes set.
+Rem     This switch does not modify the archive file attribute of the source
+Rem     file.
+Rem /M  Copies source files that have their archive file attributes set. Unlike
+Rem     the /A switch, the /M switch turns off archive file attributes in the
+Rem     files specified in source.
+Rem /D:date
+Rem     Copies only source files modified on or after the specified date.
+Rem /P  Prompts you to confirm whether you want to create destination file.
+Rem /S  Copies directories and subdirectories, unless they are empty. If you
+Rem     omit this switch, XCOPY works within a single directory.
+Rem /E  Copies any subdirectories, even if they are empty.
+Rem /V  Verifies each file as it is written to the destination file to make sure
+Rem     that the destination files are identical to the source files.
+Rem /W  Displays the following message and waits for your response before
+Rem     starting to copy files.

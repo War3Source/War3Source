@@ -1,0 +1,1536 @@
+;; PSPad code template for SMARTY Template engine
+;; Author: Pavel Kochman
+;; E-mail: kochi@centrum.cz
+;; Update: 31.8.2004
+;;
+;;   (black)     XHTML
+;; B (blue)
+;; D (dark gray) Modificators
+;; F (fuchsia)   property
+;; G (green)
+;; M (maroon)
+;; N (navy)
+;; P (purple)    Custom function
+;; R (red)
+;;
+
+[Macro definition]
+; macro definition for XTHML
+%abbr%=@E abbr=,abbr=,,,"
+%accept%=@C accept=,accept=,,image/*;image/gif;image/jpg;text/html;image/png;video/mpeg;text/css;audio/basic,"
+%acceptcharset%=@C accept-charset=,accept-charset=,,unknown;windows-1250;iso-8859-2;utf-8,"
+%accesskey%=@E accesskey=,accesskey=,,,"
+%action%=@O action=,action=,,Script file (*.php;*.asp;*.jsp;*.php3;*.php4;*.phtml)|*.php;*.asp;*.jsp;*.php3;*.php4;*.phtml,"
+%align%=@C align=*,align=,,justify;center;left;right,"
+%align9%=@C align=,align=,,absbottom;absmiddle;baseline;bottom;left;middle;right;texttop;top,"
+%alignall%=@C align=,align=,,absbottom;absmiddle;baseline;bottom;center;decimal;char;justify;left;middle;right;texttop;top,"
+%alignc%=@C align=*,align=,,top;bottom;left;right,"
+%aligni%=@C align=*,align=,,top;middle;bottom;left;right,"
+%alignt%=@C align=*,align=,,left;center;right;justify;char,"
+%alternate%=@C alternate=,alternate=,,yes;no,"
+%am%=@C Nápovìda! Nevyplòovat!!!, ,,"?subject= &bcc= &cc= &body= %20",
+%archive%=@E archive=,archive=,,,"
+%aspk%=@C asp,,,If;Else;"End If",
+%aspsv%=@C asp,,,ALL_HTTP;AUTH_PASS;AUTH_TYPE;CONTENT_LENGTH;CONTENT_TYPE;GATEWAY_INTERFACE;HTTP_ACCEPT;HTTP_ACCEPT_LANGUAGE;HTTP_CONNECTION;HTTP_COOKIE;HTTP_USER_AGENT;LOGON_ACCEPT_ENCODING;PATH_INFO;PATH_TRANSLATED;QUERY_STRING;REMOTE_ADDR;REMOTE_HOST;REMOTE_IDENT;REMOTE_USER;REQUEST_BODY;REQUEST_METHOD;SCRIPT_NAME;SERVER_PORT;SERVER_PORT_SECURE;SERVER_PROTOCOL;SERVER_SOFTWARE;URL,
+%axis%=@E axis=,axis=,,,"
+%bgcolorf%=@L bgcolor,,,#,"
+%border%=@E border=,border=,,,"
+%cellpadding%=@E cellpadding=,cellpadding=,,,"
+%cellspacing%=@E cellspacing=,cellspacing=,,,"
+%cite%=@O cite=,cite=,,Zdroj citace (*.*)|*.*,"
+%class%=@E class=,class=,,,"
+%classid%=@c classid=,classid=,,"CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95";"CLSID:333C7bC4-460F-11D0-BC04-0080C7055A83";"CLSID:D2377D41-E6FD-11CF-8DCF-00AA00C01802","
+%clear%=@C clear=*,clear=,,all;left;right;none,"
+%codebase%=@E codebase=,codebase=,,,"
+%codetype%=@E codetype=,codetype=,,application/java,"
+%cols%=@E cols=,cols=,,,"
+%colspan%=@E colspan=,colspan=,,,"
+%compact%=@C compact=*,compact=,,compact,"
+%content%=@E content=,content=,,,"
+%contentcss%=@C content=,content=,,text/css;text/css2;text/css3,"
+%contentdis%=@C content=,content=,,local;global,"
+%contentscript%=@C content=,content=,,text/javascript,"
+%contentwt%=@C content=,content=,,_blank;_parent;_self;_top,"
+%coords%=@E coords=,coords=,,,"
+%data%=@O data=,data=,,,"
+%datetime%=@C datetime=,datetime=,,YYYY-MM-DDThh:mm:ssTZD,"
+%declare%=@E declare=,declare=,,,"
+%defer%=@E defer=,defer=,,,"
+%dir%=@C dir=,dir=,,ltr;rtl,"
+%disabled%=@C disabled=,disabled=,,disabled,"
+%Duration%=@C Duration=,Duration=,,1;"2.5";3;"4.123";5;7;"atd.  :-)",
+%encoding%=@C encoding=,encoding=,,windows-1250;iso-8859-2;utf-8,"
+%enctype%=@C enctype=,enctype=,,"application/x-www-form-urlencoded";"multipart/form-data";"text/plain","
+%for%=@E for=,for=,,,"
+%frame%=@C frame=,frame=,,above;below;border;box;insides;lhs;rhs;void;vsides,"
+%frmain%=@O hlavní stránka,src=,,html file (*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp)|*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp,"
+%frmenu%=@O menu stránka,src=,,html file (*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp)|*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp,"
+%frtop%=@O top stránka,src=,,html file (*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp)|*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp,"
+%h%=@C velikost nadpisu:,,,1;2;3;4;5;6,
+%height%=@E height=,height=,,,"
+%href%=@O HREF=,href=,,html file (*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp)|*.html;*.htm;*.php;*.php3;*.php4;*.phtml;*.asp,"
+%hrefi%=@O ICO href=,href=,,ico file (*.ico)|*.ico,"
+%hreflang%=@C hreflang=,hreflang=,,aa;ab;af;am;ar;as;ay;az;ba;be;bg;bh;bi;bn;bo;br;ca;co;cs;cy;da;de;dz;el;en;eo;es;et;eu;fa;fi;fj;fo;fr;fy;ga;gd;gl;gn;gu;ha;he;hi;hr;hu;hy;ia;ie;ik;id;is;it;iu;ja;jv;ka;kk;kl;km;kn;ko;ks;ku;ky;la;ln;lo;lt;lv;mg;mi;mk;ml;mn;mo;mr;ms;mt;my;na;ne;nl;no;oc;om;or;pa;pl;ps;pt;qu;rm;rn;ro;ru;rw;sa;sd;sg;sh;si;sk;sl;sm;sn;so;sq;sr;ss;st;su;sv;sw;ta;te;tg;th;ti;tk;tl;tn;to;tr;ts;tt;tw;ug;uk;ur;uz;vi;vo;wo;xh;yi;yo;za;zh;zu,"
+%hrefm%=@E href=,href=,mailto:,,"
+%hrefs%=@O CSS href=,href=,,CSS href (*.css)|*.css,"
+%hrefsi%=@O ref=,href=,,rel file (*.css;*.ico;*.js)|*.css;*.ico;*.js,"
+%hrefx%=@C href=,href=,,about:;file:///;ftp://;gopher://;http://;"javascript:;";mailto:;newsrc:;nntp://;telnet://;view-source:file:///;wais://,"
+%httpequiv%=@C http-equiv=, http-equiv=,,cache-control;content-language;content-script-type;content-style-type;content-type;expires;imagetoolbar;last-modified;pics-label;pragma;refresh;window-target;Page-Enter;Page-Exit;Site-Enter;Site-Exit;Ext-cache;Set-Cookie;Vary,"
+%char%=@E char=,char=,,,"
+%charoff%=@E char off=,charoff=,,,"
+%charset%=@C charset=,charset=,,windows-1250;iso-8859-2;utf-8,"
+%charsetm%=@C charset=,charset=,,windows-1250;iso-8859-2;utf-8,
+%checked%=@C checked=,checked=,,true;false,"
+%id%=@C id=,id=,,[],"
+%include%=@O include,include ,, script file (*.php;*.php3;*.php4;*.inc)|*.php;*.php3;*.php4;*.inc,"
+%ismap%=@E ismap=,ismap=,,,"
+%label%=@E label=,label=,,,"
+%lang%=@C lang=,lang=,,aa;ab;af;am;ar;as;ay;az;ba;be;bg;bh;bi;bn;bo;br;ca;co;cs;cy;da;de;dz;el;en;eo;es;et;eu;fa;fi;fj;fo;fr;fy;ga;gd;gl;gn;gu;ha;he;hi;hr;hu;hy;ia;ie;ik;id;is;it;iu;ja;jv;ka;kk;kl;km;kn;ko;ks;ku;ky;la;ln;lo;lt;lv;mg;mi;mk;ml;mn;mo;mr;ms;mt;my;na;ne;nl;no;oc;om;or;pa;pl;ps;pt;qu;rm;rn;ro;ru;rw;sa;sd;sg;sh;si;sk;sl;sm;sn;so;sq;sr;ss;st;su;sv;sw;ta;te;tg;th;ti;tk;tl;tn;to;tr;ts;tt;tw;ug;uk;ur;uz;vi;vo;wo;xh;yi;yo;za;zh;zu,"
+%longdesc%=@E longdesc=,longdesc=,,,"
+%maxlength%=@E maxlength=,maxlength=,,,"
+%media%C media=,media=,,embossed;screen;tty;tv;projection;handheld;print;braille;aural;all;speech,"
+%metacop%=@E meta copyright=,content=,,,"
+%metadesc%=@E meta description=,content=,,,"
+%metakey%=@E meta keywords=,content=,,,"
+%metaname%=@C name=,name=,,copyright;description;keywords,"
+%metarob%=@C meta robots=,content=,,all;"index,follow";"noindex,follow";"index,nofollow";"noindex,nofollow";noimageclick;noimageindex;noarchive,"
+%method%=@C method=,method=,,get;post,"
+%methods%=@E methods=,methods=,,,"
+%multiple%=@C multiple=,multiple=,,multiple,"
+%name%=@C name=,name=,,[],"
+%name2%=@C name=*,name=,,[],"
+%namem%=@C name=,name=,,audience;author;copyright;country;description;distribution;generator;googlebot;keywords;language;owner;publisher;rating;"reply to";resource-type;"revisit-after";robots;title;htdig-keywords;htdig-email;htdig-keywords;htdig-noindex;htdig-email;htdig-notification-date;htdig-email-subject,"
+%namep%=@C name=,name=,,AnimationStart;AutoRewind;AutoStart;Balance;Bandwidth;BufferingCount;BufferingProgress;BufferingTime;ClickToPlay;CurrentPosition;ConnectionSpeed;DisplayBackColor;DisplayForeColor;DisplayMode;DisplaySize;Duration;EnableContextMenu;ErrorCode;ErrorDescription;FileName;HasError;ImageSourceHeight;ImageSourceWidth;LostPackets;Mute;PlayCount;PlayState;Rate;ReadyState;SelectionEnd;SelectionStart;ShowControls;ShowDisplay;ShowTracker;SourceLink;StreamCount;TransparentAtStart;Volume,"
+%nohref%=@C nohref=,nohref=,,nohref,"
+%noshade%=@C noshade=*,noshade=,,noshade,"
+%on%=@c UDÁLOST:,,,onabort="";onactivate="";onafterprint="";onafterupdate="";onback="";onbeforeactivate="";onbeforecopy="";onbeforecut="";onbeforedeactivate="";onbeforeeditfocus="";onbeforerepaste="";onbeforeprint="";onbeforeupdate="";onbeforeunload="";onblur="";onbounce="";onclick="";oncontextmenu="";oncontrolselect="";oncopy="";oncut="";ondataavailable="";ondatasetcomplete="";ondatasetchange="";ondblclick="";ondeactivate="";ondrag="";ondragend="";ondragenter="";ondragleave="";ondragover="";ondragstart="";ondrop="";onerror="";onerrorupdate="";onfilterchange="";onfinish="";onfocus="";onfocusin="";onfocusout="";onforward="";onhelp="";onchange="";onkeydown="";onkeypress="";onkeyup="";onload="";onlosecapture="";onmousedown="";onmouseenter="";onmousedrag="";onmouseleave="";onmousemove="";onmouseout="";onmouseover="";onmouseup="";onmousewheel="";onmove="";onmoveend="";onmovestart="";onpaste="";onpropertychange="";onreadystatechange="";onreset="";onresize="";onresizeend="";onresizestart="";onroweenter="";onroweexit="";onscroll="";onselect="";onselectstart="";onsubmit="";onstop="";ontimeerorror="";onunload="",
+%onreset%=@E onreset=,onreset=,,,"
+%onsubmit%=@E onsubmit=,onsubmit=,,,"
+%php%=@C php,,,if;else:;elseif;endif;endfor,
+%profile%=@E profile=,profile=,,,"
+%readonly%=@C readonly=,readonly=,,readonly,"
+%rel%=@C rel=,rel=,,stylesheet;"shortcut ico";next;prev;head;toc;parent;child;index;glossary,"
+%rev%=@C rev=,rev=,,next;prev;head;toc;parent;child;index;glossary,"
+%rows%=@E rows=,rows=,,,"
+%rowspan%=@E rowspan=,rowspan=,,,"
+%rules%=@C rules=,rules=,,all;cols;groups;none;rows,"
+%s%=@C content (sekundy),,,0;2;4;60;360,
+%scope%=@C scope=,scope=,,row;col;rowgroup;colgroup,"
+%scrolling%=@C scrolling=,scrolling=,,yes;no,"
+%selected%=@C selected=,selected=,,selected,"
+%shape%=@C shape=,shape=,,circ;circle;poly;polygon;rect;rectangle,"
+%size%=@E size=,size=,,,"
+%size2%=@E size=*,size=,,,"
+%span%=@E span=,span=,,,"
+%src%=@O objekt src=,src=,,objekt file  (*.*)|*.*,"
+%srcj%=@O JavaScript src=,src=,,JavaScript file  (*.js)|*.js,"
+%srcp%=@P src=,src=,,,"
+%ssit%=@C SSI tag=,,,echo;include;fsize;flastmod;exec;config;odbc;email;if;goto;label;break,
+%ssivar%=@C SSI var=,var=,,ACCEPT_LANGUAGE;AUTH_TYPE;CONTENT_LENGTH;CONTENT_TYPE;DATE_GTM;DATE_LOCAL;DOCUMENT_NAME;DOCUMENT_URL;FORWARDED;FROM;GATEWAY_INTERFACE;HTTP_ACCEPT;HTTP_COOKIE;HTTP_USER_AGENT;LAST_MODIFIED;PATH_INFO;PATH_TRANSLATED;QUERY_STRING;QUERY_STRING_UNESCAPED;REFERER;REMOTE_ADDR;REMOTE_HOST;REMOTE_IDENT;REMOTE_USER;REQUEST_METHOD;SCRIPT_NAME;SERVER_NAME;SERVER_PORT;SERVER_PROTOCOL;SERVER_SOFTWARE,"
+%style%=@T style=*,style=,,,"
+%style2%=@T Hlavní tag: style=,style=,,,"
+%summary%=@C summary=,summary=,,summary,"
+%swf%=@O SWF src=,,,swf file (*.swf)|*.swf,"
+%tabindex%=@E tabindex=,tabindex=,,,"
+%taborder%=@E taborder=,taborder=,,,"
+%target%=@E target=*,target=,,,"
+%title%=@E title=,title=,,,"
+%title2%=@E Titulek stránky:
+%top%=@E top=,top=,,,"
+%type%=@C type=,type=,,button;reset;submit,"
+%type2%=@C type=,type=,,button;checkbox;file;hidden;image;password;radio;reset;submit;text,"
+%type4%=@C type=,type=,,text/css;text/javascript;application/postscript,"
+%typeall%=@C type=,type=,,block;button;file;hidden;horizontal;checkbox;image;password;radio;reset;submit;text/css;text/javascript;text/jscript;text/livescript;text/php;text/tcl;text/vbscript;text;vertical;"application/activemessage";"application/andrew-inset";"application/applefile";"application/atomicmail";"application/batch-SMTP";"application/cals-1840";"application/commonground";"application/cybercash";"application/dca-rft";"application/dec-dx";"application/EDI-Consent";"application/EDIFACT";"application/EDI-X12";"application/eshop";"application/http";"application/hyperstudio";"application/iges";"application/index";"application/index.cmd";"application/index.obj";"application/index.response";"application/index.vnd";"application/iotp";"application/ipp";"application/mac-binhex40";"application/mac-compactpro";"application/macwriteii";"application/marc";"application/mathematica";"application/mathematica-old";"application/msword";"application/news-message-id";"application/news-transmission";"application/ocsp-request";"application/ocsp-response";"application/octet-stream";"application/oda";"application/pdf";"application/pgp-encrypted";"application/pgp-keys";"application/pgp-signature";"application/pkcs10";"application/pkcs7-mime";"application/pkcs7-signature";"application/pkix-cert";"application/pkixcmp";"application/pkix-crl";"application/postscript";"application/prs.alvestrand.titrax-sheet";"application/prs.cww";"application/prs.nprend";"application/remote-printing";"application/riscos";"application/sdp";"application/set-payment";"application/set-payment-initiation";"application/set-registration";"application/set-registration-initiation";"application/sgml";"application/sgml-open-catalog";"application/slate";"application/smil";"application/vemmi";"application/vnd.3M.Post-it-Notes";"application/vnd.accpac.simply.aso";"application/vnd.accpac.simply.imp";"application/vnd.acucobol";"application/vnd.anser-web-certificate-issue-initiation";"application/vnd.anser-web-funds-transfer-initiation";"application/vnd.audiograph";"application/vnd.bmi";"application/vnd.businessobjects";"application/vnd.canon-cpdl";"application/vnd.canon-lips";"application/vnd.claymore";"application/vnd.commerce-battelle";"application/vnd.commonspace";"application/vnd.comsocaller";"application/vnd.contact.cmsg";"application/vnd.cosmocaller";"application/vnd.ctc-posml";"application/vnd.cups-postscript";"application/vnd.cups-raster";"application/vnd.cups-raw";"application/vnd.cybank";"application/vnd.dna";"application/vnd.dpgraph";"application/vnd.dxr";"application/vnd.ecdis-update";"application/vnd.ecowin.filerequest";"application/vnd.ecowin.fileupdate";"application/vnd.ecowin.chart";"application/vnd.ecowin.series";"application/vnd.ecowin.seriesrequest";"application/vnd.ecowin.seriesupdate";"application/vnd.enliven";"application/vnd.epson.esf";"application/vnd.epson.msf";"application/vnd.epson.quickanime";"application/vnd.epson.salt";"application/vnd.epson.ssf";"application/vnd.ericsson.quickcall";"application/vnd.eudora.data";"application/vnd.fdf";"application/vnd.ffsns";"application/vnd.FloGraphIt";"application/vnd.framemaker";"application/vnd.fujitsu.oasys";"application/vnd.fujitsu.oasys2";"application/vnd.fujitsu.oasys3";"application/vnd.fujitsu.oasysgp";"application/vnd.fujitsu.oasysprs";"application/vnd.fujixerox.ddd";"application/vnd.fujixerox.docuworks";"application/vnd.fujixerox.docuworks.binder";"application/vnd.fut-misnet";"application/vnd.grafeq";"application/vnd.groove-account";"application/vnd.groove-identity-message";"application/vnd.groove-injector";"application/vnd.groove-tool-message";"application/vnd.groove-tool-template";"application/vnd.groove-vcard";"application/vnd.hp-HPGL";"application/vnd.hp-hpid";"application/vnd.hp-hps";"application/vnd.hp-PCL";"application/vnd.hp-PCLXL";"application/vnd.httphone";"application/vnd.hzn-3d-crossword";"application/vnd.ibm.MiniPay";"application/vnd.ibm.modcap";"application/vnd.informix-visionary";"application/vnd.intercon.formnet";"application/vnd.intertrust.digibox";"application/vnd.intertrust.nncp";"application/vnd.intu.qbo";"application/vnd.intu.qfx";"application/vnd.is-xpr";"application/vnd.japannet-directory-service";"application/vnd.japannet-jpnstore-wakeup";"application/vnd.japannet-payment-wakeup";"application/vnd.japannet-registration";"application/vnd.japannet-registration-wakeup";"application/vnd.japannet-setstore-wakeup";"application/vnd.japannet-verification";"application/vnd.japannet-verification-wakeup";"application/vnd.koan";"application/vnd.lotus-1-2-3";"application/vnd.lotus-approach";"application/vnd.lotus-freelance";"application/vnd.lotus-notes";"application/vnd.lotus-organizer";"application/vnd.lotus-screencam";"application/vnd.lotus-wordpro";"application/vnd.mcd";"application/vnd.mediastation.cdkey";"application/vnd.meridian-slingshot";"application/vnd.mif";"application/vnd.minisoft-hp3000-save";"application/vnd.mitsubishi.misty-guard.trustweb";"application/vnd.mobius.daf";"application/vnd.mobius.dis";"application/vnd.mobius.msl";"application/vnd.mobius.plc";"application/vnd.mobius.txf";"application/vnd.motorola.flexsuite";"application/vnd.motorola.flexsuite.adsi";"application/vnd.motorola.flexsuite.fis";"application/vnd.motorola.flexsuite.gotap";"application/vnd.motorola.flexsuite.kmr";"application/vnd.motorola.flexsuite.ttc";"application/vnd.motorola.flexsuite.wem";"application/vnd.mozilla.xul+xml";"application/vnd.ms-artgalry";"application/vnd.ms-asf";"application/vnd.ms-excel";"application/vnd.msign";"application/vnd.ms-lrm";"application/vnd.ms-powerpoint";"application/vnd.ms-project";"application/vnd.ms-tnef";"application/vnd.ms-works";"application/vnd.musician";"application/vnd.music-niff";"application/vnd.netfpx";"application/vnd.noblenet-directory";"application/vnd.noblenet-sealer";"application/vnd.noblenet-web";"application/vnd.novadigm.EDM";"application/vnd.novadigm.EDX";"application/vnd.novadigm.EXT";"application/vnd.osa.netdeploy";"application/vnd.pg.format";"application/vnd.pg.osasli";"application/vnd.powerbuilder6";"application/vnd.powerbuilder6-s";"application/vnd.powerbuilder7";"application/vnd.powerbuilder75";"application/vnd.powerbuilder75-s";"application/vnd.powerbuilder7-s";"application/vnd.previewsystems.box";"application/vnd.publishare-delta-tree";"application/vnd.rapid";"application/vnd.s3sms";"application/vnd.seemail";"application/vnd.shana.informed.formdata";"application/vnd.shana.informed.formtemplate";"application/vnd.shana.informed.interchange";"application/vnd.shana.informed.package";"application/vnd.street-stream";"application/vnd.svd";"application/vnd.swiftview-ics";"application/vnd.triscape.mxs";"application/vnd.trueapp";"application/vnd.truedoc";"application/vnd.ufdl";"application/vnd.uplanet.alert";"application/vnd.uplanet.alert-wbxml";"application/vnd.uplanet.bearer-choice";"application/vnd.uplanet.bearer-choi-wbxml";"application/vnd.uplanet.cacheop";"application/vnd.uplanet.cacheop-wbxml";"application/vnd.uplanet.channel";"application/vnd.uplanet.channel-wbxml";"application/vnd.uplanet.list";"application/vnd.uplanet.listcmd";"application/vnd.uplanet.listcmd-wbxml";"application/vnd.uplanet.list-wbxml";"application/vnd.uplanet.signal";"application/vnd.vcx";"application/vnd.vectorworks";"application/vnd.visio";"application/vnd.wap.sic";"application/vnd.wap.slc";"application/vnd.wap.wbxml wbxml";"application/vnd.wap.wmlc wmlc";"application/vnd.wap.wmlscriptc wmlsc";"application/vnd.webturbo";"application/vnd.wrq-hp3000-labelled";"application/vnd.wt.stf";"application/vnd.xara";"application/vnd.xfdl";"application/vnd.yellowriver-custom-menu";"application/whoispp-query";"application/whoispp-response";"application/wita";"application/wordperfect5.1";"application/x400-bp";"application/x-bcpio";"application/x-cdlink";"application/x-compress";"application/x-cpio";"application/x-csh";"application/x-director";"application/x-dvi";"application/x-futuresplash";"application/x-gtar";"application/x-gzip";"application/x-hdf";"application/x-chess-pgn";"application/x-javascript";"application/x-koan";"application/x-latex";"application/xml";"application/x-netcdf";"application/x-sh";"application/x-shar";"application/x-shockwave-flash";"application/x-stuffit";"application/x-sv4cpio";"application/x-sv4crc";"application/x-tar";"application/x-tcl";"application/x-tex";"application/x-texinfo";"application/x-troff";"application/x-troff-man";"application/x-troff-me";"application/x-troff-ms";"application/x-ustar";"application/x-wais-source";"application/zip";"audio/32kadpcm";"audio/basic";"audio/l16";"audio/midi";"audio/mpeg";"audio/prs.sid";"audio/telephone-event";"audio/tone";"audio/vnd.cns.anp1";"audio/vnd.cns.inf1";"audio/vnd.digital-winds";"audio/vnd.everad.plj";"audio/vnd.lucent.voice";"audio/vnd.nortel.vbk";"audio/vnd.nuera.ecelp4800";"audio/vnd.nuera.ecelp7470";"audio/vnd.octel.sbc";"audio/vnd.qcelp";"audio/vnd.rhetorex.32kadpcm";"audio/vnd.vmx.cvsd";"audio/x-aiff";"audio/x-pn-realaudio";"audio/x-pn-realaudio-plugin";"audio/x-realaudio";"audio/x-wav";"chemical/x-pdb";"chemical/x-xyz";"image/bmp";"image/cgm";"image/g3fax";"image/gif";"image/ief";"image/jpeg";"image/naplps";"image/pjpeg";"image/png";"image/prs.btif";"image/prs.pti";"image/tiff";"image/vnd.cns.inf2";"image/vnd.dwg";"image/vnd.dxf";"image/vnd.fastbidsheet";"image/vnd.fpx";"image/vnd.fst";"image/vnd.fujixerox.edmics-mmr";"image/vnd.fujixerox.edmics-rlc";"image/vnd.mix";"image/vnd.net-fpx";"image/vnd.svf";"image/vnd.wap.wbmp";"image/vnd.xiff";"image/x-cmu-raster";"image/image/x-icon";"image/x-png";"image/x-portable-anymap";"image/x-portable-bitmap";"image/x-portable-graymap";"image/x-portable-pixmap";"image/x-rgb";"image/x-xbitmap";"image/x-xpixmap";"image/x-xwindowdump";"message/delivery-status";"message/disposition-notification";"message/external-body";"message/http";"message/news";"message/partial";"message/rfc822";"message/s-http";"model/iges";"model/mesh";"model/vnd.dwf";"model/vnd.flatland.3dml";"model/vnd.gdl";"model/vnd.gs-gdl";"model/vnd.gtw";"model/vnd.mts";"model/vnd.vtu";"model/vrml";"multipart/alternative";"multipart/appledouble";"multipart/byteranges";"multipart/digest";"multipart/encrypted";"multipart/form-data";"multipart/header-set";"multipart/mixed";"multipart/parallel";"multipart/related";"multipart/report";"multipart/signed";"multipart/voice-message";"text/calendar";"text/css";"text/directory";"text/enriched";"text/html";"text/plain";"text/prs.lines.tag";"text/rfc822-headers";"text/richtext";"text/rtf";"text/sgml";"text/t140";"text/tab-separated-values";"text/uri-list";"text/vnd.abc";"text/vnd.curl";"text/vnd.DMClientScript";"text/vnd.flatland.3dml";"text/vnd.fly";"text/vnd.fmi.flexstor";"text/vnd.in3d.3dml";"text/vnd.in3d.spot";"text/vnd.IPTC.NewsML";"text/vnd.IPTC.NITF";"text/vnd.latex-z";"text/vnd.motorola.reflex";"text/vnd.ms-mediapackage";"text/vnd.wap.si";"text/vnd.wap.sl";"text/vnd.wap.wml";"text/vnd.wap.wmlscript";"text/xml";"text/x-setext";"video/mpeg";"video/pointer";"video/quicktime";"video/vnd.fvt";"video/vnd.motorola.video";"video/vnd.motorola.videop";"video/vnd.vivo";"video/x-msvideo";"text/x-scriptlet";"video/x-sgi-movie";"x-conference/x-cooltalk","
+%typem%=@C MIME type=,type=,,"application/activemessage";"application/andrew-inset";"application/applefile";"application/atomicmail";"application/batch-SMTP";"application/cals-1840";"application/commonground";"application/cybercash";"application/dca-rft";"application/dec-dx";"application/EDI-Consent";"application/EDIFACT";"application/EDI-X12";"application/eshop";"application/http";"application/hyperstudio";"application/iges";"application/index";"application/index.cmd";"application/index.obj";"application/index.response";"application/index.vnd";"application/iotp";"application/ipp";"application/mac-binhex40";"application/mac-compactpro";"application/macwriteii";"application/marc";"application/mathematica";"application/mathematica-old";"application/msword";"application/news-message-id";"application/news-transmission";"application/ocsp-request";"application/ocsp-response";"application/octet-stream";"application/oda";"application/pdf";"application/pgp-encrypted";"application/pgp-keys";"application/pgp-signature";"application/pkcs10";"application/pkcs7-mime";"application/pkcs7-signature";"application/pkix-cert";"application/pkixcmp";"application/pkix-crl";"application/postscript";"application/prs.alvestrand.titrax-sheet";"application/prs.cww";"application/prs.nprend";"application/remote-printing";"application/riscos";"application/sdp";"application/set-payment";"application/set-payment-initiation";"application/set-registration";"application/set-registration-initiation";"application/sgml";"application/sgml-open-catalog";"application/slate";"application/smil";"application/vemmi";"application/vnd.3M.Post-it-Notes";"application/vnd.accpac.simply.aso";"application/vnd.accpac.simply.imp";"application/vnd.acucobol";"application/vnd.anser-web-certificate-issue-initiation";"application/vnd.anser-web-funds-transfer-initiation";"application/vnd.audiograph";"application/vnd.bmi";"application/vnd.businessobjects";"application/vnd.canon-cpdl";"application/vnd.canon-lips";"application/vnd.claymore";"application/vnd.commerce-battelle";"application/vnd.commonspace";"application/vnd.comsocaller";"application/vnd.contact.cmsg";"application/vnd.cosmocaller";"application/vnd.ctc-posml";"application/vnd.cups-postscript";"application/vnd.cups-raster";"application/vnd.cups-raw";"application/vnd.cybank";"application/vnd.dna";"application/vnd.dpgraph";"application/vnd.dxr";"application/vnd.ecdis-update";"application/vnd.ecowin.filerequest";"application/vnd.ecowin.fileupdate";"application/vnd.ecowin.chart";"application/vnd.ecowin.series";"application/vnd.ecowin.seriesrequest";"application/vnd.ecowin.seriesupdate";"application/vnd.enliven";"application/vnd.epson.esf";"application/vnd.epson.msf";"application/vnd.epson.quickanime";"application/vnd.epson.salt";"application/vnd.epson.ssf";"application/vnd.ericsson.quickcall";"application/vnd.eudora.data";"application/vnd.fdf";"application/vnd.ffsns";"application/vnd.FloGraphIt";"application/vnd.framemaker";"application/vnd.fujitsu.oasys";"application/vnd.fujitsu.oasys2";"application/vnd.fujitsu.oasys3";"application/vnd.fujitsu.oasysgp";"application/vnd.fujitsu.oasysprs";"application/vnd.fujixerox.ddd";"application/vnd.fujixerox.docuworks";"application/vnd.fujixerox.docuworks.binder";"application/vnd.fut-misnet";"application/vnd.grafeq";"application/vnd.groove-account";"application/vnd.groove-identity-message";"application/vnd.groove-injector";"application/vnd.groove-tool-message";"application/vnd.groove-tool-template";"application/vnd.groove-vcard";"application/vnd.hp-HPGL";"application/vnd.hp-hpid";"application/vnd.hp-hps";"application/vnd.hp-PCL";"application/vnd.hp-PCLXL";"application/vnd.httphone";"application/vnd.hzn-3d-crossword";"application/vnd.ibm.MiniPay";"application/vnd.ibm.modcap";"application/vnd.informix-visionary";"application/vnd.intercon.formnet";"application/vnd.intertrust.digibox";"application/vnd.intertrust.nncp";"application/vnd.intu.qbo";"application/vnd.intu.qfx";"application/vnd.is-xpr";"application/vnd.japannet-directory-service";"application/vnd.japannet-jpnstore-wakeup";"application/vnd.japannet-payment-wakeup";"application/vnd.japannet-registration";"application/vnd.japannet-registration-wakeup";"application/vnd.japannet-setstore-wakeup";"application/vnd.japannet-verification";"application/vnd.japannet-verification-wakeup";"application/vnd.koan";"application/vnd.lotus-1-2-3";"application/vnd.lotus-approach";"application/vnd.lotus-freelance";"application/vnd.lotus-notes";"application/vnd.lotus-organizer";"application/vnd.lotus-screencam";"application/vnd.lotus-wordpro";"application/vnd.mcd";"application/vnd.mediastation.cdkey";"application/vnd.meridian-slingshot";"application/vnd.mif";"application/vnd.minisoft-hp3000-save";"application/vnd.mitsubishi.misty-guard.trustweb";"application/vnd.mobius.daf";"application/vnd.mobius.dis";"application/vnd.mobius.msl";"application/vnd.mobius.plc";"application/vnd.mobius.txf";"application/vnd.motorola.flexsuite";"application/vnd.motorola.flexsuite.adsi";"application/vnd.motorola.flexsuite.fis";"application/vnd.motorola.flexsuite.gotap";"application/vnd.motorola.flexsuite.kmr";"application/vnd.motorola.flexsuite.ttc";"application/vnd.motorola.flexsuite.wem";"application/vnd.mozilla.xul+xml";"application/vnd.ms-artgalry";"application/vnd.ms-asf";"application/vnd.ms-excel";"application/vnd.msign";"application/vnd.ms-lrm";"application/vnd.ms-powerpoint";"application/vnd.ms-project";"application/vnd.ms-tnef";"application/vnd.ms-works";"application/vnd.musician";"application/vnd.music-niff";"application/vnd.netfpx";"application/vnd.noblenet-directory";"application/vnd.noblenet-sealer";"application/vnd.noblenet-web";"application/vnd.novadigm.EDM";"application/vnd.novadigm.EDX";"application/vnd.novadigm.EXT";"application/vnd.osa.netdeploy";"application/vnd.pg.format";"application/vnd.pg.osasli";"application/vnd.powerbuilder6";"application/vnd.powerbuilder6-s";"application/vnd.powerbuilder7";"application/vnd.powerbuilder75";"application/vnd.powerbuilder75-s";"application/vnd.powerbuilder7-s";"application/vnd.previewsystems.box";"application/vnd.publishare-delta-tree";"application/vnd.rapid";"application/vnd.s3sms";"application/vnd.seemail";"application/vnd.shana.informed.formdata";"application/vnd.shana.informed.formtemplate";"application/vnd.shana.informed.interchange";"application/vnd.shana.informed.package";"application/vnd.street-stream";"application/vnd.svd";"application/vnd.swiftview-ics";"application/vnd.triscape.mxs";"application/vnd.trueapp";"application/vnd.truedoc";"application/vnd.ufdl";"application/vnd.uplanet.alert";"application/vnd.uplanet.alert-wbxml";"application/vnd.uplanet.bearer-choice";"application/vnd.uplanet.bearer-choi-wbxml";"application/vnd.uplanet.cacheop";"application/vnd.uplanet.cacheop-wbxml";"application/vnd.uplanet.channel";"application/vnd.uplanet.channel-wbxml";"application/vnd.uplanet.list";"application/vnd.uplanet.listcmd";"application/vnd.uplanet.listcmd-wbxml";"application/vnd.uplanet.list-wbxml";"application/vnd.uplanet.signal";"application/vnd.vcx";"application/vnd.vectorworks";"application/vnd.visio";"application/vnd.wap.sic";"application/vnd.wap.slc";"application/vnd.wap.wbxml wbxml";"application/vnd.wap.wmlc wmlc";"application/vnd.wap.wmlscriptc wmlsc";"application/vnd.webturbo";"application/vnd.wrq-hp3000-labelled";"application/vnd.wt.stf";"application/vnd.xara";"application/vnd.xfdl";"application/vnd.yellowriver-custom-menu";"application/whoispp-query";"application/whoispp-response";"application/wita";"application/wordperfect5.1";"application/x400-bp";"application/x-bcpio";"application/x-cdlink";"application/x-compress";"application/x-cpio";"application/x-csh";"application/x-director";"application/x-dvi";"application/x-futuresplash";"application/x-gtar";"application/x-gzip";"application/x-hdf";"application/x-chess-pgn";"application/x-javascript";"application/x-koan";"application/x-latex";"application/xml";"application/x-netcdf";"application/x-sh";"application/x-shar";"application/x-shockwave-flash";"application/x-stuffit";"application/x-sv4cpio";"application/x-sv4crc";"application/x-tar";"application/x-tcl";"application/x-tex";"application/x-texinfo";"application/x-troff";"application/x-troff-man";"application/x-troff-me";"application/x-troff-ms";"application/x-ustar";"application/x-wais-source";"application/zip";"audio/32kadpcm";"audio/basic";"audio/l16";"audio/midi";"audio/mpeg";"audio/prs.sid";"audio/telephone-event";"audio/tone";"audio/vnd.cns.anp1";"audio/vnd.cns.inf1";"audio/vnd.digital-winds";"audio/vnd.everad.plj";"audio/vnd.lucent.voice";"audio/vnd.nortel.vbk";"audio/vnd.nuera.ecelp4800";"audio/vnd.nuera.ecelp7470";"audio/vnd.octel.sbc";"audio/vnd.qcelp";"audio/vnd.rhetorex.32kadpcm";"audio/vnd.vmx.cvsd";"audio/x-aiff";"audio/x-pn-realaudio";"audio/x-pn-realaudio-plugin";"audio/x-realaudio";"audio/x-wav";"chemical/x-pdb";"chemical/x-xyz";"image/bmp";"image/cgm";"image/g3fax";"image/gif";"image/ief";"image/jpeg";"image/naplps";"image/pjpeg";"image/png";"image/prs.btif";"image/prs.pti";"image/tiff";"image/vnd.cns.inf2";"image/vnd.dwg";"image/vnd.dxf";"image/vnd.fastbidsheet";"image/vnd.fpx";"image/vnd.fst";"image/vnd.fujixerox.edmics-mmr";"image/vnd.fujixerox.edmics-rlc";"image/vnd.mix";"image/vnd.net-fpx";"image/vnd.svf";"image/vnd.wap.wbmp";"image/vnd.xiff";"image/x-cmu-raster";"image/image/x-icon";"image/x-png";"image/x-portable-anymap";"image/x-portable-bitmap";"image/x-portable-graymap";"image/x-portable-pixmap";"image/x-rgb";"image/x-xbitmap";"image/x-xpixmap";"image/x-xwindowdump";"message/delivery-status";"message/disposition-notification";"message/external-body";"message/http";"message/news";"message/partial";"message/rfc822";"message/s-http";"model/iges";"model/mesh";"model/vnd.dwf";"model/vnd.flatland.3dml";"model/vnd.gdl";"model/vnd.gs-gdl";"model/vnd.gtw";"model/vnd.mts";"model/vnd.vtu";"model/vrml";"multipart/alternative";"multipart/appledouble";"multipart/byteranges";"multipart/digest";"multipart/encrypted";"multipart/form-data";"multipart/header-set";"multipart/mixed";"multipart/parallel";"multipart/related";"multipart/report";"multipart/signed";"multipart/voice-message";"text/calendar";"text/css";"text/directory";"text/enriched";"text/html";"text/plain";"text/prs.lines.tag";"text/rfc822-headers";"text/richtext";"text/rtf";"text/sgml";"text/t140";"text/tab-separated-values";"text/uri-list";"text/vnd.abc";"text/vnd.curl";"text/vnd.DMClientScript";"text/vnd.flatland.3dml";"text/vnd.fly";"text/vnd.fmi.flexstor";"text/vnd.in3d.3dml";"text/vnd.in3d.spot";"text/vnd.IPTC.NewsML";"text/vnd.IPTC.NITF";"text/vnd.latex-z";"text/vnd.motorola.reflex";"text/vnd.ms-mediapackage";"text/vnd.wap.si";"text/vnd.wap.sl";"text/vnd.wap.wml";"text/vnd.wap.wmlscript";"text/xml";"text/x-setext";"video/mpeg";"video/pointer";"video/quicktime";"video/vnd.fvt";"video/vnd.motorola.video";"video/vnd.motorola.videop";"video/vnd.vivo";"video/x-msvideo";"text/x-scriptlet";"video/x-sgi-movie";"x-conference/x-cooltalk","
+%typescript%=@C type=,type=,,text/javascript;text/jscript;text/vbscript;text/php;text/tcl,"
+%url1%=@C URL=,URL=,,http://;,
+%usemap%=@E usemap=,usemap=,,,"
+%valign%=@C valign=,valign=,,baseline;bottom;middle;top,"
+%value%=@E value=,value=,,,"
+%valuep%=@C value=,value=,,true;false;0;1;2;3;4;5;6;7;-10000;10000,"
+%valuet%=@E value,,,"
+%valuetype%=@C valuetype=,valuetype=,,data;ref;object,"
+%width%=@C width=,width=,,25%;33%;50%;75%;100%,"
+%width2%=@E width=*,width=,,,"
+%xmllang%=@C xml:lang=,xml:lang=,,aa;ab;af;am;ar;as;ay;az;ba;be;bg;bh;bi;bn;bo;br;ca;co;cs;cy;da;de;dz;el;en;eo;es;et;eu;fa;fi;fj;fo;fr;fy;ga;gd;gl;gn;gu;ha;he;hi;hr;hu;hy;ia;ie;ik;id;is;it;iu;ja;jv;ka;kk;kl;km;kn;ko;ks;ku;ky;la;ln;lo;lt;lv;mg;mi;mk;ml;mn;mo;mr;ms;mt;my;na;ne;nl;no;oc;om;or;pa;pl;ps;pt;qu;rm;rn;ro;ru;rw;sa;sd;sg;sh;si;sk;sl;sm;sn;so;sq;sr;ss;st;su;sv;sw;ta;te;tg;th;ti;tk;tl;tn;to;tr;ts;tt;tw;ug;uk;ur;uz;vi;vo;wo;xh;yi;yo;za;zh;zu,"
+
+; macro definition for SMARTy
+%addressr%=@E address,,,,
+%advance%=@C advance,advance=,,true;false,
+%alt%=@E alt,alt=,,,"
+%assign%=@E assign,assign=,,,"
+%basedir%=@E basedir,basedir=,,,"
+%bcc%=@E bcc,bcc=,,,"
+%border%=@E border,border=,,,"
+%cc%=@E cc,cc=,,,"
+%cols%=@E cols,cols=,,,
+%direction%=@C direction,direction=,,up;down,"
+%encode%=@C encode,,,none;hex;javascript,
+%equationr%=@C equation,,,+;-;/;*;abs;ceil;cos;exp;floor;log;log10;max;min;pi;pow;rand;round;sin;sqrt;srans;tan,
+%extra%=@E extra,extra=,,,"
+%configfile%=@O file,,,conf files (*.conf)|*.conf,,R\
+%smartyfile%=@O file,,,tpl files (*.tpl)|*.tpl,,R\
+%PHPfile%=@O file,,,PHP files (*.inc;*.php;*.php3;*.php4)|*.inc;*.php;*.php3;*.php4,,R\
+%file%=@O file,,,,,R\
+%filep%=@P file=,,,,
+%followupto%=@E followupto,followupto=,,,"
+%foreachp%=@C property,,,iteration;first;show;total,
+%format%=@E format,format=,,,"
+%fromr%=@E from,,,,
+%global%=@C global,global=,,true;false,
+%hdir%=@C hdir,hdir=,,left;right,
+%indent%=@E indent,indent=,,,
+%indent_char%=@E indent_char,indent_char=,,,"
+%indent_first%=@E indent_first,indent_first=,,,
+%itemr%=@E item,,,,
+%key%=@E key,key=,,,"
+%labels%=@C labels,labels=,,true;false,
+%left%=@
+%loopr%=@E loop,,,,
+%max%=@E max,max=,,,"
+%meridian_extra%=@
+%names%=@E name,name=,,,"
+%namer%=@E name,,,,
+%newsgroups%=@E newsgroups,newsgroups=,,,"
+%once%=@C once,once=,,true;false,
+%options%=@E options,options=,,,"
+%output%=@C output,output=,,html;javascript,"
+%outputs%=@E output,output=,,,"
+%print%=@C print,print=,,true;false,
+%scopes%=@C scope,scope=,,local;parent;global,"
+%script%=@E script,script=,,,"
+%section%=@E section,section=,,,"
+%sectionp%=@C property,,,index;index_prev;index_next;iteration;first;last;rownum;loop;show;total,
+%separator%=@E separator,separator=,,,"
+%skip%=@E skip,skip=,,,
+%start%=@E start,start=,,,
+%step%=@E step,step=,,,"
+%subject%=@E subject,subject=,,,"
+%show%=@C show,show=,,true;false,
+%tableattr%=@E table_attr,table_attr=,,,"
+%tdattr%=@E td_attr,td_attr=,,,"
+%text%=@E text,text=,,,"
+%trattr%=@E tr_attr,tr_attr=,,,"
+%trailpad%=@E trailpad,trailpad=,,,"
+%valuer%=@E value,,,,
+%values%=@E values,values=,,,"
+%varr%=@E var,,,,
+%vdir%=@C vdir,vdir=,,up;down,
+%wrap%=@E wrap,wrap=,,,
+%wrap_char%=@E wrap_char,wrap_char=,,,"
+%wrap_cut%=@C wrap_cut,wrap_cut=,,true;false,
+
+; -----------------------------------------------------------------------------
+; control structures
+; -----------------------------------------------------------------------------
+[capture | capture]
+{capture %names% %assign%}§|{/capture}
+;
+[config_load | config_load]
+{config_load file="%configfile%" %section% %scopes% %global%}
+;
+[foreach | foreach]
+{foreach from="%fromr%" item="%itemr%" %key% %names%}
+§|
+{/foreach}
+;
+[foreachp |F foreach properties]
+$smarty.foreach.%itemr%.%foreachp%
+;
+[foreachelse | foreachelse]
+{foreachelse}|
+;
+[include | include]
+{include file="%smartyfile%" %assign%}|
+;
+[include_php | include_php]
+{include_php file="%PHPfile%" %once% %assign% %script%}|
+;
+[insert | insert]
+{insert name="%namer%" %assign% %script%}|
+;
+[if | if]
+{if |}§{/if}
+;
+[ife | if else]
+{if |}§{else}{/if}
+;
+[elseif | elseif]
+{elseif}§|
+;
+[else | else]
+{else}§|
+;
+[ldelim | ldelim]
+{ldelim}|
+;
+[rdelim | rdelim]
+{rdelim}|
+;
+[literal | literal]
+{literal}
+§|
+{/literal}
+;
+[php | php]
+{php}
+§|
+{/php}
+;
+[section | section]
+{section name="%namer%" loop="%loopr%" %start% %step% %max% %show%}
+§|
+{/section}
+;
+[sectionp |F section properties]
+$smarty.section.%itemr%.%sectionp%|
+;
+[sectionelse | sectionelse]
+{sectionelse}|
+;
+[strip | strip]
+{strip}
+§|
+{/strip}
+;
+[capitalize |D capitalize]
+capitalize
+;
+[count_characters |D count_characters]
+count_characters
+;
+[cat |D cat]
+cat
+;
+[count_paragraphs |D count_paragraphs]
+count_paragraphs
+;
+[count_sentences |D count_sentences]
+count_sentences
+;
+[count_words |D count_words]
+count_words
+;
+[date_format |D date_format]
+date_format
+;
+[default |D default]
+default
+;
+[escape |D escape]
+escape
+;
+[indent |D indent]
+indent
+;
+[lower |D lower]
+lower
+;
+[nl2br |D nl2br]
+nl2br
+;
+[regex_replace |D regex_replace]
+regex_replace
+;
+[replace |D replace]
+replace
+;
+[spacify |D spacify]
+spacify
+;
+[string_format |D string_format]
+string_format
+;
+[strip |D strip]
+strip
+;
+[strip_tags |D strip_tags]
+strip_tags
+;
+[truncate |D truncate]
+truncate
+;
+[upper |D upper]
+upper
+;
+[wordwrap |D wordwrap]
+wordwrap
+
+[assign |P assign]
+{assign var="%varr%" value="%valuer%"}|
+;
+[counter |P counter]
+{counter %names% %start% %skip% %direction% %print% %assign%}|
+;
+[cycle |P cycle]
+{cycle %names% values="%valuer%" %print% %advance% %delimiter% %assign%}|
+;
+[debug |P debug]
+{debug %output%}|
+;
+[eval |P eval]
+{eval var="%varr%" %assign%}|
+;
+[fetch |P fetch]
+{fetch file="%file%" %assign%}|
+;
+[html_checkboxes |P html_checkboxes]
+{html_checkboxes %names% %values% %outputs% %selected% %options% %separator% %labels%}|
+;
+[html_image |P html_image]
+{html_image file="%filep%" %border% %height% %width2% %basedir% %alt% %srcp%}|
+;
+[html_options |P html_options]
+{html_options %values% %outputs% %selected% %options% %names%}|
+;
+[html_radios |P html_radios]
+{html_radios %names% %values% %outputs% %selected% %options% %separator%}|
+;
+[html_table |P html_table]
+{html_table loop="%loopr%" %cols% %tableattr% %trattr% %tdattr% %trailpad% %hdir% %vdir%}|
+;
+[math |P math]
+{math equation="%equationr%" %format% %var% %assign%|}
+;
+[mailto |P mailto]
+{mailto address="%addressr%" %text% %encode% %cc% %bcc% %subject% %newsgroups% %followupto% %extra%}|
+;
+[textformat |P textformat]
+{textformat %style% %indent% %indent_first% %indent_char% %wrap% %wrap_char% %wrap_cut% %assign%}|
+
+;control structur for XHTML
+[&nbsp; |G nedìlitelná mezera]*Shift+Ctrl+Space
+&nbsp;
+[&bdquo; |G uvozovka dole (99)]
+&bdquo;
+[&ldquo; |G uvozovka nahoøe (66)]*Ctrl+U
+&ldquo;
+[9966 |G text do uvozovek (9966)]
+&bdquo;§|&ldquo;
+[&apos; |G apostrof]
+&apos;
+[&gt; |G znak ">"]
+&gt;
+[&lt; |G znak "<"]
+&lt;
+[&amp; |G ampersand]
+&amp;
+;
+[<...> |G zaèátek/konec tagu z oznaèeného textu]*Ctrl+,
+<§>|</§>
+[<> |G zaèátek tagu <>]*Alt+,
+<|>
+[</> |G konec tagu </|>]*Alt+.
+</|>
+;
+[!-- |G øádkový komentáø <!-- text -->]
+<!--  §| -->
+[!--- |G komentáø bloku <!-- text -->]
+<!--
+  §|
+-->
+;
+[target |B odkaz do nového okna pomocí JavaScriptu]
+onclick="return!window.open(this.href);" title=" [nové okno]"
+;
+[a | odkaz, hyperlink]
+<a %href% %title% %accesskey% %charset% %class% %style% %coords% %dir% %hrefx% %target% %hreflang% %id% %lang% %name% %on% %rel% %rev% %shape% %tabindex% %typem% %xmllang%>§|</a>
+;
+[abbr | indikuje sekvenci znakù zkratky]
+<abbr %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</abbr>
+;
+[acronym | vymezení textu, který je akronymem]
+<acronym %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</acronym>
+;
+[address | definice adresy]
+<address %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</address>
+;
+[A_mailto | mail odkaz <a href="mailto:tvuj@email.cz">odkaz</a>]
+<a %hrefm%%am% %id% %class% %style% %on%>§|</a>
+;
+[area | oblast v klikací mapì]
+<area %accesskey% %alt% %class% %style% %coords% %dir% %href% %id% %lang% %nohref% %on% %shape% %tabindex% %title% %xmllang%>§|</area>
+;
+[asp |B vložení ASP kódu]
+<% %aspk%| %>
+;
+[ASPsv |B ASP Server Variables]
+<%= Request.ServerVariables("%aspsv%") %>
+;
+[b | tuèné písmo ]
+<b %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</b>
+;
+[base | základní adresa pro ostatní odkazy dokumentu]
+<base %href% %target%>§|</base>
+;
+[bdo | zmìna smìru textu]
+<bdo %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</bdo>
+;
+[big | zvìtšení písma]
+<big %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</big>
+;
+[blockquote | definice blokové citace, odsazení textu]
+<blockquote %cite% %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>
+  §|
+</blockquote>
+;
+[body | tìlo dokumentu]
+<body %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>
+  §|
+</body>
+;
+[br | zalomení øádku]
+<br %class% %style% %clear% %id% %title% />
+;
+[button | tlaèítko]
+<button %accesskey% %class% %style% %dir% %disabled% %id% %lang% %name% %on% %tabindex% %title% %type% %value% %xmllang%>§|</button>
+;
+[caption | definuje hlavièku tabulky]
+<caption %class% %id% %style% %on% %title% %alignc% %lang% %xmllang% %dir%>§|</caption>
+;
+[cite | vymezení citace]
+<cite %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</cite>
+;
+[code | neproporcionální písmo pro zobrazení zdrojový kódù, strojopis]
+<code %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</code>
+;
+[col | definuje sloupec ve skupinì sloupcù tabulky]
+<col %alignt% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %span% %title% %valign% %width% %xmllang% />
+|
+;
+[colgroup | definuje skupinu sloupcù tabulky]
+<colgroup %alignt% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %span% %title% %valign% %width% %xmllang%>§|</colgroup>
+;
+[CSS | link na externí CSS styl]
+<link rel="stylesheet" %hrefs% type="text/css" />
+|
+;
+[dd | uvádí definici v seznamu definic]
+<dd %class% %style% %dir% %id% %lang% %on% %title% %xmllang%></dd>
+|
+;
+[del | indikuje èást, která byla z pøedchozí verze odstranìna]
+<del %cite% %datetime% %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</del>
+;
+[dfn | formátování textu jako definice ]
+<dfn %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</dfn>
+;
+[div | blok]
+<div %class% %id% %style% %on% %title% %align% %lang% %xmllang% %dir%>
+  §|
+</div>
+;
+[dl | definuje seznam definicí]
+<dl %class% %id% %style% %on% %title% %compact% %lang% %xmllang% %dir%>§|</dl>
+;
+[DOCTYPE | XHTML 1.0 Strict ]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+|
+;
+[DOCTYPE | XHTML 1.0 Frameset ]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "DTD/xhtml1-frameset.dtd">
+|
+;
+[DOCTYPE | XHTML 1.0 Transitional ]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+|
+[DOCTYPE | XHTML 1.1  ]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+|
+;
+[dt | definuje termín v seznamu definicí]
+<dt %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</dt>
+;
+[em | zvýraznìní ]
+<em %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</em>
+;
+[FAVICON | oblíbená ikona]
+<link rel="shortcut icon" %hrefi% />
+|
+;
+[fieldset | seskupí pøíbuzné elementy formuláøe]
+<fieldset %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>
+  §|
+</fieldset>
+;
+[flash |N vložení Flash objektu]
+<div>
+  <object type="application/x-shockwave-flash" data="%swf%" %width% %height% %id%>
+    <param name="movie" value="%swf%" />
+    <param name="wmode" value="transparent" />
+  </object>
+</div>
+;
+;
+[form | formuláø]*Shift+Ctrl+Alt+F
+<form %action% %method% %enctype% %accept% %acceptcharset% %class% %onreset% %onsubmit% %on% %style% %dir% %id% %name2% %lang% %title% %target% %xmllang%>§|</form>
+;
+[h | nadpis <h1> až </h6>]
+<h%h% %class% %id% %style% %on% %title% %align% %lang% %xmllang% %dir%>§|</h%h%>
+;
+[H1_ | nadpis <h1></h1> (bez atributù)]
+<h1>§|</h1>
+;
+[H2_ | nadpis <h2></h2> (bez atributù)]
+<h2>§|</h2>
+;
+[H3_ | nadpis <h3></h3> (bez atributù)]
+<h3>§|</h3>
+;
+[H4_ | nadpis <h4></h4> (bez atributù)]
+<h4>§|</h4>
+;
+[H5_ | nadpis <h5></h5> (bez atributù)]
+<h5>§|</h5>
+;
+[H6_ | nadpis <h6></h6> (bez atributù)]
+<h6>§|</h6>
+;
+[head | hlavièka dokumentu ]
+<head %profile% %lang% %xmllang% %dir%>
+  §|
+</head>
+;
+[hr | vodorovná èára ]
+<hr %class% %id% %style% %on% %title% %width2% %size2% %lang% %xmllang% %dir% />
+|
+;
+[html | vymezení dokumentu <html></html>]
+<html %dir% %lang% %xmllang% xmlns="http://www.w3.org/1999/xhtml">
+  §|
+</html>
+;
+[HTMLs |N jednoduchá XHTML Strict stránka s deklarací XML]
+<?xml version="1.0" %encoding%?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html %xmllang% %lang% xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; %charsetm%" />
+    <title>%title2%</title>
+  </head>
+  <body>
+     §|
+  </body>
+</html>
+;
+[i | kurzíva]
+<i %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</i>
+;
+[iframe |D vložený rámeèek]
+<iframe %name% %class% %id% %style% %src% %width% %height% %longdesc% %marginheight% %marginwidth% %scrolling% %noresize% %align9% %style%>§|</iframe>
+;
+[img | obrázek]
+<img %srcp% %alt% %title% %aligni% %border% %class% %style% %on% %id% %ismap% %longdesc% %usemap% %width% %height% %lang% %xmllang% %dir% />
+|
+;
+[input | element ve formuláøi]
+<input %type2% %name% %value% %size% %maxlength% %alignc% %accept% %id% %accesskey% %checked% %tabindex% %srcp% %disabled% %readonly% %class% %style% %on% %title% />
+|
+;
+[INPUTf | input type=file]
+<input type="file" %name% %value% %size% %maxlength% %accept% %id% %accesskey% %disabled% %on% %readonly% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTh | input type=hidden]
+<input type="hidden" %name% %value% %id% />
+|
+;
+[INPUTch | input type=checkbox ]
+<input type="checkbox" %value% %accesskey% %id% %checked% %disabled% %on% %readonly% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTi | input type=image]
+<input type="image" %name% %value% %accesskey% %align9% %alt% %title% %usemap% %tabindex% %srcp% %disabled% %class% %style% %on% />
+;
+[INPUTp | input type=password]
+<input type="password" %name% %value% %size% %maxlength% %accesskey% %id% %disabled% %on% %readonly% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTr | input type=radio]
+<input type="radio" %name% %value% %maxlenght% %accesskey% %id% %checked% %disabled% %on% %readonly% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTre | input type=reset]
+<input type="reset" %value% %accesskey% %id% %disabled% %on% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTs | input type=submit]
+<input type="submit" %name% %value% %accesskey% %id% %disabled% %on% %tabindex% %class% %style% %title% />
+|
+;
+[INPUTt | input type=text]
+<input type="text" %name% %value% %maxlength% %size% %accesskey% %id% %disabled% %on% %readonly% %tabindex% %class% %style% %title% />
+|
+;
+[ins | indikuje èást, která byla od pøedchozí verze vložena]
+<ins %cite% %class% %style% %datetime% %dir% %id% %lang% %on% %title% %xmllang%>§|</ins>
+;
+[kbd | styl písma pro technické pojmy]
+<kbd %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</kbd>
+;
+[label | textový popisek elementu formuláøe]
+<label %for% %accesskey% %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</label>
+;
+[legend | legenda k množinì polí formuláøe]
+<legend %accesskey% %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</legend>
+;
+[li | položka seznamu]
+<li %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</li>
+;
+[link | hypertextový odkaz mezi dokumentem a nìjakým jiným prostøedkem]
+<link %charset% %class% %style% %dir% %hrefsi% %hreflang% %id% %lang% %media% %on% %rel% %rev% %title% %type4% %xmllang% />
+|
+;
+[LINKs | link na externí CSS styl]
+<link rel="stylesheet" %hrefs% type="text/css" />
+|
+;
+[map | obrázková mapa]
+<map %class% %id% %style% %name% %on% %title% %lang% %xmllang% %dir%>§|</map>
+;
+[meta | meta tag]
+<meta %namem% %content% %httpequiv% %lang% />
+|
+;
+[METAa | meta tag, autor]
+<meta name="author" content="%UserName%; e-mail: %Email%" />
+|
+;
+[METAc |N meta tagy proti ukládání do cache]
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="last-modified" content="%RFCTime%" />
+|
+;
+[METAcss | meta tag pro nastavení CSS]
+<meta http-equiv="content-style-type" %contentcss% />
+|
+;
+[METAe | meta tag expires pro vypršení platnosti stránky]
+<meta http-equiv="expires" content="%RFCTime%" />
+|
+;
+[METAdis | meta tag distribution]
+<meta name="distribution" %contentdis% />
+|
+;
+[METAg | meta tag generator PSPad]
+<meta name="generator" content="PSPad editor, www.pspad.com" />
+|
+;
+[METAk | meta tag pro nastavení kódování dokumentu]
+<meta http-equiv="content-type" content="text/html; %charsetm%" />
+|
+;
+[METAn | meta tagy (description, keywords)]
+<meta %lang% %metaname% %metacop% %metadesc% %metakey% />
+|
+;
+[METApl | PICS-Label]
+<meta http-equiv="PICS-Label" %content% />
+|
+;
+[METAr | meta tag pro pøesmìrování]
+<meta http-equiv="refresh" content="%s%;%url1%" />
+|
+;
+[METAlm | meta tag, poslední modifikace]
+<meta http-equiv="last-modified" content="%RFCTime%" />
+|
+[METArob | meta tag robots]
+<meta name="robots" %metarob% />
+|
+[METAms | Zachování vzhledu v XP jako v jiných windows]
+<meta http-equiv="msthemecompatible" content="no" />
+|
+;
+[METAit | Zakázání zobrazování toolbaru pro zvìtšování obrázkù v MSIE]
+<meta http-equiv="imagetoolbar" content="no" />
+|
+[METAbt | (IE) blendTrans]
+<meta %e% content="blendTrans(%Duration%)" />
+|
+;
+[METAscript | meta tag pro nastavení výchozího skriptování]
+<meta http-equiv="content-script-type" %contentscript% />
+|
+;
+[METArt | (IE) RevealTrans]
+<meta %e% content="RevealTrans(%Duration%, %Transition%)" />
+|
+;
+[METAwt | meta tag window-target]
+<meta http-equiv="window-target" %contentwt% />
+|
+;
+[noscript | obsah pro prohlížeèe nepodporující znaèku SCRIPT]
+<noscript %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>
+<!-- vytvorit_alternativu_k_JavaScriptu -->
+</noscript>
+;
+;
+[object | vložení objektu nebo appletu]
+<object %archive% %class% %style% %classid% %codebase% %codetype% %data% %declare% %dir% %height% %id% %lang% %name% %on% %standby% %tabindex% %title% %type% %usemap% %width% %xmllang%>
+  §|
+</object>
+;
+[ol | uspoøádaný (èíslovaný) seznam]
+<ol %class% %id% %accesskey% %style% %on% %title% %lang% %xmllang% %dir%>|§</ol>
+;
+[oll |N uspoøádaný (èíslovaný) seznam s položkami]
+<ol %class% %style% %style%>
+  <li>§|</li>
+  <li></li>
+  <li></li>
+</ol>
+;
+[optgroup | seskupuje pøíbuzné elementy typu OPTION v nabídce SELECT]
+<optgroup %class% %style% %dir% %disabled% %id% %label% %lang% %on% %title% %xmllang%>
+  §|
+</optgroup>
+;
+[option | pøístupné volby v nabídce select]
+<option %value% %class% %style% %disabled% %id% %label% %lang% %on% %selected% %title% %xmllang% %dir%>§|</option>
+;
+;
+[p | odstavec]
+<p %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>
+  §|
+</p>
+;
+[param | nastavení vlastností objektu]
+<param %namep% %valuep% %id% %typem% %valuetype% />
+|
+;
+[php |B PHP tag <?php ?>]
+<?php
+  §|
+?>
+;
+[PHPe |B PHP tag s pøíkazem echo]
+<?php echo "§|"; ?>
+;
+[PHPi |B PHP tag include ]
+<?php %include%; ?>
+|
+;
+[PHPp |B vložení PHP kódu]
+<?php %php%| ?>
+;
+[pre | pøedformátovaný text]
+<pre %class% %id% %style% %lang% %on% %title% %xmllang% %dir%>
+  §|
+</pre>
+;
+[PSPad | odkaz s ikonkou na stránky editoru PSPad]
+<a href="http://www.pspad.com/" title="Editor PSPad"><img src="http://www.pspad.com/pspad88x31.gif" alt="pspad88x31.gif" border="0" /></a>
+;
+;
+[q | definice krátké citace]
+<q %cite% %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>"§|"</q>
+;
+;
+[samp | oznaèení sekvence literálových znakù, strojopis]
+<samp %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</samp>
+;
+[select | roletkové menu]
+<select %name% %title% %id% %multiple% %on% %size% %class% %style% %disabled% %tabindex% %lang% %xmllang% %dir%>
+  §|
+</select>
+;
+[SELECTo |N roletkové menu s položkami]
+<select %name% %class% %id% %style% %size% %multiple% %title%>
+  <option value="|">§</option>
+  <option value=""></option>
+  <option value=""></option>
+</select>
+;
+[SCRIPT |N vložení interního skriptu]
+<script %charset% %defer% %typescript%>
+/* <![CDATA[ */
+  §|
+/* ]]> */
+</script>
+;
+[scripte | vložení externího skriptu]
+<script %charset% %defer% %srcj% %typescript%></script>
+|
+;
+[small | zmenšená velikost písma]
+<small %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</small>
+;
+[span | kontejner]
+<span %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</span>
+;
+[strong | silnì zvýraznìné písmo]
+<strong %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</strong>
+;
+[style | definice interního stylu]
+<style %type4% %dir% %lang% %media% %title%>
+/* <![CDATA[ */
+  §|
+/* ]]> */
+</style>
+;
+[stylesheet |N XML vazba na CSS]
+<?xml-stylesheet %alternate% %media% %title% type="text/css" %hrefs%?>
+|
+;
+[sub | text v dolním indexu]
+<sub %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</sub>
+;
+[sup | text v horním indexu]
+<sup %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</sup>
+;
+[table | definice tabulky]
+<table %width% %class% %id% %border% %cellpadding% %cellspacing% %style% %frame% %lang% %on% %rules% %summary% %title% %dir% %xmllang%>
+  §|
+</table>
+;
+[TABLEd |N jednoduchá tabulka s buòkami]
+<table %class% %width%>
+  <tr %bgcolor%>
+    <td>§|</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+;
+[tbody | definuje oddíl tabulky]
+<tbody %alignt% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %title% %valign% %xmllang%>§|</tbody>
+;
+[td | data tabulky]
+<td %abbr% %alignt% %axis% %char% %charoff% %class% %style% %colspan% %dir% %headers% %id% %lang% %on% %rowspan% %scope% %title% %valign% %xmllang%>§|</td>
+;
+[textarea | textarea]
+<textarea %name% %id% %accesskey% %cols% %rows% %class% %style% %title% %dir% %disabled% %lang% %on% %readonly% %tabindex% %xmllang%>%valuet%§|</textarea>
+;
+[tfoot | definuje zápatí tabulky]
+<tfoot %alignt% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %title% %valign% %xmllang%>§|</tfoot>
+;
+[th | záhlaví tabulky]
+<th %alignt% %abbr% %axis% %char% %charoff% %class% %style% %colspan% %rowspan% %dir% %headers% %id% %lang% %on% %scope% %title% %valign% %xmllang%>§|</th>
+;
+[thead | definuje záhlaví tabulky]
+<thead %alignt% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %title% %valign% %xmllang%>§|</thead>
+;
+[title | nadpis dokumentu]
+<title %lang% %xmllang% %dir%>§|</title>
+;
+[tr | definuje øádek tabulky]
+<tr %alignt% %valign% %char% %charoff% %class% %style% %dir% %id% %lang% %on% %title% %xmllang%>§|</tr>
+;
+[tt | pevná šíøka textu, strojopis]
+<tt %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</tt>
+;
+;
+[ul | neuspoøádaný (neèíslovaný) seznam]
+<ul %class% %id% %accesskey% %style% %on% %title% %lang% %xmllang% %dir%>§|</ul>
+;
+[UL_li |N neuspoøádaný (neèíslovaný) seznam s položkami]
+<ul %class% %style% %style%>
+  <li>§|</li>
+  <li></li>
+  <li></li>
+</ul>
+;
+[var | zobrazí text s menším písmem s pevnou šíøkou znaku]
+<var %class% %id% %style% %on% %title% %lang% %xmllang% %dir%>§|</var>
+;
+; ATRIBUTY
+[align | ATRIBUT - zarovnání]
+%alignall%
+[href | ATRIBUT - odkaz na dokument]
+%href%
+[style | ATRIBUT - pro vložení CSS stylu]
+%style%
+[type | ATRIBUT - type ]
+%typeall%
+
+[Tree Content]
+; XHTML Tree Content
+Entity
+ &amp;
+ &apos;
+ &bdquo;
+ &gt;
+ &ldquo;
+ &lt;
+ &nbsp;
+META tagy
+ METAa
+ METAbt
+ METAc
+ METAdis
+ METAe
+ METAg
+ METAk
+ METAlm
+ METAn
+ METAr
+ METArob
+ METArt
+ METAwt
+Formuláøe
+ fieldset
+ form
+ input
+ INPUTf
+ INPUTh
+ INPUTch
+ INPUTi
+ INPUTp
+ INPUTr
+ INPUTre
+ INPUTs
+ INPUTt
+ select
+ SELECTo
+ textarea
+Tabulka
+ caption
+ col
+ colgroup
+ table
+ TABLEd
+ tbody
+ td
+ tfoot
+ th
+ thead
+ tr
+Odkazy
+ a
+ Amail
+ METAr
+Seznamy
+ dd
+ dl
+ dt
+ li
+ LIa
+ ol
+ ul
+Záhlaví
+ head
+ html
+ HTMLs
+ title
+Spustitelný obsah
+ object
+PHP/ASP
+ php
+ PHPe
+ PHPi
+ PHPp
+ asp
+ ASPsv
+Formátování textu
+ abbr
+ acronym
+ address
+ blockcode
+ blockquote
+ br
+ cite
+ code
+ dfn
+ div
+ em
+ h
+ h1
+ h2
+ h3
+ h4
+ h5
+ h6
+ hr
+ kbd
+ p
+ pre
+ pre
+ q
+ samp
+ span
+ strong
+ var
+;
+; Smarty Tree Content
+Základní syntaxe
+ assign
+ capture
+ config_load
+ counter
+ cycle
+ debug
+ else
+ elseif
+ eval
+ fetch
+ foreach
+ foreachelse
+ html_checkboxes
+ html_image
+ html_options
+ html_radios
+ html_select_date
+ html_select_time
+ html_table
+ if
+ include
+ include_php
+ insert
+ ldelim
+ literal
+ mailto
+ math
+ php
+ popup
+ popup_init
+ rdelim
+ section
+ sectionelse
+ strip
+ textformat
+Modifikátory
+ capitalize
+ cat
+ const
+ cookie
+ count_characters
+ count_paragraphs
+ count_sentences
+ count_words
+ date_format
+ default
+ env
+ escape
+ first
+ get
+ indent
+ index
+ index_next
+ index_prev
+ iteration
+ last
+ loop
+ lower
+ nl2br
+ post
+ regex_replace
+ replace
+ request
+ rownum
+ server
+ session
+ show
+ smarty
+ spacify
+ string_format
+ strip
+ strip_tags
+ total
+ truncate
+ upper
+ wordwrap
+Vestavene funce
+ capture
+ config_load
+ foreach,foreachelse
+ include
+ include_php
+ insert
+ if,elseif,else
+ ldelim,rdelim
+ literal
+ php
+ section,sectionelse
+ strip
+Uzivatelske funkce
+ assign
+ counter
+ cycle
+ debug
+ eval
+ fetch
+ html_checkboxes
+ html_image
+ html_options
+ html_radios
+ html_select_date
+ html_select_time
+ html_table
+ math
+ mailto
+ popup_init
+ popup
+ textformat
+
+[KeyWords]
+; for XHTML
+abbr=
+about:
+above
+absbottom
+absmiddle
+accept=
+accept-charset=
+accesskey=
+acronym
+action=
+address
+align=
+alt=
+alternate stylesheet
+alternate=
+application/x-www-form-urlencoded
+area
+archive=
+asp
+aural
+axis=
+base
+baseline
+bdo
+below
+big
+blockquote
+body
+border=
+bottom
+box
+br />
+braille
+button
+cache-control
+caption
+cellpadding=
+cellspacing=
+center
+cite
+class=
+classid=
+clear=
+code
+codebase=
+codetype=
+col
+colgroup
+cols=
+colspan=
+compact="compact"
+content=
+content-language
+content-script-type
+content-style-type
+content-type
+coords=
+copyright=
+data=
+datetime=
+decimal
+declare=
+defer=
+del
+description=
+dfn
+dir=
+disabled="disabled"
+distribution
+div
+DOCTYPE
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "DTD/xhtml1-frameset.dtd">
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+Duration=
+embossed
+encoding=
+enctype=
+enctype="multipart/form-data"
+expires
+Ext-cache
+fieldset
+file:///
+form
+frame=
+frameset
+generator
+get
+global
+gopher://
+handheld
+head
+height=
+hr />
+href=
+html
+http://
+http://www.pspad.com/
+http://www.w3.org/1999/Math/MathML/
+http://www.w3.org/1999/xhtml
+http-equiv
+char
+checked="checked"
+id="[]"
+iframe
+imagetoolbar
+img
+input
+ins
+insides
+ismap=
+iso-8859-2
+javascript:;
+justify
+kbd
+keywords=
+label=
+last-modified
+left
+legend
+lhs
+link
+local
+mailto:
+map
+maxlength=
+meta
+methods=
+middle
+multipart/form-data
+multiple="multiple"
+must-revalidate
+name
+name="[]"
+nohref=
+noscript
+noshade="noshade"
+object
+onclick=""
+onclick="return!window.open(this.href);"
+optgroup
+option
+Page-Enter
+Page-Exit
+param
+php
+pics-label
+post
+pragma
+pre
+print
+projection
+readonly="readonly"
+refresh
+rel=
+Request.ServerVariables() %>
+rev=
+rhs
+right
+robots=
+row
+rowgroup
+rows=
+rowspan=
+rules=
+samp
+scope=
+screen
+script
+selected="selected"
+Set-Cookie
+shape=
+Site-Enter
+Site-Exit
+size=
+small
+span
+speech
+src=
+strong
+style
+style=
+stylesheet
+sub
+summary=
+sup
+tabindex=
+table
+taborder=
+target=
+tbody
+text/plain
+textarea
+texttop
+tfoot
+thead
+title
+title=
+top
+top=
+tty
+tv
+type=
+usemap=
+utf-8
+valign=
+value=
+valuetype=
+view-source:file:///
+void
+vsides
+wais://
+width=
+windows-1250
+window-target
+xml:lang=
+xmlns:math="http://www.w3.org/1999/Math/MathML/"
+xmlns="http://www.w3.org/1999/xhtml"
+xml-stylesheet
+;
+;
+; for SMARTY
+above
+address
+advance
+all_extra
+alt
+assign
+autostatus
+autostatuscap
+background
+basedir
+bcc
+below
+bgbackground
+bgcolor
+border
+caparray
+capcolor
+capicon
+caption
+captionfont
+captionsize
+cc
+center
+closecolor
+closefont
+closesize
+closetext
+cols
+day_empty
+day_extra
+day_format
+day_size
+day_value_format
+delay
+delimiter
+direction
+display_days
+display_hours
+display_meridian
+display_minutes
+display_months
+display_seconds
+display_years
+encode
+end_year
+equation
+extra
+fgbackground
+fgcolor
+field_array
+field_order
+field_separator
+file
+fixx
+fixy
+followupto
+format
+format
+frame
+from
+fullhtml
+global
+hauto
+hdir
+height
+hour_extra
+href
+inarray
+indent
+indent_char
+indent_first
+item
+key
+labels
+left
+loop
+max
+meridian_extra
+minute_extra
+minute_interval
+month_empty
+month_extra
+month_format
+month_size
+month_value_format
+name
+newsgroups
+noclose
+offsetx
+offsety
+once
+options
+output
+padx
+pady
+prefix
+print
+reverse_years
+right
+scope
+script
+second_extra
+second_interval
+section
+selected
+separator
+skip
+snapx
+snapy
+start
+start_year
+status
+step
+sticky
+style
+subject
+table_attr
+td_attr
+text
+textcolor
+textfont
+textsize
+time
+timeout
+tr_attr
+trailpad
+trigger
+use_24_hours
+value
+values
+var
+vauto
+vdir
+width
+wrap
+wrap_char
+wrap_cut
+year_as_text
+year_empty
+year_extra
+year_size

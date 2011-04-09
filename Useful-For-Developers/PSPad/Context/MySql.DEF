@@ -1,0 +1,553 @@
+; PSPad clip definition file for MySQL
+;
+; author: ing. Jan Fiala  pspad@wo.cz
+; last revision: 30.8.2003
+;
+[IFNULL | if expr1 is not NULL, IFNULL() returns expr1, else it returns expr2]
+IFNULL(|expr1,expr2)
+[NULLIF | if expr1 = expr2 is true, return NULL else return expr1]
+NULLIF(|expr1,expr2)
+[IF | if expr1 is TRUE (expr1 <> 0 and expr1 <> NULL) then IF() returns expr2, else it returns expr3]
+IF(|expr1,expr2,expr3)
+[CASE value | returns the result where value=compare-value]
+CASE |value WHEN [compare-value] THEN result [WHEN [compare-value] THEN result ...] [ELSE result] END
+[CASE when | returns the result for the first condition, which is true]
+CASE WHEN [|condition] THEN result [WHEN [condition] THEN result ...] [ELSE result] END
+[ASCII | returns the ASCII code value of the leftmost character of the string str]
+ASCII(|str)
+[ORD | returns the the ASCII code value of the character]
+ORD(|str)
+[CONV | converts numbers between different number bases]
+CONV(|N,from_base,to_base)
+[BIN | returns a string representation of the binary value of N, where N is a longlong (BIGINT) number]
+BIN(|N)
+[OCT | returns a string representation of the octal value of N]
+OCT(|N)
+[HEX | returns a string representation of the hexadecimal value of N]
+HEX(|N)
+[CHAR | returns a string consisting of the characters given by the ASCII code]
+CHAR(|N,...)
+[CONCAT | returns the string from concatenating the arguments]
+CONCAT(|str1,str2,...)
+[CONCAT_WS | the first argument is the separator for the rest of the arguments]
+CONCAT_WS(|separator, str1, str2,...)
+[LENGTH | returns the length of the string]
+LENGTH(|str)
+[OCTET_LENGTH | returns the length of the string]
+OCTET_LENGTH(|str)
+[CHAR_LENGTH | returns the length of the string]
+CHAR_LENGTH(|str)
+[CHARACTER_LENGTH | returns the length of the string str]
+CHARACTER_LENGTH(|str)
+[LOCATE | returns the position of the first occurrence of substring]
+LOCATE(|substr,str)
+[POSITION | returns the position of the first occurrence of substring]
+POSITION(|substr IN str)
+[LOCATE | returns the position of the first occurrence of substring]
+LOCATE(|substr,str,pos)
+[INSTR | returns the position of the first occurrence of substring]
+INSTR(|str,substr)
+[LPAD | returns the string str, left-padded with the string padstr]
+LPAD(|str,len,padstr)
+[RPAD | returns the string str, right-padded with the string padstr]
+RPAD(|str,len,padstr)
+[LEFT | returns the leftmost len characters from the string]
+LEFT(|str,len)
+[RIGHT | returns the rightmost len characters from the string]
+RIGHT(|str,len)
+[SUBSTRING | returns a substring from string str, starting at position pos]
+SUBSTRING(|str,pos,len)
+[SUBSTRING | returns a substring from string str, starting at position pos]
+SUBSTRING(|str FROM pos FOR len)
+[MID | returns a substring from string str, starting at position pos]
+MID(|str,pos,len)
+[SUBSTRING | returns a substring from string str, starting at position pos]
+SUBSTRING(|str,pos)
+[SUBSTRING | returns a substring from string str starting at position pos]
+SUBSTRING(|str FROM pos)
+[SUBSTRING_INDEX | returns the substring from string str before count occurrences of the delimiter delim]
+SUBSTRING_INDEX(|str,delim,count)
+[LTRIM | returns the string str with leading space characters removed]
+LTRIM(|str)
+[RTRIM | returns the string str with trailing space characters removed]
+RTRIM(|str)
+[TRIM | returns the string str with all remstr prefixes and/or suffixes removed]
+TRIM(|[[BOTH | LEADING | TRAILING] [remstr] FROM] str)
+[SOUNDEX | returns a soundex string from str]
+SOUNDEX(|str)
+[SPACE | returns a string consisting of N space characters]
+SPACE(|N)
+[REPLACE | returns the string str with from_str replaced by the string to_str]
+REPLACE(|str,from_str,to_str)
+[REPEAT | returns a string consisting of the string str repeated count times]
+REPEAT(|str,count)
+[REVERSE | returns the string str with the order of the characters reversed]
+REVERSE(|str)
+[INSERT | string beginning at position pos and len characters long is replaced by the newstr]
+INSERT(|str,pos,len,newstr)
+[ELT | returns str1 if N = 1, str2 if N = 2, and so on]
+ELT(|N,str1,str2,str3,...)
+[FIELD | returns the index of str in the str1, str2, str3, ... list]
+FIELD(|str,str1,str2,str3,...)
+[FIND_IN_SET | returns a value 1 to N if the string str is in the list strlist consisting of N substrings]
+FIND_IN_SET(|str,strlist)
+[MAKE_SET | returns a set consisting of the strings]
+MAKE_SET(|bits,str1,str2,...)
+[EXPORT_SET | returns a string frm set separated with 'separator']
+EXPORT_SET(|bits,on,off,[separator,[number_of_bits]])
+[LCASE | all characters are changed to lowercase]
+LCASE(|str)
+[LOWER | all characters are changed to lowercase]
+LOWER(|str)
+[UCASE | all characters changed to uppercase]
+UCASE(|str)
+[UPPER | all characters changed to uppercase]
+UPPER(|str)
+[LOAD_FILE | reads the file and returns the file contents as a string]
+LOAD_FILE(|file_name)
+[STRCMP | returns 0 if strings are same, -1 if first is smaller, 1 otherwise]
+STRCMP(|expr1,expr2)
+[MATCH  | is used for full-text search and returns relevance]
+MATCH (|col1,col2,...) AGAINST (expr)
+[ABS | returns the absolute value of X]
+ABS(|X)
+[SIGN | returns the sign of the argument as -1, 0, or 1, depending on whether X is negative, zero, or positive]
+SIGN(|X)
+[MOD | modulo (like the % operator in C). Returns the remainder of N divided by M]
+MOD(|N,M)
+[FLOOR | returns the largest integer value not greater than X]
+FLOOR(|X)
+[CEILING | returns the smallest integer value not less than X]
+CEILING(|X)
+[ROUND | returns the argument X, rounded to the nearest integer]
+ROUND(|X)
+[ROUND | returns the argument X, rounded to a number with D decimals. If D is 0, the result will have no decimal point or fractional part]
+ROUND(|X,D)
+[EXP | returns the value of e (the base of natural logarithms) raised to the power of X]
+EXP(|X)
+[LOG | returns the natural logarithm of X]
+LOG(|X)
+[LOG10 | returns the base-10 logarithm of X]
+LOG10(|X)
+[POW | returns the value of X raised to the power of Y]
+POW(|X,Y)
+[POWER | returns the value of X raised to the power of Y]
+POWER(|X,Y)
+[SQRT | returns the non-negative square root of X]
+SQRT(|X)
+[PI | returns the value of PI]
+PI(|)
+[COS | returns the cosine of X, where X is given in radians]
+COS(|X)
+[SIN | returns the sine of X, where X is given in radians]
+SIN(|X)
+[TAN | returns the tangent of X, where X is given in radians]
+TAN(|X)
+[ACOS | returns the arc cosine of X]
+ACOS(|X)
+[ASIN | returns the arc sine of X]
+ASIN(|X)
+[ATAN | returns the arc tangent of X]
+ATAN(|X)
+[ATAN2 | returns the arc tangent of the two variables X and Y]
+ATAN2(|Y,X)
+[COT | returns the cotangent of X]
+COT(|X)
+[RAND | random floating-point value in the range 0 to 1.0]
+RAND(|)
+[RAND | random floating-point value in the range 0 to 1.0]
+RAND(|N)
+[LEAST | returns the smallest argument]
+LEAST(|X,Y,...)
+[GREATEST | returns the largest argument]
+GREATEST(|X,Y,...)
+[DEGREES | returns the argument X, converted from radians to degrees]
+DEGREES(|X)
+[RADIANS | returns the argument X, converted from degrees to radians]
+RADIANS(|X)
+[TRUNCATE | returns the number X, truncated to D decimals]
+TRUNCATE(|X,D)
+[DAYOFWEEK | returns the weekday index for date (1 = Sunday…)]
+DAYOFWEEK(|date)
+[WEEKDAY | returns the weekday index for date (0 = Monday…)]
+WEEKDAY(|date)
+[DAYOFMONTH | returns the day of the month for date, in the range 1 to 31]
+DAYOFMONTH(|date)
+[DAYOFYEAR | returns the day of the year for date, in the range 1 to 366]
+DAYOFYEAR(|date)
+[MONTH | returns the month for date, in the range 1 to 12]
+MONTH(|date)
+[DAYNAME | returns the name of the weekday for date]
+DAYNAME(|date)
+[MONTHNAME | returns the name of the month for date]
+MONTHNAME(|date)
+[QUARTER | returns the quarter of the year for date, in the range 1 to 4]
+QUARTER(|date)
+[WEEK | returns the week for date]
+WEEK(|date)
+[WEEK | returns the week for date with start day of week (0 Sunday, 1 Monday)]
+WEEK(|date,first)
+[YEAR | returns the year for date, in the range 1000 to 9999]
+YEAR(|date)
+[YEARWEEK | returns year and week for a date]
+YEARWEEK(|date)
+[YEARWEEK | returns year and week for a date]
+YEARWEEK(|date,first)
+[HOUR | returns the hour for time, in the range 0 to 23]
+HOUR(|time)
+[MINUTE | returns the minute for time, in the range 0 to 59]
+MINUTE(|time)
+[SECOND | returns the second for time, in the range 0 to 59]
+SECOND(|time)
+[PERIOD_ADD | adds N months to period P (format YYYYMM)]
+PERIOD_ADD(|P,N)
+[PERIOD_DIFF | number of months between periods (format YYYYMM)]
+PERIOD_DIFF(|P1,P2)
+[DATE_ADD | function perform date arithmetic]
+DATE_ADD(|date,INTERVAL expr type)
+[DATE_SUB | function perform date arithmetic]
+DATE_SUB(|date,INTERVAL expr type)
+[ADDDATE | function perform date arithmetic]
+ADDDATE(|date,INTERVAL expr type)
+[SUBDATE | function perform date arithmetic]
+SUBDATE(|date,INTERVAL expr type)
+[EXTRACT | extracts parts from the date]
+EXTRACT(|type FROM date)
+[TO_DAYS | returns a daynumber  for given a date]
+TO_DAYS(|date)
+[FROM_DAYS | given a daynumber N, returns a DATE value]
+FROM_DAYS(|N)
+[DATE_FORMAT | formats the date value according to the format string]
+DATE_FORMAT(|date,format)
+[TIME_FORMAT | formats the time value according to the format string]
+TIME_FORMAT(|time,format)
+[CURDATE | returns today's date as 'YYYY-MM-DD' or YYYYMMDD]
+CURDATE(|)
+[CURRENT_DATE | returns today's date as 'YYYY-MM-DD' or YYYYMMDD]
+CURRENT_DATE
+[CURTIME | returns the current time as in 'HH:MM:SS' or HHMMSS]
+CURTIME(|)
+[CURRENT_TIME | returns the current time as in 'HH:MM:SS' or HHMMSS]
+CURRENT_TIME
+[NOW | returns the current date and time as a value]
+NOW(|)
+[SYSDATE | returns the current date and time as a value]
+SYSDATE(|)
+[CURRENT_TIMESTAMP | returns the current date and time as a value]
+CURRENT_TIMESTAMP
+[UNIX_TIMESTAMP | returns a Unix timestamp (seconds since '1970-01-01 00:00:00' GMT)]
+UNIX_TIMESTAMP(|)
+[UNIX_TIMESTAMP | returns a Unix timestamp (seconds since '1970-01-01 00:00:00' GMT)]
+UNIX_TIMESTAMP(|date)
+[FROM_UNIXTIME | returns a representation of the unix_timestamp]
+FROM_UNIXTIME(|unix_timestamp)
+[FROM_UNIXTIME | returns a string representation of the Unix timestampx']
+FROM_UNIXTIME(|unix_timestamp,format)
+[SEC_TO_TIME | seconds are converted to hours, minutes, and seconds]
+SEC_TO_TIME(|seconds)
+[TIME_TO_SEC | returns the time argument, converted to seconds]
+TIME_TO_SEC(|time)
+[BIT_COUNT | returns the number of bits that are set in the argument N]
+BIT_COUNT(|N)
+[DATABASE | returns the current database name]
+DATABASE(|)
+[USER | returns the current MySQL user name]
+USER(|)
+[SYSTEM_USER | returns the current MySQL user name]
+SYSTEM_USER(|)
+[SESSION_USER | returns the current MySQL user name]
+SESSION_USER(|)
+[PASSWORD | password string from the plaintext password str]
+PASSWORD(|str)
+[ENCRYPT | encrypt str using the Unix crypt() system call]
+ENCRYPT(|str[,salt])
+[ENCODE | encrypt str using pass_str as the password]
+ENCODE(|str,pass_str)
+[DECODE | descrypts the encrypted string crypt_str using pass_str]
+DECODE(|crypt_str,pass_str)
+[MD5 | calculates a MD5 checksum for the string]
+MD5(|string)
+[LAST_INSERT_ID | last automatically generated value that was inserted]
+LAST_INSERT_ID(|[expr])
+[FORMAT | formats number X to format '#,###,###.##', rounded to D decimals]
+FORMAT(|X,D)
+[VERSION | returns a string indicating the MySQL server version]
+VERSION(|)
+[CONNECTION_ID | returns the connection id (thread_id) for the connection]
+CONNECTION_ID(|)
+[GET_LOCK | tries to obtain lock with a name given by the string str, with a timeout]
+GET_LOCK(|str,timeout)
+[RELEASE_LOCK | releases the lock named by the string str]
+RELEASE_LOCK(|str)
+[BENCHMARK | executes the expression expr repeatedly count times]
+BENCHMARK(|count,expr)
+[INET_NTOA | returns the network address (4 or 8 byte) for the numeric expression]
+INET_NTOA(|expr)
+[INET_ATON | returns integer that represents numeric value for network address]
+INET_ATON(|expr)
+[MASTER_POS_WAIT | blocks until slave reaches specified position in master log]
+MASTER_POS_WAIT(|log_name, log_pos)
+[SELECT | SELECT command syntax ]
+SELECT |[STRAIGHT_JOIN] [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
+       [HIGH_PRIORITY]
+       [DISTINCT | DISTINCTROW | ALL]
+    select_expression,...
+    [INTO {OUTFILE | DUMPFILE} 'file_name' export_options]
+    [FROM table_references
+        [WHERE where_definition]
+        [GROUP BY {unsigned_integer | col_name | formula} [ASC | DESC], ...]
+        [HAVING where_definition]
+        [ORDER BY {unsigned_integer | col_name | formula} [ASC | DESC] ,...]
+        [LIMIT [offset,] rows]
+        [PROCEDURE procedure_name]
+        [FOR UPDATE | LOCK IN SHARE MODE]]
+[INSERT values | INSERT command syntax]
+INSERT |[LOW_PRIORITY | DELAYED] [IGNORE]
+       [INTO] tbl_name [(col_name,...)]
+       VALUES (expression,...),(...),...
+[INSERT select | INSERT command syntax]
+INSERT |[LOW_PRIORITY | DELAYED] [IGNORE]
+       [INTO] tbl_name [(col_name,...)]
+       SELECT ...
+[INSERT set | INSERT command syntax]
+INSERT |[LOW_PRIORITY | DELAYED] [IGNORE]
+       [INTO] tbl_name
+       SET col_name=expression, col_name=expression, ...
+[UPDATE | UPDATE command syntax]
+UPDATE |[LOW_PRIORITY] [IGNORE] tbl_name
+    SET col_name1=expr1, [col_name2=expr2, ...]
+    [WHERE where_definition]
+    [LIMIT #]
+[DELETE | DELETE command syntax]
+DELETE |[LOW_PRIORITY] FROM tbl_name
+    [WHERE where_definition]
+    [LIMIT rows]
+[TRUNCATE TABLE | TRUNCATE TABLE command syntax]
+TRUNCATE TABLE |table_name
+[REPLACE values | REPLACE command syntax]
+REPLACE |[LOW_PRIORITY | DELAYED]
+    [INTO] tbl_name [(col_name,...)]
+    VALUES (expression,...)
+[REPLACE select | REPLACE command syntax]
+REPLACE |[LOW_PRIORITY | DELAYED]
+    [INTO] tbl_name [(col_name,...)]
+    SELECT ...
+[REPLACE set | REPLACE command syntax]
+REPLACE |[LOW_PRIORITY | DELAYED]
+    [INTO] tbl_name
+    SET col_name=expression, col_name=expression,...
+[CREATE DATABASE | creates databaze db_name]
+CREATE DATABASE |[IF NOT EXISTS] db_name
+[DROP DATABASE | drop database db_name]
+DROP DATABASE |[IF EXISTS] db_name
+[CREATE TABLE | creates table tbl_name]
+CREATE |[TEMPORARY] TABLE [IF NOT EXISTS] tbl_name [(create_definition,...)]
+  [table_options] [select_statement]
+[ALTER TABLE | ALTER TABLE tbl_name]
+ALTER |[IGNORE] TABLE tbl_name alter_spec [, alter_spec ...]
+[RENAME TABLE | RENAME TABLE tbl_name TO new_table_name]
+RENAME TABLE |tbl_name TO new_table_name[, tbl_name2 TO new_table_name2,...]
+[DROP TABLE | DROP TABLE tbl_name]
+DROP TABLE |[IF EXISTS] tbl_name [, tbl_name,...] [RESTRICT | CASCADE]
+[CREATE INDEX | CREATE INDEX index_name ON tbl_name]
+CREATE |[UNIQUE|FULLTEXT] INDEX index_name ON tbl_name (col_name[(length)],... )
+[DROP INDEX | DROP INDEX index_name ON tbl_name]
+DROP INDEX |index_name ON tbl_name
+[LOCK TABLES | LOCK TABLES tbl_name]
+LOCK TABLES tbl_name [AS alias] {READ | [READ LOCAL] | [LOW_PRIORITY] WRITE}
+            [, tbl_name {READ | [LOW_PRIORITY] WRITE} ...]
+[UNLOCK TABLES | UNLOCK TABLES locked previous LOCK TABLE command]
+UNLOCK TABLES
+[SET TRANSACTION LEVEL | set transaction isolation level]
+SET |[GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL
+    [READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE]
+;
+[Keywords]
+ABS()
+ACOS()
+ADDDATE()
+ALL
+ALTER
+ASC
+ASCII()
+ASIN()
+ATAN()
+ATAN2()
+AVG()
+BENCHMARK()
+BIN()
+BIT_AND()
+BIT_COUNT()
+BIT_OR()
+CASE
+CEILING()
+COALESCE()
+CONCAT()
+CONCAT_WS()
+CONNECTION_ID()
+CONV()
+COS()
+COT()
+COUNT()
+CREATE
+CURDATE()
+CURTIME()
+DATABASE()
+DATE_ADD()
+DATE_FORMAT()
+DATE_SUB()
+DAYNAME()
+DAYOFMONTH()
+DAYOFWEEK()
+DAYOFYEAR()
+DECODE()
+DEGREES()
+DELAYED
+DELETE
+DESC
+DESCRIBE
+DISTINCT
+DISTINCTROW
+DROP
+DUMPFILE
+ELT()
+ENCODE()
+ENCRYPT()
+EXP()
+EXPORT_SET()
+EXTRACT()
+FIELD()
+FIND_IN_SET()
+FLOOR()
+FORMAT()
+FROM
+FROM_DAYS()
+FROM_UNIXTIME()
+GET_LOCK()
+GREATEST()
+HEX()
+HIGH_PRIORITY
+HOUR()
+CHAR()
+CHAR_LENGTH()
+CHARACTER_LENGTH()
+IF EXISTS
+IF NOT EXISTS
+IF()
+IFNULL()
+INET_ATON()
+INET_NTOA()
+INSERT
+INSTR()
+INTERVAL
+INTO
+ISNULL()
+LAST_INSERT_ID()
+LCASE()
+LEADING
+LEAST()
+LEFT()
+LENGTH()
+LIMIT
+LOAD_DATA_INFILE
+LOAD_FILE()
+LOCATE()
+LOCK
+LOG()
+LOG10()
+LOW_PRIORITY
+LOWER()
+LPAD()
+LTRIM()
+MAKE_SET()
+MAX()
+MD5()
+MID()
+MIN()
+MINUTE()
+MOD()
+MONTH()
+MONTHNAME()
+NOW()
+NULLIF
+OCT()
+OCTET_LENGTH()
+ORD()
+OUTFILE
+PASSWORD()
+PERIOD_ADD()
+PERIOD_DIFF()
+PI()
+POSITION()
+POW()
+POWER()
+PROCEDURE
+QUARTER()
+RADIANS()
+RAND()
+READ COMMITTED
+READ LOCAL
+READ UNCOMMITTED
+RELEASE_LOCK()
+REPEAT()
+REPEATABLE READ
+REPLACE
+REPLACE()
+REVERSE()
+RIGHT()
+ROUND()
+RPAD()
+RTRIM()
+SEC_TO_TIME()
+SECOND()
+SELECT
+SERIALIZABLE
+SESSION
+SESSION_USER()
+SET
+SHOW
+SIGN()
+SIN()
+SOUNDEX()
+SPACE()
+SQL_BIG_RESULT
+SQL_BUFFER_RESULT
+SQL_SMALL_RESULT
+SQRT()
+STD()
+STDDEV()
+STRAIGHT_JOIN
+STRCMP()
+SUBDATE()
+SUBSTRING()
+SUBSTRING_INDEX()
+SUM()
+SYSDATE()
+SYSTEM_USER()
+TABLE
+TAN()
+TEMPORARY
+TIME_FORMAT()
+TIME_TO_SEC()
+TO_DAYS()
+TRAILING
+TRANSACTION ISOLATION LEVEL
+TRIM()
+TRUNCATE
+TRUNCATE()
+UCASE()
+UNIX_TIMESTAMP()
+UNLOCK
+UPDATE
+UPPER()
+USE
+USER()
+VALUES
+VERSION()
+WEEK()
+WEEKDAY()
+WHERE
+WRITE
+YEAR()
+YEARWEEK()
+

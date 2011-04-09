@@ -1,0 +1,2926 @@
+; PSPad clip definition file for Ansys 7.0
+; author:  Novotny L. W., www.TOSHULIN.cz
+; last revision 31. 12. 2003  21:01
+;
+[*ABBR | Defines an abbreviation.]
+*ABBR,Abbr,String 
+[*AFUN | Specifies units for angular functions in parameter expressions.]
+*AFUN,Lab 
+[*ASK | Prompts the user to input a parameter value.]
+*ASK,Par,Query,DVAL 
+[*CFCLOS |"Closes the""command""file."]
+*CFCLOS 
+[*CFOPEN |"Opens a""command""file."]
+*CFOPEN,Fname,Ext,--,Loc 
+[*CFWRITE |"Writes an ANSYS command (or similar string) to a""command""file."]
+*CFWRITE,Command 
+[*CREATE | Opens (creates) a macro file.]
+*CREATE,Fname,Ext,-- 
+[*CYCLE | Bypasses commands within a do loop.]
+*CYCLE 
+[*DEL | Deletes a parameter or parameters (GUI).]
+*DEL,Val1,Val2 
+[*DIM | Defines an array parameter and its dimensions.]
+*DIM,Par,Type,IMAX,JMAX,KMAX,Var1,Var2,Var3 
+[*DO | Defines the beginning of a do loop.]
+*DO,Par,IVAL,FVAL,INC 
+[*ELSE | Separates the final if then else block.]
+*ELSE 
+[*ELSEIF | Separates an intermediate if then else block.]
+*ELSEIF,VAL1,Oper,VAL2 
+[*END | Closes a macro file.]
+*END 
+[*ENDDO | Ends a do loop and starts the looping action.]
+*ENDDO 
+[*ENDIF | Ends an if then else.]
+*ENDIF 
+[*EVAL | Evaluates hyperelastic constants.]
+*EVAL,ETYPE,EVPARM,CONST,XMIN,XMAX,XVAL,ECALC 
+[*EXIT | Exits a do loop.]
+*EXIT 
+[*GET | Retrieves a value and stores it as a scalar parameter or part of an array parameter.]
+*GET,Par,Entity,ENTNUM,Item1,IT1NUM,Item2,IT2NUM 
+[*GO | Causes a specified line on the input file to be read next.]
+*GO,Base 
+[*IF | Conditionally causes commands to be read.]
+*IF,VAL1,Oper1,VAL2,Base1,VAL3,Oper2,VAL4,Base2 
+[*LIST | Displays the contents of an external,coded file.]
+*LIST,Fname,Ext,-- 
+[*MFOURI | Calculates the coefficients for,or evaluates,a Fourier series.]
+*MFOURI,Oper,COEFF,MODE,ISYM,THETA,CURVE 
+[*MFUN | Copies or transposes an array parameter matrix.]
+*MFUN,ParR,Func,Par1 
+[*MOONEY | Calculates Mooney Rivlin hyperelastic constants from test data.]
+*MOONEY,STRAIN,STRESS,--,CONST,CALC,SORTSN,SORTSS,Fname,Ext 
+[*MOPER | Performs matrix operations on array parameter matrices.]
+*MOPER,ParR,Par1,Oper,Par2,Par3,kDim,Ratio,kOut 
+[*MSG | Writes an output message via the ANSYS message subroutine.]
+*MSG,Lab,VAL1,VAL2,VAL3,VAL4,VAL5,VAL6,VAL7,VAL8 
+[*MWRITE | Writes a matrix to a file in a formatted sequence.]
+*MWRITE,ParR,Fname,Ext,--,Label,n1,n2,n3 
+[*REPEAT | Repeats the previous command.]
+*REPEAT,NTOT,VINC1,VINC2,VINC3,VINC4,VINC5,VINC6,VINC7,VINC8,VINC9,VINC10,VINC11 
+[*SET | Assigns values to user named parameters.]
+*SET,Par,VALUE,VAL2,VAL3,VAL4,VAL5,VAL6,VAL7,VAL8,VAL9,VAL10 
+[*STATUS | Lists the current parameters and abbreviations.]
+*STATUS,Par,IMIN,IMAX,JMIN,JMAX,KMIN,KMAX 
+[*TOPER | Operates on table parameters.]
+*TOPER,ParR,Par1,Oper,Par2,FACT1,FACT2,CON1 
+[*TREAD | Reads data from an external file into a table array parameter.]
+*TREAD,Par,Fname,Ext,--,NSKIP 
+[*ULIB | Identifies a macro library file.]
+*ULIB,Fname,Ext,-- 
+[*USE | Executes a macro file.]
+*USE,Name,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7,ARG8,ARG9,AR10,AR11,AR12,AR13,AR14,AG15,AR16,AR17,AR18
+[*VABS | Applies the absolute value function to array parameters.]
+*VABS,KABSR,KABS1,KABS2,KABS3 
+[*VCOL | Specifies the number of columns in matrix operations.]
+*VCOL,NCOL1,NCOL2 
+[*VCUM | Allows array parameter results to add to existing results.]
+*VCUM,KEY 
+[*VEDIT | Allows numerical array parameters to be graphically edited.]
+*VEDIT,Par 
+[*VFACT | Applies a scale factor to array parameters.]
+*VFACT,FACTR,FACT1,FACT2,FACT3 
+[*VFILL | Fills an array parameter.]
+*VFILL,ParR,Func,CON1,CON2,CON3,CON4,CON5,CON6,CON7,CON8,CON9,CON10
+[*VFUN | Performs a function on a single array parameter.]
+*VFUN,ParR,Func,Par1,CON1,CON2,CON3 
+[*VGET | Retrieves values and stores them into an array parameter.]
+*VGET,ParR,Entity,ENTNUM,Item1,IT1NUM,Item2,IT2NUM,KLOOP 
+[*VITRP | Forms an array parameter by interpolation of a table.]
+*VITRP,ParR,ParT,ParI,ParJ,ParK 
+[*VLEN | Specifies the number of rows to be used in array parameter operations.]
+*VLEN,NROW,NINC 
+[*VMASK | Specifies an array parameter as a masking vector.]
+*VMASK,Par 
+[*VOPER | Operates on two array parameters.]
+*VOPER,ParR,Par1,Oper,Par2,CON1,CON2 
+[*VPLOT | Graphs columns (vectors) of array parameters.]
+*VPLOT,ParX,ParY,Y2,Y3,Y4,Y5,Y6,Y7,Y8 
+[*VPUT | Restores array parameter values into the ANSYS database.]
+*VPUT,ParR,Entity,ENTNUM,Item1,IT1NUM,Item2,IT2NUM,KLOOP 
+[*VREAD | Reads data and produces an array parameter vector or matrix.]
+*VREAD,ParR,Fname,Ext,--,Label,n1,n2,n3,NSKIP 
+[*VSCFUN | Determines properties of an array parameter.]
+*VSCFUN,ParR,Func,Par1 
+[*VSTAT | Lists the current specifications for the array parameters.]
+*VSTAT 
+[*VWRITE | Writes data to a file in a formatted sequence.]
+*VWRITE,Par1,Par2,Par3,Par4,Par5,Par6,Par7,Par8,Par9,Par10,Par11,Par12,Par13,Par14,Par15,Par16,Par17,Par18,Par19
+[/AN3D | Specifies 3 D annotation functions]
+/AN3D,Kywrd,KEY 
+[/ANFILE | Saves or resumes an animation sequence to or from a file.]
+/ANFILE,LAB,Fname,Ext,-- 
+[/ANGLE | Rotates the display about an axis.]
+/ANGLE,WN,THETA,Axis,KINCR 
+[/ANNOT | Activates graphics for annotating displays (GUI).]
+/ANNOT,Lab,VAL1,VAL2 
+[/ANUM | Specifies the annotation number,type,and hot spot (GUI).]
+/ANUM,NUM,TYPE,XHOT,YHOT 
+[/ASSIGN | Reassigns a file name to an ANSYS file identifier.]
+/ASSIGN,Ident,Fname,Ext,-- 
+[/AUTO |"Resets the focus and distance specifications to""automatically calculated."""]
+/AUTO,WN 
+[/AUX12 | Enters the radiation processor.]
+/AUX12 
+[/AUX15 | Enters the IGES file transfer processor.]
+/AUX15 
+[/AUX2 | Enters the binary file dumping processor.]
+/AUX2 
+[/AUX3 | Enters the results file editing processor.]
+/AUX3 
+[/AXLAB | Labels the X and Y axes on graph displays.]
+/AXLAB,Axis,Lab 
+[/BATCH |"Sets the program mode to""batch."""]
+/BATCH,Lab 
+[/CFORMAT | Controls the graphical display of alphanumeric character strings for parameters,components,assemblies,and tables.]
+/CFORMAT,NFIRST,NLAST 
+[/CLABEL | Specifies contour labeling.]
+/CLABEL,WN,KEY 
+[/CLEAR | Clears the database.]
+/CLEAR,Read 
+[/CLOG | Copies the session log file to a named file.]
+/CLOG,Fname,Ext,-- 
+[/CMAP | Changes an existing or creates a new color mapping table.]
+/CMAP,Fname,Ext,--,Kywrd,NCNTR 
+[/COLOR | Specifies the color mapping for various items.]
+/COLOR,Lab,Clab,N1,N2,NINC 
+[/COM | Places a comment in the output.]
+/COM,Comment 
+[/CONFIG | Assigns values to ANSYS configuration parameters.]
+/CONFIG,Lab,VALUE 
+[/CONTOUR | Specifies the uniform contour values on stress displays.]
+/CONTOUR,WN,NCONT,VMIN,VINC,VMAX 
+[/COPY | Copies a file.]
+/COPY,Fname1,Ext1,--,Fname2,Ext2,-- 
+[/CPLANE | Specifies the cutting plane for section and capped displays.]
+/CPLANE,KEY 
+[/CTYPE | Specifies the type of contour display.]
+/CTYPE,KEY,DOTD,DOTS,DSHP,TLEN 
+[/CVAL | Specifies non uniform contour values on stress displays.]
+/CVAL,WN,V1,V2,V3,V4,V5,V6,V7,V8 
+[/CWD | Changes the current working directory.]
+/CWD,DIRPATH 
+[/CYCEXPAND | Graphically expands displacements,stresses and strains of a cyclically symmetric model.]
+/CYCEXPAND,WN,OPTION,Value1,Value2 
+[/DELETE | Deletes a file.]
+/DELETE,Fname,Ext,-- 
+[/DEVDISP | Controls graphics device options.]
+/DEVDISP,Label,KEY 
+[/DEVICE | Controls graphics device options.]
+/DEVICE,Label,KEY 
+[/DIST | Specifies the viewing distance for magnifications and perspective.]
+/DIST,WN,DVAL,KFACT 
+[/DSCALE | Sets the displacement multiplier for displacement displays.]
+/DSCALE,WN,DMULT 
+[/DV3D | Sets 3 D device option modes.]
+/DV3D,Lab,Key 
+[/EDGE |"Displays only the""edges""of an object."]
+/EDGE,WN,KEY,ANGLE 
+[/EFACET | Specifies the number of facets per element edge for PowerGraphics displays.]
+/EFACET,NUM 
+[/EOF | Exits the file being read.]
+/EOF 
+[/ERASE | Specifies that the screen is to be erased before each display.]
+/ERASE 
+[/ESHAPE | Displays elements with shapes determined from the real constants or section definition.]
+/ESHAPE,SCALE 
+[/EXIT | Stops the run and returns control to the system.]
+/EXIT,Slab,Fname,Ext,-- 
+[/EXPAND | Allows the creation of a larger graphic display than represented by the actual finite element analysis model.]
+/EXPAND,Nrepeat1,Type1,Method1,DX1,DY1,DZ1,Nrepeat2,Type2,Method2,DX2,DY2,DZ2,Nrepeat3,Type3,Method3,DX3,DY3,DZ3 
+[/FACET | Specifies the facet representation used to form solid model displays.]
+/FACET,Lab 
+[/FDELE | Deletes a binary file after it is used.]
+/FDELE,Ident,Stat 
+[/FILNAME | Changes the Jobname for the analysis.]
+/FILNAME,Fname,Key 
+[/FOCUS | Specifies the focus point (center of the window).]
+/FOCUS,WN,XF,YF,ZF,KTRANS 
+[/FORMAT | Specifies format controls for tables.]
+/FORMAT,NDIGIT,Ftype,NWIDTH,DSIGNF,LINE,CHAR 
+[/FTYPE | Assigns an external or internal type to a binary file.]
+/FTYPE,Ident,Type 
+[/GCMD | Controls the type of element or graph display used for the GPLOT command.]
+/GCMD,WN,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6,Lab7,Lab8,Lab9,Lab10,Lab11,Lab12 
+[/GCOLUMN | Allows the user to apply a label to a specified curve.]
+/GCOLUMN,CURVE,STRING 
+[/GFILE | Specifies the pixel resolution on Z buffered graphics files.]
+/GFILE,SIZE 
+[/GFORMAT | Specifies the format for the graphical display of numbers.]
+/GFORMAT,Ftype,NWIDTH,DSIGNF 
+[/GLINE | Specifies the element outline style.]
+/GLINE,WN,STYLE 
+[/GMARKER | Specifies the curve marking style.]
+/GMARKER,CURVE,KEY,INCR 
+[/GO | Reactivates suppressed printout.]
+/GO 
+[/GOLIST | Reactivates the suppressed data input listing.]
+/GOLIST 
+[/GOPR | Reactivates suppressed printout.]
+/GOPR 
+[/GRAPHICS | Defines the type of graphics display.]
+/GRAPHICS,Key 
+[/GRESUME | Sets graphics settings to the settings on a file.]
+/GRESUME,Fname,Ext,-- 
+[/GRID | Selects the type of grid on graph displays.]
+/GRID,KEY 
+[/GROPT | Sets various line graph display options.]
+/GROPT,Lab,KEY 
+[/GRTYP | Selects single or multiple Y axes graph displays.]
+/GRTYP,KAXIS 
+[/GSAVE | Saves graphics settings to a file for later use.]
+/GSAVE,Fname,Ext,-- 
+[/GST | Turns Graphical Solution Tracking (GST) on or off.]
+/GST,Lab 
+[/GTHK | Sets line thicknesses for graph lines.]
+/GTHK,Label,THICK 
+[/GTYPE | Controls the entities that the GPLOT command displays.]
+/GTYPE,WN,LABEL,KEY 
+[/HEADER | Sets page and table heading print controls.]
+/HEADER,Header,Stitle,Idstmp,Notes,Colhed,Minmax 
+[/ICLWID | Scales the line width of circuit builder icons.]
+/ICLWID,FACTOR 
+[/ICSCALE | Scales the icon size for elements supported in the circuit builder.]
+/ICSCALE,WN,FACTOR 
+[/IMAGE | Allows graphics data to be captured and saved.]
+/IMAGE,Label,Fname,Ext,-- 
+[/INPUT | Switches the input file for the commands that follow.]
+/INPUT,Fname,Ext,--,LINE,LOG 
+[/INQUIRE | Returns system information to a parameter.]
+/INQUIRE,StrArray,FUNC 
+[/LARC | Creates annotation arcs (GUI).]
+/LARC,XCENTR,YCENTR,XLRAD,ANGLE1,ANGLE2 
+[/LIGHT | Specifies the light direction for the display window.]
+/LIGHT,WN,NUM,INT,XV,YV,ZV,REFL 
+[/LINE | Creates annotation lines (GUI).]
+/LINE,X1,Y1,X2,Y2 
+[/LSPEC | Specifies annotation line attributes (GUI).]
+/LSPEC,LCOLOR,LINSTL,XLNWID 
+[/LSYMBOL | Creates annotation symbols (GUI).]
+/LSYMBOL,X,Y,SYMANG,SYMTYP,SYMSIZ,KEYBMP 
+[/MENU | Activates the Graphical User Interface (GUI).]
+/MENU,Key 
+[/MPLIB | Sets the default material library read and write paths.]
+/MPLIB,R-W_opt,PATH 
+[/MREP |"Enables you to reissue the graphics command macro""name""during a replot or zoom operation."]
+/MREP,NAME,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7,ARG8,ARG9,ARG10,ARG11,ARG12,ARG13,ARG14,ARG15,ARG16,ARG17,ARG18 
+[/MSTART | Controls the initial GUI components.]
+/MSTART,Label,KEY 
+[/NERR | Limits the number of warning and error messages displayed.]
+/NERR,NMERR,NMABT,--,IFKEY 
+[/NOERASE | Prevents the screen erase between displays.]
+/NOERASE 
+[/NOLIST | Suppresses the data input listing.]
+/NOLIST 
+[/NOPR | Suppresses the expanded interpreted input data listing.]
+/NOPR 
+[/NORMAL | Allows displaying area elements by top or bottom faces.]
+/NORMAL,WN,KEY 
+[/NUMBER | Specifies whether numbers,colors,or both are used for displays.]
+/NUMBER,NKEY 
+[/OPT | Enters the design optimizer.]
+/OPT 
+[/OUTPUT | Redirects text output to a file or to the screen.]
+/OUTPUT,Fname,Ext,--,Loc 
+[/PAGE | Defines the printout and screen page size.]
+/PAGE,ILINE,ICHAR,BLINE,BCHAR 
+[/PBC | Shows boundary condition symbols and values on displays.]
+/PBC,Item,--,KEY,MIN,MAX,ABS 
+[/PBF | Shows magnitude of body force loads on displays.]
+/PBF,Item,--,KEY 
+[/PCIRCLE | Creates an annotation circle (GUI).]
+/PCIRCLE,XCENTR,YCENTR,XLRAD 
+[/PCOPY | Automatically generates hard copies for HP Unix work stations.]
+/PCOPY,KEY 
+[/PDS | Enters the probabilistic design system.]
+/PDS 
+[/PICE | Shows initial conditions on elements as contours on displays.]
+/PICE,Item,--,KEY 
+[/PLOPTS | Controls graphics options on subsequent displays.]
+/PLOPTS,Label,KEY 
+[/PMACRO | Specifies that macro contents be written to the session log file.]
+/PMACRO 
+[/PMETH | Activates the p method solution options in the Graphical User Interface (GUI).]
+/PMETH,Key,OPTION 
+[/PMORE | Creates an annotation polygon (GUI).]
+/PMORE,--,X5,Y5,X6,Y6,X7,Y7,X8,Y8 
+[/PNUM | Controls entity numbering/coloring on plots.]
+/PNUM,Label,KEY 
+[/POLYGON | Creates annotation polygons (GUI).]
+/POLYGON,NVERT,X1,Y1,X2,Y2,X3,Y3,X4,Y4 
+[/POST1 | Enters the database results postprocessor.]
+/POST1 
+[/POST26 | Enters the time history results postprocessor.]
+/POST26 
+[/PREP7 | Enters the model creation preprocessor.]
+/PREP7 
+[/PSEARCH |"Specifies a directory to be searched for""unknown command""macro files."]
+/PSEARCH,Pname 
+[/PSF | Shows surface load symbols on model displays.]
+/PSF,Item,Comp,KEY,KSHELL,Color 
+[/PSPEC | Creates annotation polygon attributes (GUI).]
+/PSPEC,PCOLOR,KFILL,KBORDR 
+[/PSTATUS | Displays the global or window display specifications.]
+/PSTATUS,WN 
+[/PSYMB | Shows various symbols on displays.]
+/PSYMB,Label,KEY 
+[/PWEDGE | Creates an annotation wedge (GUI).]
+/PWEDGE,XCENTR,YCENTR,XLRAD,ANGLE1,ANGLE2 
+[/QUIT | Exits a processor.]
+/QUIT 
+[/RATIO | Distorts the object geometry.]
+/RATIO,WN,RATOX,RATOY 
+[/RENAME | Renames a file.]
+/RENAME,Fname1,Ext1,--,Fname2,Ext2,-- 
+[/REPLOT | Automatically reissues the last display command for convenience.]
+/REPLOT,Label 
+[/RESET | Resets display specifications to their initial defaults.]
+/RESET 
+[/RGB | Specifies the RGB color values for indices and contours.]
+/RGB,Kywrd,PRED,PGRN,PBLU,N1,N2,NINC,NCNTR
+[/RUNST | Enters the run statistics processor.]
+/RUNST 
+[/SECLIB | Library pathsdefining for SECREAD commandSets the default section library path for the SECREAD command.]
+/SECLIB,Option,Path 
+[/SEG | Allows graphics data to be stored in the local terminal memory.]
+/SEG,Label,Aviname,DELAY 
+[/SHADE | Defines the type of surface shading used with Z buffering.]
+/SHADE,WN,Type 
+[/SHOW | Specifies the device and other parameters for graphics displays.]
+/SHOW,Fname,Ext,VECT,NCPL 
+[/SHOWDISP | Defines the display driver name.]
+/SHOWDISP,Dname,--,--,NCPL 
+[/SHRINK | Shrinks elements,lines,areas,and volumes for display clarity.]
+/SHRINK,RATIO 
+[/SMBC | Controls the display of solid model boundary condition symbols and labels.]
+/SMBC,Mode 
+[/SOLU | Enters the solution processor.]
+/SOLU 
+[/SSCALE | Sets the contour multiplier for topographic displays.]
+/SSCALE,WN,SMULT 
+[/STATUS | Lists the status of items for the run.]
+/STATUS,Lab 
+[/STITLE | Defines subtitles.]
+/STITLE,NLINE,Title 
+[/SYP | Passes a command string and arguments to the operating system.]
+/SYP,String,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7,ARG8
+[/SYS | Passes a command string to the operating system.]
+/SYS,String 
+[/TEE | Writes a list of commands to a specified file at the same time that the commands are being executed.]
+/TEE,Label,Fname,Ext,-- 
+[/TITLE | Defines a main title.]
+/TITLE,Title 
+[/TLABEL | Creates annotation text (GUI).]
+/TLABEL,XLOC,YLOC,Text 
+[/TRIAD | Shows the global XYZ coordinate triad on displays.]
+/TRIAD,Lab 
+[/TRLCY | Specifies the level of translucency.]
+/TRLCY,Lab,TLEVEL,N1,N2,NINC
+[/TSPEC | Creates annotation text attributes (GUI).]
+/TSPEC,TCOLOR,TSIZE,TXTHIC,PANGLE,IANGLE
+[/TXTRE | Controls application of texture to selected items.]
+/TXTRE,Lab,NUM,N1,N2,NINC
+[/TYPE | Defines the type of display.]
+/TYPE,WN,Type 
+[/UCMD | Assigns a user defined command name.]
+/UCMD,Cmd,SRNUM 
+[/UDOC | Determines position and content for the multi legend options.]
+/UDOC,Wind,Class,Key,
+[/UI | Activates specified GUI dialog boxes.]
+/UI,Func,Type,Format,Screen,Color,Krev,Orient,Compress,Quality
+[/UIS | Controls the GUI behavior.]
+/UIS,Label,VALUE 
+[/UNITS | Annotates the database with the system of units used.]
+/UNITS,Label,LENFACT,MASSFACT,TIMEFACT,TEMPFACT,TOFFSET,CHARGEFACT,FORCEFACT,HEATFACT
+[/USER | Conveniently resets /FOCUS and /DIST to USER.]
+/USER,WN 
+[/VCONE | Defines the view cone angle for perspective displays.]
+/VCONE,WN,PHI 
+[/VIEW | Defines the viewing direction for the display.]
+/VIEW,WN,XV,YV,ZV 
+[/VSCALE | Scales the length of displayed vectors.]
+/VSCALE,WN,VRATIO,KEY 
+[/VUP | Specifies the global Cartesian coordinate system reference orientation.]
+/VUP,WN,Label 
+[/WAIT | Causes a delay before the reading of the next command.]
+/WAIT,DTIME 
+[/WINDOW | Defines the window size on the screen.]
+/WINDOW,WN,XMIN,XMAX,YMIN,YMAX,NCOPY 
+[/XFRM | Controls the centroid or the axis of dynamic rotation.]
+/XFRM,LAB,X1,Y1,Z1,X2,Y2,Z2 
+[/XRANGE | Specifies a linear abscissa (X) scale range.]
+/XRANGE,XMIN,XMAX 
+[/YRANGE | Specifies a linear ordinate (Y) scale range.]
+/YRANGE,YMIN,YMAX,NUM 
+[/ZOOM | Zooms a region of a display window.]
+/ZOOM,WN,Lab,X1,Y1,X2,Y2 
+[~CAT5IN | Transfers a .CATPart file into the ANSYS program.]
+~CAT5IN,Name,Extension,Path,Entity,FMT,NOCL,NOAN 
+[~CATIAIN | Transfers a CATIA model into the ANSYS program.]
+~CATIAIN,Name,Extension,Path,- -,- -,BLANK,- - 
+[~CIFIN | Transfers an electronic layer geometry file in CIF format into the ANSYS program.]
+~CIFIN,Filename,Ext,Dir,Scale,Offset 
+[~HEAL |"""Heal""a CAD file,then read it into ANSYS."]
+~HEAL,Name,Extension,Path,Method,Check 
+[~PARAIN | Transfers a Parasolid file into the ANSYS program.]
+~PARAIN,Name,Extension,Path,Entity,FMT,Scale 
+[~PROEIN | Transfers a Pro/ENGINEER part into the ANSYS program.]
+~PROEIN,Name,Extension,Path,Proecomm,FMT 
+[~SATIN | Transfers a .SAT file into the ANSYS program.]
+~SATIN,Name,Extension,Path,Entity,FMT,NOCL,NOAN 
+[~UGIN | Transfers a Unigraphics part into the ANSYS program.]
+~UGIN,Name,Extension,Path,Entity,LAYER,FMT 
+[A | Defines an area by connecting keypoints.]
+A,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18 
+[AADD | Adds separate areas to create a single area.]
+AADD,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[AATT | Associates element attributes with the selected,unmeshed areas.]
+AATT,MAT,REAL,TYPE,ESYS,SECN 
+[ABBRES | Reads abbreviations from a coded file.]
+ABBRES,Lab,Fname,Ext,-- 
+[ABBSAV | Writes the current abbreviation set to a coded file.]
+ABBSAV,Lab,Fname,Ext,-- 
+[ABS | Forms the absolute value of a variable.]
+ABS,IR,IA,--,--,Name,--,--,FACTA 
+[ACCAT | Concatenates multiple areas in preparation for mapped meshing.]
+ACCAT,NA1,NA2 
+[ACEL | Specifies the linear acceleration of the structure.]
+ACEL,ACELX,ACELY,ACELZ 
+[ACLEAR | Deletes nodes and area elements associated with selected areas.]
+ACLEAR,NA1,NA2,NINC 
+[ADAMS | Performs solutions and writes flexible body information to a modal neutral file (Jobname.MNF) for use in an ADAMS analysis.]
+ADAMS,NMODES,KSTRESS,KSHELL 
+[ADAPT | Adaptively meshes and solves a model.]
+ADAPT,NSOLN,STARGT,TTARGT,FACMN,FACMX,KYKPS,KYMAC 
+[ADD | Adds variables.]
+ADD,IR,IA,IB,IC,Name,--,--,FACTA,FACTB,FACTC 
+[ADDAM | Specifies the acceleration spectrum computation constants for the analysis of shock resistance of shipboard structures.]
+ADDAM,AF,AA,AB,AC,AD,AMIN 
+[ADELE | Deletes unmeshed areas.]
+ADELE,NA1,NA2,NINC,KSWP 
+[ADGL | Lists keypoints of an area that lie on a parametric degeneracy.]
+ADGL,NA1,NA2,NINC 
+[ADRAG | Generates areas by dragging a line pattern along a path.]
+ADRAG,NL1,NL2,NL3,NL4,NL5,NL6,NLP1,NLP2,NLP3,NLP4,NLP5,NLP6
+[AESIZE | Specifies the element size to be meshed onto areas.]
+AESIZE,ANUM,SIZE,
+[AFILLT | Generates a fillet at the intersection of two areas.]
+AFILLT,NA1,NA2,RAD 
+[AFLIST | Lists the current data in the database.]
+AFLIST 
+[AFSURF | Generates surface elements overlaid on the surface of existing solid elements and assigns the extra node as the closest fluid element node.]
+AFSURF,SAREA,TLINE 
+[AGEN | Generates additional areas from a pattern of areas.]
+AGEN,ITIME,NA1,NA2,NINC,DX,DY,DZ,KINC,NOELEM,IMOVE 
+[AGLUE |"Generates new areas by""gluing""areas."]
+AGLUE,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[AINA | Finds the intersection of areas.]
+AINA,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[AINP | Finds the pairwise intersection of areas.]
+AINP,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[AINV | Finds the intersection of an area with a volume.]
+AINV,NA,NV 
+[AL | Generates an area bounded by previously defined lines.]
+AL,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10 
+[ALIST | Lists the defined areas.]
+ALIST,NA1,NA2,NINC,Lab 
+[ALLSEL | Selects all entities with a single command.]
+ALLSEL,LabT,Entity 
+[ALPFILL | Fills in an area loop within an existing 2 D area (for models imported from CAD files).]
+ALPFILL,LN1,LN2,LN3,LN4,LN5,LN6,LN7,LN8,LN9,LN10 
+[ALPHAD | Defines the mass matrix multiplier for damping.]
+ALPHAD,VALUE 
+[AMAP | Generates a 2 D mapped mesh based on specified area corners.]
+AMAP,AREA,KP1,KP2,KP3,KP4 
+[AMESH | Generates nodes and area elements within areas.]
+AMESH,NA1,NA2,NINC 
+[ANCNTR | Produces an animated sequence of a contoured deformed shape.]
+ANCNTR,NFRAM,DELAY,NCYCL 
+[ANCUT | Produces an animated sequence of Q slices.]
+ANCUT,NFRAM,DELAY,NCYCL,QOFF,KTOP,TOPOFF,NODE1,NODE2,NODE3 
+[ANCYC | Applies a traveling wave animation to graphics data in a modal cyclic symmetry analysis.]
+ANCYC,NUMFRAMES,KCYCL,DELAY 
+[ANDATA | Produces a sequential contour animation over a range of results data.]
+ANDATA,DELAY,NCYCL,RSLTDAT,MIN,MAX,INCR,FRCLST,AUTOCNTRKY 
+[ANDSCL | Produces an animated sequence of a deformed shape.]
+ANDSCL,NFRAM,DELAY,NCYCL 
+[ANDYNA | Produces an animated sequence of contour values through substeps.]
+ANDYNA,DELAY,NCYCL,START,END,INC,AUTOCONTOURKEY 
+[ANFLOW | Produces an animated sequence of particle flow in a flowing fluid or a charged particle traveling in an electric or magnetic field.]
+ANFLOW,NFRAM,DELAY,NCYCL,TIME,SPACING,SIZE,LENGTH 
+[ANHARM | Produces a time transient animated sequence of time harmonic results (ANTYPE,HARMIC).]
+ANHARM,NFRAM,DELAY,NCYCL 
+[ANIM | Displays graphics data in animated form.]
+ANIM,NCYCL,KCYCL,DELAY 
+[ANISOS | Produces an animated sequence of an isosurface.]
+ANISOS,NFRAM,DELAY,NCYCL 
+[ANMODE | Produces an animated sequence of a mode shape.]
+ANMODE,NFRAM,DELAY,NCYCL,KACCEL 
+[ANMRES | Performs animation of results over multiple results files in an explicit dynamic analysis.]
+ANMRES,DELAY,MIN,MAX,INC,AUTOCNTRKY,FREQ 
+[ANORM | Reorients area normals.]
+ANORM,ANUM,NOEFLIP 
+[ANSOL | Specifies averaged nodal data to be stored from the results file in the solution coordinate system.]
+ANSOL,NVAR,NODE,Item,Comp,Name,Mat,Real,Ename 
+[ANTIME | Produces a sequential contour animation over a range of time.]
+ANTIME,NFRAM,DELAY,NCYCL,AUTOCNTRKY,RSLTDAT,MIN,MAX 
+[ANTYPE | Specifies the analysis type and restart status.]
+ANTYPE,Antype,Status,LDSTEP,SUBSTEP,Action 
+[AOFFST | Generates an area,offset from a given area.]
+AOFFST,NAREA,DIST,KINC 
+[AOVLAP | Overlaps areas.]
+AOVLAP,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[APLOT | Displays the selected areas.]
+APLOT,NA1,NA2,NINC,DEGEN,SCALE 
+[APPEND | Reads data from the results file and appends it to the database.]
+APPEND,LSTEP,SBSTEP,FACT,KIMG,TIME,ANGLE,NSET 
+[APTN | Partitions areas.]
+APTN,NA1,NA2,NA3,NA4,NA5,NA6,NA7,NA8,NA9 
+[ARCLEN | Activates the arc length method.]
+ARCLEN,Key,MAXARC,MINARC 
+[ARCOLLAPSE | Collapses specified area to a specified line segment (for models imported from CAD files).]
+ARCOLLAPSE,AREA,LINE 
+[ARCTRM | Controls termination of the arc length solution.]
+ARCTRM,Lab,VAL,NODE,DOF 
+[ARDETACH | Detaches areas from neighboring geometrical entities (for models imported from CAD files).]
+ARDETACH,AREA1,AREA2,AINC 
+[AREAS |"Specifies""Areas""as the subsequent status topic."]
+AREAS 
+[AREFINE | Refines the mesh around specified areas.]
+AREFINE,NA1,NA2,NINC,LEVEL,DEPTH,POST,RETAIN 
+[AREVERSE | Reverses the normal of an area,regardless of its connectivity or mesh status.]
+AREVERSE,ANUM,NOEFLIP 
+[ARFILL | Creates an area based on a set of singly connected lines (for models imported from CAD files).]
+ARFILL,LN1,LN2,LN3,LN4,LN5,LN6,LN7,LN8,LN9,LN10 
+[ARMERGE | Merges two or more singly connected adjacent areas (for models imported from CAD files).]
+ARMERGE,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10 
+[AROTAT | Generates cylindrical areas by rotating a line pattern about an axis.]
+AROTAT,NL1,NL2,NL3,NL4,NL5,NL6,PAX1,PAX2,ARC,NSEG 
+[ARSCALE | Generates a scaled set of areas from a pattern of areas.]
+ARSCALE,NA1,NA2,NINC,RX,RY,RZ,KINC,NOELEM,IMOVE 
+[ARSPLIT | Splits an area between two keypoints (for models imported from CAD files).]
+ARSPLIT,AREA,KP1,KP2,TOL,Factor 
+[ARSYM | Generates areas from an area pattern by symmetry reflection.]
+ARSYM,Ncomp,NA1,NA2,NINC,KINC,NOELEM,IMOVE 
+[ASBA | Subtracts areas from areas.]
+ASBA,NA1,NA2,SEPO,KEEP1,KEEP2 
+[ASBL | Subtracts lines from areas.]
+ASBL,NA,NL,--,KEEPA,KEEPL 
+[ASBV | Subtracts volumes from areas.]
+ASBV,NA,NV,SEPO,KEEPA,KEEPV 
+[ASBW | Subtracts the intersection of the working plane from areas (divides areas).]
+ASBW,NA,SEPO,KEEP 
+[ASEL | Selects a subset of areas.]
+ASEL,Type,Item,Comp,VMIN,VMAX,VINC,KSWP 
+[ASKIN |"Generates an area by""skinning""a surface through guiding lines."]
+ASKIN,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[ASLL | Selects those areas containing the selected lines.]
+ASLL,Type,ARKEY 
+[ASLV | Selects those areas contained in the selected volumes.]
+ASLV,Type 
+[ASUB | Generates an area using the shape of an existing area.]
+ASUB,NA1,P1,P2,P3,P4 
+[ASUM | Calculates and prints geometry statistics of the selected areas.]
+ASUM,LAB 
+[ATAN | Forms the arctangent of a complex variable.]
+ATAN,IR,IA,--,--,Name,--,--,FACTA 
+[ATRAN | Transfers a pattern of areas to another coordinate system.]
+ATRAN,KCNTO,NA1,NA2,NINC,KINC,NOELEM,IMOVE 
+[ATYPE |"Specifies""Analysis types""as the subsequent status topic."]
+ATYPE 
+[AUTOTS | Specifies whether to use automatic time stepping or load stepping.]
+AUTOTS,Key 
+[AVPRIN | Specifies how principal and vector sums are to be calculated.]
+AVPRIN,KEY,EFFNU 
+[AVRES | Specifies how results data will be averaged when PowerGraphics is enabled.]
+AVRES,KEY,Opt 
+[BCSOPTION | Sets memory option for the sparse solver.]
+BCSOPTION,--,Memory_Option,Memory_Size,--,--,Solve_Info 
+[BELLOW | Defines a bellows in a piping run.]
+BELLOW,NLOC,LENG,STIFF,FLEX,ELEM 
+[BEND | Defines a bend in a piping run.]
+BEND,NEL1,NEL2,RAD,NDIV,ESTRT,EINC 
+[BETAD | Defines the stiffness matrix multiplier for damping.]
+BETAD,VALUE 
+[BF | Defines a nodal body force load.]
+BF,NODE,Lab,VAL1,VAL2,VAL3,PHASE 
+[BFA | Defines a body force load on an area.]
+BFA,AREA,Lab,VAL1,VAL2,VAL3,PHASE 
+[BFADELE | Deletes body force loads on an area.]
+BFADELE,AREA,Lab 
+[BFALIST | Lists the body force loads on an area.]
+BFALIST,AREA,Lab 
+[BFCUM | Specifies that nodal body force loads are to be accumulated.]
+BFCUM,Lab,Oper,FACT,TBASE 
+[BFDELE | Deletes nodal body force loads.]
+BFDELE,NODE,Lab 
+[BFE | Defines an element body force load.]
+BFE,ELEM,Lab,STLOC,VAL1,VAL2,VAL3,VAL4 
+[BFECUM | Specifies whether to ignore subsequent element body force loads.]
+BFECUM,Lab,Oper,FACT,TBASE 
+[BFEDELE | Deletes element body force loads.]
+BFEDELE,ELEM,Lab 
+[BFELIST | Lists the element body force loads.]
+BFELIST,ELEM,Lab 
+[BFESCAL | Scales element body force loads.]
+BFESCAL,Lab,FACT,TBASE 
+[BFINT | Activates the body force interpolation operation.]
+BFINT,Fname1,Ext1,--,Fname2,Ext2,--,KPOS,Clab,KSHS,TOLOUT,TOLHGT 
+[BFK | Defines a body force load at a keypoint.]
+BFK,KPOI,Lab,VAL1,VAL2,VAL3,PHASE 
+[BFKDELE | Deletes body force loads at a keypoint.]
+BFKDELE,KPOI,Lab 
+[BFKLIST | Lists the body force loads at keypoints.]
+BFKLIST,KPOI,Lab 
+[BFL | Defines a body force load on a line.]
+BFL,LINE,Lab,VAL1,VAL2,VAL3,PHASE 
+[BFLDELE | Deletes body force loads on a line.]
+BFLDELE,LINE,Lab 
+[BFLIST | Lists the body force loads on nodes.]
+BFLIST,NODE,Lab 
+[BFLLIST | Lists the body force loads on a line.]
+BFLLIST,LINE,Lab 
+[BFSCALE | Scales body force loads at nodes.]
+BFSCALE,Lab,FACT,TBASE 
+[BFTRAN | Transfers solid model body force loads to the finite element model.]
+BFTRAN 
+[BFUNIF | Assigns a uniform body force load to all nodes.]
+BFUNIF,Lab,VALUE 
+[BFV | Defines a body force load on a volume.]
+BFV,VOLU,Lab,VAL1,VAL2,VAL3,PHASE 
+[BFVDELE | Deletes body force loads on a volume.]
+BFVDELE,VOLU,Lab 
+[BFVLIST | Lists the body force loads on a volume.]
+BFVLIST,VOLU,Lab 
+[BIOOPT |"Specifies""Biot""Savart options""as the subsequent status topic."]
+BIOOPT 
+[BIOT | Calculates the Biot Savart source magnetic field intensity.]
+BIOT,Label 
+[BLC4 | Creates a rectangular area or block volume by corner points.]
+BLC4,XCORNER,YCORNER,WIDTH,HEIGHT,DEPTH 
+[BLC5 | Creates a rectangular area or block volume by center and corner points.]
+BLC5,XCENTER,YCENTER,WIDTH,HEIGHT,DEPTH 
+[BLOCK | Creates a block volume based on working plane coordinates.]
+BLOCK,X1,X2,Y1,Y2,Z1,Z2 
+[BOOL |"Specifies""Booleans""as the subsequent status topic."]
+BOOL 
+[BOPTN | Specifies Boolean operation options.]
+BOPTN,Lab,Value 
+[BRANCH | Defines the starting point for a piping branch.]
+BRANCH,NODE,X,Y,Z 
+[BSPLIN | Generates a single line from a spline fit to a series of keypoints.]
+BSPLIN,P1,P2,P3,P4,P5,P6,XV1,YV1,ZV1,XV6,YV6,ZV6 
+[BTOL | Specifies the Boolean operation tolerances.]
+BTOL,PTOL 
+[BUCOPT | Specifies buckling analysis options.]
+BUCOPT,Method,NMODE,SHIFT,LDMULTE 
+[C*** | Places a comment in the output.]
+C***,Comment 
+[CALC |"Specifies""Calculation settings""as the subsequent status topic."]
+CALC 
+[CBDOF | Activates cut boundary interpolation (for submodeling).]
+CBDOF,Fname1,Ext1,--,Fname2,Ext2,--,KPOS,Clab,KSHS,TOLOUT,TOLHGT 
+[CDREAD | Reads a file of solid model and database information into the database.]
+CDREAD,Option,Fname,Ext,--,Fnamei,Exti 
+[CDWRITE | Writes geometry and load database items to a file.]
+CDWRITE,Option,Fname,Ext,--,Fnamei,Exti,Fmat 
+[CE | Defines a constraint equation relating degrees of freedom.]
+CE,NEQN,CONST,NODE1,Lab1,C1,NODE2,Lab2,C2,NODE3,Lab3,C3 
+[CECMOD | Modifies the constant term of a constraint equation during solution.]
+CECMOD,NEQN,CONST 
+[CECYC | Generates the constraint equations for a cyclic symmetry analysis]
+CECYC,Lowname,Highname,Nsector,HIndex,Tolerance,Kmove,Kpairs 
+[CEDELE | Deletes constraint equations.]
+CEDELE,NEQN1,NEQN2,NINC,Nsel 
+[CEINTF | Generates constraint equations at an interface.]
+CEINTF,TOLER,DOF1,DOF2,DOF3,DOF4,DOF5,DOF6,MoveTol 
+[CELIST | Lists the constraint equations.]
+CELIST,NEQN1,NEQN2,NINC,Nsel 
+[CENTER | Defines a node at the center of curvature of 2 or 3 nodes.]
+CENTER,NODE,NODE1,NODE2,NODE3,RADIUS 
+[CEQN |"Specifies""Constraint equations""as the subsequent status topic."]
+CEQN 
+[CERIG | Defines a rigid region.]
+CERIG,MASTE,SLAVE,Ldof,Ldof2,Ldof3,Ldof4,Ldof5 
+[CESGEN | Generates a set of constraint equations from existing sets.]
+CESGEN,ITIME,INC,NSET1,NSET2,NINC 
+[CFACT | Defines complex scaling factors to be used with operations.]
+CFACT,RFACTA,IFACTA,RFACTB,IFACTB,RFACTC,IFACTC 
+[CGLOC | Specifies the origin location of the acceleration coordinate system.]
+CGLOC,XLOC,YLOC,ZLOC 
+[CGOMGA | Specifies the rotational velocity of the global origin.]
+CGOMGA,CGOMX,CGOMY,CGOMZ 
+[CIRCLE | Generates circular arc lines.]
+CIRCLE,PCENT,RAD,PAXIS,PZERO,ARC,NSEG 
+[CLOCAL | Defines a local coordinate system relative to the active coordinate system.]
+CLOCAL,KCN,KCS,XL,YL,ZL,THXY,THYZ,THZX,PAR1,PAR2 
+[CLOG | Forms the common log of a variable]
+CLOG,IR,IA,--,--,Name,--,--,FACTA,FACTB 
+[CLRMSHLN | Clears meshed entities.]
+CLRMSHLN 
+[CM | Groups geometry items into a component.]
+CM,Cname,Entity 
+[CMATRIX | Performs electrostatic field solutions and calculates the self and mutual capacitances between multiple conductors.]
+CMATRIX,SYMFAC,Condname,NUMCOND,GRNDKEY,Capname 
+[CMDELE | Deletes a component or assembly definition.]
+CMDELE,Name 
+[CMDOMEGA | Specifies the rotational acceleration of an element component about a user defined rotational axis.]
+CMDOMEGA,CM_NAME,DOMEGAX,DOMEGAY,DOMEGAZ,X1,Y1,Z1,X2,Y2,Z2 
+[CMEDIT | Edits an existing assembly.]
+CMEDIT,Aname,Oper,Cnam1,Cnam2,Cnam3,Cnam4,Cnam5,Cnam6,Cnam7 
+[CMGRP | Groups components and assemblies into an assembly.]
+CMGRP,Aname,Cnam1,Cnam2,Cnam3,Cnam4,Cnam5,Cnam6,Cnam7,Cnam8 
+[CMLIST | Lists the contents of a component or assembly.]
+CMLIST,Name,Key,Entity 
+[CMMOD | Modifies the specification of a component.]
+CMMOD,Cname,Keyword,Value 
+[CMOMEGA | Specifies the rotational velocity of an element component about a user defined rotational axis.]
+CMOMEGA,CM_NAME,OMEGAX,OMEGAY,OMEGAZ,X1,Y1,Z1,X2,Y2,Z2,KSPIN 
+[CMPLOT | Plots the entities contained in a component or assembly.]
+CMPLOT,Label,Entity,Keyword 
+[CMSEL | Selects a subset of components and assemblies.]
+CMSEL,Type,Name,Entity 
+[CNCHECK | Lists the initial status of contact pairs.]
+CNCHECK,Levl,RID1,RID2,RINC 
+[CNVTOL | Sets convergence values for nonlinear analyses.]
+CNVTOL,Lab,VALUE,TOLER,NORM,MINREF 
+[COMPRESS | Deletes all specified sets.]
+COMPRESS 
+[CON4 | Creates a conical volume anywhere on the working plane.]
+CON4,XCENTER,YCENTER,RAD1,RAD2,DEPTH 
+[CONE | Creates a conical volume centered about the working plane origin.]
+CONE,RBOT,RTOP,Z1,Z2,THETA1,THETA2 
+[CONJUG | Forms the complex conjugate of a variable.]
+CONJUG,IR,IA,--,--,Name,--,--,FACTA 
+[COUPLE |"Specifies""Node coupling""as the subsequent status topic."]
+COUPLE 
+[COVAL | Defines PSD cospectral values.]
+COVAL,TBLNO1,TBLNO2,SV1,SV2,SV3,SV4,SV5,SV6,SV7 
+[CP | Defines (or modifies) a set of coupled degrees of freedom.]
+CP,NSET,Lab,NODE1,NODE2,NODE3,NODE4,NODE5,NODE6,NODE7,NODE8,NODE9,NODE10,NODE11,NODE12,NODE13,NODE14,NODE15,NODE16,NODE17
+[CPCYC | Couples the two side faces of a cyclically symmetric model for loadings that are the same on every segment.]
+CPCYC,Lab,TOLER,KCN,DX,DY,DZ,KNONROT 
+[CPDELE | Deletes coupled degree of freedom sets.]
+CPDELE,NSET1,NSET2,NINC,Nsel 
+[CPINTF | Defines coupled degrees of freedom at an interface.]
+CPINTF,Lab,TOLER 
+[CPLGEN | Generates sets of coupled nodes from an existing set.]
+CPLGEN,NSETF,Lab1,Lab2,Lab3,Lab4,Lab5 
+[CPLIST | Lists the coupled degree of freedom sets.]
+CPLIST,NSET1,NSET2,NINC,Nsel 
+[CPMERGE | Merges different couple sets with duplicate degrees of freedom into one couple set.]
+CPMERGE,Lab 
+[CPNGEN | Defines,modifies,or adds to a set of coupled degrees of freedom.]
+CPNGEN,NSET,Lab,NODE1,NODE2,NINC 
+[CPSGEN | Generates sets of coupled nodes from existing sets.]
+CPSGEN,ITIME,INC,NSET1,NSET2,NINC 
+[CQC | Specifies the complete quadratic mode combination method.]
+CQC,SIGNIF,Label 
+[CRPLIM | Specifies the creep criterion for automatic time stepping.]
+CRPLIM,CRCR,Option 
+[CS | Defines a local coordinate system by three node locations.]
+CS,KCN,KCS,NORIG,NXAX,NXYPL,PAR1,PAR2 
+[CSCIR | Locates the singularity for non Cartesian local coordinate systems.]
+CSCIR,KCN,KTHET,KPHI 
+[CSDELE | Deletes local coordinate systems.]
+CSDELE,KCN1,KCN2,KCINC 
+[CSKP | Defines a local coordinate system by three keypoint locations.]
+CSKP,KCN,KCS,PORIG,PXAXS,PXYPL,PAR1,PAR2 
+[CSLIST | Lists coordinate systems.]
+CSLIST,KCN1,KCN2,KCINC 
+[CSWPLA | Defines a local coordinate system at the origin of the working plane.]
+CSWPLA,KCN,KCS,PAR1,PAR2 
+[CSYS | Activates a previously defined coordinate system.]
+CSYS,KCN 
+[CURR2D | Calculates current flow in a two dimensional conductor.]
+CURR2D 
+[CUTCONTROL | Controls time step cutback during a nonlinear solution.]
+CUTCONTROL,Lab,VALUE,Option 
+[CVAR | Computes covariance between two quantities.]
+CVAR,IR,IA,IB,ITYPE,DATUM,Name 
+[CYCLIC | Specifies a cyclic symmetry analysis.]
+CYCLIC,NSECTOR,ANGLE,KCN,Name,USRCOMP 
+[CYCOPT | Specifies solution options for a cyclic symmetry analysis.]
+CYCOPT,OPTION,Value1,Value2,Value3,Value4,Value5,Value6,Value7 
+[CYCPHASE | Provides tools for determining minimum and maximum possible result values from frequency couplets produced in a modal cyclic symmetry analysis.]
+CYCPHASE,TYPE,OPTION 
+[CYL4 | Creates a circular area or cylindrical volume anywhere on the working plane.]
+CYL4,XCENTER,YCENTER,RAD1,THETA1,RAD2,THETA2,DEPTH 
+[CYL5 | Creates a circular area or cylindrical volume by end points.]
+CYL5,XEDGE1,YEDGE1,XEDGE2,YEDGE2,DEPTH 
+[CYLIND | Creates a cylindrical volume centered about the working plane origin.]
+CYLIND,RAD1,RAD2,Z1,Z2,THETA1,THETA2 
+[D | Defines DOF constraints at nodes.]
+D,NODE,Lab,VALUE,VALUE2,NEND,NINC,Lab2,Lab3,Lab4,Lab5,Lab6 
+[DA | Defines DOF constraints on areas.]
+DA,AREA,Lab,Value1,Value2 
+[DADELE | Deletes DOF constraints on an area.]
+DADELE,AREA,Lab 
+[DALIST | Lists the DOF constraints on an area.]
+DALIST,AREA 
+[DAMORPH | Move nodes in selected areas to conform to structural displacements.]
+DAMORPH,AREA,XLINE,RMSHKY 
+[DATA | Reads data records from a file into a variable.]
+DATA,IR,LSTRT,LSTOP,LINC,Name,KCPLX 
+[DATADEF |"Specifies""Directly defined data status""as the subsequent status topic."]
+DATADEF 
+[DCGOMG | Specifies the rotational acceleration of the global origin.]
+DCGOMG,DCGOX,DCGOY,DCGOZ 
+[DCUM | Specifies that DOF constraint values are to be accumulated.]
+DCUM,Oper,RFACT,IFACT,TBASE 
+[DCVSWP | Performs a DC voltage sweep on a ROM element.]
+DCVSWP,Option,Elem,Cnum,Vmax,Vinc1,Vinc2,Gap 
+[DDELE | Deletes degree of freedom constraints.]
+DDELE,NODE,Lab,NEND,NINC 
+[DDSOPT | Initializes the Distributed Domain Solver (DDS) settings.]
+DDSOPT,Configopt,Ndomains,Max_Iter 
+[DEACT |"Specifies""Element birth and death""as the subsequent status topic."]
+DEACT 
+[DECOMP | Specifies method by which mesh will be decomposed into domains]
+DECOMP,DDS,Ndomains 
+[DEFINE |"Specifies""Data definition settings""as the subsequent status topic."]
+DEFINE 
+[DELETE | Specifies sets in the results file to be deleted before postprocessing.]
+DELETE,SET,Nstart,Nend 
+[DELTIM | Specifies the time step sizes to be used for this load step.]
+DELTIM,DTIME,DTMIN,DTMAX,Carry 
+[DEMORPH | Move nodes in selected elements to conform to structural displacements.]
+DEMORPH,ELEM,DIMN,RMSHKY 
+[DERIV | Differentiates a variable.]
+DERIV,IR,IY,IX,--,Name,--,--,FACTA 
+[DESIZE | Controls default element sizes.]
+DESIZE,MINL,MINH,MXEL,ANGL,ANGH,EDGMN,EDGMX,ADJF,ADJM 
+[DESOL | Defines or modifies solution results at a node of an element.]
+DESOL,ELEM,NODE,Item,Comp,V1,V2,V3,V4,V5,V6 
+[DETAB | Modifies element table results in the database.]
+DETAB,ELEM,Lab,V1,V2,V3,V4,V5,V6 
+[DIG | Digitizes nodes to a surface.]
+DIG,NODE1,NODE2,NINC 
+[DIGIT |"Specifies""Node digitizing""as the subsequent status topic."]
+DIGIT 
+[DISPLAY |"Specifies""Display settings""as the subsequent status topic."]
+DISPLAY 
+[DK | Defines DOF constraints at keypoints.]
+DK,KPOI,Lab,VALUE,VALUE2,KEXPND,Lab2,Lab3,Lab4,Lab5,Lab6 
+[DKDELE | Deletes DOF constraints at a keypoint.]
+DKDELE,KPOI,Lab 
+[DKLIST | Lists the DOF constraints at keypoints.]
+DKLIST,KPOI 
+[DL | Defines DOF constraints on lines.]
+DL,LINE,AREA,Lab,Value1,Value2 
+[DLDELE | Deletes DOF constraints on a line.]
+DLDELE,LINE,Lab 
+[DLIST | Lists DOF constraints.]
+DLIST,NODE1,NODE2,NINC 
+[DLLIST | Lists DOF constraints on a line.]
+DLLIST,LINE 
+[DMOVE | Digitizes nodes on surfaces and along intersections.]
+DMOVE,NODE1,NODE2,NINC 
+[DMPRAT | Sets a constant damping ratio.]
+DMPRAT,RATIO 
+[DNSOL | Defines or modifies solution results at a node.]
+DNSOL,NODE,Item,Comp,V1,V2,V3,V4,V5,V6 
+[DOF | Adds degrees of freedom to the current DOF set.]
+DOF,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6,Lab7,Lab8,Lab9,Lab10 
+[DOFSEL | Selects a DOF label set for reference by other commands.]
+DOFSEL,Type,Dof1,Dof2,Dof3,Dof4,Dof5,Dof6 
+[DOMEGA | Specifies the rotational acceleration of the structure.]
+DOMEGA,DOMGX,DOMGY,DOMGZ 
+[DSCALE | Scales DOF constraint values.]
+DSCALE,RFACT,IFACT,TBASE 
+[DSET | Sets the scale and drawing plane orientation for a digitizing tablet.]
+DSET,NODE1,NODE2,NODE3,DDEV 
+[DSUM | Specifies the double sum mode combination method.]
+DSUM,SIGNIF,Label,TD 
+[DSURF | Defines the surface upon which digitized nodes lie.]
+DSURF,KCN,XSURF,YSURF,ZSURF 
+[DSYM | Specifies symmetry or antisymmetry DOF constraints on nodes.]
+DSYM,Lab,Normal,KCN 
+[DSYS | Activates a display coordinate system for geometry listings and plots.]
+DSYS,KCN 
+[DTRAN | Transfers solid model DOF constraints to the finite element model.]
+DTRAN 
+[DUMP | Dumps the contents of a binary file.]
+DUMP,NSTRT,NSTOP 
+[DVMORPH | Move nodes in selected volumes to conform to structural displacements.]
+DVMORPH,VOLU,XAREA,RMSHKY 
+[DYNOPT |"Specifies""Dynamic analysis options""as the subsequent status topic."]
+DYNOPT 
+[E | Defines an element by node connectivity.]
+E,I,J,K,L,M,N,O,P 
+[EALIVE | Reactivates an element (for the birth and death capability).]
+EALIVE,ELEM 
+[EDADAPT | Activates adaptive meshing in an explicit dynamic analysis.]
+EDADAPT,PART,Key 
+[EDALE | Assigns mesh smoothing to explicit dynamic elements that use the ALE formulation.]
+EDALE,Option,--,AFAC,BFAC,--,DFAC,EFAC,START,END 
+[EDASMP | Creates a part assembly to be used in an explicit dynamic analysis.]
+EDASMP,Option,ASMID,PART1,PART2,PART3,PART4,PART5,PART6,PART7,PART8,PART9,PART10,PART11,PART12,PART13,PART14,PART15,PART16 
+[EDBOUND | Defines a boundary plane for sliding or cyclic symmetry.]
+EDBOUND,Option,Lab,Cname,XC,YC,ZC,Cname2,COPT 
+[EDBVIS | Specifies global bulk viscosity coefficients for an explicit dynamics analysis.]
+EDBVIS,QVCO,LVCO 
+[EDBX | Creates a box shaped volume to be used in a contact definition for explicit dynamics.]
+EDBX,Option,BOXID,XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX 
+[EDCADAPT | Specifies adaptive meshing controls for an explicit dynamic analysis.]
+EDCADAPT,FREQ,TOL,OPT,MAXLVL,BTIME,DTIME,LCID,ADPSIZE,ADPASS,IREFLG,ADPENE,ADPTH,MAXEL 
+[EDCGEN | Specifies contact parameters for an explicit dynamics analysis.]
+EDCGEN,Option,Cont,Targ,FS,FD,DC,VC,VDC,V1,V2,V3,V4,BTIME,DTIME,BOXID1,BOXID2 
+[EDCLIST | Lists contact entity specifications in an explicit dynamics analysis.]
+EDCLIST,NUM 
+[EDCMORE | Specifies additional contact parameters for a given contact definition in an explicit dynamic analysis.]
+EDCMORE,Option,NUM,--,VAL1,VAL2 
+[EDCNSTR | Defines various types of constraints for an explicit dynamic analysis.]
+EDCNSTR,Option,Ctype,Comp1,Comp2,VAL1 
+[EDCONTACT | Specifies contact surface controls for an explicit dynamics analysis.]
+EDCONTACT,SFSI,RWPN,IPCK,SHTK,PENO,STCC,ORIE,CSPC,PENCHK 
+[EDCPU | Specifies CPU time limit for an explicit dynamics analysis.]
+EDCPU,CPUTIME 
+[EDCRB | Constrains two rigid bodies to act as one in an explicit dynamics analysis.]
+EDCRB,Option,NEQN,PARTM,PARTS 
+[EDCSC | Specifies whether to use subcycling in an explicit dynamics analysis.]
+EDCSC,Key 
+[EDCTS | Specifies mass scaling and scale factor of computed time step for an explicit dynamics analysis.]
+EDCTS,DTMS,TSSFAC 
+[EDCURVE | Specifies data curves for an explicit dynamic analysis.]
+EDCURVE,Option,LCID,Par1,Par2 
+[EDDAMP | Defines mass weighted (Alpha) or stiffness weighted (Beta) damping for an explicit dynamics model.]
+EDDAMP,PART,LCID,VALDMP 
+[EDDBL | Selects a numerical precision type of the explicit dynamics analysis.]
+EDDBL,KEY 
+[EDDC | Deletes or deactivates/reactivates contact surface specifications in an explicit dynamic analysis.]
+EDDC,Option,Ctype,Cont,Targ 
+[EDDRELAX | Activates initialization to a prescribed geometry or dynamic relaxation for the explicit analysis.]
+EDDRELAX,Option,NRCYCK,DRTOL,DFFCTR,DRTERM,TSSFDR,IRELAL,EDTTL 
+[EDDUMP | Specifies output frequency for the explicit dynamic restart file (d3dump).]
+EDDUMP,NUM,DT 
+[EDELE | Deletes selected elements from the model.]
+EDELE,IEL1,IEL2,INC 
+[EDENERGY | Specifies energy dissipation controls for an explicit dynamics analysis.]
+EDENERGY,HGEN,SWEN,SIEN,RLEN 
+[EDFPLOT | Allows plotting of explicit dynamics forces and other load symbols.]
+EDFPLOT,Key 
+[EDGCALE | Defines global ALE controls for an explicit dynamic analysis.]
+EDGCALE,NADV,METH 
+[EDHGLS | Specifies the hourglass coefficient for an explicit dynamics analysis.]
+EDHGLS,HGCO 
+[EDHIST | Specifies time history output for an explicit dynamic analysis.]
+EDHIST,Comp 
+[EDHTIME | Specifies the time history output interval for an explicit dynamics analysis.]
+EDHTIME,NSTEP,DT 
+[EDINT | Specifies number of integration points for explicit shell and beam output.]
+EDINT,SHELLIP,BEAMIP 
+[EDIPART | Defines inertia for rigid parts in an explicit dynamics analysis.]
+EDIPART,PART,Option,Cvect,TM,IRCS,Ivect,Vvect,CID 
+[EDIS | Specifies stress initialization in an explicit dynamic full restart analysis.]
+EDIS,Option,PIDN,PIDO 
+[EDLCS | Defines a local coordinate system for use in explicit dynamics analysis.]
+EDLCS,Option,CID,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3 
+[EDLOAD | Specifies loads for an explicit dynamics analysis.]
+EDLOAD,Option,Lab,KEY,Cname,Par1,Par2,PHASE,LCID,SCALE,BTIME,DTIME 
+[EDMP | Defines material properties for an explicit dynamics analysis.]
+EDMP,Lab,MAT,VAL1,VAL2,VAL3,VAL4,VAL5,VAL6 
+[EDNB | Defines a nonreflecting boundary in an explicit dynamic analysis.]
+EDNB,Option,Cname,AD,AS 
+[EDNDTSD | Allows smoothing of noisy data for explicit dynamics analyses and provides a graphical representation of the data.]
+EDNDTSD,Vect1,Vect2,DATAP,FITPT,Vect3,Vect4,DISP 
+[EDNROT | Applies a rotated coordinate nodal constraint in an explicit dynamics analysis.]
+EDNROT,Option,CID,Cname,DOF1,DOF2,DOF3,DOF4,DOF5,DOF6 
+[EDOPT | Specifies the type of output for an explicit dynamics analysis.]
+EDOPT,Option,--,Value 
+[EDOUT | Specifies time history output (ASCII format) for an explicit dynamics analysis.]
+EDOUT,Option 
+[EDPART | Configures parts for an explicit dynamics analysis.]
+EDPART,Option 
+[EDPC | Selects and plots explicit dynamic contact entities.]
+EDPC,MIN,MAX,INC 
+[EDPL | Plots a time dependent load curve in an explicit dynamic analysis.]
+EDPL,LDNUM 
+[EDPVEL | Applies initial velocities to parts or part assemblies in an explicit dynamic analysis.]
+EDPVEL,Option,PID,VX,VY,VZ,OMEGAX,OMEGAY,OMEGAZ,XC,YC,ZC,ANGX,ANGY,ANGZ 
+[EDRC | Specifies rigid/deformable switch controls in an explicit dynamic analysis.]
+EDRC,Option,NRBF,NCSF,--,DTMAX 
+[EDRD | Switches a part from deformable to rigid or from rigid to deformable in an explicit dynamic analysis.]
+EDRD,Option,PART,MRB 
+[EDREAD | Reads explicit dynamics output into variables for time history postprocessing.]
+EDREAD,NSTART,Label,NUM,STEP1,STEP2 
+[EDRI | Defines inertia properties for a new rigid body that is created when a deformable part is switched to rigid in an explicit dynamic analysis.]
+EDRI,Option,PART,XC,YC,ZC,TM,IXX,IYY,IZZ,IXY,IYZ,IXZ 
+[EDRST | Specifies the output interval for an explicit dynamic analysis.]
+EDRST,NSTEP,DT 
+[EDRUN | Specify LS DYNA serial or parallel processing.]
+EDRUN,Option,Cons 
+[EDSHELL | Specifies shell computation controls for an explicit dynamics analysis.]
+EDSHELL,WPAN,SHNU,SHTC,WPBT,SHPL,ITRST 
+[EDSOLV |"Specifies""explicit dynamics solution""as the subsequent status topic."]
+EDSOLV 
+[EDSP | Specifies small penetration checking for contact entities in an explicit dynamic analysis.]
+EDSP,Option,MIN,MAX,INC 
+[EDSTART | Specifies status (new or restart) of an explicit dynamics analysis.]
+EDSTART,RESTART,MEMORY,FSIZE,Dumpfile 
+[EDTERM | Specifies termination criteria for an explicit dynamic analysis.]
+EDTERM,Option,Lab,NUM,STOP,MAXC,MINC 
+[EDTP | Plots explicit elements based on their time step size.]
+EDTP,OPTION,VALUE1,VALUE2 
+[EDVEL | Applies initial velocities to nodes or node components in an explicit dynamic analysis.]
+EDVEL,Option,Cname,VX,VY,VZ,OMEGAX,OMEGAY,OMEGAZ,XC,YC,ZC,ANGX,ANGY,ANGZ 
+[EDWELD | Defines a massless spotweld or generalized weld for use in an explicit dynamic analysis.]
+EDWELD,Option,NWELD,N1,N2,SN,SS,EXPN,EXPS,EPSF,TFAIL,NSW,CID 
+[EDWRITE | Writes explicit dynamics input to an LS DYNA input file.]
+EDWRITE,Option,Fname,Ext,-- 
+[EGEN | Generates elements from an existing pattern.]
+EGEN,ITIME,NINC,IEL1,IEL2,IEINC,MINC,TINC,RINC,CINC,SINC,DX,DY,DZ 
+[EINTF | Defines two noded elements between coincident or offset nodes.]
+EINTF,TOLER,K,TLAB,KCN,DX,DY,DZ,KNONROT 
+[EKILL | Deactivates an element (for the birth and death capability).]
+EKILL,ELEM 
+[ELEM |"Specifies""Elements""as the subsequent status topic."]
+ELEM 
+[ELIST | Lists the elements and their attributes.]
+ELIST,IEL1,IEL2,INC,NNKEY,RKEY 
+[EMAGERR | Calculates the relative error in an electrostatic or electromagnetic field analysis.]
+EMAGERR 
+[EMATWRITE | Forces the writing of all the element matrices to File.EMAT.]
+EMATWRITE,Key 
+[EMF | Calculates the electromotive force (emf),or voltage drop along a predefined path.]
+EMF 
+[EMID | Adds or removes midside nodes.]
+EMID,Key,Edges 
+[EMIS | Specifies emissivity as a material property for the Radiation Matrix method.]
+EMIS,MAT,EVALU 
+[EMODIF | Modifies a previously defined element.]
+EMODIF,IEL,STLOC,I1,I2,I3,I4,I5,I6,I7,I8 
+[EMORE | Adds more nodes to the just defined element.]
+EMORE,Q,R,S,T,U,V,W,X 
+[EMSYM | Specifies circular symmetry for electro magnetic sources.]
+EMSYM,NSECT 
+[EMTGEN | Generates a set of TRANS126 elements.]
+EMTGEN,Ncomp,Ecomp,PNcomp,DOF,GAP,GAPMIN,FKN,Per0 
+[EMUNIT | Specifies the system of units for magnetic field problems.]
+EMUNIT,Lab,VALUE 
+[EN | Defines an element by its number and node connectivity.]
+EN,IEL,I,J,K,L,M,N,O,P 
+[ENGEN | Generates elements from an existing pattern.]
+ENGEN,IINC,ITIME,NINC,IEL1,IEL2,IEINC,MINC,TINC,RINC,CINC,SINC,DX,DY,DZ 
+[ENORM | Reorients shell element normals.]
+ENORM,ENUM 
+[ENSYM | Generates elements by symmetry reflection.]
+ENSYM,IINC,--,NINC,IEL1,IEL2,IEINC 
+[EORIENT | Reorients solid element normals.]
+EORIENT,Etype,Dir,TOLER 
+[EPLOT | Produces an element display.]
+EPLOT 
+[EQSLV | Specifies the type of equation solver.]
+EQSLV,Lab,TOLER,MULT 
+[ERASE | Explicitly erases the current display.]
+ERASE 
+[EREAD | Reads elements from a file.]
+EREAD,Fname,Ext,-- 
+[EREFINE | Refines the mesh around specified elements.]
+EREFINE,NE1,NE2,NINC,LEVEL,DEPTH,POST,RETAIN 
+[ERESX | Specifies extrapolation of integration point results.]
+ERESX,Key 
+[ERNORM | Controls error estimation calculations.]
+ERNORM,Key 
+[ERRANG | Specifies the element range to be read from a file.]
+ERRANG,EMIN,EMAX,EINC 
+[ESEL | Selects a subset of elements.]
+ESEL,Type,Item,Comp,VMIN,VMAX,VINC,KABS 
+[ESCHECK | Perform element shape checking for a selected element set.]
+ESCHECK,Sele,Levl,Defkey 
+[ESIZE | Specifies the default number of line divisions.]
+ESIZE,SIZE,NDIV 
+[ESLA | Selects those elements associated with the selected areas.]
+ESLA,Type 
+[ESLL | Selects those elements associated with the selected lines.]
+ESLL,Type 
+[ESLN | Selects those elements attached to the selected nodes.]
+ESLN,Type,EKEY,NodeType 
+[ESLV | Selects elements associated with the selected volumes.]
+ESLV,Type 
+[ESOL | Specifies element data to be stored from the results file.]
+ESOL,NVAR,ELEM,NODE,Item,Comp,Name 
+[ESORT | Sorts the element table.]
+ESORT,Item,Lab,ORDER,KABS,NUMB 
+[ESSOLV | Performs a coupled electrostatic structural analysis.]
+ESSOLV,Electit,Strutit,DIMN,MORPHOPT,Mcomp,Xcomp,ELECTOL,STRUTOL,MXLOOP,--,RUSEKY,RESTKY,EISCOMP 
+[ESTIF | Specifies the matrix multiplier for deactivated elements.]
+ESTIF,KMULT 
+[ESURF | Generates elements overlaid on the free faces of existing selected elements.]
+ESURF,XNODE,Tlab,Shape 
+[ESYM | Generates elements from a pattern by a symmetry reflection.]
+ESYM,--,NINC,IEL1,IEL2,IEINC 
+[ESYS | Sets the element coordinate system attribute pointer.]
+ESYS,KCN 
+[ET | Defines a local element type from the element library.]
+ET,ITYPE,Ename,KOP1,KOP2,KOP3,KOP4,KOP5,KOP6,INOPR 
+[ETABLE | Fills a table of element values for further processing.]
+ETABLE,Lab,Item,Comp 
+[ETDELE | Deletes element types.]
+ETDELE,ITYP1,ITYP2,INC 
+[ETCHG | Changes element types to their corresponding types.]
+ETCHG,Cnv 
+[ETLIST | Lists currently defined element types.]
+ETLIST,ITYP1,ITYP2,INC 
+[ETYPE |"Specifies""Element types""as the subsequent status topic."]
+ETYPE 
+[EUSORT | Restores original order of the element table.]
+EUSORT 
+[EWRITE | Writes elements to a file.]
+EWRITE,Fname,Ext,--,KAPPND,Format 
+[EXP | Forms the exponential of a variable.]
+EXP,IR,IA,--,--,Name,--,--,FACTA,FACTB 
+[EXPAND | Displays the results of a modal cyclic symmetry analysis.]
+EXPAND,Nrepeat,MODAL,HIndex,Icsys,SctAng,--,Phase 
+[EXPASS | Specifies an expansion pass of an analysis.]
+EXPASS,Key 
+[EXPSOL | Specifies the solution to be expanded for reduced analyses.]
+EXPSOL,LSTEP,SBSTEP,TIMFRQ,Elcalc 
+[EXTOPT | Controls options relating to the generation of volume elements from area elements.]
+EXTOPT,Lab,Val1,Val2,Val3 
+[EXTREM | Lists the extreme values for variables.]
+EXTREM,NVAR1,NVAR2,NINC 
+[F | Specifies force loads at nodes.]
+F,NODE,Lab,VALUE,VALUE2,NEND,NINC 
+[FATIGUE |"Specifies""Fatigue data status""as the subsequent status topic."]
+FATIGUE 
+[FC | Provides failure criteria information and activates a data table to input temperature dependent stress and strain limits.]
+FC,MAT,Lab1,Lab2,DATA1-6 
+[FCDELE | Deletes previously defined failure criterion data for the given material.]
+FCDELE,MAT 
+[FCCHECK | Checks both the strain and stress input criteria for all materials.]
+FCCHECK 
+[FCLIST | To list what the failure criteria is that you have input.]
+FCLIST,MAT,,TEMP 
+[FCUM | Specifies that force loads are to be accumulated.]
+FCUM,Oper,RFACT,IFACT 
+[FDELE | Deletes force loads on nodes.]
+FDELE,NODE,Lab,NEND,NINC 
+[FE | Defines a set of fatigue event parameters.]
+FE,NEV,CYCLE,FACT,Title 
+[FEBODY |"Specifies""Body loads on elements""as the subsequent status topic."]
+FEBODY 
+[FECONS |"Specifies""Constraints on nodes""as the subsequent status topic."]
+FECONS 
+[FEFOR |"Specifies""Forces on nodes""as the subsequent status topic."]
+FEFOR 
+[FELIST | Lists the fatigue event parameters.]
+FELIST,NEV1,NEV2,NINC 
+[FESURF |"Specifies""Surface loads on elements""as the subsequent status topic."]
+FESURF 
+[FILE | Specifies the data file where results are to be found.]
+FILE,Fname,Ext,-- 
+[FILEAUX2 | Specifies the binary file to be dumped.]
+FILEAUX2,Fname,Ident,-- 
+[FILEAUX3 | Specifies the results file to be edited.]
+FILEAUX3,Fname,Ext,-- 
+[FILEDISP | Specifies the file containing the graphics data.]
+FILEDISP,Fname,Ext,-- 
+[FILL | Generates a line of nodes between two existing nodes.]
+FILL,NODE1,NODE2,NFILL,NSTRT,NINC,ITIME,INC,SPACE 
+[FILLDATA | Fills a variable by a ramp function.]
+FILLDATA,IR,LSTRT,LSTOP,LINC,VALUE,DVAL 
+[FINISH | Exits normally from a processor.]
+FINISH 
+[FITEM | Identifies items chosen by a picking operation (GUI).]
+FITEM,NFIELD,ITEM,ITEMY,ITEMZ 
+[FK | Defines force loads at keypoints.]
+FK,KPOI,Lab,VALUE,VALUE2 
+[FKDELE | Deletes force loads at a keypoint.]
+FKDELE,KPOI,Lab 
+[FKLIST | Lists the forces at keypoints.]
+FKLIST,KPOI,Lab 
+[FL | Defines a set of fatigue location parameters.]
+FL,NLOC,NODE,SCFX,SCFY,SCFZ,Title 
+[FLANGE | Defines a flange in a piping run.]
+FLANGE,NLOC,LENG,MASS,SIF,FLEX,ARINS,ELEM 
+[FLDATA | Sets up a FLOTRAN analysis.]
+FLDATA,Name,Label,Value 
+[FLDATA1 | Controls which features of the solution algorithm are activated.]
+FLDATA1,SOLU,Label,Value 
+[FLDATA10 | Specifies the COF2 coefficient of the fluid property equation.]
+FLDATA10,COF2,Label,Value 
+[FLDATA11 | Specifies the COF3 coefficient of the fluid property equation.]
+FLDATA11,COF3,Label,Value 
+[FLDATA12 | Sets the property update frequency flag.]
+FLDATA12,PROP,Label,Value 
+[FLDATA13 | Sets the property variation flag.]
+FLDATA13,VARY,Label,Value 
+[FLDATA14 | Specifies the reference temperature.]
+FLDATA14,TEMP,Label,Value 
+[FLDATA15 | Specifies the reference pressure.]
+FLDATA15,PRES,Label,Value 
+[FLDATA16 | Specifies the bulk modulus parameter.]
+FLDATA16,BULK,Label,Value 
+[FLDATA17 | Specifies the specific heat ratio.]
+FLDATA17,GAMM,Label,Value 
+[FLDATA18 | Selects the algebraic solver.]
+FLDATA18,METH,Label,Value 
+[FLDATA19 | Specifies the number of TDMA sweeps.]
+FLDATA19,TDMA,Label,Value 
+[FLDATA2 | Sets iteration and output controls for steady state analyses.]
+FLDATA2,ITER,Label,Value 
+[FLDATA20 | Specifies the number of conjugate direction search vectors.]
+FLDATA20,SRCH,Label,Value 
+[FLDATA20A | Specifies the amount of fill in when preconditioning the coefficient matrix.]
+FLDATA20A,PGMR,Label,Value 
+[FLDATA20B | Specifies the number of fill ins for the ILU preconditioner.]
+FLDATA20B,PBCGM,Label,Value 
+[FLDATA21 | Specifies the convergence criterion for FLOTRAN algebraic solvers.]
+FLDATA21,CONV,Label,Value 
+[FLDATA22 | Specifies the maximum number of semi direct iterations.]
+FLDATA22,MAXI,Label,Value 
+[FLDATA23 | Specifies the solver minimum normalized rate of change.]
+FLDATA23,DELT,Label,Value 
+[FLDATA24 | Sets the turbulence model and the constants used in the Standard k epsilon Model and the Zero Equation Turbulence Model.]
+FLDATA24,TURB,Label,Value 
+[FLDATA24A | Sets constants for the Re Normalized Group Turbulence Model (RNG).]
+FLDATA24A,RNGT,Label,Value 
+[FLDATA24B | Sets constants for the k ? Turbulence Model due to Shih (NKE).]
+FLDATA24B,NKET,Label,Value 
+[FLDATA24C | Sets constants for the Nonlinear Turbulence Model of Girimaji (GIR).]
+FLDATA24C,GIRT,Label,Value 
+[FLDATA24D | Sets constants for the Shih,Zhu,Lumley Turbulence Model (SZL).]
+FLDATA24D,SZLT,Label,Value 
+[FLDATA25 | Sets solution and property relaxation factors.]
+FLDATA25,RELX,Label,Value 
+[FLDATA26 | Sets stability controls.]
+FLDATA26,STAB,Label,Value 
+[FLDATA27 | Controls dependent variable printing.]
+FLDATA27,PRIN,Label,Value 
+[FLDATA28 | Specifies that variable results are to be replaced.]
+FLDATA28,MODR,Label,Value 
+[FLDATA29 | Re initializes a results variable.]
+FLDATA29,MODV,Label,Value 
+[FLDATA3 | Sets the convergence monitors for the degree of freedom set.]
+FLDATA3,TERM,Label,Value 
+[FLDATA30 | Controls the quadrature orders.]
+FLDATA30,QUAD,Label,Value 
+[FLDATA31 | Specifies dependent variable caps.]
+FLDATA31,CAPP,Label,Value 
+[FLDATA32 | Controls restart options.]
+FLDATA32,REST,Label,Value,Value2,Fname,Ext,-- 
+[FLDATA33 | Specifies the approach to discretize the advection term.]
+FLDATA33,ADVM,Label,Value 
+[FLDATA34 | Sets modified inertial relaxation factors.]
+FLDATA34,MIR,Label,Value 
+[FLDATA35 | Specifies tolerances for the lower and upper bound of the volume fraction.]
+FLDATA35,VFTOL,Label,Value 
+[FLDATA36 | Specifies ambient reference values outside of the fluid for the volume of fluid (VOF) method.]
+FLDATA36,AMBV,Label,Value 
+[FLDATA37 | Specifies segregated solution or film coefficient algorithms.]
+FLDATA37,ALGR,Label,Value 
+[FLDATA38 | Specifies the mass type for a fluid transient analysis.]
+FLDATA38,MASS,Label,Value 
+[FLDATA4 | Sets controls for transient analyses based on transient time and convergence monitors or sets time integration method.]
+FLDATA4,TIME,Label,Value 
+[FLDATA4A | Sets controls for transient analyses based on the number of time steps.]
+FLDATA4A,STEP,Label,Value 
+[FLDATA5 | Sets output and storage controls.]
+FLDATA5,OUTP,Label,Value 
+[FLDATA6 | Controls the output of the convergence monitor.]
+FLDATA6,CONV,Label,Value 
+[FLDATA7 | Specifies the type of fluid property.]
+FLDATA7,PROT,Label,Value 
+[FLDATA8 | Specifies the NOMI coefficient of the fluid property equation.]
+FLDATA8,NOMI,Label,Value 
+[FLDATA9 | Specifies the COF1 coefficient of the fluid property equation.]
+FLDATA9,COF1,Label,Value 
+[FLIST | Lists force loads on the nodes.]
+FLIST,NODE1,NODE2,NINC 
+[FLLIST | Lists the fatigue location parameters.]
+FLLIST,NLOC1,NLOC2,NINC 
+[FLOCHECK | Sets up and runs a zero iteration FLOTRAN analysis.]
+FLOCHECK,Key 
+[FLOTRAN |"Specifies""FLOTRAN data settings""as the subsequent status topic."]
+FLOTRAN 
+[FLREAD | Reads the residual file written by the FLOTRAN CFD option.]
+FLREAD,Fname,Ext,-- 
+[FLST | Specifies data required for a picking operation (GUI).]
+FLST,NFIELD,NARG,TYPE,Otype,LENG 
+[FLUXV | Calculates the flux passing through a closed contour.]
+FLUXV 
+[FMAGBC | Applies force and torque boundary conditions to an element component.]
+FMAGBC,Cnam1,Cnam2,Cnam3,Cnam4,Cnam5,Cnam6,Cnam7,Cnam8,Cnam9 
+[FMAGSUM | Summarizes electromagnetic force calculations on element components.]
+FMAGSUM,Cnam1,Cnam2,Cnam3,Cnam4,Cnam5,Cnam6,Cnam7,Cnam8,Cnam9 
+[FOR2D | Calculates magnetic forces on a body.]
+FOR2D 
+[FORCE | Selects the element nodal force type for output.]
+FORCE,Lab 
+[FORM | Specifies the format of the file dump.]
+FORM,Lab 
+[FP | Defines the fatigue S vs. N and Sm vs. T tables.]
+FP,STITM,C1,C2,C3,C4,C5,C6 
+[FPLIST | Lists the property table stored for fatigue evaluation.]
+FPLIST 
+[FREQ | Defines the frequency points for the SV vs. FREQ tables.]
+FREQ,FREQ1,FREQ2,FREQ3,FREQ4,FREQ5,FREQ6,FREQ7,FREQ8,FREQ9 
+[FS | Stores fatigue stress components at a node.]
+FS,NODE,NEV,NLOD,STITM,C1,C2,C3,C4,C5,C6 
+[FSAN | Turns a fluid solid interaction analysis on or off.]
+FSAN,Key 
+[FSCALE | Scales force load values in the database.]
+FSCALE,RFACT,IFACT 
+[FSCO | Sets convergence values for a fluid solid interaction analysis.]
+FSCO,Lab,VALUE 
+[FSDELE | Deletes a stress condition for a fatigue location,event,and loading.]
+FSDELE,NLOC,NEV,NLOD 
+[FSDT | Sets time step increment for a fluid solid interaction analysis.]
+FSDT,INC 
+[FSIN | Specifies the interface load transfer option for a fluid solid interaction analysis.]
+FSIN,Opt 
+[FSIT | Sets the maximum number of stagger iterations for a fluid solid interaction analysis.]
+FSIT,Val1 
+[FSLIST | Lists the stresses stored for fatigue evaluation.]
+FSLIST,NLOC1,NLOC2,NINC,NEV,NLOD 
+[FSNODE | Calculates and stores the stress components at a node for fatigue.]
+FSNODE,NODE,NEV,NLOD 
+[FSOR | Specifies analysis order for a fluid solid interaction analysis.]
+FSOR,First,Second 
+[FSOU | Sets output frequency for a fluid solid interaction analysis.]
+FSOU,Freq 
+[FSPLOT | Displays a fatigue stress item for a fatigue location and event.]
+FSPLOT,NLOC,NEV,ITEM 
+[FSRE | Sets relaxation values for a fluid solid interaction analysis.]
+FSRE,Lab,VALUE 
+[FSRS | Specifies time or load step number for restart of a fluid structure interaction analysis.]
+FSRS,Opt,VALUE 
+[FSSECT | Calculates and stores total linearized stress components.]
+FSSECT,RHO,NEV,NLOD,KBR 
+[FSSOLV | Performs a coupled steady state fluid structural analysis.]
+FSSOLV,Fluitit,Strutit,DIMN,Mcomp,Xcomp,FORCTOL,MOMETOL,STRUTOL,MXLOOP,FLUITER,RUSEKY,RESTKY 
+[FSSTAT | Lists the settings for a fluid solid interaction analysis.]
+FSSTAT 
+[FSTI | Sets end time and load time for a fluid solid interaction analysis.]
+FSTI,ENDTIME,LOADTIME 
+[FSTR | Specifies static or transient analyses for a fluid solid interaction analysis.]
+FSTR,Field,Type 
+[FSUM | Sums the nodal force and moment contributions of elements.]
+FSUM,LAB,ITEM 
+[FTCALC | Performs fatigue calculations for a particular node location.]
+FTCALC,NLOC,NODE 
+[FTRAN | Transfers solid model forces to the finite element model.]
+FTRAN 
+[FTSIZE | Defines the fatigue data storage array.]
+FTSIZE,MXLOC,MXEV,MXLOD 
+[FTWRITE | Writes all currently stored fatigue data on a file.]
+FTWRITE,Fname,Ext,-- 
+[FVMESH | Generates nodes and tetrahedral volume elements from detached exterior area elements (facets).]
+FVMESH,KEEP 
+[GAP |"Specifies""Reduced transient gap conditions""as the subsequent status topic."]
+GAP 
+[GAPF | Defines the gap force data to be stored in a variable.]
+GAPF,NVAR,NUM,Name 
+[GAPFINISH | Exits from the CAD import topology repair stage.]
+GAPFINISH 
+[GAPLIST | Lists all joined or disjoined lines in a model (for models imported from CAD files).]
+GAPLIST,Lab 
+[GAPMERGE | Merges adjacent disjoined lines (for models imported from CAD files).]
+GAPMERGE,Lab,VAL1,VAL2,VAL3 
+[GAPOPT | Sets preferences for the CAD import repair commands.]
+GAPOPT,Lab,Value 
+[GAPPLOT | Plots all joined or disjoined lines (for models imported from CAD files).]
+GAPPLOT,Lab 
+[GAUGE | Gauges the problem domain for an edge element formulation.]
+GAUGE,Opt 
+[GCGEN | Generates 2 D or 3 D contact elements.]
+GCGEN,Ccomp,Tcomp,NUMC,RADC,Tlab,Shape 
+[GENOPT |"Specifies""General options""as the subsequent status topic."]
+GENOPT 
+[GEOM | Defines the geometry specifications for the radiation matrix calculation.]
+GEOM,K2D,NDIV 
+[GEOMETRY |"Specifies""Geometry""as the subsequent status topic."]
+GEOMETRY 
+[GMFACE | Specifies the facet representation used to form solid models.]
+GMFACE,Lab,N 
+[GP | Defines a gap condition for transient analyses.]
+GP,NODE1,NODE2,Lab,STIF,GAP,DAMP 
+[GPDELE | Deletes gap conditions.]
+GPDELE,GAP1,GAP2,GINC 
+[GPLIST | Lists the gap conditions.]
+GPLIST,GAP1,GAP2,GINC 
+[GPLOT | Controls general plotting.]
+GPLOT 
+[GRP | Specifies the grouping mode combination method.]
+GRP,SIGNIF,Label 
+[GSBDATA | Specifies the constraints or applies the load at the ending point for generalized plane strain option.]
+GSBDATA,LabZ,VALUEZ,LabX,VALUEX,LabY,VALUEY 
+[GSGDATA | Specifies the reference point and defines the geometry in the fiber direction for the generalized plane strain element option.]
+GSGDATA,LFIBER,XREF,YREF,ROTX0,ROTY0 
+[GSLIST | When using generalized plane strain,lists the input data or solutions.]
+GSLIST,Lab 
+[GSSOL | Specifies which results to store from the results file when using generalized plane strain.]
+GSSOL,NVAR,Item,Comp,Name 
+[GSUM | Calculates and prints geometry items.]
+GSUM 
+[HARFRQ | Defines the frequency range in the harmonic response analysis.]
+HARFRQ,FREQB,FREQE 
+[HELP | Displays help information on ANSYS commands and element types.]
+HELP,Name 
+[HELPDISP | Displays help information on DISPLAY program commands.]
+HELPDISP,Commandname 
+[HEMIOPT | Specifies options for Hemicube view factor calculation.]
+HEMIOPT,HRES 
+[HFANG | Defines or displays spatial angles of a spherical radiation surface for antenna parameter calculations.]
+HFANG,Lab,PHI1,PHI2,THETA1,THETA2 
+[HFEIGOPT | Specifies high frequency electromagnetic modal analysis options.]
+HFEIGOPT,Lab,Val1 
+[HFEREFINE | Refines 3 D High Frequency Tetrahedral elements (HF119).]
+HFEREFINE,FACTOR 
+[HFNEAR | Calculates the electromagnetic field at points in the near zone exterior to the equivalent source surface (flagged with the Maxwell surface flag in the preprocessor).]
+HFNEAR,Lab,VAL,X,Y,Z,CS 
+[HFPCSWP | Calculates the propagating constants of a transmission line or waveguide over a frequency range.]
+HFPCSWP,FREQB,FREQE,FREQINC,Nummode 
+[HFPORT | Specifies a time harmonic guided wave excitation for a waveguide port.]
+HFPORT,Portnum,Porttype,Local,Opt1,Opt2,VAL1,VAL2,VAL3,VAL4,VAL5 
+[HFSCAT | Specifies a high frequency scattering analysis.]
+HFSCAT,Lab 
+[HFSWEEP | Performs a harmonic response for a high frequency electromagnetic wave guide analysis.]
+HFSWEEP,FREQB,FREQE,FREQINC,Portin,Port2,Port3,Port4,Pvolt,Pang,Pdist,Vpath,Ipath,Vsymm,Isymm 
+[HFSYM | Indicates the presence of symmetry planes for the computation of high frequency electromagnetic fields in the near and far field domains (beyond the finite element region).]
+HFSYM,KCN,Xkey,Ykey,Zkey 
+[HMAGSOLV | Specifies 2 D or axisymmetric harmonic magnetic solution options and initiates the solution.]
+HMAGSOLV,FREQ,NRAMP,CNVA,CNVV,CNVC,CNVE,NEQIT 
+[HPGL | Specifies various HP options.]
+HPGL,Kywrd,Opt1,Opt2 
+[HPTCREATE | Defines a hard point.]
+HPTCREATE,TYPE,ENTITY,NHP,LABEL,VAL1,VAL2,VAL3 
+[HPTDELETE | Deletes selected hardpoints.]
+HPTDELETE,NP1,NP2,NINC 
+[HRCPLX | Computes and stores in the database the time harmonic solution at a prescribed phase angle.]
+HRCPLX,LOADSTEP,SUBSTEP,OMEGAT,1STLCASE,2NDLCASE 
+[HREXP | Specifies the phase angle for the harmonic analysis expansion pass.]
+HREXP,ANGLE 
+[HROPT | Specifies harmonic analysis options.]
+HROPT,Method,MAXMODE,MINMODE 
+[HROUT | Specifies the harmonic analysis output options.]
+HROUT,Reimky,Clust,Mcont 
+[CHECK | Checks current database items for completeness.]
+CHECK,Sele,Levl 
+[CHKMSH | Checks area and volume entities for previous meshes.]
+CHKMSH,Comp 
+[IC | Specifies initial conditions at nodes.]
+IC,NODE,Lab,VALUE,VALUE2,NEND,NINC 
+[ICDELE | Deletes initial conditions at nodes.]
+ICDELE 
+[ICE | Specifies initial conditions on elements.]
+ICE,ELEM,Lab,VALUE 
+[ICEDELE | Deletes initial conditions on elements.]
+ICEDELE,ELEM,Lab 
+[ICELIST | Lists initial conditions on elements.]
+ICELIST,ELEM,Lab 
+[ICLIST | Lists the initial conditions.]
+ICLIST,NODE1,NODE2,NINC,Lab 
+[ICVFRC | Sets the initial volume fraction field for a geometry.]
+ICVFRC,Geom,VAL1,VAL2,VAL3,VAL4 
+[IGESIN | Transfers IGES data from a file into ANSYS.]
+IGESIN,Fname,Ext,-- 
+[IGESOUT | Writes solid model data to a file in IGES Version 5.1 format.]
+IGESOUT,Fname,Ext,--,ATT 
+[IMAGIN | Forms an imaginary variable from a complex variable.]
+IMAGIN,IR,IA,--,--,Name,--,--,FACTA 
+[IMESH | Generates nodes and interface elements along lines or areas.]
+IMESH,LAKY,NSLA,NTLA,KCN,DX,DY,DZ,TOL 
+[IMMED | Allows immediate display of a model as it is generated.]
+IMMED,KEY 
+[IMPD | Calculates the impedance of a conductor at a reference plane.]
+IMPD,Vpath,Ipath,Vsymm,Isymm 
+[INRES | Identifies the data to be retrieved from the results file.]
+INRES,Item1,Item2,Item3,Item4,Item5,Item6,Item7,Item8 
+[INRTIA |"Specifies""Inertial loads""as the subsequent status topic."]
+INRTIA 
+[INT1 | Integrates a variable.]
+INT1,IR,IY,IX,ÔÇö,Name,ÔÇö,ÔÇö,FACTA,FACTB,CONST 
+[INTSRF | Integrates nodal results on an exterior surface.]
+INTSRF,Lab 
+[IOPTN | Controls options relating to importing a model.]
+IOPTN,Lab,VAL1 
+[IRLF | Specifies that inertia relief calculations are to be performed.]
+IRLF,KEY 
+[IRLIST | Prints inertia relief summary table.]
+IRLIST 
+[ISFILE | Reads an initial stress state from a file into ANSYS.]
+ISFILE,Option,Fname,Ext,--,LOC,MAT1,MAT2,MAT3,MAT4,MAT5,MAT6,MAT7,MAT8,MAT9,MAT10 
+[ISTRESS | Defines a set of initial stress values.]
+ISTRESS,Sx,Sy,Sz,Sxy,Syz,Sxz,MAT1,MAT2,MAT3,MAT4,MAT5,MAT6,MAT7,MAT8,MAT9,MAT10 
+[ISWRITE | Writes an ASCII file containing the initial stress values.]
+ISWRITE,Switch 
+[JPEG | Provides JPEG file export for ANSYS displays.]
+JPEG,Kywrd,OPT 
+[K | Defines a keypoint.]
+K,NPT,X,Y,Z 
+[KATT | Associates attributes with the selected,unmeshed keypoints.]
+KATT,MAT,REAL,TYPE,ESYS 
+[KBC | Specifies stepped or ramped loading within a load step.]
+KBC,KEY 
+[KBETW | Creates a keypoint between two existing keypoints.]
+KBETW,KP1,KP2,KPNEW,Type,VALUE 
+[KCALC | Calculates stress intensity factors in fracture mechanics analyses.]
+KCALC,KPLAN,MAT,KCSYM,KLOCPR 
+[KCENTER | Creates a keypoint at the center of a circular arc defined by three locations.]
+KCENTER,Type,VAL1,VAL2,VAL3,VAL4,KPNEW 
+[KCLEAR | Deletes nodes and point elements associated with selected keypoints.]
+KCLEAR,NP1,NP2,NINC 
+[KDELE | Deletes unmeshed keypoints.]
+KDELE,NP1,NP2,NINC 
+[KDIST | Calculates and lists the distance between two keypoints.]
+KDIST,KP1,KP2 
+[KEEP | Stores POST26 definitions and data during active session.]
+KEEP,Key 
+[KESIZE | Specifies the edge lengths of the elements nearest a keypoint.]
+KESIZE,NPT,SIZE,FACT1,FACT2 
+[KEYOPT | Sets element key options.]
+KEYOPT,ITYPE,KNUM,VALUE 
+[KEYPTS |"Specifies""Keypoints""as the subsequent status topic."]
+KEYPTS 
+[KEYW | Sets a keyword used by the GUI for context filtering (GUI).]
+KEYW,Keyword,KEY 
+[KFILL | Generates keypoints between two keypoints.]
+KFILL,NP1,NP2,NFILL,NSTRT,NINC,SPACE 
+[KGEN | Generates additional keypoints from a pattern of keypoints.]
+KGEN,ITIME,NP1,NP2,NINC,DX,DY,DZ,KINC,NOELEM,IMOVE 
+[KL | Generates a keypoint at a specified location on an existing line.]
+KL,NL1,RATIO,NK1 
+[KLIST | Lists the defined keypoints or hard points.]
+KLIST,NP1,NP2,NINC,Lab 
+[KMESH | Generates nodes and point elements at keypoints.]
+KMESH,NP1,NP2,NINC 
+[KMODIF | Modifies an existing keypoint.]
+KMODIF,NPT,X,Y,Z 
+[KMOVE | Calculates and moves a keypoint to an intersection.]
+KMOVE,NPT,KC1,X1,Y1,Z1,KC2,X2,Y2,Z2 
+[KNODE | Defines a keypoint at an existing node location.]
+KNODE,NPT,NODE 
+[KPLOT | Displays the selected keypoints.]
+KPLOT,NP1,NP2,NINC,Lab 
+[KPSCALE | Generates a scaled set of (meshed) keypoints from a pattern of keypoints.]
+KPSCALE,NP1,NP2,NINC,RX,RY,RZ,KINC,NOELEM,IMOVE 
+[KREFINE | Refines the mesh around specified keypoints.]
+KREFINE,NP1,NP2,NINC,LEVEL,DEPTH,POST,RETAIN 
+[KSCALE | Generates a scaled pattern of keypoints from a given keypoint pattern.]
+KSCALE,KINC,NP1,NP2,NINC,RX,RY,RZ 
+[KSCON | Specifies a keypoint about which an area mesh will be skewed.]
+KSCON,NPT,DELR,KCTIP,NTHET,RRAT 
+[KSEL | Selects a subset of keypoints or hard points.]
+KSEL,Type,Item,Comp,VMIN,VMAX,VINC,KABS 
+[KSLL | Selects those keypoints contained in the selected lines.]
+KSLL,Type 
+[KSLN | Selects those keypoints associated with the selected nodes.]
+KSLN,Type 
+[KSUM | Calculates and prints geometry statistics of the selected keypoints.]
+KSUM 
+[KSYMM | Generates a reflected set of keypoints.]
+KSYMM,Ncomp,NP1,NP2,NINC,KINC,NOELEM,IMOVE 
+[KTRAN | Transfers a pattern of keypoints to another coordinate system.]
+KTRAN,KCNTO,NP1,NP2,NINC,KINC,NOELEM,IMOVE 
+[KUSE | Specifies whether or not to reuse the triangularized matrix.]
+KUSE,KEY 
+[KWPAVE | Moves the working plane origin to the average location of keypoints.]
+KWPAVE,P1,P2,P3,P4,P5,P6,P7,P8,P9 
+[KWPLAN | Defines the working plane using three keypoints.]
+KWPLAN,WN,KORIG,KXAX,KPLAN 
+[L | Defines a line between two keypoints.]
+L,P1,P2,NDIV,SPACE,XV1,YV1,ZV1,XV2,YV2,ZV2 
+[L2ANG | Generates a line at an angle with two existing lines.]
+L2ANG,NL1,NL2,ANG1,ANG2,PHIT1,PHIT2 
+[L2TAN | Generates a line tangent to two lines.]
+L2TAN,NL1,NL2 
+[LANG | Generates a straight line at an angle with a line.]
+LANG,NL1,P3,ANG,PHIT,LOCAT 
+[LARC | Defines a circular arc.]
+LARC,P1,P2,PC,RAD 
+[LAREA | Generates the shortest line between two keypoints on an area.]
+LAREA,P1,P2,NAREA 
+[LARGE | Finds the largest (the envelope) of three variables.]
+LARGE,IR,IA,IB,IC,Name,--,--,FACTA,FACTB,FACTC 
+[LATT | Associates element attributes with the selected,unmeshed lines.]
+LATT,MAT,REAL,TYPE,--,KB,KE,SECNUM 
+[LAYER | Specifies the element layer for which data are to be processed.]
+LAYER,NUM 
+[LAYERP26 | Specifies the element layer for which data are to be stored.]
+LAYERP26,NUM 
+[LAYLIST | Lists real constants material properties for layered elements.]
+LAYLIST,IEL,LAYR1,LAYR2,Mplab1,Mplab2 
+[LAYPLOT | Displays the layer stacking sequence for layered elements.]
+LAYPLOT,IEL,LAYR1,LAYR2 
+[LCABS | Specifies absolute values for load case operations.]
+LCABS,LCNO,KABS 
+[LCASE | Reads a load case into the database.]
+LCASE,LCNO 
+[LCCALC |"Specifies""Load case settings""as the subsequent status topic."]
+LCCALC 
+[LCCAT | Concatenates multiple lines into one line for mapped meshing.]
+LCCAT,NL1,NL2 
+[LCDEF | Creates a load case from a set of results on a results file.]
+LCDEF,LCNO,LSTEP,SBSTEP,KIMG 
+[LCFACT | Defines scale factors for load case operations.]
+LCFACT,LCNO,FACT 
+[LCFILE | Creates a load case from an existing load case file.]
+LCFILE,LCNO,Fname,Ext,-- 
+[LCLEAR | Deletes nodes and line elements associated with selected lines.]
+LCLEAR,NL1,NL2,NINC 
+[LCOMB | Combines adjacent lines into one line.]
+LCOMB,NL1,NL2,KEEP 
+[LCOPER | Performs load case operations.]
+LCOPER,Oper,LCASE1,Oper2,LCASE2 
+[LCSEL | Selects a subset of load cases.]
+LCSEL,Type,LCMIN,LCMAX,LCINC 
+[LCSL | Divides intersecting lines at their point(s) of intersection.]
+LCSL,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LCSUM | Specifies whether to process non summable items in load case operations.]
+LCSUM,Lab 
+[LCWRITE | Creates a load case by writing results to a load case file.]
+LCWRITE,LCNO,Fname,Ext,-- 
+[LCZERO | Zeroes the results portion of the database.]
+LCZERO 
+[LDELE | Deletes unmeshed lines.]
+LDELE,NL1,NL2,NINC,KSWP 
+[LDIV | Divides a single line into two or more lines.]
+LDIV,NL1,RATIO,PDIV,NDIV,KEEP 
+[LDRAG | Generates lines by sweeping a keypoint pattern along path.]
+LDRAG,NK1,NK2,NK3,NK4,NK5,NK6,NL1,NL2,NL3,NL4,NL5,NL6 
+[LDREAD | Reads results from the results file and applies them as loads.]
+LDREAD,Lab,LSTEP,SBSTEP,TIME,KIMG,Fname,Ext,-- 
+[LESIZE | Specifies the divisions and spacing ratio on unmeshed lines.]
+LESIZE,NL1,SIZE,ANGSIZ,NDIV,SPACE,KFORC,LAYER1,LAYER2,KYNDIV 
+[LEXTND | Extends a line at one end by using its slope.]
+LEXTND,NL1,NK1,DIST,KEEP 
+[LFILLT | Generates a fillet line between two intersecting lines.]
+LFILLT,NL1,NL2,RAD,PCENT 
+[LFSURF | Generates surface elements overlaid on the edge of existing solid elements and assigns the extra node as the closest fluid element node.]
+LFSURF,SLINE,TLINE 
+[LGEN | Generates additional lines from a pattern of lines.]
+LGEN,ITIME,NL1,NL2,NINC,DX,DY,DZ,KINC,NOELEM,IMOVE 
+[LGLUE |"Generates new lines by""gluing""lines."]
+LGLUE,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LGWRITE | Writes the database command log to a file.]
+LGWRITE,Fname,Ext,--,Kedit 
+[LINA | Finds the intersection of a line with an area.]
+LINA,NL,NA 
+[LINE |"Specifies""Lines""as the subsequent status topic."]
+LINE 
+[LINES | Specifies the length of a printed page.]
+LINES,N 
+[LINL | Finds the common intersection of lines.]
+LINL,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LINP | Finds the pairwise intersection of lines.]
+LINP,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LINV | Finds the intersection of a line with a volume.]
+LINV,NL,NV 
+[LIST | Lists out the sets in the results file.]
+LIST,LEVEL 
+[LLIST | Lists the defined lines.]
+LLIST,NL1,NL2,NINC,Lab 
+[LMATRIX | Calculates an inductance matrix and the total flux linkage for an N winding coil system.]
+LMATRIX,Symfac,Coilname,Curname,Indname 
+[LMESH | Generates nodes and line elements along lines.]
+LMESH,NL1,NL2,NINC 
+[LNCOLLAPSE | Collapse a line segment to a keypoint (for models imported from CAD files).]
+LNCOLLAPSE,LINE,KEYPOINT 
+[LNDETACH | Detaches lines from neighboring geometric entity (for models imported from CAD files).]
+LNDETACH,LINE1,LINE2,LNINC 
+[LNFILL | Creates a straight line between two keypoints (for models imported from CAD files).]
+LNFILL,KP1,KP2 
+[LNMERGE | Merges two or more connected line segments (for models imported from CAD files).]
+LNMERGE,LN1,LN2,LN3,LN4,LN4,LN6,LN7,LN8,LN9,LN10 
+[LNSPLIT | Splits a line segment into two line segments (for models imported from CAD files).]
+LNSPLIT,LINE,PARAM 
+[LNSRCH | Activates a line search to be used with Newton Raphson.]
+LNSRCH,Key 
+[LOCAL | Defines a local coordinate system by a location and orientation.]
+LOCAL,KCN,KCS,XC,YC,ZC,THXY,THYZ,THZX,PAR1,PAR2 
+[LOVLAP | Overlaps lines.]
+LOVLAP,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LPLOT | Displays the selected lines.]
+LPLOT,NL1,NL2,NINC 
+[LPTN | Partitions lines.]
+LPTN,NL1,NL2,NL3,NL4,NL5,NL6,NL7,NL8,NL9 
+[LREFINE | Refines the mesh around specified lines.]
+LREFINE,NL1,NL2,NINC,LEVEL,DEPTH,POST,RETAIN 
+[LREVERSE | Reverses the normal of a line,regardless of its connectivity or mesh status.]
+LREVERSE,LNUM,NOEFLIP 
+[LROTAT | Generates circular lines by rotating a keypoint pattern about an axis.]
+LROTAT,NK1,NK2,NK3,NK4,NK5,NK6,PAX1,PAX2,ARC,NSEG 
+[LSBA | Subtracts areas from lines.]
+LSBA,NL,NA,SEPO,KEEPL,KEEPA 
+[LSBL | Subtracts lines from lines.]
+LSBL,NL1,NL2,SEPO,KEEP1,KEEP2 
+[LSBV | Subtracts volumes from lines.]
+LSBV,NL,NV,SEPO,KEEPL,KEEPV 
+[LSBW | Subtracts the intersection of the working plane from lines (divides lines).]
+LSBW,NL,SEPO,KEEP 
+[LSCLEAR | Clears loads and load step options from the database.]
+LSCLEAR,Lab 
+[LSDELE | Deletes load step files.]
+LSDELE,LSMIN,LSMAX,LSINC 
+[LSEL | Selects a subset of lines.]
+LSEL,Type,Item,Comp,VMIN,VMAX,VINC,KSWP 
+[LSLA | Selects those lines contained in the selected areas.]
+LSLA,Type 
+[LSLK | Selects those lines containing the selected keypoints.]
+LSLK,Type,LSKEY 
+[LSOPER |"Specifies""Load step operations""as the subsequent status topic."]
+LSOPER 
+[LSREAD | Reads load and load step option data into the database.]
+LSREAD,LSNUM 
+[LSSCALE | Generates a scaled set of lines from a pattern of lines.]
+LSSCALE,NL1,NL2,NINC,RX,RY,RZ,KINC,NOELEM,IMOVE 
+[LSSOLVE | Reads and solves multiple load steps.]
+LSSOLVE,LSMIN,LSMAX,LSINC 
+[LSTR | Defines a straight line irrespective of the active coordinate system.]
+LSTR,P1,P2 
+[LSUM | Calculates and prints geometry statistics of the selected lines.]
+LSUM 
+[LSWRITE | Writes load and load step option data to a file.]
+LSWRITE,LSNUM 
+[LSYMM | Generates lines from a line pattern by symmetry reflection.]
+LSYMM,Ncomp,NL1,NL2,NINC,KINC,NOELEM,IMOVE 
+[LTAN | Generates a line at the end of,and tangent to,an existing line.]
+LTAN,NL1,P3,XV3,YV3,ZV3 
+[LTRAN | Transfers a pattern of lines to another coordinate system.]
+LTRAN,KCNTO,NL1,NL2,NINC,KINC,NOELEM,IMOVE 
+[LUMPM | Specifies a lumped mass matrix formulation.]
+LUMPM,Key 
+[LVSCALE | Scales the load vector for mode superposition analyses.]
+LVSCALE,FACT 
+[LWPLAN | Defines the working plane normal to a location on a line.]
+LWPLAN,WN,NL1,RATIO 
+[M | Defines master degrees of freedom for reduced and superelement generation analyses.]
+M,NODE,Lab1,NEND,NINC,Lab2,Lab3,Lab4,Lab5,Lab6 
+[MAGOPT | Specifies options for a 3 D magnetostatic field analysis.]
+MAGOPT,VALUE 
+[MAGSOLV | Specifies magnetic solution options and initiates the solution.]
+MAGSOLV,OPT,NRAMP,CNVCSG,CNVFLUX,NEQIT,BIOT 
+[MASTER |"Specifies""Master DOF""as the subsequent status topic."]
+MASTER 
+[MAT | Sets the element material attribute pointer.]
+MAT,MAT 
+[MATER |"Specifies""Material properties""as the subsequent status topic."]
+MATER 
+[MDAMP | Defines the damping ratios as a function of mode.]
+MDAMP,STLOC,V1,V2,V3,V4,V5,V6 
+[MDELE | Deletes master degrees of freedom.]
+MDELE,NODE,Lab1,NEND,NINC,Lab2,Lab3,Lab4,Lab5,Lab6 
+[MEMM | Allows the current session to keep allocated memory]
+MEMM,Lab,Kywrd 
+[MESHING |"Specifies""Meshing""as the subsequent status topic."]
+MESHING 
+[MGEN | Generates additional MDOF from a previously defined set.]
+MGEN,ITIME,INC,NODE1,NODE2,NINC 
+[MCHECK | Checks mesh connectivity.]
+MCHECK,Lab 
+[MITER | Defines a mitered bend in a piping run.]
+MITER,NEL1,NEL2,RAD,NDIV,ESTRT,EINC 
+[MLIST | Lists the MDOF of freedom.]
+MLIST,NODE1,NODE2,NINC 
+[MMF | Calculates the magnetomotive force along a path.]
+MMF 
+[MODE | Specifies the harmonic loading term for this load step.]
+MODE,MODE,ISYM 
+[MODIFY | Changes the listed values of the data in a set.]
+MODIFY,SET,LSTEP,ITER,CUMIT,TIME,Ktitle 
+[MODMSH | Controls the relationship of the solid model and the FE model.]
+MODMSH,Lab 
+[MODOPT | Specifies modal analysis options.]
+MODOPT,Method,NMODE,FREQB,FREQE,PRMODE,Nrmkey,,Cekey 
+[MONITOR | Controls contents of three variable fields in nonlinear solution monitor file.]
+MONITOR,VAR,Node,Lab 
+[MOPT | Specifies meshing options.]
+MOPT,Lab,Value 
+[MOVE | Calculates and moves a node to an intersection.]
+MOVE,NODE,KC1,X1,Y1,Z1,KC2,X2,Y2,Z2 
+[MP | Defines a linear material property as a constant or a function of temperature.]
+MP,Lab,MAT,C0,C1,C2,C3,C4 
+[MPAMOD | Modifies temperature dependent coefficients of thermal expansion.]
+MPAMOD,MAT,DEFTEMP 
+[MPCOPY | Copies linear material model data from one material reference number to another.]
+MPCOPY,--,MATF,MATT 
+[MPDATA | Defines property data to be associated with the temperature table.]
+MPDATA,Lab,MAT,STLOC,C1,C2,C3,C4,C5,C6 
+[MPDELE | Deletes linear material properties.]
+MPDELE,Lab,MAT1,MAT2,INC 
+[MPDRES | Reassembles existing material data with the temperature table.]
+MPDRES,LabF,MATF,LabT,MATT 
+[MPCHG | Changes the material number attribute of an element.]
+MPCHG,MAT,ELEM 
+[MPLIST | Lists linear material properties.]
+MPLIST,MAT1,MAT2,INC,Lab,TEVL 
+[MPPLOT | Plots linear material properties as a function of temperature.]
+MPPLOT,Lab,MAT,TMIN,TMAX,PMIN,PMAX 
+[MPREAD | Reads a file containing material properties.]
+MPREAD,Fname,Ext,--,LIB 
+[MPRINT | Specifies that radiation matrices are to be printed.]
+MPRINT,KEY 
+[MPTEMP | Defines a temperature table for material properties.]
+MPTEMP,STLOC,T1,T2,T3,T4,T5,T6 
+[MPTGEN | Adds temperatures to the temperature table by generation.]
+MPTGEN,STLOC,NUM,TSTRT,TINC 
+[MPTRES | Restores a temperature table previously defined.]
+MPTRES,Lab,MAT 
+[MPWRITE | Writes linear material properties in the database to a file (if the LIB option is not specified) or writes both linear and nonlinear material properties (if LIB is specified) from the database to a file.]
+MPWRITE,Fname,Ext,--,LIB,MAT 
+[MSADV | Specifies the approach to discretize the advection term in a species transport equation.]
+MSADV,SPNUM,MTHA 
+[MSAVE | Memory savingwhen generating stiffness matrixSets the solver memory saving option. This option only applies to the PCG solver.Solver,memory saving feature]
+MSAVE,Key 
+[MSCAP | Activates and controls mass fraction capping for a species.]
+MSCAP,SPNUM,Capkey,UPPER,LOWER 
+[MSDATA | Defines multiple species data applicable to all species.]
+MSDATA,ALGEB,UGAS 
+[MSHAPE | For elements that support multiple shapes,specifies the element shape to be used for meshing.]
+MSHAPE,KEY,Dimension 
+[MSHCOPY | Simplifies the generation of meshes that have matching node element patterns on two different line groups (in 2 D) or area groups (3 D).]
+MSHCOPY,KEYLA,LAPTRN,LACOPY,KCN,DX,DY,DZ,TOL,LOW,HIGH 
+[MSHKEY | Specifies whether free meshing or mapped meshing should be used to mesh a model.]
+MSHKEY,KEY 
+[MSHMID | Specifies placement of midside nodes.]
+MSHMID,KEY 
+[MSHPATTERN | Specifies pattern to be used for mapped triangle meshing.]
+MSHPATTERN,KEY 
+[MSMASS | Specifies the mass type for a transient species analysis.]
+MSMASS,SPNUM,Value 
+[MSMETH | Specifies the method of solution of the species transport equations.]
+MSMETH,SPNUM,KEY 
+[MSMIR | Sets modified inertial relaxation factors for multiple species.]
+MSMIR,SPNUM,Value 
+[MSNOMF | Specifies the initial value of nominal mass fraction for a species.]
+MSNOMF,SPNUM,FRACTION 
+[MSPROP | Defines the fluid properties of a species.]
+MSPROP,SPNUM,Label,Type,NOMINAL,COF1,COF2,COF3 
+[MSQUAD | Specifies the quadrature order for multiple species elements.]
+MSQUAD,QDIF,QSRC 
+[MSRELAX | Specifies relaxation factors for a multiple species transport analysis.]
+MSRELAX,SPNUM,CONC,MDIF,EMDI,STAB 
+[MSSOLU | Specifies solution options for multiple species transport.]
+MSSOLU,SPNUM,NSWEEP,MAXI,NSRCH,CONV,DELMAX 
+[MSSPEC | Specifies the name,molecular weight,and Schmidt number of a species.]
+MSSPEC,SPNUM,Name,MOLWT,SCHMIDT 
+[MSTERM | Sets the convergence monitors for species.]
+MSTERM,SPNUM,STER,TTER 
+[MSVARY | Allows species properties to vary between global iterations.]
+MSVARY,SPNUM,Lab,Key 
+[MXPAND | Specifies the number of modes to expand and write for a modal or buckling analysis.]
+MXPAND,NMODE,FREQB,FREQE,Elcalc,SIGNIF 
+[N | Defines a node.]
+N,NODE,X,Y,Z,THXY,THYZ,THZX 
+[NANG | Rotates a nodal coordinate system by direction cosines.]
+NANG,NODE,X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3 
+[NCNV | Sets the key to terminate an analysis.]
+NCNV,KSTOP,DLIM,ITLIM,ETLIM,CPLIM 
+[NDELE | Deletes nodes.]
+NDELE,NODE1,NODE2,NINC 
+[NDIST | Calculates and lists the distance between two nodes.]
+NDIST,ND1,ND2 
+[NDSURF | Generates surface elements overlaid on the edge of existing elements and assigns the extra node as the closest fluid element node.]
+NDSURF,Snode,Telem,DIMN 
+[NEQIT | Specifies the maximum number of equilibrium iterations for nonlinear analyses.]
+NEQIT,NEQIT 
+[NFORCE | Sums the nodal forces and moments of elements attached to nodes.]
+NFORCE,ITEM 
+[NGEN | Generates additional nodes from a pattern of nodes.]
+NGEN,ITIME,INC,NODE1,NODE2,NINC,DX,DY,DZ,SPACE 
+[NKPT | Defines a node at an existing keypoint location.]
+NKPT,NODE,NPT 
+[NLGEOM | Includes large deflection effects in a static or full transient analysis.]
+NLGEOM,Key 
+[NLIST | Lists nodes.]
+NLIST,NODE1,NODE2,NINC,Lcoord,SORT1,SORT2,SORT3 
+[NLOG | Forms the natural log of a variable.]
+NLOG,IR,IA,--,--,Name,--,--,FACTA,FACTB 
+[NLOPT |"Specifies""Nonlinear analysis options""as the subsequent status topic."]
+NLOPT 
+[NMODIF | Modifies an existing node.]
+NMODIF,NODE,X,Y,Z,THXY,THYZ,THZX 
+[NOCOLOR | Removes color from graphics displays.]
+NOCOLOR,KEY 
+[NODES |"Specifies""Nodes""as the subsequent status topic."]
+NODES 
+[NOOFFSET | Prevents the CDREAD command from offsetting specified data items]
+NOOFFSET,Label 
+[NOORDER | Re establishes the original element ordering.]
+NOORDER,Lab 
+[NORA | Rotates nodal coordinate systems to surface normal]
+NORA,AREA,NDIR 
+[NORL | Rotates nodal coordinate systems perpendicular to line normal]
+NORL,LINE,AREA,NDIR 
+[NPLOT | Displays nodes.]
+NPLOT,KNUM 
+[NPRINT | Defines which time points stored are to be listed.]
+NPRINT,N 
+[NREAD | Reads nodes from a file.]
+NREAD,Fname,Ext,-- 
+[NREFINE | Refines the mesh around specified nodes.]
+NREFINE,NN1,NN2,NINC,LEVEL,DEPTH,POST,RETAIN 
+[NRLSUM | Specifies the Naval Research Laboratory (NRL) sum mode combination method.]
+NRLSUM,SIGNIF,Label 
+[NROPT | Specifies the Newton Raphson options in a static or full transient analysis.]
+NROPT,Option,--,Adptky 
+[NROTAT | Rotates nodal coordinate systems into the active system.]
+NROTAT,NODE1,NODE2,NINC 
+[NRRANG | Specifies the range of nodes to be read from the node file.]
+NRRANG,NMIN,NMAX,NINC 
+[NRRES | Writes Newton Raphson residual information to a file for the specified number of equilibrium iterations.]
+NRRES,Key,MaxFile 
+[NSCALE | Generates a scaled set of nodes from a pattern of nodes.]
+NSCALE,INC,NODE1,NODE2,NINC,RX,RY,RZ 
+[NSEL | Selects a subset of nodes.]
+NSEL,Type,Item,Comp,VMIN,VMAX,VINC,KABS 
+[NSLA | Selects those nodes associated with the selected areas.]
+NSLA,Type,NKEY 
+[NSLE | Selects those nodes attached to the selected elements.]
+NSLE,Type,NodeType,Num 
+[NSLK | Selects those nodes associated with the selected keypoints.]
+NSLK,Type 
+[NSLL | Selects those nodes associated with the selected lines.]
+NSLL,Type,NKEY 
+[NSLV | Selects those nodes associated with the selected volumes.]
+NSLV,Type,NKEY 
+[NSMOOTH | Smooths selected nodes among selected elements.]
+NSMOOTH,NPASS 
+[NSOL | Specifies nodal data to be stored from the results file.]
+NSOL,NVAR,NODE,Item,Comp,Name 
+[NSORT | Sorts nodal data.]
+NSORT,Item,Comp,ORDER,KABS,NUMB,SEL 
+[NSTORE | Defines which time points are to be stored.]
+NSTORE,TINC 
+[NSUBST | Specifies the number of substeps to be taken this load step.]
+NSUBST,NSBSTP,NSBMX,NSBMN,Carry 
+[NSVR | Defines the number of variables for user programmable element options.]
+NSVR,ITYPE,NSTV 
+[NSYM | Generates a reflected set of nodes.]
+NSYM,Ncomp,INC,NODE1,NODE2,NINC 
+[NUMCMP | Compresses the numbering of defined items.]
+NUMCMP,Label 
+[NUMEXP | Specifies solutions to be expanded from reduced analyses.]
+NUMEXP,NUM,BEGRNG,ENDRNG,Elcalc 
+[NUMMRG | Merges coincident or equivalently defined items.]
+NUMMRG,Label,TOLER,GTOLER,Action,Switch 
+[NUMOFF | Adds a number offset to defined items.]
+NUMOFF,Label,VALUE 
+[NUMSTR | Establishes starting numbers for automatically numbered items.]
+NUMSTR,Label,VALUE 
+[NUMVAR | Specifies the number of variables allowed in POST26.]
+NUMVAR,NV 
+[NUSORT | Restores original order for nodal data.]
+NUSORT 
+[NWPAVE | Moves the working plane origin to the average location of nodes.]
+NWPAVE,N1,N2,N3,N4,N5,N6,N7,N8,N9 
+[NWPLAN | Defines the working plane using three nodes.]
+NWPLAN,WN,NORIG,NXAX,NPLAN 
+[NWRITE | Writes nodes to a file.]
+NWRITE,Fname,Ext,--,KAPPND 
+[OMEGA | Specifies the rotational velocity of the structure.]
+OMEGA,OMEGX,OMEGY,OMEGZ,KSPIN 
+[OPADD | Forms a set of optimization parameters by adding two sets.]
+OPADD,NRES,NUM1,NUM2,C1,C2 
+[OPANL | Defines the analysis file to be used for optimization looping.]
+OPANL,Fname,Ext,-- 
+[OPCLR | Clears the optimization database.]
+OPCLR 
+[OPDATA | Identifies the file where optimization data is to be saved.]
+OPDATA,Fname,Ext,-- 
+[OPDEL | Deletes optimization design sets.]
+OPDEL,NSET1,NSET2 
+[OPEQN | Controls curve fitting for the subproblem approximation method.]
+OPEQN,KFOBJ,KFSV,KWGHT,KOPPR,INOPT 
+[OPERATE |"Specifies""Operation data""as the subsequent status topic."]
+OPERATE 
+[OPEXE | Initiates optimization looping.]
+OPEXE 
+[OPFACT | Defines the type of factorial evaluation to be performed.]
+OPFACT,Type 
+[OPFRST | Defines specifications for the first order optimization method.]
+OPFRST,NITR,SIZE,DELTA 
+[OPGRAD | Specifies which design set will be used for gradient evaluation.]
+OPGRAD,Dset,DELTA 
+[OPKEEP | Specifies whether to save the best set results and database file.]
+OPKEEP,Key 
+[OPLFA | Displays the results of a factorial evaluation.]
+OPLFA,Name,Effect,EMIN,EMAX 
+[OPLGR | Graphs the results of a gradient evaluation.]
+OPLGR,Pname,Dvnam1,Dvnam2,Dvnam3,Dvnam4,Dvnam5,Dvnam6 
+[OPLIST | Displays the parameters for design sets.]
+OPLIST,SET1,SET2,LKEY 
+[OPLOOP | Specifies controls for optimization looping.]
+OPLOOP,Read,Dvar,Parms 
+[OPLSW | Graphs the results of a global sweep generation.]
+OPLSW,Pname,Dvnam1,Dvnam2,Dvnam3,Dvnam4,Dvnam5,Dvnam6 
+[OPMAKE | Creates a design set using active scalar parameter values.]
+OPMAKE 
+[OPNCONTROL | Sets decision parameter for automatically increasing the time step interval.]
+OPNCONTROL,Lab,VALUE,NUMSTEP 
+[OPPRNT | Activates detailed optimization summary printout.]
+OPPRNT,Key 
+[OPRAND | Defines the number of iterations for a random optimization.]
+OPRAND,NITR,NFEAS 
+[OPRESU | Reads optimization data into the optimization database.]
+OPRESU,Fname,Ext,-- 
+[OPRFA | Prints the results of a factorial evaluation.]
+OPRFA,Name 
+[OPRGR | Prints the results of a gradient evaluation.]
+OPRGR,Name 
+[OPRSW | Prints the results of a global sweep generation.]
+OPRSW,Name 
+[OPSAVE | Writes all optimization data to a file.]
+OPSAVE,Fname,Ext,-- 
+[OPSEL | Selects design sets for subsequent optimization looping.]
+OPSEL,NSEL 
+[OPSUBP | Defines number of iterations for subproblem approximation method.]
+OPSUBP,NITR,NINFS 
+[OPSWEEP | Specifies the reference point and number of evaluation points for a sweep generation.]
+OPSWEEP,Dset,NSPS 
+[OPTYPE | Specifies the optimization method to be used.]
+OPTYPE,Mname 
+[OPUSER | Defines specifications for user supplied external optimization.]
+OPUSER,NITR,VAL1,VAL2,VAL3,VAL4,VAL5,VAL6,VAL7,VAL8 
+[OPVAR | Specifies the parameters to be treated as optimization variables.]
+OPVAR,Name,Type,MIN,MAX,TOLER 
+[OUTOPT |"Specifies""Output options""as the subsequent status topic."]
+OUTOPT 
+[OUTPR | Controls the solution printout.]
+OUTPR,Item,FREQ,Cname 
+[OUTRES | Controls the solution data written to the database.]
+OUTRES,Item,FREQ,Cname 
+[PADELE | Deletes a defined path.]
+PADELE,DELOPT 
+[PAGET | Writes current path information into an array variable.]
+PAGET,PARRAY,POPT 
+[PAPUT | Retrieves path information from an array variable.]
+PAPUT,PARRAY,POPT 
+[PARESU | Restores previously saved paths from a file.]
+PARESU,Lab,Fname,Ext,-- 
+[PARRES | Reads parameters from a file.]
+PARRES,Lab,Fname,Ext,-- 
+[PARSAV | Writes parameters to a file.]
+PARSAV,Lab,Fname,Ext,-- 
+[PARTSEL | Selects a subset of parts in an explicit dynamic analysis.]
+PARTSEL,Type,PMIN,PMAX,PINC 
+[PASAVE | Saves selected paths to an external file.]
+PASAVE,Lab,Fname,Ext,-- 
+[PATH | Defines a path name and establishes parameters for the path.]
+PATH,NAME,nPts,nSets,nDiv 
+[PCALC | Forms additional labeled path items by operating on existing path items.]
+PCALC,Oper,LabR,Lab1,Lab2,FACT1,FACT2,CONST 
+[PCIRC | Creates a circular area centered about the working plane origin.]
+PCIRC,RAD1,RAD2,THETA1,THETA2 
+[PCONV | Sets convergence values for p method solutions.]
+PCONV,TOLER,Item,Comp,NODE,Surf 
+[PCORRO | Specifies the allowable exterior corrosion thickness for a piping run.]
+PCORRO,CTK 
+[PCROSS | Calculates the cross product of two path vectors along the current path.]
+PCROSS,LabXR,LabYR,LabZR,LabX1,LabY1,LabZ1,LabX2,LabY2,LabZ2 
+[PDANL | Defines the analysis file to be used for probabilistic looping.]
+PDANL,Fname,Ext,-- 
+[PDCDF | Plots the cumulative distribution function.]
+PDCDF,Rlab,Name,Type,CONF,NMAX 
+[PDCFLD | Calculates a correlation field and stores it into an ANSYS array.]
+PDCFLD,ParR,Entity,Ctype,CLENGTH 
+[PDCLR | Clears the probabilistic design database.]
+PDCLR,Type 
+[PDCMAT | Prints the correlation coefficient matrix.]
+PDCMAT,Rlab,Matrix,Name1,Name2,Corr,SLEVEL,Popt 
+[PDCORR | Specifies the correlation between two random input variables.]
+PDCORR,Name1,Name2,CORR 
+[PDDMCS | Specifies options for Monte Carlo Simulations using direct sampling.]
+PDDMCS,NSIM,--,Astop,ACCMEAN,ACCSTDEV,CHECK,Seed 
+[PDDOEL | Defines design of experiment levels for an individual random input variable.]
+PDDOEL,Name,Method,Vtype,Lopt,VAL1,VAL2,VAL3,VAL4,VAL5 
+[PDEF | Interpolates an item onto a path.]
+PDEF,Lab,Item,Comp,Avglab 
+[PDEXE | Executes the probabilistic analysis.]
+PDEXE,Slab,MRUN,NFAIL,FOPT,Fname 
+[PDHIST | Plots the frequency histogram.]
+PDHIST,Rlab,Name,NCL,Type 
+[PDINQR | Evaluates statistical characteristics of a random input variable.]
+PDINQR,Rpar,Name,Type,VAL 
+[PDLHS | Specifies options for Monte Carlo Simulations using Latin Hypercube sampling.]
+PDLHS,NSIM,NREP,ISopt,--,Astop,ACCMEAN,ACCSTDV,CHECK,Seed 
+[PDMETH | Specifies the probabilistic analysis method.]
+PDMETH,Method,Samp 
+[PDOT | Calculates the dot product of two path vectors along the current path.]
+PDOT,LabR,LabX1,LabY1,LabZ1,LabX2,LabY2,LabZ2 
+[PDPINV | Prints the result of the inversion of a probability.]
+PDPINV,Rlab,Name,PROB,--,CONF 
+[PDPLOT | Plots the distribution curves of a defined random input variable.]
+PDPLOT,Name,PLOW,PUP 
+[PDPROB | Prints a probability result.]
+PDPROB,Rlab,Name,Relation,LIMIT,--,CONF 
+[PDRAG | Defines the external fluid drag loading for a piping run.]
+PDRAG,PX1,PY1,PZ1,H1,PX2,PY2,PZ2,H2,Kcord 
+[PDRESU | Reads the probabilistic model data and loads it into the database.]
+PDRESU,Fname,Ext,-- 
+[PDROPT | Specifies the options for an HTML report.]
+PDROPT,RVAR,CORR,STAT,SHIS,HIST,CDF,SENS,CMAT,CONF 
+[PDSAVE | Writes the probabilistic model data to a file.]
+PDSAVE,Fname,Ext,-- 
+[PDSCAT | Plots a scatter graph.]
+PDSCAT,Rlab,Name1,Name2,Type,ORDER,NMAX 
+[PDSENS | Plots the probabilistic sensitivities.]
+PDSENS,Rlab,Name,Chart,Type,SLEVEL 
+[PDSHIS | Plots the sample history values.]
+PDSHIS,Rlab,Name,Type,CONF 
+[PDUSER | Specifies options for user specified sampling methods.]
+PDUSER,Fname,Ext,-- 
+[PDVAR | Specifies the parameters to be treated as probabilistic design variables.]
+PDVAR,Name,Type,PAR1,PAR2,PAR3,PAR4 
+[PDWRITE | Generates an HTML report for the probabilistic analyses.]
+PDWRITE,File,Fnam,Lnam 
+[PEMOPTS | Defines percentage tolerance and error estimation method for electrostatic p Method solution.]
+PEMOPTS,TOLER,Method 
+[PERBC2D | Generates periodic constraints for 2 D planar magnetic field analyses.]
+PERBC2D,LOC1,LOC2,LOCTOL,R1,R2,TOLR,OPT,PLNOPT 
+[PERI | Specifies periodic boundary conditions in an incompressible flow analysis.]
+PERI,DX,DY,DZ 
+[PEXCLUDE | Specifies elements to be excluded from p level escalations.]
+PEXCLUDE,ELEM 
+[PFACT | Calculates participation factors for the PSD or multi point response spectrum table.]
+PFACT,TBLNO,Excit,Parcor 
+[PFLUID | Defines the contained fluid density for a piping run.]
+PFLUID,DENS 
+[PGAP | Defines a spring gap constraint in a piping run.]
+PGAP,NLOC,K,DX,DY,DZ,GAP,ELEM 
+[PGRAPH | Specifies the location from which graphics data will be retrieved for viewing.]
+PGRAPH,Option,Fname,Fext,-- 
+[PGRSET | Defines the data set to be read from the PGR file.]
+PGRSET,Lstep,SBSTEP,--,KIMG,TIME,--,NSET 
+[PGSAVE | Creates a PowerGraphics (PGR) file from results data.]
+PGSAVE,Fname,Fext,--,DataType,InteriorKey,Append 
+[PGSELE | Select a subset of elements for display with the PGR viewer.]
+PGSELE,Type,Item,,VMIN,VMAX,VINC 
+[PGWRITE | Writes selected solution data to the PGR file for faster post processing access.]
+PGWRITE,Label,Fname,Fext,--,DataType,InteriorKey,Append 
+[PHYSICS | Writes,reads,or lists all element information]
+PHYSICS,Option,Title,Fname,Ext,-- 
+[PINCLUDE | Specifies elements to be included in p level escalations.]
+PINCLUDE,ELEM 
+[PINSUL | Defines the external insulation constants in a piping run.]
+PINSUL,DENS,ITK 
+[PIPE |"Specifies""Pipe modeling""as the subsequent status topic."]
+PIPE 
+[PIVCHECK | Prevents a batch mode,linear static analysis from stopping when a negative or zero equation solver pivot value is encountered.]
+PIVCHECK,KEY 
+[PLCONV | Plots the convergence curve for specified items from a p method solution.]
+PLCONV,Item,Comp,NODE,Surf 
+[PLCPLX | Specifies the part of a complex variable to display.]
+PLCPLX,KEY 
+[PLCRACK | Displays cracking and crushing locations in SOLID65 elements.]
+PLCRACK,LOC,NUM 
+[PLDISP | Displays the displaced structure.]
+PLDISP,KUND 
+[PLESOL | Displays the solution results as discontinuous element contours.]
+PLESOL,Item,Comp,KUND,Fact 
+[PLETAB | Displays element table items.]
+PLETAB,Itlab,Avglab 
+[PLF2D | Generates a contour line plot of equipotentials.]
+PLF2D,NCONT,OLAY,ANUM,WIN 
+[PLHFFAR | Displays electromagnetic far fields far field parameters.]
+PLHFFAR,Opt,Lab,PHI1,PHI2,NPHI,THETA1,THETA2,NTHETA,RADIUS,CS,Comp
+[PLLS | Displays element table items as contoured areas along elements.]
+PLLS,LabI,LabJ,Fact,KUND 
+[PLNSOL | Displays results as continuous contours.]
+PLNSOL,Item,Comp,KUND,Fact,FileID 
+[PLOT | Forms a display.]
+PLOT,NSTRT,NEND,NINC 
+[PLOTTING |"Specifies""Plotting settings""as the subsequent status topic."]
+PLOTTING 
+[PLPAGM | Displays path items along the path geometry.]
+PLPAGM,Item,Gscale,Nopt 
+[PLPATH | Displays path items on a graph.]
+PLPATH,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6 
+[PLSECT | Displays membrane and membrane plus bending linearized stresses.]
+PLSECT,Item,Comp,RHO,KBR 
+[PLSP | Displays S parameters on an XY graph.]
+PLSP,Opt,Pnum1,Pnum2,Pnum3,Pnum4,Pnum5,Pnum6 
+[PLTIME | Defines the time range for which data are to be displayed.]
+PLTIME,TMIN,TMAX 
+[PLTRAC | Displays a particle flow or charged particle trace on an element display.]
+PLTRAC,Analopt,Item,Comp,TRPNum,Name,MXLOOP,TOLER,OPTION 
+[PLVAR | Displays up to ten variables in the form of a graph.]
+PLVAR,NVAR1,NVAR2,NVAR3,NVAR4,NVAR5,NVAR6,NVAR7,NVAR8,NVAR9,NVAR10 
+[PLVAROPT | Displays up to ten parameters in the form of a graph.]
+PLVAROPT,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6,Lab7,Lab8,Lab9,Lab10 
+[PLVECT | Displays results as vectors.]
+PLVECT,Item,Lab2,Lab3,LabP,Mode,Loc,Edge 
+[PLVFRC | Displays volume fractions in a volume of fluid (VOF) analysis.]
+PLVFRC,CONT 
+[PLWAVE | Specifies a free space time harmonic incident plane electromagnetic wave.]
+PLWAVE,Ex,Ey,Ez,AngX,AngZ 
+[PMAP | Creates mapping of the path geometry by defining path interpolation division points.]
+PMAP,FORM,DISCON 
+[PMETH |"Specifies""p""Method""as the subsequent status topic."]
+PMETH 
+[PMGTRAN | Summarizes electromagnetic results from a transient analysis.]
+PMGTRAN,Fname,FREQ,Fcnam1,Fcnam2,Pcnam1,Pcnam2,Ecnam1,Ccnam1 
+[PMLOPT | Defines perfectly matched layers (PMLs) for a high frequency analysis.]
+PMLOPT,ESYS,Lab,Xminus,Xplus,Yminus,Yplus,Zminus,Zplus 
+[PMOPTS | Defines percentage tolerance for a p Method solution.]
+PMOPTS,TOLER 
+[PNGR | Provides PNG file export for ANSYS displays.]
+PNGR,Kywrd,OPT,VAL 
+[POINT |"Specifies""Point flow tracing settings""as the subsequent status topic."]
+POINT 
+[POLY | Creates a polygonal area based on working plane coordinate pairs.]
+POLY 
+[POPT | Selects the piping analysis standard for a piping run.]
+POPT,Lop1 
+[POUTRES | controls the nodal DOF and computed element results graphics data that is written to the PGR file.]
+POUTRES,Item1,Item2,Item2,.........Item12,
+[POWERH | Calculates the rms power loss in a conductor or lossy dielectric.]
+POWERH 
+[PPATH | Defines a path by picking or defining nodes,or locations on the currently active working plane,or by entering specific coordinate locations.]
+PPATH,POINT,NODE,X,Y,Z,CS 
+[PPLOT | Displays an element plot indicating each element's final p level.]
+PPLOT 
+[PPRANGE | Specifies a range of p level values for use in a p method solution.]
+PPRANGE,START,MAX 
+[PPRES | Defines the internal pressure for a piping run.]
+PPRES,PRESS 
+[PRANGE | Determines the pathrange.]
+PRANGE,LINC,VMIN,VMAX,XVAR 
+[PRCONV | Lists convergence values versus characteristic p level.]
+PRCONV 
+[PRCPLX | Defines the output form for complex variables.]
+PRCPLX,KEY 
+[PRECISION | Specifies machine precision for solvers (currently valid only for PCG solvers).]
+PRECISION,LABEL 
+[PRED | Activates a predictor in a nonlinear analysis.]
+PRED,Sskey,--,Lskey 
+[PRERR | Prints SEPC and TEPC.]
+PRERR 
+[PRESOL | Prints the solution results for elements.]
+PRESOL,Item,Comp 
+[PRETAB | Prints the element table items.]
+PRETAB,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6,Lab7,Lab8,Lab9 
+[PRHFFAR | Prints electromagnetic far fields and far field parameters.]
+PRHFFAR,Opt,Lab,PHI1,PHI2,NPHI,THETA1,THETA2,NTHETA,RADIUS,CS,Comp 
+[PRI2 | Creates a polygonal area or a prism volume by vertices (GUI).]
+PRI2,P51X,Z1,Z2 
+[PRIM |"Specifies""Solid model primitives""as the subsequent status topic."]
+PRIM 
+[PRINT |"Specifies""Print settings""as the subsequent status topic."]
+PRINT 
+[PRISM | Creates a prism volume based on working plane coordinate pairs.]
+PRISM,Z1,Z2 
+[PRITER | Prints solution summary data.]
+PRITER 
+[PRNLD | Prints the summed element nodal loads.]
+PRNLD,Lab,TOL,Item 
+[PRNSOL | Prints the nodal solution results.]
+PRNSOL,Item,Comp 
+[PROD | Multiplies variables.]
+PROD,IR,IA,IB,IC,Name,--,--,FACTA,FACTB,FACTC 
+[PRPATH | Prints path items along a geometry path.]
+PRPATH,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6 
+[PRRFOR | Used with the FORCE command. Prints the constrained node reaction solution.]
+PRRFOR,Lab 
+[PRRSOL | Prints the constrained node reaction solution.]
+PRRSOL,Lab 
+[PRSECT | Calculates and prints linearized stresses along a section path.]
+PRSECT,RHO,KBR 
+[PRSSOL | Prints BEAM188 and BEAM189 section results.]
+PRSSOL,Item,Comp 
+[PRTIME | Defines the time range for which data are to be listed.]
+PRTIME,TMIN,TMAX 
+[PRVAR | Lists variables vs. time (or frequency).]
+PRVAR,NVAR1,NVAR2,NVAR3,NVAR4,NVAR5,NVAR6 
+[PRVAROPT | Lists up to ten optimization parameters.]
+PRVAROPT,Lab1,Lab2,Lab3,Lab4,Lab5,Lab6,Lab7,Lab8,Lab9,Lab10 
+[PRVECT | Prints results as vector magnitude and direction cosines.]
+PRVECT,Item,Lab2,Lab3,LabP 
+[PSCR | Specifies various PostScript options.]
+PSCR,Kywrd,KEY 
+[PSDCOM | Specifies the power spectral density mode combination method.]
+PSDCOM,SIGNIF,COMODE 
+[PSDFRQ | Defines the frequency points for the input spectrum vs. FREQ tables of PSD and multi point spectrum analyses.]
+PSDFRQ,TBLNO1,TBLNO2,FREQ1,FREQ2,FREQ3,FREQ4,FREQ5,FREQ6,FREQ7 
+[PSDGRAPH | Displays input PSD curves]
+PSDGRAPH,TBLNO1,TBLNO2 
+[PSDRES | Controls solution output written to the results file from a PSD analysis.]
+PSDRES,Lab,RelKey 
+[PSDSPL | Defines a partially correlated excitation in a PSD analysis.]
+PSDSPL,TBLNO,RMIN,RMAX 
+[PSDUNIT | Defines the type of PSD or multi point response spectrum.]
+PSDUNIT,TBLNO,Type,GVALUE 
+[PSDVAL | Defines PSD or multi point response spectrum values.]
+PSDVAL,TBLNO,SV1,SV2,SV3,SV4,SV5,SV6,SV7 
+[PSDWAV | Defines a wave propagation excitation in a PSD analysis.]
+PSDWAV,TBLNO,VX,VY,VZ 
+[PSEL | Selects a path or paths.]
+PSEL,Type,Pname1,Pname2,Pname3,Pname4,Pname5,Pname6,Pname7,Pname8,Pname9,Pname10 
+[PSMESH | Create and mesh a pretension section]
+PSMESH,SECID,Name,P0,Egroup,NUM,KCN ,KDIR,VALUE,NDPLANE,PSTOL,PSTYPE,ECOMP,NCOMP 
+[PSOLVE | Directs the program to perform a partial solution.]
+PSOLVE,Lab 
+[PSPEC | Defines pipe material and dimensions.]
+PSPEC,MAT,DNOM,SCHED,OD,TK 
+[PSPRNG | Defines a spring constraint in a piping run.]
+PSPRNG,NLOC,TYPE,K,DX,DY,DZ,ELEM 
+[PSTRES | Specifies whether prestress effects are to be included.]
+PSTRES,Key 
+[PTEMP | Defines the pipe wall temperatures in a piping run.]
+PTEMP,TOUT,TIN 
+[PTXY | Defines coordinate pairs for use in polygons and prisms.]
+PTXY,X1,Y1,X2,Y2,X3,Y3,X4,Y4 
+[PUNIT | Selects the system of length units to be used in a piping run.]
+PUNIT,KOPT 
+[PVECT | Interpolates a set of items onto a path.]
+PVECT,Oper,LabXR,LabYR,LabZR 
+[QDVAL | Defines PSD quadspectral values.]
+QDVAL,TBLNO1,TBLNO2,SV1,SV2,SV3,SV4,SV5,SV6,SV7
+[QFACT | Calculates the quality factor for high frequency electromagnetic resonators.]
+QFACT 
+[QSOPT | Specifies quasi static radiation options.]
+QSOPT,Opt 
+[QUAD | Generates a quadratic line of nodes from three nodes.]
+QUAD,NODE1,NINTR,NODE2,NFILL,NSTRT,NINC,PKFAC 
+[QUOT | Divides two variables.]
+QUOT,IR,IA,IB,--,Name,--,--,FACTA,FACTB
+[R | Defines the element real constants.]
+R,NSET,R1,R2,R3,R4,R5,R6 
+[RACE |"Defines a""racetrack""current source."]
+RACE,XC,YC,RAD,TCUR,DY,DZ,--,--,Cname
+[RADOPT | Specifies Gauss Seidel Radiosity Solver options.]
+RADOPT,FLUXRELX,FLUXTOL,SOLVER,MAXITER,TOLER,OVERRLEX 
+[RALL | Calculates solver statistics and run time estimates.]
+RALL 
+[RAPPND | Appends results data from the database to the results file.]
+RAPPND,LSTEP,TIME 
+[RATE | Specifies whether the effect of creep strain rate will be used in the solution of a load step.]
+RATE,Option 
+[RBE3 | Distributes the force/moment applied at the master node to a set of slave nodes,taking into account the geometry of the slave nodes as well as weighting factors.]
+RBE3,Master,DOF,Slaves,Wtfact 
+[RCON |"Specifies""Real constants""as the subsequent status topic."]
+RCON 
+[RDELE | Deletes real constant sets.]
+RDELE,NSET1,NSET2,NINC 
+[REAL | Sets the element real constant set attribute pointer.]
+REAL,NSET 
+[REALVAR | Forms a variable using only the real part of a complex variable.]
+REALVAR,IR,IA,--,--,Name,--,--,FACTA
+[RECTNG | Creates a rectangular area anywhere on the working plane.]
+RECTNG,X1,X2,Y1,Y2 
+[REDUCE | Defines a reducer in a piping run.]
+REDUCE,NLOC,LENG,ELEM 
+[REFLCOEF |"Calculates the voltage reflection coefficient (REFLC),standing wave ratio (VSWR),and return loss (RL) in a COAX fed device; at postprocessing of an HF electromagnetic analysis."]
+REFLCOEF,Portin,Pvolt,Pang,Pdist,Vpathy 
+[REORDER |"Specifies""Model reordering""as the subsequent status topic."]
+REORDER 
+[RESCONTROL | Controls file writing for multiframe restarts.]
+RESCONTROL,Action,Ldstep,Frequency,MAXFILES 
+[RESET | Resets all POST1 or POST26 specifications to initial defaults.]
+RESET 
+[RESP | Generates a response spectrum.]
+RESP,IR,LFTAB,LDTAB,ITYPE,RATIO,DTIME,TMIN,TMAX 
+[RESUME | Resumes the database from the database file.]
+RESUME,Fname,Ext,--,NOPAR,KNOPLOT 
+[REXPORT | Exports displacements from an implicit run to ANSYS LS DYNA.]
+REXPORT,Target,--,--,LSTEP,SBSTEP,Fname,Ext,-- 
+[RFILSZ | Estimates file sizes.]
+RFILSZ 
+[RFORCE | Specifies the total reaction force data to be stored.]
+RFORCE,NVAR,NODE,Item,Comp,Name 
+[RIGID | Specifies known rigid body modes (if any) of the model.]
+RIGID,Dof1,Dof2,Dof3,Dof4,Dof5,Dof6 
+[RIMPORT | Imports initial stresses from an explicit dynamics run into ANSYS.]
+RIMPORT,Source,Type,Loc,LSTEP,SBSTEP,Fname,Ext,--,SPSCALE,MSCALE
+[RITER | Supplies an estimate of the number of iterations for time estimates.]
+RITER,NITER 
+[RLIST | Lists the real constant sets.]
+RLIST,NSET1,NSET2,NINC 
+[RMALIST | Lists all defined master nodes for a ROM method.]
+RMALIST 
+[RMANL | Assigns model database,dimensionality,and operating direction for the ROM method.]
+RMANL,Fname,Ext,--,Dimn,Oper
+[RMASTER | Defines master nodes for the ROM method.]
+RMASTER,Node,Lab 
+[RMCAP | Defines lumped capacitance pairs between conductors C1 and C2 for a ROM method.]
+RMCAP,RefName,C1,C2 
+[RMCLIST | Lists all lumped capacitance pairs defined.]
+RMCLIST 
+[RMEMRY | Prints memory statistics for the current model.]
+RMEMRY 
+[RMLVSCALE | Defines element load vector scaling for a ROM use pass.]
+RMLVSCALE,Nload,Fact1,Fact2,Fact3,Fact4,Fact5 
+[RMMLIST | Lists all mode specifications for the ROM method.]
+RMMLIST 
+[RMMRANGE | Defines and edits various modal parameters for the ROM method.]
+RMMRANGE,Mode,Key,Min,Max,Nstep,Damp,Scale 
+[RMMSELECT | Selects modes for the ROM method.]
+RMMSELECT,Nmode,Method,Dmin,Dmax 
+[RMNDISP | Extracts neutral plane displacements from a test load or element load solution for the ROM method.]
+RMNDISP,LoadT,Loc 
+[RMNEVEC | Extracts neutral plane eigenvectors from a modal analysis for the ROM method.]
+RMNEVEC 
+[RMODIF | Modifies real constant sets.]
+RMODIF,NSET,STLOC,V1,V2,V3,V4,V5,V6
+[RMORE | Adds real constants to a set.]
+RMORE,R7,R8,R9,R10,R11,R12 
+[RMPORDER | Defines polynomial orders for ROM functions.]
+RMPORDER,Ord1,Ord2,Ord3,Ord4,Ord5,Ord6,Ord7,Ord8,Ord9
+[RMRESUME | Resumes ROM data from a file.]
+RMRESUME,Fname,Ext,-- 
+[RMRGENERATE | Performs fitting procedure for all ROM functions to generate response surfaces.]
+RMRGENERATE 
+[RMROPTIONS | Defines options for ROM response surface fitting.]
+RMROPTIONS,RefName,Type,Invert 
+[RMRPLOT | Plots response surface of ROM function or its derivatives with respect to the dominant mode(s).]
+RMRPLOT,RefName,Type,Mode1,Mode2 
+[RMRSTATUS | Prints status of response surface for ROM function.]
+RMRSTATUS,RefName 
+[RMSAVE | Saves ROM data to file.]
+RMSAVE,Fname,Ext,-- 
+[RMSMPLE | Runs finite element solutions and obtains sample points for the ROM method.]
+RMSMPLE,Nlgeom,Cap,Seqslv,Eeqslv 
+[RMUSE | Activates ROM use pass for ROM elements.]
+RMUSE,Option,Usefil 
+[RMXPORT | Exports ROM model to external VHDL AMS simulator.]
+RMXPORT 
+[ROCK | Specifies a rocking response spectrum.]
+ROCK,CGX,CGY,CGZ,OMX,OMY,OMZ 
+[RPOLY | Creates a regular polygonal area centered about the working plane origin.]
+RPOLY,NSIDES,LSIDE,MAJRAD,MINRAD 
+[RPR4 | Creates a regular polygonal area or prism volume anywhere on the working plane.]
+RPR4,NSIDES,XCENTER,YCENTER,RADIUS,THETA,DEPTH 
+[RPRISM | Creates a regular prism volume centered about the working plane origin.]
+RPRISM,Z1,Z2,NSIDES,LSIDE,MAJRAD,MINRAD 
+[RPSD | Computes response power spectral density (PSD).]
+RPSD,IR,IA,IB,ITYPE,DATUM,Name 
+[RSFIT | Fit a response surface for an output parameter in a solution set.]
+RSFIT,RSlab,Slab,Name,Rmod,Ytrans,Yval,Xfilt,CONF
+[RSPEED | Supplies system performance information for use in time estimates.]
+RSPEED,MIPS,SMFLOP,VMFLOP 
+[RSPLOT | Plot a response surface.]
+RSPLOT,RSlab,YName,X1Name,X2Name,Type,NPTS,PLOW,PUP
+[RSPRNT | Print a response surface.]
+RSPRNT,RSlab,YName 
+[RSSIMS | Performs Monte Carlo simulations on response surface(s).]
+RSSIMS,RSlab,NSIM,Seed 
+[RSTAT | Prints the FE model statistics of the model.]
+RSTAT 
+[RSYS | Activates a coordinate system for printout or display of results.]
+RSYS,KCN 
+[RTHICK | Defines variable thickness at nodes for shell elements.]
+RTHICK,Par,ILOC,JLOC,KLOC,LLOC 
+[RTIMST | Prints runtime estimates.]
+RTIMST 
+[RUN | Defines a pipe run.]
+RUN,DX,DY,DZ,NDIV,NEND,ESTRT,EINC
+[RWFRNT | Generates wavefront statistics and memory requirements.]
+RWFRNT 
+[SABS | Specifies absolute values for element table operations.]
+SABS,KEY 
+[SADD | Forms an element table item by adding two existing items.]
+SADD,LabR,Lab1,Lab2,FACT1,FACT2,CONST 
+[SALLOW | Defines the allowable stress table for safety factor calculations.]
+SALLOW,STRS1,STRS2,STRS3,STRS4,STRS5,STRS6 
+[SARPLOT | Displays areas smaller than a specified size (for models imported from CAD files).]
+SARPLOT,Prefer,VALUE 
+[SAVE | Saves all current database information.]
+SAVE,Fname,Ext,--,Slab 
+[SBCLIST | Lists solid model boundary conditions.]
+SBCLIST 
+[SBCTRAN | Transfers solid model loads and boundary conditions to the FE model.]
+SBCTRAN 
+[SDELETE | DeletingsectionsCross sectionsSectionsDeletes cross sections from the ANSYS database.]
+SDELETE,SFIRST,SLAST,SINC,KNOCLEAN 
+[SE | Defines a superelement.]
+SE,File,--,--,TOLER 
+[SECCONTROLS | Overrides program calculated properties.]
+SECCONTROLS VAL1,VAL2,VAL3,VAL4,VAL5,VAL6,VAL7 
+[SECDATA | Sectionsdescribing geometry ofSubtypes of sectionsSectionssubtypesDescribes the geometry of a section.]
+SECDATA,VAL1,VAL2,VAL3,VAL4,VAL5,VAL6,VAL7,VAL8,VAL9,VAL10
+[SECFUNCTION | Specifies shell section thickness as a tabular function.]
+SECFUNCTION,TABLE 
+[SECMODIF | Modifies a pretension section]
+SECMODIF,SECID,Kywrd 
+[SECNUM | Section IDSets the element section attribute pointer.]
+SECNUM,SECID 
+[SECOFFSET | Sectionsdefining offset ofOffsets for sectionsDefines the section offset for cross sections.]
+SECOFFSET,Location,OFFSET1,OFFSET2,CG-Y,CG-Z,SH-Y,SH-Z
+[SECPLOT | PlottingsectionsPlots the geometry of a beam or shell section to scale.]
+SECPLOT,SECID,VAL1,VAL2 
+[SECREAD | Readinguser defined section libraryReads a customized beam section library or a user defined beam section mesh into ANSYS.]
+SECREAD,Fname,Ext,--,Option 
+[SECTYPE | Sectionsassociating subtype with ID numberAssociates section type information with a section ID number.]
+SECTYPE,SECID,Type,Subtype,Name,REFINEKEY 
+[SECWRITE | User mesh section filesWritinguser mesh section informationCreates an ASCII file containing user mesh section information.]
+SECWRITE,Fname,Ext,--,ELEM_TYPE 
+[SED | Defines the excitation direction for a single point response spectrum.]
+SED,SEDX,SEDY,SEDZ 
+[SEDLIST | Lists the DOF solution of a superelement after the use pass.]
+SEDLIST,Sename,KOPT 
+[SEEXP | Specifies options for the substructure expansion pass.]
+SEEXP,Sename,Usefil,Imagky 
+[SELIST | Lists the contents of a superelement matrix file.]
+SELIST,Sename,KOPT 
+[SELM |"Specifies""Superelements""as the subsequent status topic."]
+SELM 
+[SENERGY | Determines the stored magnetic energy or co energy.]
+SENERGY,OPT,ANTYPE 
+[SEOPT | Specifies substructure analysis options.]
+SEOPT,Sename,SEMATR,SEPR,SESST,EXPMTH 
+[SESYMM | Performs a symmetry operation on a superelement within the use pass.]
+SESYMM,Sename,Ncomp,INC,File,Ext,-- 
+[SET | Defines the data set to be read from the results file.]
+SET,Lstep,SBSTEP,FACT,KIMG,TIME,ANGLE,NSET,ORDER 
+[SETRAN | Creates a superelement from an existing superelement.]
+SETRAN,Sename,KCNTO,INC,File,Ext,--,DX,DY,DZ,NOROT
+[SEXP | Forms an element table item by exponentiating and multiplying.]
+SEXP,LabR,Lab1,Lab2,EXP1,EXP2 
+[SF | Specifies surface loads on nodes.]
+SF,Nlist,Lab,VALUE,VALUE2 
+[SFA | Specifies surface loads on the selected areas.]
+SFA,AREA,LKEY,Lab,VALUE,VALUE2 
+[SFACT | Allows safety factor or margin of safety calculations to be made.]
+SFACT,TYPE 
+[SFADELE | Deletes surface loads from areas.]
+SFADELE,AREA,LKEY,Lab 
+[SFALIST | Lists the surface loads for the specified area.]
+SFALIST,AREA,Lab 
+[SFBEAM | Specifies surface loads on beam elements.]
+SFBEAM,ELEM,LKEY,Lab,VALI,VALJ,VAL2I,VAL2J,IOFFST,JOFFST
+[SFCALC | Calculates the safety factor or margin of safety.]
+SFCALC,LabR,LabS,LabT,TYPE 
+[SFCUM | Specifies that surface loads are to be accumulated.]
+SFCUM,Lab,Oper,FACT,FACT2 
+[SFDELE | Deletes surface loads.]
+SFDELE,Nlist,Lab 
+[SFE | Specifies surface loads on elements.]
+SFE,ELEM,LKEY,Lab,KVAL,VAL1,VAL2,VAL3,VAL4
+[SFEDELE | Deletes surface loads from elements.]
+SFEDELE,ELEM,LKEY,Lab 
+[SFELIST | Lists the surface loads for elements.]
+SFELIST,ELEM,Lab 
+[SFFUN | Specifies a varying surface load.]
+SFFUN,Lab,Par,Par2 
+[SFGRAD | Specifies a gradient (slope) for surface loads.]
+SFGRAD,Lab,SLKCN,Sldir,SLZER,SLOPE 
+[SFL | Specifies surface loads on lines of an area.]
+SFL,LINE,Lab,VALI,VALJ,VAL2I,VAL2J 
+[SFLDELE | Deletes surface loads from lines.]
+SFLDELE,LINE,Lab 
+[SFLIST | Lists surface loads.]
+SFLIST,NODE,Lab 
+[SFLLIST | Lists the surface loads for lines.]
+SFLLIST,LINE,Lab 
+[SFSCALE | Scales surface loads on elements.]
+SFSCALE,Lab,FACT,FACT2 
+[SFTRAN | Transfer the solid model surface loads to the finite element model.]
+SFTRAN 
+[SHELL | Selects a shell element or shell layer location for results output.]
+SHELL,Loc 
+[SHPP | Controls element shape checking.]
+SHPP,Lab,VALUE1,VALUE2 
+[SLIST | Listingsection propertiesSummarizes the section properties for all defined sections in the current session of ANSYS.]
+SLIST,SFIRST,SLAST,SINC,Details,Type 
+[SLOAD | Load a pretension section.]
+SLOAD,SECID,STLOC,VAL1,VAL2,VAL3,VAL4,VAL5,VAL6
+[SLPPLOT | Displays line loops smaller than a specified size (for models imported from CAD files).]
+SLPPLOT,Prefer,VALUE 
+[SLSPLOT | Displays line segments smaller than a specified size (for models imported from CAD files).]
+SLSPLOT,Prefer,VALUE 
+[SMALL | Finds the smallest of three variables.]
+SMALL,IR,IA,IB,IC,Name,--,--,FACTA,FACTB,FACTC
+[SMAX | Forms an element table item from the maximum of two other items.]
+SMAX,LabR,Lab1,Lab2,FACT1,FACT2 
+[SMBODY |"Specifies""Body loads on the solid model""as the subsequent status topic."]
+SMBODY 
+[SMCONS |"Specifies""Constraints on the solid model""as the subsequent status topic."]
+SMCONS 
+[SMFOR |"Specifies""Forces on the solid model""as the subsequent status topic."]
+SMFOR 
+[SMIN | Forms an element table item from the minimum of two other items.]
+SMIN,LabR,Lab1,Lab2,FACT1,FACT2 
+[SMOOTH | Allows smoothing of noisy data and provides a graphical representation of the data.]
+SMOOTH,Vect1,Vect2,DATAP,FITPT,Vect3,Vect4,DISP 
+[SMRTSIZE | Specifies meshing parameters for automatic (smart) element sizing.]
+SMRTSIZE,SIZLVL,FAC,EXPND,TRANS,ANGL,ANGH,GRATIO,SMHLC,SMANC,MXITR,SPRX
+[SMSURF |"Specifies""Surface loads on the solid model""as the subsequent status topic."]
+SMSURF 
+[SMULT | Forms an element table item by multiplying two other items.]
+SMULT,LabR,Lab1,Lab2,FACT1,FACT2 
+[SOLCONTROL | Specifies whether to use optimized nonlinear solution defaults and some enhanced internal solution algorithms.]
+SOLCONTROL,Key1,Key2,Key3,Vtol 
+[SOLU | Specifies solution summary data per substep to be stored.]
+SOLU,NVAR,Item,Comp,Name 
+[SOLUOPT |"Specifies""Solution options""as the subsequent status topic."]
+SOLUOPT 
+[SOLVE | Starts a solution.]
+SOLVE 
+[SORT |"Specifies""Sort settings""as the subsequent status topic."]
+SORT 
+[SOURCE | Defines a default location for undefined nodes or keypoints. ]
+SOURCE,X,Y,Z 
+[SPACE | Defines a space node for radiation using the Radiation Matrix method. ]
+SPACE,NODE 
+[SPARM | Calculates scattering (S) parameters between ports of a network system. ]
+SPARM,Porti,Portj 
+[SPCNOD | Defines a space node for radiation using the Radiosity method. ]
+SPCNOD,ENCL,NODE 
+[SPCTEMP | Defines a free space ambient temperature for radiation using the Radiosity method. ]
+SPCTEMP,ENCL,TEMP 
+[SPEC |"Specifies""Miscellaneous specifications""as the subsequent status topic."]
+SPEC 
+[SPH4 | Creates a spherical volume anywhere on the working plane. ]
+SPH4,XCENTER,YCENTER,RAD1,RAD2
+[SPH5 | Creates a spherical volume by diameter end points.]
+SPH5,XEDGE1,YEDGE1,XEDGE2,YEDGE2 
+[SPHERE | Creates a spherical volume centered about the working plane origin.]
+SPHERE,RAD1,RAD2,THETA1,THETA2 
+[SPLINE | Generates a segmented spline through a series of keypoints.]
+SPLINE,P1,P2,P3,P4,P5,P6,XV1,YV1,ZV1,XV6,YV6,ZV6
+[SPLOT | Displays the selected areas and a faceted view of their underlying surfaces]
+SPLOT,NA1,NA2,NINC,MESH 
+[SPOINT | Defines a point for moment summations.]
+SPOINT,NODE,X,Y,Z 
+[SPOPT | Selects the spectrum type and other spectrum options.]
+SPOPT,Sptype,NMODE,Elcalc 
+[SPREAD | Turns on a dashed tolerance curve for the subsequent curve plots.]
+SPREAD,VALUE 
+[SPSWP | Computes S parameters over a frequency range and writes them to a file.]
+SPSWP,FREQB,FREQE,FREQINC,SwpOpt,EFAcc,OutPut,FileOpt 
+[SPTOPT |"Specifies""Spectrum analysis options""as the subsequent status topic."]
+SPTOPT 
+[SQRT | Forms the square root of a variable.]
+SQRT,IR,IA,--,--,Name,--,--,FACTA
+[SRSS | Specifies the square root of sum of squares mode combination method.]
+SRSS,SIGNIF,Label 
+[SSLN | Selects and displays small lines in the model.]
+SSLN,FACT,SIZE 
+[SSTIF | Activates stress stiffness effects in a nonlinear analysis.]
+SSTIF,Key 
+[SSUM | Calculates and prints the sum of element table items.]
+SSUM 
+[STAT | Displays the status of database settings.]
+STAT 
+[STEF | Specifies Stefan Boltzmann radiation constant.]
+STEF,VALUE 
+[STORE | Stores data in the database for the defined variables.]
+STORE,Lab,NPTS 
+[SUBOPT | Specifies options for subspace iteration eigenvalue extraction.]
+SUBOPT,SUBSIZ,NPAD,NPERBK,NUMSSI,NSHIFT,Strmck,JCGITR 
+[SUBSET | Reads results for the selected portions of the model.]
+SUBSET,Lstep,SBSTEP,FACT,KIMG,TIME,ANGLE,NSET 
+[SUMTYPE | Sets the type of summation to be used in the following load case operations.]
+SUMTYPE,Label 
+[SV | Defines spectrum values to be associated with frequency points.]
+SV,DAMP,SV1,SV2,SV3,SV4,SV5,SV6,SV7,SV8,SV9
+[SVTYP | Defines the type of single point response spectrum.]
+SVTYP,KSV,FACT 
+[SXFREQ | Defines the frequency as input variable for the FS Module or the FEMXplorer.]
+SXFREQ,Name,MIN,MAX,INC,RedOpt 
+[TALLOW | Defines the temperature table for safety factor calculations.]
+TALLOW,TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6 
+[TB | Activates a data table for nonlinear material properties or special element input.]
+TB,Lab,MAT,NTEMP,NPTS,TBOPT,EOSOPT 
+[TBCOPY | Copies a data table from one material to another (see ).]
+TBCOPY,Lab,MATF,MATT 
+[TBDATA | Defines data for the data table.]
+TBDATA,STLOC,C1,C2,C3,C4,C5,C6 
+[TBDELE | Deletes previously defined data tables.]
+TBDELE,Lab,MAT1,MAT2,INC 
+[TBFT | Performs curve fitting operations on materials.]
+TBFT,Oper,ID,Option1,Option2,Option3,Option4,Option5,Option6,Option7
+[TBLE |"Specifies""Data table properties""as the subsequent status topic."]
+TBLE 
+[TBLIST | Lists the data tables.]
+TBLIST,Lab,MAT 
+[TBMODIF | Modifies data for the data table (GUI).]
+TBMODIF,ROW,COL,VALUE 
+[TBPLOT | Displays the data table.]
+TBPLOT,Lab,MAT,TBOPT,TEMP,SEGN 
+[TBPT | Defines a point on a stress strain,B H,or gasket pressure closure curve.]
+TBPT,Oper,X,Y 
+[TBTEMP | Defines a temperature for the data table.]
+TBTEMP,TEMP,KMOD 
+[TEE | Defines a tee in a piping run.]
+TEE,NCENT,TYPE,ELEM,EINC,L1,L2,L3
+[TERM | Specifies various terminal driver options.]
+TERM,Kywrd,Opt1,Opt2,Opt3 
+[THOPT | Nonlinear transient thermal solution option.]
+THOPT,Refopt,REFORMTOL,NTABPOINTS,TEMPMIN,TEMPMAX 
+[TCHG | Converts 20 node degenerate tetrahedral elements to their 10 node non degenerate counterparts.]
+TCHG,ELEM1,ELEM2,ETYPE2 
+[TIFF | Provides TIFF file Export for ANSYS Displays.]
+TIFF,Kywrd,OPT 
+[TIME | Sets the time for a load step.]
+TIME,TIME 
+[TIMERANGE | Specifies the time range for which data are to be stored.]
+TIMERANGE,TMIN,TMAX 
+[TIMINT | Turns on transient effects.]
+TIMINT,Key,Lab 
+[TIMP | Improves the quality of tetrahedral elements that are not associated with a volume.]
+TIMP,ELEM,CHGBND,IMPLEVEL 
+[TINTP | Defines transient integration parameters.]
+TINTP,GAMMA,ALPHA,DELTA,THETA,OSLM,TOL,--,--,AVSMOOTH 
+[TLSPRM | Computes S parameters of a transmission line port.]
+TLSPRM,Nr,Ns,Vpath1,Ipath1,Vpath2,Ipath2,Vsymm1,Isymm1,Vsymm2,Isymm2
+[TOCOMP | Defines single or multiple compliance as the topological optimization function.]
+TOCOMP,Refname,Type,NUMLC,LCARR 
+[TODEF | Defines parameters for and initializes topological optimization.]
+TODEF,ACCUR 
+[TOEXE | Executes one topological optimization iteration.]
+TOEXE 
+[TOFFST | Specifies the temperature offset from absolute zero to zero.]
+TOFFST,VALUE 
+[TOFREQ | Defines single or mean frequency formulation as the topological optimization function.]
+TOFREQ,Refname,Type,Nfreq,Frqarr,Targval
+[TOGRAPH | Plots iteration solution of topological optimization.]
+TOGRAPH,Type,Refname 
+[TOLIST | Lists all topological optimization functions currently defined.]
+TOLIST 
+[TOLOOP | Execute several topological optimization iterations.]
+TOLOOP,NITER,PLOT 
+[TOPLOT | Plot current topological density distribution.]
+TOPLOT,AVRG 
+[TOPRINT | Print iteration solution history of topological optimization.]
+TOPRINT,Type,Refname 
+[TORQ2D | Calculates torque on a body in a magnetic field.]
+TORQ2D 
+[TORQC2D | Calculates torque on a body in a magnetic field based on a circular path.]
+TORQC2D,RAD,NUMN,LCSYS 
+[TORQSUM | Summarizes electromagnetic torque calculations on element components.]
+TORQSUM,Cnam1,Cnam2,Cnam3,Cnam4,Cnam5,Cnam6,Cnam7,Cnam8,Cnam9
+[TORUS | Creates a toroidal volume.]
+TORUS,RAD1,RAD2,RAD3,THETA1,THETA2 
+[TOSTAT | Displays topological optimization status and results information.]
+TOSTAT 
+[TOTAL | Specifies automatic MDOF generation.]
+TOTAL,NTOT,NRMDF 
+[TOTYPE | Specifies solution method for topological optimization.]
+TOTYPE,Type 
+[TOVAR | Specifies the objective and constraints for the topological optimization problem.]
+TOVAR,Refname,Type,LOWER,UPPER,Boundtype 
+[TRANS | Reformats File.GRPH for improved performance with plotters.]
+TRANS,Fname,Ext,-- 
+[TRANSFER | Transfers a pattern of nodes to another coordinate system.]
+TRANSFER,KCNTO,INC,NODE1,NODE2,NINC 
+[TREF | Defines the reference temperature for the thermal strain calculations.]
+TREF,TREF 
+[TRNOPT | Specifies transient analysis options.]
+TRNOPT,Method,MAXMODE,Dmpkey,MINMODE 
+[TRPDEL | Deletes particle flow or charged particle trace points.]
+TRPDEL,NTRP1,NTRP2,TRPINC 
+[TRPLIS | Lists the particle flow or charged particle trace points.]
+TRPLIS,NTRP1,NTRP2,TRPINC 
+[TRPOIN | Defines a point through which a particle flow or charged particle trace will travel.]
+TRPOIN,X,Y,Z,VX,VY,VZ,CHRG,MASS
+[TRTIME | Defines the options used for the PLTRAC (particle flow or charged particle trace) command.]
+TRTIME,TIME,SPACING,OFFSET,SIZE,LENGTH 
+[TSHAP | Defines simple 2 D and 3 D geometric surfaces for target segment elements. ]
+TSHAP,Shape 
+[TSRES | Defines an array of keytimes at which the time stepping strategy changes. ]
+TSRES,Array 
+[TUNIF | Assigns a uniform temperature to all nodes. ]
+TUNIF,TEMP 
+[TVAR | Changes time to the cumulative iteration number. ]
+TVAR,KEY 
+[TYPE | Sets the element type attribute pointer. ]
+TYPE,ITYPE 
+[TZAMESH | Meshes the areas of a volume to create Trefftz nodes. ]
+TZAMESH,Tvolu,SIZE,NDIV 
+[TZDELE | Deletes the Trefftz superelement,associated constraint equations and all supporting Trefftz files. ]
+TZDELE 
+[TZEGEN | Generates a Trefftz domain substructure and defines a Trefftz superelement for use in electrostatic analysis. ]
+TZEGEN 
+[UIMP | Defines constant material properties (GUI).]
+UIMP,MAT,Lab1,Lab2,Lab3,VAL1,VAL2,VAL3 
+[UNDELETE | Removes results sets from the group of sets selected for editing.]
+UNDELETE,Option,Nstart,Nend 
+[UNDO | Allows the user to modify or save commands issued since the last RESUME or SAVE command.]
+UNDO,Kywrd 
+[UPCOORD | Modifies the coordinates of the active set of nodes,based on the current displacements.]
+UPCOORD,FACTOR,Key 
+[UPGEOM | Adds displacements from a previous analysis and updates the geometry of the finite element model to the deformed configuration.]
+UPGEOM,FACTOR,LSTEP,SBSTEP,Fname,Ext,-- 
+[USRCAL | Allows user solution subroutines to be activated or deactivated.]
+USRCAL,Rnam1,Rnam2,Rnam3,Rnam4,Rnam5,Rnam6,Rnam7,Rnam8,Rnam9
+[V | Defines a volume through keypoints.]
+V,P1,P2,P3,P4,P5,P6,P7,P8 
+[V2DOPT | Specifies 2 D/axisymmetric view factor calculation options.]
+V2DOPT,GEOM,NDIV,HIDOPT,NZONE 
+[VA | Generates a volume bounded by existing areas.]
+VA,A1,A2,A3,A4,A5,A6,A7,A8,A9,A10
+[VADD | Adds separate volumes to create a single volume.]
+VADD,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9 
+[VALVE | Defines a valve in a piping run.]
+VALVE,NLOC,LENG,MASS,SIF,FLEX,ARINS,ELEM 
+[VARDEL | Deletes a variable (GUI).]
+VARDEL,NVAR 
+[VARNAM | Names (or renames) a variable.]
+VARNAM,IR,Name 
+[VATT | Associates element attributes with the selected,unmeshed volumes.]
+VATT,MAT,REAL,TYPE,ESYS 
+[VCLEAR | Deletes nodes and volume elements associated with selected volumes.]
+VCLEAR,NV1,NV2,NINC 
+[VCROSS | Forms element table items from the cross product of two vectors.]
+VCROSS,LabXR,LabYR,LabZR,LabX1,LabY1,LabZ1,LabX2,LabY2,LabZ2 
+[VCVFILL | Fills cavities and bosses in volumes (for models imported from CAD files).]
+VCVFILL,A1,A2,A3,A4,A5,A6,A7,A9,A9,A10 
+[VDDAM | Specifies the velocity spectrum computation constants for the analysis of shock resistance of shipboard structures.]
+VDDAM,VF,VA,VB,VC 
+[VDELE | Deletes unmeshed volumes.]
+VDELE,NV1,NV2,NINC,KSWP 
+[VDGL | Lists keypoints of a volume that lie on a parametric degeneracy.]
+VDGL,NV1,NV2,NINC 
+[VDOT | Forms an element table item from the dot product of two vectors.]
+VDOT,LabR,LabX1,LabY1,LabZ1,LabX2,LabY2,LabZ2 
+[VDRAG | Generates volumes by dragging an area pattern along a path.]
+VDRAG,NA1,NA2,NA3,NA4,NA5,NA6,NLP1,NLP2,NLP3,NLP4,NLP5,NLP6
+[VEXT | Generates additional volumes by extruding areas.]
+VEXT,NA1,NA2,NINC,DX,DY,DZ,RX,RY,RZ 
+[VFCALC | Computes and stores Hemicube view factors.]
+VFCALC,Fname,Ext,-- 
+[VFOPT | Specifies options for view factor file.]
+VFOPT,Opt,Filename,Ext,Dir,Format 
+[VFQUERY | Queries and prints element Hemicube view factors and average view factor.]
+VFQUERY,SRCELEM,TARELEM 
+[VGEN | Generates additional volumes from a pattern of volumes.]
+VGEN,ITIME,NV1,NV2,NINC,DX,DY,DZ,KINC,NOELEM,IMOVE
+[VGET | Moves a variable into an array parameter vector.]
+VGET,Par,IR,TSTRT,KCPLX 
+[VGLUE |"Generates new volumes by""gluing""volumes."]
+VGLUE,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9 
+[VIMP | Improves the quality of the tetrahedral elements in the selected volume(s).]
+VIMP,VOL,CHGBND,IMPLEVEL 
+[VINP | Finds the pairwise intersection of volumes.]
+VINP,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9 
+[VINV | Finds the intersection of volumes.]
+VINV,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9 
+[VLIST | Lists the defined volumes.]
+VLIST,NV1,NV2,NINC 
+[VLSCALE | Generates a scaled set of volumes from a pattern of volumes.]
+VLSCALE,NV1,NV2,NINC,RX,RY,RZ,KINC,NOELEM,IMOVE
+[VMESH | Generates nodes and volume elements within volumes.]
+VMESH,NV1,NV2,NINC 
+[VOFFST | Generates a volume,offset from a given area.]
+VOFFST,NAREA,DIST,KINC 
+[VOLUMES |"Specifies""Volumes""as the subsequent status topic."]
+VOLUMES 
+[VOVLAP | Overlaps volumes.]
+VOVLAP,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9
+[VPLOT | Displays the selected volumes.]
+VPLOT,NV1,NV2,NINC,DEGEN,SCALE 
+[VPTN | Partitions volumes.]
+VPTN,NV1,NV2,NV3,NV4,NV5,NV6,NV7,NV8,NV9
+[VPUT | Moves an array parameter vector into a variable.]
+VPUT,Par,IR,TSTRT,KCPLX 
+[VROTAT | Generates cylindrical volumes by rotating an area pattern about an axis.]
+VROTAT,NA1,NA2,NA3,NA4,NA5,NA6,PAX1,PAX2,ARC,NSEG
+[VSBA | Subtracts areas from volumes.]
+VSBA,NV,NA,SEPO,KEEPV,KEEPA 
+[VSBV | Subtracts volumes from volumes.]
+VSBV,NV1,NV2,SEPO,KEEP1,KEEP2 
+[VSBW | Subtracts intersection of the working plane from volumes (divides volumes).]
+VSBW,NV,SEPO,KEEP 
+[VSEL | Selects a subset of volumes.]
+VSEL,Type,Item,Comp,VMIN,VMAX,VINC,KSWP 
+[VSLA | Selects those volumes containing the selected areas.]
+VSLA,Type,VLKEY 
+[VSUM | Calculates and prints geometry statistics of the selected volumes.]
+VSUM,LAB 
+[VSWEEP | Fills an existing unmeshed volume with elements by sweeping the mesh from an adjacent area through the volume.]
+VSWEEP,VNUM,SRCA,TRGA,LSMO 
+[VSYMM | Generates volumes from a volume pattern by symmetry reflection.]
+VSYMM,Ncomp,NV1,NV2,NINC,KINC,NOELEM,IMOVE
+[VTRAN | Transfers a pattern of volumes to another coordinate system.]
+VTRAN,KCNTO,NV1,NV2,NINC,KINC,NOELEM,IMOVE
+[VTYPE | Specifies the viewing procedure used to determine the form factors for the Radiation Matrix method.]
+VTYPE,NOHID,NZONE 
+[WAVES | Initiates reordering.]
+WAVES,Wopt,OLDMAX,OLDRMS 
+[WERASE | Erases all reordering wave lists.]
+WERASE 
+[WFRONT | Estimates wavefront statistics.]
+WFRONT,KPRNT,KCALC 
+[WMID | Specifies reordering options for the WAVES command.]
+WMID,Key 
+[WMORE | Adds more nodes to the starting wave list.]
+WMORE,NODE1,NODE2,NINC,ITIME,INC 
+[WPAVE | Moves the working plane origin to the average of specified points.]
+WPAVE,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3 
+[WPCSYS | Defines the working plane location based on a coordinate system.]
+WPCSYS,WN,KCN 
+[WPLANE | Defines a working plane to assist in picking operations.]
+WPLANE,WN,XORIG,YORIG,ZORIG,XXAX,YXAX,ZXAX,XPLAN,YPLAN,ZPLAN
+[WPOFFS | Offsets the working plane.]
+WPOFFS,XOFF,YOFF,ZOFF 
+[WPROTA | Rotates the working plane.]
+WPROTA,THXY,THYZ,THZX 
+[WPSTYL | Controls the display and style of the working plane.]
+WPSTYL,SNAP,GRSPAC,GRMIN,GRMAX,WPTOL,WPCTYP,GRTYPE,WPVIS,SNAPANG 
+[WRITE | Writes the radiation matrix file.]
+WRITE,Fname 
+[WSORT | Initiates element reordering based upon a geometric sort.]
+WSORT,Lab,KORD,--,Wopt,OLDMAX,OLDRMS
+[WSPRINGS | Creates weak springs on corner nodes of a bounding box of the currently selected elements.]
+WSPRINGS 
+[WSTART | Defines a starting wave list.]
+WSTART,NODE1,NODE2,NINC,ITIME,INC 
+[XVAR | Specifies the X variable to be displayed.]
+XVAR,N 
+[XVAROPT | Specifies the parameter to be used as the X axis variable.]
+XVAROPT,Lab

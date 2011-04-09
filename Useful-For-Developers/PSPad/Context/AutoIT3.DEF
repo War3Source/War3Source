@@ -1,0 +1,855 @@
+[Do | Do...Until]
+Do
+    statements
+    ...
+Until |<expression>
+[For | For...Next] 
+For <variable> = <start> To <stop> [Step <stepval>]
+    statements
+    ...
+[Func | Func...EndFunc]
+Func functioname ( [ByRef] $param1, ..., [ByRef] $paramN)
+    ...
+    [Return [value]]
+EndFunc
+[If...Then | If...Then]
+If <expression> Then statement
+[If...ElseIf...Else...EndIf | If...ElseIf...Else...EndIf ]
+If <expression> Then
+    statements
+    ...
+ElseIf expression-n Then
+    ElseIf statements ... 
+    ...
+Else
+    Else statements
+    ...
+EndIf
+[Select...Case...EndSelect | Select...Case...EndSelect]
+Select
+    Case <expression>
+        statement1
+        ...
+    [Case 
+        statement2
+        ...]
+    [Case Else
+        statementN
+        ...]
+EndSelect
+
+[IF | .]
+IF
+;
+[Then | .]
+Then
+;
+[Else | .]
+Else
+;
+[ElseIF | .]
+ElseIF
+;
+[EndIF | .]
+EndIF
+;
+[Do | .]
+Do
+;
+[Untill | .]
+Untill
+;
+[Exit | Exit Program]
+Exit [( returncode)]
+;
+[ExitLoop | Leave the Do/While/For loop.]
+ExitLoop
+;
+[For | .]
+For
+;
+[Next | .]
+Next
+;
+[Local | Local Variable Definition]
+Local
+;
+[Global | Global Variable Definition]
+Global
+;
+[While | .]
+While
+;
+[Wend | .]
+Wend
+;
+[Select | .]
+Select
+;
+[Case | .]
+Case
+;
+[CaseElse | .]
+CaseElse
+;
+[EndSelect | .]
+EndSelect
+;
+
+
+[Abs | Calculates the absolute value of a number.]
+Abs ( |expression )
+;
+[ACos | Calculates the arcCosine of a number.]
+ACos ( |expression )
+;
+[AdlibDisable | Disables the adlib functionality.]
+AdlibDisable ( |)
+;
+[AdlibEnable | Enables Adlib functionality.]
+AdlibEnable ( |"function" [,time] )
+;
+[Asc | Returns the ASCII code of a character.]
+Asc ( |"char" )
+;
+[ASin | Calculates the arcsine of a number.]
+ASin ( |expression )
+;
+[ATan | Calculates the arctangent of a number.]
+ATan ( |expression )
+;
+[AutoItSetOption | Changes the operation of various AutoIt functions/parameters.]
+AutoItSetOption ( |"option", param )
+;
+[AutoItWinGetTitle | Retrieves the title of the AutoIt window.]
+AutoItWinGetTitle ( |)
+;
+[AutoItWinSetTitle | Changes the title of the AutoIt window.]
+AutoItWinSetTitle ( |"newtitle" )
+;
+[BitAND | Performs a bitwise AND operation.]
+BitAND ( |value1, value2 )
+;
+[BitNOT | Performs a bitwise NOT operation.]
+BitNOT ( |value )
+;
+[BitOR | Performs a bitwise OR operation.]
+BitOR ( |value1, value2 )
+;
+[BitShift | Performs a bit shifting operation.]
+BitShift ( |value, shift )
+;
+[BitXOR | Performs a bitwise exclusive OR (XOR) operation.]
+BitXOR ( |value1, value2 )
+;
+[BlockInput | Disable/enable the mouse and keyboard.]
+BlockInput ( |flag )
+;
+[Break | Enables or disables the users' ability to exit a script from the tray icon menu.]
+Break ( |mode )
+;
+[Call | Calls a user-defined function contained in a string parameter.]
+Call ( |"function" )
+;
+[CDTray | Opens or closes the CD tray.]
+CDTray ( |"drive", "status" )
+;
+[Chr | Returns a character corresponding to an ASCII code.]
+Chr ( |ASCIIcode )
+;
+[ClipGet | Retrieves text from the clipboard.]
+ClipGet ( |)
+;
+[ClipPut | Writes text to the clipboard.]
+ClipPut ( |"value" )
+;
+[ControlClick | Sends a mouse click command to a given control.]
+ControlClick ( |"title", "text", "classnameNN" [, button] [, clicks]] )
+;
+[ControlCommand | Sends a command to a control.]
+ControlCommand ( |"title", "text", "classnameNN", "command", "option" )
+;
+[ControlDisable | Disables or "grays-out" a control.]
+ControlDisable ( |"title", "text", "classnameNN")
+;
+[ControlEnable | Enables a "grayed-out" control.]
+ControlEnable ( |"title", "text", "classnameNN" )
+;
+[ControlFocus | Sets input focus to a given control on a window.]
+ControlFocus ( |"title", "text", "classnameNN" )
+;
+[ControlGetFocus | Returns the ControlRef# of the control that has keyboard focus within a specified window.]
+ControlGetFocus ( |"title" [, "text"] )
+;
+[ControlGetPos | Retrieves the position and size of a control relative to it's window.]
+ControlGetPos ( |"title", "text", "classnameNN" )
+;
+[ControlGetText | Retrieves text from a control.]
+ControlGetText ( |"title", "text", "classnameNN" )
+;
+[ControlHide | Hides a control.]
+ControlHide ( |"title", "text", "classnameNN" )
+;
+[ControlMove | Moves a control within a window.]
+ControlMove ( |"title", "text", "classnameNN", x, y [, width [, height]] )
+;
+[ControlSend | Sends a string of characters to a control.]
+ControlSend ( |"title", "text", "classnameNN", "string" [, flag] )
+;
+[ControlSetText | Sets text of a control.]
+ControlSetText ( |"title", "text", "classnameNN", "new text" )
+;
+[ControlShow | Shows a control that was hidden.]
+ControlShow ( |"title", "text", "classnameNN" )
+;
+[Cos | Calculates the cosine of a number.]
+Cos ( |expression )
+;
+[Dec | Returns a numeric representation of a hexidecimal string.]
+Dec ( |"hex" )
+;
+[DirCopy | Copies a directory and all sub-directories and files (Similar to xcopy).]
+DirCopy ( |"source dir", "dest dir" [, flag] )
+;
+[DirCreate | Creates a directory/folder.]
+DirCreate ( |"path" )
+;
+[DirMove | Moves a directory and all sub-directories and files.]
+DirMove ( |"source dir", "dest dir" [, flag] )
+;
+[DirRemove | Deletes a directory/folder.]
+DirRemove ( |"path" [,recurse] )
+;
+[DriveGetDrive | Returns an array containing the enumerated drives.]
+DriveGetDrive ( |"type" )
+;
+[DriveGetFileSystem | Returns File System Type of a drive.]
+DriveGetFileSystem ( |"path" )
+;
+[DriveGetLabel | Returns Volume Label of a drive, if it has one.]
+DriveGetLabel ( |"path" )
+;
+[DriveGetSerial | Returns Serial Number of a drive.]
+DriveGetSerial ( |"path" )
+;
+[DriveGetType | Returns drive type.]
+DriveGetType ( |"path" )
+;
+[DriveSetLabel | Sets the Volume Label of a drive.]
+DriveSetLabel ( |"path", "label" )
+;
+[DriveSpaceFree | Returns the free disk space of a path in Megabytes.]
+DriveSpaceFree ( |"path" )
+;
+[DriveSpaceTotal | Returns the total diskspace of a path in Megabytes.]
+DriveSpaceTotal ( |"path" )
+;
+[DriveStatus | Returns the status of the drive as a string.]
+DriveStatus ( |"path" )
+;
+[EnvGet | Retrieves an environment variable.]
+EnvGet ( |"envvariable" )
+;
+[EnvSet | Writes an environment variable.]
+EnvSet ( |"envvariable", "value" )
+;
+[EnvUpdate | Refreshes the OS environment.]
+EnvUpdate ( |)
+;
+[Exp | Calculates <i><b>e</b></i> to the power of a number.]
+Exp ( |expression )
+;
+[FileChangeDir | Changes the current working directory.]
+FileChangeDir ( |"path" )
+;
+[FileClose | Closes a previously opened text file.]
+FileClose ( |filehandle )
+;
+[FileCopy | Copies one or more files.]
+FileCopy ( |"source", "dest" [, flag] )
+;
+[FileCreateShortcut | Creates a shortcut (.lnk) to a file.]
+FileCreateShortcut ( |"file", "lnk" [, "workdir", "args", "desc", "icon", "hotkey"] )
+;
+[FileDelete | Delete one or more files.]
+FileDelete ( |"path" )
+;
+[FileExists | Checks if a file or directory exists.]
+FileExists ( |"path" )
+;
+[FileFindFirstFile | Returns a filename according to search string.]
+FileFindFirstFile ( |"filename" )
+;
+[FileFindNextFile | Returns a filename according to a previous call to FileFindFirstFile.]
+FileFindNextFile ( |$search )
+;
+[FileGetAttrib | Returns a code string representing a file's attributes.]
+FileGetAttrib ( |"filename" )
+;
+[FileGetLongName | Returns the long path+name of the path+name passed.]
+FileGetLongName ( |"file" )
+;
+[FileGetShortName | Returns the 8.3 short path+name of the path+name passed.]
+FileGetShortName ( |"file" )
+;
+[FileGetSize | Returns the size of a file in bytes.]
+FileGetSize ( |"filename" )
+;
+[FileGetTime | Returns the time and date information for a file.]
+FileGetTime ( |"filename" [,option] )
+;
+[FileGetVersion | Returns the "File" version information.]
+FileGetVersion ( |"filename" )
+;
+[FileInstall | Include and install a file with the compiled script.]
+FileInstall ( |"source", "dest" [,flag] )
+;
+[FileMove | Moves one or more files]
+FileMove ( |"source", "dest" [, flag] )
+;
+[FileOpen | Opens a text file for reading or writing.]
+FileOpen ( |"filename", mode )
+;
+[FileOpenDialog | Initiates a Open File Dialog.]
+FileOpenDialog ( |"title", "init dir", "filter" [, options] )
+;
+[FileReadLine | Read in a line of text from a previously opened text file.]
+FileReadLine ( |filehandle or "filename" [, line] )
+;
+[FileRecycle | Sends a file or directory to the recycle bin, if possible]
+FileRecycle ( |"source" )
+;
+[FileSaveDialog | Initiates a Save File Dialog.]
+FileSaveDialog ( |"title", "init dir", "filter" [, options] )
+;
+[FileSelectFolder | Initiates a Browse For Folder GUI.]
+FileSelectFolder ( |"dialog text", "root dir", flag )
+;
+[FileSetAttrib | Sets the attributes of one or more files.]
+FileSetAttrib ( |"file pattern", "+-RASHNOT" [, recurse] )
+;
+[FileSetTime | Sets the timestamp of one of more files.]
+FileSetTime ( |"file pattern", "time", type [, recurse] )
+;
+[FileWriteLine | Append a line of text to the end of a previously opened text file.]
+FileWriteLine ( |filehandle or "filename", "line" )
+;
+[Hex | Returns a string representation of an integer converted to hexadecimal.]
+Hex ( |number, length )
+;
+[HotKeySet | Sets a hotkey that calls a user function.]
+HotKeySet ( |"key" [, "function"] )
+;
+[IniDelete | Deletes a value from a standard format .ini file.]
+IniDelete ( |"filename", "section", "key" )
+;
+[IniRead | Reads a value from a standard format .ini file.]
+IniRead ( |"filename", "section", "key", "default" )
+;
+[IniWrite | Writes a value to a standard format .ini file.]
+IniWrite ( |"filename", "section", "key", "value" )
+;
+[InputBox | Displays an input box to ask the user to enter a string.]
+InputBox ( |"title", "Prompt" [, "Default" [, "password char" [, Width, Height [, Left, Top [, TimeOut]]]]] )
+;
+[Int | Returns the integer (whole number) representation of an expression.]
+Int ( |expression )
+;
+[IsAdmin | Checks if the current user has administrator privileges.]
+IsAdmin ( |)
+;
+[IsArray | Checks if a variable is an array type.]
+IsArray ( |variable )
+;
+[IsFloat | Checks if a variable or expression is a float-type.]
+IsFloat ( |variable )
+;
+[IsInt | Checks if a variable or expression is an integer type.]
+IsInt ( |variable )
+;
+[IsNumber | Checks if a variable's base type is numeric.]
+IsNumber ( |variable )
+;
+[IsString | Checks if a variable is a string type.]
+IsString ( |variable )
+;
+[Log | Calculates the natural logarithm of a number.]
+Log ( |expression )
+;
+[Mod | Performs the modulus operation.]
+Mod ( |value1, value2 )
+;
+[MouseClick | Perform a mouse click operation.]
+MouseClick ( |"button" [, x, y [, clicks [, speed ]]] )
+;
+[MouseClickDrag | Perform a mouse click and drag operation.]
+MouseClickDrag( |"button", x1, y1, x2, y2 [,speed] )
+;
+[MouseDown | Perform a mouse down event at the current mouse position.]
+MouseDown ( |"button" )
+;
+[MouseGetCursor | Returns a cursor ID Number of the current Mouse Cursor.]
+MouseGetCursor ( |)
+;
+[MouseGetPos | Retrieves the current position of the mouse cursor.]
+MouseGetPos ( |)
+;
+[MouseMove | Moves the mouse pointer.]
+MouseMove ( |x, y [, speed] )
+;
+[MouseUp | Perform a mouse up event at the current mouse position.]
+MouseUp ( |"button" )
+;
+[MsgBox | Displays a simple message box with optional timeout.]
+MsgBox ( |flag, "title", "text" [, timeout] )
+;
+[Number | Returns the numeric representation of an expression.]
+Number ( |expression )
+;
+[PixelGetColor | Returns a pixel color according to x,y pixel coordinates.]
+PixelGetColor ( |x , y )
+;
+[PixelSearch | Searches a rectangle of pixels for the pixel color provided.]
+PixelSearch ( |left, top, right, bottom, color [, shade-variation] [, step]]  )
+;
+[ProcessClose | Terminates a named process.]
+ProcessClose ( |"process" )
+;
+[ProcessExists | Checks to see if a specified process exists.]
+ProcessExists ( |"process" )
+;
+[ProcessWait | Pauses script execution until a given process exists.]
+ProcessWait ( |"process" [, timeout] )
+;
+[ProcessWaitClose | Pauses script execution until a given process does not exist.]
+ProcessWaitClose ( |"process" [, timeout] )
+;
+[ProgressOff | Turns Progress window off.]
+ProgressOff ( |)
+;
+[ProgressOn | Creates a customizable progress bar window.]
+ProgressOn ( |"title", "maintext" [, "subtext" [, x pos [, y pos [, opt]]]] )
+;
+[ProgressSet | Sets the position and/or text of a previously created Progress bar window.]
+ProgressSet ( |percent [, "subtext" [, "maintext"]] )
+;
+[Random | Generates a pseudo-random float-type number.]
+Random ( |[[Min ,] Max] )
+;
+[RegDelete | Deletes a key or value from the registry.]
+RegDelete ( |"keyname" [, "valuename"] )
+;
+[RegRead | Reads a value from the registry.]
+RegRead ( |"keyname", "valuename" )
+;
+[RegWrite | Writes a value to the registry.]
+RegWrite ( |"keyname", "valuename", "type", value )
+;
+[Round | Returns a number rounded to a specified number of decimal places.]
+Round ( |expression [, decimalplaces]  )
+;
+[Run | Runs an external program.]
+Run ( |"filename" [, "workingdir" [, flag]] )
+;
+[RunAsSet | Initialise a set of user credentials to use during Run and RunWait operations.  2000/XP or later ONLY.]
+RunAsSet ( |["user", "domain", "password"] )
+;
+[RunWait | Runs an external program and pauses script execution until the program finishes.]
+RunWait ( |"filename" [, "workingdir" [, flag]] )
+;
+[Send | Sends simulated keystrokes to the active window.]
+Send ( |"keys" [, flag] )
+;
+[SetError | Manually set the value of the @error macro.]
+SetError ( |code )
+;
+[Shutdown | Shuts down the system.]
+Shutdown ( |code )
+;
+[Sin | Calculates the sine of a number.]
+Sin ( |expression )
+;
+[Sleep | Pause script execution.]
+Sleep ( |delay )
+;
+[SoundPlay | Play a sound file.]
+SoundPlay ( |"filename" [, wait] )
+;
+[SoundSetWaveVolume | Sets the system wave volume by percent.]
+SoundSetWaveVolume ( |percent )
+;
+[SplashImageOn | Creates a customizable image popup window.]
+SplashImageOn ( |"title", "file" [, width [, height [, x pos [, y pos [, opt]]]]] )
+;
+[SplashOff | Turns SplashText or SplashImage off.]
+SplashOff ( |)
+;
+[SplashTextOn | Creates a customizable text popup window.]
+SplashTextOn ("title", "text" [, w [, h [, x pos [, y pos [, opt [, "fontname" [, "fontsz" [, "fontwt"]]]]]]]] )
+;
+[Sqrt | Calculates the square-root of a number.]
+Sqrt ( |expression )
+;
+[StatusbarGetText | Retrieves the text from a standard status bar control.]
+StatusbarGetText ( |"title" [, "text" [, part]] )
+;
+[String | Returns the string representation of an expression.]
+String ( |expression )
+;
+[StringAddCR | Takes a string and prefixes all linefeed characters ( Chr(10) ) with a carriage return character ( Chr(13) ).]
+StringAddCR ( |"string" )
+;
+[StringFormat | Returns a formatted string (similar to the C sprintf() function).]
+StringFormat ( |"format control", $var1 [, ... $var32] )
+;
+[StringInStr | Checks if a string contains a given substring.]
+StringInStr ( |"string", "substring" [, casesense] )
+;
+[StringIsAlNum | Checks if a string contains only alphanumeric characters.]
+StringIsAlNum ( |"string" )
+;
+[StringIsAlpha | Checks if a string contains only alphabetic characters.]
+StringIsAlpha ( |"string" )
+;
+[StringIsASCII | Checks if a string contains only ASCII characters in the range 0x00 - 0x7f (0 - 127).]
+StringIsASCII ( |"string" )
+;
+[StringIsDigit | Checks if a string contains only digit (0-9) characters.]
+StringIsDigit ( |"string" )
+;
+[StringIsFloat | Checks if a string is a floating point number.]
+StringIsFloat ( |"string" )
+;
+[StringIsInt | Checks if a string is an integer.]
+StringIsInt ( |"string" )
+;
+[StringIsLower | Checks if a string contains only lowercase characters.]
+StringIsLower ( |"string" )
+;
+[StringIsSpace | Checks if a string contains only whitespace characters.]
+StringIsSpace ( |"string" )
+;
+[StringIsUpper | Checks if a string contains only uppercase characters.]
+StringIsUpper ( |"string" )
+;
+[StringIsXDigit | Checks if a string contains only hexadecimal digit (0-9, A-F) characters.]
+StringIsXDigit ( |"string" )
+;
+[StringLeft | Returns a number of characters from the left-hand side of a string.]
+StringLeft ( |"string", count )
+;
+[StringLen | Returns the number of characters in a string.]
+StringLen ( |"string" )
+;
+[StringLower | Converts a string to lowercase.]
+StringLower ( |"string" )
+;
+[StringMid | Extracts a number of characters from a string.]
+StringMid ( |"string", start, count )
+;
+[StringReplace | Replaces substrings in a string.]
+StringReplace ( |"string", "searchstring", "replacestring" [, count [, casesense]] )
+;
+[StringRight | Returns a number of characters from the right-hand side of a string.]
+StringRight ( |"string", count )
+;
+[StringSplit | Splits up a string into substrings depending on the given delimiters.]
+StringSplit ( |"string", "delimiters" )
+;
+[StringStripCR | Removes all carriage return values ( Chr(13) ) from a string.]
+StringStripCR ( |"string" )
+;
+[StringStripWS | Strips the white space in a string.]
+StringStripWS ( |"string", flag )
+;
+[StringTrimLeft | Trims a number of characters from the left hand side of a string.]
+StringTrimLeft ( |"string", count )
+;
+[StringTrimRight | Trims a number of characters from the right hand side of a string.]
+StringTrimRight ( |"string", count )
+;
+[StringUpper | Converts a string to uppercase.]
+StringUpper ( |"string" )
+;
+[Tan | Calculates the tangent of a number.]
+Tan ( |expression )
+;
+[TimerStart | Returns a timestamp (in milliseconds).]
+TimerStart ( |)
+;
+[TimerStop | Returns a difference in time from a previous call to StartTimer().]
+TimerStop ( |timestamp )
+;
+[TrayTip | Displays a balloon tip from the AuotIt Icon. (2000/XP only)]
+TrayTip ( |"title", "text", timeout [, option] )
+;
+[UBound | Returns the size of array dimensions.]
+UBound ( |Array [, Dimension] )
+;
+[URLDownloadToFile | Downloads a file from the internet.]
+URLDownloadToFile ( |"URL", "filename" )
+;
+[WinActivate | Activates (gives focus to) a window.]
+WinActivate ( |"title" [, "text"] )
+;
+[WinActive | Checks to see if a specified window exists and is currently active.]
+WinActivate ( |"title" [, "text"] )
+;
+[WinClose | Closes a window.]
+WinClose ( |"title" [, "text"] )
+;
+[WinExists | Checks to see if a specified window exists.]
+WinExists ( |"title" [, "text"] )
+;
+[WinGetCaretPos | Returns the coordinates of the caret in the foreground window]
+WinGetCaretPos ( |)
+;
+[WinGetClassList | Retrieves the classes from a window.]
+WinGetClassList ( |"title" [, "text"] )
+;
+[WinGetClientSize | Retrieves the size of a given window's client area.]
+WinGetClientSize ( |"title" [, "text"] )
+;
+[WinGetHandle | Retrieves the internal handle of a window.]
+WinGetHandle ( |"title" [, "text"] )
+;
+[WinGetPos | Retrieves the position and size of a given window.]
+WinGetPos ( |"title" [, "text"] )
+;
+[WinGetState | Retrieves the state of a given window.]
+WinGetState ( |"title" [, "text"] )
+;
+[WinGetText | Retrieves the text from a window.]
+WinGetText ( |"title" [, "text"] )
+;
+[WinGetTitle | Retrieves the full title from a window.]
+WinGetTitle ( |"title" [, "text"] )
+;
+[WinKill | Forces a window to close.]
+WinKill ( |"title" [, "text"] )
+;
+[WinMenuSelectItem | Invokes a menu item of a window.]
+WinMenuSelectItem ( |"title", "text", "item" [, "item" [, "item" [, "item" [, "item" [, "item" [, "item"]]]]]] )
+;
+[WinMinimizeAll | Minimizes all windows.]
+WinMinimizeAll ( |)
+;
+[WinMinimizeAllUndo | Undoes a previous WinMinimizeAll function.]
+WinMinimizeAllUndo ( |)
+;
+[WinMove | Moves and/or resizes a window.]
+WinMove ( |"title", "text", x, y [, width [, height]] )
+;
+[WinSetOnTop | Change a window's  "Always On Top" attribute.]
+WinSetOnTop ( |"title", "text", flag )
+;
+[WinSetTitle | Changes the title of a window.]
+WinSetTitle ( |"title", "text", "newtitle" )
+;
+[WinShow | Shows, hides, minimizes, maximizes, or restores a window.]
+WinShow ( |"title", "text", flag )
+;
+[WinWait | Pauses execution of the script until the requested window exists.]
+WinWait ( |"title" [, "text" [, timeout]] )
+;
+[WinWaitActive | Pauses execution of the script until the requested window is active.]
+WinWaitActive ( |"title", ["text"], [timeout] )
+;
+[WinWaitClose | Pauses execution of the script until the requested window does not exist.]
+WinWaitClose ( |"title" [, "text" [, timeout]] )
+;
+[WinWaitNotActive | Pauses execution of the script until the requested window is not active.]
+WinWaitNotActive ( |"title" [, "text" [, timeout]] )
+;
+[@AppDataCommonDir |   path to Application Data]
+@AppDataCommonDir
+;
+[@AppDataDir |   path to current user's Application Data]
+@AppDataDir
+;
+[@AutoItVersion |   Version number of AutoIt such as 3.0.81.0]
+@AutoItVersion
+;
+[@CommonFilesDir |   path to Common Files folder]
+@CommonFilesDir
+;
+[@Compiled |   Returns 1 if script is a compiled executable; otherwise, returns 0.]
+@Compiled
+;
+[@ComputerName |   Computer's network name.]
+@ComputerName
+;
+[@ComSpec |   value of %comspec%, the SPECified secondary COMmand interpreter;<br>primarly for command line uses, e.g.&nbsp; <i>Run(@ComSpec &amp; " /k help | more")</i>]
+@ComSpec
+;
+[@CR |   Carriage return, Chr(13); sometimes used for line breaks.]
+@CR
+;
+[@CRLF |   = @CR &amp; @LF ;occasionally used for line breaks.]
+@CRLF
+;
+[@DesktopCommonDir |   path to Desktop]
+@DesktopCommonDir
+;
+[@DesktopDir |   path to current user's Desktop]
+@DesktopDir
+;
+[@DesktopHeight |   Height of screen in pixels. (horizontal resolution)]
+@DesktopHeight
+;
+[@DesktopWidth |   Width of screen in pixels. (vertical resolution)]
+@DesktopWidth
+;
+[@DocumentsCommonDir |   path to Documents]
+@DocumentsCommonDir
+;
+[@error |   Status of the error flag. See the SetError function.]
+@error
+;
+[@FavoritesCommonDir |   path to Favorites]
+@FavoritesCommonDir
+;
+[@FavoritesDir |   path to current user's Favorites]
+@FavoritesDir
+;
+[@HomeDrive |   drive letter of drive containing current user's home directory]
+@HomeDrive
+;
+[@HomePath |   directory part of current user's home directory; use in conjunction with @HomeDrive to get the full path]
+@HomePath
+;
+[@HomeShare |   server and share name containing current user's home directory]
+@HomeShare
+;
+[@HOUR |   Hours value of clock in 24-hour format. Range is 00 to 23]
+@HOUR
+;
+[@IPAddress1 |   IP address of first network adapter. Tends to return 127.0.0.1 on some computers.<br>]
+@IPAddress1
+;
+[@IPAddress2 |   IP address of second network adapter. Returns 0.0.0.0 if not applicable.]
+@IPAddress2
+;
+[@IPAddress3 |   IP address of third network adapter. Returns 0.0.0.0 if not applicable.]
+@IPAddress3
+;
+[@IPAddress4 |   IP address of fourth network adapter. Returns 0.0.0.0 if not applicable.]
+@IPAddress4
+;
+[@LF |   Line feed, Chr(10); typically used for line breaks.]
+@LF
+;
+[@LogonDNSDomain |   Logon Domain Name Server Domain]
+@LogonDNSDomain
+;
+[@LogonDomain |   equivalent to %LOGONDOMAIN% environment variable]
+@LogonDomain
+;
+[@LogonServer |   equivalent to %LOGONSERVER% environment variable]
+@LogonServer
+;
+[@MDAY |   Current day of month. Range is 01 to 31]
+@MDAY
+;
+[@MIN |   Minutes value of clock. Range is 00 to 59]
+@MIN
+;
+[@MON |   Current month. Range is 01 to 12]
+@MON
+;
+[@MyDocumentsDir |   path to My Documents target]
+@MyDocumentsDir
+;
+[@OSBuild |   Returns the OS build number. For example, Windows 2003 Server returns 3790]
+@OSBuild
+;
+[@OSLang |   Returns code denoting OS Language.&nbsp; See <a href="appendix/OSLangCodes.htm">Appendix</a> for possible values.]
+@OSLang
+;
+[@OSServicePack |   Service pack info in the form of "Service Pack 3" or, for Windows 95, it may return "B"]
+@OSServicePack
+;
+[@OSTYPE |   Returns "WIN32_NT" for NT/2000/XP and returns "WIN32_WINDOWS" for 95/98/Me]
+@OSTYPE
+;
+[@OSVersion |   Returns one of the following: WIN_XP, WIN_2000, WIN_NT4, WIN_ME, WIN_98, WIN_95]
+@OSVersion
+;
+[@ProgramFilesDir |   path to Program Files folder]
+@ProgramFilesDir
+;
+[@ProgramsCommonDir |   path to Start Menu's Programs folder]
+@ProgramsCommonDir
+;
+[@ProgramsDir |   path to current user's Programs (folder on Start Menu)]
+@ProgramsDir
+;
+[@ScriptDir |   Directory containing the running script. (Result does not contain a trailing backslash)]
+@ScriptDir
+;
+[@ScriptFullPath |   Equivalent to @ScriptDir &amp; "\" &amp; @ScriptName]
+@ScriptFullPath
+;
+[@ScriptName |   Long filename of the running script.]
+@ScriptName
+;
+[@SEC |   Seconds value of clock. Range is 00 to 59]
+@SEC
+;
+[@StartMenuCommonDir |   path to Start Menu folder]
+@StartMenuCommonDir
+;
+[@StartMenuDir |   path to current user's Start Menu]
+@StartMenuDir
+;
+[@StartupCommonDir |   path to Startup folder]
+@StartupCommonDir
+;
+[@StartupDir |   current user's Startup folder]
+@StartupDir
+;
+[@SW_HIDE |   Hide window.]
+@SW_HIDE
+;
+[@SW_MAXIMIZE |   Maximize window.]
+@SW_MAXIMIZE
+;
+[@SW_MINIMIZE |   Minimize window.]
+@SW_MINIMIZE
+;
+[@SW_RESTORE |   Undoes a window minimization or maximization]
+@SW_RESTORE
+;
+[@SW_SHOW |   Shows a previously hidden window.]
+@SW_SHOW
+;
+[@SystemDir |   path to Windows' System (or System32) folder]
+@SystemDir
+;
+[@TAB |   Tab character, Chr(9)]
+@TAB
+;
+[@TempDir |   Path to the temporary files folder.]
+@TempDir
+;
+[@UserProfileDir |   path to current user's Profile folder]
+@UserProfileDir
+;
+[@UserName |   ID of the currently logged on user.]
+@UserName
+;
+[@WDAY |   Numeric day of week. Range is 1 to 7 which corresponds to Sunday through Saturday.]
+@WDAY
+;
+[@WindowsDir |   path to Windows folder]
+@WindowsDir
+;
+[@WorkingDir |   Current/active working directory. (Result does not contain a trailing backslash)]
+@WorkingDir
+;
+[@YDAY |   Current day of year. Range is 1 to 366 (or 365 if not a leap year)]
+@YDAY
+;
+[@YEAR |   Current four-digit year]
+@YEAR
+;

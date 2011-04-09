@@ -1,0 +1,106 @@
+; PSPad clip definition file for CAL (Navision)
+; created by pspad   12.07.2002  09:10
+; author:  martinpa
+[Macro definition]
+%recordset%=@E Enter recodset
+%recordset1%=@E Enter recodset
+%prom%=@E Variable
+%prom1%=@E Variable
+%prom2%=@E Variable
+%dialog%=@E Dialog
+%ComboFind%=@C Which record:,,-,-;+,'
+;--------------------------------------------------------------------------------
+[for .. to .. do | cycle with defined step count]
+for %prom% := %prom1% to %prom2% do
+   begin
+    |
+   end;
+;--------------------------------------------------------------------------------
+[setrange | set range(what, from, to) ]
+%recordset%.setrange(%recordset%."|" , , );
+;--------------------------------------------------------------------------------
+[get | get(variable)]
+if %recordset%.get(|) then
+;--------------------------------------------------------------------------------
+[begin | (begin ... end) ]
+begin
+ §|
+end
+;--------------------------------------------------------------------------------
+[repeat | (recordset fetching)]
+repeat
+ |
+until %recordset%.next=0;
+;--------------------------------------------------------------------------------
+[if | (condition)]
+if §| then
+
+;--------------------------------------------------------------------------------
+[calcfields | calcfields(array, .., ..)]
+%recordset%.calcfields (|);
+;--------------------------------------------------------------------------------
+[message | message(text)]
+message(§|);
+;--------------------------------------
+[message2 | message(format(integer))]
+message(format(§|));
+;--------------------------------------------------------------------------------
+[confirm | confirm(text)]
+if %prom% confirm(|) then
+
+;--------------------------------------------------------------------------------
+[setfilter | setfilter(what,value)]
+%recordset%.setfilter(| , ) ;
+;--------------------------------------------------------------------------------
+[create | create(object)]
+create (§|);
+;--------------------------------------------------------------------------------
+[clear | clear(object)]
+clear (§|) ;
+;--------------------------------------------------------------------------------
+[createtotals | createtotals(array)]
+Currreport.createtotals(§|)
+;--------------------------------------------------------------------------------
+[testfield | testfield(array,value)]
+%recordset%.testfield(|)
+;--------------------------------------------------------------------------------
+[round | round(value,decimal)]
+round(§| , )
+;--------------------------------------------------------------------------------
+[format | format(variable)]
+format(§|)
+;--------------------------------------------------------------------------------
+[count | recordset.count]
+%recordset%.count
+;--------------------------------------------------------------------------------
+[setcurrentkey | recordset.setcurrentkey]
+%recordset%.setcurrentkey(|);
+;--------------------------------------------------------------------------------
+[find | find('-')]
+if %recordset%.find(%ComboFind%) then
+   |
+;--------------------------------------------------------------------------------
+[reset | recordset.reset]
+%recordset%.reset;
+  |
+;--------------------------------------------------------------------------------
+[d.Open | okno.open('text #1#######', variable]
+%dialog%.open(|)
+;--------------------------------------------------------------------------------
+[d.Update | okno.open(1, variable]
+%dialog%|.update()
+;--------------------------------------------------------------------------------
+[d.Close | okno.Close
+%dialog%|.Close
+;--------------------------------------------------------------------------------
+[DATE2DMY | Date2DMY(date)]
+date2SMY(§|)
+;--------------------------------------------------------------------------------
+[Commit| Commit]
+Commit
+;-------------------------------------------------------------------------------
+[error| error()]
+error(§|);
+;
+[TRANSFERFIELDS | rsDestination.TRANSFERFIELDS(rsSource)]
+%recordset%.TRANSFERFIELDS(%recordset1%)

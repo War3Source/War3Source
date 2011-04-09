@@ -1,0 +1,233 @@
+; PSPad clip definition file for OtherCad
+; Authors:  Aleš Èerný, Ing. Ivan Slepièka, Petr Slepièka
+;
+[OPEN | Open any file]
+@open;/ otevre libovolny soubor / *31.3.2002* Ing. Ivan Slepicka
+/ pouzite promenne: a=radek retezce i=pracovni promenna
+ a = sv 390;a += 1;jmpr 2;/ a = cislo radku v OCP programu (pouzije se pro zapis stringu)
+/ radek cislo "a" pro zapis stringu - nemenit!
+ a$ = "";a$ = foname "*.*" "Otevøení libovolného souboru (*.*)|*.*";if a$ == "";stop "Nebyl vybrán žádný soubor"
+ i = exist a$;if i != 0;jmpr 2
+ i = 1;msg cnf i "Chyba otevírání souboru - opakovat pokus?";if i == 1;jmpr -2;else;stop
+ msg info a$ " je otevøen";/ tento øádek je jen informaèní a je možno ho vymazat
+/ tady MUSI nasledovat vhodna rutina pro dalsi zpracovani souboru
+
+[OCD_NEW | Otevøi nový výkres]
+@ocd_new;/ ulozi rozpracovany vykres, otevre novy cisty a umozni ho pojmenovat / *19.12.2000* Ales Cerny
+ run 1 1 "NEW.OCP";stop
+|
+
+[OCD_OPEN | Otevøi jiný výkres]
+@ocd_open;/ ulozi rozpracovany vykres a otevre jiny / *5.10.2001* Ing. Ivan Slepicka
+ run 1 1 "F3.OCP";stop
+|
+
+[OCD_SAVE | Ulož aktuální výkres]
+@ocd_save;/ ulozi aktualni vykres / sablona / *19.12.2000* Ales Cerny / *31.3.2002* Ing. Ivan Slepicka
+/ pouzite promenne: a=radek retezce i=pracovni promenna
+ i = sv 0;if i == 0;msg err "OtherCAD není odklíèován!";stop
+ a = sv 390;a += 1;jmpr 2;/ a = cislo radku v OCP programu (pouzije se pro zapis stringu)
+/ radek cislo "a" pro zapis stringu - nemenit!
+ sv 47 0;a$ = name;a$ = norm a$;if a$ == "";stop "Výkres nemá jméno!"
+ a$ = norm name ".OCD" a$;save "" a$;i = sv 77;if i == 0;msg info a$ " byl uložen.";stop
+ msg err a$ “ NELZE ULOŽIT!";stop;/ ukonceni programu
+|
+
+[OCD_SAVEAS | Ulož aktuální výkres pod jiným jménem]
+@ocd_saveas;/ ulozi aktualni vykres pod jinym jmenem / sablona / *19.12.2000* Ales Cerny
+ run 1 1 "SAVEAS.OCP";stop
+|
+
+[PUMENU | Rolovací menu]
+@pumenu;/ rolovaci menu o maximalne 32 radcich / sablona / *5.10.2001* Ing. Ivan Slepicka
+/ pouzite promenne: i=cislo radku pumenu p=vyhodnoceni vyberu z pumenu
+/ pumenu je pripraveno na maximalni moznou delku = 32 radku; delka se upravi odebranim nepotrebnych radku
+ i = 0
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i1
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i2
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i3
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i4
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i5
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i6
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i7
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i8
+ i += 1;pumenu i 1 0 0 "nazev_radku";/  i9
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i10
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i11
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i12
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i13
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i14
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i15
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i16
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i17
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i18
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i19
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i20
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i21
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i22
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i23
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i24
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i25
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i26
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i27
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i28
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i29
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i30
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i31
+ i += 1;pumenu i 1 0 0 "nazev_radku";/ i32
+ p = pumenu i 0 250 250
+/ nasleduje vyhodnoceni vyberu / adresovani je nutno upravit!!!
+  on p 0 @0 1 @1 2 @2 3 @3 4 @4 5 @5 6 @6 7 @7 8 @8 9 @9 10 @10 11 @11 12 @12 13 @13 14 @14 15 @15 16 @16
+  on p 17 @17 18 @18 19 @19 20 @20 21 @21 22 @22 23 @23 24 @24 25 @25 26 @26 27 @27 28 @28 29 @29 30 @30 31 @31 32 @32
+|
+
+[GET 1 | Èti rámeèek]
+/ a=1...16 poradove cislo dialog, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0/1 zapusteny/vystouply, e$=napoveda
+ dlg 1 a get b c X Y x y d e$
+|
+
+[SET 1 | Nastav rámeèek]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0/1 zapusteny/vystouply, e$=napoveda
+ dlg 1 a set b c X Y x y d e$
+|
+
+[GET 2 | Èti nápis]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=napis, e$=napoveda
+ dlg 2 a get b c X Y x y d$ e$
+|
+
+[SET 2 | Nastav nápis]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=napis, f$=napoveda
+ dlg 2 a set b c X Y x y d e$ f$
+|
+
+[GET 3.1 | Èti CELÝ editaèní box]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=editovatelny text v okne, e$=napoveda
+ dlg 3 a get b c X Y x y d$ e$
+|
+
+[GET 3.2 | Èti TEXT editaèního boxu]
+/ a=1...16 poradove cislo dialogu, d$=editovatelny text v okne, ostatni se nezjistuje
+ dlg 3 a get -1 -1 -1 -1 -1 -1 d$ -1
+|
+
+[SET 3 | Nastav editaèní box]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=text, f$=napoveda
+ dlg 3 a set b c X Y x y d e$ f$
+|
+
+[GET 4.1 | Èti hodnoty tlaèítka]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1/2 nedostupny/dostupny/default, X,Y=poloha, x,y=velikost,
+/ d$=napis na tlacitku, e$=napoveda
+ dlg 4 a get b c X Y x y d$ e$
+|
+
+[GET 4.2 | Èti stav tlaèítek - modální verze]
+ dlg status a
+ on a 0 +@0 1 +@1 2 +@2;/ atd az ... 16 +@16
+|
+
+[GET 4.3 | Èti stav tlaèítek - nemodální verze]
+ dlg status a b
+ if a == 0;if b == 0;stop;/ jmp +@end;/ je potreba si vybrat variantu zakonceni stopkou nebo skokem na end
+ on a 0 +@0 1 +@1 2 +@2;/ atd az ... 16 +@16
+|
+
+[INPUT 2R-DLG | Dvouøádkový input dialog]
+a = sv 390;a$ = "Zadání 1. hodnoty"
+b = sv 390;b$ = "Zadání 2. hodnoty"
+edit mshow "1. hodnota = " a$ "1. hodnota" "2. hodnota = " b$ "2. hodnota" "NADPIS"
+edit get "" a$ b$
+|
+
+[SET 4 | Nastav tlaèítko]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1/2 nedostupny/dostupny/default, X,Y=poloha, x,y=velikost,
+/ d$=napis na tlacitku, e$=napoveda
+ dlg 4 a set b c X Y x y d$ e$
+|
+
+[GET 5.1 | Èti hodnoty checkboxu]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=napis u checkboxu, e=0/1 nezaškrtnutý/zaškrtnutý, f$=napoveda
+ dlg 5 a get b c X Y x y d$ e f$
+|
+
+[GET 5.2 | Èti stav checkboxu]
+/ a=1...16 poradove cislo dialogu, e=0/1 nezaškrtnutý/zaškrtnutý
+ dlg 5 a get -1 -1 -1 -1 -1 -1 -1 e -1
+|
+
+[SET 5 | Nastav checkbox]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=napis u checkboxu, f=0/1 nezaškrtnutý/zaškrtnutý, g$=napoveda
+ dlg 5 a set b c X Y x y d e$ f g$
+|
+
+[GET 6.1 | Èti hodnoty radiobutonu]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=napis u radiobutonu, e=0/1 nezamacknuty/zamacknuty, f$=napoveda
+ dlg 6 a get b c X Y x y d$ e f$
+|
+
+[GET 6.2 | Èti stav radiobutonu]
+/ a=1...16 poradove cislo dialogu, e=0/1 nezamacknuty/zamacknuty
+ dlg 6 a get -1 -1 -1 -1 -1 -1 -1 e -1
+|
+
+[SET 6 | Nastav radiobuton]
+/ a=1...16 poradove cislo dialogu, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=napis u radiobutonu, f=0/1 nezamacknuty/zamacknuty, g$=napoveda
+ dlg 6 a set b c X Y x y d e$ f g$
+|
+
+[GET 7.1 | Èti skupinu 2+2+2+2+3 radiobutonù]
+/ a=1/4/7/10/13 poradove cislo skupiny, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=nadpis skupiny, e$=napoveda
+ dlg 7 a get b c X Y x y d$ e$
+|
+
+[SET 7.1 | Nastav skupinu 2+2+2+2+3 radiobutonù]
+/ a=1/4/7/10/13 poradove cislo skupiny, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=nadpis skupiny, f$=napoveda
+ dlg 7 a set b c X Y x y d e$ f$
+|
+
+[GET 7.2 | Èti stav tlaèítka ze skupiny 2+2+2+2+3 radiobutonù]
+/ a=2+3/5+6/8+9/11+12/14+15+16 poradove cislo tlacitka,d=0/1 nezamacknuty/zamacknuty
+ dlg 7 a get -1 -1 d
+|
+
+[SET 7.2 | Nastav tlaèítko ze skupiny 2+2+2+2+3 radiobutonù]
+/ a=2+3/5+6/8+9/11+12/14+15+16 poradove cislo tlacitka, b=0/1 nedostupny/dostupny, c=0...255 barva, d$=napis u tlacitka,
+/ e=0/1 nezamacknuty/zamacknuty
+ dlg 7 a set b c d$ e
+|
+
+[GET 8.1 | Èti skupinu 2+3+3+4 radiobutonù]
+/ a=1/4/8/12 poradove cislo skupiny, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d$=nadpis skupiny, e$=napoveda
+ dlg 8 a get b c X Y x y d$ e$
+|
+
+[GET 8.2 | Èti stav tlaèítka ze skupiny 2+3+3+4 radiobutonù]
+/ a=2+3/5+6+7/9+10+11/13+14+15+16 poradove cislo tlacitka, d=0/1 nezamacknuty/zamacknuty
+ dlg 8 a get -1 -1 d
+|
+
+[SET 8.1 | Nastav skupinu 2+3+3+4 radiobutonù]
+/ a=1/4/8/12 poradove cislo skupiny, b=0/1 neviditelny/viditelny, c=0/1 nedostupny/dostupny, X,Y=poloha, x,y=velikost,
+/ d=0...255 barva, e$=nadpis skupiny, f$=napoveda
+ dlg 8 a set b c X Y x y d e$ f$
+|
+
+[SET 8.2 | Nastav tlaèítko ze skupiny 2+3+3+4 radiobutonù]
+/ a=2+3/5+6+7/9+10+11/13+14+15+16 poradove cislo tlacitka, b=0/1 nedostupny/dostupny, c=0...255 barva, d$=napis u tlacitka,
+/ e=0/1 nezamacknuty/zamacknuty
+ dlg 8 a set b c d$ e
+|

@@ -1,0 +1,89 @@
+; PSPad clip definition file for IEC1131
+; Author:  Petr Vetesnik wetty@wo.cz
+; last revision: 3.9.2001
+;
+[ACTION | Action]
+ACTION | :
+END_ACTION
+;
+[FUNCTION | Function]
+FUNCTION | :
+END_FUNCTION
+;
+[FUNCTION_BLOCK | Function block]
+FUNCTION_BLOCK |
+END_FUNCTION_BLOK
+;
+[PROGRAM | Program]
+PROGRAM |
+END_PROGRAM
+;
+[STEP | Step]
+STEP | :
+END_STEP
+;
+[STRUCT | Structure]
+STRUCT | :
+END_STRUCT
+;
+[TRANSITION | single]
+TRANSITION |
+FROM
+TO :
+END_TRANSITION
+;
+[TRANSITION | paralel start]
+TRANSITION |
+FROM
+TO ():
+END_TRANSITION
+;
+[TRANSITION | paralel end]
+TRANSITION |
+FROM ()
+TO :
+END_TRANSITION
+;
+[TYPE | Type]
+TYPE | :
+END_TYPE
+;
+[VAR | Variable]
+VAR
+  |
+END_VAR
+;
+[INITIAL_STEP | Initial step]
+INITIAL_STEP | :
+END_STEP
+;
+[VAR_ACCESS | Vartiable access]
+VAR_ACCESS
+  |
+END_VAR
+;
+[VAR_EXTERNAL | External variable]
+VAR_EXTERNAL
+  |
+END_VAR
+;
+[VAR_GLOBAL | Global variable]
+VAR_GLOBAL
+  |
+END_VAR
+;
+[VAR_IN_OUT | In/out variable]
+VAR_IN_OUT
+  |
+END_VAR
+;
+[VAR_INPUT | Input variable]
+VAR_INPUT
+  |
+END_VAR
+;
+[VAR_OUTPUT | Output variable]
+VAR_OUTPUT
+  |
+END_VAR
+;

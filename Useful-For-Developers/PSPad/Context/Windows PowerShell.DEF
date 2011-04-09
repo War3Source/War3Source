@@ -1,0 +1,847 @@
+; PSPad code template for Windows PowerShell
+; Created by PSPad   01.06.2006  15:00
+; Author:  Jarmo Aho
+; last revision : 19.02.2007
+[Clip Settings]
+CursorChar=|
+SelectionChar=§ 
+;
+;A few helpers:
+;
+[Where-Object | Where-Object {$_. }]
+Where-Object {$_.|}
+;
+[? | Where-Object {$_. }]
+Where-Object {$_.|}
+;
+[% | ForEach-Object {$_. }]
+ForEach-Object {$_.|}
+;
+[switch | switch]
+switch (|)
+{
+}
+;
+[if | if ()]
+if (§|)
+{
+}
+;
+[ife | if () else]
+if (§|)
+{
+}
+else
+{
+}
+;
+[ifeif | if () elseif ()]
+if (§|)
+{
+}
+elseif ()
+{
+}
+;
+[do | do {} while (<condition>)]
+do
+{
+  |
+}
+while (§)
+;
+[while | while (<condition>)]
+while (§|)
+{
+}
+;
+[for | for (<init>; <condition>; <repeat>)]
+for (|; ;)
+{
+}
+;
+[foreach | foreach ($<item> in $<collection>){} (foreach loop)]
+foreach (| in )
+{
+}
+;
+;Operators:
+;
+[-eq | Equal (case insensitive)]
+-eq 
+[-ne | Not equal (case insensitive)]
+-ne 
+[-ge | Greater than or equal (case insensitive)]
+-ge 
+[-gt | Greater than (case insensitive)]
+-gt 
+[-lt | Less than (case insensitive)]
+-lt 
+[-le | Less than or equal (case insensitive)]
+-le 
+[-like | Wildcard comparison (case insensitive)]
+-like 
+[-notlike | Wildcard comparison (case insensitive)]
+-notlike 
+[-match | Regular expression comparison (case insensitive)]
+-match 
+[-notmatch | Regular expression comparison (case insensitive)]
+-notmatch 
+[-replace | Replace operator (case insensitive)]
+-replace 
+[-contains | Containment operator (case insensitive)]
+-contains 
+[-notcontains | Containment operator (case insensitive)]
+-notcontains 
+[-ieq | Case insensitive equal]
+-ieq 
+[-ine | Case insensitive not equal]
+-ine 
+[-ige | Case insensitive greater than or equal]
+-ige 
+[-igt | Case insensitive greater than]
+-igt 
+[-ile | Case insensitive less than or equal]
+-ile 
+[-ilt | Case insensitive less than]
+-ilt 
+[-ilike | Case insensitive equal]
+-ilike 
+[-inotlike | Case insensitive equal]
+-inotlike 
+[-imatch | Case insensitive regular expression comparison]
+-imatch 
+[-inotmatch | Case insensitive regular expression comparison]
+-inotmatch 
+[-ireplace | Case insensitive replace operator]
+-ireplace 
+[-icontains | Case insensitive containment operator]
+-icontains
+[-ceq | Equal (case sensitive)]
+-ceq 
+[-cne | Not equal (case sensitive)]
+-cne 
+[-cge | Greater than or equal (case sensitive)]
+-cge 
+[-cgt | Greater than (case sensitive)]
+-cgt 
+[-clt | Less than (case sensitive)]
+-clt 
+[-cle | Less than or equal (case sensitive)]
+-cle 
+[-clike | Wildcard comparison (case sensitive)]
+-clike 
+[-cnotlike | Wildcard comparison (case sensitive)]
+-cnotlike 
+[-cmatch | Regular expression comparison (case sensitive)]
+-cmatch 
+[-cnotmatch | Regular expression comparison (case sensitive)]
+-cnotmatch 
+[-creplace | Replace operator (case sensitive)]
+-creplace 
+[-ccontains | Containment operator (case sensitive)]
+-ccontains 
+[-cnotcontains | Containment operator (case sensitive)]
+-cnotcontains 
+[-is | Is of a type]
+-is 
+[-isnot | Is not of a type]
+-isnot 
+[-as | As a type, no error if conversion fails]
+-as 
+[-and | Logical And]
+-and 
+[-or | Logical Or]
+-or 
+[-band | Bitwise and]
+-band 
+[-bor | Bitwise or]
+-bor 
+;
+;Expand aliases
+;
+[ac | alias: Add-Content]
+Add-Content 
+;
+[asnp | alias: Add-Content]
+Add-Content 
+;
+[cat | alias: Add-Content]
+Add-Content 
+;
+[cd | alias: Set-Location]
+Set-Location 
+;
+[chdir | alias: Set-Location]
+Set-Location 
+;
+[clc | alias: Clear-Content]
+Clear-Content 
+;
+[clear | alias: Clear-Host]
+Clear-Host
+;
+[cli | alias: Clear-Item]
+Clear-Item 
+;
+[clp | alias: Clear-ItemProperty]
+Clear-ItemProperty 
+;
+[cls | alias: Clear-Host]
+Clear-Host
+;
+[clv | alias: Clear-Variable]
+Clear-Variable 
+;
+[copy | alias: Copy-Item]
+Copy-Item 
+;
+[cp | alias: Copy-Item]
+Copy-Item 
+;
+[cpi | alias: Copy-Item]
+Copy-Item 
+;
+[cpp | alias: Copy-ItemProperty]
+Copy-ItemProperty 
+;
+[cvpa | alias: Convert-Path]
+Convert-Path 
+;
+[del | alias: Remove-Item]
+Remove-Item 
+;
+[diff | alias: Compare-Object]
+Compare-Object 
+;
+[dir | alias: Get-ChildItem]
+Get-ChildItem 
+;
+[echo | alias: Write-Output]
+Write-Output 
+;
+[epal | alias: Export-Alias]
+Export-Alias 
+;
+[epcsv | alias: Export-Csv]
+Export-Csv 
+;
+[erase | alias: Remove-Item]
+Remove-Item 
+;
+[fc | alias: Format-Custom]
+Format-Custom 
+;
+[fl | alias: Format-List]
+Format-List 
+;
+[foreach | alias: ForEach-Object]
+ForEach-Object 
+;
+[ft | alias: Format-Table]
+Format-Table 
+;
+[fw | alias: Format-Wide w]
+Format-Wide 
+;
+[gal | alias: Get-Alias]
+Get-Alias 
+;
+[gc | alias: Get-Content]
+Get-Content 
+;
+[gci | alias: Get-ChildItem]
+Get-ChildItem 
+;
+[gcm | alias: Get-Command]
+Get-Command 
+;
+[gdr | alias: Get-PSDrive]
+Get-PSDrive 
+;
+[ghy | alias: Get-History]
+Get-History 
+;
+[gi | alias: Get-Item]
+Get-Item 
+;
+[gl | alias: Get-Location]
+Get-Location 
+;
+[gm | alias: Get-Member]
+Get-Member 
+;
+[gp | alias: Get-ItemProperty]
+Get-ItemProperty 
+;
+[gps | alias: Get-Process]
+Get-Process 
+;
+[group | alias: Group-Object]
+Group-Object 
+;
+[gsnp | alias: Get-PSSnapin]
+Get-PSSnapin 
+;
+[gsv | alias: Get-Service]
+Get-Service 
+;
+[gu | alias: Get-Unique]
+Get-Unique 
+;
+[gv | alias: Get-Variable]
+Get-Variable 
+;
+[gwmi | alias: Get-WmiObject]
+Get-WmiObject 
+;
+[h | alias: Get-History]
+Get-History 
+;
+[history | alias: Get-History]
+Get-History 
+;
+[iex | alias: Invoke-Expression]
+Invoke-Expression 
+;
+[ihy | alias: Invoke-History]
+Invoke-History 
+;
+[ii | alias: Invoke-Item]
+Invoke-Item 
+;
+[ipal | alias: Import-Alias]
+Import-Alias 
+;
+[ipcsv | alias: Import-Csv]
+Import-Csv 
+;
+[kill | alias: Stop-Process]
+Stop-Process 
+;
+[lp | alias: Out-Printer]
+Out-Printer 
+;
+[ls | alias: Get-ChildItem]
+Get-ChildItem 
+;
+[mi | alias: Move-Item]
+Move-Item 
+;
+[mount | alias: New-PSDrive]
+New-PSDrive 
+;
+[move | alias: Move-Item]
+Move-Item 
+;
+[mp | alias: Move-ItemProperty]
+Move-ItemProperty 
+;
+[mv | alias: Move-Item]
+Move-Item 
+;
+[nal | alias: New-Alias]
+New-Alias 
+;
+[ndr | alias: New-PSDrive]
+New-PSDrive 
+;
+[ni | alias: New-Item]
+New-Item 
+;
+[nv | alias: New-Variable]
+New-Variable 
+;
+[oh | alias: Out-Host ]
+Out-Host  
+;
+[popd | alias: Pop-Location]
+Pop-Location 
+;
+[ps | alias: Get-Process]
+Get-Process 
+;
+[pushd | alias: Push-Location]
+Push-Location 
+;
+[pwd | alias: Get-Location]
+Get-Location 
+;
+[r | alias: Invoke-History]
+Invoke-History 
+;
+[rd | alias: Remove-Item]
+Remove-Item 
+;
+[rdr | alias: Remove-PSDrive]
+Remove-PSDrive 
+;
+[ren | alias: Rename-Item]
+Rename-Item 
+;
+[ri | alias: Remove-Item]
+Remove-Item 
+;
+[rm | alias: Remove-Item]
+Remove-Item 
+;
+[rmdir | alias: Rename-Item]
+Rename-Item 
+;
+[rni | alias: Remove-Item]
+Remove-Item 
+;
+[rnp | alias: Remove-ItemProperty]
+Remove-ItemProperty 
+;
+[rp | alias: Remove-ItemProperty]
+Remove-ItemProperty 
+;
+[rsnp | alias: Remove-PSSnapin]
+Remove-PSSnapin 
+;
+[rv | alias: Remove-Variable]
+Remove-Variable 
+;
+[rvpa | alias: Resolve-Path]
+Resolve-Path 
+;
+[sal | alias: Set-Alias]
+Set-Alias 
+;
+[sasv | alias: Start-Service]
+Start-Service 
+;
+[sc | alias: Set-Content]
+Set-Content 
+;
+[select | alias: Select-Object]
+Select-Object 
+;
+[set | alias: Set-Variable]
+Set-Variable 
+;
+[si | alias: Set-Item]
+Set-Item 
+;
+[sl | alias: Set-Location]
+Set-Location 
+;
+[sleep | alias: Start-Sleep]
+Start-Sleep 
+;
+[sort | alias: Sort-Object]
+Sort-Object 
+;
+[sp | alias: Set-ItemProperty]
+Set-ItemProperty 
+;
+[spps | alias: Stop-Process]
+Stop-Process 
+;
+[spsv | alias: Stop-Service]
+Stop-Service 
+;
+[sv | alias: Set-Variable]
+Set-Variable 
+;
+[tee | alias: Tee-Object]
+Tee-Object 
+;
+[type | alias: Get-Content]
+Get-Content 
+;
+[where | alias: Where-Object]
+Where-Object 
+;
+[write | alias: Write-Output]
+Write-Output 
+;
+;cmdlets:
+;
+[Add-Content | Adds content to the specified item(s)]
+Add-Content 
+;
+[Add-History | Appends entries to the session history]
+Add-History 
+;
+[Add-Member | Adds a user-defined custom member to an instance of a Windows PowerShell object]
+Add-Member 
+;
+[Add-PSSnapin | Adds one or more Windows PowerShell snap-ins to the current console]
+Add-PSSnapin 
+;
+[Clear-Content | Deletes the contents of a item, such as deleting the text from a file, but does not delete the item]
+Clear-Content 
+;
+[Clear-Item | Deletes the contents of an item, but does not delete the item]
+Clear-Item 
+;
+[Clear-ItemProperty | Deletes the value of a property but it does not delete the property]
+Clear-ItemProperty 
+;
+[Clear-Variable | Deletes the value of a variable]
+Clear-Variable 
+;
+[Compare-Object | Compares two sets of objects]
+Compare-Object 
+;
+[ConvertFrom-SecureString | ConvertFrom-SecureString cmdlet]
+ConvertFrom-SecureString 
+;
+[Convert-Path | Converts a path from a Windows PowerShell path to a Windows PowerShell provider path]
+Convert-Path 
+;
+[ConvertTo-Html | Creates an HTML page that represents an object or a set of objects]
+ConvertTo-Html 
+;
+[ConvertTo-SecureString | Converts encrypted standard strings to secure strings. It can also convert plain text to secure strings. It is used with ConvertFrom-SecureString and Read-Host]
+ConvertTo-SecureString 
+;
+[Copy-Item | Copies an item from one location to another within a namespace]
+Copy-Item 
+;
+[Copy-ItemProperty | Copies a property and value from a specified location to another location]
+Copy-ItemProperty 
+;
+[Export-Alias | Exports information about currently-defined aliases to a file]
+Export-Alias 
+;
+[Export-Clixml | Creates an XML-based representation of an object or objects and stores it in a file]
+Export-Clixml 
+;
+[Export-Console | Exports the configuration of the current console to a file so that you can reuse or share it]
+Export-Console 
+;
+[Export-Csv | Creates a comma-separated values (CSV) file that represents the input objects]
+Export-Csv 
+;
+[ForEach-Object | Performs an operation against each of a set of input objects]
+ForEach-Object 
+;
+[Format-Custom | Uses a customized view to format the output]
+Format-Custom 
+;
+[Format-List | Formats the output as a list of properties in which each property appears on a new line]
+Format-List 
+;
+[Format-Table | Formats the output as a table]
+Format-Table 
+;
+[Format-Wide | Formats objects as a wide table that displays only one property of each object]
+Format-Wide 
+;
+[Get-Acl | Gets the security descriptor for a resource, such as a file or registry key]
+Get-Acl 
+;
+[Get-Alias | Gets the aliases for the current session]
+Get-Alias 
+;
+[Get-AuthenticodeSignature | Gets information about the Authenticode signature in a file]
+Get-AuthenticodeSignature 
+;
+[Get-ChildItem | Gets the items and child items in one or more specified locations]
+Get-ChildItem 
+;
+[Get-Command | Gets basic information about cmdlets and about other elements of Windows PowerShell commands]
+Get-Command 
+;
+[Get-Content | Gets the content of the item at the specified location]
+Get-Content 
+;
+[Get-Credential | Gets a credential object based on a user name and password]
+Get-Credential 
+;
+[Get-Culture | Gets information about the regional settings on a computer]
+Get-Culture 
+;
+[Get-Date | Gets the current date and time]
+Get-Date 
+;
+[Get-Eventlog | Gets information about local event logs or the entries stored in those event logs]
+Get-Eventlog 
+;
+[Get-ExecutionPolicy | Gets the current execution policy for the shell]
+Get-ExecutionPolicy 
+;
+[Get-Help | Displays information about Windows PowerShell cmdlets and concepts]
+Get-Help 
+;
+[Get-History | Gets a list of the commands entered during the current session]
+Get-History 
+;
+[Get-Host | Gets a reference to the current console host object. Displays Windows Powershell version and regional information by default]
+Get-Host 
+;
+[Get-Item | Gets the item at the specified location]
+Get-Item 
+;
+[Get-ItemProperty | Retrieves the properties of a specified item]
+Get-ItemProperty 
+;
+[Get-Location | Gets information about the current working location]
+Get-Location 
+;
+[Get-Member | Gets information about objects or collections of objects]
+Get-Member 
+;
+[Get-PfxCertificate | Gets information about .pfx certificate files on the computer]
+Get-PfxCertificate 
+;
+[Get-Process | Gets the processes that are running on the local computer]
+Get-Process 
+;
+[Get-PSDrive | Gets information about Windows PowerShell drives]
+Get-PSDrive 
+;
+[Get-PSProvider | Gets information about the specified Windows PowerShell provider]
+Get-PSProvider 
+;
+[Get-PSSnapin | Gets the Windows PowerShell snap-ins on the computer]
+Get-PSSnapin 
+;
+[Get-Service | Gets the services on the local computer]
+Get-Service 
+;
+[Get-TraceSource | Gets the Windows PowerShell components that are instrumented for tracing]
+Get-TraceSource 
+;
+[Get-UICulture | Gets information about the current user interface culture for Windows PowerShell]
+Get-UICulture 
+;
+[Get-Unique | Returns the unique items from a sorted list]
+Get-Unique 
+;
+[Get-Variable | Gets the variables in the current console]
+Get-Variable 
+;
+[Get-WmiObject | Gets instances of WMI classes or information about available classes]
+Get-WmiObject 
+;
+[Group-Object | Groups objects that contain the same value for specified properties]
+Group-Object 
+;
+[Import-Alias | Imports an alias list from a file]
+Import-Alias 
+;
+[Import-Clixml | Imports a CLIXML file and creates corresponding objects within Windows PowerShell]
+Import-Clixml 
+;
+[Import-Csv | Imports comma-separated value (CSV) files in the format produced by the Export-CSV cmdlet and returns objects that correspond to the objects represented in that CSV file]
+Import-Csv 
+;
+[Invoke-Expression | Expression:Runs a Windows PowerShell expression that is provided in the form of a string]
+Invoke-Expression 
+;
+[Invoke-History | Runs commands from the session history]
+Invoke-History 
+;
+[Invoke-Item | Invokes the provider-specific default action on the specified item]
+Invoke-Item 
+;
+[Join-Path | Combines a path and child-path into a single path. The provider supplies the path delimiters]
+Join-Path 
+;
+[Measure-Command | Measures the time it takes to run script blocks and cmdlets]
+Measure-Command 
+;
+[Measure-Object | Measures characteristics of objects and their properties]
+Measure-Object 
+;
+[Move-Item | Moves an item from one location to another]
+Move-Item 
+;
+[Move-ItemProperty | Moves a property from one location to another]
+Move-ItemProperty 
+;
+[New-Alias | Creates a new alias]
+New-Alias 
+;
+[New-Item | Creates a new item in a namespace]
+New-Item 
+;
+[New-ItemProperty | Sets a new property of an item at a location]
+New-ItemProperty 
+;
+[New-Object | Creates an instance of a .Net or COM object]
+New-Object 
+;
+[New-PSDrive | Installs a new Windows PowerShell drive]
+New-PSDrive 
+;
+[New-Service | Creates a new entry for a Windows Service in the registry and the Service Database]
+New-Service 
+;
+[New-TimeSpan | Creates a TimeSpan object]
+New-TimeSpan 
+;
+[New-Variable | Creates a new variable]
+New-Variable 
+;
+[Out-Default | Sends the output to the default formatter and the default output cmdlet. It is a placeholder that lets you write your own Out-Default function or cmdlet]
+Out-Default 
+;
+[Out-File | Sends output to a file]
+Out-File 
+;
+[Out-Host | Sends output to the command line]
+Out-Host 
+;
+[Out-Null | Deletes output instead of sending it to the console]
+Out-Null 
+;
+[Out-Printer | Sends output to a printer]
+Out-Printer 
+;
+[Out-String | Sends objects to the host as a series of strings]
+Out-String 
+;
+[Pop-Location | Changes the current location to the location most recently pushed onto the stack]
+Pop-Location 
+;
+[Push-Location | Pushes the current location onto the stack]
+Push-Location 
+;
+[Read-Host | Reads a line of input from the console]
+Read-Host 
+;
+[Remove-Item | Deletes the specified items]
+Remove-Item 
+;
+[Remove-ItemProperty | Deletes the property and its value from an item]
+Remove-ItemProperty 
+;
+[Remove-PSDrive | Removes a Windows PowerShell drive from its location]
+Remove-PSDrive 
+;
+[Remove-PSSnapin | Removes Windows PowerShell snap-ins from the current console]
+Remove-PSSnapin 
+;
+[Remove-Variable | Deletes a variable and its value]
+Remove-Variable 
+;
+[Rename-Item | Renames an item in a Windows PowerShell provider namespace]
+Rename-Item 
+;
+[Rename-ItemProperty | Renames a property of an item]
+Rename-ItemProperty 
+;
+[Resolve-Path | Resolves the wildcard characters in a path and displays the path contents]
+Resolve-Path 
+;
+[Restart-Service | Stops and then starts one or more services]
+Restart-Service 
+;
+[Resume-Service | Resumes one or more suspended (paused) services]
+Resume-Service 
+;
+[Select-Object | Selects specified properties of an object or set of objects. It can also select unique objects from an array of objects or it can select a specified number of objects from the beginning or end of an array of objects]
+Select-Object 
+;
+[Select-String | Identifies patterns in strings]
+Select-String 
+;
+[Set-Acl | Changes the security descriptor of a specified resource, such as a file or a registry key]
+Set-Acl 
+;
+[Set-Alias | Creates or changes an alias (alternate name) for a cmdlet or other command element in the current Windows PowerShell session]
+Set-Alias 
+;
+[Set-AuthenticodeSignature | Uses an authenticode signature to sign a Windows PowerShell script or other file]
+Set-AuthenticodeSignature 
+;
+[Set-Content | Writes or replaces the content in an item with new content]
+Set-Content 
+;
+[Set-Date | Changes the system time on the computer to a time that you specify]
+Set-Date 
+;
+[Set-ExecutionPolicy | Changes the user preference for the execution policy of the shell]
+Set-ExecutionPolicy 
+;
+[Set-Item | Changes the value of an item to the value specified in the command]
+Set-Item 
+;
+[Set-ItemProperty | Sets the value of a property at the specified location]
+Set-ItemProperty 
+;
+[Set-Location | Sets the current working location to a specified location]
+Set-Location 
+;
+[Set-PSDebug | Turns script debugging features on and off, sets the trace level and toggles strict mode]
+Set-PSDebug 
+;
+[Set-Service | Changes the display name, description, or starting mode of a service]
+Set-Service 
+;
+[Set-TraceSource | Configures, starts, and stops a trace of Windows PowerShell components]
+Set-TraceSource 
+;
+[Set-Variable | Sets the value of a variable. Creates the variable if one with the requested name does not exist]
+Set-Variable 
+;
+[Sort-Object | Sorts objects by property values]
+Sort-Object 
+;
+[Split-Path | Returns the specified part of a path]
+Split-Path 
+;
+[Start-Service | Starts one or more stopped services]
+Start-Service 
+;
+[Start-Sleep | Suspend shell, script, or runspace activity for the specified period of time]
+Start-Sleep 
+;
+[Start-Transcript | Creates a record of all or part of a Windows PowerShell session in a text file]
+Start-Transcript 
+;
+[Stop-Process | Stops one or more running processes]
+Stop-Process 
+;
+[Stop-Service | Stops one or more running services]
+Stop-Service 
+;
+[Stop-Transcript | Stops a transcript]
+Stop-Transcript 
+;
+[Suspend-Service | Suspends (pauses) one or more running services]
+Suspend-Service 
+;
+[Tee-Object | Pipes object input to a file or variable, then passes the input along the pipeline]
+Tee-Object 
+;
+[Test-Path | Determines whether all elements of a path exist]
+Test-Path 
+;
+[Trace-Command | The Trace-Command cmdlet configures and starts a trace of the specified expression or command]
+Trace-Command 
+;
+[Update-FormatData | Updates and appends format data files]
+Update-FormatData 
+;
+[Update-TypeData | Updates the current extended type configuration by reloading the .types.ps1xml files into memory]
+Update-TypeData 
+;
+[Where-Object | Creates a filter that controls which objects will be passed along a command pipeline]
+Where-Object 
+;
+[Write-Debug | Writes a debug message to the host display]
+Write-Debug 
+;
+[Write-Error | Writes an object to the error pipeline]
+Write-Error 
+;
+[Write-Host | Displays objects by using the host user interface]
+Write-Host 
+;
+[Write-Output | Writes objects to the success pipeline]
+Write-Output 
+;
+[Write-Progress | Displays a progress bar within a Windows PowerShell command window]
+Write-Progress 
+;
+[Write-Warning | Writes a warning message]
+Write-Warning 
+;
+[Write-Verbose | Writes a string to the verbose display of the host]
+Write-Verbose 

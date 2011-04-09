@@ -1,0 +1,8 @@
+; PSPad code template for General
+; Created by PSPad   24.01.2008  11:57
+; Author:  Doug
+;
+[modtemplate | erlang module template]*Alt+F9
+-module().
+-export([]).
+

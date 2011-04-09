@@ -1,0 +1,647 @@
+; PSPad code template for AutoIT Version 2.63
+; Created by PSPad   11.11.2002  15:21
+; Author:  petrf@wo.cz
+;
+[Macro definition]
+%OnOff%=@C On/Off=,,,On;Off,
+%Number%=@E Number=,,0,,
+%Number2%=@E Number=,", ",,,
+%Variable%=@E Variable=,,,,
+%Value%=@E Value=,,,,
+%Text%=@E Text=,,,,
+%Text2%=@E Text=,", ",,,
+%Filename%=@O File Name=,,,TXT  files (*.txt)|*.txt,,A\\
+%FilenameExe%=@O File Name=,,,TXT  files (*.exe)|*.exe,,A\\
+%FilenameIni%=@O File Name=,,,TXT  files (*.ini)|*.ini,,A\\
+%Line%=@E Line Number=,,,,
+%FilenameVar%=@E Filename Var=,,,,
+%OnOff2%=@C 1/0=,,,1;0,
+%WorkingDirectory%=@S Working Directory=,",",,,,A\\
+%label%=@E Label=,,,,
+%StringVariable%=@E String Variable=,,,,
+%SearchString%=@E Search String=,,,,
+%Command%=@C Command=,,,ADLIBOFF;ADLIBON;BLOCKINPUT;BREAK;DETECTHIDDENTEXT;ENDREPEAT;ENVADD;ENVDIV;ENVMULT;ENVSUB;EXIT;FILEAPPEND;FILEREADLINE;FILESELECTFILE;GOSUB;GOTO;HIDEAUTOITWIN;IFEQUAL;IFEXIST;IFGREATER;IFGREATEROREQUAL;IFINSTRING;IFLESS;IFLESSOREQUAL;IFMSGBOX;IFNOTEQUAL;IFNOTEXIST;IFNOTINSTRING;IFWINACTIVE;IFWINEXIST;IFWINNOTACTIVE;IFWINNOTEXIST;INIDELETE;INIREAD;INIWRITE;INPUTBOX;LEFTCLICK;LEFTCLICKDRAG;MOUSEGETPOS;MOUSEMOVE;MSGBOX;RANDOM;REGDELETE;REGREAD;REGWRITE;REPEAT;RETURN;RIGHTCLICK;RIGHTCLICKDRAG;RUN;RUNWAIT;SEND;SETBATCHLINES;SETCAPSLOCKSTATE;SETENV;SETKEYDELAY;SETSTORECAPSLOCKMODE;SETTITLEMATCHMODE;SETWINDELAY;SHUTDOWN;SLEEP;SPLASHTEXTOFF;SPLASHTEXTON;STRINGCASESENSE;STRINGGETPOS;STRINGLEFT;STRINGLEN;STRINGMID;STRINGREPLACE;STRINGRIGHT;STRINGTRIMLEFT;STRINGTRIMRIGHT;WINACTIVATE;WINCLOSE;WINGETACTIVESTATS;WINGETACTIVETITLE;WINHIDE;WINKILL;WINMAXIMIZE;WINMINIMIZE;WINMINIMIZEALL;WINMINIMIZEALLUNDO;WINMOVE;WINRESTORE;WINSETTITLE;WINSHOW;WINWAIT;WINWAITACTIVE;WINWAITCLOSE;WINWAITNOTACTIVE,
+%WindowTitle%=@E Window Title=,,,,
+%WindowText%=@E Window Text=,,,,
+%FileOrDirectory%=@O File or Directory=,,,TXT  files (*.txt)|*.txt,,A\\
+%Directory%=@S Directory=,,,,,A\\
+%MsgBoxRetVal%=@C Message Box return value=,,,ABORT;CANCEL;IGNORE;NO;OK;RETRY;YES,
+%Section%=@E INI Section=,,,,
+%Key%=@E INI Key=,,,,
+%Title%=@E Title=,,,,
+%Message%=@E Message=,,,,
+%Hide%=@C Hide=,", ",,hide,
+%x%=@E X=,,0,,
+%y%=@E Y=,,0,,
+%x2%=@E X2=,,0,,
+%y2%=@E Y2=,,0,,
+%Xvariable%=@E X variable=,,,,
+%Yvariable%=@E Y variable=,,,,
+%DisplayMode%=@E Display Mode=,,0,,
+%MinValue%=@E Minimum value=,,0,,
+%MaxValue%=@E Maximum value=,,200,,
+%RegKey%=@C RegKey=,,HKEY_LOCAL_MACHINE,HKEY_LOCAL_MACHINE;HKEY_CURRENT_USER;HKEY_USERS;HKEY_CURRENT_CONFIG;HKEY_CLASSES_ROOT,
+%RegValueType%=@C RegValueType=,,REG_SZ,REG_DWORD;REG_SZ,
+%RegSubKey%=@E RegSubKey=,,,,
+%ValueName%=@E ValueName=,,,,
+%WindowState%=@C Window=,", ",,max;min;hide,
+%Count%=@E Count=,,2,,
+%KeyPresses%=@C Key Presses=,,,{!};{#};{+};{^};{{};{}};{SPACE};{ENTER};{ALT};{BACKSPACE};{DEL};{UP};{DOWN};{LEFT};{RIGHT};{HOME};{END};{ESC};{INS};{PGUP};{PGDN};{F1};{F2};{F3};{F4};{F5};{F6};{F7};{F8};{F9};{F10};{F11};{F12};{TAB};{PRINTSCREEN};{LWIN};{RWIN};{NUMLOCK};{CTRLBREAK};{PAUSE};{CAPSLOCK};{NUMPAD0};{NUMPAD1};{NUMPAD2};{NUMPAD3};{NUMPAD4};{NUMPAD5};{NUMPAD6};{NUMPAD7};{NUMPAD8};{NUMPAD9};{NUMPADMULT};{NUMPADADD};{NUMPADSUB};{NUMPADDIV};{NUMPADDOT};{APPSKEY};{ALTDOWN};{SHIFTDOWN};{CTRLDOWN};{ASC nnnn},
+%CharCode%=@E Char Code=,,32,,
+%TitleMatchMode%=@C Title Match Mode=,,1,1;2,
+%Milliseconds%=@E Milliseconds=,,20,,
+%Flag%=@C Title Match Mode=,,5,0;1;2;3;4;5;6;7;8,
+%Width%=@E Width=,,100,,
+%Height%=@E Height=,,100,,
+%NumberOfChars%=@E Number of chars=,,0,,
+%OutputVariable%=@E Output Variable=,,,,
+%InputVariable%=@E Input Variable=,,,,
+%StartChar%=@E Start char=,,0,,
+%SearchString%=@E Search String=,,,,
+%ReplaceString%=@E Replace String=,,,,
+%TitleVar%=@E Title Var=,,,,
+%WidthVar%=@E Width Var=,,,,
+%HeightVar%=@E Height Var=,,,,
+%XposVar%=@E Xpos Var=,,,,
+%YposVar%=@E Ypos Var=,,,,
+%Timeout%=@E Timeout (s.)=,,,,
+%NewTitle%=@E New Title=,,,,
+
+[AdlibOn | This will enable processing of the ADLIB section.]
+AdlibOn
+
+[AdlibOff | This will disable processing of the ADLIB section.]
+AdlibOff
+
+[BlockInput | This command with disable both mouse and keyboard input]
+BlockInput, %OnOff%
+
+[Break | This command tells AutoIt whether or not the user can close AutoIt. Default is "on" (i.e. user can close AutoIt)]
+Break, %OnOff%
+
+[DetectHiddenText | This command allows you to tell AutoIt whether or not to detect this hidden text. Default is "off".]
+DetectHiddenText, %OnOff%
+
+[Exit | This command will end the script. If the optional <exit code> is used, this will return the numeric exit code to the calling process.]
+Exit%Number2%
+
+[EnvAdd | Allows you to add, subtract, multiply and divide with Env variables. If the variable or value is not numeric, it will be taken to be zero (0).]
+EnvAdd, %Variable%, %Value%
+
+[EnvSub | Allows you to add, subtract, multiply and divide with Env variables. If the variable or value is not numeric, it will be taken to be zero (0).]
+EnvSub, %Variable%, %Value%
+|
+
+[EnvMult | Allows you to add, subtract, multiply and divide with Env variables. If the variable or value is not numeric, it will be taken to be zero (0).]
+EnvMult, %Variable%, %Value%
+|
+
+[EnvDiv | Allows you to add, subtract, multiply and divide with Env variables. If the variable or value is not numeric, it will be taken to be zero (0).]
+EnvDiv, %Variable%, %Value%
+|
+
+[FileAppend | This command will append "Text" to the end of a file. If the file does not exist, it will be created.]
+FileAppend, %Text%, %Filename%
+|
+
+[FileReadLine | This command will read a line from a file of text into a variable. Line 1 is taken to be the first line.]
+FileReadLine, %Variable%, %Filename%, %Line%
+|
+;
+[FileSelectFile | This command will show the standard file selection dialog. If the second parameter is "1" then the filename must already exist. On completion, %ERRORLEVEL% is set to 0 if successful. If the user cancels to operation %ERRORLEVEL% is set to 1.]
+FileSelectFile, %FilenameVar%, %OnOff2% %WorkingDirectory%
+|
+;
+[Gosub | Just like the old BASIC commands. Gosub will branch to a specified label. Return will return to the line after the Gosub command.]
+Gosub, %label%
+|
+;
+[Return | Just like the old BASIC commands. Gosub will branch to a specified label. Return will return to the line after the Gosub command.]
+Return
+|
+;
+[Goto | Script execution will continue at the specified label.]
+Goto, %label%
+|
+;
+[HideAutoItWin | This command can be used to completely hide the AutoIt window and tray icon from the user.]
+HideAutoItWin, %OnOff%
+|
+;
+[IfInString | Checks to see if the contents of the <Search String Variable> is/is not present in the string <String>. If the condition is met, <Command> will be executed.]
+IfInString, %StringVariable%, %SearchString%, %Command%|
+;
+[IfNotInString | Checks to see if the contents of the <Search String Variable> is/is not present in the string <String>. If the condition is met, <Command> will be executed.]
+IfNotInString, %StringVariable%, %SearchString%, %Command%|
+;
+[IfWinExist | If the condition is met (i.e. the window title and text exists, is active, doesn't exist, is inactive) then the script will execute the <Command>.]
+IfWinExist, %WindowTitle%, %WindowText%, %Command%|
+;
+[IfWinNotExist | If the condition is met (i.e. the window title and text exists, is active, doesn't exist, is inactive) then the script will execute the <Command>.]
+IfWinNotExist ,%WindowTitle%, %WindowText%, %Command%|
+;
+[IfWinActive | If the condition is met (i.e. the window title and text exists, is active, doesn't exist, is inactive) then the script will execute the <Command>.]
+IfWinActive, %WindowTitle%, %WindowText%, %Command%|
+;
+[IfWinNotActive | If the condition is met (i.e. the window title and text exists, is active, doesn't exist, is inactive) then the script will execute the <Command>.]
+IfWinNotActive, %WindowTitle%, %WindowText%, %Command%|
+;
+[IfEqual | Will compare the DOS variable <variable> with <text> and branch depending on the result.]
+IfEqual, %variable%, %text%, %Command%|
+;
+[IfNotEqual | Will compare the DOS variable <variable> with <text> and branch depending on the result.]
+IfNotEqual, %variable%, %text%, %Command%|
+;
+[IfGreater | Will compare the DOS variable <variable> with <number> and branch depending on the result. If the parameters are not numeric they will be treated as being zero.]
+IfGreater, %variable%, %Number%, %Command%|
+;
+[IfGreaterOrEqual | Will compare the DOS variable <variable> with <number> and branch depending on the result. If the parameters are not numeric they will be treated as being zero.]
+IfGreaterOrEqual, %variable%, %Number%, %Command%|
+;
+[IfLess | Will compare the DOS variable <variable> with <number> and branch depending on the result. If the parameters are not numeric they will be treated as being zero.]
+IfLess, %variable%, %Number%, %Command%|
+;
+[IfLessOrEqual | Will compare the DOS variable <variable> with <number> and branch depending on the result. If the parameters are not numeric they will be treated as being zero.]
+IfLessOrEqual, %variable%, %Number%, %Command%|
+;
+[IfExist | Will cause the script to execute <Command> if the specified file or directory exists/doesn't exists.]
+IfExist, %FileOrDirectory%, %Command%|
+;
+[IfNotExist | Will cause the script to execute <Command> if the specified file or directory exists/doesn't exists.]
+IfNotExist, %FileOrDirectory%, %Command%|
+;
+[IfMsgBox | Use this to execute a command based on the button the user pressed in the MsgBox command. Valid return values from MsgBox are: ABORT, CANCEL, IGNORE, NO, OK, RETRY, YES.]
+IfMsgBox, %MsgBoxRetVal%, %Command%|
+;
+[IniRead | Allows reading and writing of standard windows .ini files., i.e. the following format.]
+IniRead, %Variable%, %FilenameIni%, %Section%, %Key%
+|
+;
+[IniWrite | Allows reading and writing of standard windows .ini files., i.e. the following format.]
+IniWrite, %Value%, %FilenameIni%, %Section%, %Key%
+|
+;
+[IniDelete | Allows reading and writing of standard windows .ini files., i.e. the following format.]
+IniDelete, %FilenameIni%, %Section%, %Key%
+|
+;
+[InputBox | Will cause a dialog box with <message> to appear. The user can enter text, press OK, and the text will be stored in the DOS variable <variable>. If the "hide" parameter is used, input will be masked (eg. for passwords).]
+InputBox, %Variable%, %Title%, %Message%%Hide%
+|
+;
+[LeftClick | Simulates a left mouse button click. The X and Y co-ordinates are relative to the currently active window.]
+LeftClick, %x%, %y%
+|
+;
+[RightClick | Simulates a right mouse button click. The X and Y co-ordinates are relative to the currently active window.]
+RightClick, %x%, %y%
+|
+;
+[LeftClickDrag | Drags the mouse pointer from x1,y1 to x2,y2 with the relevant mousebutton held down. The co-ordinates are relative to the current active window.]
+LeftClickDrag, %x%, %y%, %x2%, %y2%
+|
+;
+[RightClickDrag | Drags the mouse pointer from x1,y1 to x2,y2 with the relevant mousebutton held down. The co-ordinates are relative to the current active window.]
+RightClickDrag, %x%, %y%, %x2%, %y2%
+|
+;
+[MouseGetPos | This command will get the current position of the mouse cursor into the 'x' and 'y' variables. The co-ords are relative to the active window.]
+MouseGetPos, %Xvariable%, %Yvariable%
+|
+;
+[MouseMove | This command will move the mouse cursor to the position <xpos>, <ypos>. The co-ords are relative to the active window.]
+MouseMove, %x%, %y%
+|
+;
+[MsgBox | Displays a dialog box with the specified message. Different display modes will give different results (appearance, number of buttons). A list of modes is given below, add up the numbers of the display modes you want.]
+MsgBox, %DisplayMode%, %Title%, %Message%
+|
+;
+[Random | This command produces a random number between <Min Value> and <Max Value>. (These values must be between 0 and 32767).]
+Random, %Variable%, %MinValue%, %MaxValue%
+|
+;
+[RegRead | This command allows you to read REG_SZ and REG_DWORD values from the regsitry. If the command is successful %ERRORLEVEL% is set to 0, otherwise it is set to 1.]
+RegRead, %Variable%, %RegValueType%, %RegKey%, %RegSubKey%, %ValueName%
+|
+;
+;
+[RegWrite | Similar to the RegRead command, this command will allow you to create or modify a registry key. If the command is successful %ERRORLEVEL% is set to 0, otherwise it is set to 1.]
+RegWrite, %RegValueType%, %RegKey%, %RegSubKey%, %ValueName%, %Value%
+|
+;
+[RegDelete | This command will delete a regsitry value. If the command is successful %ERRORLEVEL% is set to 0, otherwise it is set to 1.]
+RegDelete, %RegKey%, %RegSubKey%, %ValueName%
+|
+;
+[Run | Executes a given program and proceeds to the next line of the script. N.B. The program to run and the working directory are separated by a comma ','. The working directory is optional.]
+Run, %FilenameExe%, %Directory%%WindowState%
+|
+;
+[RunWait | Same as the Run command but waits for the program to finish before continuing (recommended when running DOS commands such as copy, md, del, etc.).]
+RunWait, %FilenameExe%, %Directory%%WindowState%
+|
+;
+[Repeat | This will repeat a section of the script up to the following "EndRepeat" command a total of <Count> times. If <Count> is zero, the loop will be infinite. Repeat statements can be nested.]
+Repeat, %Count%
+	|
+EndRepeat
+;
+[EndRepeat | This will repeat a section of the script up to the following "EndRepeat" command a total of <Count> times. If <Count> is zero, the loop will be infinite. Repeat statements can be nested.]
+EndRepeat
+|
+;
+[Send | Sends a set of keystrokes to the currently active window. (The syntax of these keystrokes can be found in the following section).]
+Send, %KeyPresses%
+|
+;
+[A_OSTYPE |B The type of Operating System being run.  Either "WIN32_WINDOWS" or "WIN32_NT".]
+A_OSTYPE
+;
+[A_OSVERSION |B "WIN_XP", "WIN_2000", "WIN_NT4", "WIN_95", "WIN_98", "WIN_ME".]
+A_OSVERSION
+;
+[A_SCRIPTNAME |B The current script name, e.g. "myscript.aut".]
+A_SCRIPTNAME
+;
+[A_SCRIPTDIR |B The directory that the current script resides in.]
+A_SCRIPTDIR
+;
+[A_SCRIPTFULLPATH |B The full pathname of the current script, e.g. "C:\Windows\Scripts\myscript.aut".]
+A_SCRIPTFULLPATH
+;
+[A_WORKINGDIR |B The current working directory.]
+A_WORKINGDIR
+;
+[A_NUMBATCHLINES |B The current setting of the "SetBatchLines" command.]
+A_NUMBATCHLINES
+;
+[A_SEC |B Seconds after the minute (00-59)]
+A_SEC
+;
+[A_MIN |B Minutes after the hour (00-59)]
+A_MIN
+;
+[A_HOUR |B Hours after midnight (00-23)]
+A_HOUR
+;
+[A_MDAY |B Day of the month (01-31)]
+A_MDAY
+;
+[A_MON |B Month of the year (01-12)]
+A_MON
+;
+[A_YEAR |B The current year (4 digit format, e.g. 2000)]
+A_YEAR
+;
+[A_WDAY |B Day of the week (1-7)]
+A_WDAY
+;
+[A_YDAY |B Day of the year (1-366)]
+A_YDAY
+;
+[SetCapslockState | This command will correctly set the state of the CAPSLOCK key to either on or off.]
+SetCapslockState, %OnOff%
+|
+;
+[SetEnv | This command will set an environment variable to the specified value.]
+SetEnv, %Variable%, %Value%
+|
+;
+[{!} |N !]
+{!}
+;
+[{#} |N #]
+{#}
+;
+[{+} |N +]
+{+}
+;
+[{^} |N ^]
+{^}
+;
+[{{} |N {]
+{{}
+;
+[{}} |N }]
+{}}
+;
+[{SPACE} |N SPACE]
+{SPACE}
+;
+[{ENTER} |N ENTER]
+{ENTER}
+;
+[{ALT} |N ALT]
+{ALT}
+;
+[{BACKSPACE} |N BACKSPACE]
+{BACKSPACE}
+;
+[{DEL} |N DELETE]
+{DEL}
+;
+[{UP} |N Cursor up]
+{UP}
+;
+[{DOWN} |N Cursor down]
+{DOWN}
+;
+[{LEFT} |N Cursor left]
+{LEFT}
+;
+[{RIGHT} |N Cursor right]
+{RIGHT}
+;
+[{HOME} |N HOME]
+{HOME}
+;
+[{END} |N END]
+{END}
+;
+[{ESC} |N ESCAPE]
+{ESC}
+;
+[{INS} |N INS]
+{INS}
+;
+[{PGUP} |N PGUP]
+{PGUP}
+;
+[{PGDN} |N PGDN]
+{PGDN}
+;
+[{F1} |N Function keys]
+{F1}
+;
+[{F2} |N Function keys]
+{F2}
+;
+[{F3} |N Function keys]
+{F3}
+;
+[{F4} |N Function keys]
+{F4}
+;
+[{F5} |N Function keys]
+{F5}
+;
+[{F6} |N Function keys]
+{F6}
+;
+[{F7} |N Function keys]
+{F7}
+;
+[{F8} |N Function keys]
+{F8}
+;
+[{F9} |N Function keys]
+{F9}
+;
+[{F10} |N Function keys]
+{F10}
+;
+[{F11} |N Function keys]
+{F11}
+;
+[{F12} |N Function keys]
+{F12}
+;
+[{TAB} |N TAB]
+{TAB}
+;
+[{PRINTSCREEN} |N PRINTSCR]
+{PRINTSCREEN}
+;
+[{LWIN} |N Left Windows key]
+{LWIN}
+;
+[{RWIN} |N Right Windows key]
+{RWIN}
+;
+[{NUMLOCK} |N NUMLOCK]
+{NUMLOCK}
+;
+[{CTRLBREAK} |N Ctrl+break]
+{CTRLBREAK}
+;
+[{PAUSE} |N PAUSE]
+{PAUSE}
+;
+[{CAPSLOCK} |N CAPSLOCK]
+{CAPSLOCK}
+;
+[{NUMPAD0} |N Numpad digits]
+{NUMPAD0}
+;
+[{NUMPAD1} |N Numpad digits]
+{NUMPAD1}
+;
+[{NUMPAD2} |N Numpad digits]
+{NUMPAD2}
+;
+[{NUMPAD3} |N Numpad digits]
+{NUMPAD3}
+;
+[{NUMPAD4} |N Numpad digits]
+{NUMPAD4}
+;
+[{NUMPAD5} |N Numpad digits]
+{NUMPAD5}
+;
+[{NUMPAD6} |N Numpad digits]
+{NUMPAD6}
+;
+[{NUMPAD7} |N Numpad digits]
+{NUMPAD7}
+;
+[{NUMPAD8} |N Numpad digits]
+{NUMPAD8}
+;
+[{NUMPAD9} |N Numpad digits]
+{NUMPAD9}
+;
+[{NUMPADMULT} |N Numpad Multiply]
+{NUMPADMULT}
+;
+[{NUMPADADD} |N Numpad Add]
+{NUMPADADD}
+;
+[{NUMPADSUB} |N Numpad Subtract]
+{NUMPADSUB}
+;
+[{NUMPADDIV} |N Numpad Divide]
+{NUMPADDIV}
+;
+[{NUMPADDOT} |N Numpad period]
+{NUMPADDOT}
+;
+[{APPSKEY} |N Windows App key]
+{APPSKEY}
+;
+[{ALTDOWN} |N Holds the ALT key down until {ALTUP} is sent]
+{ALTDOWN}
+;
+[{SHIFTDOWN} |N Holds the SHIFT key down until {SHIFTUP} is sent]
+{SHIFTDOWN}
+;
+[{CTRLDOWN} |N Holds the CTRL key down until {CTRLUP} is sent]
+{CTRLDOWN}
+;
+[{ASC nnnn} |N Send the ALT+nnnn key combination]
+{ASC %CharCode%}
+;
+[SetBatchLines | Usually, AutoIt executes each line of a script during a 10ms timer cycle (under NT is it 10ms, under 9x it could be a much larger time). This can mean that in scripts which do a lot of String/Variable processing, the scripts can be quite slow. The SetBatchLines command can be used to change the number of script lines that are processed in a timer cycle. The default is 1. The maximum value is 32767. Note: For very high values, AutoIt will start to impact the available CPU time. The current value of SetBatchLines can be obtained from the special variable "A_NUMBATCHLINES".]
+SetBatchLines, %Number%
+|
+;
+[SetKeyDelay | Changes the delay between keystrokes in milliseconds. Max is 32767. Default is 20ms. 1000 milliseconds = 1 second.]
+SetKeyDelay, %Milliseconds%
+|
+;
+[SetStoreCapslockMode | By default, at the start of a "Send" command AutoIt will store the state of the CAPSLOCK key; at the end of the "Send" command this status will be restored. Use this command to turn off this behavior.]
+SetStoreCapslockMode, %OnOff%
+|
+;
+[SetTitleMatchMode | Changes the way that window titles are matched against the script. Valid modes are "1" and "2" - the default is "1". This mode affects most of the commands within AutoIt that have any sort of window title and text in the command, i.e. WinWait, WinWaitActive, IfWinActive, etc.]
+SetTitleMatchMode, %TitleMatchMode%
+|
+;
+[SetWinDelay | This changes the time that AutoIt pauses after carrying out a window related function (waiting for, minimizing, restoring, etc.) before continuing. This is useful on very slow machines, or when you have things like window animation enabled. The default is 500 milliseconds.]
+SetWinDelay, %Milliseconds%
+|
+;
+[Shutdown | This command allows you to perform various forms of shutdown. The type is determined by <Flag>.]
+;;Function					Flag
+;;Log off the current user	0
+;;Shutdown the workstation	1
+;;Reboot the workstation		2
+;;Force closing of applications (may lose unsaved work) 4
+;;Shutdown and power off (if supported) 8
+;
+;;e.g. To shutdown and force applications to close without saving = Shutdown + Force = 1 + 4 = 5:
+Shutdown, %Flag%
+|
+;
+[Sleep | Halts execution of the script for the given number of milliseconds. Max is 32767 (1000 milliseconds = 1 second).]
+;; Max is 32767 (1000 milliseconds = 1 second)
+Sleep, %Milliseconds%
+|
+;
+[SplashTextOn | This command brings up a window the specified message and title. The window stays topmost without interfering with windows behind it. Useful for automation when you can bring up a "Don't Touch" message for the user without affecting other windows.]
+SplashTextOn, %Width%, %Height%, %Title%, %Message%
+|
+;
+[SplashTextOff | Removes the splash text screen from view.]
+SplashTextOff
+|
+;
+[StringCaseSense | This command will turn case sensitivity on or off for the commands: IfEqual, IfNotEqual, IfInString, IfNotInString, StringReplace and StringGetPos.]
+;; This command will turn case sensitivity on or off for the commands:
+;; IfEqual, IfNotEqual, IfInString, IfNotInString, StringReplace and StringGetPos.
+StringCaseSense, %OnOff%
+|
+;
+[StringLeft | This command takes the contents of <Input Variable>, extracts a number of characters and places the result in <Output Variable>.]
+StringLeft, %OutputVariable% , %InputVariable%, %NumberOfChars%
+|
+;
+[StringRight | This command takes the contents of <Input Variable>, extracts a number of characters and places the result in <Output Variable>.]
+StringRight, %OutputVariable% , %InputVariable%, %NumberOfChars%
+|
+;
+[StringMid | This command takes the contents of <Input Variable>, extracts a number of characters starting from <Start char> and places the result in <Output Variable>.]
+StringMid, %OutputVariable% , %InputVariable%, %StartChar%, %NumberOfChars%
+|
+;
+[StringLen | This command takes the contents of <Input Variable> and puts the number of characters in the string into <Output Variable>.]
+StringLen, %OutputVariable% , %InputVariable%
+|
+;
+[StringReplace | This command will search for the <Search String> in the contents of the variable <Input Variable>. The search string will be replace by <Replace String> and the result will be placed in the variable <Output Variable>. If the search string cannot be found, the contents of <Output Variable> will be the same as <Input Variable>.]
+StringReplace, %OutputVariable% , %InputVariable%, %SearchString%, %ReplaceString%
+|
+;
+[StringTrimLeft | This command takes the contents of <Input Variable>, trims a number of characters and places the result in <Output Variable>.]
+StringTrimLeft, %OutputVariable% , %InputVariable%, %NumberOfChars%
+|
+;
+[StringTrimRight | This command takes the contents of <Input Variable>, trims a number of characters and places the result in <Output Variable>.]
+StringTrimRight, %OutputVariable% , %InputVariable%, %NumberOfChars%
+|
+;
+[StringGetPos | This command takes the contents of <Input Variable>, searches for the string <Search Text> and returns the position of the string in <Output Variable>. If the search string is not found, %ERRORLEVEL% is set to 1, otherwise it is set to 0. Position "0" is the first character.]
+StringGetPos, %OutputVariable% , %InputVariable%, %SearchString%
+|
+;
+[WinGetActiveStats | This command allows you to receive much information from the active window, including: Windows title, window width, window height, window x-position and window y-position.]
+WinGetActiveStats, %TitleVar%, %WidthVar%, %HeightVar%, %XposVar%, %YposVar%
+|
+;
+[WinGetActiveTitle | This command gets the title of the active window and puts it in the DOS variable <Variable>]
+WinGetActiveTitle, %TitleVar%
+|
+;
+[WinKill | Similar to WinClose, but if the window has not closed after a couple of seconds (Asking to save, crashed, etc.) the window will be forcibly terminated.]
+WinKill, %Title% ,%Text%
+|
+;
+[WinWait | Stops script execution until the specified window exists. The window does not need be active.]
+WinWait, %Title% ,%Text%, %Timeout%
+|
+
+[WinWaitClose | Stops script execution until the specified window ceases to exist.]
+WinWaitClose, %Title% ,%Text%, %Timeout%
+|
+;
+[WinWaitActive | Stops script execution until the specified window to exists and is active.]
+WinWaitActive, %Title% ,%Text%, %Timeout%
+|
+;
+[WinWaitNotActive | Stops script execution until the specified window ceases to be active.]
+WinWaitNotActive, %Title% ,%Text%, %Timeout%
+|
+;
+[WinHide | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinHide, %Title%%Text2%
+|
+;
+[WinShow | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinShow, %Title%%Text2%
+|
+;
+[WinRestore | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinRestore, %Title%%Text2%
+|
+;
+[WinMinimize | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinMinimize, %Title%%Text2%
+|
+;
+[WinMaximize | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinMaximize, %Title%%Text2%
+|
+;
+[WinActivate | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinActivate, %Title%%Text2%
+|
+;
+[WinClose | If the window exists, the relevant command (i.e. minimizing, hiding, activating, etc.) will be performed.]
+WinClose, %Title%%Text2%
+|
+;
+[WinMove | If the window in Title and Text exists, it is moved to <X>, <Y> and resized to <Width>, <Height>]
+WinMove, %Title% ,%Text%, %x%, %y%, %Width%, %Height%
+|
+;
+[WinSetTitle | Use this command to rename a window.]
+WinSetTitle, %Title%, %Text%, %NewTitle%
+|
+;
+[WinMinimizeAll | The "WinMinimizeAll" command minimizes all windows; "WinMinimizeAllUndo" will undo this action. If any windows are manipulated by AutoIt or the user, then "WinMinimizeAllUndo" will not have any effect on these "touched" windows.]
+WinMinimizeAll
+|
+;
+[WinMinimizeAllUndo | The "WinMinimizeAll" command minimizes all windows; "WinMinimizeAllUndo" will undo this action. If any windows are manipulated by AutoIt or the user, then "WinMinimizeAllUndo" will not have any effect on these "touched" windows.]
+WinMinimizeAllUndo
+|

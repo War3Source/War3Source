@@ -1,0 +1,194 @@
+; PSPad clip definition file for VBScript
+; author: ing. Jan Fiala pspad@wo.cz
+; last revision: 14.8.2001
+;
+[Add | Adds a key and item pair to a Dictionary object]
+Add |key, item
+[Add | Adds a new Folder to a Folders collection]
+Add(|folderName)
+[BuildPath | Appends a name to an existing path]
+BuildPath(|path, name)
+[Clear | Clears all property settings of the Err object]
+Clear|
+[Close | Closes an open TextStream file]
+Close|
+[Copy | Copies a specified file or folder from one location to another]
+Copy destination|[, overwrite]
+[CopyFile | Copies one or more files from one location to another]
+CopyFile source, destination|[, overwrite]
+[CopyFolder | Recursively copies a folder from one location to another]
+CopyFolder source, destination|[, overwrite]
+[CreateFolder | Creates a folder]
+CreateFolder(|foldername)
+[CreateTextFile | Creates a specified file name and returns a TextStream object that can be used to read from or write to the file]
+CreateTextFile(|filename[, overwrite[, unicode]])
+[Delete | Deletes a specified file or folder]
+Delete |force
+[DeleteFile | Deletes a specified file]
+DeleteFile filespec|[, force]
+[DeleteFolder | Deletes a specified folder and its contents]
+DeleteFolder folderspec|[, force]
+[DriveExists | Returns True if the specified drive exists; False if it does not]
+DriveExists(|drivespec)
+[Execute | Executes a regular expression search against a specified string]
+Execute(|string)
+[Exists | Returns True if a specified key exists in the Dictionary object, False if it does not]
+Exists(|key)
+[FileExists | Returns True if a specified file exists; False if it does not]
+FileExists(|filespec)
+[FolderExists | Returns True if a specified folder exists; False if it does not]
+FolderExists(|folderspec)
+[GetAbsolutePathName | Returns a complete and unambiguous path from a provided path specification]
+GetAbsolutePathName(|pathspec)
+[GetBaseName | Returns a string containing the base name of the file (less any file extension), or folder in a provided path specification]
+GetBaseName(|path)
+[GetDrive | Returns a Drive object corresponding to the drive in a specified path]
+GetDrive |drivespec
+[GetDriveName | Returns a string containing the name of the drive for a specified path]
+GetDriveName(|path)
+[GetExtensionName | Returns a string containing the extension name for the last component in a path]
+GetExtensionName(|path)
+[GetFile | Returns a File object corresponding to the file in a specified path]
+GetFile(|filespec)
+[GetFileName | Returns the last file name or folder of a specified path that is not part of the drive specification]
+GetFileName(|pathspec)
+[GetFolder | Returns a Folder object corresponding to the folder in a specified path]
+GetFolder(|folderspec)
+[GetParentFolderName | Returns a string containing the name of the parent folder of the last file or folder in a specified path]
+GetParentFolderName(|path)
+[GetSpecialFolder | Returns the special folder specified]
+GetSpecialFolder(|folderspec)
+[GetTempName | Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder]
+GetTempName|
+[Items | Returns an array containing all the items in a Dictionary object]
+Items|
+[Keys | Returns an array containing all existing keys in a Dictionary object]
+Keys|
+[Move | Moves a specified file or folder from one location to another]
+Move |destination
+[MoveFile | Moves one or more files from one location to another]
+MoveFile |source, destination
+[MoveFolder | Moves one or more folders from one location to another]
+MoveFolder |source, destination
+[OpenAsTextStream | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenAsTextStream(|[iomode, [format]])
+[OpenTextFile | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenTextFile(|filename[, iomode[, create[, format]]])
+[Raise | Generates a run-time error]
+Raise(|number, source, description, helpfile, helpcontext)
+[Read | Reads a specified number of characters from a TextStream file and returns the resulting string]
+Read(|characters)
+[ReadAll | Reads an entire TextStream file and returns the resulting string]
+ReadAll|
+[ReadLine | Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string]
+ReadLine|
+[Remove | Removes a key, item pair from a Dictionary object]
+Remove(|key)
+[RemoveAll | The RemoveAll method removes all key, item pairs from a Dictionary object]
+RemoveAll|
+[Replace | Replaces text found in a regular expression search]
+Replace(|string1, string2)
+[Skip | Skips a specified number of characters when reading a TextStream file]
+Skip(|characters)
+[SkipLine | Skips the next line when reading a TextStream file]
+SkipLine|
+[Test | Executes a regular expression search against a specified string and returns a Boolean value that indicates if a pattern match was found]
+Test(|string)
+[Write | Writes a specified string to a TextStream file]
+Write(|string)
+[WriteBlankLines | Writes a specified number of newline characters to a TextStream file]
+WriteBlankLines(|lines)
+[WriteLine | Writes a specified string and newline character to a TextStream file]
+WriteLine(|[string])
+[AtEndOfLine | Returns True if the file pointer immediately precedes the end-of-line marker in a TextStream file; False if it is not. Read-only]
+AtEndOfLine|
+[AtEndOfStream | Returns True if the file pointer is at the end of a TextStream file; False if it is not. Read-only]
+AtEndOfStream|
+[Attributes | Sets or returns the attributes of files or folders. Read/write or read-only, depending on the attribute]
+Attributes |[= newattributes]
+[AvailableSpace | Returns the amount of space available to a user on the specified drive or network share]
+AvailableSpace|
+[Column | Read-only property that returns the column number of the current character position in a TextStream file]
+Column|
+[CompareMode | Sets and returns the comparison mode for comparing string keys in a Dictionary object]
+CompareMode|[ = compare]
+[Count | Returns the number of items in a collection or Dictionary object. Read-only]
+Count|
+[DateCreated | Returns the date and time that the specified file or folder was created. Read-only]
+DateCreated|
+[DateLastAccessed | Returns the date and time that the specified file or folder was last accessed. Read-only]
+DateLastAccessed|
+[DateLastModified | Returns the date and time that the specified file or folder was last modified. Read-only]
+DateLastModified|
+[Description | Returns or sets a descriptive string associated with an error]
+Description |[= stringexpression]
+[Drive | Returns the drive letter of the drive on which the specified file or folder resides. Read-only]
+Drive|
+[DriveLetter | Returns the drive letter of a physical local drive or a network share. Read-only]
+DriveLetter|
+[Drives | Returns a Drives collection consisting of all Drive objects available on the local machine]
+Drives|
+[DriveType | Returns a value indicating the type of a specified drive]
+DriveType|
+[Files | Returns a Files collection consisting of all File objects contained in the specified folder, including those with hidden and system file attributes set]
+Files|
+[FileSystem | Returns the type of file system in use for the specified drive]
+FileSystem|
+[FirstIndex | Returns the position in a search string where a match occurs]
+FirstIndex|
+[FreeSpace | Returns the amount of free space available to a user on the specified drive or network share. Read-only]
+FreeSpace|
+[Global | Sets or returns a Boolean value that indicates if a pattern should match all occurrences in an entire search string or just the first one]
+Global |[= True | False ]
+[HelpContext | Sets or returns a context ID for a topic in a Help File]
+HelpContext |[= contextID]
+[HelpFile | Sets or returns a fully qualified path to a Help File]
+HelpFile |[= contextID]
+[IgnoreCase | Sets or returns a Boolean value that indicates if a pattern search is case-sensitive or not]
+IgnoreCase |[= True | False ]
+[IsReady | Returns True if the specified drive is ready; False if it is not]
+IsReady|
+[IsRootFolder | Returns True if the specified folder is the root folder; False if it is not]
+IsRootFolder|
+[Item | Sets or returns an item for a specified key in a Dictionary object. For collections, returns an item based on the specified key. Read/write]
+Item(|key) [= newitem]
+[Key | Sets a key in a Dictionary object]
+Key(|key) = newkey
+[Length | Returns the length of a match found in a search string]
+Length|
+[Line | Read-only property that returns the current line number in a TextStream file]
+Line|
+[Name | Sets or returns the name of a specified file or folder. Read/write]
+Name |[= newname]
+[Number | Returns or sets a numeric value specifying an error. Number is the Err object's default property]
+Number |[= errornumber]
+[ParentFolder | Returns the folder object for the parent of the specified file or folder. Read-only]
+ParentFolder|
+[Path | Returns the path for a specified file, folder, or drive]
+Path|
+[Pattern | Sets or returns the regular expression pattern being searched for]
+Pattern |[= "searchstring"]
+[RootFolder | Returns a Folder object representing the root folder of a specified drive. Read-only]
+RootFolder|
+[SerialNumber | Returns the decimal serial number used to uniquely identify a disk volume]
+SerialNumber|
+[ShareName | Returns the network share name for a specified drive]
+ShareName|
+[ShortName | Returns the short name used by programs that require the earlier 8.3 naming convention]
+ShortName|
+[ShortPath | Returns the short path used by programs that require the earlier 8.3 file naming convention]
+ShortPath|
+[Size | For files, returns the size, in bytes, of the specified file. For folders, returns the size, in bytes, of all files and subfolders contained in the folder]
+Size|
+[Source | Returns or sets the name of the object or application that originally generated the error]
+Source |[= stringexpression]
+[SubFolders | Returns a Folders collection consisting of all folders contained in a specified folder, including those with Hidden and System file attributes set]
+SubFolders|
+[TotalSize | Returns the total space, in bytes, of a drive or network share]
+TotalSize|
+[Type | Returns information about the type of a file or folder. For example, for files ending in .TXT, "Text Document" is returned]
+Type|
+[Value | Returns the value or text of a match found in a search string]
+Value|
+[VolumeName | Sets or returns the volume name of the specified drive. Read/write]
+VolumeName |[= newname]

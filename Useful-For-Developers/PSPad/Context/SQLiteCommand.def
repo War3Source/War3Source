@@ -1,0 +1,494 @@
+; PSPad clip definition file for SQLite 3.0.8 command line interface
+; SQLite command line tool is "looped back" as a "compiler".
+; author: Arpad Horvath
+; last revision: 2004.12.16
+;
+[Macro definition]
+%tablename%=@E Table name:,
+%temp%=@K TEMPORARY,TEMPORARY ,
+%f1%=@E Field:,
+%f2%=@C Type:,,varchar,char;varchar;integer;real;num;date;time;datetime;clob;blob
+%f3%=@E (len) or (ps):,
+%f4%=@K NOT NULL, NOT NULL,
+%f5%=@K PRIMARY KEY, PRIMARY KEY,
+%f6%=@K UNIQUE, UNIQUE,
+%f7%=@E DEFAULT, DEFAULT ,
+%f8%=@E COLLATE, COLLATE ,
+%f9%=@E CHECK, CHECK ,
+%t1%=@E PRIMARY KEY fields:,PRIMARY KEY ,
+%t2%=@E UNIQUE fields:, UNIQUE ,
+%t3%=@E CHECK:, CHECK ,
+[WcreateTable | CREATE TABLE template.]
+CREATE %temp%TABLE %tablename% (
+  |
+);
+[WcolumnDef | Column-def for CREATE TABLE template.]
+%f1% %f2%%f3%%f4%%f5%%f6%%f7%%f8%%f9%,
+|
+[Wconstraint | Table constraint for CREATE TABLE template.]
+%t1%%t2%%t3%|
+[Wselect | Formatted SELECT template.]
+.header on
+.mode column
+.echo on
+SELECT |*
+  FROM 
+  WHERE 
+  GROUP BY 
+  HAVING 
+  UNION | UNION ALL | INTERSECT | EXCEPT
+  ORDER BY 
+  LIMIT ;
+[WtableInfo | Formatted PRAGMA tableinfo.]
+.header on
+.mode column
+.width 3 15 15 7 10 2
+.echo on
+PRAGMA table_info(%tablename%);
+PRAGMA index_list(%tablename%);
+;
+[.databases |B List names and files of attached databases]
+.databases
+|
+[.dump ?TABLE? |B Dump the database in a text format]
+.dump |[tablename] 
+[.echo ON/OFF |B Turn command echo on or off]
+.echo ON|OFF
+[.exit |B Exit this program]
+.exit
+|
+[.explain ON/OFF |B Turn output mode suitable for EXPLAIN on or off.]
+.explain ON|OFF
+[.headers ON/OFF |B Turn display of headers on or off]
+.headers ON|OFF
+[.help |B Show this message]
+.help
+|
+[.import FILE TABLE |B Import data from FILE to TABLE.]
+.import |file table
+[.indices TABLE |B Show names of all indices on TABLE]
+.indices |tablename
+[.mode MODE ?TABLE? |B Set output mode.]
+.mode | csv | column | html | insert | line | list | tabs | tcl
+[.nullvalue STRING |B Print STRING instead of nothing for NULL data]
+.nullvalue |string
+[.output FILENAME |B Send output to FILENAME]
+.output |filename
+[.output stdout |B Send output to the screen]
+.output stdout|
+[.prompt MAIN CONTINUE |B Replace the standard prompts.]
+.prompt|
+[.quit |B Exit this program]
+.quit|
+[.read FILENAME |B Execute SQL in FILENAME]
+.read |filename
+[.schema ?TABLE? |B Show the CREATE statements]
+.schema |[tablename]
+[.separator STRING |B Change separator string for "list" mode]
+.separator |string
+[.show |B Show the current values for various settings]
+.show |
+[.tables ?PATTERN? |B List names of tables matching a pattern]
+.tables |
+[.timeout MS |B Try opening locked tables for MS milliseconds]
+.timeout |millisec
+[.width NUM NUM ... |B Set column widths for "column" mode]
+.width |num num num
+[ATTACH DATABASE | Adds a preexisting database file to the current database connection.]
+ATTACH |database-filename AS database-name;
+[BEGIN TRANSACTION | Begin transactions with rollback and atomic commit.]
+BEGIN |[DEFERRED | IMMEDIATE | EXCLUSIVE ] TRANSACTION [name]];
+END TRANSACTION [name];
+COMMIT TRANSACTION [name];
+ROLLBACK TRANSACTION [name];
+[comment| SQL-comment]
+/*
+|
+*/
+[CREATE INDEX | Create index]
+CREATE |[UNIQUE] INDEX index-name
+ON [database-name .] table-name ( column-name [, column-name]* ) [ ON CONFLICT conflict-algorithm ];
+column-name ::= 	name [ COLLATE collation-name] [ ASC | DESC ]
+[CREATE TABLE | Create table]
+CREATE |[TEMP | TEMPORARY] TABLE table-name (
+    column-def [, column-def]*
+    [, constraint]*
+);
+CREATE |[TEMP | TEMPORARY] TABLE [database-name.] table-name AS select-statement;
+column-def ::= 	name [type] [[CONSTRAINT name] column-constraint]*
+type ::= 	typename |
+typename ( number ) |
+typename ( number , number )
+column-constraint ::= 	NOT NULL [ conflict-clause ] |
+PRIMARY KEY [sort-order] [ conflict-clause ] |
+UNIQUE [ conflict-clause ] |
+CHECK ( expr ) [ conflict-clause ] |
+DEFAULT value |
+COLLATE collation-name
+constraint ::= 	PRIMARY KEY ( column-list ) [ conflict-clause ] |
+UNIQUE ( column-list ) [ conflict-clause ] |
+CHECK ( expr ) [ conflict-clause ]
+conflict-clause ::= 	ON CONFLICT conflict-algorithm
+[CREATE TRIGGER | Create trigger]
+CREATE |[TEMP | TEMPORARY] TRIGGER trigger-name [ BEFORE | AFTER ]
+database-event ON [database-name .] table-name
+trigger-action;
+CREATE [TEMP | TEMPORARY] TRIGGER trigger-name INSTEAD OF
+database-event ON [database-name .] view-name
+trigger-action;
+database-event ::= 	DELETE |
+INSERT |
+UPDATE |
+UPDATE OF column-list
+trigger-action ::= 	[ FOR EACH ROW | FOR EACH STATEMENT ] [ WHEN expression ]
+BEGIN
+    trigger-step ; [ trigger-step ; ]*
+END
+trigger-step ::= 	update-statement | insert-statement |
+delete-statement | select-statement
+raise-function ::= 	RAISE ( ABORT, error-message ) |
+RAISE ( FAIL, error-message ) |
+RAISE ( ROLLBACK, error-message ) |
+RAISE ( IGNORE )
+[CREATE VIEW | Create view]
+CREATE |[TEMP | TEMPORARY] VIEW [database-name.] view-name AS select-statement;
+[DELETE | Delete]
+DELETE FROM |[database-name .] table-name WHERE expr;
+[DETACH DATABASE | Detach database]
+DETACH |[DATABASE] database-name;
+[DROP INDEX | Drop index]
+DROP INDEX |[database-name .] index-name;
+[DROP TABLE | Drop Table]
+DROP TABLE |[database-name.] table-name;
+[DROP TRIGGER | Drop trigger]
+DROP TRIGGER |[database-name .] trigger-name;
+[DROP VIEW | Drop view]
+DROP VIEW |view-name;
+[EXPLAIN | Explain]
+EXPLAIN |sql-statement;
+[expression | Expressions]
+expr ::= 	expr binary-op expr |
+expr like-op expr |
+unary-op expr |
+( expr ) |
+column-name |
+table-name . column-name |
+database-name . table-name . column-name |
+literal-value |
+function-name ( expr-list | * ) |
+expr ISNULL |
+expr NOTNULL |
+expr [NOT] BETWEEN expr AND expr |
+expr [NOT] IN ( value-list ) |
+expr [NOT] IN ( select-statement ) |
+expr [NOT] IN [database-name .] table-name |
+( select-statement ) |
+CASE [expr] ( WHEN expr THEN expr )+ [ELSE expr] END
+like-op ::= 	LIKE | GLOB | NOT LIKE | NOT GLOB
+Binaryary operators: in order from highest to lowest precedence:
+||
+*    /    %
++    -
+<<   >>   &    |
+<    <=   >    >=
+=    ==   !=   <>   IN
+AND   
+OR
+Uary operators:
+-    +    !    ~
+[abs(X) |F	Return the absolute value of argument X.]
+abs(|)
+[coalesce(X,Y,...) |F	Return a copy of the first non-NULL argument.]
+coalesce(|)
+[glob(X,Y) |F This function is used to implement the "X GLOB Y" syntax of SQLite.]
+glob (|)
+[ifnull(X,Y) |F Return a copy of the first non-NULL argument.]
+ifnull(|)
+[last insert rowid() |F Return the ROWID of the last row insert from this connection.]
+last_insert_rowid()|
+[length(X) |F	Return the string length of X in characters.]
+length(|)
+[like(X,Y) |F	This function is used to implement the "X LIKE Y" syntax of SQL.]
+like(|))
+[lower(X) |F	Return a copy of string X will all characters converted to lower case.]
+lower(|)
+[max(X,Y,...) |F	Return the argument with the maximum value.]
+max(|)
+[min(X,Y,...) |F	Return the argument with the minimum value.]
+min(|)
+[nullif(X,Y) |F	Return the first argument if the arguments are different, otherwise return NULL.]
+nullif(|)
+[quote(X) |F	This routine returns a string which is the value of its argument suitable for inclusion into another SQL statement.]
+quote(|)
+[random(*) |F	Return a random integer between -2147483648 and +2147483647.]
+random(*)|
+[round(X), round(X,Y) |F	Round off the number X to Y digits to the right of the decimal point.]
+round(|)
+[soundex(X) |F	Compute the soundex encoding of the string X.]
+soundex(|)
+[sqlite_version(*) |F Return the version string for the SQLite library.]
+sqlite_version(*)|
+[substr(X,Y,Z) |F Return a substring of input string X.]
+substr(|)
+[typeof(X) |F	Return the type of the expression X.]
+typeof(|)
+[upper(X) |F	Return a copy of input string X converted to all upper-case letters.]
+upper(|)
+[avg(X) |F	Return the average value of all X within a group.]
+avg(|)
+[count(X), count(*) |F	The second form (with no argument) returns the total number of rows in the group.]
+count(|)
+[max(X) |F	Return the maximum value of all values in the group.]
+max(|)
+[min(X) |F	Return the minimum non-NULL value of all values in the group.]
+min(|)
+[sum(X) |F	Return the numeric sum of all values in the group.]
+sum(|)
+[date(timestring, modifier, modifier, ...) |G Returns the date in this format: YYYY-MM-DD.]
+date(|)
+[time(timestring, modifier, modifier, ...) |G Returns the time as HH:MM:SS.]
+time(|)
+[datetime(timestring, modifier, modifier, ...) |G Returns "YYYY-MM-DD HH:MM:SS".]
+datetime(|)
+[julianday(timestring, modifier, modifier, ...) |G Returns the number of days since noon in Greenwich on November 24, 4714 B.C.]
+julianday(|)
+[strftime(format, timestring, modifier, modifier, ...) |G Returns the date formatted according to the format string specified.]
+strftime(|)
+[strftimeHelp | strftime strings]
+   %d  day of month
+   %f  ** fractional seconds  SS.SSS
+   %H  hour 00-24
+   %j  day of year 000-366
+   %J  ** Julian day number
+   %m  month 01-12
+   %M  minute 00-59
+   %s  seconds since 1970-01-01
+   %S  seconds 00-59
+   %w  day of week 0-6  sunday==0
+   %W  week of year 00-53
+   %Y  year 0000-9999
+A time string can be in any of the following formats:
+   1. YYYY-MM-DD
+   2. YYYY-MM-DD HH:MM
+   3. YYYY-MM-DD HH:MM:SS
+   4. YYYY-MM-DD HH:MM:SS.SSS
+   5. HH:MM
+   6. HH:MM:SS
+   7. HH:MM:SS.SSS
+   8. now
+   9. DDDD.DDDD 
+The time string can be followed by zero or modifiers.
+   1. NNN days
+   2. NNN hours
+   3. NNN minutes
+   4. NNN.NNNN seconds
+   5. NNN months (see #551 and [1163])
+   6. NNN years (see #551 and [1163])
+   7. start of month
+   8. start of year
+   9. start of week (withdrawn -- will not be implemented)
+  10. start of day
+  11. weekday N (see #551 and [1163])
+  12. unixepoch
+  13. localtime
+  14. utc
+  15. julian (not implemented as of 2004-01-05)
+  16. gregorian (not implemented as of 2004-01-05) 
+[INSERT | Insert]
+INSERT |[OR conflict-algorithm] INTO [database-name .] table-name [(column-list)] VALUES(value-list);
+INSERT [OR conflict-algorithm] INTO [database-name .] table-name [(column-list)] select-statement;
+[ON CONFLICT clause | It is a non-standard clause that can appear in many other SQL commands.]
+ON CONFLICT |ROLLBACK | ABORT | FAIL | IGNORE | REPLACE
+[REPLACE | The REPLACE command is an alias for the "INSERT OR REPLACE" variant of the INSERT command.]
+REPLACE INTO |[database-name .] table-name [( column-list )] VALUES ( value-list );
+REPLACE INTO [database-name .] table-name [( column-list )] select-statement;
+[SELECT | Select statement.]
+SELECT |[ALL | DISTINCT] result [FROM table-list]
+ [WHERE expr]
+ [GROUP BY expr-list]
+ [HAVING expr]
+ [compound-op select]*
+ [ORDER BY sort-expr-list]
+ [LIMIT integer [( OFFSET | , ) integer]];
+result ::= 	result-column [, result-column]*
+result-column ::= 	* | table-name . * | expr [ [AS] string ]
+table-list ::= 	table [join-op table join-args]*
+table ::= 	table-name [AS alias] |
+( select ) [AS alias]
+join-op ::= 	, | [NATURAL] [LEFT | RIGHT | FULL] [OUTER | INNER | CROSS] JOIN
+join-args ::= 	[ON expr] [USING ( id-list )]
+sort-expr-list ::= 	expr [sort-order] [, expr [sort-order]]*
+sort-order ::= 	[ COLLATE collation-name ] [ ASC | DESC ]
+compound_op ::= 	UNION | UNION ALL | INTERSECT | EXCEPT
+[UPDATE | Update]
+UPDATE |[ OR conflict-algorithm ] [database-name .] table-name
+SET assignment [, assignment]*
+ [WHERE expr];
+assignment ::= 	column-name = expr
+[VACUUM | Vacuum]
+VACUUM |[index-or-table-name]
+[PRAGMA auto_vacuum | Query or set the auto-vacuum flag in the database.]
+PRAGMA auto_vacuum| = 0 | 1;
+[PRAGMA cache_size | Query or change the maximum number of database disk pages that SQLite will hold in memory at once.]
+PRAGMA cache_size| = Number-of-pages;
+[PRAGMA default_cache_size | Query or change the maximum number of database disk pages that SQLite will hold in memory at once.]
+PRAGMA default_cache_size| = Number-of-pages;
+[PRAGMA default_synchronous | Query or change the setting of the "synchronous" flag in the database.]
+PRAGMA default_synchronous| = FULL | NORMAL | OFF;
+[PRAGMA default_temp_store | Query or change the setting of the "temp_store" flag stored in the database.]
+PRAGMA default_temp_store| = DEFAULT | MEMORY | FILE;
+[PRAGMA synchronous | Query or change the setting of the "synchronous" flag affecting the database for the duration of the current database connection.]
+PRAGMA synchronous| = FULL | NORMAL | OFF;
+[PRAGMA temp_store | Query or change the setting of the "temp_store" flag affecting the database for the duration of the current database connection. ]
+PRAGMA temp_store| = DEFAULT | MEMORY | FILE;
+[PRAGMA database_list | For each open database, invoke the callback function once with information about that database.]
+PRAGMA database_list;|
+[PRAGMA foreign_key_list(table-name) | For each foreign key invoke the callback function with information about that foreign key.]
+PRAGMA foreign_key_list(|table-name);
+[PRAGMA index_info(index-name) | For each column that the named index references, invoke the callback function once with information about that column.]
+PRAGMA index_info(|index-name);
+[PRAGMA index_list(table-name) | For each index on the named table, invoke the callback function once with information about that index.]
+PRAGMA index_list(|table-name);
+[PRAGMA table_info(table-name) | For each column in the named table, invoke the callback function once with information about that column.]
+PRAGMA table_info(|table-name);
+[PRAGMA database.schema_cookie | The pragmas schema_cookie and user_cookie are used to set or get the value of the schema-cookie.]
+PRAGMA [database.]schema_cookie| = integer ;
+PRAGMA [database.]user_cookie| = integer ;
+[PRAGMA integrity_check | The command does an integrity check of the entire database.]
+PRAGMA integrity_check;|
+[PRAGMA parser_trace | Turn tracing of the SQL parser inside of the SQLite library on and off.]
+PRAGMA parser_trace = ON|OFF;
+[PRAGMA vdbe_trace | Turn tracing of the virtual database engine inside of the SQLite library on and off.]
+PRAGMA vdbe_trace = ON|OFF;
+[KeyWords]
+ALL
+AND
+AS
+BETWEEN
+BY
+CASE
+CHECK
+COLLATE
+COMMIT
+CONSTRAINT
+CREATE
+DEFAULT
+DEFERRABLE
+DELETE
+DISTINCT
+DROP
+ELSE
+EXCEPT
+FOREIGN
+FROM
+GLOB
+GROUP
+HAVING
+IN
+INDEX
+INSERT
+INTERSECT
+INTO
+IS
+ISNULL
+JOIN
+LIKE
+LIMIT
+NOT
+NOTNULL
+NULL
+ON
+OR
+ORDER
+PRIMARY
+REFERENCES
+ROLLBACK
+SELECT
+SET
+TABLE
+THEN
+TRANSACTION
+UNION
+UNIQUE
+UPDATE
+USING
+VALUES
+WHEN
+WHERE
+; Res
+ABORT
+AFTER
+ASC
+ATTACH
+BEFORE
+BEGIN
+CASCADE
+CLUSTER
+CONFLICT
+COPY
+CROSS
+DATABASE
+DEFERRED
+DELIMITERS
+DESC
+DETACH
+EACH
+END
+EXPLAIN
+FAIL
+FOR
+FULL
+IGNORE
+IMMEDIATE
+INITIALLY
+INNER
+INSTEAD
+KEY
+LEFT
+MATCH
+NATURAL
+OF
+OFFSET
+OUTER
+PRAGMA
+RAISE
+REPLACE
+RESTRICT
+RIGHT
+ROW
+STATEMENT
+TEMP
+TEMPORARY
+TRIGGER
+VACUUM
+VIEW
+; Key2
+_ROWID_
+MAIN
+OID
+ROWID
+SQLITE_MASTER
+SQLITE_TEMP_MASTER
+; Key3
+databases
+dump
+echo
+exit
+explain
+header
+help
+indices
+mode
+mode insert
+nullvalue
+output
+output stdout
+prompt
+quit
+read
+schema
+separator
+show
+tables
+timeout
+width

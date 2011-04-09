@@ -1,0 +1,213 @@
+; PSPad clip definition file for DocBook
+; Author:  Jan Fiala
+;
+[article | [status, parentbook, class] article, base element]
+<article>§|</article>
+[articleinfo | article info]
+<articleinfo>§|</articleinfo>
+[section | [label, status] document section]
+<section>§|</section>
+[sectioninfo | document section meta-info]
+<sectioninfo>§|</sectioninfo>
+[title | [pagenum] title section, article...]
+<title>§|</title>
+[subtitle | document subtitle]
+<subtitle>§|</subtitle>
+[abstract | document summary]
+<abstract>§|</abstract>
+[appendix | [label, status] additional for <article>]
+<appendix>§|</appendix>
+[para | paragraph]
+<para>§|</para>
+[attribution | source description in <blockquote> or <epigraph>]
+<attribution>§|</attribution>
+[abbrev | abbreviation (in most cases followed by point)]
+<abbrev>§|</abbrev>
+[acronym | acronym]
+<acronym>§|</acronym>
+[blockquote | longer block citation]
+<blockquote>§|</blockquote>
+[citetitle | [pubwork] cite work title]
+<citetitle>§|</citetitle>
+[epigraph | citation or motto on the begin]
+<epigraph>§|</epigraph>
+[example | [width, label] formal sample with title]
+<example>§|</example>
+[figure | [label, pgwide, float] pictre with title]
+<figure>§|</figure>
+[emphasis | emphasize text]
+<emphasis>§|</emphasis>
+[footnote | [label] footer note]
+<footnote>§|</footnote>
+[keyword | key-word]
+<keyword>§|</keyword>
+[keywordset | set of key-words]
+<keywordset>§|</keywordset>
+[lineannotation | line anotation]
+<lineannotation>§|</lineannotation>
+[note | note out of main text]
+<note>§|</note>
+[phrase | selected text part (unspec.)]
+<phrase>§|</phrase>
+[quote | citation (in line)]
+<quote>§|</quote>
+[replaceable | [class] part of text, user can replace]
+<replaceable>§|</replaceable>
+[sidebar | text part outside main flow]
+<sidebar>§|</sidebar>
+[subject | [weight] <subjectterm> document theme description]
+<subject>§|</subject>
+[subjectterm | item in <subject>]
+<subjectterm>§|</subjectterm>
+[subjectset | container for <subject>]
+<subjectset>§|</subjectset>
+[systemitem | [class, moreinfo] item referred to system]
+<systemitem>§|</systemitem>
+[trademark | [class] trade mark]
+<trademark>§|</trademark>
+[volumenum | volume number]
+<volumenum>§|</volumenum>
+[table | table]
+<table>§|</table>
+[informaltable | table without title]
+<informaltable>§|</informaltable>
+[colspec | table column specification]
+<colspec>§|</colspec>
+[thead | [valign] <colspec, row> table header]
+<thead>§|</thead>
+[tgroup | logical table part]
+<tgroup>§|</tgroup>
+[tbody | [valign] <row> table body]
+<tbody>§|</tbody>
+[row | [rowsep, valign] <entry, entrytbl> table row]
+<row>§|</row>
+[entry | table cell]
+<entry>§|</entry>
+[itemizedlist | [spacing, mark] unnumbered list]
+<itemizedlist>§|</itemizedlist>
+[orderedlist |<listitem> numbered list]
+<orderedlist>§|</orderedlist>
+[listitem | [override] item list container]
+<listitem>§|</listitem>
+[term | word or sentence described in <variablelist>]
+<term>§|</term>
+[variablelist |<varlistentry> list with variable lenght items]
+<variablelist>§|</variablelist>
+[varlistentry | list item <variablelist>]
+<varlistentry>§|</varlistentry>
+[command | [moreinfo] program or command name]
+<command>§|</command>
+[computeroutput | [moreinfo] text or computer output]
+<computeroutput>§|</computeroutput>
+[email | email adress]
+<email>§|</email>
+[filename | [class, path, moreinfo] file name]
+<filename>§|</filename>
+[literal | computer data]
+<literal>§|</literal>
+[literallayout | [class, format, width] computer data in block]
+<literallayout>§|</literallayout>
+[option | option in program command]
+<option>§|</option>
+[programlisting | [width, format] program list]
+<programlisting>§|</programlisting>
+[ulink | [type, url] URL link]
+<ulink>§|</ulink>
+[userinput | [moreinfo] user input data]
+<userinput>§|</userinput>
+[link | [type, linkend, endterm] document link]
+<link>§|</link>
+[xref | [linkend, endterm] cross reference to document part]
+<xref>§|</xref>
+[firstname | person first name]
+<firstname>§|</firstname>
+[surname | person surname]
+<surname>§|</surname>
+[honorific | person title]
+<honorific>§|</honorific>
+[lineage | person age specification, "Jr.", "Sr."]
+<lineage>§|</lineage>
+[othername | second person name (except fist name and surname)]
+<othername>§|</othername>
+[author | author info]
+<author>§|</author>
+[authorgroup | if document has more authors, <author> is prefer]
+<authorgroup>§|</authorgroup>
+[authorinitials | author initials]
+<authorinitials>§|</authorinitials>
+[authorblurb | author blurb]
+<authorblurb>§|</authorblurb>
+[corpauthor | corporation as author]
+<corpauthor>§|</corpauthor>
+[affiliation | person affiliation]
+<affiliation>§|</affiliation>
+[jobtitle | job title]
+<jobtitle>§|</jobtitle>
+[orgname | organization name]
+<orgname>§|</orgname>
+[inlinemediaobject | media object in line]
+<inlinemediaobject>§|</inlinemediaobject>
+[mediaobject | media objects container]
+<mediaobject>§|</mediaobject>
+[caption | desription <mediaobject>]
+<caption>§|</caption>
+[objectinfo | object meta-info]
+<objectinfo>§|</objectinfo>
+[textobject | object text container]
+<textobject>§|</textobject>
+[audiodata | audio data link]
+<audiodata>§|</audiodata>
+[audioobject | audio object info element]
+<audioobject>§|</audioobject>
+[videodata | videodata link]
+<videodata>§|</videodata>
+[videoobject | dideo object info element]
+<videoobject>§|</videoobject>
+[imagedata | external picture link]
+<imagedata>§|</imagedata>
+[imageobject | picture object info element]
+<imageobject>§|</imageobject>
+[bibliodiv | bibliographic data]
+<bibliodiv>§|</bibliodiv>
+[bibliography | bibliographic data container]
+<bibliography>§|</bibliography>
+[bibliomisc | miscellaneous bibliographic info]
+<bibliomisc>§|</bibliomisc>
+[bibliomixed | items in <bibliography>]
+<bibliomixed>§|</bibliomixed>
+[bibliomset | [relation] bibliographic info container]
+<bibliomset>§|</bibliomset>
+[copyright | document copyright info]
+<copyright>§|</copyright>
+[date | revision or public date]
+<date>§|</date>
+[edition | name or release number]
+<edition>§|</edition>
+[editor | document editor name]
+<editor>§|</editor>
+[holder | <copyright> holder]
+<holder>§|</holder>
+[issuenum | issue number]
+<issuenum>§|</issuenum>
+[legalnotice | document legal notice]
+<legalnotice>§|</legalnotice>
+[othercredit | other credits]
+<othercredit>§|</othercredit>
+[pubdate | publication date]
+<pubdate>§|</pubdate>
+[publishername | publisher name]
+<publishername>§|</publishername>
+[releaseinfo | release information]
+<releaseinfo>§|</releaseinfo>
+[revdescription | revision description info]
+<revdescription>§|</revdescription>
+[revhistory |<revision> revision history]
+<revhistory>§|</revhistory>
+[revision | individual revision]
+<revision>§|</revision>
+[revnumber | revision number]
+<revnumber>§|</revnumber>
+[revremark | revision note]
+<revremark>§|</revremark>
+[year | release year in <copyright>]
+<year>§|</year>

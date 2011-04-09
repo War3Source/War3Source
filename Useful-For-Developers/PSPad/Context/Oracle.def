@@ -1,0 +1,160 @@
+; PSPad clip definition file for SQL ORACLE
+; Created by PSPad   27.11.2002  10:01
+; Author:  Kubo Zdeno
+;
+[Macro definition]
+%TableName%=@E Table name:,,,,
+%Package%=@E Package:,,,,
+%Author%=@E Author:,,,,
+%Date%=@D Date:,,,,
+;
+[IF | IF  END IF]
+IF | THEN
+END IF;
+[IFE | IF ELSE END IF]
+IF | THEN
+  NULL;
+ELSE
+  NULL;
+END IF;
+[IFI | IF ELSIF  END IF]
+IF | THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSE
+END IF;
+[FOR iCnt | FOR iCnt IN .. LOOP]
+FOR iCnt IN |.. LOOP
+END LOOP;
+[FOR o | FOR o IN (SELECT LOOP]
+FOR o| IN  ( SELECT
+           )
+LOOP
+  NULL;
+END LOOP;
+[FUNCTION | FUNCTION declaration]*CTRL+G
+FUNCTION | RETURN;
+[FUNCTION |m FUNCTION body]*CTRL+F
+FUNCTION |
+/**
+* @qdesc
+* @param
+* @return
+* @author   %Author%
+* @version  1.00
+* @date     
+* @modified %Date%
+*/
+  RETURN
+  IS
+  BEGIN
+  END;
+--------------------------------------------------------------------------------------------
+[PROCEDURE | PROCEDURE declaration]*CTRL+R
+PROCEDURE |;
+[PROCEDURE |m PROCEDURE body]*CTRL+P
+PROCEDURE |
+/**
+* @qdesc
+* @param
+* @author   %Author%
+* @version  1.00
+* @date
+* @modified %Date%
+*/
+  IS
+  BEGIN
+  END;
+--------------------------------------------------------------------------------------------
+[TRIGGER |m TRIGGER]*CTRL+T
+CREATE OR REPLACE TRIGGER tg_%TableName% BEFORE DELETE OR INSERT OR UPDATE ON dl.%TableName%
+/**
+* @qdesc    Table access control %TableName%|
+* @author   %Author%
+* @version  1.00
+* @date
+* @modified %Date%
+*/
+  BEGIN
+    IF ( NOT dl.pk%TableName%.isWriting() ) THEN
+      Raise_application_error( -200__, 'Table access error: %TableName%' );
+    END IF;
+  END;
+/
+show errors;
+[COMMENT |m COMMENT]*CTRL+ALT+C
+/**
+* @qdesc    |
+* @param
+* @param
+* @param
+* @return
+* @author   %Author%
+* @version  1.00
+* @date
+* @modified %Date%
+*/
+[PACKAGE |m PACKAGE]*CTRL+ALT+P
+CREATE OR REPLACE PACKAGE pk%Package% IS
+
+/**
+ * @qdesc
+ * @author   %Author%
+ * @version  1.00
+ * @date
+ * @modified %Date%
+ */
+
+  PROCEDURE Destroy;
+    PRAGMA RESTRICT_REFERENCES ( Destroy, WNDS );
+
+  PROCEDURE Init;
+    PRAGMA RESTRICT_REFERENCES ( Init, WNDS );
+
+  PROCEDURE %Package%Insert ();
+
+  PROCEDURE %Package%Write ();
+
+  PROCEDURE %Package%Delete (
+    );
+
+END;
+/
+show errors;
+/
+--------------------------------------------------------------------------------------------
+CREATE OR REPLACE PACKAGE BODY %Package% IS
+
+  PROCEDURE Msg( acWhere IN VARCHAR2, acText IN VARCHAR2 ) IS
+  BEGIN
+    DBMS_OUTPUT.PUT_LINE( acWhere || ': ' || acText );
+  END Msg;
+--------------------------------------------------------------------------------------------
+  PROCEDURE Err( acText IN VARCHAR2 ) IS
+  BEGIN
+    Msg( 'Err', acText );
+    Raise_Application_Error( -200__, acText );
+  END Err;
+--------------------------------------------------------------------------------------------
+  PROCEDURE Destroy
+  IS
+  BEGIN
+    NULL;
+ END;
+--------------------------------------------------------------------------------------------
+  PROCEDURE Init
+  IS
+  BEGIN
+    Msg( 'Init', '' );
+    Destroy;
+  END;
+--------------------------------------------------------------------------------------------
+END;
+/
+SHOW ERRORS
+GRANT EXECUTE ON %Package% TO ;

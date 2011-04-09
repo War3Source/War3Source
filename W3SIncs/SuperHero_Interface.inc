@@ -133,7 +133,8 @@ stock SH_ChatMessage(client, const String:szMessage[], any:...)
 			{
 				SetGlobalTransTarget(i);
 				VFormat(szBuffer, sizeof(szBuffer), szMessage, 3);
-				Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", i, szBuffer);
+				//Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", i, szBuffer);
+				Format(szBuffer, sizeof(szBuffer), "[SuperHero] %s",  szBuffer);
 				CPrintToChat(i, szBuffer);
 			}
 		}
@@ -143,7 +144,8 @@ stock SH_ChatMessage(client, const String:szMessage[], any:...)
 		decl String:szBuffer[MAX_MESSAGE_LENGTH];
 		SetGlobalTransTarget(client);
 		VFormat(szBuffer, sizeof(szBuffer), szMessage, 3);
-		Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", client, szBuffer);
+		//Format(szBuffer, sizeof(szBuffer), "%T%s", "[SH]", client, szBuffer);
+		Format(szBuffer, sizeof(szBuffer), "[SuperHero] %s",  szBuffer);
 		CPrintToChat(client, szBuffer);
 	}
 }

@@ -1,0 +1,157 @@
+;; PSPad clip definition file for POV-Ray
+;; Author: Francois Riguet
+;; Update: 30.08.2006
+[Macro definition]
+%camtype%=@C Camera type,,,cylinder;fisheye;omnimax;orthographic;panoramic;perspective;spherical;ultra_wide_angle,
+[HEADER | Insert header ]
+////////////////////////////////////////////////////////////////////////////////////
+// Macro:		%FullFileName% 
+// Author: 	%UserName% / %Company%
+// Date:		%Date%
+// Comment:	|
+////////////////////////////////////////////////////////////////////////////////////
+[BICUBIC_PATCH | bicubic_patch ]
+
+[BLOB | blob ]
+blob{
+	|
+}
+[BOX | box ]
+box{
+	|
+}
+[BOX | box ]
+box{
+	|
+}
+[CAMERA | camera definition ]
+camera{
+	location <20,20,-20>
+	look_at <0,0,0>
+	angle 45
+	%camtype%|
+}
+[CONE | cone ]
+cone{
+	|
+}
+[CUBIC | cubic ]
+cubic{
+	|
+}
+[CYLINDER | cylinder ]
+cylinder{
+	|
+}
+[DISC | disc ]
+disc{
+	|
+}
+[HEIGHT_FIELD | height_field ]
+height_field{
+	|
+}
+[ISOSURFACE | isosurface ]
+isosurface{
+	|
+}
+[JULIA_FRACTAL | julia_fractal ]
+julia_fractal{
+	|
+}
+[LATHE | lathe ]
+lathe{
+	|
+}
+[LIGHT_SOURCE | light_source definition ]
+light_source{
+	|
+}
+[MESH | mesh ]
+mesh{
+	|
+}
+[MESH2 | mesh2 ]
+mesh2{
+	|
+}
+[OBJECT | object ]
+object{
+	|
+}
+[PARAMETRIC | parametric ]
+parametric{
+	|
+}
+[PLANE | plane ]
+plane{
+	|
+}
+[POLYplane | poly ]
+poly{
+	|
+}
+[POLYGON | polygon ]
+polygon{
+	|
+}
+[PRISM | prism ]
+prism{
+	|
+}
+[QUADRIC | quadric ]
+quadric{
+	|
+}
+[QUARTIC | quartic ]
+quartic{
+	|
+}
+[SKY_SPHERE | sky_sphere ]
+sky_sphere{
+	|
+}
+[SMOOTH_TRIANGLE | smooth_triangle ]
+smooth_triangle{
+	|
+}
+[SOR | sor ]
+sor{
+	|
+}
+[SPHERE | sphere ]
+sphere{
+	|
+}
+[SPHERE_SWEEP | sphere_sweep ]
+sphere_sweep{
+	|
+}
+[SUPERELLIPSOID | superellipsoid ]
+superellipsoid{
+	|
+}
+[TEXT | text ]
+text{
+	|
+}
+[TORUS | torus ]
+torus{
+	|
+}
+[TRIANGLE | triangle ]
+triangle{
+	|
+}
+
+
+
+
+
+
+
+
+
+
+
+

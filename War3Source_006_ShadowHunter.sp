@@ -126,6 +126,7 @@ public OnRaceChanged(client,oldrace,newrace)
 		
 	}
 	else{
+		//PrintToServer("deactivate aura");
 		War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
 		W3SetAuraFromPlayer(client,AuraID,false);
 		RemoveWards(client);

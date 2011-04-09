@@ -1,0 +1,101 @@
+; PSPad clip definition file for R
+; author:  Nick Drew (drewbrewit@yahoo.com)
+; last revision 25. Aug 2004  14:22
+;
+[Macro definition]
+
+;par function
+%fontStyle%=@C font=,"font=",1,1;2;3;4,
+%mfrow%=@E Graphs by row (mfrow)=,", mfrow=c","(2,1)",,
+%mfcol%=@C Graphs by column (mfcol)=,", mfcol=c",,"(2,1)";"(2,2)",
+%ann%=@K Check to remove title etc.,", ann=FALSE",,,
+%bg%=@L Background/fill color,", bg=",,,"
+%col%=@L Foreground/line color,", col=",,,"
+%adj%=@C Text justification,", adj=",0,0;0.5;1,
+%new%=@K Check to superimpose,", new=TRUE",,,
+
+;plot function
+%plottype%=@C Type of graph (type),", type=",n,p;l;b;c;o;h;s;S;n,"
+%main%=@E Graph title (main),", main=",Y by X,,"
+%sub%=@E Graph sub-title (sub),", sub=",,,"
+%xlab%=@E X label (xlab),", xlab=",,,"
+%ylab%=@E Y label (ylab),", ylab=",,,"
+
+;points function
+%pointtype%=@C Add points (type),", type=",p,p;l;b;c;o;h;s;S;n,"
+%pch%=@C Plot character (pch),", pch=",?,0;1;2;"any # up to 25";"or quoted symbol",
+%cex%=@C Character size (cex),", cex=",1,0.5;1;1.5;"Or some other number",
+
+;lines function
+%linetype%=@C Add lines (type),", type=",l,p;l;b;c;o;h;s;S;n,"
+%lty%=@C Line Type (lty),", lty=",1,0;1;2;"r some other number";,
+%lwd%=@C Line size (lwd),", lwd=",1,0.5;1;1.5;"Or some other number",
+
+
+;qcc plots
+%qccType%=@C type=,type=,,xbar;S;R;xbar.one;p;np;c;u,"
+%qccstddev%=@E std.dev=,", std.dev=",,,
+%qccsize%=@E size=,", size=",,,
+%qcclimits%=@E limits=,", limits=",,,
+%qcctarget%=@E target=,", target=",,,
+%qccdataname%=@E data.name=,", data.name=",,,"
+%qcclabels%=@E labels=,", labels=",,,"
+%qccnewdata%=@E newdata=,", newdata=",,,
+%restorePar%=@K Check to add lines etc.,", restore.par=FALSE",,,
+%qccaddstats%=@K Check to remove stats,", add.stats=FALSE",,,
+%qccnsigmas%=@E nsigmas=,", nsigmas=",3,1;2;3;4,
+
+;read.table functions
+%file%=@O File name,file=,,Text Files (*.txt)| *.txt,',A/
+%header%=@K Col names in 1st row,", header=TRUE",,,
+%sep%=@C Delimiter type,", sep=", ,",";";";"\t","
+
+
+;setwd functions
+%path%=@S Directory,,,,',A/
+
+
+;----------------------------------------------------------------------
+[mean | Returns the mean a vector]
+mean(|)
+[<- | Assigns value to object]*Ctrl+Alt+.
+ <- |
+;
+[assign | Assigns value to object]
+ <- |
+;
+
+[par | Graphical parameters]
+par(%fontStyle% %mfrow% %mfcol% %ann% %col% %bg% %adj% %new%)|
+;
+
+[for | for loop]
+for( , ,){
+|
+}
+;
+
+[qcc | Create QCC object]
+qcc(|df, %qccType% %qccstddev% %qccsize% %qcclimits% %qcctarget% %qccdataname%  %qcclabels% %qccnewdata% %restorePar% %qccaddstats% %qccnsigmas% %title%)
+;
+
+[plot | Generic X-Y Plotting]
+plot(x| %plottype% %main% %xlab% %ylab% %col%)
+;
+
+[points | Add Points to Plot]
+points(x| %pointtype% %pch% %col% %bg% %cex%)
+;
+
+[lines | Add Lines to Plot]
+lines(x| %linetype% %lty% %lwd% %col%)
+;
+
+[read.table | Open a data file]
+|<- read.table(%file% %header% %sep%)
+;
+
+[setwd | Set the working directory]
+setwd(%path%)
+;
+

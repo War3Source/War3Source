@@ -1,0 +1,370 @@
+; ==================================================================
+; PSPad clip definition file for VHDL
+; author: by Marcel Baunach, Informatik V, Uni Würzburg
+; ==================================================================
+;   History:
+;    0.4  Mar. 2007 added [Clip Settings] section
+;    0.3  Dec. 2006 fixed "concrete port mapping"
+;    0.2  Dec. 2006 Some minor fixes
+;    0.1  Dec. 2006 Initial Releas
+; ==================================================================
+; Color description
+;   (black)       - General commands
+; R (red)         - Standard attributes for types / objects
+; G (green)       - Standard attributes for signals
+; B (blue)        - Package specific functions
+; F (fuchsia)     - unused
+; M (maroon)      - unused
+; D (dark gray)   - unused
+; N (navy)        - unused
+; P (purple)      - unused
+; ==================================================================
+; Shortcuts
+;    Ctrl+Shift+Alt+E    entity declaration
+;    Ctrl+Shift+Alt+A    architecture declaration
+;    Ctrl+Shift+Alt+P    process declaration
+;    Ctrl+Shift+Alt+C    component declatation        
+; ==================================================================
+
+[Clip Settings] 
+CursorChar=| 
+SelectionChar=§
+
+[Macro definition]
+%sep%=@--
+%entityID%=@E entity name
+%archID%=@E architecture name,,structure
+%configID%=@E configuration name
+%typeID%=@E type name
+%aliasID%=@E alias name
+%loopVar%=@E loop variable
+%constID%=@E constant name
+%varID%=@E variable name
+%value%=@E value
+%range%=@E range, range ,
+%range2%=@E range,,
+%defaultValue%=@E default, := ,
+%sigID%=@E signal name
+%fileID%=@E file identifier
+%filename%=@E filename
+%openmode87%=@C open mode,,,in;out
+%openmode93%=@C open mode,open ,,read_mode;write_mode;append_mode
+%portNames%=@E port list
+%portExpr%=@E expression, := ,
+%genericNames%=@E generic list
+%genericExpr%=@E expression, := ,
+%GPDst%=@E component signal
+%GPSrc%=@C internal signal,,,open
+%direction%=@C direction,,,in;out;inout;buffer
+%type%=@C type,,,bit;bit_vector;boolean;character;integer;natural;positive;real;severity_level;string;std_logic;std_ulogic;std_logic_vector;std_ulogic_vector;time
+%retType%=@C return type,,,bit;bit_vector;boolean;character;integer;natural;positive;real;severity_level;string;std_logic;std_ulogic;std_logic_vector;std_ulogic_vector;time
+%funcID%=@E function name
+%resFuncID%=@E resolution function
+%funcParams%=@E parameters
+%procID%=@E procedure name
+%procParams%=@E parameters
+%label%=@E label
+%nextExitLabel%=@E loop label 
+%procSens%=@E sensitivity list
+%condition%=@E condition, when ,
+%condition2%=@E condition
+%assertReportString%=@E message, report ,
+%assertSeverity%=@C severity level, severity ,,failure;error;warning;note
+%reportReportString%=@E message,,
+%reportSeverity%=@C severity level, severity ,,failure;error;warning;note
+%waitOn%=@E signal, on ,
+%waitUntil%=@E until condition, until ,
+%waitFor%=@E time, for ,
+%timeUnit%=@C time unit,,,fs;ps;ns;us;ms;sec;min;hr
+%compID%=@E component name
+%packID%=@E package name
+%libIDs%=@E library list
+%libID%=@E library
+%objID%=@C object,,,;all,
+%attribID%=@E attribute name
+%objList%=@E object list
+%objClass%=@E object class
+%expression%=@E object class
+
+[entity | an entity]*Ctrl+Shift+Alt+E
+entity %entityID% is
+     §| -- generic / port / local declatations
+end entity %entityID%;
+
+[architecture | an architecture]*Ctrl+Shift+Alt+A
+architecture %archID% of %entityID% is
+     -- use function type file component constant signal procedure subtype alias
+begin
+     §|
+end architecture %archID%;
+
+[configuration | a configuration]
+configuration %configID% of %entityID% is
+     for §| -- architectureToBeConfigured
+     end for;
+end configuration %configID%; 
+
+[type | a new type definition ENUMERATION STYLE]
+type %typeID% is ( §| );
+
+[type | a new type definition ARRAY STYLE]
+type %typeID% is array ( §| ) of ( %type% );
+
+[type | a new type definition ACCESS POINTER STYLE]
+type %typeID% is access %type%;
+
+[type | a new type definition FILE STYLE]
+type %typeID% is file of ( %type% );
+
+[type | a new type definition RECORD STYLE]
+type %typeID% is record 
+     §|
+end record %typeID%;
+[record | a new type definition RECORD STYLE]
+type %typeID% is record 
+     §|
+end record %typeID%;
+[subtype | a new subtype]
+subtype %typeID% is %resFuncID% %range%§|;
+
+[alias | a new alias]
+alias %aliasID%: %type% is %typeID%(%range2%);§|
+
+[port | port declaration]
+port ( §| );
+[portX | concrete port declaration]
+%portNames% : %direction% %type%%portExpr%; §|
+[port map | port mapping]
+port map ( §| );
+[port map X| concrete port mapping]
+%GPDst% => %GPSrc%§|
+
+[generic | generic declaration]
+generic ( §| );
+[genericX | concrete generic declaration]
+%genericNames% : %type%%genericExpr%; §|
+[generic map | generic mapping]
+generic map ( §| );
+[generic map X| concrete generic mapping]
+%GPSrc% => %GPDst%§|
+
+[for | a for loop body]
+for %loopVar% in _H_§| loop
+end loop;
+[constant | a constant definition]
+constant %constID% : %type%%range% := %value%;
+[variable | a variable declaration]
+variable %varID% : %type%%range%%defaultValue%;
+[signal | a signal definition]
+signal %sigID% : %type%%range%%defaultValue%;
+
+[file | a new file identifier VHDL 87]
+file %fileID% : %type% is %openmode87% %filename%;
+[file | a new file identifier VHDL 93]
+file %fileID% : %type% %openmode93% is %filename%;
+
+
+[function | a function declaration]
+function %funcID% (%funcParams%) return %retType% is
+begin
+     §|
+end function %funcID%;
+
+[procedure | a procedure declaration]
+procedure %procID% (%procParams%) is
+begin
+     §|
+end procedure %procID%;
+
+[process | a process declaration]*Ctrl+Shift+Alt+P
+%label%: process (%procSens%) is 
+     -- type file function constant variable subtype alias procedure
+begin
+     §|
+end process %label%;
+
+[case | a case statement]
+case _H_§| is
+     when _H_ =>
+     when others => 
+end case;
+
+[next | next loop iteration]
+%label%: next %nextExitLabel%%condition%;
+[exit | exit loop]
+%label%: exit %nextExitLabel%%condition%;
+
+[assert | assertion test]
+%label%: assert %condition2%"%assertReportString%"%assertSeverity%;
+
+[report | report message]
+%label%: report "%reportReportString%"%reportSeverity%;
+
+[wait | wait for something]
+%label%: wait%waitOn%%waitUntil%%waitFor%%timeUnit%;
+
+[component | a component declaration]*Ctrl+Shift+Alt+C
+component %compID% is
+     §| -- generic / port declaration
+end component %compID%;
+
+[component | a component instantiation]
+%label%: %compID% 
+     generic map ( _H_§| );
+     port map ( _H_ );
+
+[package | a package]
+package %packID% is
+     §| -- use type file function component constant signal subtype alias procedure
+end package %packID%;
+
+[package body | a package body]
+package body %packID% is
+     §| -- type file function constant subtype alias procedure
+end package body %packID%;
+
+
+[block | a block]
+%label%: block is
+     -- generic / port / local declaration
+begin     
+end block %label%;
+
+[generate FOR | a LOOPED generate expression]
+%label%: for %loopVar% in %range2% generate
+     -- local declarations
+begin
+     §|
+end generate %label%
+
+[generate IF | a CONDITIONAL generate expression]
+%label%: if %condition2% generate
+     -- local declarations
+begin
+     §|
+end generate %label%
+
+[library | imports a library]
+library %libIDs%;
+
+[use | imports a package]
+use %libID%.%packID%.%objID%;
+
+[attribute | an attribute declaration]
+attribute %attribID% : %type%;
+
+[attribute | an attribute specification]
+attribute %attribID% of %objList% : %objClass% is %expression%;
+
+[if | if statement]
+if _H_§| then
+elsif _H_ then
+else
+end if; 
+
+[while | while loop]
+while _H_§| loop
+     -- code
+end loop;
+
+[null | null statement]
+null;
+
+[return | return statement]
+return §|;
+
+;(RED): Standard attributes for types / objects
+[_succ |R :value]
+succ(§|)
+[_pred |R :value]
+pred(§|)
+[_leftof |R :value]
+leftof(§|)
+[_rightof |R :value]
+rightof(§|)
+[_pos |R :integer]
+pos(§|)
+[_val |R :integer]
+val(§|)
+[_image |R :string]
+image(§|)
+[_value |R :value]
+value(§|)
+[_base |R :basetype]
+base'§|
+
+[_left |R :index]
+left
+[_right |R :index]
+right
+[_high |R :index]
+high
+[_low |R :index]
+low
+[_length |R :integer]
+length
+[_ascending |R :boolean]
+ascending
+[_range |R :range]
+range
+[_reverse_range |R :range]
+reverse_range
+
+[_left(n) |R :index]
+left(§|)
+[_right(n) |R :index]
+right(§|)
+[_high(n) |R :index]
+high(§|)
+[_low(n) |R :index]
+low(§|)
+[_length(n) |R :integer]
+length(§|)
+[_ascending(n) |R :boolean]
+ascending(§|)
+[_range(n) |R :range]
+range(§|)
+[_reverse_range(n) |R :range]
+reverse_range(§|)
+
+;(GREEN): Standard attributes for signals
+[_event |G :boolean]
+event
+[_active |G :boolean]
+active
+[_last_event |G :time]
+last_event
+[_last_active |G :time]
+last_active
+[_last_value |G :value]
+last_value
+[_delayed |G signal:type]
+delayed
+[_stable |G signal:boolean]
+stable
+[_quiet |G signal:boolean]
+quiet
+[_delayed(time) |G signal:type]
+delayed(§|)
+[_stable(time) |G signal:boolean]
+stable(§|)
+[_quiet(time) |G signal:boolean]
+quiet(§|)
+[_transaction |G signal:bit]
+transaction
+
+;(BLUE): Package specific functions
+[rising_edge(std_(u)logic) |B :boolean (std_logic_1164)]
+rising_edge(§|)
+[falling_edge(std_(u)logic) |B :boolean (std_logic_1164)]
+falling_edge(§|)
+[is_x(std_(u)logic OR std_(u)logic_vector) |B :boolean (std_logic_1164)]
+is_x(§|)
+
+[rising_edge(bit) |B :boolean (numeric_std / numeric_bit)]
+rising_edge(§|)
+[falling_edge(bit) |B :boolean (numeric_std / numeric_bit)]
+falling_edge(§|)
+
+[now | current date] 
+time is: %RFCTime% %GHDLdesign% %GHDLworkdir%|

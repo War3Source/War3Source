@@ -1,0 +1,37 @@
+; PSPad clip definition file for Extended Clipboard Scripting Language
+; author:  MOE
+; last revision 09. Mrz 2006  14:42
+;
+[PRINT(sTEXT) | Output sText + NewLine...]
+PRINT()
+
+[WRITE(sTEXT) | Output sText w/o NewLine]
+WRITE()
+
+[CLS | Clear the Text Output...]
+CLS
+
+[INPUTBOX(sPrompt, sTitle, sDefault) | Display an Inputbox ]
+INPUTBOX( , , )
+
+[MSGBOX(sMessage, lStyle, sTitle) | Display a Messagebox ]
+MSGBOX( , , )
+
+[PRINT_D(sTEXT)) | Print sTEXT to the standart printer]
+PRINT_D()
+
+[FINISH_D | Finish Printing]
+FINISH_D
+
+[INSTR(lStart, sTEXT, sTEXT2) | Find sTEXT2 in sTEXT from position lStart]
+INSTR( , , )
+
+[INSTRREV(lStart, sTEXT, sTEXT2) | Find sTEXT2 in sTEXT from position lStart - reverse]
+INSTRREV( , , )
+
+[REPLACE(sTEXT, sTEXT1, sTEXT2) | Replace sTEXT1 in sTEXT with sTEXT2]
+REPLACE( , , )
+
+[MID(sTEXT, lStart, lLength) | Get the lLength characters from sTEXT starting with the lStart character]
+MID( , , )
+

@@ -1,0 +1,71 @@
+Notepad replacement for PSPAD.
+
+This notepad is written by Dirk Paehl
+http://www.paehl.de with MINGW ANSI C++ Compiler
+
+================================================================================
+NOTEPAD.EXE  - part of PSpad
+
+File Notepad.EXE runs PSPad only.
+Some programs work directly with Notepad.EXE. If you want to use PSPad with 
+these programs, you need to replace file
+  \Windows\Notepad.EXE with Notepad.EXE as part of PSpad.
+
+Recommendations:
+1. you need PSPad 3.5.9 (1293) or higher version
+2. before first run of Notepad.exe it is necessary to run PSPad.EXE. During PSPad
+   first run a new key is created in the Registry:
+   \\HKEY_Current_User\Software\PSPad\ with path to PSpad.EXE
+
+Installation on Windows 2000, WindowsXP:
+because this systems has system files protection, you need to replace files in
+directories:
+%windir%\system32\dllcache
+%windir%\system32
+
+Installation on Windows Vista:
+Find c:\windows\notepad.exe and c:\windows\system32\notepad.exe
+and set the owner to ‘Administrators’, and grant Administrators full control.
+Now you can replace it with PSPad version of the Notepad.exe
+
+Note: The folder %windir% is different. On Windows 9x and XP it is C:\Windows, 
+on Windows NT and 2000 it is C:\Winnt. If you are asked to insert Windows 
+installation CD, choose CANCEL. In next dialog asking if you really don't want 
+to restore system files, react with YES option.
+
+How can i know which Notepad.EXE is original ?
+Notepad.EXE from PSpad distribution has same icon as PSpad (only different color).
+You can look too into file / properties on file information.
+
+================================================================================
+NOTEPAD.EXE dodávaný s PSPadem
+
+Soubor Notepad.EXE je pouze spouštìè programu PSPad.
+Nìkteré programy "natvrdo" volají Notepad.EXE
+Pokud chcete ošetøit i taková volání, staèí nahradit 
+soubor %windir%\Notepad.EXE souborem Notepad.EXE, dodávaným s PSPadem.
+Poznámka: Adresáø %windir% se liší podle verze Windows. U Windows 9x a XP se jedná o adresáø C:\Windows, u Windows NT a 2000 je to C:\Winnt.
+
+Upozornìní.
+1. je tøeba mít PSPad 3.5.9 (1293) a vyšší
+2. pøed prvním spuštìním Notepad.EXE je tøeba min. jednou
+   spustit PSPad. V registru se vytvoøí klíè:
+   \\HKEY_Current_User\Software\PSPad\, ktery obsahuje promìnnou s cestou k PSpadu
+
+Instalace na Windows 2000, Windows XP:
+Protože tato verze Windows má ochranu systémových souborù, 
+je tøeba nahradit soubory v adresáøích
+%windir%\system32\dllcache
+%windir%\system32
+
+Na dotaz požadující vložení instalaèního CD Windows reagujte volbou STORNO a na
+následný dotaz zda "opravdu neobnovit..." reagujte volbou ANO.
+
+Instalace na Windws Vista:
+Najdìte c:\windows\notepad.exe a c:\windows\system32\notepad.exe
+a nastavte vlastníka na ‘Administrators’ a pro skupinu Administrators nastavte plný pøístup.
+Nyní je možné pøepsat Notepad.EXE verzí, dodávanou s PSPadem
+
+Jak poznám originální Notepad.EXE ?
+Notepad.EXE, dodávaný s PSPadem má ikonu stejnou jako PSPad, pouze v jiné barvì.
+Dále je možno jej rozeznat podle informací ve vlastnostech souboru.

@@ -1,0 +1,332 @@
+; PSPad clip definition file for LaTeX
+; Created by PSPad  30.1.2003
+; Author:  Tomáš Vacek
+; Translation: Jan Fiala
+[Macro definition]
+%PismoVelikost%=@C font size:,,normalsize,tiny;scriptsize;footnotesize;small;normalsize;large;Large;LARGE;huge;Huge,
+%PismoStyl%=@C font style:,,rm,rm;it;bf;sl;sf;sc;tt;em,
+%StylDoc%=@C style: ,,article,article;report;book;letter;slides;twoside
+%FormatStranky%=@C style: ,,empty,plain;headings;empty
+%Zarovnani%=@C style: ,,center,flushleft;flushright;center
+%Block%=@C environment: ,,,document;figure;quote;quotation;verse;itemize;enumerate;description;tabular;tabbing;thebibliography;verbatim;equation;eqnarray,
+%VolbyDoc%=@C options: ,,a4paper,a4paper;a5paper;"a4paper,landscape";"a4paper,landscape,twocolumn";letterpaper
+%Package%=@C package: ,,czech,czech;graphicx;makeidx;amstex;color;graphpap;pict2e
+%Nadpis%=@C section type: ,,section,section;subsection;subsubsection;part;chapter;paragraph;subparagraph;appendi
+%ReckaAbecedaMala%=@C page format: ,,alpha,alpha;beta;gamma;delta;epsilon;vareepsilon;zeta;eta;theta;vartheta;iota;kappa;lambda;mu;nu;xi;o;pi;varpi;rho;varrho;sigma;varsigma;tau;upsilon;phi;varphi;chi;psi;omega
+%MatFun%=@C mathematical function: ,,sin,sin;cos;tan;cot;arcsin;arccos;arctan;ln;log;lim;max;min;det;dim
+%Integral%=@C Integral: ,,\int,\int;\int\limits,
+%Suma%=@C Sum: ,,\sum,\sum\nolimits;\sum,
+%edit1%=@E Scale:,,,,
+%edit2%=@E Picture:,,,,
+%edit3%=@E Description:,,,,
+%edit4%=@O File:,,,(*.tex)|*.tex,,R/
+%obr1%=@P Picture:,,,(*.ps;*.eps)|*.ps;*eps,,R/
+%edit5%=@E Name:,,,,
+%edit6%=@E Upper limit:,,,,
+%edit7%=@E Lower limit:,,,,
+%edit8%=@E Value+unit:,,,,
+%edit9%=@E Height+unit:,,,,
+%edit10%=@E Width+unit:,,,,
+%edit11%=@E Desription:,,,,
+%edit12%=@E Rotation:,,,,
+%edit13%=@E Title:,,,,
+%znak2%=@K Double cross: #,\#
+%znak3%=@K Dollar: $,\$
+%znak4%=@K Percent: %,\%
+%znak5%=@K Ampersand: &,\&
+%znak6%=@K Underscope: _,\_
+%znak7%=@K Left bracket: {,\{
+%znak8%=@K Right bracket: },\}
+%znak9%=@K Death:,\dag
+%znak10%=@K Three points: ...,\dots
+%znak11%=@K Comma delimiter:,","
+%mat1%=@K Upper index,^{|}
+%mat2%=@K Lower index,_{|}
+%mat3%=@K Radix,\sqrt{|}
+%mat4%=@K N-radix,\sqrt[|]{}
+%mat5%=@K Left bracket,\left
+%mat6%=@K Right bracket,\right
+%mat7%=@K less or equal,\leq
+%mat8%=@K great or equal,\geq
+%mat9%=@K approximately,\doteq
+%mat10%=@K unequal,\neq
+%mat11%=@K plus-minus,\pm
+%mat12%=@K implication,\Rightarrow
+%mat13%=@K equivalence,\Leftrightarrow
+%pStyl1%=@K Roman,\rm
+%pStyl2%=@K Sans serif,\sf
+%pStyl3%=@K typewriter,\tt
+%pStyl4%=@K italic,\it
+%pStyl5%=@K capital,\sc
+%pStyl6%=@K half bold,\bf
+
+[  \ |b comment]
+\§|
+[ % |b comment]
+% §|
+[ {} |b brackets]
+{§|}
+[ SpecZnak |b special characters and symbols]
+%znak2%%znak3%%znak4%%znak5%%znak6%%znak7%%znak8%%znak9%%znak10% |
+[docsclass |r document class]
+\documentclass[%VolbyDoc%]{%StylDoc%}
+|
+[pagestyle1 |r page style]
+\pagestyle{%FormatStranky%}
+|
+[pagestyle2 |r page style change]
+\thispagestyle{%formatStranky%}
+|
+[hlavièka1 |r header text]
+\markright{§|}
+[usepackage |r include package]
+\usepackage{%Package%}
+|
+[usepackage2 |r include package with options]
+\usepackage[|]{}
+|
+[includeonly |r mark document for including only]
+\includeonly{§|}
+|
+[include |b include document]
+\include{%edit4%}
+|
+[pVel |b font size]
+\%PismoVelikost% |
+[pStyl |b font style]
+%pStyl1%%pStyl2%%pStyl3%%pStyl4%%pStyl5%%pStyl6% §|
+[begin-end |b environment]
+\begin{%Block%}
+§|
+\end{%Block%}
+[datum |b insert date]
+\today{} |
+[newline |b line break]
+\newline
+|
+[newpage |b page break]
+\newpage
+|
+[mbox |b non break word]
+\mbox{§|}
+[uv2 |b upper rounded quotes]
+``§|''
+[nadpisy1 |b numbered titles, chapters,...]
+\%Nadpis%{%edit13%§}
+|
+[nadpisy2 |b nonnumbered titles, chapters,...]
+\%Nadpis%*{%edit13%§}
+|
+[author |r author]
+\author{§|}
+[title |r document name]
+\title{§|}
+[maketitle |b page title]
+\maketitle
+|
+[content1 |b table of contents]
+\tableofcontents
+|
+[content2 |b list of pictures]
+\listoffigures
+|
+[content3 |b list of tables]
+\listoftables
+|
+[label |b label link]
+\label{§|}
+[ref |b reference link]
+\ref{§|}
+[refpage |b link to page with label]
+\pageref{§|}
+[pozn1 |b footer note]
+\footnote{§|}
+[pozn2 |b margin note]
+\marginpar{\em §|}
+[citace1 |b short citation]
+\begin{quote}
+§|
+\end{quote}
+[citace2 |b long citation (several paragraph)]
+\begin{quotation}
+§|
+\end{quotation}
+[citace3 |b poem]
+\begin{verse}
+§|\\
+\\
+\\
+\end{verse}
+[výèet1 |b single listing]
+\begin{itemize}
+\item §|
+\item
+\item
+\end{itemize}
+[výèet2 |b numbered listing]
+\begin{enumerate}
+\item §|
+\item
+\item
+\end{enumerate}
+[výèet3 |b listiong with cations]
+\begin{description}
+\item [§|]
+\item []
+\item []
+\end{description}
+[zarovnání |b block align]
+\begin{%Zarovnani%}
+§|
+\end{%Zarovnani%}
+[verbatim |b unformated text]
+\begin{verbatim}
+§|
+\end{verbatim}
+[verb |b unformated short verb]
+\verb+| +
+[math1 |b mathematical formula in text]
+$§|$
+[math2 |b mathematical formula]
+$$§|$$
+[math3 |b mathematical formula with numbering]
+\begin{equation}
+§|
+\end{equation}
+[math4 |b aligned mathematical formula with numbering]
+\begin{eqnarray}
+§|&=& \\
+&=&  \\
+&=&  \\
+\end{eqnarray}
+[zlomek |b fraction with horizontal line]
+\frac{§|}{}
+[abcØecká |b Greek alphabet - lower]
+\%ReckaAbecedaMala%|
+[fce2 |b Math function]
+\%MatFun%(|§)
+[fce1 |b Math functions and symbols]
+%mat1%%mat2%%mat3%%mat4%%mat5%%mat6%
+[integrál |b Integral]
+%Integral%_{%edit6%}^{%edit7%}
+|
+[suma |b Sum]
+%Suma%_{%edit6%}^{%edit7%}
+|
+[matSymb |b Mathematical symbols]
+%mat7%%mat8%%mat9%%mat10%%mat11%%mat12%%mat13%|
+[tab1 |b Tablular]
+\begin{tabular}{||c||r|l|}
+\hline
+\bfseries § & \bfseries & \bfseries \\
+\hline
+\hline
+ &  &  \\
+ &  &  \\
+\hline
+\end{tabular}
+[tab2 |b Tabbing]
+\begin{tabbing}
+§|\=  \=  \kill
+ \>  \>  \\
+ \>  \>  \\
+\end{tabbing}
+[tab |b Table + caption]
+\begin{table}[htbp]
+  §|
+  \caption{%edit11%} \label{}
+\end{table}
+[titulek |b caption]
+\caption[]{§|}
+[obrDef | picture definition]
+\def\jpgfig#1#2#3{%
+  \begin{figure}[htbp]%
+  \centerline{%
+  \scalebox{#1}{%
+   \pdfimage{#2}%
+   }%
+   }%
+   \caption{#3}\label{#2}%
+  \end{figure}%
+}
+[obr2 | insert picture jpg, pdf, pgn]
+\jpgfig{%edit1%}{%edit2%}{%edit3%}
+|
+[obr1 |b insert picture eps, ps]
+\begin{figure}[!ht]
+  \includegraphics[width=%edit10%, height=%edit9%]{%obr1%}
+  \caption{%edit11%} \label{|}
+\end{figure}
+; NASTAVENÍ OKRAJÙ - RELATIVNÌ K NASTAVENÍ
+; textwidth  - šíøka textu
+; textheight - výška textu
+[okraje |r relative border settings]
+\addtolength{\hoffset}{-§|cm}
+\addtolength{\textwidth}{cm}
+\addtolength{\topmargin}{-cm}
+\addtolength{\textheight}{cm}
+; PØIPOMÍNÁÈEK
+[docPrip | reminder template]
+\documentclass[a5paper]{article}
+\usepackage{graphicx}
+\addtolength{\hoffset}{-0.5cm}
+\addtolength{\textwidth}{1cm}
+\addtolength{\topmargin}{-3.5cm}
+\addtolength{\textheight}{5.5cm}
+\def\jpgfig#1#2{%
+  \begin{figure}[htbp]%
+  \centerline{%
+  \scalebox{#1}{%
+   \pdfimage{#2}%
+   }%
+   }%
+   \label{#2}%
+  \end{figure}%
+}
+\begin{document}
+\jpgfig{0.3}{p.png}
+\paragraph{Kalendáø}
+§|
+\end{document}
+[newcmd |b new command]
+\newcommand{\%edit5%}{§|}
+[newenv |b new environment]
+\newenvironment{%edit5%}[]
+{§|}
+[øádkování |r set spacing]
+\linespread{%edit8%}
+|
+[odsANO |b paragraph indent]
+\indent
+[odsNE |b disable paragraph indent]
+\noindent
+[mezH |b horizontal space]
+\hspace{%edit8%}
+|
+[mezV1 |b vertical space between paragraphs]
+\vspace{%edit8%}
+|
+[mezV2 |b vertical space in paragraph]
+\\[%edit8%]
+|
+[lit1 |b bibliography list]
+\begin{thebibliography}{99}
+\bibitem{§|}
+\bibitem{}
+\end{thebibliography}
+[lit2 |b literature reference]
+\cite{§|}
+[hyph |r word divide definition]
+\hyphenation{|}
+[clearpage |b print floating object]
+\clearpage
+[par1 |b sets parameter]
+\setlength{\|}{}
+[par2 |b add value to parameter]
+\addtolength{\|}{}
+[mkindex |r Make Index]
+\makeindex
+[index |b Index]
+\index{§|}
+[printindex |b Print Index]
+\printindex

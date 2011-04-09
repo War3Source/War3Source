@@ -1,0 +1,7026 @@
+[ArithmeticError |G  Base class for arithmetic errors.]
+ArithmeticError(|) 
+;
+[AssertionError |G  Assertion failed.]
+AssertionError(|) 
+;
+[AttributeError |G  Attribute not found.]
+AttributeError(|) 
+;
+[BaseHTTPServer.BaseHTTPRequestHandler |G  HTTP request handler base class.]
+BaseHTTPServer.BaseHTTPRequestHandler(|) 
+;
+[BaseHTTPServer.HTTPServer |G {class}]
+BaseHTTPServer.HTTPServer(|) 
+;
+[BaseHTTPServer.test |G  Test the HTTP request handler class.]
+BaseHTTPServer.test(|) 
+;
+[Bastion.Bastion |G  Create a bastion for an object, using an optional filter.]
+Bastion.Bastion(|) 
+;
+[Bastion.BastionClass |G  Helper class used by the Bastion() function.]
+Bastion.BastionClass(|get, name) 
+;
+[Bastion._test |G  Test the Bastion() function.]
+Bastion._test(|) 
+;
+[CGIHTTPServer.CGIHTTPRequestHandler |G  Complete HTTP server with GET, HEAD and POST commands.]
+CGIHTTPServer.CGIHTTPRequestHandler(|) 
+;
+[CGIHTTPServer.executable |G  Test for executable file.]
+CGIHTTPServer.executable(|path) 
+;
+[CGIHTTPServer.nobody_uid |G  Internal routine to get nobody's uid]
+CGIHTTPServer.nobody_uid(|) 
+;
+[CGIHTTPServer.test |G {function}]
+CGIHTTPServer.test(|) 
+;
+[ConfigParser.ConfigParser |G ]
+ConfigParser.ConfigParser(|defaults=None)
+;
+[ConfigParser.DuplicateSectionError |G ]
+ConfigParser.DuplicateSectionError(|section)
+;
+[ConfigParser.Error |G ]
+ConfigParser.Error(|msg='')
+;
+[ConfigParser.InterpolationDepthError |G ]
+ConfigParser.InterpolationDepthError(|option, section, rawval)
+;
+[ConfigParser.InterpolationError |G ]
+ConfigParser.InterpolationError(|reference, option, section, rawval)
+;
+[ConfigParser.MissingSectionHeaderError |G ]
+ConfigParser.MissingSectionHeaderError(|filename, lineno, line)
+;
+[ConfigParser.NoOptionError |G ]
+ConfigParser.NoOptionError(|option, section)
+;
+[ConfigParser.NoSectionError |G ]
+ConfigParser.NoSectionError(|section)
+;
+[ConfigParser.ParsingError |G ]
+ConfigParser.ParsingError(|filename)
+;
+[Cookie.BaseCookie |G ]
+Cookie.BaseCookie(|input=None)
+;
+[Cookie.Cookie |G  SmartCookie]
+Cookie.Cookie(|) 
+;
+[Cookie.CookieError |G {class}]
+Cookie.CookieError(|) 
+;
+[Cookie.Morsel |G {class}]
+Cookie.Morsel(|) 
+;
+[Cookie.SerialCookie |G  SerialCookie]
+Cookie.SerialCookie(|) 
+;
+[Cookie.SimpleCookie |G  SimpleCookie]
+Cookie.SimpleCookie(|) 
+;
+[Cookie.SmartCookie |G  SmartCookie]
+Cookie.SmartCookie(|) 
+;
+[Cookie.UserDict |G {class}]
+Cookie.UserDict(|) 
+;
+[Cookie._getdate |G ]
+Cookie._getdate(|future=0, weekdayname=_weekdayname, monthname=_monthname)
+;
+[Cookie._quote |G {function}]
+Cookie._quote(|) 
+;
+[Cookie._test |G ]
+Cookie._test(|)
+;
+[Cookie._unquote |G ]
+Cookie._unquote(|str, join=string.join, atoi=string.atoi)
+;
+[Cookie.dumps |G --Return a string containing an object in pickle format]
+Cookie.dumps(|object, [binary]) 
+;
+[Cookie.loads |G -- Load a pickle from the given string]
+Cookie.loads(|string) 
+;
+[DeprecationWarning |G  Base class for warnings about deprecated features.]
+DeprecationWarning(|) 
+;
+[EOFError |G  Read beyond end of file.]
+EOFError(|) 
+;
+[EnvironmentError |G  Base class for I/O related errors.]
+EnvironmentError(|) 
+;
+[Exception |G  Common base class for all exceptions.]
+Exception(|) 
+;
+[FloatingPointError |G  Floating point operation failed.]
+FloatingPointError(|) 
+;
+[HTMLParser.HTMLParseError |G  Exception raised for all parse errors.]
+HTMLParser.HTMLParseError(|msg, position=(None, None)) 
+;
+[HTMLParser.HTMLParser |G  Find tags and other markup and call handler functions.]
+HTMLParser.HTMLParser(|) 
+;
+[IOError |G  I/O operation failed.]
+IOError(|) 
+;
+[ImportError |G  Import can't find module, or can't find name in module.]
+ImportError(|) 
+;
+[IndentationError |G  Improper indentation.]
+IndentationError(|) 
+;
+[IndexError |G  Sequence index out of range.]
+IndexError(|) 
+;
+[KeyError |G  Mapping key not found.]
+KeyError(|) 
+;
+[KeyboardInterrupt |G  Program interrupted by user.]
+KeyboardInterrupt(|) 
+;
+[LookupError |G  Base class for lookup errors.]
+LookupError(|) 
+;
+[MemoryError |G  Out of memory.]
+MemoryError(|) 
+;
+[MimeWriter.MimeWriter |G  Generic MIME writer.]
+MimeWriter.MimeWriter(|fp) 
+;
+[NameError |G  Name not found globally.]
+NameError(|) 
+;
+[NotImplementedError |G  Method or function hasn't been implemented yet.]
+NotImplementedError(|) 
+;
+[OSError |G  OS system call failed.]
+OSError(|) 
+;
+[OverflowError |G  Result too large to be represented.]
+OverflowError(|) 
+;
+[OverflowWarning |G  Base class for warnings about numeric overflow.]
+OverflowWarning(|) 
+;
+[Queue.Empty |G  Exception raised by Queue.get(block=0)/get_nowait().]
+Queue.Empty(|) 
+;
+[Queue.Full |G  Exception raised by Queue.put(block=0)/put_nowait().]
+Queue.Full(|) 
+;
+[Queue.Queue |G ]
+Queue.Queue(|maxsize=0)
+;
+[ReferenceError |G  Weak ref proxy used after referent went away.]
+ReferenceError(|) 
+;
+[RuntimeError |G  Unspecified run-time error.]
+RuntimeError(|) 
+;
+[RuntimeWarning |G  Base class for warnings about dubious runtime behavior.]
+RuntimeWarning(|) 
+;
+[SimpleHTTPServer.SimpleHTTPRequestHandler |G  Simple HTTP request handler with GET and HEAD commands.]
+SimpleHTTPServer.SimpleHTTPRequestHandler(|) 
+;
+[SimpleHTTPServer.StringIO |G  class StringIO({buffer})]
+SimpleHTTPServer.StringIO(|) 
+;
+[SimpleHTTPServer.test |G {function}]
+SimpleHTTPServer.test(|) 
+;
+[SimpleXMLRPCServer.SimpleXMLRPCRequestHandler |G  Simple XML-RPC request handler class.]
+SimpleXMLRPCServer.SimpleXMLRPCRequestHandler(|) 
+;
+[SimpleXMLRPCServer.SimpleXMLRPCServer |G  Simple XML-RPC server.]
+SimpleXMLRPCServer.SimpleXMLRPCServer(|) 
+;
+[SimpleXMLRPCServer._resolve_dotted_attribute |G  Resolves a dotted attribute name to an object.  Raises]
+SimpleXMLRPCServer._resolve_dotted_attribute(|obj, attr) 
+;
+[SocketServer.BaseRequestHandler |G  Base class for request handler classes.]
+SocketServer.BaseRequestHandler(|request, client_address, server) 
+;
+[SocketServer.BaseServer |G  Base class for server classes.]
+SocketServer.BaseServer(|server_address, RequestHandlerClass) 
+;
+[SocketServer.DatagramRequestHandler |G  Define self.rfile and self.wfile for datagram sockets.]
+SocketServer.DatagramRequestHandler(|) 
+;
+[SocketServer.ForkingMixIn |G  Mix-in class to handle each request in a new process.]
+SocketServer.ForkingMixIn(|) 
+;
+[SocketServer.ForkingTCPServer |G {class}]
+SocketServer.ForkingTCPServer(|) 
+;
+[SocketServer.ForkingUDPServer |G {class}]
+SocketServer.ForkingUDPServer(|) 
+;
+[SocketServer.StreamRequestHandler |G  Define self.rfile and self.wfile for stream sockets.]
+SocketServer.StreamRequestHandler(|) 
+;
+[SocketServer.TCPServer |G  Base class for various socket-based server classes.]
+SocketServer.TCPServer(|server_address, RequestHandlerClass) 
+;
+[SocketServer.ThreadingMixIn |G  Mix-in class to handle each request in a new thread.]
+SocketServer.ThreadingMixIn(|) 
+;
+[SocketServer.ThreadingTCPServer |G {class}]
+SocketServer.ThreadingTCPServer(|) 
+;
+[SocketServer.ThreadingUDPServer |G {class}]
+SocketServer.ThreadingUDPServer(|) 
+;
+[SocketServer.UDPServer |G  UDP server class.]
+SocketServer.UDPServer(|) 
+;
+[StandardError |G  Base class for all standard Python exceptions.]
+StandardError(|) 
+;
+[StopIteration |G  Signal the end from iterator.next().]
+StopIteration(|) 
+;
+[StringIO.StringIO |G  class StringIO({buffer})]
+StringIO.StringIO(|buf = '') 
+;
+[StringIO.test |G ]
+StringIO.test(|)
+;
+[SyntaxError |G  Invalid syntax.]
+SyntaxError(|) 
+;
+[SyntaxWarning |G  Base class for warnings about dubious syntax.]
+SyntaxWarning(|) 
+;
+[SystemError |G  Internal error in the Python interpreter.]
+SystemError(|) 
+;
+[SystemExit |G  Request to exit from the interpreter.]
+SystemExit(|) 
+;
+[TabError |G  Improper mixture of spaces and tabs.]
+TabError(|) 
+;
+[TypeError |G  Inappropriate argument type.]
+TypeError(|) 
+;
+[UnboundLocalError |G  Local name referenced but not bound to a value.]
+UnboundLocalError(|) 
+;
+[UnicodeError |G  Unicode related error.]
+UnicodeError(|) 
+;
+[UserDict.IterableUserDict |G {class}]
+UserDict.IterableUserDict(|) 
+;
+[UserDict.UserDict |G ]
+UserDict.UserDict(|dict=None)
+;
+[UserList.UserList |G ]
+UserList.UserList(|initlist=None)
+;
+[UserString.MutableString |G  mutable string objects]
+UserString.MutableString(|string="") 
+;
+[UserString.UserString |G ]
+UserString.UserString(|seq)
+;
+[UserWarning |G  Base class for warnings generated by user code.]
+UserWarning(|) 
+;
+[ValueError |G  Inappropriate argument value (of correct type).]
+ValueError(|) 
+;
+[Warning |G  Base class for warning categories.]
+Warning(|) 
+;
+[WindowsError |G  MS-Windows OS system call failed.]
+WindowsError(|) 
+;
+[ZeroDivisionError |G  Second argument to a division or modulo operation was zero.]
+ZeroDivisionError(|) 
+;
+[__import__ |G -> module]
+__import__(|name, globals, locals, fromlist) 
+;
+[abs |G -> number]
+abs(|number) 
+;
+[aifc.Aifc_read |G ]
+aifc.Aifc_read(|f)
+;
+[aifc.Aifc_write |G ]
+aifc.Aifc_write(|f)
+;
+[aifc.Chunk |G {class}]
+aifc.Chunk(|) 
+;
+[aifc.Error |G {class}]
+aifc.Error(|) 
+;
+[aifc._read_float |G ]
+aifc._read_float(|f)
+;
+[aifc._read_long |G ]
+aifc._read_long(|file)
+;
+[aifc._read_short |G ]
+aifc._read_short(|file)
+;
+[aifc._read_string |G ]
+aifc._read_string(|file)
+;
+[aifc._read_ulong |G ]
+aifc._read_ulong(|file)
+;
+[aifc._write_float |G ]
+aifc._write_float(|f, x)
+;
+[aifc._write_long |G ]
+aifc._write_long(|f, x)
+;
+[aifc._write_short |G ]
+aifc._write_short(|f, x)
+;
+[aifc._write_string |G ]
+aifc._write_string(|f, s)
+;
+[aifc.open |G ]
+aifc.open(|f, mode=None)
+;
+[aifc.openfp |G {function}]
+aifc.openfp(|) 
+;
+[anydbm.open |G ]
+anydbm.open(|file, flag = 'r', mode = 0666)
+;
+[apply |G -> value]
+apply(|object[, args[, kwargs]]) 
+;
+[array.array |G -> array]
+array.array(|typecode [, initializer]) 
+;
+[asynchat.async_chat |G  This is an abstract class.  You must derive from this class, and add]
+asynchat.async_chat(|) 
+;
+[asynchat.fifo |G {class}]
+asynchat.fifo(|) 
+;
+[asynchat.find_prefix_at_end  |G ]
+asynchat.find_prefix_at_end (|haystack, needle)
+;
+[asynchat.simple_producer |G {class}]
+asynchat.simple_producer(|) 
+;
+[asyncore.ExitNow |G {class}]
+asyncore.ExitNow(|) 
+;
+[asyncore.close_all  |G ]
+asyncore.close_all (|map=None)
+;
+[asyncore.compact_traceback  |G ]
+asyncore.compact_traceback (|)
+;
+[asyncore.dispatcher |G {class}]
+asyncore.dispatcher(|) 
+;
+[asyncore.dispatcher_with_send |G {class}]
+asyncore.dispatcher_with_send(|) 
+;
+[asyncore.loop  |G ]
+asyncore.loop (|timeout=30.0, use_poll=0, map=None)
+;
+[asyncore.poll  |G ]
+asyncore.poll (|timeout=0.0, map=None)
+;
+[asyncore.poll2  |G ]
+asyncore.poll2 (|timeout=0.0, map=None)
+;
+[asyncore.poll3  |G ]
+asyncore.poll3 (|timeout=0.0, map=None)
+;
+[atexit._run_exitfuncs |G  run any registered exit functions]
+atexit._run_exitfuncs(|) 
+;
+[atexit.register |G  register a function to be executed upon normal program termination]
+atexit.register(|func, *targs, **kargs) 
+;
+[audiodev.AudioDev |G ]
+audiodev.AudioDev(|)
+;
+[audiodev.Play_Audio_sgi |G {class}]
+audiodev.Play_Audio_sgi(|) 
+;
+[audiodev.Play_Audio_sun |G {class}]
+audiodev.Play_Audio_sun(|) 
+;
+[audiodev.error |G {class}]
+audiodev.error(|) 
+;
+[audiodev.test |G ]
+audiodev.test(|fn = None)
+;
+[audioop.error |G {class}]
+audioop.error(|) 
+;
+[base64.decode |G  Decode a file.]
+base64.decode(|input, output) 
+;
+[base64.decodestring |G  Decode a string.]
+base64.decodestring(|s) 
+;
+[base64.encode |G  Encode a file.]
+base64.encode(|input, output) 
+;
+[base64.encodestring |G  Encode a string.]
+base64.encodestring(|s) 
+;
+[base64.test |G  Small test program]
+base64.test(|) 
+;
+[base64.test1 |G ]
+base64.test1(|)
+;
+[bdb.Bdb |G  Generic Python debugger base class.]
+bdb.Bdb(|) 
+;
+[bdb.Breakpoint |G  Breakpoint class]
+bdb.Breakpoint(|file, line, temporary=0, cond = None) 
+;
+[bdb.Tdb |G {class}]
+bdb.Tdb(|) 
+;
+[bdb.bar |G ]
+bdb.bar(|a)
+;
+[bdb.effective |G  Determine which breakpoint for this file:line is to be acted upon.]
+bdb.effective(|file, line, frame) 
+;
+[bdb.foo |G ]
+bdb.foo(|n)
+;
+[bdb.set_trace |G ]
+bdb.set_trace(|)
+;
+[bdb.test |G ]
+bdb.test(|)
+;
+[binascii.Error |G {class}]
+binascii.Error(|) 
+;
+[binascii.Incomplete |G {class}]
+binascii.Incomplete(|) 
+;
+[binascii.a2b_hex |G -> s; Binary data of hexadecimal representation.]
+binascii.a2b_hex(|hexstr) 
+;
+[binascii.b2a_hex |G -> s; Hexadecimal representation of binary data.]
+binascii.b2a_hex(|data) 
+;
+[binascii.b2a_qp |G -> s;]
+binascii.b2a_qp(|data, quotetabs=0, istext=1, header=0) 
+;
+[binhex.BinHex |G ]
+binhex.BinHex(|(name, finfo, dlen, rlen), ofp)
+;
+[binhex.Error |G {class}]
+binhex.Error(|) 
+;
+[binhex.FInfo |G {class}]
+binhex.FInfo(|) 
+;
+[binhex.HexBin |G ]
+binhex.HexBin(|ifp)
+;
+[binhex._Hqxcoderengine |G  Write data to the coder in 3-byte chunks]
+binhex._Hqxcoderengine(|ofp) 
+;
+[binhex._Hqxdecoderengine |G  Read data via the decoder in 4-byte chunks]
+binhex._Hqxdecoderengine(|ifp) 
+;
+[binhex._Rlecoderengine |G  Write data to the RLE-coder in suitably large chunks]
+binhex._Rlecoderengine(|ofp) 
+;
+[binhex._Rledecoderengine |G  Read data via the RLE-coder]
+binhex._Rledecoderengine(|ifp) 
+;
+[binhex._test |G ]
+binhex._test(|)
+;
+[binhex.binhex |G  (infilename, outfilename) - Create binhex-encoded copy of a file]
+binhex.binhex(|inp, out) 
+;
+[binhex.getfileinfo |G {function}]
+binhex.getfileinfo(|) 
+;
+[binhex.hexbin |G  (infilename, outfilename) - Decode binhexed file]
+binhex.hexbin(|inp, out) 
+;
+[binhex.openrsrc |G {class}]
+binhex.openrsrc(|) 
+;
+[bisect.bisect |G  Return the index where to insert item x in list a, assuming a is sorted.]
+bisect.bisect(|) 
+;
+[bisect.bisect_left |G  Return the index where to insert item x in list a, assuming a is sorted.]
+bisect.bisect_left(|a, x, lo=0, hi=None) 
+;
+[bisect.bisect_right |G  Return the index where to insert item x in list a, assuming a is sorted.]
+bisect.bisect_right(|a, x, lo=0, hi=None) 
+;
+[bisect.insort |G  Insert item x in list a, and keep it sorted assuming a is sorted.]
+bisect.insort(|) 
+;
+[bisect.insort_left |G  Insert item x in list a, and keep it sorted assuming a is sorted.]
+bisect.insort_left(|a, x, lo=0, hi=None) 
+;
+[bisect.insort_right |G  Insert item x in list a, and keep it sorted assuming a is sorted.]
+bisect.insort_right(|a, x, lo=0, hi=None) 
+;
+[bool |G -> integer]
+bool(|x) 
+;
+[bsddb.error |G {class}]
+bsddb.error(|) 
+;
+[buffer |G -> object]
+buffer(|object [, offset[, size]]) 
+;
+[cPickle.PickleError |G {class}]
+cPickle.PickleError(|) 
+;
+[cPickle.Pickler |G -- Create a pickler]
+cPickle.Pickler(|file, [binary]) 
+;
+[cPickle.PicklingError |G {class}]
+cPickle.PicklingError(|) 
+;
+[cPickle.UnpickleableError |G {class}]
+cPickle.UnpickleableError(|) 
+;
+[cPickle.Unpickler |G -- Create an unpickler]
+cPickle.Unpickler(|file) 
+;
+[cPickle.UnpicklingError |G {class}]
+cPickle.UnpicklingError(|) 
+;
+[cPickle.dump |G --Write an object in pickle format to the given file]
+cPickle.dump(|object, file, [binary]) 
+;
+[cPickle.dumps |G --Return a string containing an object in pickle format]
+cPickle.dumps(|object, [binary]) 
+;
+[cPickle.load |G -- Load a pickle from the given file]
+cPickle.load(|file) 
+;
+[cPickle.loads |G -- Load a pickle from the given string]
+cPickle.loads(|string) 
+;
+[cStringIO.StringIO |G -- Return a StringIO-like stream for reading or writing]
+cStringIO.StringIO(|[s]) 
+;
+[calendar._center |G  Center a string in a field.]
+calendar._center(|str, width) 
+;
+[calendar._indexer |G {class}]
+calendar._indexer(|) 
+;
+[calendar._localized_day |G ]
+calendar._localized_day(|format)
+;
+[calendar._localized_month |G ]
+calendar._localized_month(|format)
+;
+[calendar.calendar |G  Returns a year's calendar as a multi-line string.]
+calendar.calendar(|year, w=0, l=0, c=_spacing) 
+;
+[calendar.error |G  Inappropriate argument value (of correct type).]
+calendar.error(|) 
+;
+[calendar.firstweekday |G ]
+calendar.firstweekday(|)
+;
+[calendar.format3c |G  Prints 3-column formatting for year calendars]
+calendar.format3c(|a, b, c, colwidth=_colwidth, spacing=_spacing) 
+;
+[calendar.format3cstring |G  Returns a string formatted from 3 strings, centered within 3 columns.]
+calendar.format3cstring(|a, b, c, colwidth=_colwidth, spacing=_spacing) 
+;
+[calendar.isleap |G  Return 1 for leap years, 0 for non-leap years.]
+calendar.isleap(|year) 
+;
+[calendar.leapdays |G  Return number of leap years in range {y1, y2).]
+calendar.leapdays(|y1, y2) 
+;
+[calendar.localtime |G -> (tm_year,tm_mon,tm_day,tm_hour,tm_min,tm_sec,tm_wday,tm_yday,tm_isdst)]
+calendar.localtime(|[seconds]) 
+;
+[calendar.mktime |G -> floating point number]
+calendar.mktime(|tuple) 
+;
+[calendar.month |G  Return a month's calendar string (multi-line).]
+calendar.month(|theyear, themonth, w=0, l=0) 
+;
+[calendar.monthcalendar |G  Return a matrix representing a month's calendar.]
+calendar.monthcalendar(|year, month) 
+;
+[calendar.monthrange |G  Return weekday (0-6 ~ Mon-Sun) and number of days (28-31) for]
+calendar.monthrange(|year, month) 
+;
+[calendar.prcal |G  Print a year's calendar.]
+calendar.prcal(|year, w=0, l=0, c=_spacing) 
+;
+[calendar.prmonth |G  Print a month's calendar.]
+calendar.prmonth(|theyear, themonth, w=0, l=0) 
+;
+[calendar.prweek |G  Print a single week (no newline).]
+calendar.prweek(|theweek, width) 
+;
+[calendar.setfirstweekday |G  Set weekday (Monday=0, Sunday=6) to start each week.]
+calendar.setfirstweekday(|weekday) 
+;
+[calendar.strftime |G -> string]
+calendar.strftime(|format[, tuple]) 
+;
+[calendar.timegm |G  Unrelated but handy function to calculate Unix timestamp from GMT.]
+calendar.timegm(|tuple) 
+;
+[calendar.week |G  Returns a single week in a string (no newline).]
+calendar.week(|theweek, width) 
+;
+[calendar.weekday |G  Return weekday (0-6 ~ Mon-Sun) for year (1970-...), month (1-12),]
+calendar.weekday(|year, month, day) 
+;
+[calendar.weekheader |G  Return a header for a week.]
+calendar.weekheader(|width) 
+;
+[callable |G -> Boolean]
+callable(|object) 
+;
+[cgi.FieldStorage |G  Store a sequence of fields, reading multipart/form-data.]
+cgi.FieldStorage(|) 
+;
+[cgi.FormContent |G  This class is present for backwards compatibility only.]
+cgi.FormContent(|) 
+;
+[cgi.FormContentDict |G  Form content as dictionary with a list of values per field.]
+cgi.FormContentDict(|environ=os.environ) 
+;
+[cgi.InterpFormContentDict |G  This class is present for backwards compatibility only.]
+cgi.InterpFormContentDict(|) 
+;
+[cgi.MiniFieldStorage |G  Like FieldStorage, for use when no file uploads are possible.]
+cgi.MiniFieldStorage(|name, value) 
+;
+[cgi.StringIO |G  class StringIO({buffer})]
+cgi.StringIO(|) 
+;
+[cgi.SvFormContentDict |G  Form content as dictionary expecting a single value per field.]
+cgi.SvFormContentDict(|) 
+;
+[cgi.dolog |G  Write a log message to the log file.  See initlog() for docs.]
+cgi.dolog(|fmt, *args) 
+;
+[cgi.escape |G  Replace special characters '&', '<' and '>' by SGML entities.]
+cgi.escape(|s, quote=None) 
+;
+[cgi.initlog |G  Write a log message, if there is a log file.]
+cgi.initlog(|*allargs) 
+;
+[cgi.log |G  Write a log message, if there is a log file.]
+cgi.log(|) 
+;
+[cgi.nolog |G  Dummy function, assigned to log when logging is disabled.]
+cgi.nolog(|*allargs) 
+;
+[cgi.parse |G  Parse a query in the environment or from a file (default stdin)]
+cgi.parse(|fp=None, environ=os.environ, keep_blank_values=0, strict_parsing=0) 
+;
+[cgi.parse_header |G  Parse a Content-type like header.]
+cgi.parse_header(|line) 
+;
+[cgi.parse_multipart |G  Parse multipart input.]
+cgi.parse_multipart(|fp, pdict) 
+;
+[cgi.parse_qs |G  Parse a query given as a string argument.]
+cgi.parse_qs(|qs, keep_blank_values=0, strict_parsing=0) 
+;
+[cgi.parse_qsl |G  Parse a query given as a string argument.]
+cgi.parse_qsl(|qs, keep_blank_values=0, strict_parsing=0) 
+;
+[cgi.print_arguments |G ]
+cgi.print_arguments(|)
+;
+[cgi.print_directory |G  Dump the current directory as HTML.]
+cgi.print_directory(|) 
+;
+[cgi.print_environ |G  Dump the shell environment as HTML.]
+cgi.print_environ(|environ=os.environ) 
+;
+[cgi.print_environ_usage |G  Dump a list of environment variables used by CGI as HTML.]
+cgi.print_environ_usage(|) 
+;
+[cgi.print_exception |G ]
+cgi.print_exception(|type=None, value=None, tb=None, limit=None)
+;
+[cgi.print_form |G  Dump the contents of a form as HTML.]
+cgi.print_form(|form) 
+;
+[cgi.test |G  Robust test CGI script, usable as main program.]
+cgi.test(|environ=os.environ) 
+;
+[cgi.valid_boundary |G ]
+cgi.valid_boundary(|s, _vb_pattern="^[ -~]{0,200}[!-~]$")
+;
+[cgitb.Hook |G  A hook to replace sys.excepthook that shows tracebacks in HTML.]
+cgitb.Hook(|display=1, logdir=None, context=5, file=None) 
+;
+[cgitb.enable |G  Install an exception handler that formats tracebacks as HTML.]
+cgitb.enable(|display=1, logdir=None, context=5) 
+;
+[cgitb.grey |G ]
+cgitb.grey(|text)
+;
+[cgitb.html |G  Return a nice HTML document describing a given traceback.]
+cgitb.html(|(etype, evalue, etb), context=5) 
+;
+[cgitb.lookup |G  Find the value for a given name in the given environment.]
+cgitb.lookup(|name, frame, locals) 
+;
+[cgitb.reset |G  Return a string that resets the CGI and browser to a known state.]
+cgitb.reset(|) 
+;
+[cgitb.scanvars |G  Scan one logical line of Python and look up values of variables used.]
+cgitb.scanvars(|reader, frame, locals) 
+;
+[cgitb.small |G ]
+cgitb.small(|text)
+;
+[cgitb.strong |G ]
+cgitb.strong(|text)
+;
+[chr |G -> character]
+chr(|i) 
+;
+[chunk.Chunk |G ]
+chunk.Chunk(|file, align = 1, bigendian = 1, inclheader = 0)
+;
+[classmethod |G -> method]
+classmethod(|function) 
+;
+[cmath.acos |G Return the arc cosine of x.]
+cmath.acos(|x)
+;
+[cmath.acosh |G Return the hyperbolic arccosine of x.]
+cmath.acosh(|x)
+;
+[cmath.asin |G Return the arc sine of x.]
+cmath.asin(|x)
+;
+[cmath.asinh |G Return the hyperbolic arc sine of x.]
+cmath.asinh(|x)
+;
+[cmath.atan |G Return the arc tangent of x.]
+cmath.atan(|x)
+;
+[cmath.atanh |G Return the hyperbolic arc tangent of x.]
+cmath.atanh(|x)
+;
+[cmath.cos |G nReturn the cosine of x.]
+cmath.cos(|x)
+;
+[cmath.cosh |G nReturn the hyperbolic cosine of x.]
+cmath.cosh(|x)
+;
+[cmath.exp |G Return the exponential value e**x.]
+cmath.exp(|x)
+;
+[cmath.log |G Return the natural logarithm of x.]
+cmath.log(|x)
+;
+[cmath.log10 |G Return the base-10 logarithm of x.]
+cmath.log10(|x)
+;
+[cmath.sin |G Return the sine of x.]
+cmath.sin(|x)
+;
+[cmath.sinh |G Return the hyperbolic sine of x.]
+cmath.sinh(|x)
+;
+[cmath.sqrt |G Return the square root of x.]
+cmath.sqrt(|x)
+;
+[cmath.tan |G Return the tangent of x.]
+cmath.tan(|x)
+;
+[cmath.tanh |G Return the hyperbolic tangent of x.]
+cmath.tanh(|x)
+;
+[cmd.Cmd |G  A simple framework for writing line-oriented command interpreters.]
+cmd.Cmd(|completekey='tab') 
+;
+[cmp |G -> integer]
+cmp(|x, y) 
+;
+[code.CommandCompiler |G  Instances of this class have __call__ methods identical in]
+code.CommandCompiler(|) 
+;
+[code.InteractiveConsole |G  Closely emulate the behavior of the interactive Python interpreter.]
+code.InteractiveConsole(|locals=None, filename="<console>") 
+;
+[code.InteractiveInterpreter |G  Base class for InteractiveConsole.]
+code.InteractiveInterpreter(|locals=None) 
+;
+[code.compile_command |G  Compile a command and determine whether it is incomplete.]
+code.compile_command(|) 
+;
+[code.interact |G  Closely emulate the interactive Python interpreter.]
+code.interact(|banner=None, readfunc=None, local=None) 
+;
+[code.softspace |G ]
+code.softspace(|file, newvalue)
+;
+[codecs.Codec |G  Defines the interface for stateless encoders/decoders.]
+codecs.Codec(|) 
+;
+[codecs.EncodedFile |G  Return a wrapped version of file which provides transparent]
+codecs.EncodedFile(|file, data_encoding, file_encoding=None, errors='strict') 
+;
+[codecs.StreamReader |G ]
+codecs.StreamReader(|stream, errors='strict')
+;
+[codecs.StreamReaderWriter |G  StreamReaderWriter instances allow wrapping streams which]
+codecs.StreamReaderWriter(|stream, Reader, Writer, errors='strict') 
+;
+[codecs.StreamRecoder |G  StreamRecoder instances provide a frontend - backend]
+codecs.StreamRecoder(|) 
+;
+[codecs.StreamWriter |G ]
+codecs.StreamWriter(|stream, errors='strict')
+;
+[codecs.getdecoder |G  Lookup up the codec for the given encoding and return]
+codecs.getdecoder(|encoding) 
+;
+[codecs.getencoder |G  Lookup up the codec for the given encoding and return]
+codecs.getencoder(|encoding) 
+;
+[codecs.getreader |G  Lookup up the codec for the given encoding and return]
+codecs.getreader(|encoding) 
+;
+[codecs.getwriter |G  Lookup up the codec for the given encoding and return]
+codecs.getwriter(|encoding) 
+;
+[codecs.make_encoding_map |G  Creates an encoding map from a decoding map.]
+codecs.make_encoding_map(|decoding_map) 
+;
+[codecs.make_identity_dict |G -> dict]
+codecs.make_identity_dict(|rng) 
+;
+[codecs.open |G  Open an encoded file using the given mode and return]
+codecs.open(|filename, mode='rb', encoding=None, errors='strict', buffering=1) 
+;
+[codeop.CommandCompiler |G  Instances of this class have __call__ methods identical in]
+codeop.CommandCompiler(|) 
+;
+[codeop.Compile |G  Instances of this class behave much like the built-in compile]
+codeop.Compile(|) 
+;
+[codeop._maybe_compile |G ]
+codeop._maybe_compile(|compiler, source, filename, symbol)
+;
+[codeop.compile_command |G  Compile a command and determine whether it is incomplete.]
+codeop.compile_command(|source, filename="<input>", symbol="single") 
+;
+[coerce |G -> None or (x1, y1)]
+coerce(|x, y) 
+;
+[colorsys._v |G ]
+colorsys._v(|m1, m2, hue)
+;
+[colorsys.hls_to_rgb |G ]
+colorsys.hls_to_rgb(|h, l, s)
+;
+[colorsys.hsv_to_rgb |G ]
+colorsys.hsv_to_rgb(|h, s, v)
+;
+[colorsys.rgb_to_hls |G ]
+colorsys.rgb_to_hls(|r, g, b)
+;
+[colorsys.rgb_to_hsv |G ]
+colorsys.rgb_to_hsv(|r, g, b)
+;
+[colorsys.rgb_to_yiq |G ]
+colorsys.rgb_to_yiq(|r, g, b)
+;
+[colorsys.yiq_to_rgb |G ]
+colorsys.yiq_to_rgb(|y, i, q)
+;
+[commands.getoutput |G  Return output (stdout or stderr) of executing cmd in a shell.]
+commands.getoutput(|cmd) 
+;
+[commands.getstatus |G  Return output of "ls -ld <file>" in a string.]
+commands.getstatus(|file) 
+;
+[commands.getstatusoutput |G  Return (status, output) of executing cmd in a shell.]
+commands.getstatusoutput(|cmd) 
+;
+[commands.mk2arg |G ]
+commands.mk2arg(|head, x)
+;
+[commands.mkarg |G ]
+commands.mkarg(|x)
+;
+[compile |G -> code object]
+compile(|source, filename, mode[, flags[, dont_inherit]]) 
+;
+[compileall.compile_dir |G  Byte-compile all modules in the given directory tree.]
+compileall.compile_dir(|dir, maxlevels=10, ddir=None, force=0, rx=None) 
+;
+[compileall.compile_path |G  Byte-compile all module on sys.path.]
+compileall.compile_path(|skip_curdir=1, maxlevels=0, force=0) 
+;
+[compileall.main |G  Script main program.]
+compileall.main(|) 
+;
+[compiler.ast.Add |G ]
+compiler.ast.Add(|(left, right))
+;
+[compiler.ast.And |G ]
+compiler.ast.And(|nodes)
+;
+[compiler.ast.AssAttr |G ]
+compiler.ast.AssAttr(|expr, attrname, flags)
+;
+[compiler.ast.AssList |G ]
+compiler.ast.AssList(|nodes)
+;
+[compiler.ast.AssName |G ]
+compiler.ast.AssName(|name, flags)
+;
+[compiler.ast.AssTuple |G ]
+compiler.ast.AssTuple(|nodes)
+;
+[compiler.ast.Assert |G ]
+compiler.ast.Assert(|test, fail)
+;
+[compiler.ast.Assign |G ]
+compiler.ast.Assign(|nodes, expr)
+;
+[compiler.ast.AugAssign |G ]
+compiler.ast.AugAssign(|node, op, expr)
+;
+[compiler.ast.Backquote |G ]
+compiler.ast.Backquote(|expr)
+;
+[compiler.ast.Bitand |G ]
+compiler.ast.Bitand(|nodes)
+;
+[compiler.ast.Bitor |G ]
+compiler.ast.Bitor(|nodes)
+;
+[compiler.ast.Bitxor |G ]
+compiler.ast.Bitxor(|nodes)
+;
+[compiler.ast.Break |G ]
+compiler.ast.Break(|)
+;
+[compiler.ast.CallFunc |G ]
+compiler.ast.CallFunc(|node, args, star_args = None, dstar_args = None)
+;
+[compiler.ast.Class |G ]
+compiler.ast.Class(|name, bases, doc, code)
+;
+[compiler.ast.Compare |G ]
+compiler.ast.Compare(|expr, ops)
+;
+[compiler.ast.Const |G ]
+compiler.ast.Const(|value)
+;
+[compiler.ast.Continue |G ]
+compiler.ast.Continue(|)
+;
+[compiler.ast.Dict |G ]
+compiler.ast.Dict(|items)
+;
+[compiler.ast.Discard |G ]
+compiler.ast.Discard(|expr)
+;
+[compiler.ast.Div |G ]
+compiler.ast.Div(|(left, right))
+;
+[compiler.ast.Ellipsis |G ]
+compiler.ast.Ellipsis(|)
+;
+[compiler.ast.EmptyNode |G {class}]
+compiler.ast.EmptyNode(|) 
+;
+[compiler.ast.Exec |G ]
+compiler.ast.Exec(|expr, locals, globals)
+;
+[compiler.ast.Expression |G ]
+compiler.ast.Expression(|node)
+;
+[compiler.ast.FloorDiv |G ]
+compiler.ast.FloorDiv(|(left, right))
+;
+[compiler.ast.For |G ]
+compiler.ast.For(|assign, list, body, else_)
+;
+[compiler.ast.From |G ]
+compiler.ast.From(|modname, names)
+;
+[compiler.ast.Function |G ]
+compiler.ast.Function(|name, argnames, defaults, flags, doc, code)
+;
+[compiler.ast.Getattr |G ]
+compiler.ast.Getattr(|expr, attrname)
+;
+[compiler.ast.Global |G ]
+compiler.ast.Global(|names)
+;
+[compiler.ast.If |G ]
+compiler.ast.If(|tests, else_)
+;
+[compiler.ast.Import |G ]
+compiler.ast.Import(|names)
+;
+[compiler.ast.Invert |G ]
+compiler.ast.Invert(|expr)
+;
+[compiler.ast.Keyword |G ]
+compiler.ast.Keyword(|name, expr)
+;
+[compiler.ast.Lambda |G ]
+compiler.ast.Lambda(|argnames, defaults, flags, code)
+;
+[compiler.ast.LeftShift |G ]
+compiler.ast.LeftShift(|(left, right))
+;
+[compiler.ast.List |G ]
+compiler.ast.List(|nodes)
+;
+[compiler.ast.ListComp |G ]
+compiler.ast.ListComp(|expr, quals)
+;
+[compiler.ast.ListCompFor |G ]
+compiler.ast.ListCompFor(|assign, list, ifs)
+;
+[compiler.ast.ListCompIf |G ]
+compiler.ast.ListCompIf(|test)
+;
+[compiler.ast.Mod |G ]
+compiler.ast.Mod(|(left, right))
+;
+[compiler.ast.Module |G ]
+compiler.ast.Module(|doc, node)
+;
+[compiler.ast.Mul |G ]
+compiler.ast.Mul(|(left, right))
+;
+[compiler.ast.Name |G ]
+compiler.ast.Name(|name)
+;
+[compiler.ast.Node |G {class}]
+compiler.ast.Node(|) 
+;
+[compiler.ast.Not |G ]
+compiler.ast.Not(|expr)
+;
+[compiler.ast.Or |G ]
+compiler.ast.Or(|nodes)
+;
+[compiler.ast.Pass |G ]
+compiler.ast.Pass(|)
+;
+[compiler.ast.Power |G ]
+compiler.ast.Power(|(left, right))
+;
+[compiler.ast.Print |G ]
+compiler.ast.Print(|nodes, dest)
+;
+[compiler.ast.Printnl |G ]
+compiler.ast.Printnl(|nodes, dest)
+;
+[compiler.ast.Raise |G ]
+compiler.ast.Raise(|expr1, expr2, expr3)
+;
+[compiler.ast.Return |G ]
+compiler.ast.Return(|value)
+;
+[compiler.ast.RightShift |G ]
+compiler.ast.RightShift(|(left, right))
+;
+[compiler.ast.Slice |G ]
+compiler.ast.Slice(|expr, flags, lower, upper)
+;
+[compiler.ast.Sliceobj |G ]
+compiler.ast.Sliceobj(|nodes)
+;
+[compiler.ast.Stmt |G ]
+compiler.ast.Stmt(|nodes)
+;
+[compiler.ast.Sub |G ]
+compiler.ast.Sub(|(left, right))
+;
+[compiler.ast.Subscript |G ]
+compiler.ast.Subscript(|expr, flags, subs)
+;
+[compiler.ast.TryExcept |G ]
+compiler.ast.TryExcept(|body, handlers, else_)
+;
+[compiler.ast.TryFinally |G ]
+compiler.ast.TryFinally(|body, final)
+;
+[compiler.ast.Tuple |G ]
+compiler.ast.Tuple(|nodes)
+;
+[compiler.ast.UnaryAdd |G ]
+compiler.ast.UnaryAdd(|expr)
+;
+[compiler.ast.UnarySub |G ]
+compiler.ast.UnarySub(|expr)
+;
+[compiler.ast.While |G ]
+compiler.ast.While(|test, body, else_)
+;
+[compiler.ast.Yield |G ]
+compiler.ast.Yield(|value)
+;
+[compiler.ast.asList |G ]
+compiler.ast.asList(|nodes)
+;
+[compiler.ast.flatten |G ]
+compiler.ast.flatten(|list)
+;
+[compiler.ast.flatten_nodes |G ]
+compiler.ast.flatten_nodes(|list)
+;
+[compiler.compile |G  Replacement for builtin compile() function]
+compiler.compile(|) 
+;
+[compiler.compileFile |G {function}]
+compiler.compileFile(|) 
+;
+[compiler.future.BadFutureParser |G  Check for invalid future statements]
+compiler.future.BadFutureParser(|) 
+;
+[compiler.future.FutureParser |G {class}]
+compiler.future.FutureParser(|) 
+;
+[compiler.future.find_futures |G ]
+compiler.future.find_futures(|node)
+;
+[compiler.future.is_future |G  Return true if statement is a well-formed future statement]
+compiler.future.is_future(|stmt) 
+;
+[compiler.future.walk |G {function}]
+compiler.future.walk(|) 
+;
+[compiler.misc.Set |G {class}]
+compiler.misc.Set(|) 
+;
+[compiler.misc.Stack |G {class}]
+compiler.misc.Stack(|) 
+;
+[compiler.misc.flatten |G ]
+compiler.misc.flatten(|tup)
+;
+[compiler.misc.mangle |G ]
+compiler.misc.mangle(|name, klass)
+;
+[compiler.misc.set_filename |G  Set the filename attribute to filename on every node in tree]
+compiler.misc.set_filename(|filename, tree) 
+;
+[compiler.parse |G {function}]
+compiler.parse(|) 
+;
+[compiler.parseFile |G {function}]
+compiler.parseFile(|) 
+;
+[compiler.pyassem.Block |G A flow graph representation for Python bytecode]
+compiler.pyassem.Block(|label='')
+;
+[compiler.pyassem.FlowGraph |G {class}]
+compiler.pyassem.FlowGraph(|) 
+;
+[compiler.pyassem.LineAddrTable |G  lnotab]
+compiler.pyassem.LineAddrTable(|) 
+;
+[compiler.pyassem.PyFlowGraph |G A flow graph representation for Python bytecode]
+compiler.pyassem.PyFlowGraph(|name, filename, args=(), optimized=0, klass=None)
+;
+[compiler.pyassem.StackDepthTracker |G {class}]
+compiler.pyassem.StackDepthTracker(|) 
+;
+[compiler.pyassem.TupleArg |G  Helper for marking func defs with nested tuples in arglist]
+compiler.pyassem.TupleArg(|count, names) 
+;
+[compiler.pyassem.dfs_postorder |G  Depth-first search of tree rooted at b, return in postorder]
+compiler.pyassem.dfs_postorder(|b, seen) 
+;
+[compiler.pyassem.getArgCount |G A flow graph representation for Python bytecode]
+compiler.pyassem.getArgCount(|args)
+;
+[compiler.pyassem.isJump |G A flow graph representation for Python bytecode]
+compiler.pyassem.isJump(|opname)
+;
+[compiler.pyassem.twobyte |G  Convert an int argument into high and low bytes]
+compiler.pyassem.twobyte(|val) 
+;
+[compiler.pyassem.xxx_sort |G A flow graph representation for Python bytecode]
+compiler.pyassem.xxx_sort(|l)
+;
+[compiler.pycodegen.AbstractClassCode |G ]
+compiler.pycodegen.AbstractClassCode(|klass, scopes, module)
+;
+[compiler.pycodegen.AbstractCompileMode |G ]
+compiler.pycodegen.AbstractCompileMode(|source, filename)
+;
+[compiler.pycodegen.AbstractFunctionCode |G ]
+compiler.pycodegen.AbstractFunctionCode(|func, scopes, isLambda, class_name, mod)
+;
+[compiler.pycodegen.AugGetattr |G {class}]
+compiler.pycodegen.AugGetattr(|) 
+;
+[compiler.pycodegen.AugName |G {class}]
+compiler.pycodegen.AugName(|) 
+;
+[compiler.pycodegen.AugSlice |G {class}]
+compiler.pycodegen.AugSlice(|) 
+;
+[compiler.pycodegen.AugSubscript |G {class}]
+compiler.pycodegen.AugSubscript(|) 
+;
+[compiler.pycodegen.BlockStack |G {class}]
+compiler.pycodegen.BlockStack(|) 
+;
+[compiler.pycodegen.ClassCodeGenerator |G ]
+compiler.pycodegen.ClassCodeGenerator(|klass, scopes, module)
+;
+[compiler.pycodegen.CodeGenerator |G  Defines basic code generator for Python bytecode]
+compiler.pycodegen.CodeGenerator(|) 
+;
+[compiler.pycodegen.Delegator |G  Base class to support delegation for augmented assignment nodes]
+compiler.pycodegen.Delegator(|obj) 
+;
+[compiler.pycodegen.Expression |G {class}]
+compiler.pycodegen.Expression(|) 
+;
+[compiler.pycodegen.ExpressionCodeGenerator |G ]
+compiler.pycodegen.ExpressionCodeGenerator(|tree)
+;
+[compiler.pycodegen.FunctionCodeGenerator |G ]
+compiler.pycodegen.FunctionCodeGenerator(|func, scopes, isLambda, class_name, mod)
+;
+[compiler.pycodegen.Interactive |G {class}]
+compiler.pycodegen.Interactive(|) 
+;
+[compiler.pycodegen.InteractiveCodeGenerator |G ]
+compiler.pycodegen.InteractiveCodeGenerator(|tree)
+;
+[compiler.pycodegen.LocalNameFinder |G  Find local names in scope]
+compiler.pycodegen.LocalNameFinder(|names=()) 
+;
+[compiler.pycodegen.Module |G {class}]
+compiler.pycodegen.Module(|) 
+;
+[compiler.pycodegen.ModuleCodeGenerator |G ]
+compiler.pycodegen.ModuleCodeGenerator(|tree)
+;
+[compiler.pycodegen.NestedScopeMixin |G  Defines initClass() for nested scoping (Python 2.2-compatible)]
+compiler.pycodegen.NestedScopeMixin(|) 
+;
+[compiler.pycodegen.OpFinder |G {class}]
+compiler.pycodegen.OpFinder(|) 
+;
+[compiler.pycodegen.StringIO |G -- Return a StringIO-like stream for reading or writing]
+compiler.pycodegen.StringIO(|[s]) 
+;
+[compiler.pycodegen.TupleArg |G  Helper for marking func defs with nested tuples in arglist]
+compiler.pycodegen.TupleArg(|) 
+;
+[compiler.pycodegen.compile |G  Replacement for builtin compile() function]
+compiler.pycodegen.compile(|source, filename, mode, flags=None, dont_inherit=None) 
+;
+[compiler.pycodegen.compileFile |G ]
+compiler.pycodegen.compileFile(|filename, display=0)
+;
+[compiler.pycodegen.findOp |G  Find the op (DELETE, LOAD, STORE) in an AssTuple tree]
+compiler.pycodegen.findOp(|node) 
+;
+[compiler.pycodegen.generateArgList |G  Generate an arg list marking TupleArgs]
+compiler.pycodegen.generateArgList(|arglist) 
+;
+[compiler.pycodegen.is_constant_false |G ]
+compiler.pycodegen.is_constant_false(|node)
+;
+[compiler.pycodegen.parse |G {function}]
+compiler.pycodegen.parse(|) 
+;
+[compiler.pycodegen.walk |G {function}]
+compiler.pycodegen.walk(|) 
+;
+[compiler.pycodegen.wrap_aug |G ]
+compiler.pycodegen.wrap_aug(|node)
+;
+[compiler.symbols.ClassScope |G Module symbol-table generator]
+compiler.symbols.ClassScope(|name, module)
+;
+[compiler.symbols.FunctionScope |G {class}]
+compiler.symbols.FunctionScope(|) 
+;
+[compiler.symbols.LambdaScope |G Module symbol-table generator]
+compiler.symbols.LambdaScope(|module, klass=None)
+;
+[compiler.symbols.ModuleScope |G {class}]
+compiler.symbols.ModuleScope(|) 
+;
+[compiler.symbols.Scope |G Module symbol-table generator]
+compiler.symbols.Scope(|name, module, klass=None)
+;
+[compiler.symbols.SymbolVisitor |G {class}]
+compiler.symbols.SymbolVisitor(|) 
+;
+[compiler.symbols.list_eq |G Module symbol-table generator]
+compiler.symbols.list_eq(|l1, l2)
+;
+[compiler.symbols.mangle |G {function}]
+compiler.symbols.mangle(|) 
+;
+[compiler.symbols.sort |G Module symbol-table generator]
+compiler.symbols.sort(|l)
+;
+[compiler.syntax.SyntaxErrorChecker |G  A visitor to find syntax errors in the AST.]
+compiler.syntax.SyntaxErrorChecker(|multi=None) 
+;
+[compiler.syntax.check |G ]
+compiler.syntax.check(|tree, multi=None)
+;
+[compiler.syntax.walk |G {function}]
+compiler.syntax.walk(|) 
+;
+[compiler.transformer.Add |G {class}]
+compiler.transformer.Add(|) 
+;
+[compiler.transformer.And |G {class}]
+compiler.transformer.And(|) 
+;
+[compiler.transformer.AssAttr |G {class}]
+compiler.transformer.AssAttr(|) 
+;
+[compiler.transformer.AssList |G {class}]
+compiler.transformer.AssList(|) 
+;
+[compiler.transformer.AssName |G {class}]
+compiler.transformer.AssName(|) 
+;
+[compiler.transformer.AssTuple |G {class}]
+compiler.transformer.AssTuple(|) 
+;
+[compiler.transformer.Assert |G {class}]
+compiler.transformer.Assert(|) 
+;
+[compiler.transformer.Assign |G {class}]
+compiler.transformer.Assign(|) 
+;
+[compiler.transformer.AugAssign |G {class}]
+compiler.transformer.AugAssign(|) 
+;
+[compiler.transformer.Backquote |G {class}]
+compiler.transformer.Backquote(|) 
+;
+[compiler.transformer.Bitand |G {class}]
+compiler.transformer.Bitand(|) 
+;
+[compiler.transformer.Bitor |G {class}]
+compiler.transformer.Bitor(|) 
+;
+[compiler.transformer.Bitxor |G {class}]
+compiler.transformer.Bitxor(|) 
+;
+[compiler.transformer.Break |G {class}]
+compiler.transformer.Break(|) 
+;
+[compiler.transformer.CallFunc |G {class}]
+compiler.transformer.CallFunc(|) 
+;
+[compiler.transformer.Class |G {class}]
+compiler.transformer.Class(|) 
+;
+[compiler.transformer.Compare |G {class}]
+compiler.transformer.Compare(|) 
+;
+[compiler.transformer.Const |G {class}]
+compiler.transformer.Const(|) 
+;
+[compiler.transformer.Continue |G {class}]
+compiler.transformer.Continue(|) 
+;
+[compiler.transformer.Dict |G {class}]
+compiler.transformer.Dict(|) 
+;
+[compiler.transformer.Discard |G {class}]
+compiler.transformer.Discard(|) 
+;
+[compiler.transformer.Div |G {class}]
+compiler.transformer.Div(|) 
+;
+[compiler.transformer.Ellipsis |G {class}]
+compiler.transformer.Ellipsis(|) 
+;
+[compiler.transformer.EmptyNode |G {class}]
+compiler.transformer.EmptyNode(|) 
+;
+[compiler.transformer.Exec |G {class}]
+compiler.transformer.Exec(|) 
+;
+[compiler.transformer.Expression |G {class}]
+compiler.transformer.Expression(|) 
+;
+[compiler.transformer.FloorDiv |G {class}]
+compiler.transformer.FloorDiv(|) 
+;
+[compiler.transformer.For |G {class}]
+compiler.transformer.For(|) 
+;
+[compiler.transformer.From |G {class}]
+compiler.transformer.From(|) 
+;
+[compiler.transformer.Function |G {class}]
+compiler.transformer.Function(|) 
+;
+[compiler.transformer.Getattr |G {class}]
+compiler.transformer.Getattr(|) 
+;
+[compiler.transformer.Global |G {class}]
+compiler.transformer.Global(|) 
+;
+[compiler.transformer.If |G {class}]
+compiler.transformer.If(|) 
+;
+[compiler.transformer.Import |G {class}]
+compiler.transformer.Import(|) 
+;
+[compiler.transformer.Invert |G {class}]
+compiler.transformer.Invert(|) 
+;
+[compiler.transformer.Keyword |G {class}]
+compiler.transformer.Keyword(|) 
+;
+[compiler.transformer.Lambda |G {class}]
+compiler.transformer.Lambda(|) 
+;
+[compiler.transformer.LeftShift |G {class}]
+compiler.transformer.LeftShift(|) 
+;
+[compiler.transformer.List |G {class}]
+compiler.transformer.List(|) 
+;
+[compiler.transformer.ListComp |G {class}]
+compiler.transformer.ListComp(|) 
+;
+[compiler.transformer.ListCompFor |G {class}]
+compiler.transformer.ListCompFor(|) 
+;
+[compiler.transformer.ListCompIf |G {class}]
+compiler.transformer.ListCompIf(|) 
+;
+[compiler.transformer.Mod |G {class}]
+compiler.transformer.Mod(|) 
+;
+[compiler.transformer.Module |G {class}]
+compiler.transformer.Module(|) 
+;
+[compiler.transformer.Mul |G {class}]
+compiler.transformer.Mul(|) 
+;
+[compiler.transformer.Name |G {class}]
+compiler.transformer.Name(|) 
+;
+[compiler.transformer.Node |G ]
+compiler.transformer.Node(|*args)
+;
+[compiler.transformer.Not |G {class}]
+compiler.transformer.Not(|) 
+;
+[compiler.transformer.Or |G {class}]
+compiler.transformer.Or(|) 
+;
+[compiler.transformer.Pass |G {class}]
+compiler.transformer.Pass(|) 
+;
+[compiler.transformer.Power |G {class}]
+compiler.transformer.Power(|) 
+;
+[compiler.transformer.Print |G {class}]
+compiler.transformer.Print(|) 
+;
+[compiler.transformer.Printnl |G {class}]
+compiler.transformer.Printnl(|) 
+;
+[compiler.transformer.Raise |G {class}]
+compiler.transformer.Raise(|) 
+;
+[compiler.transformer.Return |G {class}]
+compiler.transformer.Return(|) 
+;
+[compiler.transformer.RightShift |G {class}]
+compiler.transformer.RightShift(|) 
+;
+[compiler.transformer.Slice |G {class}]
+compiler.transformer.Slice(|) 
+;
+[compiler.transformer.Sliceobj |G {class}]
+compiler.transformer.Sliceobj(|) 
+;
+[compiler.transformer.Stmt |G {class}]
+compiler.transformer.Stmt(|) 
+;
+[compiler.transformer.Sub |G {class}]
+compiler.transformer.Sub(|) 
+;
+[compiler.transformer.Subscript |G {class}]
+compiler.transformer.Subscript(|) 
+;
+[compiler.transformer.Transformer |G  Utility object for transforming Python parse trees.]
+compiler.transformer.Transformer(|) 
+;
+[compiler.transformer.TryExcept |G {class}]
+compiler.transformer.TryExcept(|) 
+;
+[compiler.transformer.TryFinally |G {class}]
+compiler.transformer.TryFinally(|) 
+;
+[compiler.transformer.Tuple |G {class}]
+compiler.transformer.Tuple(|) 
+;
+[compiler.transformer.UnaryAdd |G {class}]
+compiler.transformer.UnaryAdd(|) 
+;
+[compiler.transformer.UnarySub |G {class}]
+compiler.transformer.UnarySub(|) 
+;
+[compiler.transformer.While |G {class}]
+compiler.transformer.While(|) 
+;
+[compiler.transformer.Yield |G {class}]
+compiler.transformer.Yield(|) 
+;
+[compiler.transformer.asList |G ]
+compiler.transformer.asList(|nodes)
+;
+[compiler.transformer.debug_tree |G ]
+compiler.transformer.debug_tree(|tree)
+;
+[compiler.transformer.flatten |G {function}]
+compiler.transformer.flatten(|) 
+;
+[compiler.transformer.flatten_nodes |G {function}]
+compiler.transformer.flatten_nodes(|) 
+;
+[compiler.transformer.parse |G ]
+compiler.transformer.parse(|buf, mode="exec")
+;
+[compiler.transformer.parseFile |G ]
+compiler.transformer.parseFile(|path)
+;
+[compiler.visitor.ASTVisitor |G  Performs a depth-first walk of the AST]
+compiler.visitor.ASTVisitor(|) 
+;
+[compiler.visitor.ExampleASTVisitor |G  Prints examples of the nodes that aren't visited]
+compiler.visitor.ExampleASTVisitor(|) 
+;
+[compiler.visitor._walker |G  Performs a depth-first walk of the AST]
+compiler.visitor._walker(|) 
+;
+[compiler.visitor.dumpNode |G ]
+compiler.visitor.dumpNode(|node)
+;
+[compiler.visitor.walk |G ]
+compiler.visitor.walk(|tree, visitor, walker=None, verbose=None)
+;
+[compiler.walk |G {function}]
+compiler.walk(|) 
+;
+[complex |G -> complex number]
+complex(|real[, imag]) 
+;
+[copy.Error |G {class}]
+copy.Error(|) 
+;
+[copy._EmptyClass |G {class}]
+copy._EmptyClass(|) 
+;
+[copy._copy_atomic |G ]
+copy._copy_atomic(|x)
+;
+[copy._copy_dict |G ]
+copy._copy_dict(|x)
+;
+[copy._copy_inst |G ]
+copy._copy_inst(|x)
+;
+[copy._copy_list |G ]
+copy._copy_list(|x)
+;
+[copy._copy_tuple |G ]
+copy._copy_tuple(|x)
+;
+[copy._deepcopy_atomic |G ]
+copy._deepcopy_atomic(|x, memo)
+;
+[copy._deepcopy_dict |G ]
+copy._deepcopy_dict(|x, memo)
+;
+[copy._deepcopy_inst |G ]
+copy._deepcopy_inst(|x, memo)
+;
+[copy._deepcopy_list |G ]
+copy._deepcopy_list(|x, memo)
+;
+[copy._deepcopy_tuple |G ]
+copy._deepcopy_tuple(|x, memo)
+;
+[copy._keep_alive |G  Keeps a reference to the object x in the memo.]
+copy._keep_alive(|x, memo) 
+;
+[copy._reconstruct |G ]
+copy._reconstruct(|x, info, deep, memo=None)
+;
+[copy._test |G ]
+copy._test(|)
+;
+[copy.copy |G  Shallow copy operation on arbitrary Python objects.]
+copy.copy(|x) 
+;
+[copy.deepcopy |G  Deep copy operation on arbitrary Python objects.]
+copy.deepcopy(|x, memo = None) 
+;
+[copy.error |G {class}]
+copy.error(|) 
+;
+[copy_reg._reconstructor |G ]
+copy_reg._reconstructor(|cls, base, state)
+;
+[copy_reg._reduce |G ]
+copy_reg._reduce(|self)
+;
+[copy_reg.constructor |G ]
+copy_reg.constructor(|object)
+;
+[copy_reg.pickle |G ]
+copy_reg.pickle(|ob_type, pickle_function, constructor_ob=None)
+;
+[copy_reg.pickle_complex |G ]
+copy_reg.pickle_complex(|c)
+;
+[dbhash.error |G {class}]
+dbhash.error(|) 
+;
+[dbhash.open |G ]
+dbhash.open(|file, flag = 'r', mode=0666)
+;
+[delattr |G ]
+delattr(|object, name)
+;
+[dict |G -> new empty dictionary.]
+dict(|) 
+;
+[difflib.Differ |G  ]
+difflib.Differ(|linejunk=None, charjunk=None) 
+;
+[difflib.IS_CHARACTER_JUNK |G  ]
+difflib.IS_CHARACTER_JUNK(|ch, ws=" \t") 
+;
+[difflib.IS_LINE_JUNK |G  ]
+difflib.IS_LINE_JUNK(|line, pat=re.compile(r"\s*#?\s*$").match) 
+;
+[difflib.SequenceMatcher |G  ]
+difflib.SequenceMatcher(|isjunk=None, a='', b='') 
+;
+[difflib._count_leading |G  ]
+difflib._count_leading(|line, ch) 
+;
+[difflib._test |G ]
+difflib._test(|)
+;
+[difflib.get_close_matches |G  Use SequenceMatcher to return list of the best "good enough" matches.]
+difflib.get_close_matches(|word, possibilities, n=3, cutoff=0.6) 
+;
+[difflib.ndiff |G  ]
+difflib.ndiff(|a, b, linejunk=IS_LINE_JUNK, charjunk=IS_CHARACTER_JUNK) 
+;
+[difflib.restore |G  ]
+difflib.restore(|delta, which) 
+;
+[dir |G -> list of strings]
+dir(|[object]) 
+;
+[dircache.annotate |G  Add '/' suffixes to directories.]
+dircache.annotate(|head, list) 
+;
+[dircache.listdir |G  List directory contents, using cache.]
+dircache.listdir(|path) 
+;
+[dircache.opendir |G  List directory contents, using cache.]
+dircache.opendir(|) 
+;
+[dircache.reset |G  Reset the cache completely.]
+dircache.reset(|) 
+;
+[dis._test |G  Simple test program to disassemble a file.]
+dis._test(|) 
+;
+[dis.def_op |G ]
+dis.def_op(|name, op)
+;
+[dis.dis |G  Disassemble classes, methods, functions, or code.]
+dis.dis(|x=None) 
+;
+[dis.disassemble |G  Disassemble a code object.]
+dis.disassemble(|co, lasti=-1) 
+;
+[dis.disco |G  Disassemble a code object.]
+dis.disco(|) 
+;
+[dis.distb |G  Disassemble a traceback (default: last traceback).]
+dis.distb(|tb=None) 
+;
+[dis.findlabels |G  Detect all offsets in a byte code which are jump targets.]
+dis.findlabels(|code) 
+;
+[dis.jabs_op |G ]
+dis.jabs_op(|name, op)
+;
+[dis.jrel_op |G ]
+dis.jrel_op(|name, op)
+;
+[dis.name_op |G ]
+dis.name_op(|name, op)
+;
+[divmod |G -> (div, mod)]
+divmod(|x, y) 
+;
+[doctest.Tester |G  Class Tester -- runs docstring examples and accumulates stats.]
+doctest.Tester(|) 
+;
+[doctest._SpoofOut |G {class}]
+doctest._SpoofOut(|) 
+;
+[doctest._TestClass |G  ]
+doctest._TestClass(|val) 
+;
+[doctest._classify_class_attrs |G  Return list of attribute-descriptor tuples.]
+doctest._classify_class_attrs(|) 
+;
+[doctest._extract_examples |G ]
+doctest._extract_examples(|s)
+;
+[doctest._extract_future_flags |G ]
+doctest._extract_future_flags(|globs)
+;
+[doctest._from_module |G ]
+doctest._from_module(|module, object)
+;
+[doctest._isclass |G  Return true if the object is a class.]
+doctest._isclass(|) 
+;
+[doctest._isfunction |G  Return true if the object is a user-defined function.]
+doctest._isfunction(|) 
+;
+[doctest._ismodule |G  Return true if the object is a module.]
+doctest._ismodule(|) 
+;
+[doctest._run_examples |G ]
+doctest._run_examples(|examples, globs, verbose, name, compileflags)
+;
+[doctest._run_examples_inner |G {function}]
+doctest._run_examples_inner(|) 
+;
+[doctest._tag_out |G ]
+doctest._tag_out(|printer, *tag_msg_pairs)
+;
+[doctest._test |G ]
+doctest._test(|)
+;
+[doctest.is_private |G  prefix, base -> true iff name prefix + "." + base is "private".]
+doctest.is_private(|prefix, base) 
+;
+[doctest.run_docstring_examples |G  f, globs, verbose=0, name="NoName" -> run examples from f.__doc__.]
+doctest.run_docstring_examples(|) 
+;
+[doctest.testmod |G  m, name=None, globs=None, verbose=None, isprivate=None, report=1]
+doctest.testmod(|) 
+;
+[dospath.abspath |G  Return an absolute path.]
+dospath.abspath(|path) 
+;
+[dospath.basename |G  Return the tail (basename) part of a path.]
+dospath.basename(|p) 
+;
+[dospath.commonprefix |G  Return the longest prefix of all list elements.]
+dospath.commonprefix(|m) 
+;
+[dospath.dirname |G  Return the head (dirname) part of a path.]
+dospath.dirname(|p) 
+;
+[dospath.exists |G  Does a path exist?]
+dospath.exists(|path) 
+;
+[dospath.expanduser |G  Expand paths beginning with '~' or '~user'.]
+dospath.expanduser(|path) 
+;
+[dospath.expandvars |G  Expand paths containing shell variable substitutions.]
+dospath.expandvars(|path) 
+;
+[dospath.getatime |G  Return the last access time of a file, reported by os.stat().]
+dospath.getatime(|filename) 
+;
+[dospath.getmtime |G  Return the last modification time of a file, reported by os.stat().]
+dospath.getmtime(|filename) 
+;
+[dospath.getsize |G  Return the size of a file, reported by os.stat().]
+dospath.getsize(|filename) 
+;
+[dospath.isabs |G  Return whether a path is absolute.]
+dospath.isabs(|s) 
+;
+[dospath.isdir |G  Is a path a dos directory?]
+dospath.isdir(|path) 
+;
+[dospath.isfile |G  Is a path a regular file?]
+dospath.isfile(|path) 
+;
+[dospath.islink |G  Is a path a symbolic link?]
+dospath.islink(|path) 
+;
+[dospath.ismount |G  Is a path a mount point?]
+dospath.ismount(|path) 
+;
+[dospath.join |G  Join two (or more) paths.]
+dospath.join(|a, *p) 
+;
+[dospath.normcase |G  Normalize the case of a pathname.]
+dospath.normcase(|s) 
+;
+[dospath.normpath |G  Normalize a path, e.g. A//B, A/./B and A/foo/../B all become A/B.]
+dospath.normpath(|path) 
+;
+[dospath.realpath |G  Return an absolute path.]
+dospath.realpath(|) 
+;
+[dospath.split |G  Split a path into head (everything up to the last '/') and tail]
+dospath.split(|p) 
+;
+[dospath.splitdrive |G  Split a path into a drive specification (a drive letter followed]
+dospath.splitdrive(|p) 
+;
+[dospath.splitext |G  Split a path into root and extension.]
+dospath.splitext(|p) 
+;
+[dospath.walk |G  Directory tree walk with callback function.]
+dospath.walk(|top, func, arg) 
+;
+[dumbdbm._Database |G ]
+dumbdbm._Database(|file, mode)
+;
+[dumbdbm.error |G  I/O operation failed.]
+dumbdbm.error(|) 
+;
+[dumbdbm.open |G  Open the database file, filename, and return corresponding object.]
+dumbdbm.open(|file, flag=None, mode=0666) 
+;
+[email.Charset.Charset |G  Map character sets to their email properties.]
+email.Charset.Charset(|input_charset=DEFAULT_CHARSET) 
+;
+[email.Charset._isunicode |G ]
+email.Charset._isunicode(|s)
+;
+[email.Charset.add_alias |G  Add a character set alias.]
+email.Charset.add_alias(|alias, canonical) 
+;
+[email.Charset.add_charset |G  Add character set properties to the global registry.]
+email.Charset.add_charset(|charset, header_enc=None, body_enc=None, output_charset=None) 
+;
+[email.Charset.add_codec |G  Add a codec that map characters in the given charset to/from Unicode.]
+email.Charset.add_codec(|charset, codecname) 
+;
+[email.Charset.encode_7or8bit |G  Set the Content-Transfer-Encoding header to 7bit or 8bit.]
+email.Charset.encode_7or8bit(|) 
+;
+[email.Encoders._bencode |G ]
+email.Encoders._bencode(|s)
+;
+[email.Encoders._encodestring |G {function}]
+email.Encoders._encodestring(|) 
+;
+[email.Encoders._qencode |G {function}]
+email.Encoders._qencode(|) 
+;
+[email.Encoders.encode_7or8bit |G  Set the Content-Transfer-Encoding header to 7bit or 8bit.]
+email.Encoders.encode_7or8bit(|msg) 
+;
+[email.Encoders.encode_base64 |G  Encode the message's payload in Base64.]
+email.Encoders.encode_base64(|msg) 
+;
+[email.Encoders.encode_noop |G  Do nothing.]
+email.Encoders.encode_noop(|msg) 
+;
+[email.Encoders.encode_quopri |G  Encode the message's payload in quoted-printable.]
+email.Encoders.encode_quopri(|msg) 
+;
+[email.Errors.BoundaryError |G  Couldn't find terminating boundary.]
+email.Errors.BoundaryError(|) 
+;
+[email.Errors.HeaderParseError |G  Error while parsing headers.]
+email.Errors.HeaderParseError(|) 
+;
+[email.Errors.MessageError |G  Base class for errors in the email package.]
+email.Errors.MessageError(|) 
+;
+[email.Errors.MessageParseError |G  Base class for message parsing errors.]
+email.Errors.MessageParseError(|) 
+;
+[email.Errors.MultipartConversionError |G  Conversion to a multipart is prohibited.]
+email.Errors.MultipartConversionError(|) 
+;
+[email.Generator.DecodedGenerator |G  Generator a text representation of a message.]
+email.Generator.DecodedGenerator(|outfp, mangle_from_=True, maxheaderlen=78, fmt=None) 
+;
+[email.Generator.Generator |G  Generates output from a Message object tree.]
+email.Generator.Generator(|outfp, mangle_from_=True, maxheaderlen=78) 
+;
+[email.Generator.Header |G {class}]
+email.Generator.Header(|) 
+;
+[email.Generator.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email.Generator.StringIO(|[s]) 
+;
+[email.Generator._is8bitstring |G ]
+email.Generator._is8bitstring(|s)
+;
+[email.Generator._isstring |G {function}]
+email.Generator._isstring(|) 
+;
+[email.Generator._make_boundary |G ]
+email.Generator._make_boundary(|text=None)
+;
+[email.Header.Charset |G  Map character sets to their email properties.]
+email.Header.Charset(|) 
+;
+[email.Header.Header |G {class}]
+email.Header.Header(|) 
+;
+[email.Header._floordiv |G  Do a floor division, i/j.]
+email.Header._floordiv(|) 
+;
+[email.Header._max_append |G {function}]
+email.Header._max_append(|) 
+;
+[email.Header.decode_header |G  Decode a message header value without converting charset.]
+email.Header.decode_header(|header) 
+;
+[email.Header.make_header |G  Create a Header from a sequence of pairs as returned by decode_header()]
+email.Header.make_header(|) 
+;
+[email.Iterators._structure |G  A handy debugging aid]
+email.Iterators._structure(|msg, fp=None, level=0) 
+;
+[email.Iterators.body_line_iterator |G  Iterate over the parts, returning string payloads line-by-line.]
+email.Iterators.body_line_iterator(|) 
+;
+[email.Iterators.typed_subpart_iterator |G  Iterate over the subparts with a given MIME type.]
+email.Iterators.typed_subpart_iterator(|) 
+;
+[email.MIMEAudio.MIMEAudio |G  Class for generating audio/* MIME documents.]
+email.MIMEAudio.MIMEAudio(|) 
+;
+[email.MIMEAudio.MIMENonMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMEAudio.MIMENonMultipart(|) 
+;
+[email.MIMEAudio.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email.MIMEAudio.StringIO(|[s]) 
+;
+[email.MIMEAudio._whatsnd |G  Try to identify a sound file type.]
+email.MIMEAudio._whatsnd(|data) 
+;
+[email.MIMEBase.MIMEBase |G  Base class for MIME specializations.]
+email.MIMEBase.MIMEBase(|_maintype, _subtype, **_params) 
+;
+[email.MIMEImage.MIMEImage |G  Class for generating image/* type MIME documents.]
+email.MIMEImage.MIMEImage(|) 
+;
+[email.MIMEImage.MIMENonMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMEImage.MIMENonMultipart(|) 
+;
+[email.MIMEMessage.MIMEMessage |G  Class representing message/* MIME documents.]
+email.MIMEMessage.MIMEMessage(|_msg, _subtype='rfc822') 
+;
+[email.MIMEMessage.MIMENonMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMEMessage.MIMENonMultipart(|) 
+;
+[email.MIMEMultipart.MIMEMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMEMultipart.MIMEMultipart(|_subtype='mixed', boundary=None, *_subparts, **_params) 
+;
+[email.MIMENonMultipart.MIMENonMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMENonMultipart.MIMENonMultipart(|) 
+;
+[email.MIMEText.MIMENonMultipart |G  Base class for MIME multipart/* type messages.]
+email.MIMEText.MIMENonMultipart(|) 
+;
+[email.MIMEText.MIMEText |G  Class for generating text/* type MIME documents.]
+email.MIMEText.MIMEText(|) 
+;
+[email.MIMEText.encode_7or8bit |G  Set the Content-Transfer-Encoding header to 7bit or 8bit.]
+email.MIMEText.encode_7or8bit(|) 
+;
+[email.Message.Message |G  Basic message object.]
+email.Message.Message(|) 
+;
+[email.Message.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email.Message.StringIO(|[s]) 
+;
+[email.Message._formatparam |G  Convenience function to format and return a key=value pair.]
+email.Message._formatparam(|param, value=None, quote=True) 
+;
+[email.Message._unquotevalue |G ]
+email.Message._unquotevalue(|value)
+;
+[email.Parser.HeaderParser |G  A subclass of Parser, this one only meaningfully parses message headers.]
+email.Parser.HeaderParser(|) 
+;
+[email.Parser.Parser |G ]
+email.Parser.Parser(|_class=Message.Message, strict=False)
+;
+[email.Parser.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email.Parser.StringIO(|[s]) 
+;
+[email.Utils.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email.Utils.StringIO(|[s]) 
+;
+[email.Utils._AddressList |G  An AddressList encapsulates a list of parsed RFC 2822 addresses.]
+email.Utils._AddressList(|) 
+;
+[email.Utils._bdecode |G ]
+email.Utils._bdecode(|s)
+;
+[email.Utils._bencode |G {function}]
+email.Utils._bencode(|) 
+;
+[email.Utils._identity |G ]
+email.Utils._identity(|s)
+;
+[email.Utils._parsedate |G  Convert a time string to a time tuple.]
+email.Utils._parsedate(|) 
+;
+[email.Utils._parsedate_tz |G  Convert a date string to a time tuple.]
+email.Utils._parsedate_tz(|) 
+;
+[email.Utils._qdecode |G {function}]
+email.Utils._qdecode(|) 
+;
+[email.Utils._qencode |G {function}]
+email.Utils._qencode(|) 
+;
+[email.Utils.decode |G  Return a decoded string according to RFC 2047, as a unicode string.]
+email.Utils.decode(|s) 
+;
+[email.Utils.decode_params |G  Decode parameters list according to RFC 2231.]
+email.Utils.decode_params(|params) 
+;
+[email.Utils.decode_rfc2231 |G  Decode string according to RFC 2231]
+email.Utils.decode_rfc2231(|s) 
+;
+[email.Utils.dump_address_pair |G ]
+email.Utils.dump_address_pair(|pair)
+;
+[email.Utils.encode |G  Encode a string according to RFC 2047.]
+email.Utils.encode(|s, charset='iso-8859-1', encoding='q') 
+;
+[email.Utils.encode_rfc2231 |G  Encode string according to RFC 2231.]
+email.Utils.encode_rfc2231(|s, charset=None, language=None) 
+;
+[email.Utils.fix_eols |G  Replace all line-ending characters with]
+email.Utils.fix_eols(|s) 
+;
+[email.Utils.formataddr |G  The inverse of parseaddr(), this takes a 2-tuple of the form]
+email.Utils.formataddr(|pair) 
+;
+[email.Utils.formatdate |G  Returns a date string as specified by RFC 2822, e.g.:]
+email.Utils.formatdate(|timeval=None, localtime=False) 
+;
+[email.Utils.getaddresses |G  Return a list of (REALNAME, EMAIL) for each fieldvalue.]
+email.Utils.getaddresses(|fieldvalues) 
+;
+[email.Utils.make_msgid |G  Returns a string suitable for RFC 2822 compliant Message-ID, e.g:]
+email.Utils.make_msgid(|idstring=None) 
+;
+[email.Utils.mktime_tz |G  Turn a 10-tuple as returned by parsedate_tz() into a UTC timestamp.]
+email.Utils.mktime_tz(|) 
+;
+[email.Utils.parseaddr |G ]
+email.Utils.parseaddr(|addr)
+;
+[email.Utils.parsedate |G ]
+email.Utils.parsedate(|data)
+;
+[email.Utils.parsedate_tz |G ]
+email.Utils.parsedate_tz(|data)
+;
+[email.Utils.quote |G  Add quotes around a string.]
+email.Utils.quote(|) 
+;
+[email.Utils.unquote |G  Remove quotes from a string.]
+email.Utils.unquote(|str) 
+;
+[email._compat21.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email._compat21.StringIO(|[s]) 
+;
+[email._compat21._floordiv |G  Do a floor division, i/j.]
+email._compat21._floordiv(|i, j) 
+;
+[email._compat21._isstring |G ]
+email._compat21._isstring(|obj)
+;
+[email._compat21.body_line_iterator |G  Iterate over the parts, returning string payloads line-by-line.]
+email._compat21.body_line_iterator(|msg) 
+;
+[email._compat21.typed_subpart_iterator |G  Iterate over the subparts with a given MIME type.]
+email._compat21.typed_subpart_iterator(|msg, maintype='text', subtype=None) 
+;
+[email._compat21.walk |G  Walk over the message tree, yielding each subpart.]
+email._compat21.walk(|self) 
+;
+[email._compat22.StringIO |G -- Return a StringIO-like stream for reading or writing]
+email._compat22.StringIO(|[s]) 
+;
+[email._compat22._floordiv |G  Do a floor division, i/j.]
+email._compat22._floordiv(|i, j) 
+;
+[email._compat22._isstring |G ]
+email._compat22._isstring(|obj)
+;
+[email._compat22.body_line_iterator |G  Iterate over the parts, returning string payloads line-by-line.]
+email._compat22.body_line_iterator(|msg) 
+;
+[email._compat22.typed_subpart_iterator |G  Iterate over the subparts with a given MIME type.]
+email._compat22.typed_subpart_iterator(|msg, maintype='text', subtype=None) 
+;
+[email._compat22.walk |G  Walk over the message tree, yielding each subpart.]
+email._compat22.walk(|self) 
+;
+[email.base64MIME._floordiv |G  Do a floor division, i/j.]
+email.base64MIME._floordiv(|) 
+;
+[email.base64MIME.base64_len |G  Return the length of s when it is encoded with base64.]
+email.base64MIME.base64_len(|s) 
+;
+[email.base64MIME.body_decode |G  Decode a raw base64 string.]
+email.base64MIME.body_decode(|) 
+;
+[email.base64MIME.body_encode |G  Encode a string with base64.]
+email.base64MIME.body_encode(|) 
+;
+[email.base64MIME.decode |G  Decode a raw base64 string.]
+email.base64MIME.decode(|s, convert_eols=None) 
+;
+[email.base64MIME.decodestring |G  Decode a raw base64 string.]
+email.base64MIME.decodestring(|) 
+;
+[email.base64MIME.encode |G  Encode a string with base64.]
+email.base64MIME.encode(|s, binary=True, maxlinelen=76, eol=NL) 
+;
+[email.base64MIME.encodestring |G  Encode a string with base64.]
+email.base64MIME.encodestring(|) 
+;
+[email.base64MIME.fix_eols |G  Replace all line-ending characters with]
+email.base64MIME.fix_eols(|) 
+;
+[email.base64MIME.header_encode |G  Encode a single header line with Base64 encoding in a given charset.]
+email.base64MIME.header_encode(|) 
+;
+[email.message_from_file |G  Read a file and parse its contents into a Message object model.]
+email.message_from_file(|fp, _class=None, strict=False) 
+;
+[email.message_from_string |G  Parse a string into a Message object model.]
+email.message_from_string(|s, _class=None, strict=False) 
+;
+[email.quopriMIME._max_append |G ]
+email.quopriMIME._max_append(|L, s, maxlen, extra='')
+;
+[email.quopriMIME._unquote_match |G  Turn a match in the form =AB to the ASCII character with value 0xab]
+email.quopriMIME._unquote_match(|match) 
+;
+[email.quopriMIME.body_decode |G  Decode a quoted-printable string.]
+email.quopriMIME.body_decode(|) 
+;
+[email.quopriMIME.body_encode |G  Encode with quoted-printable, wrapping at maxlinelen characters.]
+email.quopriMIME.body_encode(|) 
+;
+[email.quopriMIME.body_quopri_check |G  Return True if the character should be escaped with body quopri.]
+email.quopriMIME.body_quopri_check(|c) 
+;
+[email.quopriMIME.body_quopri_len |G  Return the length of str when it is encoded with body quopri.]
+email.quopriMIME.body_quopri_len(|str) 
+;
+[email.quopriMIME.decode |G  Decode a quoted-printable string.]
+email.quopriMIME.decode(|encoded, eol=NL) 
+;
+[email.quopriMIME.decodestring |G  Decode a quoted-printable string.]
+email.quopriMIME.decodestring(|) 
+;
+[email.quopriMIME.encode |G  Encode with quoted-printable, wrapping at maxlinelen characters.]
+email.quopriMIME.encode(|body, binary=False, maxlinelen=76, eol=NL) 
+;
+[email.quopriMIME.encodestring |G  Encode with quoted-printable, wrapping at maxlinelen characters.]
+email.quopriMIME.encodestring(|) 
+;
+[email.quopriMIME.fix_eols |G  Replace all line-ending characters with]
+email.quopriMIME.fix_eols(|) 
+;
+[email.quopriMIME.header_decode |G  Decode a string encoded with RFC 2045 MIME header `Q' encoding.]
+email.quopriMIME.header_decode(|s) 
+;
+[email.quopriMIME.header_encode |G  Encode a single header line with quoted-printable (like) encoding.]
+email.quopriMIME.header_encode(|) 
+;
+[email.quopriMIME.header_quopri_check |G  Return True if the character should be escaped with header quopri.]
+email.quopriMIME.header_quopri_check(|c) 
+;
+[email.quopriMIME.header_quopri_len |G  Return the length of str when it is encoded with header quopri.]
+email.quopriMIME.header_quopri_len(|s) 
+;
+[email.quopriMIME.quote |G ]
+email.quopriMIME.quote(|c)
+;
+[email.quopriMIME.unquote |G  Turn a string in the form =AB to the ASCII character with value 0xab]
+email.quopriMIME.unquote(|s) 
+;
+[eval |G -> value]
+eval(|source[, globals[, locals]]) 
+;
+[exceptions.ArithmeticError |G  Base class for arithmetic errors.]
+exceptions.ArithmeticError(|) 
+;
+[exceptions.AssertionError |G  Assertion failed.]
+exceptions.AssertionError(|) 
+;
+[exceptions.AttributeError |G  Attribute not found.]
+exceptions.AttributeError(|) 
+;
+[exceptions.DeprecationWarning |G  Base class for warnings about deprecated features.]
+exceptions.DeprecationWarning(|) 
+;
+[exceptions.EOFError |G  Read beyond end of file.]
+exceptions.EOFError(|) 
+;
+[exceptions.EnvironmentError |G  Base class for I/O related errors.]
+exceptions.EnvironmentError(|) 
+;
+[exceptions.Exception |G  Common base class for all exceptions.]
+exceptions.Exception(|) 
+;
+[exceptions.FloatingPointError |G  Floating point operation failed.]
+exceptions.FloatingPointError(|) 
+;
+[exceptions.IOError |G  I/O operation failed.]
+exceptions.IOError(|) 
+;
+[exceptions.ImportError |G  Import can't find module, or can't find name in module.]
+exceptions.ImportError(|) 
+;
+[exceptions.IndentationError |G  Improper indentation.]
+exceptions.IndentationError(|) 
+;
+[exceptions.IndexError |G  Sequence index out of range.]
+exceptions.IndexError(|) 
+;
+[exceptions.KeyError |G  Mapping key not found.]
+exceptions.KeyError(|) 
+;
+[exceptions.KeyboardInterrupt |G  Program interrupted by user.]
+exceptions.KeyboardInterrupt(|) 
+;
+[exceptions.LookupError |G  Base class for lookup errors.]
+exceptions.LookupError(|) 
+;
+[exceptions.MemoryError |G  Out of memory.]
+exceptions.MemoryError(|) 
+;
+[exceptions.NameError |G  Name not found globally.]
+exceptions.NameError(|) 
+;
+[exceptions.NotImplementedError |G  Method or function hasn't been implemented yet.]
+exceptions.NotImplementedError(|) 
+;
+[exceptions.OSError |G  OS system call failed.]
+exceptions.OSError(|) 
+;
+[exceptions.OverflowError |G  Result too large to be represented.]
+exceptions.OverflowError(|) 
+;
+[exceptions.OverflowWarning |G  Base class for warnings about numeric overflow.]
+exceptions.OverflowWarning(|) 
+;
+[exceptions.ReferenceError |G  Weak ref proxy used after referent went away.]
+exceptions.ReferenceError(|) 
+;
+[exceptions.RuntimeError |G  Unspecified run-time error.]
+exceptions.RuntimeError(|) 
+;
+[exceptions.RuntimeWarning |G  Base class for warnings about dubious runtime behavior.]
+exceptions.RuntimeWarning(|) 
+;
+[exceptions.StandardError |G  Base class for all standard Python exceptions.]
+exceptions.StandardError(|) 
+;
+[exceptions.StopIteration |G  Signal the end from iterator.next().]
+exceptions.StopIteration(|) 
+;
+[exceptions.SyntaxError |G  Invalid syntax.]
+exceptions.SyntaxError(|) 
+;
+[exceptions.SyntaxWarning |G  Base class for warnings about dubious syntax.]
+exceptions.SyntaxWarning(|) 
+;
+[exceptions.SystemError |G  Internal error in the Python interpreter.]
+exceptions.SystemError(|) 
+;
+[exceptions.SystemExit |G  Request to exit from the interpreter.]
+exceptions.SystemExit(|) 
+;
+[exceptions.TabError |G  Improper mixture of spaces and tabs.]
+exceptions.TabError(|) 
+;
+[exceptions.TypeError |G  Inappropriate argument type.]
+exceptions.TypeError(|) 
+;
+[exceptions.UnboundLocalError |G  Local name referenced but not bound to a value.]
+exceptions.UnboundLocalError(|) 
+;
+[exceptions.UnicodeError |G  Unicode related error.]
+exceptions.UnicodeError(|) 
+;
+[exceptions.UserWarning |G  Base class for warnings generated by user code.]
+exceptions.UserWarning(|) 
+;
+[exceptions.ValueError |G  Inappropriate argument value (of correct type).]
+exceptions.ValueError(|) 
+;
+[exceptions.Warning |G  Base class for warning categories.]
+exceptions.Warning(|) 
+;
+[exceptions.WindowsError |G  MS-Windows OS system call failed.]
+exceptions.WindowsError(|) 
+;
+[exceptions.ZeroDivisionError |G  Second argument to a division or modulo operation was zero.]
+exceptions.ZeroDivisionError(|) 
+;
+[execfile |G ]
+execfile(|filename[, globals[, locals]])
+;
+[file |G -> file object]
+file(|name[, mode[, buffering]]) 
+;
+[filecmp._cmp |G ]
+filecmp._cmp(|a, b, sh, st)
+;
+[filecmp._do_cmp |G ]
+filecmp._do_cmp(|f1, f2)
+;
+[filecmp._filter |G ]
+filecmp._filter(|list, skip)
+;
+[filecmp._sig |G ]
+filecmp._sig(|st)
+;
+[filecmp.cmp |G  Compare two files.]
+filecmp.cmp(|f1, f2, shallow=1, use_statcache=0) 
+;
+[filecmp.cmpfiles |G  Compare common files in two directories.]
+filecmp.cmpfiles(|a, b, common, shallow=1, use_statcache=0) 
+;
+[filecmp.demo |G ]
+filecmp.demo(|)
+;
+[filecmp.dircmp |G  A class that manages the comparison of 2 directories.]
+filecmp.dircmp(|a, b, ignore=None, hide=None) 
+;
+[fileinput.FileInput |G  class FileInput({files{, inplace{, backup}}})]
+fileinput.FileInput(|files=None, inplace=0, backup="", bufsize=0) 
+;
+[fileinput._test |G ]
+fileinput._test(|)
+;
+[fileinput.close |G  Close the sequence.]
+fileinput.close(|) 
+;
+[fileinput.filelineno |G  ]
+fileinput.filelineno(|) 
+;
+[fileinput.filename |G  ]
+fileinput.filename(|) 
+;
+[fileinput.input |G     ]
+fileinput.input(|[files[, inplace[, backup]]])
+;
+[fileinput.isfirstline |G  ]
+fileinput.isfirstline(|) 
+;
+[fileinput.isstdin |G  ]
+fileinput.isstdin(|) 
+;
+[fileinput.lineno |G  ]
+fileinput.lineno(|) 
+;
+[fileinput.nextfile |G  ]
+fileinput.nextfile(|) 
+;
+[filter |G -> list, tuple, or string]
+filter(|function or None, sequence) 
+;
+[float |G -> floating point number]
+float(|x) 
+;
+[fnmatch.filter |G  Return the subset of the list NAMES that match PAT]
+fnmatch.filter(|names, pat) 
+;
+[fnmatch.fnmatch |G  Test whether FILENAME matches PATTERN.]
+fnmatch.fnmatch(|name, pat) 
+;
+[fnmatch.fnmatchcase |G  Test whether FILENAME matches PATTERN, including case.]
+fnmatch.fnmatchcase(|name, pat) 
+;
+[fnmatch.translate |G  Translate a shell PATTERN to a regular expression.]
+fnmatch.translate(|pat) 
+;
+[formatter.AbstractFormatter |G  The standard formatter.]
+formatter.AbstractFormatter(|writer) 
+;
+[formatter.AbstractWriter |G  A writer which can be used in debugging formatters, but not much else.]
+formatter.AbstractWriter(|) 
+;
+[formatter.DumbWriter |G  Simple writer class which writes output on the file object passed in]
+formatter.DumbWriter(|file=None, maxcol=72) 
+;
+[formatter.NullFormatter |G  A formatter which does nothing.]
+formatter.NullFormatter(|writer=None) 
+;
+[formatter.NullWriter |G  Minimal writer interface to use in testing & inheritance.]
+formatter.NullWriter(|) 
+;
+[formatter.test |G ]
+formatter.test(|file = None)
+;
+[fpformat.NotANumber |G {class}]
+fpformat.NotANumber(|) 
+;
+[fpformat.extract |G  Return (sign, intpart, fraction, expo) or raise an exception:]
+fpformat.extract(|s) 
+;
+[fpformat.fix |G  Format x as {-}ddd.ddd with 'digs' digits after the point]
+fpformat.fix(|x, digs) 
+;
+[fpformat.roundfrac |G  Round or extend the fraction to size digs.]
+fpformat.roundfrac(|intpart, fraction, digs) 
+;
+[fpformat.sci |G  Format x as {-}d.dddE{+-}ddd with 'digs' digits after the point]
+fpformat.sci(|x, digs) 
+;
+[fpformat.test |G  Interactive test run.]
+fpformat.test(|) 
+;
+[fpformat.unexpo |G  Remove the exponent by changing intpart and fraction.]
+fpformat.unexpo(|intpart, fraction, expo) 
+;
+[ftplib.Error |G {class}]
+ftplib.Error(|) 
+;
+[ftplib.FTP |G  An FTP client class.]
+ftplib.FTP(|) 
+;
+[ftplib.Netrc |G  Class to parse & provide access to 'netrc' format files.]
+ftplib.Netrc(|filename=None) 
+;
+[ftplib.error_perm |G {class}]
+ftplib.error_perm(|) 
+;
+[ftplib.error_proto |G {class}]
+ftplib.error_proto(|) 
+;
+[ftplib.error_reply |G {class}]
+ftplib.error_reply(|) 
+;
+[ftplib.error_temp |G {class}]
+ftplib.error_temp(|) 
+;
+[ftplib.ftpcp |G  Copy file from one FTP-instance to another.]
+ftplib.ftpcp(|source, sourcename, target, targetname = '', type = 'I') 
+;
+[ftplib.parse150 |G  Parse the '150' response for a RETR request.]
+ftplib.parse150(|resp) 
+;
+[ftplib.parse227 |G  Parse the '227' response for a PASV request.]
+ftplib.parse227(|resp) 
+;
+[ftplib.parse229 |G  Parse the '229' response for a EPSV request.]
+ftplib.parse229(|resp, peer) 
+;
+[ftplib.parse257 |G  Parse the '257' response for a MKD or PWD request.]
+ftplib.parse257(|resp) 
+;
+[ftplib.print_line |G  Default retrlines callback to print a line.]
+ftplib.print_line(|line) 
+;
+[ftplib.test |G  Test program.]
+ftplib.test(|) 
+;
+[gc.collect |G -> n]
+gc.collect(|) 
+;
+[gc.disable |G -> None]
+gc.disable(|) 
+;
+[gc.enable |G -> None]
+gc.enable(|) 
+;
+[gc.get_debug |G -> flags]
+gc.get_debug(|) 
+;
+[gc.get_objects |G -> {...}]
+gc.get_objects(|) 
+;
+[gc.get_referrers |G -> list]
+gc.get_referrers(|*objs) 
+;
+[gc.get_threshold |G -> (threshold0, threshold1, threshold2)]
+gc.get_threshold(|) 
+;
+[gc.isenabled |G -> status]
+gc.isenabled(|) 
+;
+[gc.set_debug |G -> None]
+gc.set_debug(|flags) 
+;
+[gc.set_threshold |G -> None]
+gc.set_threshold(|threshold0, [threshold1, threshold2]) 
+;
+[getattr |G -> value]
+getattr(|object, name[, default]) 
+;
+[getopt.GetoptError |G ]
+getopt.GetoptError(|msg, opt)
+;
+[getopt.do_longs |G ]
+getopt.do_longs(|opts, opt, longopts, args)
+;
+[getopt.do_shorts |G ]
+getopt.do_shorts(|opts, optstring, shortopts, args)
+;
+[getopt.error |G {class}]
+getopt.error(|) 
+;
+[getopt.getopt |G -> opts, args]
+getopt.getopt(|args, options[, long_options]) 
+;
+[getopt.long_has_args |G ]
+getopt.long_has_args(|opt, longopts)
+;
+[getopt.short_has_arg |G ]
+getopt.short_has_arg(|opt, shortopts)
+;
+[getpass._raw_input |G ]
+getpass._raw_input(|prompt="")
+;
+[getpass.default_getpass |G ]
+getpass.default_getpass(|prompt='Password: ')
+;
+[getpass.getpass |G  Prompt for password with echo off, using Windows getch().]
+getpass.getpass(|) 
+;
+[getpass.getuser |G  Get the username from the environment or password database.]
+getpass.getuser(|) 
+;
+[getpass.unix_getpass |G  Prompt for a password, with echo turned off.]
+getpass.unix_getpass(|prompt='Password: ') 
+;
+[getpass.win_getpass |G  Prompt for password with echo off, using Windows getch().]
+getpass.win_getpass(|prompt='Password: ') 
+;
+[gettext.Catalog |G {function}]
+gettext.Catalog(|) 
+;
+[gettext.GNUTranslations |G {class}]
+gettext.GNUTranslations(|) 
+;
+[gettext.NullTranslations |G ]
+gettext.NullTranslations(|fp=None)
+;
+[gettext._expand_lang |G ]
+gettext._expand_lang(|locale)
+;
+[gettext.bindtextdomain |G ]
+gettext.bindtextdomain(|domain, localedir=None)
+;
+[gettext.dgettext |G ]
+gettext.dgettext(|domain, message)
+;
+[gettext.find |G ]
+gettext.find(|domain, localedir=None, languages=None)
+;
+[gettext.gettext |G ]
+gettext.gettext(|message)
+;
+[gettext.install |G ]
+gettext.install(|domain, localedir=None, unicode=0)
+;
+[gettext.textdomain |G ]
+gettext.textdomain(|domain=None)
+;
+[gettext.translation |G {function}]
+gettext.translation(|) 
+;
+[glob.glob |G  Return a list of paths matching a pathname pattern.]
+glob.glob(|pathname) 
+;
+[glob.glob1 |G ]
+glob.glob1(|dirname, pattern)
+;
+[glob.has_magic |G ]
+glob.has_magic(|s)
+;
+[globals |G -> dictionary]
+globals(|) 
+;
+[gopherlib.get_alt_binary |G  Get a binary file and pass each block to a function.]
+gopherlib.get_alt_binary(|f, func, blocksize) 
+;
+[gopherlib.get_alt_textfile |G  Get a text file and pass each line to a function, with trailing CRLF stripped.]
+gopherlib.get_alt_textfile(|f, func) 
+;
+[gopherlib.get_binary |G  Get a binary file as one solid data block.]
+gopherlib.get_binary(|f) 
+;
+[gopherlib.get_directory |G  Get a directory in the form of a list of entries.]
+gopherlib.get_directory(|f) 
+;
+[gopherlib.get_textfile |G  Get a text file as a list of lines, with trailing CRLF stripped.]
+gopherlib.get_textfile(|f) 
+;
+[gopherlib.path_to_datatype_name |G  Takes a path as returned by urlparse and maps it to a string.]
+gopherlib.path_to_datatype_name(|path) 
+;
+[gopherlib.path_to_selector |G  Takes a path as returned by urlparse and returns the appropriate selector.]
+gopherlib.path_to_selector(|path) 
+;
+[gopherlib.send_query |G  Send a selector and a query string.]
+gopherlib.send_query(|selector, query, host, port = 0) 
+;
+[gopherlib.send_selector |G  Send a selector to a given host and port, return a file with the reply.]
+gopherlib.send_selector(|selector, host, port = 0) 
+;
+[gopherlib.test |G  Trivial test program.]
+gopherlib.test(|) 
+;
+[gopherlib.type_to_name |G  Map all file types to strings; unknown types become TYPE='x'.]
+gopherlib.type_to_name(|gtype) 
+;
+[gzip.GzipFile |G {class}]
+gzip.GzipFile(|) 
+;
+[gzip._test |G ]
+gzip._test(|)
+;
+[gzip.open |G ]
+gzip.open(|filename, mode="rb", compresslevel=9)
+;
+[gzip.read32 |G ]
+gzip.read32(|input)
+;
+[gzip.write32 |G ]
+gzip.write32(|output, value)
+;
+[gzip.write32u |G ]
+gzip.write32u(|output, value)
+;
+[hasattr |G -> Boolean]
+hasattr(|object, name) 
+;
+[hash |G -> integer]
+hash(|object) 
+;
+[hex |G -> string]
+hex(|number) 
+;
+[hmac.HMAC |G  RFC2104 HMAC class.]
+hmac.HMAC(|key, msg = None, digestmod = None) 
+;
+[hmac._strxor |G  Utility method. XOR the two strings s1 and s2 (must have same length).]
+hmac._strxor(|s1, s2) 
+;
+[hmac.new |G  Create a new hashing object and return it.]
+hmac.new(|key, msg = None, digestmod = None) 
+;
+[hotshot.Profile |G ]
+hotshot.Profile(|logfn, lineevents=0, linetimings=1)
+;
+[hotshot.ProfilerError |G {class}]
+hotshot.ProfilerError(|) 
+;
+[hotshot.log.LogReader |G ]
+hotshot.log.LogReader(|logfn)
+;
+[hotshot.stats.FakeCode |G ]
+hotshot.stats.FakeCode(|filename, firstlineno, funcname)
+;
+[hotshot.stats.FakeFrame |G ]
+hotshot.stats.FakeFrame(|code, back)
+;
+[hotshot.stats.Profile |G {class}]
+hotshot.stats.Profile(|) 
+;
+[hotshot.stats.StatsLoader |G ]
+hotshot.stats.StatsLoader(|logfn)
+;
+[hotshot.stats._brokentimer |G ]
+hotshot.stats._brokentimer(|)
+;
+[hotshot.stats.load |G ]
+hotshot.stats.load(|filename)
+;
+[htmllib.HTMLParser |G  This is the basic HTML parser class.]
+htmllib.HTMLParser(|formatter, verbose=0) 
+;
+[htmllib.SGMLParser |G {class}]
+htmllib.SGMLParser(|) 
+;
+[htmllib.test |G ]
+htmllib.test(|args = None)
+;
+[httplib.BadStatusLine |G ]
+httplib.BadStatusLine(|line)
+;
+[httplib.CannotSendHeader |G {class}]
+httplib.CannotSendHeader(|) 
+;
+[httplib.CannotSendRequest |G {class}]
+httplib.CannotSendRequest(|) 
+;
+[httplib.FakeSocket |G ]
+httplib.FakeSocket(|sock, ssl)
+;
+[httplib.HTTP |G  Compatibility class with httplib.py from 1.5.]
+httplib.HTTP(|host='', port=None, strict=None) 
+;
+[httplib.HTTPConnection |G ]
+httplib.HTTPConnection(|host, port=None, strict=None)
+;
+[httplib.HTTPException |G {class}]
+httplib.HTTPException(|) 
+;
+[httplib.HTTPMessage |G {class}]
+httplib.HTTPMessage(|) 
+;
+[httplib.HTTPResponse |G ]
+httplib.HTTPResponse(|sock, debuglevel=0, strict=0)
+;
+[httplib.HTTPSConnection |G  This class allows communication via SSL.]
+httplib.HTTPSConnection(|) 
+;
+[httplib.ImproperConnectionState |G {class}]
+httplib.ImproperConnectionState(|) 
+;
+[httplib.IncompleteRead |G ]
+httplib.IncompleteRead(|partial)
+;
+[httplib.InvalidURL |G {class}]
+httplib.InvalidURL(|) 
+;
+[httplib.LineAndFileWrapper |G  A limited file-like object for HTTP/0.9 responses.]
+httplib.LineAndFileWrapper(|line, file) 
+;
+[httplib.NotConnected |G {class}]
+httplib.NotConnected(|) 
+;
+[httplib.ResponseNotReady |G {class}]
+httplib.ResponseNotReady(|) 
+;
+[httplib.SSLFile |G  File-like object wrapping an SSL socket.]
+httplib.SSLFile(|sock, ssl, bufsize=None) 
+;
+[httplib.SharedSocket |G ]
+httplib.SharedSocket(|sock)
+;
+[httplib.SharedSocketClient |G ]
+httplib.SharedSocketClient(|shared)
+;
+[httplib.StringIO |G -- Return a StringIO-like stream for reading or writing]
+httplib.StringIO(|[s]) 
+;
+[httplib.UnimplementedFileMode |G {class}]
+httplib.UnimplementedFileMode(|) 
+;
+[httplib.UnknownProtocol |G ]
+httplib.UnknownProtocol(|version)
+;
+[httplib.UnknownTransferEncoding |G {class}]
+httplib.UnknownTransferEncoding(|) 
+;
+[httplib.error |G {class}]
+httplib.error(|) 
+;
+[httplib.test |G  Test this module.]
+httplib.test(|) 
+;
+[httplib.urlsplit |G  Parse a URL into 5 components:]
+httplib.urlsplit(|) 
+;
+[id |G -> integer]
+id(|object) 
+;
+[ihooks.BasicModuleImporter |G  Basic module importer; uses module loader.]
+ihooks.BasicModuleImporter(|loader = None, verbose = VERBOSE) 
+;
+[ihooks.BasicModuleLoader |G  Basic module loader.]
+ihooks.BasicModuleLoader(|) 
+;
+[ihooks.FancyModuleLoader |G  Fancy module loader -- parses and execs the code itself.]
+ihooks.FancyModuleLoader(|) 
+;
+[ihooks.Hooks |G  Hooks into the filesystem and interpreter.]
+ihooks.Hooks(|) 
+;
+[ihooks.ModuleImporter |G  A module importer that supports packages.]
+ihooks.ModuleImporter(|) 
+;
+[ihooks.ModuleLoader |G  Default module loader; uses file system hooks.]
+ihooks.ModuleLoader(|hooks = None, verbose = VERBOSE) 
+;
+[ihooks._Verbose |G ]
+ihooks._Verbose(|verbose = VERBOSE)
+;
+[ihooks.install |G ]
+ihooks.install(|importer = None)
+;
+[ihooks.uninstall |G ]
+ihooks.uninstall(|)
+;
+[imageop.error |G {class}]
+imageop.error(|) 
+;
+[imaplib.IMAP4 |G  IMAP4 client class.]
+imaplib.IMAP4(|host = '', port = IMAP4_PORT) 
+;
+[imaplib.Int2AP |G  Convert integer to A-P string representation.]
+imaplib.Int2AP(|num) 
+;
+[imaplib.Internaldate2tuple |G  Convert IMAP4 INTERNALDATE to UT.]
+imaplib.Internaldate2tuple(|resp) 
+;
+[imaplib.ParseFlags |G  Convert IMAP4 flags response to python tuple.]
+imaplib.ParseFlags(|resp) 
+;
+[imaplib.Time2Internaldate |G  Convert 'date_time' to IMAP4 INTERNALDATE representation.]
+imaplib.Time2Internaldate(|date_time) 
+;
+[imaplib._Authenticator |G  Private class to provide en/decoding]
+imaplib._Authenticator(|mechinst) 
+;
+[imaplib._dump_ur |G {function}]
+imaplib._dump_ur(|) 
+;
+[imaplib._log |G {function}]
+imaplib._log(|) 
+;
+[imaplib._mesg |G {function}]
+imaplib._mesg(|) 
+;
+[imaplib.print_log |G {function}]
+imaplib.print_log(|) 
+;
+[imghdr.test |G ]
+imghdr.test(|)
+;
+[imghdr.test_bmp |G ]
+imghdr.test_bmp(|h, f)
+;
+[imghdr.test_gif |G  GIF ('87 and '89 variants)]
+imghdr.test_gif(|h, f) 
+;
+[imghdr.test_jpeg |G  JPEG data in JFIF format]
+imghdr.test_jpeg(|h, f) 
+;
+[imghdr.test_pbm |G  PBM (portable bitmap)]
+imghdr.test_pbm(|h, f) 
+;
+[imghdr.test_pgm |G  PGM (portable graymap)]
+imghdr.test_pgm(|h, f) 
+;
+[imghdr.test_png |G ]
+imghdr.test_png(|h, f)
+;
+[imghdr.test_ppm |G  PPM (portable pixmap)]
+imghdr.test_ppm(|h, f) 
+;
+[imghdr.test_rast |G  Sun raster file]
+imghdr.test_rast(|h, f) 
+;
+[imghdr.test_rgb |G  SGI image library]
+imghdr.test_rgb(|h, f) 
+;
+[imghdr.test_tiff |G  TIFF (can be in Motorola or Intel byte order)]
+imghdr.test_tiff(|h, f) 
+;
+[imghdr.test_xbm |G  X bitmap (X10 or X11)]
+imghdr.test_xbm(|h, f) 
+;
+[imghdr.testall |G ]
+imghdr.testall(|list, recursive, toplevel)
+;
+[imghdr.what |G ]
+imghdr.what(|file, h=None)
+;
+[imp.find_module |G -> (file, filename, (suffix, mode, type))]
+imp.find_module(|name, [path]) 
+;
+[imp.get_magic |G -> string]
+imp.get_magic(|) 
+;
+[imp.get_suffixes |G -> {(suffix, mode, type), ...}]
+imp.get_suffixes(|) 
+;
+[imp.load_module |G -> module]
+imp.load_module(|name, file, filename, (suffix, mode, type)) 
+;
+[imp.lock_held |G -> 0 or 1]
+imp.lock_held(|) 
+;
+[imp.new_module |G -> module]
+imp.new_module(|name) 
+;
+[imputil.BuiltinImporter |G {class}]
+imputil.BuiltinImporter(|) 
+;
+[imputil.DynLoadSuffixImporter |G ]
+imputil.DynLoadSuffixImporter(|desc)
+;
+[imputil.ImportManager |G  Manage the import process.]
+imputil.ImportManager(|fs_imp=None) 
+;
+[imputil.Importer |G  Base class for replacing standard import functions.]
+imputil.Importer(|) 
+;
+[imputil._FilesystemImporter |G {class}]
+imputil._FilesystemImporter(|) 
+;
+[imputil._compile |G  Compile (and cache) a Python source file.]
+imputil._compile(|pathname, timestamp) 
+;
+[imputil._os_bootstrap |G  Set up 'os' module replacement functions for use during import bootstrap.]
+imputil._os_bootstrap(|) 
+;
+[imputil._os_path_isdir |G  Local replacement for os.path.isdir().]
+imputil._os_path_isdir(|pathname) 
+;
+[imputil._print_importers |G ]
+imputil._print_importers(|)
+;
+[imputil._test_revamp |G ]
+imputil._test_revamp(|)
+;
+[imputil._timestamp |G  Return the file modification time as a Long.]
+imputil._timestamp(|pathname) 
+;
+[imputil.py_suffix_importer |G ]
+imputil.py_suffix_importer(|filename, finfo, fqname)
+;
+[input |G -> value]
+input(|[prompt]) 
+;
+[inspect.BlockFinder |G  Provide a tokeneater() method to detect the end of a code block.]
+inspect.BlockFinder(|) 
+;
+[inspect.EndOfBlock |G {class}]
+inspect.EndOfBlock(|) 
+;
+[inspect.ListReader |G  Provide a readline() method to return lines from a list of strings.]
+inspect.ListReader(|lines) 
+;
+[inspect._searchbases |G ]
+inspect._searchbases(|cls, accum)
+;
+[inspect.classify_class_attrs |G  Return list of attribute-descriptor tuples.]
+inspect.classify_class_attrs(|cls) 
+;
+[inspect.findsource |G  Return the entire source file and starting line number for an object.]
+inspect.findsource(|object) 
+;
+[inspect.formatargspec |G  Format an argument spec from the 4 values returned by getargspec.]
+inspect.formatargspec(|) 
+;
+[inspect.formatargvalues |G  Format an argument spec from the 4 values returned by getargvalues.]
+inspect.formatargvalues(|) 
+;
+[inspect.getabsfile |G  Return an absolute path to the source or compiled file for an object.]
+inspect.getabsfile(|object) 
+;
+[inspect.getargs |G  Get information about the arguments accepted by a code object.]
+inspect.getargs(|co) 
+;
+[inspect.getargspec |G  Get the names and default values of a function's arguments.]
+inspect.getargspec(|func) 
+;
+[inspect.getargvalues |G  Get information about arguments passed into a particular frame.]
+inspect.getargvalues(|frame) 
+;
+[inspect.getblock |G  Extract the block of code at the top of the given list of lines.]
+inspect.getblock(|lines) 
+;
+[inspect.getclasstree |G  Arrange the given list of classes into a hierarchy of nested lists.]
+inspect.getclasstree(|classes, unique=0) 
+;
+[inspect.getcomments |G  Get lines of comments immediately preceding an object's source code.]
+inspect.getcomments(|object) 
+;
+[inspect.getdoc |G  Get the documentation string for an object.]
+inspect.getdoc(|object) 
+;
+[inspect.getfile |G  Work out which source or compiled file an object was defined in.]
+inspect.getfile(|object) 
+;
+[inspect.getframeinfo |G  Get information about a frame or traceback object.]
+inspect.getframeinfo(|frame, context=1) 
+;
+[inspect.getinnerframes |G  Get a list of records for a traceback's frame and all lower frames.]
+inspect.getinnerframes(|tb, context=1) 
+;
+[inspect.getlineno |G  Get the line number from a frame object, allowing for optimization.]
+inspect.getlineno(|frame) 
+;
+[inspect.getmembers |G  Return all members of an object as (name, value) pairs sorted by name.]
+inspect.getmembers(|object, predicate=None) 
+;
+[inspect.getmodule |G  Return the module an object was defined in, or None if not found.]
+inspect.getmodule(|object) 
+;
+[inspect.getmoduleinfo |G  Get the module name, suffix, mode, and module type for a given file.]
+inspect.getmoduleinfo(|path) 
+;
+[inspect.getmodulename |G  Return the module name for a given file, or None.]
+inspect.getmodulename(|path) 
+;
+[inspect.getmro |G  Return tuple of base classes (including cls) in method resolution order.]
+inspect.getmro(|cls) 
+;
+[inspect.getouterframes |G  Get a list of records for a frame and all higher (calling) frames.]
+inspect.getouterframes(|frame, context=1) 
+;
+[inspect.getsource |G  Return the text of the source code for an object.]
+inspect.getsource(|object) 
+;
+[inspect.getsourcefile |G  Return the Python source file an object was defined in, if it exists.]
+inspect.getsourcefile(|object) 
+;
+[inspect.getsourcelines |G  Return a list of source lines and starting line number for an object.]
+inspect.getsourcelines(|object) 
+;
+[inspect.indentsize |G  Return the indent size, in spaces, at the start of a line of text.]
+inspect.indentsize(|line) 
+;
+[inspect.isbuiltin |G  Return true if the object is a built-in function or method.]
+inspect.isbuiltin(|object) 
+;
+[inspect.isclass |G  Return true if the object is a class.]
+inspect.isclass(|object) 
+;
+[inspect.iscode |G  Return true if the object is a code object.]
+inspect.iscode(|object) 
+;
+[inspect.isframe |G  Return true if the object is a frame object.]
+inspect.isframe(|object) 
+;
+[inspect.isfunction |G  Return true if the object is a user-defined function.]
+inspect.isfunction(|object) 
+;
+[inspect.ismethod |G  Return true if the object is an instance method.]
+inspect.ismethod(|object) 
+;
+[inspect.ismethoddescriptor |G  Return true if the object is a method descriptor.]
+inspect.ismethoddescriptor(|object) 
+;
+[inspect.ismodule |G  Return true if the object is a module.]
+inspect.ismodule(|object) 
+;
+[inspect.isroutine |G  Return true if the object is any kind of function or method.]
+inspect.isroutine(|object) 
+;
+[inspect.istraceback |G  Return true if the object is a traceback.]
+inspect.istraceback(|object) 
+;
+[inspect.joinseq |G ]
+inspect.joinseq(|seq)
+;
+[inspect.stack |G  Return a list of records for the stack above the caller's frame.]
+inspect.stack(|context=1) 
+;
+[inspect.strseq |G  Recursively walk a sequence, stringifying each element.]
+inspect.strseq(|object, convert, join=joinseq) 
+;
+[inspect.trace |G  Return a list of records for the stack below the current exception.]
+inspect.trace(|context=1) 
+;
+[inspect.walktree |G  Recursive helper function for getclasstree().]
+inspect.walktree(|classes, children, parent) 
+;
+[int |G -> integer]
+int(|x[, base]) 
+;
+[intern |G -> string]
+intern(|string) 
+;
+[isinstance |G -> Boolean]
+isinstance(|object, class-or-type-or-tuple) 
+;
+[issubclass |G -> Boolean]
+issubclass(|C, B) 
+;
+[iter |G -> iterator]
+iter(|collection) 
+;
+[keyword.main |G ]
+keyword.main(|)
+;
+[knee.determine_parent |G ]
+knee.determine_parent(|globals)
+;
+[knee.ensure_fromlist |G ]
+knee.ensure_fromlist(|m, fromlist, recursive=0)
+;
+[knee.find_head_package |G ]
+knee.find_head_package(|parent, name)
+;
+[knee.import_hook |G ]
+knee.import_hook(|name, globals=None, locals=None, fromlist=None)
+;
+[knee.import_module |G ]
+knee.import_module(|partname, fqname, parent)
+;
+[knee.load_tail |G ]
+knee.load_tail(|q, tail)
+;
+[knee.reload_hook |G ]
+knee.reload_hook(|module)
+;
+[len |G -> integer]
+len(|object) 
+;
+[linecache.S_IFMT |G {function}]
+linecache.S_IFMT(|) 
+;
+[linecache.S_IMODE |G {function}]
+linecache.S_IMODE(|) 
+;
+[linecache.S_ISBLK |G {function}]
+linecache.S_ISBLK(|) 
+;
+[linecache.S_ISCHR |G {function}]
+linecache.S_ISCHR(|) 
+;
+[linecache.S_ISDIR |G {function}]
+linecache.S_ISDIR(|) 
+;
+[linecache.S_ISFIFO |G {function}]
+linecache.S_ISFIFO(|) 
+;
+[linecache.S_ISLNK |G {function}]
+linecache.S_ISLNK(|) 
+;
+[linecache.S_ISREG |G {function}]
+linecache.S_ISREG(|) 
+;
+[linecache.S_ISSOCK |G {function}]
+linecache.S_ISSOCK(|) 
+;
+[linecache.checkcache |G  Discard cache entries that are out of date.]
+linecache.checkcache(|) 
+;
+[linecache.clearcache |G  Clear the cache entirely.]
+linecache.clearcache(|) 
+;
+[linecache.getline |G ]
+linecache.getline(|filename, lineno)
+;
+[linecache.getlines |G  Get the lines for a file from the cache.]
+linecache.getlines(|filename) 
+;
+[linecache.updatecache |G  Update a cache entry and return its list of lines.]
+linecache.updatecache(|filename) 
+;
+[list |G -> new list]
+list(|) 
+;
+[locale.Error |G {class}]
+locale.Error(|) 
+;
+[locale._build_localename |G  Builds a locale code from the given tuple (language code,]
+locale._build_localename(|localetuple) 
+;
+[locale._group |G ]
+locale._group(|s)
+;
+[locale._parse_localename |G  Parses the locale code for localename and returns the]
+locale._parse_localename(|localename) 
+;
+[locale._print_locale |G  Test function.]
+locale._print_locale(|) 
+;
+[locale._test |G ]
+locale._test(|)
+;
+[locale.atof |G  Parses a string as a float according to the locale settings.]
+locale.atof(|str,func=float) 
+;
+[locale.atoi |G  Converts a string to an integer according to the locale settings.]
+locale.atoi(|str) 
+;
+[locale.format |G  Formats a value in the same way that the % formatting would use,]
+locale.format(|f,val,grouping=0) 
+;
+[locale.getdefaultlocale |G  Tries to determine the default locale settings and returns]
+locale.getdefaultlocale(|envvars=('LANGUAGE', 'LC_ALL', 'LC_CTYPE', 'LANG')) 
+;
+[locale.getlocale |G  Returns the current setting for the given locale category as]
+locale.getlocale(|category=LC_CTYPE) 
+;
+[locale.normalize |G  Returns a normalized locale code for the given locale]
+locale.normalize(|localename) 
+;
+[locale.resetlocale |G  Sets the locale for category to the default setting.]
+locale.resetlocale(|category=LC_ALL) 
+;
+[locale.setlocale |G  Set the locale for the given category.  The locale can be]
+locale.setlocale(|category, locale=None) 
+;
+[locale.str |G  Convert float to integer, taking the locale into account.]
+locale.str(|val) 
+;
+[locals |G -> dictionary]
+locals(|) 
+;
+[long |G -> integer]
+long(|x[, base]) 
+;
+[macpath.S_IFMT |G {function}]
+macpath.S_IFMT(|) 
+;
+[macpath.S_IMODE |G {function}]
+macpath.S_IMODE(|) 
+;
+[macpath.S_ISBLK |G {function}]
+macpath.S_ISBLK(|) 
+;
+[macpath.S_ISCHR |G {function}]
+macpath.S_ISCHR(|) 
+;
+[macpath.S_ISDIR |G {function}]
+macpath.S_ISDIR(|) 
+;
+[macpath.S_ISFIFO |G {function}]
+macpath.S_ISFIFO(|) 
+;
+[macpath.S_ISLNK |G {function}]
+macpath.S_ISLNK(|) 
+;
+[macpath.S_ISREG |G {function}]
+macpath.S_ISREG(|) 
+;
+[macpath.S_ISSOCK |G {function}]
+macpath.S_ISSOCK(|) 
+;
+[macpath.abspath |G  Return an absolute path.]
+macpath.abspath(|path) 
+;
+[macpath.basename |G ]
+macpath.basename(|s)
+;
+[macpath.commonprefix |G  Given a list of pathnames, returns the longest common leading component]
+macpath.commonprefix(|m) 
+;
+[macpath.dirname |G ]
+macpath.dirname(|s)
+;
+[macpath.exists |G  Return true if the pathname refers to an existing file or directory.]
+macpath.exists(|s) 
+;
+[macpath.expanduser |G  Dummy to retain interface-compatibility with other operating systems.]
+macpath.expanduser(|path) 
+;
+[macpath.expandvars |G  Dummy to retain interface-compatibility with other operating systems.]
+macpath.expandvars(|path) 
+;
+[macpath.getatime |G  Return the last access time of a file, reported by os.stat().]
+macpath.getatime(|filename) 
+;
+[macpath.getmtime |G  Return the last modification time of a file, reported by os.stat().]
+macpath.getmtime(|filename) 
+;
+[macpath.getsize |G  Return the size of a file, reported by os.stat().]
+macpath.getsize(|filename) 
+;
+[macpath.isabs |G  Return true if a path is absolute.]
+macpath.isabs(|s) 
+;
+[macpath.isdir |G  Return true if the pathname refers to an existing directory.]
+macpath.isdir(|s) 
+;
+[macpath.isfile |G  Return true if the pathname refers to an existing regular file.]
+macpath.isfile(|s) 
+;
+[macpath.islink |G  Return true if the pathname refers to a symbolic link.]
+macpath.islink(|s) 
+;
+[macpath.join |G ]
+macpath.join(|s, *p)
+;
+[macpath.normcase |G ]
+macpath.normcase(|path)
+;
+[macpath.normpath |G  Normalize a pathname.  Will return the same result for]
+macpath.normpath(|s) 
+;
+[macpath.realpath |G  Return an absolute path.]
+macpath.realpath(|) 
+;
+[macpath.split |G  Split a pathname into two parts: the directory leading up to the final]
+macpath.split(|s) 
+;
+[macpath.splitdrive |G  Split a pathname into a drive specification and the rest of the]
+macpath.splitdrive(|p) 
+;
+[macpath.splitext |G  Split a path into root and extension.]
+macpath.splitext(|p) 
+;
+[macpath.walk |G  Directory tree walk with callback function.]
+macpath.walk(|top, func, arg) 
+;
+[macurl2path._pncomp2url |G ]
+macurl2path._pncomp2url(|component)
+;
+[macurl2path.pathname2url |G  convert mac pathname to /-delimited pathname]
+macurl2path.pathname2url(|pathname) 
+;
+[macurl2path.test |G ]
+macurl2path.test(|)
+;
+[macurl2path.url2pathname |G  Convert /-delimited pathname to mac pathname]
+macurl2path.url2pathname(|pathname) 
+;
+[mailbox.BabylMailbox |G {class}]
+mailbox.BabylMailbox(|) 
+;
+[mailbox.MHMailbox |G ]
+mailbox.MHMailbox(|dirname, factory=rfc822.Message)
+;
+[mailbox.Maildir |G ]
+mailbox.Maildir(|dirname, factory=rfc822.Message)
+;
+[mailbox.MmdfMailbox |G {class}]
+mailbox.MmdfMailbox(|) 
+;
+[mailbox.PortableUnixMailbox |G {class}]
+mailbox.PortableUnixMailbox(|) 
+;
+[mailbox.UnixMailbox |G {class}]
+mailbox.UnixMailbox(|) 
+;
+[mailbox._Mailbox |G ]
+mailbox._Mailbox(|fp, factory=rfc822.Message)
+;
+[mailbox._Subfile |G ]
+mailbox._Subfile(|fp, start, stop)
+;
+[mailbox._test |G ]
+mailbox._test(|)
+;
+[mailcap.findmatch |G  Find a match for a mailcap entry.]
+mailcap.findmatch(|caps, MIMEtype, key='view', filename="/dev/null", plist=[]) 
+;
+[mailcap.findparam |G ]
+mailcap.findparam(|name, plist)
+;
+[mailcap.getcaps |G  Return a dictionary containing the mailcap database.]
+mailcap.getcaps(|) 
+;
+[mailcap.listmailcapfiles |G  Return a list of all mailcap files found on the system.]
+mailcap.listmailcapfiles(|) 
+;
+[mailcap.lookup |G ]
+mailcap.lookup(|caps, MIMEtype, key=None)
+;
+[mailcap.parsefield |G  Separate one key-value pair in a mailcap entry.]
+mailcap.parsefield(|line, i, n) 
+;
+[mailcap.parseline |G  Parse one entry in a mailcap file and return a dictionary.]
+mailcap.parseline(|line) 
+;
+[mailcap.readmailcapfile |G  Read a mailcap file and return a dictionary keyed by MIME type.]
+mailcap.readmailcapfile(|fp) 
+;
+[mailcap.show |G ]
+mailcap.show(|caps)
+;
+[mailcap.subst |G ]
+mailcap.subst(|field, MIMEtype, filename, plist=[])
+;
+[mailcap.test |G ]
+mailcap.test(|)
+;
+[map |G -> list]
+map(|function, sequence[, sequence, ...]) 
+;
+[markupbase.ParserBase |G  Parser base class which provides some common support methods used]
+markupbase.ParserBase(|) 
+;
+[math.acos |G Return the arc cosine (measured in radians) of x.]
+math.acos(|x)
+;
+[math.asin |G Return the arc sine (measured in radians) of x.]
+math.asin(|x)
+;
+[math.atan |G Return the arc tangent (measured in radians) of x.]
+math.atan(|x)
+;
+[math.atan2 |G Unlike atan(y/x), the signs of both x and y are considered.]
+math.atan2(|y, x)
+;
+[math.ceil |G This is the smallest integral value >= x.]
+math.ceil(|x)
+;
+[math.cos |G Return the cosine of x (measured in radians).]
+math.cos(|x)
+;
+[math.cosh |G Return the hyperbolic cosine of x.]
+math.cosh(|x)
+;
+[math.exp |G Return e raised to the power of x.]
+math.exp(|x)
+;
+[math.fabs |G Return the absolute value of the float x.]
+math.fabs(|x)
+;
+[math.floor |G This is the largest integral value <= x.]
+math.floor(|x)
+;
+[math.fmod |G Return fmod(x, y), according to platform C.  x % y may differ.]
+math.fmod(|x,y)
+;
+[math.frexp |G If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.]
+math.frexp(|x)
+;
+[math.hypot |G Return the Euclidean distance, sqrt(x*x + y*y).]
+math.hypot(|x,y)
+;
+[math.ldexp |G -> x * (2**i)]
+math.ldexp(|x, i) 
+;
+[math.log |G -> the natural logarithm (base e) of x.]
+math.log(|x) 
+;
+[math.log10 |G -> the base 10 logarithm of x.]
+math.log10(|x) 
+;
+[math.modf |G of x.  The integer part is returned as a real.]
+math.modf(|x)
+;
+[math.pow |G Return x**y (x to the power of y).]
+math.pow(|x,y)
+;
+[math.sin |G Return the sine of x (measured in radians).]
+math.sin(|x)
+;
+[math.sinh |G Return the hyperbolic sine of x.]
+math.sinh(|x)
+;
+[math.sqrt |G Return the square root of x.]
+math.sqrt(|x)
+;
+[math.tan |G Return the tangent of x (measured in radians).]
+math.tan(|x)
+;
+[math.tanh |G Return the hyperbolic tangent of x.]
+math.tanh(|x)
+;
+[max |G -> value]
+max(|sequence) 
+;
+[md5.new |G -> md5 object]
+md5.new(|[arg]) 
+;
+[mhlib.Error |G {class}]
+mhlib.Error(|) 
+;
+[mhlib.Folder |G  Class representing a particular folder.]
+mhlib.Folder(|mh, name) 
+;
+[mhlib.IntSet |G  Class implementing sets of integers.]
+mhlib.IntSet(|data = None, sep = ',', rng = '-') 
+;
+[mhlib.MH |G  Class representing a particular collection of folders.]
+mhlib.MH(|path = None, profile = None) 
+;
+[mhlib.Message |G ]
+mhlib.Message(|f, n, fp = None)
+;
+[mhlib.SubMessage |G ]
+mhlib.SubMessage(|f, n, fp)
+;
+[mhlib.bisect |G  Return the index where to insert item x in list a, assuming a is sorted.]
+mhlib.bisect(|) 
+;
+[mhlib.isnumeric |G ]
+mhlib.isnumeric(|str)
+;
+[mhlib.pickline |G ]
+mhlib.pickline(|file, key, casefold = 1)
+;
+[mhlib.test |G ]
+mhlib.test(|)
+;
+[mhlib.updateline |G ]
+mhlib.updateline(|file, key, value, casefold = 1)
+;
+[mimetools.Message |G  A derived class of rfc822.Message that knows about MIME headers and]
+mimetools.Message(|fp, seekable = 1) 
+;
+[mimetools.choose_boundary |G  Return a random string usable as a multipart boundary.]
+mimetools.choose_boundary(|) 
+;
+[mimetools.copybinary |G ]
+mimetools.copybinary(|input, output)
+;
+[mimetools.copyliteral |G ]
+mimetools.copyliteral(|input, output)
+;
+[mimetools.decode |G  Decode common content-transfer-encodings (base64, quopri, uuencode).]
+mimetools.decode(|input, output, encoding) 
+;
+[mimetools.encode |G  Encode common content-transfer-encodings (base64, quopri, uuencode).]
+mimetools.encode(|input, output, encoding) 
+;
+[mimetools.pipethrough |G ]
+mimetools.pipethrough(|input, command, output)
+;
+[mimetools.pipeto |G ]
+mimetools.pipeto(|input, command)
+;
+[mimetypes.MimeTypes |G  MIME-types datastore.]
+mimetypes.MimeTypes(|filenames=()) 
+;
+[mimetypes.guess_extension |G  Guess the extension for a file based on its MIME type.]
+mimetypes.guess_extension(|type, strict=1) 
+;
+[mimetypes.guess_type |G  Guess the type of a file based on its URL.]
+mimetypes.guess_type(|url, strict=1) 
+;
+[mimetypes.init |G ]
+mimetypes.init(|files=None)
+;
+[mimetypes.read_mime_types |G ]
+mimetypes.read_mime_types(|file)
+;
+[mimify.File |G  A simple fake file object that knows about limited read-ahead and]
+mimify.File(|file, boundary) 
+;
+[mimify.HeaderFile |G ]
+mimify.HeaderFile(|file)
+;
+[mimify.mime_decode |G  Decode a single line of quoted-printable text to 8bit.]
+mimify.mime_decode(|line) 
+;
+[mimify.mime_decode_header |G  Decode a header line to 8bit.]
+mimify.mime_decode_header(|line) 
+;
+[mimify.mime_encode |G  Code a single line as quoted-printable.]
+mimify.mime_encode(|line, header) 
+;
+[mimify.mime_encode_header |G  Code a single header line as quoted-printable.]
+mimify.mime_encode_header(|line) 
+;
+[mimify.mimify |G  Convert 8bit parts of a MIME mail message to quoted-printable.]
+mimify.mimify(|infile, outfile) 
+;
+[mimify.mimify_part |G  Convert an 8bit part of a MIME mail message to quoted-printable.]
+mimify.mimify_part(|ifile, ofile, is_mime) 
+;
+[mimify.unmimify |G  Convert quoted-printable parts of a MIME mail message to 8bit.]
+mimify.unmimify(|infile, outfile, decode_base64 = 0) 
+;
+[mimify.unmimify_part |G  Convert a quoted-printable part of a MIME mail message to 8bit.]
+mimify.unmimify_part(|ifile, ofile, decode_base64 = 0) 
+;
+[min |G -> value]
+min(|sequence) 
+;
+[mmap.error |G  Base class for I/O related errors.]
+mmap.error(|) 
+;
+[multifile.Error |G {class}]
+multifile.Error(|) 
+;
+[multifile.MultiFile |G ]
+multifile.MultiFile(|fp, seekable=1)
+;
+[mutex.mutex |G {class}]
+mutex.mutex(|) 
+;
+[netrc.NetrcParseError |G  Exception raised on syntax errors in the .netrc file.]
+netrc.NetrcParseError(|msg, filename=None, lineno=None) 
+;
+[netrc.netrc |G ]
+netrc.netrc(|file=None)
+;
+[nntplib.NNTP |G {class}]
+nntplib.NNTP(|) 
+;
+[nntplib.NNTPDataError |G  Error in response data]
+nntplib.NNTPDataError(|) 
+;
+[nntplib.NNTPError |G  Base class for all nntplib exceptions]
+nntplib.NNTPError(|*args) 
+;
+[nntplib.NNTPPermanentError |G  5xx errors]
+nntplib.NNTPPermanentError(|) 
+;
+[nntplib.NNTPProtocolError |G  Response does not begin with {1-5}]
+nntplib.NNTPProtocolError(|) 
+;
+[nntplib.NNTPReplyError |G  Unexpected {123}xx reply]
+nntplib.NNTPReplyError(|) 
+;
+[nntplib.NNTPTemporaryError |G  4xx errors]
+nntplib.NNTPTemporaryError(|) 
+;
+[nntplib._test |G  Minimal test function.]
+nntplib._test(|) 
+;
+[nntplib.error_data |G  Error in response data]
+nntplib.error_data(|) 
+;
+[nntplib.error_perm |G  5xx errors]
+nntplib.error_perm(|) 
+;
+[nntplib.error_proto |G  Response does not begin with {1-5}]
+nntplib.error_proto(|) 
+;
+[nntplib.error_reply |G  Unexpected {123}xx reply]
+nntplib.error_reply(|) 
+;
+[nntplib.error_temp |G  4xx errors]
+nntplib.error_temp(|) 
+;
+[nt._exit |G Exit to the system with specified status, without normal exit processing.]
+nt._exit(|status)
+;
+[nt.abort |G -> does not return!]
+nt.abort(|) 
+;
+[nt.access |G -> 1 if granted, 0 otherwise]
+nt.access(|path, mode) 
+;
+[nt.chdir |G -> None]
+nt.chdir(|path) 
+;
+[nt.chmod |G -> None]
+nt.chmod(|path, mode) 
+;
+[nt.close |G -> None]
+nt.close(|fd) 
+;
+[nt.dup |G -> fd2]
+nt.dup(|fd) 
+;
+[nt.dup2 |G -> None]
+nt.dup2(|fd, fd2) 
+;
+[nt.error |G  OS system call failed.]
+nt.error(|) 
+;
+[nt.execv |G 	args: tuple or list of strings]
+nt.execv(|path, args)
+;
+[nt.execve |G 	env: dictionary of strings mapping to strings]
+nt.execve(|path, args, env)
+;
+[nt.fdopen |G -> file_object]
+nt.fdopen(|fd, [, mode='r' [, bufsize]]) 
+;
+[nt.fstat |G -> (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime)]
+nt.fstat(|fd) 
+;
+[nt.getcwd |G -> path]
+nt.getcwd(|) 
+;
+[nt.getpid |G -> pid]
+nt.getpid(|) 
+;
+[nt.isatty |G -> Boolean]
+nt.isatty(|fd) 
+;
+[nt.listdir |G -> list_of_strings]
+nt.listdir(|path) 
+;
+[nt.lseek |G -> newpos]
+nt.lseek(|fd, pos, how) 
+;
+[nt.lstat |G -> (st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid,]
+nt.lstat(|path) 
+;
+[nt.mkdir |G -> None]
+nt.mkdir(|path [, mode=0777]) 
+;
+[nt.open |G -> fd]
+nt.open(|filename, flag [, mode=0777]) 
+;
+[nt.pipe |G -> (read_end, write_end)]
+nt.pipe(|) 
+;
+[nt.popen |G -> pipe]
+nt.popen(|command [, mode='r' [, bufsize]]) 
+;
+[nt.putenv |G -> None]
+nt.putenv(|key, value) 
+;
+[nt.read |G -> string]
+nt.read(|fd, buffersize) 
+;
+[nt.remove |G -> None]
+nt.remove(|path) 
+;
+[nt.rename |G -> None]
+nt.rename(|old, new) 
+;
+[nt.rmdir |G -> None]
+nt.rmdir(|path) 
+;
+[nt.spawnv |G 	args: tuple or list of strings]
+nt.spawnv(|mode, path, args)
+;
+[nt.spawnve |G 	env: dictionary of strings mapping to strings]
+nt.spawnve(|mode, path, args, env)
+;
+[nt.startfile |G the underlying Win32 ShellExecute function doesn't work if it is.]
+nt.startfile(|filepath) - Start a file with its associated application.
+;
+[nt.stat |G -> (st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid,]
+nt.stat(|path) 
+;
+[nt.strerror |G -> string]
+nt.strerror(|code) 
+;
+[nt.system |G -> exit_status]
+nt.system(|command) 
+;
+[nt.tempnam |G -> string]
+nt.tempnam(|[dir[, prefix]]) 
+;
+[nt.times |G -> (utime, stime, cutime, cstime, elapsed_time)]
+nt.times(|) 
+;
+[nt.tmpfile |G -> file object]
+nt.tmpfile(|) 
+;
+[nt.tmpnam |G -> string]
+nt.tmpnam(|) 
+;
+[nt.umask |G -> old_mask]
+nt.umask(|new_mask) 
+;
+[nt.unlink |G -> None]
+nt.unlink(|path) 
+;
+[nt.utime |G -> None]
+nt.utime(|path, (atime, utime)) 
+;
+[nt.write |G -> byteswritten]
+nt.write(|fd, string) 
+;
+[ntpath.abspath |G  Return the absolute version of a path]
+ntpath.abspath(|path) 
+;
+[ntpath.basename |G  Returns the final component of a pathname]
+ntpath.basename(|p) 
+;
+[ntpath.commonprefix |G  Given a list of pathnames, returns the longest common leading component]
+ntpath.commonprefix(|m) 
+;
+[ntpath.dirname |G  Returns the directory component of a pathname]
+ntpath.dirname(|p) 
+;
+[ntpath.exists |G  Test whether a path exists]
+ntpath.exists(|path) 
+;
+[ntpath.expanduser |G  Expand ~ and ~user constructs.]
+ntpath.expanduser(|path) 
+;
+[ntpath.expandvars |G  Expand shell variables of form $var and ${var}.]
+ntpath.expandvars(|path) 
+;
+[ntpath.getatime |G  Return the last access time of a file, reported by os.stat()]
+ntpath.getatime(|filename) 
+;
+[ntpath.getmtime |G  Return the last modification time of a file, reported by os.stat()]
+ntpath.getmtime(|filename) 
+;
+[ntpath.getsize |G  Return the size of a file, reported by os.stat()]
+ntpath.getsize(|filename) 
+;
+[ntpath.isabs |G  Test whether a path is absolute]
+ntpath.isabs(|s) 
+;
+[ntpath.isdir |G  Test whether a path is a directory]
+ntpath.isdir(|path) 
+;
+[ntpath.isfile |G  Test whether a path is a regular file]
+ntpath.isfile(|path) 
+;
+[ntpath.islink |G  Test for symbolic link.  On WindowsNT/95 always returns false]
+ntpath.islink(|path) 
+;
+[ntpath.ismount |G  Test whether a path is a mount point (defined as root of drive)]
+ntpath.ismount(|path) 
+;
+[ntpath.join |G  Join two or more pathname components, inserting "\" as needed]
+ntpath.join(|a, *p) 
+;
+[ntpath.normcase |G  Normalize case of pathname.]
+ntpath.normcase(|s) 
+;
+[ntpath.normpath |G  Normalize path, eliminating double slashes, etc.]
+ntpath.normpath(|path) 
+;
+[ntpath.realpath |G  Return the absolute version of a path]
+ntpath.realpath(|) 
+;
+[ntpath.split |G  Split a pathname.]
+ntpath.split(|p) 
+;
+[ntpath.splitdrive |G  Split a pathname into drive and path specifiers. Returns a 2-tuple]
+ntpath.splitdrive(|p) 
+;
+[ntpath.splitext |G  Split the extension from a pathname.]
+ntpath.splitext(|p) 
+;
+[ntpath.splitunc |G  Split a pathname into UNC mount point and relative path specifiers.]
+ntpath.splitunc(|p) 
+;
+[ntpath.walk |G  Directory tree walk with callback function.]
+ntpath.walk(|top, func, arg) 
+;
+[nturl2path.pathname2url |G  Convert a DOS path name to a file url.]
+nturl2path.pathname2url(|p) 
+;
+[nturl2path.url2pathname |G  Convert a URL to a DOS path.]
+nturl2path.url2pathname(|url) 
+;
+[oct |G -> string]
+oct(|number) 
+;
+[operator.abs |G -- Same as abs(a).]
+operator.abs(|a) 
+;
+[operator.add |G -- Same as a + b.]
+operator.add(|a, b) 
+;
+[operator.and_ |G -- Same as a & b.]
+operator.and_(|a, b) 
+;
+[operator.concat |G -- Same as a + b, for a and b sequences.]
+operator.concat(|a, b) 
+;
+[operator.contains |G -- Same as b in a (note reversed operands).]
+operator.contains(|a, b) 
+;
+[operator.countOf |G -- Return the number of times b occurs in a.]
+operator.countOf(|a, b) 
+;
+[operator.delitem |G -- Same as del a{b}.]
+operator.delitem(|a, b) 
+;
+[operator.delslice |G -- Same as del a{b:c}.]
+operator.delslice(|a, b, c) 
+;
+[operator.div |G -- Same as a / b when __future__.division is not in effect.]
+operator.div(|a, b) 
+;
+[operator.eq |G -- Same as a==b.]
+operator.eq(|a, b) 
+;
+[operator.floordiv |G -- Same as a // b.]
+operator.floordiv(|a, b) 
+;
+[operator.ge |G -- Same as a>=b.]
+operator.ge(|a, b) 
+;
+[operator.getitem |G -- Same as a{b}.]
+operator.getitem(|a, b) 
+;
+[operator.getslice |G -- Same as a{b:c}.]
+operator.getslice(|a, b, c) 
+;
+[operator.gt |G -- Same as a>b.]
+operator.gt(|a, b) 
+;
+[operator.indexOf |G -- Return the first index of b in a.]
+operator.indexOf(|a, b) 
+;
+[operator.inv |G -- Same as ~a.]
+operator.inv(|a) 
+;
+[operator.invert |G -- Same as ~a.]
+operator.invert(|a) 
+;
+[operator.isCallable |G -- Same as callable(a).]
+operator.isCallable(|a) 
+;
+[operator.isMappingType |G -- Return 1 if a has a mapping type, and zero otherwise.]
+operator.isMappingType(|a) 
+;
+[operator.isNumberType |G -- Return 1 if a has a numeric type, and zero otherwise.]
+operator.isNumberType(|a) 
+;
+[operator.isSequenceType |G -- Return 1 if a has a sequence type, and zero otherwise.]
+operator.isSequenceType(|a) 
+;
+[operator.le |G -- Same as a<=b.]
+operator.le(|a, b) 
+;
+[operator.lshift |G -- Same as a << b.]
+operator.lshift(|a, b) 
+;
+[operator.lt |G -- Same as a<b.]
+operator.lt(|a, b) 
+;
+[operator.mod |G -- Same as a % b.]
+operator.mod(|a, b) 
+;
+[operator.mul |G -- Same as a * b.]
+operator.mul(|a, b) 
+;
+[operator.ne |G -- Same as a!=b.]
+operator.ne(|a, b) 
+;
+[operator.neg |G -- Same as -a.]
+operator.neg(|a) 
+;
+[operator.not_ |G -- Same as not a.]
+operator.not_(|a) 
+;
+[operator.or_ |G -- Same as a | b.]
+operator.or_(|a, b) 
+;
+[operator.pos |G -- Same as +a.]
+operator.pos(|a) 
+;
+[operator.repeat |G -- Return a * b, where a is a sequence, and b is an integer.]
+operator.repeat(|a, b) 
+;
+[operator.rshift |G -- Same as a >> b.]
+operator.rshift(|a, b) 
+;
+[operator.sequenceIncludes |G -- Same as b in a (note reversed operands; deprecated).]
+operator.sequenceIncludes(|a, b) 
+;
+[operator.setitem |G -- Same as a{b} = c.]
+operator.setitem(|a, b, c) 
+;
+[operator.setslice |G -- Same as a{b:c} = d.]
+operator.setslice(|a, b, c, d) 
+;
+[operator.sub |G -- Same as a - b.]
+operator.sub(|a, b) 
+;
+[operator.truediv |G -- Same as a / b when __future__.division is in effect.]
+operator.truediv(|a, b) 
+;
+[operator.truth |G -- Return 1 if a is true, and 0 otherwise.]
+operator.truth(|a) 
+;
+[operator.xor |G -- Same as a ^ b.]
+operator.xor(|a, b) 
+;
+[ord |G -> integer]
+ord(|c) 
+;
+[os._Environ |G {class}]
+os._Environ(|) 
+;
+[os._execvpe |G ]
+os._execvpe(|file, args, env=None)
+;
+[os._exists |G ]
+os._exists(|name)
+;
+[os._exit |G Exit to the system with specified status, without normal exit processing.]
+os._exit(|status)
+;
+[os._get_exports_list |G ]
+os._get_exports_list(|module)
+;
+[os._make_stat_result |G ]
+os._make_stat_result(|tup, dict)
+;
+[os._make_statvfs_result |G ]
+os._make_statvfs_result(|tup, dict)
+;
+[os._pickle_stat_result |G ]
+os._pickle_stat_result(|sr)
+;
+[os._pickle_statvfs_result |G ]
+os._pickle_statvfs_result(|sr)
+;
+[os.abort |G -> does not return!]
+os.abort(|) 
+;
+[os.access |G -> 1 if granted, 0 otherwise]
+os.access(|path, mode) 
+;
+[os.chdir |G -> None]
+os.chdir(|path) 
+;
+[os.chmod |G -> None]
+os.chmod(|path, mode) 
+;
+[os.close |G -> None]
+os.close(|fd) 
+;
+[os.dup |G -> fd2]
+os.dup(|fd) 
+;
+[os.dup2 |G -> None]
+os.dup2(|fd, fd2) 
+;
+[os.error |G  OS system call failed.]
+os.error(|) 
+;
+[os.execl |G     current process. ]
+os.execl(|file, *args)
+;
+[os.execle |G     environment env, replacing the current process. ]
+os.execle(|file, *args, env)
+;
+[os.execlp |G     with argument list args, replacing the current process. ]
+os.execlp(|file, *args)
+;
+[os.execlpe |G     process. ]
+os.execlpe(|file, *args, env)
+;
+[os.execv |G 	args: tuple or list of strings]
+os.execv(|path, args)
+;
+[os.execve |G 	env: dictionary of strings mapping to strings]
+os.execve(|path, args, env)
+;
+[os.execvp |G  execp(file, args)]
+os.execvp(|file, args) 
+;
+[os.execvpe |G     args may be a list or tuple of strings. ]
+os.execvpe(|file, args, env)
+;
+[os.fdopen |G -> file_object]
+os.fdopen(|fd, [, mode='r' [, bufsize]]) 
+;
+[os.fstat |G -> (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime)]
+os.fstat(|fd) 
+;
+[os.getcwd |G -> path]
+os.getcwd(|) 
+;
+[os.getenv |G  Get an environment variable, return None if it doesn't exist.]
+os.getenv(|) 
+;
+[os.getpid |G -> pid]
+os.getpid(|) 
+;
+[os.isatty |G -> Boolean]
+os.isatty(|fd) 
+;
+[os.listdir |G -> list_of_strings]
+os.listdir(|path) 
+;
+[os.lseek |G -> newpos]
+os.lseek(|fd, pos, how) 
+;
+[os.lstat |G -> (st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid,]
+os.lstat(|path) 
+;
+[os.makedirs |G -> None]
+os.makedirs(|path [, mode=0777]) 
+;
+[os.mkdir |G -> None]
+os.mkdir(|path [, mode=0777]) 
+;
+[os.open |G -> fd]
+os.open(|filename, flag [, mode=0777]) 
+;
+[os.path.abspath |G  Return the absolute version of a path]
+os.path.abspath(|) 
+;
+[os.path.basename |G  Returns the final component of a pathname]
+os.path.basename(|) 
+;
+[os.path.commonprefix |G  Given a list of pathnames, returns the longest common leading component]
+os.path.commonprefix(|) 
+;
+[os.path.dirname |G  Returns the directory component of a pathname]
+os.path.dirname(|) 
+;
+[os.path.exists |G  Test whether a path exists]
+os.path.exists(|) 
+;
+[os.path.expanduser |G  Expand ~ and ~user constructs.]
+os.path.expanduser(|) 
+;
+[os.path.expandvars |G  Expand shell variables of form $var and ${var}.]
+os.path.expandvars(|) 
+;
+[os.path.getatime |G  Return the last access time of a file, reported by os.stat()]
+os.path.getatime(|) 
+;
+[os.path.getmtime |G  Return the last modification time of a file, reported by os.stat()]
+os.path.getmtime(|) 
+;
+[os.path.getsize |G  Return the size of a file, reported by os.stat()]
+os.path.getsize(|) 
+;
+[os.path.isabs |G  Test whether a path is absolute]
+os.path.isabs(|) 
+;
+[os.path.isdir |G  Test whether a path is a directory]
+os.path.isdir(|) 
+;
+[os.path.isfile |G  Test whether a path is a regular file]
+os.path.isfile(|) 
+;
+[os.path.islink |G  Test for symbolic link.  On WindowsNT/95 always returns false]
+os.path.islink(|) 
+;
+[os.path.ismount |G  Test whether a path is a mount point (defined as root of drive)]
+os.path.ismount(|) 
+;
+[os.path.join |G  Join two or more pathname components, inserting "\" as needed]
+os.path.join(|) 
+;
+[os.path.normcase |G  Normalize case of pathname.]
+os.path.normcase(|) 
+;
+[os.path.normpath |G  Normalize path, eliminating double slashes, etc.]
+os.path.normpath(|) 
+;
+[os.path.realpath |G  Return the absolute version of a path]
+os.path.realpath(|) 
+;
+[os.path.split |G  Split a pathname.]
+os.path.split(|) 
+;
+[os.path.splitdrive |G  Split a pathname into drive and path specifiers. Returns a 2-tuple]
+os.path.splitdrive(|) 
+;
+[os.path.splitext |G  Split the extension from a pathname.]
+os.path.splitext(|) 
+;
+[os.path.splitunc |G  Split a pathname into UNC mount point and relative path specifiers.]
+os.path.splitunc(|) 
+;
+[os.path.walk |G  Directory tree walk with callback function.]
+os.path.walk(|) 
+;
+[os.pipe |G -> (read_end, write_end)]
+os.pipe(|) 
+;
+[os.popen |G -> pipe]
+os.popen(|command [, mode='r' [, bufsize]]) 
+;
+[os.putenv |G -> None]
+os.putenv(|key, value) 
+;
+[os.read |G -> string]
+os.read(|fd, buffersize) 
+;
+[os.remove |G -> None]
+os.remove(|path) 
+;
+[os.removedirs |G -> None]
+os.removedirs(|path) 
+;
+[os.rename |G -> None]
+os.rename(|old, new) 
+;
+[os.renames |G -> None]
+os.renames(|old, new) 
+;
+[os.rmdir |G -> None]
+os.rmdir(|path) 
+;
+[os.spawnl |G -> integer]
+os.spawnl(|mode, file, *args) 
+;
+[os.spawnle |G -> integer]
+os.spawnle(|mode, file, *args, env) 
+;
+[os.spawnv |G 	args: tuple or list of strings]
+os.spawnv(|mode, path, args)
+;
+[os.spawnve |G 	env: dictionary of strings mapping to strings]
+os.spawnve(|mode, path, args, env)
+;
+[os.startfile |G the underlying Win32 ShellExecute function doesn't work if it is.]
+os.startfile(|filepath) - Start a file with its associated application.
+;
+[os.stat |G -> (st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid,]
+os.stat(|path) 
+;
+[os.strerror |G -> string]
+os.strerror(|code) 
+;
+[os.system |G -> exit_status]
+os.system(|command) 
+;
+[os.tempnam |G -> string]
+os.tempnam(|[dir[, prefix]]) 
+;
+[os.times |G -> (utime, stime, cutime, cstime, elapsed_time)]
+os.times(|) 
+;
+[os.tmpfile |G -> file object]
+os.tmpfile(|) 
+;
+[os.tmpnam |G -> string]
+os.tmpnam(|) 
+;
+[os.umask |G -> old_mask]
+os.umask(|new_mask) 
+;
+[os.unlink |G -> None]
+os.unlink(|path) 
+;
+[os.unsetenv |G {function}]
+os.unsetenv(|) 
+;
+[os.utime |G -> None]
+os.utime(|path, (atime, utime)) 
+;
+[os.write |G -> byteswritten]
+os.write(|fd, string) 
+;
+[parser.ParserError |G {class}]
+parser.ParserError(|) 
+;
+[pcre.error |G {class}]
+pcre.error(|) 
+;
+[pdb.Pdb |G {class}]
+pdb.Pdb(|) 
+;
+[pdb.Repr |G {class}]
+pdb.Repr(|) 
+;
+[pdb.find_function |G ]
+pdb.find_function(|funcname, filename)
+;
+[pdb.help |G ]
+pdb.help(|)
+;
+[pdb.pm |G ]
+pdb.pm(|)
+;
+[pdb.post_mortem |G ]
+pdb.post_mortem(|t)
+;
+[pdb.run |G ]
+pdb.run(|statement, globals=None, locals=None)
+;
+[pdb.runcall |G ]
+pdb.runcall(|*args)
+;
+[pdb.runctx |G ]
+pdb.runctx(|statement, globals, locals)
+;
+[pdb.runeval |G ]
+pdb.runeval(|expression, globals=None, locals=None)
+;
+[pdb.set_trace |G ]
+pdb.set_trace(|)
+;
+[pdb.test |G ]
+pdb.test(|)
+;
+[pipes.Template |G  Class representing a pipeline template.]
+pipes.Template(|) 
+;
+[pipes.makepipeline |G ]
+pipes.makepipeline(|infile, steps, outfile)
+;
+[pipes.quote |G ]
+pipes.quote(|file)
+;
+[pipes.test |G ]
+pipes.test(|)
+;
+[popen2._cleanup |G ]
+popen2._cleanup(|)
+;
+[popen2._test |G ]
+popen2._test(|)
+;
+[popen2.popen2 |G  Execute the shell command 'cmd' in a sub-process.  If 'bufsize' is]
+popen2.popen2(|) 
+;
+[popen2.popen3 |G  Execute the shell command 'cmd' in a sub-process.  If 'bufsize' is]
+popen2.popen3(|) 
+;
+[popen2.popen4 |G  Execute the shell command 'cmd' in a sub-process.  If 'bufsize' is]
+popen2.popen4(|) 
+;
+[poplib.POP3 |G  This class supports both the minimal and optional command sets.]
+poplib.POP3(|host, port = POP3_PORT) 
+;
+[poplib.error_proto |G {class}]
+poplib.error_proto(|) 
+;
+[posixfile._posixfile_ |G  File wrapper class that provides extra POSIX file routines.]
+posixfile._posixfile_(|) 
+;
+[posixfile.fileopen |G  Public routine to get a posixfile object from a Python file object.]
+posixfile.fileopen(|file) 
+;
+[posixfile.open |G  Public routine to open a file as a posixfile object.]
+posixfile.open(|name, mode='r', bufsize=-1) 
+;
+[posixpath.abspath |G  Return an absolute path.]
+posixpath.abspath(|path) 
+;
+[posixpath.basename |G  Returns the final component of a pathname]
+posixpath.basename(|p) 
+;
+[posixpath.commonprefix |G  Given a list of pathnames, returns the longest common leading component]
+posixpath.commonprefix(|m) 
+;
+[posixpath.dirname |G  Returns the directory component of a pathname]
+posixpath.dirname(|p) 
+;
+[posixpath.exists |G  Test whether a path exists.  Returns false for broken symbolic links]
+posixpath.exists(|path) 
+;
+[posixpath.expanduser |G  Expand ~ and ~user constructions.  If user or $HOME is unknown,]
+posixpath.expanduser(|path) 
+;
+[posixpath.expandvars |G  Expand shell variables of form $var and ${var}.  Unknown variables]
+posixpath.expandvars(|path) 
+;
+[posixpath.getatime |G  Return the last access time of a file, reported by os.stat().]
+posixpath.getatime(|filename) 
+;
+[posixpath.getmtime |G  Return the last modification time of a file, reported by os.stat().]
+posixpath.getmtime(|filename) 
+;
+[posixpath.getsize |G  Return the size of a file, reported by os.stat().]
+posixpath.getsize(|filename) 
+;
+[posixpath.isabs |G  Test whether a path is absolute]
+posixpath.isabs(|s) 
+;
+[posixpath.isdir |G  Test whether a path is a directory]
+posixpath.isdir(|path) 
+;
+[posixpath.isfile |G  Test whether a path is a regular file]
+posixpath.isfile(|path) 
+;
+[posixpath.islink |G  Test whether a path is a symbolic link]
+posixpath.islink(|path) 
+;
+[posixpath.ismount |G  Test whether a path is a mount point]
+posixpath.ismount(|path) 
+;
+[posixpath.join |G  Join two or more pathname components, inserting '/' as needed]
+posixpath.join(|a, *p) 
+;
+[posixpath.normcase |G  Normalize case of pathname.  Has no effect under Posix]
+posixpath.normcase(|s) 
+;
+[posixpath.normpath |G  Normalize path, eliminating double slashes, etc.]
+posixpath.normpath(|path) 
+;
+[posixpath.realpath |G  Return the canonical path of the specified filename, eliminating any]
+posixpath.realpath(|filename) 
+;
+[posixpath.samefile |G  Test whether two pathnames reference the same actual file]
+posixpath.samefile(|f1, f2) 
+;
+[posixpath.sameopenfile |G  Test whether two open file objects reference the same file]
+posixpath.sameopenfile(|fp1, fp2) 
+;
+[posixpath.samestat |G  Test whether two stat buffers reference the same file]
+posixpath.samestat(|s1, s2) 
+;
+[posixpath.split |G  Split a pathname.  Returns tuple "(head, tail)" where "tail" is]
+posixpath.split(|p) 
+;
+[posixpath.splitdrive |G  Split a pathname into drive and path. On Posix, drive is always]
+posixpath.splitdrive(|p) 
+;
+[posixpath.splitext |G  Split the extension from a pathname.  Extension is everything from the]
+posixpath.splitext(|p) 
+;
+[posixpath.walk |G  Directory tree walk with callback function.]
+posixpath.walk(|top, func, arg) 
+;
+[pow |G -> number]
+pow(|x, y[, z]) 
+;
+[pprint.PrettyPrinter |G ]
+pprint.PrettyPrinter(|indent=1, width=80, depth=None, stream=None)
+;
+[pprint.StringIO |G -- Return a StringIO-like stream for reading or writing]
+pprint.StringIO(|[s]) 
+;
+[pprint._perfcheck |G ]
+pprint._perfcheck(|object=None)
+;
+[pprint._recursion |G ]
+pprint._recursion(|object)
+;
+[pprint._safe_repr |G ]
+pprint._safe_repr(|object, context, maxlevels, level)
+;
+[pprint.isreadable |G  Determine if saferepr(object) is readable by eval().]
+pprint.isreadable(|object) 
+;
+[pprint.isrecursive |G  Determine if object requires a recursive representation.]
+pprint.isrecursive(|object) 
+;
+[pprint.pformat |G  Format a Python object into a pretty-printed representation.]
+pprint.pformat(|object) 
+;
+[pprint.pprint |G  Pretty-print a Python object to a stream {default is sys.sydout}.]
+pprint.pprint(|object, stream=None) 
+;
+[pprint.saferepr |G  Version of repr() which can handle recursive data structures.]
+pprint.saferepr(|object) 
+;
+[pre.MatchObject |G  Holds a compiled regular expression pattern.]
+pre.MatchObject(|re, string, pos, endpos, regs) 
+;
+[pre.RegexObject |G  Holds a compiled regular expression pattern.]
+pre.RegexObject(|pattern, flags, code, groupindex) 
+;
+[pre._Dummy |G {class}]
+pre._Dummy(|) 
+;
+[pre._cachecompile |G ]
+pre._cachecompile(|pattern, flags=0)
+;
+[pre.compile |G -> RegexObject]
+pre.compile(|pattern[, flags]) 
+;
+[pre.error |G {class}]
+pre.error(|) 
+;
+[pre.escape |G -> string]
+pre.escape(|string) 
+;
+[pre.findall |G -> list]
+pre.findall(|pattern, string) 
+;
+[pre.match  |G -> MatchObject or None]
+pre.match (|pattern, string[, flags]) 
+;
+[pre.search  |G -> MatchObject or None]
+pre.search (|pattern, string[, flags]) 
+;
+[pre.split |G -> list of strings]
+pre.split(|pattern, string[, maxsplit=0]) 
+;
+[pre.sub |G -> string]
+pre.sub(|pattern, repl, string[, count=0]) 
+;
+[pre.subn |G -> (string, num substitutions)]
+pre.subn(|pattern, repl, string[, count=0]) 
+;
+[profile.Profile |G  Profiler class.]
+profile.Profile(|timer=None, bias=None) 
+;
+[profile.Stats |G ]
+profile.Stats(|*args)
+;
+[profile._get_time_times |G {function}]
+profile._get_time_times(|) 
+;
+[profile.help |G ]
+profile.help(|)
+;
+[profile.run |G  Run statement under profiler optionally saving results in filename]
+profile.run(|statement, filename=None) 
+;
+[property |G -> property attribute]
+property(|fget=None, fset=None, fdel=None, doc=None) 
+;
+[pstats.Stats |G  This class is used for creating reports from data generated by the]
+pstats.Stats(|*args) 
+;
+[pstats.TupleComp |G  This class provides a generic function for comparing any two tuples.]
+pstats.TupleComp(|comp_select_list) 
+;
+[pstats.add_callers |G  Combine two caller lists in a single list.]
+pstats.add_callers(|target, source) 
+;
+[pstats.add_func_stats |G  Add together all the stats for two profile entries.]
+pstats.add_func_stats(|target, source) 
+;
+[pstats.count_calls |G  Sum the caller statistics to get total number of calls received.]
+pstats.count_calls(|callers) 
+;
+[pstats.f8 |G ]
+pstats.f8(|x)
+;
+[pstats.func_get_function_name |G ]
+pstats.func_get_function_name(|func)
+;
+[pstats.func_std_string |G ]
+pstats.func_std_string(|func_name)
+;
+[pstats.func_strip_path |G ]
+pstats.func_strip_path(|func_name)
+;
+[py_compile.compile |G  Byte-compile one Python source file to Python bytecode.]
+py_compile.compile(|file, cfile=None, dfile=None) 
+;
+[py_compile.wr_long |G  Internal; write a 32-bit int to a file in little-endian order.]
+py_compile.wr_long(|f, x) 
+;
+[pyclbr.Class |G  Class to represent a Python class.]
+pyclbr.Class(|module, name, super, file, lineno) 
+;
+[pyclbr.Function |G  Class to represent a top-level Python function]
+pyclbr.Function(|module, name, file, lineno) 
+;
+[pyclbr._indent |G ]
+pyclbr._indent(|ws, _expandtabs=string.expandtabs)
+;
+[pyclbr.readmodule |G  Backwards compatible interface.]
+pyclbr.readmodule(|module, path=[], inpackage=0) 
+;
+[pyclbr.readmodule_ex |G  Read a module file and return a dictionary of classes.]
+pyclbr.readmodule_ex(|module, path=[], inpackage=0) 
+;
+[pydoc.Doc |G {class}]
+pydoc.Doc(|) 
+;
+[pydoc.ErrorDuringImport |G  Errors that occurred while trying to import something to document it.]
+pydoc.ErrorDuringImport(|filename, (exc, value, tb)) 
+;
+[pydoc.HTMLDoc |G  Formatter class for HTML documentation.]
+pydoc.HTMLDoc(|) 
+;
+[pydoc.HTMLRepr |G  Class for safely making an HTML representation of a Python object.]
+pydoc.HTMLRepr(|) 
+;
+[pydoc.Helper |G ]
+pydoc.Helper(|input, output)
+;
+[pydoc.ModuleScanner |G  An interruptible scanner that searches module synopses.]
+pydoc.ModuleScanner(|) 
+;
+[pydoc.Repr |G {class}]
+pydoc.Repr(|) 
+;
+[pydoc.Scanner |G  A generic tree iterator.]
+pydoc.Scanner(|roots, children, descendp) 
+;
+[pydoc.TextDoc |G  Formatter class for text documentation.]
+pydoc.TextDoc(|) 
+;
+[pydoc.TextRepr |G  Class for safely making a text representation of a Python object.]
+pydoc.TextRepr(|) 
+;
+[pydoc._is_some_method |G ]
+pydoc._is_some_method(|object)
+;
+[pydoc._split_list |G  Split sequence s via predicate, and return pair ({true}, {false}).]
+pydoc._split_list(|s, predicate) 
+;
+[pydoc.allmethods |G ]
+pydoc.allmethods(|cl)
+;
+[pydoc.apropos |G  Print all the one-line module summaries that contain a substring.]
+pydoc.apropos(|key) 
+;
+[pydoc.classname |G  Get a class name and qualify it with a module name if necessary.]
+pydoc.classname(|object, modname) 
+;
+[pydoc.cli |G  Command-line interface (looks at sys.argv to decide what to do).]
+pydoc.cli(|) 
+;
+[pydoc.cram |G  Omit part of a string if needed to make it fit in a maximum length.]
+pydoc.cram(|text, maxlen) 
+;
+[pydoc.describe |G  Produce a short description of the given thing.]
+pydoc.describe(|thing) 
+;
+[pydoc.doc |G  Display text documentation, given an object or a path to an object.]
+pydoc.doc(|thing, title='Python Library Documentation: %s', forceload=0) 
+;
+[pydoc.expandtabs |G -> string]
+pydoc.expandtabs(|s [,tabsize]) 
+;
+[pydoc.find |G -> in]
+pydoc.find(|s, sub [,start [,end]]) 
+;
+[pydoc.getdoc |G  Get the doc string or comments for an object.]
+pydoc.getdoc(|object) 
+;
+[pydoc.getpager |G  Decide what method to use for paging through text.]
+pydoc.getpager(|) 
+;
+[pydoc.gui |G  Graphical interface (starts web server and pops up a control window).]
+pydoc.gui(|) 
+;
+[pydoc.importfile |G  Import a Python source file or compiled file given its path.]
+pydoc.importfile(|path) 
+;
+[pydoc.isdata |G  Check if an object is of a type that probably means it's data.]
+pydoc.isdata(|object) 
+;
+[pydoc.ispackage |G  Guess whether a path refers to a package directory.]
+pydoc.ispackage(|path) 
+;
+[pydoc.ispath |G ]
+pydoc.ispath(|x)
+;
+[pydoc.join |G -> string]
+pydoc.join(|list [,sep]) 
+;
+[pydoc.locate |G  Locate an object by name or dotted path, importing as necessary.]
+pydoc.locate(|path, forceload=0) 
+;
+[pydoc.lower |G -> string]
+pydoc.lower(|s) 
+;
+[pydoc.pager |G  The first time this is called, determine what kind of pager to use.]
+pydoc.pager(|text) 
+;
+[pydoc.pathdirs |G  Convert sys.path into a list of absolute, existing, unique paths.]
+pydoc.pathdirs(|) 
+;
+[pydoc.pipepager |G  Page through text by feeding it to another program.]
+pydoc.pipepager(|text, cmd) 
+;
+[pydoc.plain |G  Remove boldface formatting from text.]
+pydoc.plain(|text) 
+;
+[pydoc.plainpager |G  Simply print unformatted text.  This is the ultimate fallback.]
+pydoc.plainpager(|text) 
+;
+[pydoc.replace |G  Do a series of global replacements on a string.]
+pydoc.replace(|text, *pairs) 
+;
+[pydoc.resolve |G  Given an object or a path to an object, get the object and its name.]
+pydoc.resolve(|thing, forceload=0) 
+;
+[pydoc.rfind |G -> int]
+pydoc.rfind(|s, sub [,start [,end]]) 
+;
+[pydoc.rstrip |G -> string]
+pydoc.rstrip(|s) 
+;
+[pydoc.safeimport |G  Import a module; handle errors; return None if the module isn't found.]
+pydoc.safeimport(|path, forceload=0, cache={}) 
+;
+[pydoc.serve |G ]
+pydoc.serve(|port, callback=None, completer=None)
+;
+[pydoc.split |G -> list of strings]
+pydoc.split(|s [,sep [,maxsplit]]) 
+;
+[pydoc.splitdoc |G  Split a doc string into a synopsis line (if any) and the rest.]
+pydoc.splitdoc(|doc) 
+;
+[pydoc.strip |G -> string]
+pydoc.strip(|s) 
+;
+[pydoc.stripid |G  Remove the hexadecimal id from a Python object representation.]
+pydoc.stripid(|text) 
+;
+[pydoc.synopsis |G  Get the one-line summary out of a module file.]
+pydoc.synopsis(|filename, cache={}) 
+;
+[pydoc.tempfilepager |G  Page through text by invoking a program on a temporary file.]
+pydoc.tempfilepager(|text, cmd) 
+;
+[pydoc.ttypager |G  Page through text on a text terminal.]
+pydoc.ttypager(|text) 
+;
+[pydoc.writedoc |G  Write HTML documentation to a file in the current directory.]
+pydoc.writedoc(|thing, forceload=0) 
+;
+[pydoc.writedocs |G  Write out HTML documentation for all modules in a directory tree.]
+pydoc.writedocs(|dir, pkgpath='', done=None) 
+;
+[pyexpat.ErrorString |G -> string]
+pyexpat.ErrorString(|errno) 
+;
+[pyexpat.ExpatError |G {class}]
+pyexpat.ExpatError(|) 
+;
+[pyexpat.ParserCreate |G -> parser]
+pyexpat.ParserCreate(|[encoding[, namespace_separator]]) 
+;
+[pyexpat.error |G {class}]
+pyexpat.error(|) 
+;
+[pyhelp.Parser |G ]
+pyhelp.Parser(|url, verbose=0)
+;
+[pyhelp.cgi_help |G ]
+pyhelp.cgi_help(|)
+;
+[pyhelp.find_topics |G ]
+pyhelp.find_topics(|topic, version, regexp, rebuild)
+;
+[pyhelp.get_anchors |G ]
+pyhelp.get_anchors(|version, rebuild)
+;
+[pyhelp.get_tempdir |G ]
+pyhelp.get_tempdir(|)
+;
+[pyhelp.help |G ]
+pyhelp.help(|topic, version="2.2", regexp=0, rebuild=0)
+;
+[pyhelp.main |G ]
+pyhelp.main(|)
+;
+[quopri.b2a_qp |G -> s;]
+quopri.b2a_qp(|data, quotetabs=0, istext=1, header=0) 
+;
+[quopri.decode |G  Read 'input', apply quoted-printable decoding, and write to 'output'.]
+quopri.decode(|input, output, header = 0) 
+;
+[quopri.decodestring |G ]
+quopri.decodestring(|s, header = 0)
+;
+[quopri.encode |G  Read 'input', apply quoted-printable encoding, and write to 'output'.]
+quopri.encode(|input, output, quotetabs, header = 0) 
+;
+[quopri.encodestring |G ]
+quopri.encodestring(|s, quotetabs = 0, header = 0)
+;
+[quopri.ishex |G  Return true if the character 'c' is a hexadecimal digit.]
+quopri.ishex(|c) 
+;
+[quopri.main |G ]
+quopri.main(|)
+;
+[quopri.needsquoting |G  Decide whether a particular character needs to be quoted.]
+quopri.needsquoting(|c, quotetabs, header) 
+;
+[quopri.quote |G  Quote a single character.]
+quopri.quote(|c) 
+;
+[quopri.unhex |G  Get the integer value of a hexadecimal number.]
+quopri.unhex(|s) 
+;
+[random.Random |G  Random number generator base class used by bound module functions.]
+random.Random(|x=None) 
+;
+[random._test |G ]
+random._test(|N=20000)
+;
+[random._test_generator |G ]
+random._test_generator(|n, funccall)
+;
+[range |G -> list of integers]
+range(|[start,] stop[, step]) 
+;
+[raw_input |G -> string]
+raw_input(|[prompt]) 
+;
+[re.compile |G  Compile a regular expression pattern, returning a pattern object.]
+re.compile(|) 
+;
+[re.error |G {class}]
+re.error(|) 
+;
+[re.escape |G  Escape all non-alphanumeric characters in pattern.]
+re.escape(|) 
+;
+[re.findall |G  Return a list of all non-overlapping matches in the string.]
+re.findall(|) 
+;
+[re.finditer |G  Return an iterator over all non-overlapping matches in the]
+re.finditer(|) 
+;
+[re.match |G  Try to apply the pattern at the start of the string, returning]
+re.match(|) 
+;
+[re.purge |G  Clear the regular expression cache]
+re.purge(|) 
+;
+[re.search |G  Scan through string looking for a match to the pattern, returning]
+re.search(|) 
+;
+[re.split |G  Split the source string by the occurrences of the pattern,]
+re.split(|) 
+;
+[re.sub |G  Return the string obtained by replacing the leftmost]
+re.sub(|) 
+;
+[re.subn |G  Return a 2-tuple containing (new_string, number).]
+re.subn(|) 
+;
+[re.template |G  Compile a template pattern, returning a pattern object]
+re.template(|) 
+;
+[reconvert.convert |G  Convert a regex regular expression to re syntax.]
+reconvert.convert(|s, syntax=None) 
+;
+[reconvert.main |G  Main program -- called when run as a script.]
+reconvert.main(|) 
+;
+[reconvert.quote |G  Convert a string object to a quoted string literal.]
+reconvert.quote(|s, quote=None) 
+;
+[reduce |G -> value]
+reduce(|function, sequence[, initial]) 
+;
+[regex.error |G {class}]
+regex.error(|) 
+;
+[regsub.capwords |G ]
+regsub.capwords(|str, pat='[^a-zA-Z0-9_]+')
+;
+[regsub.clear_cache |G ]
+regsub.clear_cache(|)
+;
+[regsub.compile |G ]
+regsub.compile(|pat)
+;
+[regsub.expand |G ]
+regsub.expand(|repl, regs, str)
+;
+[regsub.gsub |G ]
+regsub.gsub(|pat, repl, str)
+;
+[regsub.intsplit |G ]
+regsub.intsplit(|str, pat, maxsplit, retain)
+;
+[regsub.split |G ]
+regsub.split(|str, pat, maxsplit = 0)
+;
+[regsub.splitx |G ]
+regsub.splitx(|str, pat, maxsplit = 0)
+;
+[regsub.sub |G ]
+regsub.sub(|pat, repl, str)
+;
+[regsub.test |G ]
+regsub.test(|)
+;
+[reload |G -> module]
+reload(|module) 
+;
+[repr |G -> string]
+repr(|object) 
+;
+[repr.Repr |G {class}]
+repr.Repr(|) 
+;
+[rexec.FileBase |G {class}]
+rexec.FileBase(|) 
+;
+[rexec.FileDelegate |G ]
+rexec.FileDelegate(|mod, name)
+;
+[rexec.FileWrapper |G ]
+rexec.FileWrapper(|f)
+;
+[rexec.RExec |G  Basic restricted execution framework.]
+rexec.RExec(|hooks = None, verbose = 0) 
+;
+[rexec.RHooks |G ]
+rexec.RHooks(|*args)
+;
+[rexec.RModuleImporter |G  A module importer that supports packages.]
+rexec.RModuleImporter(|) 
+;
+[rexec.RModuleLoader |G  Fancy module loader -- parses and execs the code itself.]
+rexec.RModuleLoader(|) 
+;
+[rexec.test |G ]
+rexec.test(|)
+;
+[rfc822.AddressList |G  An AddressList encapsulates a list of parsed RFC 2822 addresses.]
+rfc822.AddressList(|field) 
+;
+[rfc822.AddrlistClass |G  Address parser class by Ben Escoto.]
+rfc822.AddrlistClass(|field) 
+;
+[rfc822.Message |G  Represents a single RFC 2822-compliant message.]
+rfc822.Message(|fp, seekable = 1) 
+;
+[rfc822.dump_address_pair |G  Dump a (name, address) pair in a canonicalized form.]
+rfc822.dump_address_pair(|pair) 
+;
+[rfc822.formatdate |G  Returns time format preferred for Internet standards.]
+rfc822.formatdate(|timeval=None) 
+;
+[rfc822.mktime_tz |G  Turn a 10-tuple as returned by parsedate_tz() into a UTC timestamp.]
+rfc822.mktime_tz(|data) 
+;
+[rfc822.parseaddr |G  Parse an address into a (realname, mailaddr) tuple.]
+rfc822.parseaddr(|address) 
+;
+[rfc822.parsedate |G  Convert a time string to a time tuple.]
+rfc822.parsedate(|data) 
+;
+[rfc822.parsedate_tz |G  Convert a date string to a time tuple.]
+rfc822.parsedate_tz(|data) 
+;
+[rfc822.quote |G  Add quotes around a string.]
+rfc822.quote(|str) 
+;
+[rfc822.unquote |G  Remove quotes from a string.]
+rfc822.unquote(|str) 
+;
+[rgbimg.error |G {class}]
+rgbimg.error(|) 
+;
+[rlcompleter.Completer |G {class}]
+rlcompleter.Completer(|) 
+;
+[rlcompleter.get_class_members |G ]
+rlcompleter.get_class_members(|klass)
+;
+[robotparser.Entry |G  An entry has one or more user-agents and zero or more rulelines]
+robotparser.Entry(|) 
+;
+[robotparser.RobotFileParser |G ]
+robotparser.RobotFileParser(|url='')
+;
+[robotparser.RuleLine |G  A rule line is a single "Allow:" (allowance==1) or "Disallow:"]
+robotparser.RuleLine(|path, allowance) 
+;
+[robotparser.URLopener |G ]
+robotparser.URLopener(|*args)
+;
+[robotparser._check |G ]
+robotparser._check(|a,b)
+;
+[robotparser._debug |G ]
+robotparser._debug(|msg)
+;
+[robotparser._test |G ]
+robotparser._test(|)
+;
+[round |G -> floating point number]
+round(|number[, ndigits]) 
+;
+[sched.scheduler |G ]
+sched.scheduler(|timefunc, delayfunc)
+;
+[select.error |G {class}]
+select.error(|) 
+;
+[select.select |G -> (rlist, wlist, xlist)]
+select.select(|rlist, wlist, xlist[, timeout]) 
+;
+[setattr |G ]
+setattr(|object, name, value)
+;
+[sgmllib.SGMLParseError |G  Exception raised for all parse errors.]
+sgmllib.SGMLParseError(|) 
+;
+[sgmllib.SGMLParser |G ]
+sgmllib.SGMLParser(|verbose=0)
+;
+[sgmllib.TestSGMLParser |G ]
+sgmllib.TestSGMLParser(|verbose=0)
+;
+[sgmllib.test |G ]
+sgmllib.test(|args = None)
+;
+[shelve.BsdDbShelf |G  Shelf implementation using the "BSD" db interface.]
+shelve.BsdDbShelf(|dict) 
+;
+[shelve.DbfilenameShelf |G  Shelf implementation using the "anydbm" generic dbm interface.]
+shelve.DbfilenameShelf(|filename, flag='c') 
+;
+[shelve.Pickler |G -- Create a pickler]
+shelve.Pickler(|file, [binary]) 
+;
+[shelve.Shelf |G  Base class for shelf implementations.]
+shelve.Shelf(|dict) 
+;
+[shelve.StringIO |G -- Return a StringIO-like stream for reading or writing]
+shelve.StringIO(|[s]) 
+;
+[shelve.Unpickler |G -- Create an unpickler]
+shelve.Unpickler(|file) 
+;
+[shelve.open |G  Open a persistent dictionary for reading and writing.]
+shelve.open(|filename, flag='c') 
+;
+[shlex.shlex |G  A lexical analyzer class for simple shell-like syntaxes.]
+shlex.shlex(|instream=None, infile=None) 
+;
+[shutil._build_cmdtuple |G ]
+shutil._build_cmdtuple(|path, cmdtuples)
+;
+[shutil.copy |G  Copy data and mode bits ("cp src dst").]
+shutil.copy(|src, dst) 
+;
+[shutil.copy2 |G  Copy data and all stat info ("cp -p src dst").]
+shutil.copy2(|src, dst) 
+;
+[shutil.copyfile |G  Copy data from src to dst]
+shutil.copyfile(|src, dst) 
+;
+[shutil.copyfileobj |G  copy data from file-like object fsrc to file-like object fdst]
+shutil.copyfileobj(|fsrc, fdst, length=16*1024) 
+;
+[shutil.copymode |G  Copy mode bits from src to dst]
+shutil.copymode(|src, dst) 
+;
+[shutil.copystat |G  Copy all stat info (mode bits, atime and mtime) from src to dst]
+shutil.copystat(|src, dst) 
+;
+[shutil.copytree |G  Recursively copy a directory tree using copy2().]
+shutil.copytree(|src, dst, symlinks=0) 
+;
+[shutil.rmtree |G  Recursively delete a directory tree.]
+shutil.rmtree(|path, ignore_errors=0, onerror=None) 
+;
+[signal.default_int_handler |G It raises KeyboardInterrupt.]
+signal.default_int_handler(|...)
+;
+[signal.getsignal |G -> action]
+signal.getsignal(|sig) 
+;
+[signal.signal |G -> action]
+signal.signal(|sig, action) 
+;
+[site._Helper |G {class}]
+site._Helper(|) 
+;
+[site._Printer |G ]
+site._Printer(|name, data, files=(), dirs=())
+;
+[site._init_pathinfo |G ]
+site._init_pathinfo(|)
+;
+[site._test |G ]
+site._test(|)
+;
+[site.addpackage |G ]
+site.addpackage(|sitedir, name)
+;
+[site.addsitedir |G ]
+site.addsitedir(|sitedir)
+;
+[site.makepath |G ]
+site.makepath(|*paths)
+;
+[slice |G -> slice object]
+slice(|[start,] stop[, step]) 
+;
+[smtpd.DebuggingServer |G {class}]
+smtpd.DebuggingServer(|) 
+;
+[smtpd.Devnull |G {class}]
+smtpd.Devnull(|) 
+;
+[smtpd.MailmanProxy |G {class}]
+smtpd.MailmanProxy(|) 
+;
+[smtpd.Options |G {class}]
+smtpd.Options(|) 
+;
+[smtpd.PureProxy |G {class}]
+smtpd.PureProxy(|) 
+;
+[smtpd.SMTPChannel |G ]
+smtpd.SMTPChannel(|server, conn, addr)
+;
+[smtpd.SMTPServer |G ]
+smtpd.SMTPServer(|localaddr, remoteaddr)
+;
+[smtpd.parseargs |G ]
+smtpd.parseargs(|)
+;
+[smtpd.usage |G ]
+smtpd.usage(|code, msg='')
+;
+[smtplib.SMTP |G  This class manages a connection to an SMTP or ESMTP server.]
+smtplib.SMTP(|host = '', port = 0) 
+;
+[smtplib.SMTPAuthenticationError |G  Authentication error.]
+smtplib.SMTPAuthenticationError(|) 
+;
+[smtplib.SMTPConnectError |G  Error during connection establishment.]
+smtplib.SMTPConnectError(|) 
+;
+[smtplib.SMTPDataError |G  The SMTP server didn't accept the data.]
+smtplib.SMTPDataError(|) 
+;
+[smtplib.SMTPException |G  Base class for all exceptions raised by this module.]
+smtplib.SMTPException(|) 
+;
+[smtplib.SMTPHeloError |G  The server refused our HELO reply.]
+smtplib.SMTPHeloError(|) 
+;
+[smtplib.SMTPRecipientsRefused |G  All recipient addresses refused.]
+smtplib.SMTPRecipientsRefused(|recipients) 
+;
+[smtplib.SMTPResponseException |G  Base class for all exceptions that include an SMTP error code.]
+smtplib.SMTPResponseException(|code, msg) 
+;
+[smtplib.SMTPSenderRefused |G  Sender address refused.]
+smtplib.SMTPSenderRefused(|code, msg, sender) 
+;
+[smtplib.SMTPServerDisconnected |G  Not connected to any SMTP server.]
+smtplib.SMTPServerDisconnected(|) 
+;
+[smtplib.SSLFakeFile |G  A fake file like object that really wraps a SSLObject.]
+smtplib.SSLFakeFile(|) 
+;
+[smtplib.SSLFakeSocket |G  A fake socket object that really wraps a SSLObject.]
+smtplib.SSLFakeSocket(|realsock, sslobj) 
+;
+[smtplib.encode_base64 |G ]
+smtplib.encode_base64(|s, eol=None)
+;
+[smtplib.quoteaddr |G  Quote a subset of the email addresses defined by RFC 821.]
+smtplib.quoteaddr(|addr) 
+;
+[smtplib.quotedata |G  Quote data for email.]
+smtplib.quotedata(|data) 
+;
+[sndhdr.get_long_be |G ]
+sndhdr.get_long_be(|s)
+;
+[sndhdr.get_long_le |G ]
+sndhdr.get_long_le(|s)
+;
+[sndhdr.get_short_be |G ]
+sndhdr.get_short_be(|s)
+;
+[sndhdr.get_short_le |G ]
+sndhdr.get_short_le(|s)
+;
+[sndhdr.test |G ]
+sndhdr.test(|)
+;
+[sndhdr.test_8svx |G ]
+sndhdr.test_8svx(|h, f)
+;
+[sndhdr.test_aifc |G ]
+sndhdr.test_aifc(|h, f)
+;
+[sndhdr.test_au |G ]
+sndhdr.test_au(|h, f)
+;
+[sndhdr.test_hcom |G ]
+sndhdr.test_hcom(|h, f)
+;
+[sndhdr.test_sndr |G ]
+sndhdr.test_sndr(|h, f)
+;
+[sndhdr.test_sndt |G ]
+sndhdr.test_sndt(|h, f)
+;
+[sndhdr.test_voc |G ]
+sndhdr.test_voc(|h, f)
+;
+[sndhdr.test_wav |G ]
+sndhdr.test_wav(|h, f)
+;
+[sndhdr.testall |G ]
+sndhdr.testall(|list, recursive, toplevel)
+;
+[sndhdr.what |G  Guess the type of a sound file]
+sndhdr.what(|filename) 
+;
+[sndhdr.whathdr |G  Recognize sound headers]
+sndhdr.whathdr(|filename) 
+;
+[socket._fileobject |G ]
+socket._fileobject(|sock, mode, bufsize)
+;
+[socket._socketobject |G ]
+socket._socketobject(|sock)
+;
+[socket.error |G {class}]
+socket.error(|) 
+;
+[socket.gaierror |G {class}]
+socket.gaierror(|) 
+;
+[socket.getfqdn |G  Get fully qualified domain name from name.]
+socket.getfqdn(|name='') 
+;
+[socket.gethostbyaddr |G -> (name, aliaslist, addresslist)]
+socket.gethostbyaddr(|host) 
+;
+[socket.gethostbyname |G -> address]
+socket.gethostbyname(|host) 
+;
+[socket.gethostbyname_ex |G -> (name, aliaslist, addresslist)]
+socket.gethostbyname_ex(|host) 
+;
+[socket.gethostname |G -> string]
+socket.gethostname(|) 
+;
+[socket.getprotobyname |G -> integer]
+socket.getprotobyname(|name) 
+;
+[socket.getservbyname |G -> integer]
+socket.getservbyname(|servicename, protocolname) 
+;
+[socket.herror |G {class}]
+socket.herror(|) 
+;
+[socket.htonl |G -> integer]
+socket.htonl(|integer) 
+;
+[socket.htons |G -> integer]
+socket.htons(|integer) 
+;
+[socket.inet_aton |G -> packed 32-bit IP representation]
+socket.inet_aton(|string) 
+;
+[socket.inet_ntoa |G -> ip_address_string]
+socket.inet_ntoa(|packed_ip) 
+;
+[socket.ntohl |G -> integer]
+socket.ntohl(|integer) 
+;
+[socket.ntohs |G -> integer]
+socket.ntohs(|integer) 
+;
+[socket.socket |G {function}]
+socket.socket(|) 
+;
+[sre.Scanner |G ]
+sre.Scanner(|lexicon, flags=0)
+;
+[sre._compile |G ]
+sre._compile(|*key)
+;
+[sre._compile_repl |G ]
+sre._compile_repl(|*key)
+;
+[sre._expand |G ]
+sre._expand(|pattern, match, template)
+;
+[sre._join |G ]
+sre._join(|seq, sep)
+;
+[sre._pickle |G ]
+sre._pickle(|p)
+;
+[sre._subx |G ]
+sre._subx(|pattern, template)
+;
+[sre.compile |G  Compile a regular expression pattern, returning a pattern object.]
+sre.compile(|pattern, flags=0) 
+;
+[sre.error |G {class}]
+sre.error(|) 
+;
+[sre.escape |G  Escape all non-alphanumeric characters in pattern.]
+sre.escape(|pattern) 
+;
+[sre.findall |G  Return a list of all non-overlapping matches in the string.]
+sre.findall(|pattern, string) 
+;
+[sre.finditer |G  Return an iterator over all non-overlapping matches in the]
+sre.finditer(|) 
+;
+[sre.match |G  Try to apply the pattern at the start of the string, returning]
+sre.match(|pattern, string, flags=0) 
+;
+[sre.purge |G  Clear the regular expression cache]
+sre.purge(|) 
+;
+[sre.search |G  Scan through string looking for a match to the pattern, returning]
+sre.search(|pattern, string, flags=0) 
+;
+[sre.split |G  Split the source string by the occurrences of the pattern,]
+sre.split(|pattern, string, maxsplit=0) 
+;
+[sre.sub |G  Return the string obtained by replacing the leftmost]
+sre.sub(|pattern, repl, string, count=0) 
+;
+[sre.subn |G  Return a 2-tuple containing (new_string, number).]
+sre.subn(|pattern, repl, string, count=0) 
+;
+[sre.template |G  Compile a template pattern, returning a pattern object]
+sre.template(|pattern, flags=0) 
+;
+[sre_compile._code |G ]
+sre_compile._code(|p, flags)
+;
+[sre_compile._compile |G ]
+sre_compile._compile(|code, pattern, flags)
+;
+[sre_compile._compile_charset |G ]
+sre_compile._compile_charset(|charset, flags, code, fixup=None)
+;
+[sre_compile._compile_info |G ]
+sre_compile._compile_info(|code, pattern, flags)
+;
+[sre_compile._mk_bitmap |G ]
+sre_compile._mk_bitmap(|bits)
+;
+[sre_compile._optimize_charset |G ]
+sre_compile._optimize_charset(|charset, fixup)
+;
+[sre_compile._optimize_unicode |G ]
+sre_compile._optimize_unicode(|charset, fixup)
+;
+[sre_compile._simple |G ]
+sre_compile._simple(|av)
+;
+[sre_compile.compile |G ]
+sre_compile.compile(|p, flags=0)
+;
+[sre_compile.error |G {class}]
+sre_compile.error(|) 
+;
+[sre_compile.makedict |G {function}]
+sre_compile.makedict(|) 
+;
+[sre_constants.error |G {class}]
+sre_constants.error(|) 
+;
+[sre_constants.makedict |G ]
+sre_constants.makedict(|list)
+;
+[sre_parse.Pattern |G {class}]
+sre_parse.Pattern(|) 
+;
+[sre_parse.SubPattern |G ]
+sre_parse.SubPattern(|pattern, data=None)
+;
+[sre_parse.Tokenizer |G ]
+sre_parse.Tokenizer(|string)
+;
+[sre_parse._class_escape |G ]
+sre_parse._class_escape(|source, escape)
+;
+[sre_parse._escape |G ]
+sre_parse._escape(|source, escape, state)
+;
+[sre_parse._group |G ]
+sre_parse._group(|escape, groups)
+;
+[sre_parse._parse |G ]
+sre_parse._parse(|source, state)
+;
+[sre_parse._parse_sub |G ]
+sre_parse._parse_sub(|source, state, nested=1)
+;
+[sre_parse.error |G {class}]
+sre_parse.error(|) 
+;
+[sre_parse.expand_template |G ]
+sre_parse.expand_template(|template, match)
+;
+[sre_parse.isdigit |G ]
+sre_parse.isdigit(|char)
+;
+[sre_parse.isident |G ]
+sre_parse.isident(|char)
+;
+[sre_parse.isname |G ]
+sre_parse.isname(|name)
+;
+[sre_parse.makedict |G {function}]
+sre_parse.makedict(|) 
+;
+[sre_parse.parse |G ]
+sre_parse.parse(|str, flags=0, pattern=None)
+;
+[sre_parse.parse_template |G ]
+sre_parse.parse_template(|source, pattern)
+;
+[stat.S_IFMT |G ]
+stat.S_IFMT(|mode)
+;
+[stat.S_IMODE |G ]
+stat.S_IMODE(|mode)
+;
+[stat.S_ISBLK |G ]
+stat.S_ISBLK(|mode)
+;
+[stat.S_ISCHR |G ]
+stat.S_ISCHR(|mode)
+;
+[stat.S_ISDIR |G ]
+stat.S_ISDIR(|mode)
+;
+[stat.S_ISFIFO |G ]
+stat.S_ISFIFO(|mode)
+;
+[stat.S_ISLNK |G ]
+stat.S_ISLNK(|mode)
+;
+[stat.S_ISREG |G ]
+stat.S_ISREG(|mode)
+;
+[stat.S_ISSOCK |G ]
+stat.S_ISSOCK(|mode)
+;
+[statcache.S_IFMT |G {function}]
+statcache.S_IFMT(|) 
+;
+[statcache.S_IMODE |G {function}]
+statcache.S_IMODE(|) 
+;
+[statcache.S_ISBLK |G {function}]
+statcache.S_ISBLK(|) 
+;
+[statcache.S_ISCHR |G {function}]
+statcache.S_ISCHR(|) 
+;
+[statcache.S_ISDIR |G {function}]
+statcache.S_ISDIR(|) 
+;
+[statcache.S_ISFIFO |G {function}]
+statcache.S_ISFIFO(|) 
+;
+[statcache.S_ISLNK |G {function}]
+statcache.S_ISLNK(|) 
+;
+[statcache.S_ISREG |G {function}]
+statcache.S_ISREG(|) 
+;
+[statcache.S_ISSOCK |G {function}]
+statcache.S_ISSOCK(|) 
+;
+[statcache.forget |G  Remove a given item from the cache, if it exists.]
+statcache.forget(|path) 
+;
+[statcache.forget_dir |G  Forget a directory and all entries except for entries in subdirs.]
+statcache.forget_dir(|prefix) 
+;
+[statcache.forget_except_prefix |G  Remove all pathnames except with a given prefix.]
+statcache.forget_except_prefix(|prefix) 
+;
+[statcache.forget_prefix |G  Remove all pathnames with a given prefix.]
+statcache.forget_prefix(|prefix) 
+;
+[statcache.isdir |G  Return 1 if directory, else 0.]
+statcache.isdir(|path) 
+;
+[statcache.reset |G  Clear the cache.]
+statcache.reset(|) 
+;
+[statcache.stat |G  Stat a file, possibly out of the cache.]
+statcache.stat(|path) 
+;
+[staticmethod |G -> method]
+staticmethod(|function) 
+;
+[str |G -> string]
+str(|object) 
+;
+[string.atof |G -> float]
+string.atof(|s) 
+;
+[string.atof_error |G  Inappropriate argument value (of correct type).]
+string.atof_error(|) 
+;
+[string.atoi |G -> int]
+string.atoi(|s [,base]) 
+;
+[string.atoi_error |G  Inappropriate argument value (of correct type).]
+string.atoi_error(|) 
+;
+[string.atol |G -> long]
+string.atol(|s [,base]) 
+;
+[string.atol_error |G  Inappropriate argument value (of correct type).]
+string.atol_error(|) 
+;
+[string.capitalize |G -> string]
+string.capitalize(|s) 
+;
+[string.capwords |G -> string]
+string.capwords(|s, [sep]) 
+;
+[string.center |G -> string]
+string.center(|s, width) 
+;
+[string.count |G -> int]
+string.count(|s, sub[, start[,end]]) 
+;
+[string.expandtabs |G -> string]
+string.expandtabs(|s [,tabsize]) 
+;
+[string.find |G -> in]
+string.find(|s, sub [,start [,end]]) 
+;
+[string.index |G -> int]
+string.index(|s, sub [,start [,end]]) 
+;
+[string.index_error |G  Inappropriate argument value (of correct type).]
+string.index_error(|) 
+;
+[string.join |G -> string]
+string.join(|list [,sep]) 
+;
+[string.joinfields |G  join(list {,sep}) -> string]
+string.joinfields(|) 
+;
+[string.ljust |G -> string]
+string.ljust(|s, width) 
+;
+[string.lower |G -> string]
+string.lower(|s) 
+;
+[string.lstrip |G -> string]
+string.lstrip(|s) 
+;
+[string.maketrans |G -> string]
+string.maketrans(|frm, to) 
+;
+[string.replace  |G -> string]
+string.replace (|str, old, new[, maxsplit]) 
+;
+[string.rfind |G -> int]
+string.rfind(|s, sub [,start [,end]]) 
+;
+[string.rindex |G -> int]
+string.rindex(|s, sub [,start [,end]]) 
+;
+[string.rjust |G -> string]
+string.rjust(|s, width) 
+;
+[string.rstrip |G -> string]
+string.rstrip(|s) 
+;
+[string.split |G -> list of strings]
+string.split(|s [,sep [,maxsplit]]) 
+;
+[string.splitfields |G  split(s {,sep {,maxsplit}}) -> list of strings]
+string.splitfields(|) 
+;
+[string.strip |G -> string]
+string.strip(|s) 
+;
+[string.swapcase |G -> string]
+string.swapcase(|s) 
+;
+[string.translate |G -> string]
+string.translate(|s,table [,deletions]) 
+;
+[string.upper |G -> string]
+string.upper(|s) 
+;
+[string.zfill |G -> string]
+string.zfill(|x, width) 
+;
+[stringold.atof |G -> float]
+stringold.atof(|s) 
+;
+[stringold.atof_error |G  Inappropriate argument value (of correct type).]
+stringold.atof_error(|) 
+;
+[stringold.atoi |G -> int]
+stringold.atoi(|s [,base]) 
+;
+[stringold.atoi_error |G  Inappropriate argument value (of correct type).]
+stringold.atoi_error(|) 
+;
+[stringold.atol |G -> long]
+stringold.atol(|s [,base]) 
+;
+[stringold.atol_error |G  Inappropriate argument value (of correct type).]
+stringold.atol_error(|) 
+;
+[stringold.capitalize |G -> string]
+stringold.capitalize(|s) 
+;
+[stringold.capwords |G -> string]
+stringold.capwords(|s, [sep]) 
+;
+[stringold.center |G -> string]
+stringold.center(|s, width) 
+;
+[stringold.count |G -> int]
+stringold.count(|s, sub[, start[,end]]) 
+;
+[stringold.expandtabs |G -> string]
+stringold.expandtabs(|s [,tabsize]) 
+;
+[stringold.find |G -> in]
+stringold.find(|s, sub [,start [,end]]) 
+;
+[stringold.index |G -> int]
+stringold.index(|s, sub [,start [,end]]) 
+;
+[stringold.index_error |G  Inappropriate argument value (of correct type).]
+stringold.index_error(|) 
+;
+[stringold.join |G -> string]
+stringold.join(|list [,sep]) 
+;
+[stringold.joinfields |G  join(list {,sep}) -> string]
+stringold.joinfields(|) 
+;
+[stringold.ljust |G -> string]
+stringold.ljust(|s, width) 
+;
+[stringold.lower |G -> string]
+stringold.lower(|s) 
+;
+[stringold.lstrip |G -> string]
+stringold.lstrip(|s) 
+;
+[stringold.maketrans |G -> string]
+stringold.maketrans(|frm, to) 
+;
+[stringold.replace  |G -> string]
+stringold.replace (|str, old, new[, maxsplit]) 
+;
+[stringold.rfind |G -> int]
+stringold.rfind(|s, sub [,start [,end]]) 
+;
+[stringold.rindex |G -> int]
+stringold.rindex(|s, sub [,start [,end]]) 
+;
+[stringold.rjust |G -> string]
+stringold.rjust(|s, width) 
+;
+[stringold.rstrip |G -> string]
+stringold.rstrip(|s) 
+;
+[stringold.split |G -> list of strings]
+stringold.split(|str [,sep [,maxsplit]]) 
+;
+[stringold.splitfields |G  split(str {,sep {,maxsplit}}) -> list of strings]
+stringold.splitfields(|) 
+;
+[stringold.strip |G -> string]
+stringold.strip(|s) 
+;
+[stringold.swapcase |G -> string]
+stringold.swapcase(|s) 
+;
+[stringold.translate |G -> string]
+stringold.translate(|s,table [,deletechars]) 
+;
+[stringold.upper |G -> string]
+stringold.upper(|s) 
+;
+[stringold.zfill |G -> string]
+stringold.zfill(|x, width) 
+;
+[strop.atof |G -> float]
+strop.atof(|s) 
+;
+[strop.atoi |G -> int]
+strop.atoi(|s [,base]) 
+;
+[strop.atol |G -> long]
+strop.atol(|s [,base]) 
+;
+[strop.capitalize |G -> string]
+strop.capitalize(|s) 
+;
+[strop.count |G -> int]
+strop.count(|s, sub[, start[, end]]) 
+;
+[strop.expandtabs |G -> string]
+strop.expandtabs(|string, [tabsize]) 
+;
+[strop.find |G -> in]
+strop.find(|s, sub [,start [,end]]) 
+;
+[strop.join |G -> string]
+strop.join(|list [,sep]) 
+;
+[strop.lower |G -> string]
+strop.lower(|s) 
+;
+[strop.lstrip |G -> string]
+strop.lstrip(|s) 
+;
+[strop.maketrans |G -> string]
+strop.maketrans(|frm, to) 
+;
+[strop.replace  |G -> string]
+strop.replace (|str, old, new[, maxsplit]) 
+;
+[strop.rfind |G -> int]
+strop.rfind(|s, sub [,start [,end]]) 
+;
+[strop.rstrip |G -> string]
+strop.rstrip(|s) 
+;
+[strop.split |G -> list of strings]
+strop.split(|s [,sep [,maxsplit]]) 
+;
+[strop.strip |G -> string]
+strop.strip(|s) 
+;
+[strop.swapcase |G -> string]
+strop.swapcase(|s) 
+;
+[strop.translate |G -> string]
+strop.translate(|s,table [,deletechars]) 
+;
+[strop.upper |G -> string]
+strop.upper(|s) 
+;
+[struct.calcsize |G -> int]
+struct.calcsize(|fmt) 
+;
+[struct.error |G {class}]
+struct.error(|) 
+;
+[struct.pack |G -> string]
+struct.pack(|fmt, v1, v2, ...) 
+;
+[struct.unpack |G -> (v1, v2, ...)]
+struct.unpack(|fmt, string) 
+;
+[sunau.Au_read |G ]
+sunau.Au_read(|f)
+;
+[sunau.Au_write |G ]
+sunau.Au_write(|f)
+;
+[sunau.Error |G {class}]
+sunau.Error(|) 
+;
+[sunau._read_u32 |G ]
+sunau._read_u32(|file)
+;
+[sunau._write_u32 |G ]
+sunau._write_u32(|file, x)
+;
+[sunau.open |G ]
+sunau.open(|f, mode=None)
+;
+[sunau.openfp |G {function}]
+sunau.openfp(|) 
+;
+[sunaudio.error |G {class}]
+sunaudio.error(|) 
+;
+[sunaudio.get_long_be |G  Convert a 4-char value to integer.]
+sunaudio.get_long_be(|s) 
+;
+[sunaudio.gethdr |G  Read a sound header from an open file.]
+sunaudio.gethdr(|fp) 
+;
+[sunaudio.printhdr |G  Read and print the sound header of a named file.]
+sunaudio.printhdr(|file) 
+;
+[super |G -> unbound super object]
+super(|type) 
+;
+[symbol.main |G ]
+symbol.main(|)
+;
+[symtable.Class |G {class}]
+symtable.Class(|) 
+;
+[symtable.Function |G {class}]
+symtable.Function(|) 
+;
+[symtable.Symbol |G ]
+symtable.Symbol(|name, flags, namespaces=None)
+;
+[symtable.SymbolTable |G ]
+symtable.SymbolTable(|raw_table, filename)
+;
+[symtable.SymbolTableFactory |G {class}]
+symtable.SymbolTableFactory(|) 
+;
+[symtable.bool |G  Helper to force boolean result to 1 or 0]
+symtable.bool(|x) 
+;
+[symtable.is_free |G ]
+symtable.is_free(|flags)
+;
+[symtable.symtable |G ]
+symtable.symtable(|code, filename, compile_type)
+;
+[sys._getframe |G -> frameobject]
+sys._getframe(|[depth]) 
+;
+[sys.displayhook |G -> None]
+sys.displayhook(|object) 
+;
+[sys.exc_info |G -> (type, value, traceback)]
+sys.exc_info(|) 
+;
+[sys.excepthook |G -> None]
+sys.excepthook(|exctype, value, traceback) 
+;
+[sys.exit |G exit status will be one (i.e., failure).]
+sys.exit(|[status])
+;
+[sys.getdefaultencoding |G -> string]
+sys.getdefaultencoding(|) 
+;
+[sys.getrecursionlimit |G recursion from causing an overflow of the C stack and crashing Python.]
+sys.getrecursionlimit(|)
+;
+[sys.getrefcount |G -> integer]
+sys.getrefcount(|object) 
+;
+[sys.setcheckinterval |G n instructions.  This also affects how often thread switches occur.]
+sys.setcheckinterval(|n)
+;
+[sys.setprofile |G and return.  See the profiler chapter in the library manual.]
+sys.setprofile(|function)
+;
+[sys.setrecursionlimit |G dependent.]
+sys.setrecursionlimit(|n)
+;
+[sys.settrace |G function call.  See the debugger chapter in the library manual.]
+sys.settrace(|function)
+;
+[tabnanny.NannyNag |G  ]
+tabnanny.NannyNag(|lineno, msg, line) 
+;
+[tabnanny.Whitespace |G ]
+tabnanny.Whitespace(|ws)
+;
+[tabnanny.check |G     ]
+tabnanny.check(|file_or_dir)
+;
+[tabnanny.errprint |G ]
+tabnanny.errprint(|*args)
+;
+[tabnanny.format_witnesses |G ]
+tabnanny.format_witnesses(|w)
+;
+[tabnanny.main |G ]
+tabnanny.main(|)
+;
+[tabnanny.process_tokens |G ]
+tabnanny.process_tokens(|tokens)
+;
+[telnetlib.Telnet |G  Telnet interface class.]
+telnetlib.Telnet(|host=None, port=0) 
+;
+[telnetlib.test |G  Test program for telnetlib.]
+telnetlib.test(|) 
+;
+[tempfile.TemporaryFile |G  Create and return a temporary file (opened read-write by default).]
+tempfile.TemporaryFile(|mode='w+b', bufsize=-1, suffix="") 
+;
+[tempfile.TemporaryFileWrapper |G  Temporary file wrapper]
+tempfile.TemporaryFileWrapper(|file, path) 
+;
+[tempfile._gettempdir_inner |G  Function to calculate the directory to use.]
+tempfile._gettempdir_inner(|) 
+;
+[tempfile.gettempdir |G  Function to calculate the directory to use.]
+tempfile.gettempdir(|) 
+;
+[tempfile.gettempprefix |G  Function to calculate a prefix of the filename to use.]
+tempfile.gettempprefix(|) 
+;
+[tempfile.mktemp |G  User-callable function to return a unique temporary file name.]
+tempfile.mktemp(|suffix="") 
+;
+[thread.allocate_lock |G -> lock object]
+thread.allocate_lock(|) 
+;
+[thread.error |G {class}]
+thread.error(|) 
+;
+[thread.exit |G thread to exit silently unless the exception is caught.]
+thread.exit(|)
+;
+[thread.get_ident |G -> integer]
+thread.get_ident(|) 
+;
+[thread.start_new_thread |G ]
+thread.start_new_thread(|function, args[, kwargs])
+;
+[threading.BoundedSemaphore |G ]
+threading.BoundedSemaphore(|*args, **kwargs)
+;
+[threading.Condition |G ]
+threading.Condition(|*args, **kwargs)
+;
+[threading.Event |G ]
+threading.Event(|*args, **kwargs)
+;
+[threading.RLock |G ]
+threading.RLock(|*args, **kwargs)
+;
+[threading.Semaphore |G ]
+threading.Semaphore(|*args, **kwargs)
+;
+[threading.Thread |G {class}]
+threading.Thread(|) 
+;
+[threading.ThreadError |G {class}]
+threading.ThreadError(|) 
+;
+[threading.Timer |G ]
+threading.Timer(|*args, **kwargs)
+;
+[threading._BoundedSemaphore |G  Semaphore that checks that # releases is <= # acquires]
+threading._BoundedSemaphore(|value=1, verbose=None) 
+;
+[threading._Condition |G ]
+threading._Condition(|lock=None, verbose=None)
+;
+[threading._DummyThread |G {class}]
+threading._DummyThread(|) 
+;
+[threading._Event |G ]
+threading._Event(|verbose=None)
+;
+[threading._MainThread |G {class}]
+threading._MainThread(|) 
+;
+[threading._RLock |G ]
+threading._RLock(|verbose=None)
+;
+[threading._Semaphore |G ]
+threading._Semaphore(|value=1, verbose=None)
+;
+[threading._StringIO |G  class StringIO({buffer})]
+threading._StringIO(|) 
+;
+[threading._Timer |G  Call a function after a specified number of seconds:]
+threading._Timer(|interval, function, args=[], kwargs={}) 
+;
+[threading._Verbose |G {class}]
+threading._Verbose(|) 
+;
+[threading._newname |G ]
+threading._newname(|template="Thread-%d")
+;
+[threading._pickSomeNonDaemonThread |G ]
+threading._pickSomeNonDaemonThread(|)
+;
+[threading._print_exc |G  Shorthand for 'print_exception(sys.exc_type, sys.exc_value, sys.exc_traceback, limit, file)'.]
+threading._print_exc(|) 
+;
+[threading._test |G ]
+threading._test(|)
+;
+[threading.activeCount |G ]
+threading.activeCount(|)
+;
+[threading.currentThread |G ]
+threading.currentThread(|)
+;
+[threading.enumerate |G ]
+threading.enumerate(|)
+;
+[time.asctime |G -> string]
+time.asctime(|[tuple]) 
+;
+[time.clock |G -> floating point number]
+time.clock(|) 
+;
+[time.ctime |G -> string]
+time.ctime(|seconds) 
+;
+[time.gmtime |G -> (tm_year, tm_mon, tm_day, tm_hour, tm_min,]
+time.gmtime(|[seconds]) 
+;
+[time.localtime |G -> (tm_year,tm_mon,tm_day,tm_hour,tm_min,tm_sec,tm_wday,tm_yday,tm_isdst)]
+time.localtime(|[seconds]) 
+;
+[time.mktime |G -> floating point number]
+time.mktime(|tuple) 
+;
+[time.sleep |G a floating point number for subsecond precision.]
+time.sleep(|seconds)
+;
+[time.strftime |G -> string]
+time.strftime(|format[, tuple]) 
+;
+[time.time |G -> floating point number]
+time.time(|) 
+;
+[toaiff._toaiff |G ]
+toaiff._toaiff(|filename, temps)
+;
+[toaiff.error |G {class}]
+toaiff.error(|) 
+;
+[toaiff.toaiff |G ]
+toaiff.toaiff(|filename)
+;
+[token.ISEOF |G ]
+token.ISEOF(|x)
+;
+[token.ISNONTERMINAL |G ]
+token.ISNONTERMINAL(|x)
+;
+[token.ISTERMINAL |G ]
+token.ISTERMINAL(|x)
+;
+[token.main |G ]
+token.main(|)
+;
+[tokenize.ISEOF |G {function}]
+tokenize.ISEOF(|) 
+;
+[tokenize.ISNONTERMINAL |G {function}]
+tokenize.ISNONTERMINAL(|) 
+;
+[tokenize.ISTERMINAL |G {function}]
+tokenize.ISTERMINAL(|) 
+;
+[tokenize.StopTokenizing |G {class}]
+tokenize.StopTokenizing(|) 
+;
+[tokenize.TokenError |G {class}]
+tokenize.TokenError(|) 
+;
+[tokenize.any |G ]
+tokenize.any(|*choices)
+;
+[tokenize.generate_tokens |G  ]
+tokenize.generate_tokens(|readline) 
+;
+[tokenize.group |G ]
+tokenize.group(|*choices)
+;
+[tokenize.main |G {function}]
+tokenize.main(|) 
+;
+[tokenize.maybe |G ]
+tokenize.maybe(|*choices)
+;
+[tokenize.printtoken |G ]
+tokenize.printtoken(|type, token, (srow, scol), (erow, ecol), line)
+;
+[tokenize.tokenize |G  ]
+tokenize.tokenize(|readline, tokeneater=printtoken) 
+;
+[tokenize.tokenize_loop |G ]
+tokenize.tokenize_loop(|readline, tokeneater)
+;
+[traceback._print |G ]
+traceback._print(|file, str='', terminator='\n')
+;
+[traceback._some_str |G ]
+traceback._some_str(|value)
+;
+[traceback.extract_stack |G  Extract the raw traceback from the current stack frame.]
+traceback.extract_stack(|f=None, limit = None) 
+;
+[traceback.extract_tb |G  Return list of up to limit pre-processed entries from traceback.]
+traceback.extract_tb(|tb, limit = None) 
+;
+[traceback.format_exception |G  Format a stack trace and the exception information.]
+traceback.format_exception(|etype, value, tb, limit = None) 
+;
+[traceback.format_exception_only |G  Format the exception part of a traceback.]
+traceback.format_exception_only(|etype, value) 
+;
+[traceback.format_list |G  Format a list of traceback entry tuples for printing.]
+traceback.format_list(|extracted_list) 
+;
+[traceback.format_stack |G  Shorthand for 'format_list(extract_stack(f, limit))'.]
+traceback.format_stack(|f=None, limit=None) 
+;
+[traceback.format_tb |G  A shorthand for 'format_list(extract_stack(f, limit)).]
+traceback.format_tb(|tb, limit = None) 
+;
+[traceback.print_exc |G  Shorthand for 'print_exception(sys.exc_type, sys.exc_value, sys.exc_traceback, limit, file)'.]
+traceback.print_exc(|limit=None, file=None) 
+;
+[traceback.print_exception |G  Print exception up to 'limit' stack trace entries from 'tb' to 'file'.]
+traceback.print_exception(|etype, value, tb, limit=None, file=None) 
+;
+[traceback.print_last |G  This is a shorthand for 'print_exception(sys.last_type,]
+traceback.print_last(|limit=None, file=None) 
+;
+[traceback.print_list |G  Print the list of tuples as returned by extract_tb() or]
+traceback.print_list(|extracted_list, file=None) 
+;
+[traceback.print_stack |G  Print a stack trace from its invocation point.]
+traceback.print_stack(|f=None, limit=None, file=None) 
+;
+[traceback.print_tb |G  Print up to 'limit' stack trace entries from the traceback 'tb'.]
+traceback.print_tb(|tb, limit=None, file=None) 
+;
+[traceback.tb_lineno |G  Calculate correct line number of traceback given in tb.]
+traceback.tb_lineno(|tb) 
+;
+[tuple |G -> an empty tuple]
+tuple(|) 
+;
+[type |G -> the object's type]
+type(|object) 
+;
+[unichr |G -> Unicode character]
+unichr(|i) 
+;
+[unicode |G -> object]
+unicode(|string [, encoding[, errors]]) 
+;
+[unittest.FunctionTestCase |G  A test case that wraps a test function.]
+unittest.FunctionTestCase(|) 
+;
+[unittest.TestCase |G  A class whose instances are single test cases.]
+unittest.TestCase(|methodName='runTest') 
+;
+[unittest.TestLoader |G  This class is responsible for loading tests according to various]
+unittest.TestLoader(|) 
+;
+[unittest.TestProgram |G  A command-line program that runs a set of tests; this is primarily]
+unittest.TestProgram(|) 
+;
+[unittest.TestResult |G  Holder for test result information.]
+unittest.TestResult(|) 
+;
+[unittest.TestSuite |G  A test suite is a composite test consisting of a number of TestCases.]
+unittest.TestSuite(|tests=()) 
+;
+[unittest.TextTestRunner |G  A test runner class that displays results in textual form.]
+unittest.TextTestRunner(|stream=sys.stderr, descriptions=1, verbosity=1) 
+;
+[unittest._TextTestResult |G  A test result class that can print formatted text results to a stream.]
+unittest._TextTestResult(|stream, descriptions, verbosity) 
+;
+[unittest._WritelnDecorator |G  Used to decorate file-like objects with a handy 'writeln' method]
+unittest._WritelnDecorator(|stream) 
+;
+[unittest._makeLoader |G ]
+unittest._makeLoader(|prefix, sortUsing, suiteClass=None)
+;
+[unittest.findTestCases |G ]
+unittest.findTestCases(|module, prefix='test', sortUsing=cmp, suiteClass=TestSuite)
+;
+[unittest.getTestCaseNames |G ]
+unittest.getTestCaseNames(|testCaseClass, prefix, sortUsing=cmp)
+;
+[unittest.main |G  A command-line program that runs a set of tests; this is primarily]
+unittest.main(|) 
+;
+[unittest.makeSuite |G ]
+unittest.makeSuite(|testCaseClass, prefix='test', sortUsing=cmp, suiteClass=TestSuite)
+;
+[urllib.FancyURLopener |G  Derived class with handlers for errors we can handle (perhaps).]
+urllib.FancyURLopener(|*args) 
+;
+[urllib.URLopener |G  Class to open URLs.]
+urllib.URLopener(|proxies=None, **x509) 
+;
+[urllib._fast_quote |G ]
+urllib._fast_quote(|s)
+;
+[urllib.addbase |G  Base class for addinfo and addclosehook.]
+urllib.addbase(|fp) 
+;
+[urllib.addclosehook |G  Class to add a close hook to an open file.]
+urllib.addclosehook(|fp, closehook, *hookargs) 
+;
+[urllib.addinfo |G  class to add an info() method to an open file.]
+urllib.addinfo(|fp, headers) 
+;
+[urllib.addinfourl |G  class to add info() and geturl() methods to an open file.]
+urllib.addinfourl(|fp, headers, url) 
+;
+[urllib.basejoin |G  Utility to combine a URL with a base URL to form a new URL.]
+urllib.basejoin(|base, url) 
+;
+[urllib.ftperrors |G  Return the set of errors raised by the FTP class.]
+urllib.ftperrors(|) 
+;
+[urllib.ftpwrapper |G  Class used by open_ftp() for cache of open FTP connections.]
+urllib.ftpwrapper(|user, passwd, host, port, dirs) 
+;
+[urllib.getproxies |G  Return a dictionary of scheme -> proxy server URL mappings.]
+urllib.getproxies(|) 
+;
+[urllib.getproxies_environment |G  Return a dictionary of scheme -> proxy server URL mappings.]
+urllib.getproxies_environment(|) 
+;
+[urllib.getproxies_registry |G  Return a dictionary of scheme -> proxy server URL mappings.]
+urllib.getproxies_registry(|) 
+;
+[urllib.localhost |G  Return the IP address of the magic hostname 'localhost'.]
+urllib.localhost(|) 
+;
+[urllib.main |G ]
+urllib.main(|)
+;
+[urllib.noheaders |G  Return an empty mimetools.Message object.]
+urllib.noheaders(|) 
+;
+[urllib.pathname2url |G  Convert a DOS path name to a file url.]
+urllib.pathname2url(|) 
+;
+[urllib.proxy_bypass |G {function}]
+urllib.proxy_bypass(|) 
+;
+[urllib.quote |G -> 'abc%20def']
+urllib.quote(|'abc def') 
+;
+[urllib.quote_plus |G  Quote the query fragment of a URL; replacing ' ' with '+']
+urllib.quote_plus(|s, safe = '') 
+;
+[urllib.reporthook |G ]
+urllib.reporthook(|blocknum, blocksize, totalsize)
+;
+[urllib.splitattr |G ->]
+urllib.splitattr(|'/path;attr1=value1;attr2=value2;...') 
+;
+[urllib.splitgophertype |G -> 'X', 'selector'.--> 'X', 'selector'.]
+urllib.splitgophertype(|'/Xselector') -
+;
+[urllib.splithost |G -> 'host{:port}', '/path'.--> 'host{:port}', '/path'.]
+urllib.splithost(|'//host[:port]/path') -
+;
+[urllib.splitnport |G  Split host and port, returning numeric port.]
+urllib.splitnport(|host, defport=-1) 
+;
+[urllib.splitpasswd |G -> 'user', 'passwd'.]
+urllib.splitpasswd(|'user:passwd') 
+;
+[urllib.splitport |G -> 'host', 'port'.--> 'host', 'port'.]
+urllib.splitport(|'host:port') -
+;
+[urllib.splitquery |G -> '/path', 'query'.--> '/path', 'query'.]
+urllib.splitquery(|'/path?query') -
+;
+[urllib.splittag |G -> '/path', 'tag'.--> '/path', 'tag'.]
+urllib.splittag(|'/path#tag') -
+;
+[urllib.splittype |G -> 'type', 'opaquestring'.--> 'type', 'opaquestring'.]
+urllib.splittype(|'type:opaquestring') -
+;
+[urllib.splituser |G -> 'user{:passwd}', 'host{:port}'.--> 'user{:passwd}', 'host{:port}'.]
+urllib.splituser(|'user[:passwd]@host[:port]') -
+;
+[urllib.splitvalue |G -> 'attr', 'value'.--> 'attr', 'value'.]
+urllib.splitvalue(|'attr=value') -
+;
+[urllib.test |G ]
+urllib.test(|args=[])
+;
+[urllib.test1 |G ]
+urllib.test1(|)
+;
+[urllib.thishost |G  Return the IP address of the current host.]
+urllib.thishost(|) 
+;
+[urllib.toBytes |G -> 'URL'.--> 'URL'.]
+urllib.toBytes(|u"URL") -
+;
+[urllib.unquote |G -> 'abc def'.]
+urllib.unquote(|'abc%20def') 
+;
+[urllib.unquote_plus |G  unquote('%7e/abc+def') -> '~/abc def']
+urllib.unquote_plus(|s) 
+;
+[urllib.unwrap |G -> 'type://host/path'.--> 'type://host/path'.]
+urllib.unwrap(|'<URL:type://host/path>') -
+;
+[urllib.url2pathname |G  Convert a URL to a DOS path.]
+urllib.url2pathname(|) 
+;
+[urllib.urlcleanup |G ]
+urllib.urlcleanup(|)
+;
+[urllib.urlencode |G  Encode a sequence of two-element tuples or dictionary into a URL query string.]
+urllib.urlencode(|query,doseq=0) 
+;
+[urllib.urlopen |G -> open file-like object]
+urllib.urlopen(|url [, data]) 
+;
+[urllib.urlretrieve |G ]
+urllib.urlretrieve(|url, filename=None, reporthook=None, data=None)
+;
+[urllib2.AbstractBasicAuthHandler |G ]
+urllib2.AbstractBasicAuthHandler(|password_mgr=None)
+;
+[urllib2.AbstractDigestAuthHandler |G ]
+urllib2.AbstractDigestAuthHandler(|passwd=None)
+;
+[urllib2.AbstractHTTPHandler |G {class}]
+urllib2.AbstractHTTPHandler(|) 
+;
+[urllib2.BaseHandler |G {class}]
+urllib2.BaseHandler(|) 
+;
+[urllib2.CacheFTPHandler |G {class}]
+urllib2.CacheFTPHandler(|) 
+;
+[urllib2.CustomProxy |G ]
+urllib2.CustomProxy(|proto, func=None, proxy_addr=None)
+;
+[urllib2.CustomProxyHandler |G ]
+urllib2.CustomProxyHandler(|*proxies)
+;
+[urllib2.FTPHandler |G {class}]
+urllib2.FTPHandler(|) 
+;
+[urllib2.FileHandler |G {class}]
+urllib2.FileHandler(|) 
+;
+[urllib2.GopherError |G {class}]
+urllib2.GopherError(|) 
+;
+[urllib2.GopherHandler |G {class}]
+urllib2.GopherHandler(|) 
+;
+[urllib2.HTTPBasicAuthHandler |G {class}]
+urllib2.HTTPBasicAuthHandler(|) 
+;
+[urllib2.HTTPDefaultErrorHandler |G {class}]
+urllib2.HTTPDefaultErrorHandler(|) 
+;
+[urllib2.HTTPDigestAuthHandler |G  An authentication protocol defined by RFC 2069]
+urllib2.HTTPDigestAuthHandler(|) 
+;
+[urllib2.HTTPError |G  Raised when HTTP error occurs, but also acts like non-error return]
+urllib2.HTTPError(|url, code, msg, hdrs, fp) 
+;
+[urllib2.HTTPHandler |G {class}]
+urllib2.HTTPHandler(|) 
+;
+[urllib2.HTTPPasswordMgr |G {class}]
+urllib2.HTTPPasswordMgr(|) 
+;
+[urllib2.HTTPPasswordMgrWithDefaultRealm |G {class}]
+urllib2.HTTPPasswordMgrWithDefaultRealm(|) 
+;
+[urllib2.HTTPRedirectHandler |G {class}]
+urllib2.HTTPRedirectHandler(|) 
+;
+[urllib2.OpenerDirector |G {class}]
+urllib2.OpenerDirector(|) 
+;
+[urllib2.OpenerFactory |G {class}]
+urllib2.OpenerFactory(|) 
+;
+[urllib2.ProxyBasicAuthHandler |G {class}]
+urllib2.ProxyBasicAuthHandler(|) 
+;
+[urllib2.ProxyDigestAuthHandler |G {class}]
+urllib2.ProxyDigestAuthHandler(|) 
+;
+[urllib2.ProxyHandler |G ]
+urllib2.ProxyHandler(|proxies=None)
+;
+[urllib2.Request |G ]
+urllib2.Request(|url, data=None, headers={})
+;
+[urllib2.StringIO |G -- Return a StringIO-like stream for reading or writing]
+urllib2.StringIO(|[s]) 
+;
+[urllib2.URLError |G ]
+urllib2.URLError(|reason)
+;
+[urllib2.UnknownHandler |G {class}]
+urllib2.UnknownHandler(|) 
+;
+[urllib2.addinfourl |G  class to add info() and geturl() methods to an open file.]
+urllib2.addinfourl(|) 
+;
+[urllib2.build_opener |G  Create an opener object from a list of handlers.]
+urllib2.build_opener(|*handlers) 
+;
+[urllib2.encode_digest |G ]
+urllib2.encode_digest(|digest)
+;
+[urllib2.ftpwrapper |G  Class used by open_ftp() for cache of open FTP connections.]
+urllib2.ftpwrapper(|) 
+;
+[urllib2.getproxies |G  Return a dictionary of scheme -> proxy server URL mappings.]
+urllib2.getproxies(|) 
+;
+[urllib2.install_opener |G ]
+urllib2.install_opener(|opener)
+;
+[urllib2.localhost |G  Return the IP address of the magic hostname 'localhost'.]
+urllib2.localhost(|) 
+;
+[urllib2.noheaders |G  Return an empty mimetools.Message object.]
+urllib2.noheaders(|) 
+;
+[urllib2.parse_http_list |G  Parse lists as described by RFC 2068 Section 2.]
+urllib2.parse_http_list(|s) 
+;
+[urllib2.parse_keqv_list |G  Parse list of key=value strings where keys are not duplicated.]
+urllib2.parse_keqv_list(|l) 
+;
+[urllib2.splitattr |G ->]
+urllib2.splitattr(|'/path;attr1=value1;attr2=value2;...') 
+;
+[urllib2.splitgophertype |G -> 'X', 'selector'.--> 'X', 'selector'.]
+urllib2.splitgophertype(|'/Xselector') -
+;
+[urllib2.splithost |G -> 'host{:port}', '/path'.--> 'host{:port}', '/path'.]
+urllib2.splithost(|'//host[:port]/path') -
+;
+[urllib2.splitport |G -> 'host', 'port'.--> 'host', 'port'.]
+urllib2.splitport(|'host:port') -
+;
+[urllib2.splitquery |G -> '/path', 'query'.--> '/path', 'query'.]
+urllib2.splitquery(|'/path?query') -
+;
+[urllib2.splittype |G -> 'type', 'opaquestring'.--> 'type', 'opaquestring'.]
+urllib2.splittype(|'type:opaquestring') -
+;
+[urllib2.unquote |G -> 'abc def'.]
+urllib2.unquote(|'abc%20def') 
+;
+[urllib2.unwrap |G -> 'type://host/path'.--> 'type://host/path'.]
+urllib2.unwrap(|'<URL:type://host/path>') -
+;
+[urllib2.url2pathname |G  Convert a URL to a DOS path.]
+urllib2.url2pathname(|) 
+;
+[urllib2.urlopen |G ]
+urllib2.urlopen(|url, data=None)
+;
+[urlparse._splitparams |G ]
+urlparse._splitparams(|url)
+;
+[urlparse.clear_cache |G  Clear the parse cache.]
+urlparse.clear_cache(|) 
+;
+[urlparse.test |G ]
+urlparse.test(|)
+;
+[urlparse.urldefrag |G  Removes any existing fragment from URL.]
+urlparse.urldefrag(|url) 
+;
+[urlparse.urljoin |G  Join a base URL and a possibly relative URL to form an absolute]
+urlparse.urljoin(|base, url, allow_fragments = 1) 
+;
+[urlparse.urlparse |G  Parse a URL into 6 components:]
+urlparse.urlparse(|url, scheme='', allow_fragments=1) 
+;
+[urlparse.urlsplit |G  Parse a URL into 5 components:]
+urlparse.urlsplit(|url, scheme='', allow_fragments=1) 
+;
+[urlparse.urlunparse |G  Put a parsed URL back together again.  This may result in a]
+urlparse.urlunparse(|(scheme, netloc, url, params, query, fragment)) 
+;
+[urlparse.urlunsplit |G ]
+urlparse.urlunsplit(|(scheme, netloc, url, query, fragment))
+;
+[uu.Error |G {class}]
+uu.Error(|) 
+;
+[uu.decode |G  Decode uuencoded file]
+uu.decode(|in_file, out_file=None, mode=None, quiet=0) 
+;
+[uu.encode |G  Uuencode file]
+uu.encode(|in_file, out_file, name=None, mode=None) 
+;
+[uu.test |G  uuencode/uudecode main program]
+uu.test(|) 
+;
+[vars |G -> dictionary]
+vars(|[object]) 
+;
+[warnings._OptionError |G  Exception used by option processing helpers.]
+warnings._OptionError(|) 
+;
+[warnings._getaction |G ]
+warnings._getaction(|action)
+;
+[warnings._getcategory |G ]
+warnings._getcategory(|category)
+;
+[warnings._processoptions |G ]
+warnings._processoptions(|args)
+;
+[warnings._setoption |G ]
+warnings._setoption(|arg)
+;
+[warnings._test |G ]
+warnings._test(|)
+;
+[warnings.filterwarnings |G  Insert an entry into the list of warnings filters (at the front).]
+warnings.filterwarnings(|) 
+;
+[warnings.formatwarning |G  Function to format a warning the standard way.]
+warnings.formatwarning(|message, category, filename, lineno) 
+;
+[warnings.resetwarnings |G  Clear the list of warning filters, so that no filters are active.]
+warnings.resetwarnings(|) 
+;
+[warnings.showwarning |G  Hook to write a warning to a file; replace if you like.]
+warnings.showwarning(|message, category, filename, lineno, file=None) 
+;
+[warnings.warn |G  Issue a warning, or maybe ignore it or raise an exception.]
+warnings.warn(|message, category=None, stacklevel=1) 
+;
+[warnings.warn_explicit |G {function}]
+warnings.warn_explicit(|) 
+;
+[wave.Chunk |G {class}]
+wave.Chunk(|) 
+;
+[wave.Error |G {class}]
+wave.Error(|) 
+;
+[wave.Wave_read |G  Variables used in this class:]
+wave.Wave_read(|f) 
+;
+[wave.Wave_write |G  Variables used in this class:]
+wave.Wave_write(|f) 
+;
+[wave.open |G ]
+wave.open(|f, mode=None)
+;
+[wave.openfp |G {function}]
+wave.openfp(|) 
+;
+[weakref.BaseIter |G {class}]
+weakref.BaseIter(|) 
+;
+[weakref.ReferenceError |G  Weak ref proxy used after referent went away.]
+weakref.ReferenceError(|) 
+;
+[weakref.WeakKeyDictionary |G  Mapping class that references keys weakly.]
+weakref.WeakKeyDictionary(|dict=None) 
+;
+[weakref.WeakKeyedItemIterator |G ]
+weakref.WeakKeyedItemIterator(|weakdict)
+;
+[weakref.WeakKeyedKeyIterator |G ]
+weakref.WeakKeyedKeyIterator(|weakdict)
+;
+[weakref.WeakValueDictionary |G  Mapping class that references values weakly.]
+weakref.WeakValueDictionary(|) 
+;
+[weakref.WeakValuedItemIterator |G ]
+weakref.WeakValuedItemIterator(|weakdict)
+;
+[weakref.WeakValuedValueIterator |G ]
+weakref.WeakValuedValueIterator(|weakdict)
+;
+[weakref.getweakrefcount |G -- return the number of weak references]
+weakref.getweakrefcount(|object) 
+;
+[weakref.getweakrefs |G -- return a list of all weak reference objects]
+weakref.getweakrefs(|object) 
+;
+[weakref.proxy |G -- create a proxy object that weakly]
+weakref.proxy(|object[, callback]) 
+;
+[weakref.ref |G -- create a weak reference to 'object';]
+weakref.ref(|object[, callback]) 
+;
+[webbrowser.Error |G {class}]
+webbrowser.Error(|) 
+;
+[webbrowser.GenericBrowser |G ]
+webbrowser.GenericBrowser(|cmd)
+;
+[webbrowser.Grail |G {class}]
+webbrowser.Grail(|) 
+;
+[webbrowser.InternetConfig |G {class}]
+webbrowser.InternetConfig(|) 
+;
+[webbrowser.Konqueror |G  Controller for the KDE File Manager (kfm, or Konqueror).]
+webbrowser.Konqueror(|) 
+;
+[webbrowser.Netscape |G  Launcher class for Netscape browsers.]
+webbrowser.Netscape(|name) 
+;
+[webbrowser.WindowsDefault |G {class}]
+webbrowser.WindowsDefault(|) 
+;
+[webbrowser._iscommand |G  Return true if cmd can be found on the executable search path.]
+webbrowser._iscommand(|cmd) 
+;
+[webbrowser._synthesize |G  Attempt to synthesize a controller base on existing controllers.]
+webbrowser._synthesize(|browser) 
+;
+[webbrowser.get |G  Return a browser launcher instance appropriate for the environment.]
+webbrowser.get(|using=None) 
+;
+[webbrowser.open |G ]
+webbrowser.open(|url, new=0, autoraise=1)
+;
+[webbrowser.open_new |G ]
+webbrowser.open_new(|url)
+;
+[webbrowser.register |G  Register a browser connector and, optionally, connection.]
+webbrowser.register(|name, klass, instance=None) 
+;
+[whichdb.whichdb |G  Guess which db package to use to open a db file.]
+whichdb.whichdb(|filename) 
+;
+[whrandom.whrandom |G ]
+whrandom.whrandom(|x = 0, y = 0, z = 0)
+;
+[winsound.Beep |G ]
+winsound.Beep(|frequency, duration) - a wrapper around the Windows Beep API
+;
+[winsound.PlaySound |G ]
+winsound.PlaySound(|sound, flags) - a wrapper around the Windows PlaySound API
+;
+[xdrlib.ConversionError |G {class}]
+xdrlib.ConversionError(|) 
+;
+[xdrlib.Error |G  Exception class for this module. Use:]
+xdrlib.Error(|msg) 
+;
+[xdrlib.Packer |G  Pack various data representations into a buffer.]
+xdrlib.Packer(|) 
+;
+[xdrlib.Unpacker |G  Unpacks various data representations from the given buffer.]
+xdrlib.Unpacker(|data) 
+;
+[xdrlib._test |G ]
+xdrlib._test(|)
+;
+[xml.dom.DOMException |G  Abstract base class for DOM exceptions.]
+xml.dom.DOMException(|*args, **kw) 
+;
+[xml.dom.DomstringSizeErr |G {class}]
+xml.dom.DomstringSizeErr(|) 
+;
+[xml.dom.HierarchyRequestErr |G {class}]
+xml.dom.HierarchyRequestErr(|) 
+;
+[xml.dom.IndexSizeErr |G {class}]
+xml.dom.IndexSizeErr(|) 
+;
+[xml.dom.InuseAttributeErr |G {class}]
+xml.dom.InuseAttributeErr(|) 
+;
+[xml.dom.InvalidAccessErr |G {class}]
+xml.dom.InvalidAccessErr(|) 
+;
+[xml.dom.InvalidCharacterErr |G {class}]
+xml.dom.InvalidCharacterErr(|) 
+;
+[xml.dom.InvalidModificationErr |G {class}]
+xml.dom.InvalidModificationErr(|) 
+;
+[xml.dom.InvalidStateErr |G {class}]
+xml.dom.InvalidStateErr(|) 
+;
+[xml.dom.NamespaceErr |G {class}]
+xml.dom.NamespaceErr(|) 
+;
+[xml.dom.NoDataAllowedErr |G {class}]
+xml.dom.NoDataAllowedErr(|) 
+;
+[xml.dom.NoModificationAllowedErr |G {class}]
+xml.dom.NoModificationAllowedErr(|) 
+;
+[xml.dom.Node |G  Class giving the NodeType constants.]
+xml.dom.Node(|) 
+;
+[xml.dom.NotFoundErr |G {class}]
+xml.dom.NotFoundErr(|) 
+;
+[xml.dom.NotSupportedErr |G {class}]
+xml.dom.NotSupportedErr(|) 
+;
+[xml.dom.SyntaxErr |G {class}]
+xml.dom.SyntaxErr(|) 
+;
+[xml.dom.WrongDocumentErr |G {class}]
+xml.dom.WrongDocumentErr(|) 
+;
+[xml.dom.domreg._good_enough |G -> Return 1 if the dom offers the features]
+xml.dom.domreg._good_enough(|dom, features) 
+;
+[xml.dom.domreg.getDOMImplementation |G -> DOM implementation.]
+xml.dom.domreg.getDOMImplementation(|name = None, features = ()) 
+;
+[xml.dom.domreg.registerDOMImplementation |G ]
+xml.dom.domreg.registerDOMImplementation(|name, factory)
+;
+[xml.dom.getDOMImplementation |G -> DOM implementation.]
+xml.dom.getDOMImplementation(|name = None, features = ()) 
+;
+[xml.dom.minidom.Attr |G ]
+xml.dom.minidom.Attr(|qName, namespaceURI=EMPTY_NAMESPACE, localName=None, prefix=None)
+;
+[xml.dom.minidom.AttributeList |G  The attribute list is a transient interface to the underlying]
+xml.dom.minidom.AttributeList(|) 
+;
+[xml.dom.minidom.CDATASection |G {class}]
+xml.dom.minidom.CDATASection(|) 
+;
+[xml.dom.minidom.CharacterData |G ]
+xml.dom.minidom.CharacterData(|data)
+;
+[xml.dom.minidom.Comment |G ]
+xml.dom.minidom.Comment(|data)
+;
+[xml.dom.minidom.DOMImplementation |G {class}]
+xml.dom.minidom.DOMImplementation(|) 
+;
+[xml.dom.minidom.Document |G {class}]
+xml.dom.minidom.Document(|) 
+;
+[xml.dom.minidom.DocumentFragment |G {class}]
+xml.dom.minidom.DocumentFragment(|) 
+;
+[xml.dom.minidom.DocumentType |G ]
+xml.dom.minidom.DocumentType(|qualifiedName)
+;
+[xml.dom.minidom.Element |G {class}]
+xml.dom.minidom.Element(|) 
+;
+[xml.dom.minidom.HierarchyRequestErr |G {class}]
+xml.dom.minidom.HierarchyRequestErr(|) 
+;
+[xml.dom.minidom.NamedNodeMap |G  The attribute list is a transient interface to the underlying]
+xml.dom.minidom.NamedNodeMap(|attrs, attrsNS, ownerElement) 
+;
+[xml.dom.minidom.Node |G {class}]
+xml.dom.minidom.Node(|) 
+;
+[xml.dom.minidom.ProcessingInstruction |G ]
+xml.dom.minidom.ProcessingInstruction(|target, data)
+;
+[xml.dom.minidom.Text |G {class}]
+xml.dom.minidom.Text(|) 
+;
+[xml.dom.minidom._doparse |G ]
+xml.dom.minidom._doparse(|func, args, kwargs)
+;
+[xml.dom.minidom._getElementsByTagNameHelper |G ]
+xml.dom.minidom._getElementsByTagNameHelper(|parent, name, rc)
+;
+[xml.dom.minidom._getElementsByTagNameNSHelper |G ]
+xml.dom.minidom._getElementsByTagNameNSHelper(|parent, nsURI, localName, rc)
+;
+[xml.dom.minidom._get_StringIO |G ]
+xml.dom.minidom._get_StringIO(|)
+;
+[xml.dom.minidom._nssplit |G ]
+xml.dom.minidom._nssplit(|qualifiedName)
+;
+[xml.dom.minidom._write_data |G  Writes datachars to writer.]
+xml.dom.minidom._write_data(|writer, data) 
+;
+[xml.dom.minidom.getDOMImplementation |G ]
+xml.dom.minidom.getDOMImplementation(|)
+;
+[xml.dom.minidom.parse |G  Parse a file into a DOM by filename or file object.]
+xml.dom.minidom.parse(|*args, **kwargs) 
+;
+[xml.dom.minidom.parseString |G  Parse a file into a DOM from a string.]
+xml.dom.minidom.parseString(|*args, **kwargs) 
+;
+[xml.dom.pulldom.DOMEventStream |G ]
+xml.dom.pulldom.DOMEventStream(|stream, parser, bufsize)
+;
+[xml.dom.pulldom.ErrorHandler |G {class}]
+xml.dom.pulldom.ErrorHandler(|) 
+;
+[xml.dom.pulldom.PullDOM |G ]
+xml.dom.pulldom.PullDOM(|documentFactory=None)
+;
+[xml.dom.pulldom.SAX2DOM |G {class}]
+xml.dom.pulldom.SAX2DOM(|) 
+;
+[xml.dom.pulldom.parse |G ]
+xml.dom.pulldom.parse(|stream_or_string, parser=None, bufsize=None)
+;
+[xml.dom.pulldom.parseString |G ]
+xml.dom.pulldom.parseString(|string, parser=None)
+;
+[xml.dom.registerDOMImplementation |G ]
+xml.dom.registerDOMImplementation(|name, factory)
+;
+[xml.parsers.expat.ErrorString |G -> string]
+xml.parsers.expat.ErrorString(|errno) 
+;
+[xml.parsers.expat.ExpatError |G {class}]
+xml.parsers.expat.ExpatError(|) 
+;
+[xml.parsers.expat.ParserCreate |G -> parser]
+xml.parsers.expat.ParserCreate(|[encoding[, namespace_separator]]) 
+;
+[xml.parsers.expat.error |G {class}]
+xml.parsers.expat.error(|) 
+;
+[xml.sax.ContentHandler |G  Interface for receiving logical document content events.]
+xml.sax.ContentHandler(|) 
+;
+[xml.sax.ErrorHandler |G  Basic interface for SAX error handlers.]
+xml.sax.ErrorHandler(|) 
+;
+[xml.sax.InputSource |G  Encapsulation of the information needed by the XMLReader to]
+xml.sax.InputSource(|) 
+;
+[xml.sax.SAXException |G  Encapsulate an XML error or warning. This class can contain]
+xml.sax.SAXException(|) 
+;
+[xml.sax.SAXNotRecognizedException |G  Exception class for an unrecognized identifier.]
+xml.sax.SAXNotRecognizedException(|) 
+;
+[xml.sax.SAXNotSupportedException |G  Exception class for an unsupported operation.]
+xml.sax.SAXNotSupportedException(|) 
+;
+[xml.sax.SAXParseException |G  Encapsulate an XML parse error or warning.]
+xml.sax.SAXParseException(|) 
+;
+[xml.sax.SAXReaderNotAvailable |G  Exception class for a missing driver.]
+xml.sax.SAXReaderNotAvailable(|) 
+;
+[xml.sax._create_parser |G {function}]
+xml.sax._create_parser(|) 
+;
+[xml.sax._exceptions.SAXException |G  Encapsulate an XML error or warning. This class can contain]
+xml.sax._exceptions.SAXException(|msg, exception=None) 
+;
+[xml.sax._exceptions.SAXNotRecognizedException |G  Exception class for an unrecognized identifier.]
+xml.sax._exceptions.SAXNotRecognizedException(|) 
+;
+[xml.sax._exceptions.SAXNotSupportedException |G  Exception class for an unsupported operation.]
+xml.sax._exceptions.SAXNotSupportedException(|) 
+;
+[xml.sax._exceptions.SAXParseException |G  Encapsulate an XML parse error or warning.]
+xml.sax._exceptions.SAXParseException(|msg, exception, locator) 
+;
+[xml.sax._exceptions.SAXReaderNotAvailable |G  Exception class for a missing driver.]
+xml.sax._exceptions.SAXReaderNotAvailable(|) 
+;
+[xml.sax.expatreader.AttributesImpl |G {class}]
+xml.sax.expatreader.AttributesImpl(|) 
+;
+[xml.sax.expatreader.AttributesNSImpl |G {class}]
+xml.sax.expatreader.AttributesNSImpl(|) 
+;
+[xml.sax.expatreader.ExpatLocator |G  Locator for use with the ExpatParser class.]
+xml.sax.expatreader.ExpatLocator(|parser) 
+;
+[xml.sax.expatreader.ExpatParser |G  SAX driver for the Pyexpat C module.]
+xml.sax.expatreader.ExpatParser(|namespaceHandling=0, bufsize=2**16-20) 
+;
+[xml.sax.expatreader.SAXException |G  Encapsulate an XML error or warning. This class can contain]
+xml.sax.expatreader.SAXException(|) 
+;
+[xml.sax.expatreader.SAXNotRecognizedException |G  Exception class for an unrecognized identifier.]
+xml.sax.expatreader.SAXNotRecognizedException(|) 
+;
+[xml.sax.expatreader.SAXNotSupportedException |G  Exception class for an unsupported operation.]
+xml.sax.expatreader.SAXNotSupportedException(|) 
+;
+[xml.sax.expatreader.SAXParseException |G  Encapsulate an XML parse error or warning.]
+xml.sax.expatreader.SAXParseException(|) 
+;
+[xml.sax.expatreader.SAXReaderNotAvailable |G  Exception class for a missing driver.]
+xml.sax.expatreader.SAXReaderNotAvailable(|) 
+;
+[xml.sax.expatreader.create_parser |G ]
+xml.sax.expatreader.create_parser(|*args, **kwargs)
+;
+[xml.sax.handler.ContentHandler |G  Interface for receiving logical document content events.]
+xml.sax.handler.ContentHandler(|) 
+;
+[xml.sax.handler.DTDHandler |G  Handle DTD events.]
+xml.sax.handler.DTDHandler(|) 
+;
+[xml.sax.handler.EntityResolver |G  Basic interface for resolving entities. If you create an object]
+xml.sax.handler.EntityResolver(|) 
+;
+[xml.sax.handler.ErrorHandler |G  Basic interface for SAX error handlers.]
+xml.sax.handler.ErrorHandler(|) 
+;
+[xml.sax.make_parser |G  Creates and returns a SAX parser.]
+xml.sax.make_parser(|parser_list = []) 
+;
+[xml.sax.parse |G ]
+xml.sax.parse(|source, handler, errorHandler=ErrorHandler())
+;
+[xml.sax.parseString |G ]
+xml.sax.parseString(|string, handler, errorHandler=ErrorHandler())
+;
+[xml.sax.saxutils.XMLFilterBase |G  This class is designed to sit between an XMLReader and the]
+xml.sax.saxutils.XMLFilterBase(|parent = None) 
+;
+[xml.sax.saxutils.XMLGenerator |G ]
+xml.sax.saxutils.XMLGenerator(|out=None, encoding="iso-8859-1")
+;
+[xml.sax.saxutils.escape |G  Escape &, <, and > in a string of data.]
+xml.sax.saxutils.escape(|data, entities={}) 
+;
+[xml.sax.saxutils.prepare_input_source |G  This function takes an InputSource and an optional base URL and]
+xml.sax.saxutils.prepare_input_source(|source, base = "") 
+;
+[xml.sax.saxutils.quoteattr |G  Escape and quote an attribute value.]
+xml.sax.saxutils.quoteattr(|data, entities={}) 
+;
+[xml.sax.xmlreader.AttributesImpl |G ]
+xml.sax.xmlreader.AttributesImpl(|attrs)
+;
+[xml.sax.xmlreader.AttributesNSImpl |G ]
+xml.sax.xmlreader.AttributesNSImpl(|attrs, qnames)
+;
+[xml.sax.xmlreader.IncrementalParser |G  This interface adds three extra methods to the XMLReader]
+xml.sax.xmlreader.IncrementalParser(|bufsize=2**16) 
+;
+[xml.sax.xmlreader.InputSource |G  Encapsulation of the information needed by the XMLReader to]
+xml.sax.xmlreader.InputSource(|system_id = None) 
+;
+[xml.sax.xmlreader.Locator |G  Interface for associating a SAX event with a document]
+xml.sax.xmlreader.Locator(|) 
+;
+[xml.sax.xmlreader.SAXNotRecognizedException |G  Exception class for an unrecognized identifier.]
+xml.sax.xmlreader.SAXNotRecognizedException(|) 
+;
+[xml.sax.xmlreader.SAXNotSupportedException |G  Exception class for an unsupported operation.]
+xml.sax.xmlreader.SAXNotSupportedException(|) 
+;
+[xml.sax.xmlreader.XMLReader |G  Interface for reading an XML document using callbacks.]
+xml.sax.xmlreader.XMLReader(|) 
+;
+[xml.sax.xmlreader._test |G ]
+xml.sax.xmlreader._test(|)
+;
+[xmllib.Error |G {class}]
+xmllib.Error(|) 
+;
+[xmllib.TestXMLParser |G ]
+xmllib.TestXMLParser(|**kw)
+;
+[xmllib.XMLParser |G ]
+xmllib.XMLParser(|**kw)
+;
+[xmllib.test |G ]
+xmllib.test(|args = None)
+;
+[xrange |G -> xrange object]
+xrange(|[start,] stop[, step]) 
+;
+[xreadlines.xreadlines |G Return an xreadlines object for the file f.]
+xreadlines.xreadlines(|f)
+;
+[zip |G -> {(seq1{0}, seq2{0} ...), (...)}]
+zip(|seq1 [, seq2 [...]]) 
+;
+[zipfile.BadZipfile |G {class}]
+zipfile.BadZipfile(|) 
+;
+[zipfile.PyZipFile |G  Class to create ZIP archives with Python library files and packages.]
+zipfile.PyZipFile(|) 
+;
+[zipfile.ZipFile |G  Class with methods to open, read, write, close, list zip files.]
+zipfile.ZipFile(|file, mode="r", compression=ZIP_STORED) 
+;
+[zipfile.ZipInfo |G  Class with attributes describing each file in the ZIP archive.]
+zipfile.ZipInfo(|filename="NoName", date_time=(1980,1,1,0,0,0)) 
+;
+[zipfile._normpath |G {function}]
+zipfile._normpath(|) 
+;
+[zipfile.error |G {class}]
+zipfile.error(|) 
+;
+[zipfile.is_zipfile |G  Quickly see if file is a ZIP file by checking the magic number.]
+zipfile.is_zipfile(|filename) 
+;
+[zlib.adler32 |G -- Compute an Adler-32 checksum of string.]
+zlib.adler32(|string[, start]) 
+;
+[zlib.compress |G -- Returned compressed string.]
+zlib.compress(|string[, level]) 
+;
+[zlib.compressobj |G -- Return a compressor object.]
+zlib.compressobj(|[level]) 
+;
+[zlib.crc32 |G -- Compute a CRC-32 checksum of string.]
+zlib.crc32(|string[, start]) 
+;
+[zlib.decompress |G -- Return decompressed string.]
+zlib.decompress(|string[, wbits[, bufsize]]) 
+;
+[zlib.decompressobj |G -- Return a decompressor object.]
+zlib.decompressobj(|[wbits]) 
+;
+[zlib.error |G {class}]
+zlib.error(|) 
+;

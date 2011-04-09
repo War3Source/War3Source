@@ -1,0 +1,80 @@
+;; PSPad code template for Code V interferogram
+;; Author: Francois Riguet
+;; Update: 27.06.2006
+[Macro definition]
+%00title%=@E, Title,,Code V interferogram
+%nodata%=@E, No data value,,32767
+%numterms%=@E, Number of terms,,9
+%routinename%=@E, Routine name,,,,'
+%datafile%=@E, External data file,,,,'
+%wavelength%=@E, Wavelength in microns,,0.6328
+%scale%=@E, Scale size,,32760
+%xyratio%=@E, X/Y ratio,,1
+%x%=@E, X number of points,,10
+%y%=@E, Y nbr of points or R,,10
+%01datatype%=@C Data format type,,GRD,GRD;ZRN;ZFR;UDI,
+%02val1%=@E, X GRD / Nterms ZRN/ZFR/UDI, 
+%03val2%=@E, Y or R for GRD,
+%04filetype%=@C File type,,FIL,BIR;CAO;FIL;SUR;THV;WFR,
+%05wvl%=@K, Wavelength ?,WVL,
+%06val3%=@E, Wvl in µm (0.6328),,,
+%07nnb%=@K, Nearest neighbor ?,NNB,
+%08val4%=@E, Scale size (<=>1 for FIL),,32760,
+%09nda%=@K, No data,NDA,
+%10val5%=@E, No data value (32767),,
+%11xsc%=@K, X/Y ratio ?,XSC,
+%12val6%=@E, X/Y ratio,
+%13umr%=@K, Subroutine ?, 
+%14val7%=@E, Subroutine (for UDI),,,,'
+%15umf%=@K, External data file ?,
+%16val8%=@E, Ext. data file (for UDI),,,,'
+%01Xpixels%=@E Number of X pixels ?,,
+%02Ypixels%=@E Number of Y pixels ?,,
+%03ssz%=@E Normalizing value,,255
+[&TEMPLATE | Create interferogram header ]
+%00title%
+%01datatype% %02val1% %03val2% %04filetype% %05wvl% %06val3% %07nnb% SSZ %08val4% %09nda% %10val5% %11xsc% %12val6% %13umr% %14val7% %15umf% %16val8% 
+|
+[@PGM TO INT | Change PGM header to INT format ]
+%00title%
+GRD %01Xpixels% %02Ypixels% FIL SSZ %03ssz% %11xsc% %12val6%
+|
+[COMMENT | Insert comment ]
+! |
+[BIR | Birefringence magnitude file ]
+BIR |
+[CAO | Crystal axis orientation file ]
+CAO |
+[FIL | Intensity apodization file ]
+FIL |
+[GRD | Grid data ]
+GRD %x% %y% |
+[NDA | No data value ]
+NDA %nodata% |
+[NNB | Nearest neighbor ]
+NNB |
+[R | Radial grid data ]
+R |
+[SSZ | Scale size ]
+SSZ %scale% |
+[SUR | Surface interferogram ]
+SUR |
+[THV | Coating thickness variation file ]
+THV |
+[UDI | User-defined data ]
+UDI %numterms% |
+[UMF | User-defined external data file ]
+UMF %datafile% |
+[UMR | User-defined subroutine / macro ]
+UMR %routinename% |
+[WFR | Wavefront interferogram ]
+WFR |
+[WVL | Wavelength ]
+WVL %wavelength% |
+[XSC | X scale ]
+XSC %xyratio% |
+[ZFR | Fringe Zernike data ]
+ZFR %numterms% |
+[ZRN | Zernike data ]
+ZRN %numterms% |
+

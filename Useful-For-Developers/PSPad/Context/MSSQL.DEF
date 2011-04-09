@@ -1,0 +1,202 @@
+; PSPad clip definition file for SQL (MSSQL 7)
+; author:  Willem Bogaerts
+; last revision 2006-06-09
+;
+[@@CURSOR_ROWS | @@CURSOR_ROWS]
+@@CURSOR_ROWS
+[@@ERROR | @@ERROR]
+@@ERROR()
+[@@FETCH_STATUS | @@FETCH_STATUS (0 when successful)]
+@@FETCH_STATUS
+[@@IDENTITY | Last inserted autonumber in a session]
+@@IDENTITY
+[@@ROWCOUNT | Number of affected or found rows]
+@@ROWCOUNT
+[AS | AS keyword]
+AS §|
+[BIGINT | BIGINT data type]
+BIGINT
+[BIT | BIT data type]
+BIT
+[BEGIN TRANSACTION | BEGIN TRANSACTION]
+BEGIN TRANSACTION
+[BETWEEN | BETWEEN keyword]
+BETWEEN § AND |
+[CAST | CAST]
+CAST(§ AS |)
+[CAST as self | CAST without dropping the name from the results]
+CAST(§ AS |) AS §
+[CAST AS VARCHAR(255) | Repair for unsupported types in VBScript, like BIGINT]
+CAST(§ AS VARCHAR(255)) AS §
+[CLOSE | Close a cursor]
+CLOSE §
+DEALLOCATE §|
+[COMMIT | COMMIT]
+COMMIT
+[COUNT | COUNT]
+COUNT(§|)
+[CREATE FUNCTION | CREATE FUNCTION]
+CREATE FUNCTION dbo.§(|) RETURNS INT
+AS
+   BEGIN
+   
+   RETURN 0
+   END
+GO
+[CREATE INDEX | CREATE INDEX]
+CREATE INDEX § ON |()
+[CREATE PROCEDURE | CREATE PROCEDURE]
+CREATE PROCEDURE dbo.§(|)
+AS
+      
+GO
+[CREATE TABLE | CREATE TABLE]
+CREATE TABLE §
+      (|)
+[CREATE TRGGER | CREATE TRGGER]
+CREATE TRIGGER §
+       ON |
+       FOR UPDATE 
+AS
+   
+[CREATE UNIQUE INDEX | CREATE UNIQUE INDEX]
+CREATE UNIQUE INDEX §| ON ()
+[CURRENT_USER | CURRENT_USER]
+CURRENT_USER
+[CVS Keywords Header | CVS Keywords Header]
+-- $Revision: $
+-- $Date: $
+-- $Author: $
+
+[DATEADD | DATEADD]
+DATEADD(|, §, )
+[DATETIME | DATETIME]
+DATETIME
+[DB_NAME | Database name]
+DB_NAME(§)|
+[DECLARE | DECLARE]
+DECLARE § |
+[DECLARE CURSOR | Cursor declaration]
+DECLARE § CURSOR FOR
+        |
+[DELETE | DELETE]
+DELETE FROM § WHERE |
+[DROP DATABASE | Delete a database]
+DROP DATABASE §|
+[DROP FUNCTION | Delete a function]
+DROP FUNCTION §|
+[DROP INDEX | Delete an index]
+DROP INDEX §|
+[DROP PROCEDURE | Delete a stored procedure]
+DROP PROCEDURE §|
+[DROP TABLE | DROP TABLE]
+DROP TABLE §|
+[EXEC | EXECute a stored procedure]
+EXEC § |
+[EXECUTE | EXECUTE a stored procedure]
+EXECUTE § |
+[GETDATE() | GETDATE()]
+GETDATE()|
+[FETCH  NEXT| Fetch next record from a cursor]
+FETCH NEXT FROM § INTO |
+[Field comment | Add a comment to a field.]
+EXECUTE sp_addextendedproperty N'MS_Description', N'§', N'SCHEMA', N'dbo', N'TABLE', N'|', N'COLUMN', N''
+[FROM | FROM clause]
+FROM §|
+[IF | IF]
+IF §
+   BEGIN
+   |
+   END
+[IF ELSE | IF statement with ELSE clause]
+IF §
+   BEGIN
+   |
+   END
+ELSE
+   BEGIN
+   
+   END
+[INNER JOIN | INNER JOIN]
+INNER JOIN § ON (§.|=)
+[INSERT SELECT | INSERT selection from other table(s)]
+INSERT INTO § SELECT | FROM
+[INSERT VALUES | INSERT values]
+INSERT INTO §(|) VALUES()
+[INT | INT]
+INT
+[ISDATE | Check is date conversion is possible]
+ISDATE(§|)
+[ISNULL | Filter function for NULL values]
+ISNULL(§, |)
+[ISNUMERIC | Check if numeric conversion is possible]
+ISNUMERIC(§|)
+[LEFT | Left part of a string]
+LEFT(§, |)
+[LEFT JOIN | LEFT JOIN]
+LEFT JOIN § ON (§.|=)
+[LEN | Length of a string]
+LEN(§|)
+[LIKE | Like operator]
+§ LIKE |
+[LOWER | Convert to lower case]
+LOWER(§|)
+[NOT | Boolean not]
+NOT §|
+[NTEXT | NTEXT data type]
+NTEXT
+[NULLIF | The first parameter or NULL if parameters are equal]
+NULLIF(§, |)
+[NVARCHAR() | NVARCHAR()]
+NVARCHAR(§|)
+[OPEN | Open a cursor]
+OPEN §|
+[ORDER BY | ORDER BY]
+ORDER BY §|
+[Primary key suffix | Primary key suffix for CREATE TABLE commands]
+INT IDENTITY NOT NULL PRIMARY KEY
+[RAISERROR | Raise an error]
+RAISERROR(§|)
+[RETURN | RETURN]
+RETURN §
+[RIGHT JOIN | RIGHT JOIN]
+RIGHT JOIN § ON (§.|=)
+[ROLLBACK | ROLLBACK]
+ROLLBACK
+[SCOPE_IDENTITY | Last inserted autonumber withing a procedure]
+SCOPE_IDENTITY()
+[SELECT * | SELECT *]
+SELECT * FROM § WHERE |
+[SELECT = | SELECT for assigning values]
+SELECT §=|
+[SET | SET a variable]
+SET § = |
+[SET IDENTITY_INSERT OFF | SET IDENTITY_INSERT OFF]
+SET IDENTITY_INSERT §| OFF
+[SET IDENTITY_INSERT ON | SET IDENTITY_INSERT ON]
+SET IDENTITY_INSERT §| ON
+[ToDo | ToDo comment to search on]*CTRL+ALT+SHIFT+T
+-- ToDo [%UserName%]: §|
+[TOP | Limit the number of rows returned.]
+TOP §|
+[TRUNCATE TABLE | TRUNCATE TABLE]
+TRUNCATE TABLE §|
+[UPDATE | UPDATE]
+UPDATE § SET |
+[UPPER | Convert to upper case]
+UPPER(§|)
+[VARCHAR() | VARCHAR()]
+VARCHAR(§|)
+[WHERE | WHERE]
+WHERE §|
+[WHERE CURRENT OF | At the position of a cursor]
+WHERE CURRENT OF §|
+[WHILE | WHILE]
+WHILE §
+      BEGIN
+      |
+      END
+[WITH(NOLOCK) | Table hint to prevent locks]
+WITH(NOLOCK)
+[YEAR | YEAR part of a date, as integer]
+YEAR(§|)

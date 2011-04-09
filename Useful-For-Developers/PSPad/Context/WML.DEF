@@ -1,0 +1,358 @@
+; PSPad clip definition file for WML
+;
+; Author: Karel Pavelka webjob@seznam.cz
+; last revision: 5.6.2003
+; translation: Jan Fiala
+[Macro definition]
+%acceptcharset%=@C accept-charset=,accept-charset=,,windows-1250;iso-8859-2;utf-8,"
+%accesskey%=@C accesskey=,accesskey=,,0;1;2;3;4;5;6;7;8;9,"
+%align3%=@C align=,align=,,center;left;right,"
+%aligni%=@C align=,align=,,bottom;middle;top,"
+%alt%=@E alt=,alt=,,,"
+%columns%=@E columns=,columns=,,,"
+%content%=@C content=,content=,,no-cache;must-revalidate;max-age=,"
+%domain%=@E domain=,domain=,,,"
+%emptyok%=@C emptyok=,emptyok=,,true;false,"
+%encoding%=@C encoding=,encoding=,,windows-1250;iso-8859-2;utf-8,"
+%format%=@C format=,format=,,A;a;N;X;x;M;m,"
+%forua%=@C forua=,forua=,,true;false,"
+%height%=@E height=,height=,,,"
+%href%=@O WML href=,href=,,wml file (*.wml;*.php;*.php3)|*.wml;*.php;*.php3,"
+%hspace%=@E hspace=,hspace=,,,"
+%id%=@E id=,id=,,,"
+%iname%=@E iname=,iname=,,," 
+%ivalue%=@E ivalue=,ivalue=,,,"
+%label%=@E label=,label=,,,"
+%lang%=@C xml:lang=,xml:lang=,,cs;sk;de;en;hu,"
+%maxlength%=@E maxlength=,maxlength=,,,"
+%method%=@C method=,method=,,get;post,"
+%mode%=@C mode=,mode=,,wrap;nowrap,"
+%multiple%=@C multiple=,multiple=,,true;false,"
+%name%=@E name=,name=,,,"
+%namem%=@C name=,name=,,vnd.up.markable;vnd.up.bookmark,"
+%newcontext%=@C newcontext=,newcontext=,,true;false,"
+%onenterbackward%=@E onenterbackward=,onenterbackward=,,,"
+%onenterforward%=@E onenterforward=,onenterforward=,,,"
+%onexit%=@E onexit=,onexit=,,,"
+%onpick%=@E onpick=,onpick=,,,"
+%onthrow%=@E onthrow=,onthrow=,,,"
+%ontimer%=@E ontimer=,ontimer=,,,"
+%optional%=@C optional=,optional=,,true;false,"
+%ordered%=@C ordered=,ordered=,,true;false,"
+%path%=@C path=,path=,,/,"
+%sendreferer%=@C sendreferer=,sendreferer=,,true;false,"
+%scheme%=@E scheme=,scheme=,,,"
+%size%=@E size=,size=,,,"
+%srcw%=@O src=,src=,,Image file (*.wbmp)|*.wbmp,"
+%tabindex%=@E tabindex=,tabindex=,,,"
+%title%=@E title=,title=,,,"
+%typeo%=@C type=,type=,,onpick;onenterforward;onenterbakward;ontimer,"
+%typedo%=@C type=,type=,,accept;delete;help;options;prev;reset;unknown;vnd.co-type;x-*,"
+%type%=@C type=,type=,,password;text,"
+%version%=@C version=,version=,,"1.0","
+%volume%=@E volume=,volume=,,,"
+%vspace%=@E vspace=,vspace=,,,"
+%width%=@E width=,width=,,,"
+;
+;
+[!-- | line comment <!-- text -->]
+<!-- §| -->
+;
+[!--- | block comment <!-- text -->]
+<!--
+ §|
+-->
+;
+[a | link]
+<a %href% %title% %lang% %accesskey%>§|</a>
+;
+[access | WML desk access info specification]
+<access %domain% %path% />
+|
+;
+[anchor | anchor task to formated text]
+<anchor %accesskey% %title% %lang%>§|</anchor>
+;
+[b | bold text]*CTRL+B
+<b>§|</b>
+;
+[big | increase font size]
+<big>§|</big>
+;
+[br | line break]*CTRL+ENTER
+<br />
+;
+[card | specify simple interaction between user and device]
+<card %id% %title% %ontimer% %onenterforward% %onenterbackward% %ordered% %newcontext%>
+ §|
+</card>
+;
+[catch | catch exception]
+<catch %onthrow% %name%>
+ §|
+</catch>
+;
+[do | asociate task with element inside user environment]
+<do %typedo% %label% %lang% %name% %optional%>§|</do>
+;
+[em | emphasis]
+<em>
+ §|
+</em>
+;
+[exit | exit task]
+<exit>
+ §|
+</exit>
+;
+[fieldset | text or input fields group]
+<fieldset %title% %lang%>
+ §|
+</fieldset>
+;
+[go | event to open specified URL address]
+<go %href%  %sendreferer% %method% %acceptcharset%>
+ §|
+</go>
+;
+[head | full desk info including metadata for access]
+<head>
+ §|
+</head>
+;
+[i | italic]*CTRL+I
+<i>§|</i>
+;
+[img | image]
+<img %alt% %lang% %srcw% %src% %aligni% %height% %width% %vspace% %hspace% />
+|
+;
+[input | user input]
+<input %lang% %name% %title% %type% %value% %accesskey% %format% %emptyok% %size% %maxlength% %tabindex% />
+|
+;
+[link | link between content and other document. Document must exist inside elementu <head>]
+<link %href% %rel% %sendreferer% />
+|
+;
+[meta | WML desk meta data ]
+<meta http-equiv="cache-control" %content% %forua% %namem% %scheme% />
+|
+;
+[noop | do "nothing"]
+<noop />
+;
+[optgroup | group of <option> element (or nebo included element <optgroup>) inside <card>]
+<optgroup %title% %lang%>
+ §|
+</optgroup>
+;
+[onevent | asociate state or event to task]
+<onevent %typeo%>
+ §|
+</onevent>
+;
+[option | specify concrete option inside <select> element]
+<option %title% %value% %onpick% %lang%>
+ §|
+</option>
+;
+[p | paragraph]*SHIFT+CTRL+P
+<p %align3% %mode% %lang%>
+ §|
+</p>
+;
+[postfield | name definition/value pairs, corespond to HTTP server to accept <go> request]
+<postfield %name% %value% />
+;
+[prev |  go to previous address]
+<prev>|§</prev>
+;
+[receive | recieve data from child context]
+<receive %name% />
+|
+;
+[refresh | reload data]
+<refresh>
+ §|
+</refresh>
+;
+[reset | reset all variables in current context]
+<reset />
+|
+;
+[select | option definition]
+<select %title% %name% %lang% %value% %tabindex% %multiple% %iname% %ivalue%>
+ §|
+</select>
+;
+[send | include single value in parameters block]
+<send %value% />
+|
+;
+[setvar | set variable to specified value, if task <g>,<prev>,<spawn> or <refresh> starts]
+<setvar %name% %value% />
+|
+;
+[small | decrease font size]
+<small>§|</small>
+;
+[spawn | create child context]
+<spawn %href% %onexit% %sendreferer% %method% %acceptcharset%>
+ §|
+</spawn>
+;
+[strong | heavily bold font]
+<strong>§|</strong>
+;
+[table | table]
+<table %lang% %align3% %title% %columns%>
+ §|
+</table>
+;
+[TABLEj |d simple table]
+<table %columns%>
+<tr><td>§|</td></tr>
+</table>
+;
+[td | table data]
+<td>§|</td>
+;
+[template | defines link relation to events]
+<template %ontimer% %onenterforward% %onenterbackward%>
+ §|
+</template>
+;
+[throw | declaration to through task exception]
+<throw %name%>
+ §|
+</throw>
+;
+[timer | timer definition]
+<timer %name% %value% />
+|
+;
+[tr | table row]
+<tr>§|</tr>
+;
+[wml | delimitation WML document desk]
+<wml %lang%>
+ §|
+</wml>
+;
+[WMLs |d simple WML page]
+<?xml version="1.0" %encoding%?>
+
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+<!-- WML generated by PSPad editor, www.pspad.com; %RFCTime% -->
+
+<wml %lang%>
+  §|
+</wml>
+;
+[xml |B document header]
+<?xml version="1.0" %encoding%?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+;
+[PHPindex |B WWW and WAP version page]
+<?php
+   $typ=strtoupper($HTTP_ACCEPT);
+   if (ereg("WML",$typ)) {
+        include("indexwap.php");
+	}
+     else {
+        include("indexhtml.php");
+        }
+?>
+;
+[PHPh |B PHP header]
+<?php
+  header("Content-type: text/vnd.wap.wml");
+  echo("<?xml version=\"1.0\"?>\n");
+  echo("<!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">\n\n");
+?>
+;
+[Keywords]
+accept
+accept-charset=
+access
+accesskey=
+align=
+alt=
+anchor
+card
+catch
+columns=
+content=
+DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">
+domain=
+emptyok=
+encoding=
+exit
+fieldset
+format=
+forua=
+go
+head
+height=
+href=
+hspace=
+iname=
+ivalue=
+label=
+maxlength=
+method=
+mode=
+multiple=
+must-revalidate
+newcontext=
+no-cache
+noop />
+nowrap
+onenterbackward=
+onenterbakward
+onenterforward
+onenterforward=
+onevent
+onexit=
+onthrow=
+ontimer
+ontimer=
+optgroup
+option
+optional=
+ordered=
+password
+path=
+postfield
+receive
+reset />
+select
+send
+sendreferer=
+setvar
+scheme=
+size=
+small>
+spawn
+strong>
+tabindex=
+table
+td>
+template
+throw
+timer
+title=
+tr>
+type=
+unknown
+version=
+vnd.wap.wml
+volume=
+vspace=
+wbmp
+width=
+wml
+xml version="1.0"
+xml:lang=
+

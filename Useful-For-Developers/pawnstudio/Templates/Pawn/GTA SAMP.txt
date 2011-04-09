@@ -1,0 +1,123 @@
+/* Script by the GTA SA:MP Development Team */
+
+#include <a_samp>
+
+main()
+{
+	print("\n----------------------------------");
+	print("  This is a blank GameModeScript");
+	print("----------------------------------\n");
+}
+
+
+
+public OnGameModeInit()
+{
+	print("GameModeInit()");
+	SetGameModeText("Blank Script");
+	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
+	return 1;
+}
+
+public OnPlayerRequestClass(playerid, classid)
+{
+	printf("OnPlayerRequestClass(%d, %d)", playerid, classid);
+	SetPlayerPos(playerid, 1958.3783, 1343.1572, 15.3746);
+	SetPlayerCameraPos(playerid, 1958.3783, 1343.1572, 15.3746);
+	SetPlayerCameraLookAt(playerid, 1958.3783, 1343.1572, 15.3746);
+	return 1;
+}
+
+public OnGameModeExit()
+{
+	print("GameModeExit()");
+	return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+	printf("OnPlayerConnect(%d)", playerid);
+	return 1;
+}
+
+public OnPlayerDisconnect(playerid)
+{
+	printf("OnPlayerDisconnect(%d)", playerid);
+	return 1;
+}
+
+public OnPlayerSpawn(playerid)
+{
+	printf("OnPlayerSpawn(%d)", playerid);
+	return 1;
+}
+
+public OnPlayerDeath(playerid, killerid, reason)
+{
+	printf("OnPlayerDeath(%d, %d, %d)", playerid, killerid, reason);
+	return 1;
+}
+
+public OnVehicleSpawn(vehicleid)
+{
+	printf("OnVehicleSpawn(%d)", vehicleid);
+	return 1;
+}
+
+public OnVehicleDeath(vehicleid, killerid)
+{
+	printf("OnVehicleDeath(%d, %d)", vehicleid, killerid);
+	return 1;
+}
+
+public OnPlayerText(playerid)
+{
+	printf("OnPlayerText(%d)", playerid);
+	return 1;
+}
+
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+	if (strcmp(cmdtext, "/mycommand", true)==0)
+	{
+	    /* Do something here */
+	    return 1;
+	}
+	return 0;
+}
+
+public OnPlayerInfoChange(playerid)
+{
+	printf("OnPlayerInfoChange(%d)");
+	return 1;
+}
+
+public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+{
+	printf("OnPlayerEnterVehicle(%d, %d, %d)", playerid, vehicleid, ispassenger);
+	return 1;
+}
+
+public OnPlayerExitVehicle(playerid, vehicleid)
+{
+	printf("OnPlayerExitVehicle(%d, %d)", playerid, vehicleid);
+	return 1;
+}
+
+public OnPlayerStateChange(playerid, newstate, oldstate)
+{
+	printf("OnPlayerStateChange(%d, %d, %d)", playerid, newstate, oldstate);
+	return 1;
+}
+
+public OnPlayerEnterCheckpoint(playerid)
+{
+	printf("OnPlayerEnterCheckpoint(%d)", playerid);
+	return 1;
+}
+
+public OnPlayerLeaveCheckpoint(playerid)
+{
+	printf("OnPlayerLeaveCheckpoint(%d)", playerid);
+	return 1;
+}

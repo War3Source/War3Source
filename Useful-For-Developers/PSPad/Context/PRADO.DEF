@@ -1,0 +1,1787 @@
+; Tento soubor obsahuje makra programu PSPad pro PHP
+;
+;; PSPad code template for PPARDO
+;; Author: Zbigniew Kacprzak
+;; E-mail: zbigniew@kacprzak.org
+;; Update: $LastChangedDate: 2008-10-03 16:06:21 $
+;; Revision: $LastChangedRevision: 54 $
+;; Based on XHTML code template
+;
+;
+[Macro definition]
+%abbr%=@E abbr=,abbr=,,,"
+%accept%=@C accept=,accept=,,image/*;image/gif;image/jpg;text/html;image/png;video/mpeg;text/css;audio/basic,"
+%acceptcharset%=@C accept-charset=,accept-charset=,,unknown;windows-1250;iso-8859-2;utf-8,"
+%accesskey%=@E accesskey=,accesskey=,,,"
+%action%=@O action=,action=,,Script file (*.page;*.tpl;*.skin)|*.page;*.tpl;*.skin,"
+%alignt%=@C align=,align=,,left;center;right;justify;char,"
+%alt%=@E alt=,alt=,,,"
+%alternate%=@C alternate=,alternate=,,yes;no,"
+%am%=@C Help! don't fill!!!, ,,"?subject= &bcc= &cc= &body= %20",
+%archive%=@E archive=,archive=,,,"
+%aspk%=@C asp,,,If;Else;"End If",
+%aspsv%=@C asp,,,ALL_HTTP;AUTH_PASS;AUTH_TYPE;CONTENT_LENGTH;CONTENT_TYPE;GATEWAY_INTERFACE;PATH_INFO;PATH_TRANSLATED;QUERY_STRING;REMOTE_ADDR;REMOTE_HOST;REMOTE_IDENT;REMOTE_USER;REQUEST_BODY;REQUEST_METHOD;SCRIPT_NAME;SERVER_PORT;SERVER_PROTOCOL;SERVER_SOFTWARE;
+%axis%=@E axis=,axis=,,,"
+%border%=@E border=,border=,,,"
+%cellpadding%=@E cellpadding=,cellpadding=,,,"
+%cellspacing%=@E cellspacing=,cellspacing=,,,"
+%cite%=@O cite=,cite=,,Zdroj citace (*.*)|*.*,"
+%class%=@E class=,class=,,,"
+%class2%=@E class=,class=,,,"
+%classid%=@E classid=,classid=,,,"
+%clear%=@C clear=,clear=,,all;left;right,"
+%codebase%=@E codebase=,codebase=,,,"
+%codetype%=@E codetype=,codetype=,,application/java,"
+%cols%=@E cols=,cols=,,,"
+%colspan%=@E colspan=,colspan=,,,"
+%content%=@E content=,content=,,,"
+%contentdis%=@C content=,content=,,local;global,"
+%contentwt%=@C content=,content=,,_blank;_parent;_self;_top,"
+%coords%=@E coords=,coords=,,,"
+%data%=@O data=,data=,,,"
+%datetime%=@C datetime=,datetime=,,YYYY-MM-DDThh:mm:ssTZD,"
+%declare%=@E declare=,declare=,,,"
+%defer%=@E defer=,defer=,,,"
+%dir%=@C dir=,dir=,,ltr;rtl,"
+%disabled%=@C disabled=,disabled=,,disabled,"
+%Duration%=@C Duration=,Duration=,,1;"2.5";3;"4.123";5;7;"atd.  :-)",
+%dtd%=@C DOCTYPE HTML PUBLIC, ,,"Transitional//EN' 'DTD/xhtml1-transitional.dtd'>";"Frameset//EN' 'DTD/xhtml1-frameset.dtd'>";"Strict//EN' 'DTD/xhtml1-strict.dtd'>",
+%encoding%=@C encoding=,encoding=,,windows-1250;iso-8859-2;utf-8,"
+%enctype%=@C enctype=,enctype=,,"application/x-www-form-urlencoded ";"multipart/form-data";"text/plain","
+%for%%=@E for=,for=,,,"
+%frame%=@C frame=,frame=,,above;below;border;box;insides;lhs;rhs;void;vsides,"
+%h%=@C velikost nadpisu:,,,1;2;3;4;5;6,
+%height%=@E height=,height=,,,"
+%href%=@O HTML href=,href=,http://,html file (*.html;*.htm)|*.html;*.htm,"
+%hrefi%=@O ICO href=,href=,,ico file (*.ico)|*.ico,"
+%hreflang%=@C hreflang=,hreflang=,,cs;sk;de;en;en-us;en-gb;hu,"
+%hrefm%=@E href=,href=,mailto:,,"
+%hrefs%=@O CSS href=,href=,,CSS href (*.css)|*.css,"
+%hrefsi%=@O href=,href=,,rel file (*.css;*.ico;*.js)|*.css;*.ico;*.js,"
+%hrefx%=@C href=,href=,,about:;file:///;ftp://;gopher://;http://;"javascript:;";mailto:;newsrc:;nntp://;telnet://;view-source:file:///;wais://,"
+%char%=@E char=,char=,,,"
+%charoff%=@E char off=,charoff=,,,"
+%charset%=@C charset=,charset=,,windows-1250;iso-8859-2;utf-8,
+%checked%=@C checked=,checked=,,true;false,"
+%id%=@C id=,id=,,[],"
+%include%=@O include,include ,, script file (*.php;*.php3;*.inc)|*.php;*.php3;*.inc,"
+%ismap%=@E ismap=,ismap=,,,"
+%label%=@E label=,label=,,,"
+%lang%=@C lang=,lang=,,cs;sk;de;en;en-us;en-gb;hu,"
+%longdesc%=@ longdesc=,longdesc=,,,
+%maxlength%=@E maxlength=,maxlength=,,,"
+%media%C media=,media=,,embossed;screen;tty;tv;projection;handheld;print;braille;aural;all;speech,"
+%metacop%=@E meta copyright=,content=,,,"
+%metadesc%=@E meta description=,content=,,,"
+%metakey%=@E meta keywords=,content=,,,"
+%metaname%=@C name=,name=,,copyright;description;keywords,"
+%metarob%=@C meta robots=,content=,,all;"index,follow";"noindex,follow";"index,nofollow";"noindex,nofollow";noimageclick;noimageindex;noarchive,"
+%method%=@C method=,method=,,get;post;head;delete;put;trace;options;connect,"
+%methods%=@E methods=,methods=,,,"
+%multiple%=@E multiple=,multiple=,,,"
+%name%=@C name=,name=,,[],"
+%nohref%=@C nohref=,nohref=,,nohref,"
+%on%=@C Event:,,,onblur="";onclick="";ondblclick="";onfocus="";onchange="";onkeydown="";onkeypress="";onkeyup="";onload="";onmousedown="";onmousemove="";onmouseout="";onmouseover="";onmouseup="";onreset="";onselect="";onsubmit="";onunload="";
+%php%=@C php,,,if;else:;elseif;endif;endfor,
+%readonly%=@C readonly=,readonly=,,readonly,"
+%rel%=@C rel=,rel=,,stylesheet;"shortcut icon";next;prev;head;toc;parent;child;index;glossary,"
+%rev%=@C rev=,rev=,,next;prev;head;toc;parent;child;index;glossary,"
+%rows%=@E rows=,rows=,,,"
+%rowspan%=@E rowspan=,rowspan=,,,"
+%rules%=@C rules=,rules=,,all;cols;groups;none;rows,"
+%s%=@C content (sekundy),,,0;2;4;60;360,
+%scope%=@C scope=,scope=,,row;col;rowgroup;colgroup,"
+%selected%=@C selected=,selected=,,selected,"
+%shape%=@C shape=,shape=,,circ;circle;poly;polygon;rect;rectangle,"
+%size%=@E size=,size=,,,"
+%span%=@E span=,span=,,,"
+%src%=@O objekt src=,src=,,objekt file  (*.*)|*.*,"
+%srcj%=@O JavaScript src=,src=,,JavaScript file  (*.js)|*.js,"
+%srcp%=@P src=,src=,,,"
+%style%=@T style=,style=,,,"
+%style2%=@T HlavnÝ tag: style=,style=,,,"
+%tabindex%=@E tabindex=,tabindex=,,,"
+%taborder%=@E taborder=,taborder=,,,"
+%title%=@E title=,title=,,,"
+%title2%=@E Titulek strßnky:
+%top%=@E top=,top=,,,"
+%type%=@C type=,type=,,button;reset;submit,"
+%type2%=@C type=,type=,,button;checkbox;file;hidden;image;password;radio;reset;submit;text,"
+%type4%=@C type=,type=,,text/css;text/javascript,"
+%typem%=@C MIME type=,type=,,application/x-shockwave-flash;application/pdf;application/postscript;application/x-zip-compressed;application/msword;application/msexcel;application/rtf;application/java;application/x-javascript;text/html;text/plain;video/x-msvideo;video/quicktime;video/x-mpeg2;audio/x-pn/realaudio;audio/x-mpeg;audio/waw;audio/aiff;audio/basic;image/tiff;image/jpeg;image/gif;image/png;image/x-photo-cd;image/x-MS-bmp;image/x-rgb;image/x-portable-pixmap;image/x-portable-greymap;image/x-portablebitmap,"
+%typescript%=@C type=,type=,,text/javascript;text/livescript;text/jscript;text/vbscript;text/php;text/tcl,"
+%url1%=@C URL=,URL=,,http://;,
+%usemap%=@E usemap=,usemap=,,,"
+%valign%=@C valign=,valign=,,baseline;bottom;middle;top,"
+%value%=@E value=,value=,,,"
+%valuetype%=@C valuetype=,valuetype=,,data;ref;object,"
+%width%=@E width=,width=,,,"
+%xmllang%=@C xml:lang=,xml:lang=,,cs;sk;de;en;en-us;en-gb;hu,"
+%xmlnsmath%=@K,,"xmlns:math='http://www.w3.org/1999/Math/MathML/'",
+;
+[&nbsp; |G non break space]*Shift+Ctrl+Space
+&nbsp;
+[&bdquo; |G lower quote]
+&bdquo;
+[&ldquo; |G upper quote]*Ctrl+U
+&ldquo;
+[&apos; |G apostrophe]
+&apos;
+[&gt; |G char ">"]
+&gt;
+[&lt; |G char "<"]
+&lt;
+[&amp; |G ampersand]
+&amp;
+;
+[<> | tag begin <>]*Alt+,
+<|>
+[</> | tag end </|>]*Alt+.
+</|>
+[<...> |G open/close tag from selected text]*Shift+Ctrl+<
+<§>|</§>
+;
+[!-- | line comment <!-- text -->]
+<!-- §| -->
+[!--- | block comment <!-- text -->]
+<!--
+ §|
+-->
+;
+[a | hyperlink]
+<a %href% %accesskey% %charset% %class% %coords% %dir% %hrefx% %hreflang% %id% %lang% %name% %on% %rel% %rev% %shape% %style% %tabindex% %title% %typem% %xmllang%>
+ §|
+</a>
+;
+[abbr | abbreviation]
+<abbr %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</abbr>
+;
+[acronym | acronym]
+<acronym %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</acronym>
+;
+[address | address definition]
+<address %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</address>
+;
+[Amail | mail link <a href="mailto:your@email.com">link</a>]
+<a %hrefm%%am% %id% %class% %style% %on%>§|</a>
+;
+[area | click map area]
+<area %accesskey% %alt% %class% %coords% %dir% %href% %id% %lang% %nohref% %on% %shape% %style% %tabindex% %title% %xmllang%>§|</area>
+;
+[asp |B insert ASP code]
+<% %aspk%| %>
+;
+[ASPsv |B ASP Server Variables]
+<%= Request.ServerVariables("%aspsv%") %>
+;
+;
+[b1 | bold font <b></b>]*CTRL+B
+<b>§|</b>
+;
+[b | bold font with attributs]
+<b %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</b>
+;
+[base | base address for other links in document]
+<base %href% />§|
+;
+[bdo | change text direction]
+<bdo %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</bdo>
+;
+[big | increase font size]
+<big %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</big>
+;
+[blockquote | block quote]
+<blockquote %cite% %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>
+ §|
+</blockquote>
+;
+[body | document body]
+<body %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>
+ §|
+</body>
+;
+[br | line break]*CTRL+ENTER
+<br />
+;
+[BRa | line break with attributs]
+<br %class% %clear% %id% %style% %title% />
+;
+[button | button]
+<button %accesskey% %class% %dir% %disabled% %id% %lang% %name% %on% %style% %tabindex% %title% %type% %value% %xmllang%>
+ §|
+</button>
+;
+;
+[caption | table header]
+<caption %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</caption>
+;
+[cite | citation]
+<cite %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</cite>
+;
+[code | nonproportional font (code sample)]
+<code %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</code>
+;
+[col | table column definition]
+<col %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %span% %style% %title% %valign% %width% %xmllang% />
+|
+;
+[colgroup | table column group]
+<colgroup %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %span% %style% %title% %valign% %width% %xmllang%>§|</colgroup>
+;
+[CSS | external CSS link]
+<link rel="stylesheet" %hrefs% type="text/css" />
+|
+;
+[dd | definition in definition list]
+<dd %class% %dir% %id% %lang% %on% %style% %title% %xmllang%></dd>
+|
+;
+[del | removed part]
+<del %cite% %datetime% %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</del>
+;
+[dfn | format as definition]
+<dfn %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</dfn>
+;
+[div | block]
+<div %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>
+ §|
+</div>
+;
+[dl | definition list]
+<dl %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</dl>
+;
+[DOCTYPE | XHTML Strict version]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+|
+;
+[DOCTYPEf | XHTML Frameset version]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "DTD/xhtml1-frameset.dtd">
+|
+;
+[DOCTYPEt | XHTML Transitional version]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+|
+;
+[dt | therm in definition list]
+<dt %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</dt>
+;
+;
+[em | emphasis]
+<em %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</em>
+;
+[favicon | favourite icon]
+<link rel="shortcut icon" %hrefi% />
+|
+;
+[fieldset | related field grouping]
+<fieldset %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>
+ §|
+</fieldset>
+;
+[form | form]
+<form %accept% %acceptcharset% %action% %class% %dir% %enctype% %id% %lang% %method% %on% %style% %title% %xmllang%>§|</form>
+;
+[h | title <h1> a× </h6>]
+<h%h% %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</h%h%>
+;
+[h1 | title <h1>]
+<h1>§|</h1>
+;
+[h2 | title <h2>]
+<h2>§|</h2>
+;
+[h3 | title <h3>]
+<h3>§|</h3>
+;
+[h4 | title <h4>]
+<h4>§|</h4>
+;
+[h5 | title <h5>]
+<h5>§|</h5>
+;
+[h6 | title <h6>]
+<h6>§|</h6>
+;
+[head | XHTML document header]
+<head %profile% %lang% %xmllang% %dir%>
+ §|
+</head>
+;
+[hr | horizontal line]*Shift+Ctrl+H
+<hr %class% %style% %id% %on% %title% %lang% %xmllang% %dir% />
+|
+;
+[html | document definition <html></html>]
+<html %dir% %lang% %xmllang% xmlns="http://www.w3.org/1999/xhtml" %xmlnsmath%>
+ §|
+</html>
+;
+[HTMLs |N simple XHTML page template]
+<?xml version="1.0" %encoding%?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html %xmllang% xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="content-type" content="text/html; %charset%" />
+  <title>%title2%</title>
+ </head>
+ <body>
+ §|
+ </body>
+</html>
+;
+;
+[i1 | italic <i></i>]*CTRL+I
+<i>§|</i>
+;
+[i | italic with attributs]
+<i %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</i>
+;
+[iframe | included frame]
+<iframe %name% %class% %id% %src% %width% %height% %longdesc% %marginheight% %marginwidth% %scrolling% %noresize% %frameborder% %align9% %style%>§|</iframe>
+;
+[img | image]
+<img %src% %alt% %title% %class% %on% %id% %ismap% %longdesc% %style% %usemap% %width% %height% %lang% %xmllang% %dir% />
+|
+;
+[input | form input element]
+<input %type2% %accept% %accesskey% %maxlength% %name% %checked% %value% %tabindex% %srcp% %disabled% %readonly% %size% %style% %class% %on% %title% />
+|
+;
+[INPUTf | input type=file]
+<input type="file" %accept% %accesskey% %disabled% %maxlength% %name% %on% %readonly% %size% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTh | input type=hidden]
+<input type="hidden" %name% %value% />
+|
+;
+[INPUTch | input type=checkbox ]
+<input type="checkbox" %accesskey% %checked% %disabled% %on% %readonly% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTi | input type=image]
+<input type="image" %name% %accesskey% %align9% %alt% %title% %usemap% %value% %tabindex% %srcp% %disabled% %style% %class% %on% />
+;
+[INPUTp | input type=password]
+<input type="password" %accesskey% %disabled% %maxlength% %name% %on% %readonly% %size% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTr | input type=radio]
+<input type="radio" %accesskey% %checked% %disabled% %maxlenght% %name% %on% %readonly% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTre | input type=reset]
+<input type="reset" %accesskey% %disabled% %on% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTs | input type=submit]
+<input type="submit" %accesskey% %disabled% %name% %on% %tabindex% %value% %style% %class% %title% />
+|
+;
+[INPUTt | input type=text]
+<input type="text" %accesskey% %disabled% %maxlength% %name% %on% %readonly% %size% %tabindex% %value% %style% %class% %title% />
+|
+;
+[ins | part, inserted from previous version]
+<ins %cite% %class% %datetime% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</ins>
+;
+[kbd | font style for technical terms]
+<kbd %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</kbd>
+;
+[label | form text label element]
+<label %accesskey% %class% %dir% %for% %id% %lang% %on% %style% %title% %xmllang%>§|</label>
+;
+[legend | legend to form field set]
+<legend %accesskey% %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</legend>
+;
+[li | list item <li></li>]*CTRL+Q
+<li>§|</li>
+;
+[LIa | list item with attributs]
+<li %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</li>
+;
+[link | hyperlink]
+<link %charset% %class% %dir% %hrefsi% %hreflang% %id% %lang% %media% %on% %rel% %rev% %style% %title% %type4% %xmllang% />
+|
+;
+[LINKs | external CSS style link]
+<link rel="stylesheet" %hrefs% type="text/css" />
+|
+;
+[map | image map]
+<map %class% %style% %id% %name% %on% %title% %lang% %xmllang% %dir%>§|</map>
+;
+[METAa | meta tag, author]
+<meta name="author" content="%UserName%; e-mail: %Email%" />
+|
+;
+[METAc |N meta tags to prevent caching]
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="last-modified" content="%RFCTime%" />
+|
+;
+[METAe | meta tag page expires]
+<meta http-equiv="expires" content="%RFCTime%" />
+|
+;
+[METAdis | meta tag distribution]
+<meta name="distribution" %contentdis% />
+|
+;
+[METAg | meta tag generator PSPad]
+<meta name="generator" content="PSPad editor, www.pspad.com" />
+|
+;
+[METAk | meta tag for language definition]
+<meta http-equiv="content-type" content="text/html; %charset%" />
+|
+;
+[METAn | meta tags (description, keywords)]
+<meta %lang% %metaname% %metacop% %metadesc% %metakey% />
+|
+;
+[METAr | meta tag for redirection]
+<meta http-equiv="refresh" content="%s%;%url1%" />
+|
+;
+[METAm | meta tag last modification]
+<meta http-equiv="last-modified" content="%RFCTime%" />
+|
+[METAn | meta tag robots]
+<meta name="robots" %metarob% />
+|
+;
+[METAbt | (IE) blendTrans]
+<meta %e% content="blendTrans(%Duration%)" />
+|
+;
+[METArt | (IE) RevealTrans]
+<meta %e% content="RevealTrans(%Duration%, %Transition%)" />
+|
+;
+[METAwt | meta tag window-target]
+<meta http-equiv="window-target" %contentwt% />
+|
+;
+[modified |B inserts last date time modification]
+<script type="text/javascript">
+<![CDATA[
+ document.write(document.lastModified)
+]]>
+</script>
+;
+[noscript | content for browser doesn't supported tag SCRIPT]
+<noscript %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>
+<!-- vytvorit_alternativu_k_JavaScriptu -->
+</noscript>
+;
+;
+[object | insert object]
+<object %archive% %class% %classid% %codebase% %codetype% %data% %declare% %dir% %height% %id% %lang% %name% %on% %standby% %style% %tabindex% %title% %type% %usemap% %width% %xmllang%>
+ §|
+</object>
+;
+[ol | numbered list]
+<ol %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>|§</ol>
+;
+[OLli |N numbered list with items]
+<ol %class% %style%>
+ <li>§|</li>
+ <li></li>
+ <li></li>
+</ol>
+;
+[optgroup | option group in SELECT]
+<optgroup %class% %dir% %disabled% %id% %label% %lang% %on% %style% %title% %xmllang%>
+ §|
+</optgroup>
+;
+[option | option in select]
+<option %value% %class% %disabled% %id% %label% %lang% %on% %selected% %style% %title% %xmllang% %dir%>§|</option>
+;
+;
+[p | paragraph]*SHIFT+CTRL+P
+<p %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>
+ §|
+</p>
+;
+[param | object properties]
+<param %id% %name% %typem% %value% %valuetype% />
+|
+;
+[php |B PHP tag <?php ?>]
+<?php
+   |
+?>
+;
+[PHPe |B PHP tag with echo command]
+<?php echo '§|'; ?>
+;
+[PHPi |B PHP tag include ]
+<?php %include%; ?>
+|
+;
+[PHPp |B insert PHP code]
+<?php %php%| ?>
+;
+[pre | preformated text]
+<pre %class% %id% %lang% %on% %style% %title% %xmllang% %dir%>
+ §|
+</pre>
+;
+;
+[q | short citation]
+<q %cite% %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>"§|"</q>
+;
+;
+[samp | sample - literal characters sequence]
+<samp %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</samp>
+;
+[select | select menu]
+<select %class% %disabled% %id% %lang% %multiple% %name% %on% %size% %style% %tabindex% %title% %xmllang% %dir%>
+ §|
+</select>
+;
+[SELECTo |N select menu with items]
+<select %name% %class% %id% %size% %style% %multiple% %title%>
+ <option value="|">§</option>
+ <option value=""></option>
+ <option value=""></option>
+</select>
+;
+[script | inserts external script]
+<script %charset% %defer% %srcj% %typescript%></script>
+|
+;
+[SCRIPTi |N insert internal script]
+<script %charset% %defer% %typescript%>
+<![CDATA[
+ §|
+]]>
+</script>
+;
+[small | decrease font size]
+<small %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</small>
+;
+[span | container]
+<span %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</span>
+;
+[strong | heavilly bold font]
+<strong %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</strong>
+;
+[style | internal style definition]
+<style %type4% %dir% %lang% %media% %title%>
+/* <![CDATA[ */
+ §|
+/* ]]> */
+</style>
+;
+[stylesheet |N XML to CSS relation]
+<?xml-stylesheet %alternate% %media% %title% type="text/css" %hrefs%?>
+|
+;
+[sub | lower index]
+<sub %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</sub>
+;
+[sup | upper index]
+<sup %class% %dir% %id% %lang% %on% %style% %title% %xmllang%>§|</sup>
+;
+;
+[table | table definition]
+<table %border% %cellpadding% %cellspacing% %class% %dir% %frame% %id% %lang% %on% %rules% %style% %summary% %title% %width% %xmllang%>
+ §|
+</table>
+;
+[TABLEd |N simple table with cells]
+<table %class% %style% %width% %cellspacing% %cellpadding%>
+ <tr %bgcolor%>
+  <td>§|</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+ </tr>
+</table>
+;
+[TABLEi |N table as IFRAME]
+<table border="1" style="border-collapse: collapse">
+ <tr>
+  <td>
+   <div style="overflow: auto; width: 200px; height: 100px">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+   </div>
+  </td>
+ </tr>
+</table>
+;
+[tbody | table body definition]
+<tbody %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %style% %title% %valign% %xmllang%>§|</tbody>
+;
+[td | table data]
+<td %abbr% %alignt% %axis% %char% %charoff% %class% %colspan% %dir% %headers% %id% %lang% %on% %rowspan% %scope% %style% %title% %valign% %xmllang%>§|</td>
+;
+[textarea | textarea]
+<textarea %accesskey% %class% %cols% %dir% %disabled% %id% %lang% %name% %on% %readonly% %rows% %style% %tabindex% %title% %xmllang%>§|</textarea>
+;
+[tfoot | table footer]
+<tfoot %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %style% %title% %valign% %xmllang%>§|</tfoot>
+;
+[th | table header]
+<th %abbr% %alignt% %axis% %char% %charoff% %class% %colspan% %dir% %headers% %id% %lang% %on% %rowspan% %scope% %style% %title% %valign% %xmllang%>§|</th>
+;
+[thead | table header definition]
+<thead %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %style% %title% %valign% %xmllang%>§|</thead>
+;
+[title | document title]
+<title %lang% %xmllang% %dir%>§|</title>
+;
+[tr | table row]
+<tr %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %style% %title% %valign% %xmllang%>§|</tr>
+;
+[tt | type writer]
+<tt %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</tt>
+;
+;
+[ul | unordered list]
+<ul %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</ul>
+;
+[ULli |N unordered list with items]
+<ul %class% %style%>
+ <li>§|</li>
+ <li></li>
+ <li></li>
+</ul>
+;
+;
+[var | text with smallest nonproporional font]
+<var %class% %style% %id% %on% %title% %lang% %xmllang% %dir%>§|</var>
+;
+;
+[Keywords]
+abbr
+abbr=
+about:
+above
+absbottom
+absmiddle
+accept=
+accept-charset=
+accesskey=
+acronym
+action=
+address
+align=
+alt=
+alternate stylesheet
+alternate=
+area
+archive=
+asp
+axis=
+base
+baseline
+bdo
+below
+big
+blockquote
+body
+border
+border=
+bottom
+box
+br />
+button
+caption
+cellpadding=
+cellspacing=
+center
+cite
+class=
+classid=
+clear=
+code
+codebase=
+codetype=
+col
+cols=
+colspan=
+compact=
+content=
+content-type
+coords=
+copyright=
+data=
+datetime=
+decimal
+declare=
+defer=
+del
+description=
+dfn
+dir=
+disabled
+disabled=
+distribution
+div
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "DTD/xhtml1-frameset.dtd">
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+Duration=
+encoding=
+enctype=
+fieldset
+file:///
+form
+frame=
+frameset
+generator
+get
+gopher://
+h1
+h2
+h3
+h4
+h5
+h6
+head
+height=
+hr />
+href=
+html
+http://
+http://www.pspad.com/
+char
+iframe
+img
+input
+ins
+insides
+ismap=
+iso-8859-2
+javascript:;
+justify
+kbd
+keywords=
+label
+label=
+last-modified
+left
+legend
+lhs
+link
+mailto:
+map
+maxlength=
+meta
+methods=
+middle
+multiple=
+must-revalidate
+name=
+name="[]"
+nohref=
+noscript
+noshade="noshade"
+object
+optgroup
+option
+param
+php
+post
+pre
+readonly
+readonly=
+readonly="readonly"
+rel=
+Request.ServerVariables() %>
+rev=
+rhs
+right
+robots=
+rows=
+rowspan=
+rules=
+samp
+scope=
+screen
+script
+select
+selected=
+shape=
+size=
+small
+span
+src=
+strong
+style
+style=
+sub
+sup
+tabindex=
+table
+taborder=
+target=
+tbody
+textarea
+texttop
+tfoot
+thead
+title
+title=
+top
+top=
+type=
+usemap=
+utf-8
+valign=
+value=
+valuetype=
+view-source:file:///
+void
+vsides
+wais://
+width=
+windows-1250
+xml:lang=
+xmlns:math="http://www.w3.org/1999/Math/MathML/"
+xml-stylesheet
+;
+; -----------------------------------------------------------------------------
+;  PRADO keywords
+; -----------------------------------------------------------------------------
+
+;
+; -----------------------------------------------------------------------------
+;  PRADO templates
+; -----------------------------------------------------------------------------
+
+[$ | Parameter Tag]
+<%$ AAA $%>
+[= | Expression Tag]
+<%= AAA %>
+[@ | Directive Tag]
+<%@ AAA %>
+[% | Code Block Tag]
+<%% AAA %>
+[# | Data Bind Tag]
+<%# AAA %>
+[~ | Asset Tag]
+<%~ AAA %>
+[[ | Localization Tag]
+<%[ AAA ]%>
+
+Prado=
+PradoBase=
+TActiveButton=
+TActiveCheckBox=
+TActiveCheckBoxList=
+TActiveControlAdapter=
+TActiveCustomValidator=
+TActiveCustomValidatorClientSide=
+TActiveDropDownList=
+TActiveHiddenField=
+TActiveHyperLink=
+TActiveImage=
+TActiveImageButton=
+TActiveLabel=
+TActiveLinkButton=
+TActiveListBox=
+TActiveListControlAdapter=
+TActiveListItemCollection=
+TActivePageAdapter=
+TActivePager=
+TActivePanel=
+TActiveRadioButton=
+TActiveRadioButtonList=
+TActiveRatingList=
+TActiveRecord=
+TActiveRecordBelongsTo=
+TActiveRecordChangeEventParameter=
+TActiveRecordConfig=
+TActiveRecordConfigurationException=
+TActiveRecordCriteria=
+TActiveRecordException=
+TActiveRecordGateway=
+TActiveRecordHasMany=
+TActiveRecordHasManyAssociation=
+TActiveRecordHasOne=
+TActiveRecordManager=
+TActiveRecordRelation=
+TActiveRecordRelationContext=
+TActiveTextBox=
+TAPCCache=
+TApplication=
+TApplicationComponent=
+TApplicationConfiguration=
+TApplicationException=
+TApplicationMode=
+TApplicationStateCacheDependency=
+TApplicationStatePersister=
+TAssetManager=
+TAttributeCollection=
+TAuthManager=
+TAuthorizationRule=
+TAuthorizationRuleCollection=
+TAutoComplete=
+TAutoCompleteEventParameter=
+TAutoCompleteTemplate=
+TBaseActiveCallbackControl=
+TBaseActiveControl=
+TBaseDataList=
+TBaseValidator=
+[column | TBoundColumn]
+<com:TBoundColumn ID="${2:column}"
+	HeaderText="${3:$2 header}"
+	DataField="${4:field}"/>
+
+TBroadcastEventParameter=
+TBrowserLogRoute=
+[list | TBulletedList]
+<com:TBulletedList ID="bullet" DisplayMode="HyperLink">
+	
+</com:TBulletedList>
+
+TBulletedListDisplayMode=
+TBulletedListEventParameter=
+TBulletStyle=
+
+[button | TButton ]
+<com:TButton ID=""
+             Text=""
+             OnClick="">
+[column | TButtonColumn]
+<com:TButtonColumn ID="column"
+	HeaderText="header"
+	DataTextField="field"
+	CommandName="command"/>
+TButtonColumnType=
+TButtonType=
+TCache=
+TCacheDependency=
+TCacheDependencyList=
+TCacheHttpSession=
+TCachePageStatePersister=
+TCachingStatement=
+TCallback=
+TCallbackClientScript=
+TCallbackClientSide=
+TCallbackErrorHandler=
+TCallbackEventParameter=
+TCallbackOptions=
+TCallbackPageStateTracker=
+TCallbackResponseAdapter=
+TCallbackResponseWriter=
+[captcha | TCaptcha]
+<com:TCaptcha ID="${2:captcha}" TokenImageTheme ="${4:24}"}/>
+[validator | TCaptchaValidator]
+    content: '<com:TCaptchaValidator${1: ID="${2:val}"
+	ControlToValidate="${3:controlID}"
+	CaptchaControl="${4:anotherControl}"
+	ErrorMessage="${7:error}"
+	Display="${9:Dynamic}"}/>
+
+TChainedCacheDependency=
+[ckeckbox | TCheckBox]
+<com:TCheckBox ID="chk" Text="text"/>
+[column | TCheckBoxColumn]
+<com:TCheckBoxColumn ID="chkCol"
+	HeaderText="header"
+	DataField="field"/>
+
+TCheckBoxList=
+[list | TCheckButtonList]
+<com:TCheckButtonList ID="checklist">
+	
+</com:TCheckButtonList>
+TChoiceFormat=
+TCircleHotSpot=
+[js | TClientScript url]
+<com:TClientScript ScriptUrl="url" />
+[js | TClientScript prado]
+<com:TClientScript PradoScripts="prado" />
+
+[js | TClientScriptLoader]
+<com:TClientScriptLoader
+	PackagePath="mylib" 
+	PackageScripts="package"/>
+
+[js | TClientScriptLoader block]
+<com:TClientScriptLoader ID="script">
+	
+</com:TClientScript>
+
+TClientScriptManager=
+TClientSideOptions=
+TClientSideValidationSummaryOptions=
+[color | TColorPicker]
+<com:TColorPicker ID="${2:color}" Mode="${4:Full}"/>
+
+TColorPickerClientSide=
+TColorPickerMode=
+TCommandEventParameter=
+[validator | TCompareValidator]
+    content: '<com:TCompareValidator${1: ID="${2:val}"}
+	ControlToValidate="${3:controlID}"
+	ControlToCompare="${4:anotherControl}"
+	DataType="${5:Integer}"
+	Operator="${6:Equal}"
+	ErrorMessage="${7:error}"${8:
+	Display="${9:Dynamic}" />
+
+[validator | TCompareValidator value]
+    content: '<com:TCompareValidator${1: ID="${2:val}"
+	ControlToValidate="${3:controlID}"
+	DataType="${4:Integer}"
+	ValueToCompare="${5:0}"
+	Operator="${6:Equal}"
+	ErrorMessage="${7:error}"
+	Display="${9:Dynamic}"}/>
+
+TCompleteWizardStep=
+TComponent=
+TComponentReflection=
+TCompositeControl=
+TCompositeLiteral=
+TConditional=
+TConfigurationException=
+
+[content | TContent ]
+<com:TContent ID="">
+    
+</com:TContent>'
+TContentDirection=
+[holder | TContentPlaceHolder]
+<com:TContentPlaceHolder ID="content" />
+
+TControl=
+TControlAdapter=
+TControlCollection=
+[validator | TCustomValidator]
+<com:TCustomValidator ID="${2:val}"
+	ControlToValidate="${3:controlID}"
+	OnServerValidate="${4:Validate_$2}"
+	ClientValidationFunction="${6:validate_$2}"
+	ErrorMessage="${7:error}"
+	Display="${9:Dynamic}" />
+
+TDataBoundControl=
+TDataFieldAccessor=
+TDataGatewayCommand=
+TDataGatewayEventParameter=
+TDataGatewayResultEventParameter=
+[grid | TDataGrid]
+<com:TDataGrid ID="${1:datalist}"
+	DataKeyField="${3:id}"}
+	AutoGenerateColumns="${4:false}"
+	AllowSorting="${5:false}"
+	AllowPaging="${6:false}"
+	OnItemCreated="${7:$1_OnItemCreated}"
+	OnEditCommand="${8:$1_OnEdit}"
+	OnCancelCommand="${9:$1_OnCancel}"
+	OnUpdateCommand="${10:$1_OnUpdate}"
+	OnDeleteCommand="${11:$1_OnDelete}">
+	
+</com:TDataGrid>
+
+TDataGridColumn=
+TDataGridColumnCollection=
+TDataGridCommandEventParameter=
+TDataGridItem=
+TDataGridItemCollection=
+TDataGridItemEventParameter=
+TDataGridItemRenderer=
+TDataGridPageChangedEventParameter=
+TDataGridPager=
+TDataGridPagerButtonType=
+TDataGridPagerEventParameter=
+TDataGridPagerMode=
+TDataGridPagerPosition=
+TDataGridPagerStyle=
+TDataGridSortCommandEventParameter=
+[datalist | TDataList]
+<com:TDataList ID="${1:datalist}"
+	DataKeyField="${3:id}"
+	OnEditCommand="${5:$1_OnEdit}"
+	OnCancelCommand="${7:$1_OnCancel}"
+	OnUpdateCommand="${9:$1_OnUpdate}"
+	OnDeleteCommand="${11:$1_OnDelete}"
+	OnSelectedIndexChanged="${13:$1_OnSelect}">
+	<prop:ItemTemplate>
+		
+	</prop:ItemTemplate>
+</com:TDataList>
+
+TDataListCommandEventParameter=
+TDataListItem=
+TDataListItemCollection=
+TDataListItemEventParameter=
+TDataListItemRenderer=
+TDataRenderer=
+TDataSourceConfig=
+TDataSourceControl=
+TDataSourceSelectParameters=
+TDataSourceView=
+[validator | TDataTypeValidator]
+<com:TDataTypeValidator ID="${2:val}"
+	ControlToValidate="${3:controlID"
+	DataType="${4:Integer}"
+	ErrorMessage="${5:error}"
+	Display="${7:Dynamic}" />
+
+TDateFormat=
+[date | TDatePicker]
+<com:TDatePicker ID="${2:date}"
+	DateFormat="${3:yyyy-MM-dd}"
+	Mode="${5:ImageButton}"
+	InputMode="${7:DropDownList}"/>
+
+TDatePickerClientScript=
+TDatePickerInputMode=
+TDatePickerMode=
+TDateTimeStamp=
+TDbCache=
+TDbColumnCaseMode=
+TDbCommand=
+TDbCommandBuilder=
+TDbConnection=
+TDbConnectionException=
+TDbDataReader=
+TDbException=
+TDbLogRoute=
+TDbMetaData=
+TDbNullConversionMode=
+TDbTableColumn=
+TDbTableInfo=
+TDbTransaction=
+TDbUser=
+TDbUserManager=
+TDeleteMappedStatement=
+TDirectoryCacheDependency=
+TDiscriminator=
+TDisplayStyle=
+[list | TDropDownList]
+<com:TDropDownList ID="dropdown">
+	
+</com:TDropDownList>
+
+[column | TDropDownListColumn]
+<com:TDropDownListColumn ID="${2:column}"
+	HeaderText="${3:$2 header}"
+	DataTextField="${4:text field}"
+	DataValueField="${6:value field}"
+	ListDataSource="${7:source field}"
+	ListTextField="${8:list text field}"
+	ListValueField="${9:list value field}"/>
+
+[column | TDropDownListColumn items]
+<com:TDropDownListColumn ID="${2:column}"
+	HeaderText="${3:$2 header}"
+	DataTextField="${4:text field}"
+	DataValueField="${6:value field}">
+	<com:TListItem Value="${7:value}" Text="${8:text}" />
+</com:TDropDownListColumn>
+
+TDummyDataSource=
+TDummyDataSourceIterator=
+[column | TEditCommandColumn]
+<com:TEditCommandColumn ButtonType="PushButton"/>
+
+[validator | TEmailAddressValidator]
+<com:TEmailAddressValidator ID="val"
+	ControlToValidate="controlID"
+	ErrorMessage="error"
+	Display="Dynamic" />
+
+TEmailLogRoute=
+TEmptyControlCollection=
+TEnumerable=
+TErrorHandler=
+TEventParameter=
+TEventTriggeredCallback=
+TException=
+TExpression=
+TFeedService=
+TFileCacheDependency=
+TFileLogRoute=
+[upload | TFileUpload]
+<com:TFileUpload ID="${2:file}" OnFileUpload="${3:$2_OnFileUploaded}"/>
+
+TFirebugLogRoute=
+TFont=
+[form | TForm]
+<com:TForm ID="form">
+	
+</com:TForm>
+
+TGlobalization=
+TGlobalizationAutoDetect=
+TGlobalStateCacheDependency=
+[head | THead]
+<com:THead Title="title">
+	
+</com:THead>
+
+[hidden | THiddenField]
+<com:THiddenField ID="hidden"/>
+
+THorizontalAlign=
+THotSpot=
+THotSpotCollection=
+THotSpotMode=
+[html | THtmlArea]
+<com:THtmlArea ID="" Text=""/>
+
+THtmlElement=
+THtmlWriter=
+THttpCookie=
+THttpCookieCollection=
+THttpException=
+THttpRequest=
+THttpRequestUrlFormat=
+THttpResponse=
+THttpResponseAdapter=
+THttpSession=
+THttpSessionCookieMode=
+THttpUtility=
+[link | THyperLink image]
+<com:THyperLink ID="${2:link}"
+	NavigateUrl="${3:url}"
+	ImageUrl="${4:image}"
+	Text="${5:$4}"/>
+
+[link | THyperLink block]
+<com:THyperLink ID="${2:link}" NavigateUrl="${3:url}">
+	
+</com:THyperLink>
+
+[link | THyperLink url]
+<com:THyperLink ID="${2:link}"
+	NavigateUrl="${3:url}"
+	Text="${5:$4}"/>
+	
+[column | THyperLinkColumn]
+<com:THyperLinkColumn ID="${2:column}"
+	DataTextField="${3:text field}"
+	DataTextFormatString="${5:format}"
+	DataNavigateUrlField="${6:url field}"
+	DataNavigateUrlFormatString="${8:format}" />
+
+TI18NControl=
+TIbmScaffoldInput=
+[image | TImage]
+<com:TImage ID="${2:image}"
+	ImageUrl="${1:image}" 
+	AlternateText="${2:text}"/>
+
+[button | TImageButton]
+<com:TImageButton ID="${2:button}"
+	ImageUrl="${3:image}"
+	Text="${5:button}"
+	OnClick="${6:$2_Clicked}"/>
+
+TImageClickEventParameter=
+TImageMap=
+TImageMapEventParameter=
+TInlineFrame=
+TInlineFrameAlign=
+TInlineFrameScrollBars=
+TInlineParameterMapParser=
+TInPlaceTextBox=
+TInsertMappedStatement=
+TInvalidCallbackException=
+TInvalidDataTypeException=
+TInvalidDataValueException=
+TInvalidOperationException=
+TInvalidPropertyException=
+TIOException=
+TItemDataRenderer=
+TJavaScript=
+[jslog | TJavascriptLogger]
+<com:TJavascriptLogger ToggleKey="j"}/>
+TJSON=
+TJsonResponse=
+TJsonService=
+[key | Virtual Keyboard]
+<com:TKeyboard ForControl="controlID"/>
+
+[label | TLabel text]
+<com:TLabel ID="label" Text="label"/>
+[label | TLabel control]
+<com:TLabel Text="label" ForControl="controlID"/>
+
+TLazyLoadList=
+[button | TLinkButton]
+<com:TLinkButton ID="${2:button}"
+	Text="${3:link button}"
+	OnClick="${4:$2_Clicked}"/>
+
+TList=
+[list | TListBox]
+<com:TListBox ID="list" SelectionMode="Multiple">
+	
+</com:TListBox>
+
+TListControl=
+[validator | TListControlValidator]
+<com:TListControlValidator ID="val"
+	ControlToValidate="controlID"
+	MinSelection="1"
+	MaxSelection="5"
+	ErrorMessage="error"
+	Display="Dynamic" />
+
+[item | TListItem]
+<com:TListItem Value="value" Text="text"/>
+
+TListItemCollection=
+TListItemType=
+TListIterator=
+TListSelectionMode=
+TLiteral=
+[column | TLiteralColumn]
+<com:TLiteralColumn ID="${2:column}"
+	DataField="${3:text field}"
+	DataFormatString="${5:format}"/>
+
+TLogger=
+TLogRoute=
+TLogRouter=
+TMap=
+TMapCollectionDiff=
+TMapIterator=
+TMappedStatement=
+TMarkdown=
+TMemCache=
+TMetaTag=
+TMetaTagCollection=
+TModule=
+TMssqlCommandBuilder=
+TMssqlMetaData=
+TMssqlScaffoldInput=
+TMssqlTableColumn=
+TMssqlTableInfo=
+[multi | TMultiView]
+<com:TMultiView ID="multi" ActiveViewIndex="0">
+	<com:TView ID="view">
+		
+	</com:TView>
+</com:TMultiView>
+
+TMysqlCommandBuilder=
+TMysqlMetaData=
+TMysqlScaffoldInput=
+TMysqlTableColumn=
+TMysqlTableInfo=
+TNotSupportedException=
+TNumberFormat=
+TObjectProxy=
+TOracleCommandBuilder=
+TOracleMetaData=
+TOracleTableColumn=
+TOracleTableInfo=
+[cache | TOutputCache]
+<com:TOutputCache${1: ID="${2:cache}"
+	Duration="${4:60}"
+	VaryByParam="${6:param}"
+	OnCheckDependency="${8:$2_CheckDependency}"
+	
+</com:TOutputCache>
+
+TOutputCacheCalculateKeyEventParameter=
+TOutputCacheCheckDependencyEventParameter=
+TPage=
+TPageConfiguration=
+TPagedDataSource=
+TPagedList=
+TPagedListFetchDataEventParameter=
+TPagedListIterator=
+TPagedListPageChangedEventParameter=
+TPagedMapIterator=
+[pager | TPager]
+<com:TPager ID="pager"
+	ControlToPaginate="controlID"
+	OnPageIndexChanged="OnPageIndexChanged"
+	Mode="Numeric"}/>
+
+TPagerButtonType=
+TPagerMode=
+TPagerPageChangedEventParameter=
+TPageService=
+TPageStateFormatter=
+TPageStatePersister=
+[panel | TPanel
+<com:TPanel>
+	
+</com:TPanel>
+TPanelStyle=
+TParameterMap=
+TParameterModule=
+TParameterProperty=
+TPgsqlCommandBuilder=
+TPgsqlMetaData=
+TPgsqlScaffoldInput=
+TPgsqlTableColumn=
+TPgsqlTableInfo=
+TPhpErrorException=
+[holder | TPlaceHolder]
+<com:TPlaceHolder ID="holder" />
+
+TPolygonHotSpot=
+TPostSelectBinding=
+TPreparedCommand=
+TPreparedStatement=
+TPreparedStatementFactory=
+TPropertyAccess=
+TPropertyValue=
+TQueue=
+TQueueIterator=
+[radio | TRadioButton]
+<com:TRadioButton ID="radio" GroupName="group" Text="text"}/>
+
+[list | TRadioButtonList]
+<com:TRadioButtonList ID="radiolist"}>
+	
+</com:TRadioButtonList>
+
+TRangeValidationDataType=
+[validator | TRangeValidator]
+<com:TRangeValidator ID="val"
+	ControlToValidate="controlID"
+	DataType="Integer"
+	MinValue="0"
+	MaxValue="10"
+	ErrorMessage="error"
+	Display="Dynamic"/>
+
+Translation=
+TRatingList=
+TReadOnlyDataSource=
+TReadOnlyDataSourceView=
+TRectangleHotSpot=
+TReflectionClass=
+[validator | TRegularExpressionValidator]
+<com:TRegularExpressionValidator ID="val"
+	ControlToValidate="controlID"
+	RegularExpression="[\w\d]{4,6\}"
+	ErrorMessage="error"
+	Display="Dynamic"/>
+TRepeatDirection=
+[repeater | TRepeater]
+<com:TRepeater ID="repeater">
+	<prop:ItemTemplate>
+		
+	</prop:ItemTemplate>}
+</com:TRepeater>
+[]
+TRepeaterCommandEventParameter=
+TRepeaterItem=
+TRepeaterItemCollection=
+TRepeaterItemEventParameter=
+TRepeaterItemRenderer=
+TRepeatInfo=
+TRepeatLayout=
+[validator | TRequiredFieldValidator]
+<com:TRequiredFieldValidator ID="val"
+	ControlToValidate="controlID"
+	ErrorMessage="error message"
+	Display="Dynamic"}/>
+TResultMap=
+TResultProperty=
+TResultSetListItemParameter=
+TResultSetMapItemParameter=
+TSafeHtml=
+TScaffoldBase=
+TScaffoldEditView=
+TScaffoldInputBase=
+TScaffoldInputCommon=
+TScaffoldListView=
+TScaffoldSearch=
+TScaffoldView=
+TScalarDiff=
+TScrollBars=
+TSecurityManager=
+TSecurityManagerValidationMode=
+TSelectMappedStatement=
+TServerValidateEventParameter=
+TService=
+TSessionIterator=
+TSessionPageStatePersister=
+TShellApplication=
+TSimpleDateFormatter=
+TSimpleDynamicParser=
+TSimpleDynamicSql=
+TSlider=
+TSliderClientScript=
+TSliderDirection=
+TSoapServer=
+TSoapService=
+TSqlCriteria=
+TSqliteCache=
+TSqliteCommandBuilder=
+TSqliteMetaData=
+TSqliteScaffoldInput=
+TSqliteTableColumn=
+TSqliteTableInfo=
+TSqlMapApplicationCache=
+TSqlMapCache=
+TSqlMapCacheKey=
+TSqlMapCacheModel=
+TSqlMapCacheTypes=
+TSqlMapConfig=
+TSqlMapConfigurationException=
+TSqlMapDelete=
+TSqlMapDuplicateException=
+TSqlMapException=
+TSqlMapExecutionException=
+TSqlMapFifoCache=
+TSqlMapGateway=
+TSqlMapInsert=
+TSqlMapLruCache=
+TSqlMapManager=
+TSqlMapObjectCollectionTree=
+TSqlMapPagedList=
+TSqlMapSelect=
+TSqlMapSelectKey=
+TSqlMapStatement=
+TSqlMapTypeHandler=
+TSqlMapTypeHandlerRegistry=
+TSqlMapUndefinedException=
+TSqlMapUpdate=
+TSqlMapXmlConfigBuilder=
+TSqlMapXmlConfiguration=
+TSqlMapXmlMappingConfiguration=
+TStack=
+TStackIterator=
+TStatements=
+TStaticSql=
+TStyle=
+TStyleDiff=
+TStyleSheet=
+TSubMap=
+TSystemException=
+TTable=
+TTableCaptionAlign=
+TTableCell=
+TTableCellCollection=
+TTableFooterRow=
+TTableGateway=
+TTableGridLines=
+TTableHeaderCell=
+TTableHeaderRow=
+TTableHeaderScope=
+TTableItemStyle=
+TTableRow=
+TTableRowCollection=
+TTableRowSection=
+TTableStyle=
+
+[panel | TTabPanel
+<com:TTabPanel ID="panel" ActiveViewIndex="0"}>
+	<com:TTabView Caption="tab">
+		<!-- content for tab -->
+	</com:TTabView>
+</com:TTabPanel>
+
+[view | TTabView]
+<com:TTabView Caption="">
+</com:TTabView>
+
+TTabViewCollection=
+TTarFileExtractor=
+TTemplate=
+[column | TTemplateColumn]
+<com:TTemplateColumn ID="${2:column}">
+	<prop:HeaderTemplate>
+	   
+    </prop:HeaderTemplate>
+	<prop:ItemTemplate>
+		<!-- content for column $2 -->
+	</prop:ItemTemplate>
+</com:TTemplateColumn>
+
+TTemplateControl=
+TTemplatedWizardStep=
+TTemplateException=
+TTemplateManager=
+TTextAlign=
+
+[textbox | Multiline TextBox ]
+<com:TTextBox ID=""
+              Text=""
+              TextMode="MultiLine"/>
+
+[textbox | Password TextBox ]
+<com:TTextBox ID=""
+              Text=""
+              TextMode="Password"/>
+
+[textbox | TTextBox ]
+<com:TTextBox ID=""
+              Text=""/>
+              
+TTextBoxAutoCompleteType=
+TTextBoxMode=
+TTextHighlighter=
+TTextHighlighterLineNumberStyle=
+TTextProcessor=
+TTextWriter=
+TTheme=
+TThemeManager=
+TTimeTriggeredCallback=
+TTranslate=
+TTranslateParameter=
+TTriggeredCallback=
+TUpdateMappedStatement=
+TUri=
+TUrlManager=
+TUrlMapping=
+TUrlMappingPattern=
+TUser=
+TUserManager=
+TUserManagerPasswordMode=
+TValidationCompareOperator=
+TValidationDataType=
+TValidationSummary=
+TValidationSummaryDisplayMode=
+TValidationSummaryDisplayStyle=
+TValidatorClientSide=
+TValidatorDisplayStyle=
+TValueTriggeredCallback=
+TVarDumper=
+TVerticalAlign=
+[view | TView]
+<com:TView ID="${1:view}">
+	
+</com:TView>
+
+TViewCollection=
+TViewStateDiff=
+TWebControl=
+TWebControlAdapter=
+
+[wizard | TWizard with steps]
+<com:TWizard ID="${1:wizard}">
+	<com:TWizardStep Title="${2:step 1}" StepType="${3:Start}">
+	<!-- content in $2 -->
+	</com:TWizardStep>
+	<com:TWizardStep Title="${4:step 2}" StepType="${3:Step}">
+	<!-- content in $4 -->
+	</com:TWizardStep>
+	<com:TWizardStep Title="${5:finish}" StepType="${6:Finish}">
+	<!-- content in $5 -->
+	</com:TWizardStep>
+</com:TWizard>
+[wizard | TWizardFinishNavigationTemplate]
+<com:TWizardFinishNavigationTemplate />
+[wizard | TWizardNavigationButtonStyle]
+<com:TWizardNavigationButtonStyle />
+[wizard | TWizardNavigationButtonType]
+<com:TWizardNavigationButtonType />
+[wizard | TWizardNavigationContainer]
+<com:TWizardNavigationContainer />
+[wizard | TWizardNavigationEventParameter]
+<com:TWizardNavigationEventParameter />
+[wizard | TWizardNavigationTemplate]
+<com:TWizardNavigationTemplate />
+[wizard | TWizardSideBarListItemTemplate]
+<com:TWizardSideBarListItemTemplate />
+[wizard | TWizardSideBarTemplate]
+<com:TWizardSideBarTemplate />
+[wizard | TWizardStartNavigationTemplate]
+<com:TWizardStartNavigationTemplate />
+
+[wizard | TWizardStep]
+<com:TWizardStep Title="step" StepType="Start">
+	
+</com:TWizardStep>
+
+[wizard | TWizardStepCollection]
+<com:TWizardStepCollection />
+[wizard | TWizardStepNavigationTemplate]
+<com:TWizardStepNavigationTemplate />
+[wizard | TWizardStepType]
+<com:TWizardStepType />
+
+[template | UserOwnTemplate]
+<prop:X_Template>
+
+</prop:X_Template>
+
+[template | StepNavigationTemplate]
+<prop:StepNavigationTemplate>
+	
+</prop:StepNavigationTemplate>
+
+[template | SideBarTemplate]
+<prop:SideBarTemplate>
+	
+</prop:SideBarTemplate>
+
+[template | SeparatorTemplate]
+<prop:SeparatorTemplate>
+	
+</prop:SeparatorTemplate>
+
+[template | FooterTemplate]
+<prop:FooterTemplate>
+	
+</prop:FooterTemplate>
+
+[template | FinishNavigationTemplate]
+<prop:FinishNavigationTemplate>
+	
+</prop:FinishNavigationTemplate>
+
+[template | EmptyTemplate]
+<prop:EmptyTemplate>
+	
+</prop:EmptyTemplate>
+
+[template | HeaderTemplate]
+<prop:HeaderTemplate>
+	
+</prop:HeaderTemplate>
+
+[template | SelectedItemTemplate]
+<prop:SelectedItemTemplate>
+	
+</prop:SelectedItemTemplate>
+
+[template | AlternatingItemTemplate]
+<prop:AlternatingItemTemplate>
+    
+</prop:AlternatingItemTemplate>
+
+[template | StartNavigationTemplate]
+<prop:StartNavigationTemplate>
+    
+</prop:StartNavigationTemplate>
+
+[template | EditItemTemplate]
+<prop:EditItemTemplate>
+	
+</prop:EditItemTemplate>
+
+[cache | TXCache]
+<com:TXCache />
+
+[xml | XmlDocument]
+<com:TXmlDocument />
+[xml | XmlElement]
+<com:TXmlElement />
+[xml | XmlElementList]
+<com:TXmlElementList />
+[xml | XmlTransform]
+<com:TXmlTransform />
+    
+    

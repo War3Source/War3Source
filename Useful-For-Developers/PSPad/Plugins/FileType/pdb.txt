@@ -1,0 +1,5 @@
+PDB.dll
+This plugin allopws read/write compressed or uncompressed PDB files
+As default, PDB files are saved as compressed. If you want to save PDB files
+as uncompressed, create pdb.cfg file with content:
+SaveCompressed=0

@@ -1,0 +1,14 @@
+<!-- Page created by %DEF_AUTHOR% -->
+
+<html>
+<head>
+	<title>Enter Page Title Here</title>
+
+</head>
+
+<body>
+
+<!-- Enter Content Here -->
+
+</body>
+</html>

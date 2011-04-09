@@ -1,0 +1,1123 @@
+; Tento soubor obsahuje makra programu PSPad pro JavaScript
+;
+; Autor: ing. Jan Fiala pspad@wo.cz
+; poslední revize: 14.8.2001
+;
+; Klicova slova: 14.11.2003 Karel Pavelka
+;
+[Macro definition]
+;----------------------------------------------------------------------
+[abs | Returns the absolute value of a number]
+abs(|number)
+[acos | Returns the arccosine of a number]
+acos(|number)
+[Add | Adds a key and item pair to a Dictionary object]
+Add (|key, item)
+[Add | Adds a new Folder to a Folders collection]
+Add (|folderName)
+[Alert | Alert]
+alert ("§|");
+[anchor | Places an HTML anchor with a NAME attribute around specified text in the object]
+anchor(|anchorString)
+[apply | Applies a method of an object, substituting another object for the current object]
+apply(|[thisObj[,argArray]])
+[asin | Returns the arcsine of a number]
+asin(|number)
+[atan | Returns the arctangent of a number]
+atan(|number)
+[atan2 | Returns the angle (in radians) from the X axis to a point (y,x)]
+atan2(|y, x)
+[atEnd | Returns a Boolean value indicating if the enumerator is at the end of the collection]
+atEnd()|
+[big | Places HTML &lt;BIG&gt; tags around text in a String object]
+big()|
+[blink | Places HTML &lt;BLINK&gt; tags around text in a String object]
+blink()|
+[bold | Places HTML &lt;B&gt; tags around text in a String object]
+bold()|
+[BuildPath | Appends a name to an existing path]
+BuildPath(|path, name)
+[call | Calls a method of an object, substituting another object for the current object]
+call(|[thisObj[, arg1[, arg2[,&nbsp;&nbsp; [, argN]]]]])
+[ceil | Returns the smallest integer greater than or equal to its numeric argument]
+ceil(|number)
+[charAt | Returns the character at the specified index]
+charAt(|index)
+[charCodeAt | Returns an integer representing the Unicode encoding of the character at the specified location]
+charCodeAt(|index)
+[Close | Closes an open TextStream file]
+Close();|
+[compile | Compiles a regular expression into an internal format for faster execution]
+compile(|pattern, [flags])
+[concat | Returns a new array consisting of a combination of two or more arrays]
+concat(|[item1[, item2[, . . . [, itemN]]]])
+[concat | Returns a string value containing the concatenation of two or more supplied strings]
+concat(|[string2[, string3[, . . . [, stringN]]]])
+[Confirm | Confirm]
+Confirm ("§|");
+[Copy | Copies a specified file or folder from one location to another]
+Copy(| destination[, overwrite] );
+[CopyFile | Copies one or more files from one location to another]
+CopyFile (| source, destination[, overwrite] )
+[CopyFolder | Recursively copies a folder from one location to another]
+CopyFolder (| source, destination[, overwrite] );
+[cos | Returns the cosine of a number]
+cos(|number)
+[CreateFolder | Creates a folder]
+CreateFolder(|foldername)
+[CreateTextFile | Creates a specified file name and returns a TextStream object that can be used to read from or write to the file]
+CreateTextFile(|filename[, overwrite[, unicode]])
+[decodeURI | Returns the unencoded version of an encoded Uniform Resource Identifier (URI)]
+decodeURI(|URIstring)
+[decodeURIComponent | Returns the unencoded version of an encoded component of a Uniform Resource Identifier (URI)]
+decodeURIComponent(|encodedURIString)
+[Delete | Deletes a specified file or folder]
+Delete(| force );
+[DeleteFile | Deletes a specified file]
+DeleteFile (| filespec[, force] );
+[DeleteFolder | Deletes a specified folder and its contents]
+DeleteFolder (| folderspec[, force] );
+[dimensions | Returns the number of dimensions in a VBArray]
+dimensions()|
+[DriveExists | Returns True if the specified drive exists; False if it does not]
+DriveExists(|drivespec)
+[encodeURIComponent | Encodes a text string as a valid component of a Uniform Resource Identifier (URI)]
+encodeURIComponent(|encodedURIString)
+[escape | Encodes String objects so they can be read on all computers]
+escape(|charString)
+[eval | Evaluates JScript code and executes it]
+eval(|codeString)
+[exec | Executes a search on a string using a regular expression pattern, and returns an array containing the results of that search]
+exec(|str)
+[Exists | Returns true if a specified key exists in the Dictionary object, false if it does not]
+Exists(|key)
+[exp | Returns e (the base of natural logarithms) raised to a power]
+exp(|number)
+[encodeURI | Encodes a text string as a valid Uniform Resource Identifier (URI]
+encodeURI(|URIString)
+[FileExists | Returns True if a specified file exists; False if it does not]
+FileExists(|filespec)
+[fixed | Places HTML &lt;TT&gt; tags around text in a String object]
+fixed()|
+[floor | Returns the greatest integer less than or equal to its numeric argument]
+floor(|number)
+[FolderExists | Returns True if a specified folder exists; False if it does not]
+FolderExists(|folderspec)
+[fontcolor | Places an HTML &lt;FONT&gt; tag with the COLOR attribute around the text in a String object]
+fontcolor(|colorVal)
+[fontsize | Places an HTML &lt;FONT&gt; tag with the SIZE attribute around the text in a String object]
+fontsize(|intSize)
+[fromCharCode | Returns a string from a number of Unicode character values]
+fromCharCode(|[code1[, code2[, ...[, codeN]]]])
+[GetAbsolutePathName | Returns a complete and unambiguous path from a provided path specification]
+GetAbsolutePathName(|pathspec)
+[GetBaseName | Returns a string containing the base name of the last component, less any file extension, in a path]
+GetBaseName(|path)
+[getDate | Returns the day of the month value in a Date object using local time]
+getDate()|
+[getDay | Returns the day of the week value in a Date object using local time]
+getDay()|
+[GetDrive | Returns a Drive object corresponding to the drive in a specified path]
+GetDrive (| drivespec );
+[GetDriveName | Returns a string containing the name of the drive for a specified path]
+GetDriveName(|path)
+[GetExtensionName | Returns a string containing the extension name for the last component in a path]
+GetExtensionName(|path)
+[GetFile | Returns a File object corresponding to the file in a specified path]
+GetFile(|filespec)
+[GetFileName | Returns the last component of specified path that is not part of the drive specification]
+GetFileName(|pathspec)
+[getFileVersion | Returns the version number of a specified file]
+GetFileVersion(|pathspec)
+[GetFolder | Returns a Folder object corresponding to the folder in a specified path]
+GetFolder(|folderspec)
+[getFullYear | Returns the year value in the Date object using local time]
+getFullYear()|
+[getHours | Returns the hours value in a Date object using local time]
+getHours()|
+[getItem | Returns the item at the specified location]
+getItem(|dimension1[, dimension2, ...], dimensionN)
+[getMilliseconds | Returns the milliseconds value in a Date object using local time]
+getMilliseconds()|
+[getMinutes | Returns the minutes value in a Date object using local time]
+getMinutes()|
+[getMonth | Returns the month value in the Date object using local time]
+getMonth()|
+[GetParentFolderName | Returns a string containing the name of the parent folder of the last component in a specified path]
+GetParentFolderName(|path)
+[getSeconds | Returns the seconds value in a Date object using local time]
+getSeconds()|
+[GetSpecialFolder | Returns the special folder object specified]
+GetSpecialFolder(|folderspec)
+[GetTempName | Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder]
+GetTempName ();|
+[getTime | Returns the time value in a Date object]
+getTime()|
+[getTimezoneOffset | Returns the difference in minutes between the time on the host computer and Universal Coordinated Time (UTC)]
+getTimezoneOffset()|
+[getUTCDate | Returns the date in a Date object using Universal Coordinated Time (UTC)]
+getUTCDate()|
+[getUTCDay | Returns the day of the week value in a Date object using Universal Coordinated Time (UTC)]
+getUTCDay()|
+[getUTCFullYear | Returns the year value in a Date object using Universal Coordinated Time (UTC)]
+getUTCFullYear()|
+[getUTCHours | Returns the hours value in a Date object using Universal Coordinated Time (UTC)]
+getUTCHours()|
+[getUTCMilliseconds | Returns the milliseconds value in a Date object using Universal Coordinated Time (UTC)]
+getUTCMilliseconds()|
+[getUTCMinutes | Returns the minutes value in a Date object using Universal Coordinated Time (UTC)]
+getUTCMinutes()|
+[getUTCMonth | Returns the month value value in a Date object using Universal Coordinated Time (UTC)]
+getUTCMonth()|
+[getUTCSeconds | Returns the seconds value in a Date object using Universal Coordinated Time (UTC)]
+getUTCSeconds()|
+[getVarDate | Returns the VT_DATE value in a Date object]
+getVarDate()|
+[getYear | Returns the year value in a Date object]
+getYear()|
+[hasOwnProperty | Returns a Boolean value indicating whether an object has a property with the specified name]
+hasOwnProperty(|proName)
+[indexOf | Returns the character position where the first occurrence of a substring occurs within a String object]
+indexOf(|subString[, startIndex])
+[isFinite | Returns a Boolean value that indicates if a supplied number is finite]
+isFinite(|number)
+[isNaN | Returns a Boolean value that indicates whether a value is the reserved value NaN (not a number)]
+isNaN(|numValue)
+[isPrototypeOf | Returns a Boolean value indicating whether an object exists in another object's prototype chain]
+isPrototypeOf(|object2)
+[italics | Places HTML &lt;I&gt; tags around text in a String object]
+italics(|&nbsp;)
+[item | Returns the current item in the collection]
+item()|
+[Items | Returns an array containing all the items in a Dictionary object]
+Items()|
+[join | Returns a string value consisting of all the elements of an array concatenated together and separated by the specified separator character]
+join(|separator)
+[Keys | Returns an array containing all existing keys in a Dictionary object]
+Keys()|
+[lastIndexOf | Returns the last occurrence of a substring within a String object]
+lastIndexOf(|substring[, startindex])
+[lbound | Returns the lowest index value used in the specified dimension of a VBArray]
+lbound(|dimension)
+[link | Places an HTML anchor with an HREF attribute around the text in a String object]
+link(|linkstring)
+[localeCompare | Returns a value indicating whether two strings are equivalent in the current locale]
+localeCompare(|stringExp)
+[log | Returns the natural logarithm of a number]
+log(|number)
+[match | Executes a search on a string using a regular expression pattern, and returns an array containing the results of that search]
+match(|rgExp)
+[max | Returns the greater of zero or more supplied numeric expressions]
+max(|[number1[, number2[. . . [, numberN]]]])
+[min | Returns the lesser of zero or more supplied numeric expressions]
+min(|[number1[, number2[. . . [,numberN]]]])
+[Move | Moves a specified file or folder from one location to another]
+Move(| destination );
+[MoveFile | Moves one or more files from one location to another]
+MoveFile (| source, destination );
+[moveFirst | Resets the current item in the collection to the first item]
+moveFirst(|&nbsp;)
+[MoveFolder | Moves one or more folders from one location to another]
+MoveFolder (| source, destination );
+[moveNext | Moves the current item to the next item in the collection]
+moveNext()|
+[OpenAsTextStream | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenAsTextStream(|[iomode, [format]])
+[OpenTextFile | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenTextFile(|filename[, iomode[, create[, format]]])
+[parse | Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970]
+parse(|dateVal)
+[parseFloat | Returns a floating-point number converted from a string]
+parseFloat(|numString)
+[parseInt | Returns an integer converted from a string]
+parseInt(|numString, [radix])
+[pop | Removes the last element from an array and returns it]
+pop()|
+[pow | Returns the value of a base expression taken to a specified power]
+pow(|base, exponent)
+[Prompt | Prompt]
+Prompt ("§|");
+[push | Appends new elements to an array, and returns the new length of the array]
+push(|[item1 [item2 [. . . [itemN ]]]])
+[random | Returns a pseudorandom number between 0 and 1]
+random(|&nbsp;)
+[Read | Reads a specified number of characters from a TextStream file and returns the resulting string]
+Read(|characters)
+[ReadAll | Reads an entire TextStream file and returns the resulting string]
+ReadAll();|
+[ReadLine | Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string]
+ReadLine()|
+[Remove | Removes a key, item pair from a Dictionary object]
+Remove(|key)
+[RemoveAll | The RemoveAll method removes all key, item pairs from a Dictionary object]
+RemoveAll()|
+[replace | Returns a copy of a string with text replaced using a regular expression or search string]
+replace(|rgExp, replaceText)
+[reverse | Returns an Array object with the elements reversed]
+reverse(|&nbsp;)
+[round | Returns a supplied numeric expression rounded to the nearest integer]
+round(|number)
+[search | Returns the position of the first substring match in a regular expression search]
+search(|rgExp)
+[setDate | Sets the numeric date of the Date object using local time]
+setDate(|numDate)
+[setFullYear | Sets the year value in the Date object using local time]
+setFullYear(|numYear[, numMonth[, numDate]])
+[setHours | Sets the hour value in the Date object using local time]
+setHours(|numHours[, numMin[, numSec[, numMilli]]])
+[setMilliseconds | Sets the milliseconds value in the Date object using local time]
+setMilliseconds(|numMilli)
+[setMinutes | Sets the minutes value in the Date object using local time]
+setMinutes(|numMinutes[, numSeconds[, numMilli]])
+[setMonth | Sets the month value in the Date object using local time]
+setMonth(|numMonth[, dateVal])
+[setSeconds | Sets the seconds value in the Date object using local time]
+setSeconds(|numSeconds[, numMilli])
+[setTime | Sets the date and time value in the Date object]
+setTime(|milliseconds)
+[setUTCDate | Sets the numeric date in the Date object using Universal Coordinated Time (UTC)]
+setUTCDate(|numDate)
+[setUTCFullYear | Sets the year value in the Date object using Universal Coordinated Time (UTC)]
+setUTCFullYear(|numYear[, numMonth[, numDate]])
+[setUTCHours | Sets the hours value in the Date object using Universal Coordinated Time (UTC)]
+setUTCHours(|numHours[, numMin[, numSec[, numMilli]]])
+[setUTCMilliseconds | Sets the milliseconds value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMilliseconds(|numMilli)
+[setUTCMinutes | Sets the minutes value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMinutes(|numMinutes[, numSeconds[, numMilli]])
+[setUTCMonth | Sets the month value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMonth(|numMonth[, dateVal])
+[setUTCSeconds | Sets the seconds value in the Date object using Universal Coordinated Time (UTC)]
+setUTCSeconds(|numSeconds[, numMilli])
+[setYear | Sets the year value in the Date object]
+setYear(|numYear)
+[shift | Removes the first element from an array and returns it]
+shift()|
+[sin | Returns the sine of a number]
+sin(|number)
+[Skip | Skips a specified number of characters when reading a TextStream file]
+Skip(|characters)
+[SkipLine | Skips the next line when reading a TextStream file]
+SkipLine()|
+[slice | Returns a section of an array]
+slice(|start, [end])
+[slice | Returns a section of a string]
+slice(|start, [end])
+[small | Places HTML &lt;SMALL&gt; tags around text in a String object]
+small(|&nbsp;)
+[sort | Returns an Array object with the elements sorted]
+sort(|sortFunction)
+[splice | Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements]
+splice(|start, deleteCount, [item1[, item2[, . . . [,itemN]]]])
+[split | Returns the array of strings that results when a string is separated into substrings]
+split(|[separator[, limit]])
+[sqrt | Returns the square root of a number]
+sqrt(|number)
+[strike | Places HTML &lt;STRIKE&gt; tags around text in a String object]
+strike(|&nbsp;)
+[sub | Places HTML &lt;SUB&gt; tags around text in a String object]
+sub(|&nbsp;)
+[substr | Returns a substring beginning at a specified location and having a specified length]
+substr(|start [, length ])
+[substring | Returns the substring at the specified location within a String object]
+substring(|start, end)
+[sup | Places HTML &lt;SUP&gt; tags around text in a String object]
+sup(|&nbsp;)
+[tan | Returns the tangent of a number]
+tan(|number)
+[test | Returns a Boolean value that indicates whether or not a pattern exists in a searched string]
+test(|str)
+[toArray | Returns a standard JScript array converted from a VBArray]
+toArray(|&nbsp;)
+[toDateString | Returns a date as a string value]
+toDateString()|
+[toExponential | Returns a string containing a number represented in exponential notation]
+toExponential(|[fractionDigits])
+[toFixed | Returns a string representing a number in fixed-point notation]
+toFixed(|[fractionDigits])
+[toGMTString | Returns a date converted to a string using Greenwich Mean Time(GMT)]
+toGMTString()|
+[toLocaleDateString | Returns a date as a string value appropriate to the host environment’s current locale]
+toLocaleDateString()|
+[toLocaleLowerCase | Returns a string where all alphabetic characters have been converted to lowercase, taking into account the host environment's current locale]
+tolocaleLowerCase()|
+[toLocaleString | Returns a date converted to a string using the current locale]
+toLocaleString()|
+[toLocaleTimeString | Returns a time as a string value appropriate to the host environment’s current locale]
+toLocaleTimeString()|
+[toLocaleUpperCase | Returns a string where all alphabetic characters have been converted to uppercase, taking into account the host environment's current locale]
+tolocaleUpperCase()|
+[toLowerCase | Returns a string where all alphabetic characters have been converted to lowercase]
+toLowerCase(|&nbsp;)
+[toPrecision | Returns a string containing a number represented either in exponential or fixed-point notation with a specified number of digits]
+toPrecision (|[precision])
+[toString | Returns a string representation of an object]
+toString(|[radix])
+[toTimeString | Returns a time as a string value]
+toTimeString()|
+[toUpperCase | Returns a string where all alphabetic characters have been converted to uppercase]
+toUpperCase(|&nbsp;)
+[toUTCString | Returns a date converted to a string using Universal Coordinated Time (UTC)]
+toUTCString()|
+[ubound | Returns the highest index value used in the specified dimension of the VBArray]
+ubound(|dimension)
+[unescape | Decodes String objects encoded with the escape method]
+unescape(|charString)
+[unshift | Returns an array with specified elements inserted at the beginning]
+unshift(|[item1[, item2 [, . . . [, itemN]]]])
+[UTC | Returns the number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the supplied date]
+UTC(|year, month, day[, hours[, minutes[, seconds[,ms]]]])
+[valueOf | Returns the primitive value of the specified object]
+valueOf(|&nbsp;)
+[Write | Writes a specified string to a TextStream file]
+Write(|string)
+[WriteBlankLines | Writes a specified number of newline characters to a TextStream file]
+WriteBlankLines(|lines)
+[WriteLine | Writes a specified string and newline character to a TextStream file]
+WriteLine(|[string])
+[arguments | Returns the arguments object for the currently executing Function object]
+arguments|
+[AtEndOfLine | Returns true if the file pointer is positioned immediately before the end-of-line marker in a TextStream file; false if it is not. Read-only]
+AtEndOfLine|
+[AtEndOfStream | Returns true if the file pointer is at the end of a TextStream file; false if it is not. Read-only]
+AtEndOfStream|
+[Attributes | Sets or returns the attributes of files or folders. Read/write or read-only, depending on the attribute]
+Attributes |[= newattributes]
+[AvailableSpace | Returns the amount of space available to a user on the specified drive or network share]
+AvailableSpace|
+[callee | Returns the Function object being executed, that is the body text of the specified Function object]
+]arguments.callee|
+[caller | Returns a reference to the function that invoked the current function]
+caller|
+[Column | Read-only property that returns the column number of the current character position in a TextStream file]
+Column|
+[CompareMode | Sets and returns the comparison mode for comparing string keys in a Dictionary object]
+CompareMode|[ = compare]
+[constructor | Specifies the function that creates an object]
+constructor|
+[Count | Returns the number of items in a collection or Dictionary object. Read-only]
+Count|
+[DateCreated | Returns the date and time that the specified file or folder was created. Read-only]
+DateCreated|
+[DateLastAccessed | Returns the date and time that the specified file or folder was last accessed. Read-only]
+DateLastAccessed|
+[DateLastModified | Returns the date and time that the specified file or folder was last modified. Read-only]
+DateLastModified|
+[description | Returns or sets the descriptive string associated with a specific error]
+description |[= stringExpression]
+[Drive | Returns the drive letter of the drive on which the specified file or folder resides. Read-only]
+Drive|
+[DriveLetter | Returns the drive letter of a physical local drive or a network share. Read-only]
+DriveLetter|
+[Drives | Returns a Drives collection consisting of all Drive objects available on the local machine]
+Drives|
+[DriveType | Returns a value indicating the type of a specified drive]
+DriveType|
+[E | Returns Euler's constant, the base of natural logarithms. The E property is approximately equal to 2.718]
+E|
+[Files | Returns a Files collection consisting of all File objects contained in the specified folder, including those with hidden and system file attributes set]
+Files|
+[FileSystem | Returns the type of file system in use for the specified drive]
+FileSystem|
+[FreeSpace | Returns the amount of free space available to a user on the specified drive or network share. Read-only]
+FreeSpace|
+[global | Returns a Boolean value indicating the state of the global flag (g) used with a regular expression. Default is false. Read-only]
+global|
+[ignoreCase | Returns a Boolean value indicating the state of the ignoreCase flag (i) used with a regular expression. Default is false. Read-only]
+ignoreCase|
+[index | Returns the character position where the first successful match begins in a searched string. Read-only]
+index|
+[Infinity | Returns an initial value of Number.POSITIVE_INFINITY]
+Infinity|
+[input | Returns the string against which a regular expression search was performed. Read-only]
+input|
+[IsReady | Returns True if the specified drive is ready; False if it is not]
+IsReady|
+[IsRootFolder | Returns True if the specified folder is the root folder; False if it is not]
+IsRootFolder|
+[Item | Sets or returns an item for a specified key in a Dictionary object. For collections, returns an item based on the specified key. Read/write]
+Item(|key)[ = newitem]
+[Key | Sets a key in a Dictionary object]
+Key(|key) = newkey
+[lastIndex | Returns the character position where&nbsp; the next match begins in a searched string]
+lastIndex|
+[lastMatch | Returns the last matched characters from any regular expression search. Read-only]
+lastMatch|
+[lastParen | Returns the last parenthesized submatch from any regular expression search, if any. Read-only]
+lastParen|
+[leftContext | Returns the characters from the beginning of a searched string up to the position before the beginning of the last match. Read-only]
+leftContext|
+[length | Returns the actual number of arguments passed to a function by the caller]
+]arguments.length|
+[length | Returns an integer value one higher than the highest element defined in an array]
+length|
+[length | Returns the number of arguments defined for a function]
+length|
+[length | Returns the length of a String object]
+length|
+[Line | Read-only property that returns the current line number in a TextStream file]
+Line|
+[LN10 | Returns the natural logarithm of 10]
+LN10|
+[LN2 | Returns the natural logarithm of 2]
+LN2|
+[LOG10E | Returns the base-10 logarithm of e, Euler's constant]
+LOG10E|
+[LOG2E | Returns the base-2 logarithm of e, Euler's constant]
+LOG2E|
+[MAX_VALUE | Returns the largest number representable in JScript. Equal to approximately 1.79E+308]
+MAX_VALUE|
+[message | Returns an error message string]
+message|
+[MIN_VALUE | Returns the number closest to zero representable in JScript. Equal to approximately 5.00E-324]
+MIN_VALUE|
+[multiline | Returns a Boolean value indicating the state of the multiline flag (m) used with a regular expression. Default is false. Read-only]
+multiline|
+[Name | Sets or returns the name of a specified file or folder. Read/write]
+Name |[= newname]
+[name | Returns the name of an error]
+name|
+[NaN | Returns the special value NaN indicating that an expression is not a number]
+NaN|
+[NaN | A special value that indicates an arithmetic expression returned a value that was not a number]
+NaN|
+[NEGATIVE_INFINITY | Returns a value more negative than the largest negative number (-Number.MAX_VALUE) representable in JScript]
+NEGATIVE_INFINITY|
+[number | Returns or sets the numeric value associated with a specific error. The Error object's default property is number]
+number |[= errorNumber]
+[ParentFolder | Returns the folder object for the parent of the specified file or folder. Read-only]
+ParentFolder|
+[Path | Returns the path for a specified file, folder, or drive]
+Path|
+[PI | Returns the ratio of the circumference of a circle to its diameter, approximately 3.141592653589793]
+PI|
+[POSITIVE_INFINITY | Returns a value larger than the largest number (Number.MAX_VALUE) that can be represented in JScript]
+POSITIVE_INFINITY|
+[propertyIsEnumerable | Returns a Boolean value indicating whether a specified property is part of an object and if it is enumerable]
+propertyIsEnumerable(|proName)
+[prototype | Returns a reference to the prototype for a class of objects]
+prototype|
+[rightContext | Returns the characters from the position following the last match to the end of the searched string. Read-only]
+rightContext|
+[RootFolder | Returns a Folder object representing the root folder of a specified drive. Read-only]
+RootFolder|
+[SerialNumber | Returns the decimal serial number used to uniquely identify a disk volume]
+SerialNumber|
+[ShareName | Returns the network share name for a specified drive]
+ShareName|
+[ShortName | Returns the short name used by programs that require the earlier 8.3 naming convention]
+ShortName|
+[ShortPath | Returns the short path used by programs that require the earlier 8.3 file naming convention]
+ShortPath|
+[Size | For files, returns the size, in bytes, of the specified file. For folders, returns the size, in bytes, of all files and subfolders contained in the folder]
+Size|
+[source | Returns a copy of the text of the regular expression pattern. Read-only]
+source|
+[SQRT1_2 | Returns he square root of 0.5, or one divided by the square root of 2]
+SQRT1_2|
+[SQRT2 | Returns the square root of 2]
+SQRT2|
+[SubFolders | Returns a Folders collection consisting of all folders contained in a specified folder, including those with hidden and system file attributes set]
+SubFolders|
+[TotalSize | Returns the total space, in bytes, of a drive or network share]
+TotalSize|
+[Type | Returns information about the type of a file or folder. For example, for files ending in .TXT, "Text Document" is returned]
+Type|
+[undefined | Returns an initial value of undefined]
+undefined|
+[VolumeName | Sets or returns the volume name of the specified drive. Read/write]
+VolumeName |[= newname]
+[linebreak | Line break \n ]*Ctrl+Enter
+\n
+;
+[Keywords]
+abs()
+abstract
+acos()
+action
+Add()
+alert()
+anchor()
+Arrays.concat()
+Arrays.join()
+Arrays.length
+Arrays.reverse()
+Arrays.slice()
+Arrays.sort()
+Arrays.toString()
+Arrays.valueOf()
+big()
+blink()
+blur()
+bold()
+boolean
+border
+byte
+case
+catch
+class
+clearTimeout()
+complete
+confirm()
+const
+continue
+Date.getDate()
+Date.getDay()
+Date.getFullYear()
+Date.getHours()
+Date.getMinutes()
+Date.getMonth()
+Date.getSeconds()
+Date.getTime()
+Date.getTimeZoneOffset()
+Date.getYear()
+Date.parse()
+Date.setDate()
+Date.setHours()
+Date.setMinutes()
+Date.setMonth()
+Date.setSeconds()
+Date.setTime()
+Date.setYear()
+Date.toGMTString()
+Date.toLocalString()
+default
+delete
+description
+do
+document.alinkColor
+document.anchors
+document.anchors[]
+document.applets[]
+document.arguments[]
+document.bgColor
+document.clear()
+document.close()
+document.cookie
+document.elements[]
+document.embeds
+document.embeds[]
+document.fgColor
+document.forms
+document.forms[]
+document.frames[]
+document.getselection()
+document.history[]
+document.images[]
+document.lastModified
+document.linkColor
+document.links
+document.links[]
+document.loadedDate
+document.location
+document.onAfterUpdate
+document.onBeforeUpdate
+document.onClick
+document.onDblClick
+document.onDragStart
+document.onErrorUpdate
+document.onHelp
+document.onKeyDown
+document.onKeyPress
+document.onKeyUp
+document.onLoad
+document.onMouseDown
+document.onMouseMove
+document.onMouseOut
+document.onMouseOver
+document.onMouseUp
+document.onReadyStateChange
+document.onRowEnter
+document.onRowExit
+document.onSelectStart
+document.onUnLoad
+document.open()
+document.options[]
+document.plugins[]
+document.referrer
+document.title
+document.userAgent
+document.vlinkColor
+document.write()
+document.writeln()
+double
+elements
+elements.blur()
+elements.click()
+elements.defaultChecked
+elements.defaultSelected
+elements.defaultValue
+elements.focus()
+elements.form
+elements.checked
+elements.length
+elements.name
+elements.select()
+elements.selected
+elements.selectedIndex
+elements.text
+elements.type
+elements.value
+else
+encoding
+escape()
+eval()
+extends
+false
+filename
+final
+finally
+fixed()
+float
+focus()
+fontcolor()
+fontsize()
+for
+Form.action
+Form.elements.blur()
+Form.elements.click()
+Form.elements.defaultChecked
+Form.elements.defaultSelected
+Form.elements.defaultValue
+Form.elements.focus()
+Form.elements.form
+Form.elements.checked
+Form.elements.length
+Form.elements.name
+Form.elements.select()
+Form.elements.selected
+Form.elements.selectedIndex
+Form.elements.text
+Form.elements.type
+Form.elements.value
+Form.encoding
+Form.length
+Form.method
+Form.name
+Form.parent
+Form.reset()
+Form.submit()
+Form.target
+frames
+Frames.length
+function
+Function.arguments[]
+Function.caller
+getDate()
+getDay()
+getHours()
+getMinutes()
+getMonth()
+getSeconds()
+getTime()
+getTimezoneOffset()
+getYear()
+goto
+hash
+height
+history.back()
+history.current
+history.forward()
+history.go()
+history.length
+host
+hostname
+href
+hspace
+char
+charAt()
+if
+images.border
+images.complete
+images.height
+images.hspace
+images.length
+images.lowsrc
+images.name
+images.src
+images.vspace
+images.width
+implements
+import
+in
+indexOf()
+instanceof
+int
+interface
+italics()
+lastIndexOf()
+lastIndexOf(,)
+length
+link()
+location.assign()
+location.hash
+location.host
+location.hostname
+location.href
+location.pathname
+location.port
+location.protocol
+location.reload()
+location.replace()
+location.search
+location.toString()
+long
+lowsrc
+Math.abs()
+Math.acos()
+Math.asin()
+Math.atan()
+Math.ceil()
+Math.cos()
+Math.e
+Math.exp()
+Math.floor()
+Math.ln10
+Math.ln2
+Math.LN32
+Math.LN4
+Math.log()
+Math.log10e
+Math.log2e
+Math.LOG32E
+Math.LOG4E
+Math.max()
+Math.min()
+Math.pi
+Math.pow()
+Math.random()
+Math.round()
+Math.sin()
+Math.sqrt()
+Math.sqrt1_2
+Math.sqrt2
+Math.SQRT3_4
+Math.SQRT4
+Math.tan()
+method
+name
+native
+navigator.appCodeName
+navigator.appName
+navigator.appVersion
+navigator.javaEnabled()
+navigator.mimeTypes
+navigator.mimeTypes.description
+navigator.mimeTypes.enabledPlugin
+navigator.mimeTypes.length
+navigator.mimeTypes.suffixes
+navigator.mimeTypes.type
+navigator.mimeTypes[]
+navigator.plugins
+navigator.plugins.description
+navigator.plugins.filename
+navigator.plugins.length
+navigator.plugins.name
+navigator.plugins[]
+navigator.preference
+navigator.userAgent
+new
+null
+number()
+Number.MAX_VALUE
+Number.MIN_VALUE
+Number.NaN
+Number.NEGATIVE_INFINITY
+Number.POSITIVE_INFINITY
+onAbort
+onabort=""
+onactivate=""
+onafterprint=""
+onAfterUpdate
+onafterupdate=""
+onback=""
+onbeforeactivate=""
+onbeforecopy=""
+onbeforecut=""
+onbeforedeactivate=""
+onbeforeeditfocus=""
+onbeforeprint=""
+onbeforerepaste=""
+onbeforeunload=""
+onBeforeUpdate
+onbeforeupdate=""
+onBlur
+onblur=""
+onbounce=""
+onClick
+onclick=""
+oncontextmenu=""
+oncontrolselect=""
+oncopy=""
+oncut=""
+onDataAvailable
+ondataavailable=""
+onDataSetComplete
+ondatasetcomplete=""
+ondatasetchange=""
+onDataSetChanged
+onDblClick
+ondblclick=""
+ondeactivate=""
+ondrag=""
+ondragend=""
+ondragenter=""
+ondragleave=""
+ondragover=""
+onDragStart
+ondragstart=""
+ondrop=""
+onError
+onerror=""
+onErrorUpdate
+onerrorupdate=""
+onFilterChange
+onfilterchange=""
+onfinish=""
+onFocus
+onfocus=""
+onfocusin=""
+onfocusout=""
+onforward=""
+onHelp
+onhelp=""
+onchange=""
+onKeyDown
+onkeydown=""
+onKeyPress
+onkeypress=""
+onKeyUp
+onkeyup=""
+onLoad
+onload=""
+onlosecapture=""
+onMouseDown
+onmousedown=""
+onmousedrag=""
+onmouseenter=""
+onmouseleave=""
+onMouseMove
+onmousemove=""
+onMouseOut
+onmouseout=""
+onMouseOver
+onmouseover=""
+onMouseUp
+onmouseup=""
+onmousewheel=""
+onmove=""
+onmoveend=""
+onmovestart=""
+onpaste=""
+onpropertychange=""
+onReadyStateChange
+onreadystatechange=""
+onReset
+onreset=""
+onResize
+onresize=""
+onresizeend=""
+onresizestart=""
+onroweenter=""
+onroweexit=""
+onRowEnter
+onRowExit
+onscroll=""
+onselect=""
+onSelectStart
+onselectstart=""
+onstop=""
+onSubmit
+onsubmit=""
+ontimeerorror=""
+onunload=""
+package
+parent
+parse()
+parseFloat()
+parseInt()
+pathname
+port
+private
+prompt()
+protected
+protocol
+prototype
+public
+reset()
+return
+screen.availHeight
+screen.availWidth
+screen.colorDepth
+screen.height
+screen.pixelDepth
+screen.width
+search
+select()
+self
+setDate()
+setMinutes()
+setMonth()
+setSeconds()
+setTime()
+setTimeout()
+setTimeout(,)
+setYear()
+short
+small()
+split()
+src
+static
+strike()
+string()
+Strings.anchor()
+Strings.big()
+Strings.blink()
+Strings.bold()
+Strings.concat()
+Strings.fixed()
+Strings.fontcolor()
+Strings.fontsize()
+Strings.charAt()
+Strings.charCodeAt()
+Strings.indexOf()
+Strings.italics()
+Strings.lastindexOf()
+Strings.length
+Strings.link()
+Strings.match()
+Strings.replace()
+Strings.search()
+Strings.slice()
+Strings.small()
+Strings.split()
+Strings.strike()
+Strings.sub()
+Strings.substr()
+Strings.substring()
+Strings.sup()
+Strings.toLowerCase()
+Strings.toString()
+Strings.toUpperCase()
+Strings.valueOf()
+sub()
+submit()
+substring()
+sup()
+super
+switch
+synchronized
+target
+throw
+throws
+toGMTString()
+toLocaleString()
+toLowerCase()
+toString()
+toUpperCase()
+transient
+true
+try
+typeof
+unEscape()
+UTC()
+var
+void
+vspace
+while
+width
+window
+window.alert()
+window.back()
+window.blur()
+window.clearInterval()
+window.clearTimeout()
+window.close()
+window.closed
+window.confirm()
+window.defaultStatus
+window.directories
+window.document.alinkColor
+window.document.anchors[]
+window.document.applets[]
+window.document.arguments[]
+window.document.bgColor
+window.document.close()
+window.document.cookie
+window.document.elements[]
+window.document.embeds[]
+window.document.fgColor
+window.document.forms[]
+window.document.frames[]
+window.document.getselection()
+window.document.history[]
+window.document.images[]
+window.document.lastModified
+window.document.linkColor
+window.document.links[]
+window.document.location
+window.document.open()
+window.document.options[]
+window.document.plugins[]
+window.document.referrer
+window.document.title
+window.document.vlinkColor
+window.document.write()
+window.document.writeln()
+window.focus()
+window.frames
+window.frames.length
+window.height
+window.history.back()
+window.history.forward()
+window.history.go()
+window.history.length
+window.length
+window.location.hash
+window.location.host
+window.location.hostname
+window.location.href
+window.location.pathname
+window.location.port
+window.location.protocol
+window.location.reload()
+window.location.replace()
+window.location.search
+window.locationbar
+window.menubar
+window.moveBy()
+window.moveTo()
+window.name
+window.offscreenBuffering
+window.onBeforeUnload
+window.onBlur
+window.onError
+window.onFocus
+window.onHelp
+window.onLoad
+window.onResize
+window.onScroll
+window.onUnLoad
+window.open()
+window.opener
+window.parent
+window.print()
+window.prompt()
+window.resizable
+window.resizeBy()
+window.resizeTo()
+window.scroll()
+window.scrollbars
+window.scrollBy()
+window.scrollTo()
+window.self
+window.setInterval()
+window.setTimeout()
+window.status
+window.statusbar
+window.titlebar
+window.toolbar
+window.top
+window.width
+window.window
+with

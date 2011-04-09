@@ -1,0 +1,24 @@
+; PSPad code template for COBOL
+; Created by PSPad   12.11.2002  07:28
+; Author:  Fiala
+;
+[Macro definition]
+%Number%=@S Èíslo=," ,",,,,A\\
+%Flag%=@C Shutdown,"Shutdown, ",,0;1;2,
+%combo1%=@C Typ centrování:,CENTER=,left,left;right;center,"
+[pok |r pokus]
+Hodnota%Number%
+[Shutdown | This command allows you to perform various forms of shutdown.]
+;;Function                               Flag
+;;Log off the current user       0 
+;;Shutdown the workstation       1 
+;;Reboot the workstation         2 
+;;Force closing of applications (may lose unsaved work) 4 
+;;Shutdown and power off (if supported) 8 
+;; 
+;;e.g. To shutdown and force applications to close without saving = Shutdown
++ Force = 1 + 4 = 5:
+;;Shutdown, 5
+Shutdown, %Flag%
+[combo |n kombo]
+%combo1%

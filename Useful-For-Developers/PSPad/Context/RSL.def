@@ -1,0 +1,145 @@
+[Macro definition]
+%Tbfile1%=@E Имя базы:,,,,"
+%Tbfile2%=@C Строка атрибута открытия:,,R,R;W;E;A;C;C+;B,"
+%Tbfile3%=@C Ключ:,,0,0;1;2;3;4;5;6;7;8;9;10;11,
+%Tbfile4%=@E Имя файла:,,,,"
+%Tbfile5%=@E Путь к словарю:,,,,"
+%menu1%=@E Имя массива строк:
+%menu2%=@E Сообщение внизу экрана:,,,,"
+%menu3%=@E Заголовок окна:,,,,"
+%menu4%=@E Координата "х" окна:
+%menu5%=@E Координата "у" окна:
+%menu6%=@E № активного пункта:,,0,,
+%namemacro%=@E Имя MACRO:
+%macroparametr%=@E Передаваемые параметры (ч/з запятую):
+%absnumber%=@E Имя переменной(число) (Abs):
+%axobject%=@E Имя объекта для ActiveX:,,,,"
+%cpfile%=@E Имя/путь копи файла: ,,,,"
+%dstfile%=@E Имя/путь дистр файла: ,,,,"
+%copyprogress%=@C Показывать прогресс:,,True,True;False,
+%crrslfile%=@E Имя макрофайла:,,,,"
+%crrslproc%=@E Имя процедуры (не обязательно):,,,,"
+%clerid%=@E Имя файла:,,,,
+%code%=@E Введите строку/имя строки: ,,,,"
+%crid%=@E Имя/псевдоним файла из словаря: ,,,,"
+%geteq%=@E Введите идентификатор: ,,,,
+%getge%=@E Введите идентификатор: ,,,,
+%getle%=@E Введите идентификатор: ,,,,
+%nrecords%=@E Введите идентификатор: ,,,,
+%initprogress1%=@C МАХ кол-во записей: ,,,NRecords();.NRecords,
+%initprogress2%=@E Сообщение внизу: ,,,,"
+%initprogress3%=@E Заголовок: ,,,,"
+%initprogress4%=@E Идент. (UseProgress): ,,,,
+%useprogress%=@E Идентификатор счетчика: ,,,,
+%msgbox%=@E Сообщение: ,,,,
+%wile%=@E Параметры в цикле: ,,,,
+%substr1%=@E Откуда вырезаем: ,,,,
+%substr2%=@E С какого символа: ,,,,
+%substr3%=@E Количество символов: ,,,,
+;-----------------------------------------------------------------------
+[TBFile |M ( TableName, AttrStr, KeyNum, FileName, DicName)]
+TBFile ( %Tbfile1%,%Tbfile2%,%Tbfile3%,%Tbfile4%,%Tbfile5%);
+[AbortTrn |P]
+AbortTrn ();
+[Abs |F Abs(number)]
+Abs (%absnumber%);
+[ActiveX |B ActiveX("...")]
+ActiveX (%axobject%);
+[AND |G]
+AND
+[append |F]
+append;
+[ARRAY |G]
+ARRAY
+[Asize |G Asize (val, newsize)]
+Asize ();
+[DebugBreak |M Точка прерывания]
+DebugBreak();
+[CallR2M |B CallR2M ( oPtr:MethodRef, par1, par2,...) : variant]
+CallR2M ()
+[CallRemoteRsl |B CallRemoteRsl (fileName, procName, parm1, parm2, ...)]
+CallRemoteRsl (%crrslfile%,%crrslproc%, parm1, parm2)
+[Class |B]
+Class
+[ClearColumn |B]
+ClearColumn;
+[ClearRecord |F ClearRecord ( id )]
+ClearRecord ( %clerid% );
+[ClearStructs |B]
+ClearStructs;
+[Clone |F]
+Clone();
+[CmdArgs |B]
+CmdArgs
+[CM_CANCEL |B]
+CM_CANCEL;
+[CM_DEFAULT |B]
+CM_DEFAULT;
+[CM_IGNORE |B]
+CM_IGNORE;
+[CM_SAVE |B]
+CM_SAVE;
+[CONST |B]
+CONST;
+[CodeFor |B CodeFor ( string )]
+CodeFor (%code%);
+[Copy |F Copy ( id1, id2 )]
+Copy ()
+[CopyFile |F CopyFile(src:string, dst:string, ind:bool ): bool]
+CopyFile (%cpfile%,%dstfile%,%copyprogress%);
+[Count |B]
+Count
+[Create |F Create (id, filename, bool)]
+Create (%crid%);
+[Delete |F]
+Delete
+[ELSE |G]
+ELSE
+[END |G]
+END;
+[FALSE |G]
+FALSE
+[FILE |G]
+FILE
+[GetEQ(идентификатор) |G]
+GetEQ(%geteq%)
+[GetGE(идентификатор) |G]
+GetGE(%getge%)
+[GetLE(идентификатор) |G]
+GetLE(%getle%)
+[IF |G IF ... END ]
+IF (...)
+
+END;
+[IF |G IF ... ELSE ... END ]
+IF (...)
+
+ ELSE
+
+END;
+[IMPORT |G]
+IMPORT
+[INSERT |G]
+INSERT
+[InitProgress(maxRecord,msg,head) |M]
+InitProgress(%initprogress1%,%initprogress2%,%initprogress3%);
+
+UseProgress(%initprogress4%);
+
+Remprogress();
+[MACRO |G MACRO ... END;]
+MACRO %namemacro%(%macroparametr%)
+
+END;
+[Menu |D Menu(array, prompt, head, x, y, n)]
+Menu (%menu1%,%menu2%,%menu3%,%menu4%,%menu5%,%menu6%);
+[MsgBox |D MsgBox(параметр)]
+MsgBox(%msgbox%);
+[Nrecords(идентификатор) |M]
+Nrecords(%nrecords%)
+[SubStr |F Вырезаем строку]
+SubStr(%substr1%,%substr2%,%substr3%)
+[WHILE |G Цикл]
+WHILE (%wile%)
+
+END;

@@ -1,0 +1,103 @@
+; PSPad clip definition file for Visual Basic .NET
+; author:  Willem Bogaerts
+; last revision 23. Feb 2006
+;
+[Boolean | Boolean data type]
+Boolean|
+[ByRef | ByRef]
+ByRef § As |
+[Byte | Byte data type]
+Byte|
+[ByVal | ByVal]
+ByVal § As |
+[Class | Class]
+Class §()
+    |
+End Class
+[Const | Define a Constant]
+Const § As | = 
+[CType | General conversion]
+CType(§, |)
+[CVS Header | CVS Keywords Header]
+' $Revision: $
+' $Date: $
+' $Author: $
+
+[Date | Date data type]
+Date|
+[Decimal | Decimal data type]
+Decimal|
+[Dim | Dim]
+Dim § As |
+[Double | Double data type]
+Double|
+[Else | Else block for existing If]
+Else
+    §|
+[Friend | Only visible within package]
+Friend §|
+[Function | Function]
+Function §()
+    |
+End Function
+[If | If block]
+If § Then
+    |
+End If
+[If Else| If block with else clause]
+If § Then
+    |
+Else
+    
+End If
+[Inherits | Inherits]
+Inherits §|
+[Integer | Integer data type]
+Integer|
+[Long | Long data type]
+Long|
+[Me | Reference to the current object]
+Me.§|
+[Namespace | Namespace]
+Namespace §()
+    |
+End Namespace
+[Private | Only visible within class/instance]
+Private §|
+[Protected | Only visible within class/instance and subclasses]
+Protected §|
+[Protected Friend | Only visible within package and subclasses]
+Protected Friend §|
+[Public | Visible everywhere]
+Public §|
+[ReadOnly Property | ReadOnly Property]
+ReadOnly Property §() As |
+    Get
+        
+        Return 
+    End Get
+End Property
+[Return | Return]
+Return §|
+[Short | Short data type]
+Short|
+[Single | Single data type]
+Single|
+[String | String data type]
+String|
+[Sub | Sub]
+Sub §()
+    |
+End Sub
+[ToDo | ToDo comment to search on]*CTRL+ALT+SHIFT+T
+' ToDo [%UserName%]: §|
+[Throw exception | Throw exception]
+Throw New §(|)
+[With | With block]
+With §
+    |
+End With
+;
+;
+[AndAlso | Lazy and]
+AndAlso |§

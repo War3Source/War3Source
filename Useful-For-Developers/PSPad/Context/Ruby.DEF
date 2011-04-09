@@ -1,0 +1,1165 @@
+;---------------------------------------
+; PSPad clip definition file for Ruby
+;    based on TextMate Snippets
+; Author:  VKyr
+; Last revision: 06. Nov 2007  19:46
+; File version: 1.0
+;
+;    -----------------
+;
+; Note on used color scheme: 
+;
+;     navy color - is used for common ruby clips
+;     black color - is used for TextMate like Ruby clips
+;
+;---------------------------------------
+[Macro definition]
+;---------------------------------------
+;------------------------
+;------textmate----------
+%arguments%=@E Arguments:,,args,,
+%args%=@E Arguments:,,args,,
+%attr_names%=@E Attribute:,,names,,
+%attribute%=@E Attribute:,,name,,
+%element%=@E Element:,,elem,,
+%collection%=@E Collection:,,collection,,
+%condition%=@E Condition:,,x<y,,
+%dump%=@E Dump:,,,,
+%Exception%=@E Exception:,,name,,
+%arr%=@E Array:,,,,
+%a%=@E Var:,,a,,
+%e%=@E Var:,,e,,
+%i%=@E Var:,,i,,
+%n%=@E Var:,,n,,
+%byte%=@E Byte:,,,,
+%chr%=@E Chr:,,,,
+%mem%=@E Mem:,,,,
+%var%=@E Var:,,,,
+%init%=@E Init:,,,,
+%index%=@E Index:,,,,
+%item%=@E Item:,,,,
+%items%=@E Items:,,,,
+%injection%=@E Injection:,,,,
+%new_name%=@E New:,,name,,
+%old_name%=@E Old:,,"name",,
+%object%=@E Object:,,name,,
+%obj%=@E Obj:,,"name",,
+%paste%=@E Paste:,,,,
+%file%=@E File:,,file,,
+%file_name%=@E File:,,name,,
+%line%=@E Line:,,line,,
+%hash%=@E Hash:,,hash,,
+%key%=@E Key:,,key,,
+%glob%=@E Glob:,,"name",,
+%method%=@E Method:,,name,,
+%name%=@E Name:,,,,
+%val%=@E Map:,,value,,
+%group%=@E Group:,,value,,
+%value%=@E Map:,,value,,
+%yaml%=@E Yaml:,,,,
+%module_name%=@E Modul:,,name,,
+%left%=@E Left:,,,,
+%operator%=@E Operator:,,,,
+%right%=@E Right:,,,,
+%message%=@E Message:,,,,
+%actual%=@E Actual:,,,,
+%actual_float%=@E Actual float:,,15.0,,
+%actual_instance%=@E Actual:,,instance,,
+%actual_string%=@E Actual:,,string,,
+%ExpectedClass%=@E Expected:,,class,,
+%ExpectedKind%=@E Expected:,,kind,,
+%expected%=@E Expected:,,,,
+%expected_pattern%=@E Expected pattern:,,pattern,,
+%instance%=@E Instance:,,,,
+%test%=@E Test:,,,,
+%unexpected%=@E Unexpected:,,,,
+%unexpected_pattern%=@E Unexpected pattern:,,pattern,,
+%match%=@E Match:,,regexp,,
+%pattern%=@E Pattern:,,regexp,,
+%ParentClass%=@E Parent class:,,name,,
+%ClassName%=@E Class:,,name,,
+%ClassMethods%=@E Class methods:,,names,,
+%ModulName%=@E Modul:,,name,,
+%delegate%=@E Delegate:,,name,,
+%del_obj%=@E Delegate obj:,,name,,
+%delegate_object%=@E Delegate obj:,,name,,
+%del_meth%=@E Delegate method:,,name,,
+%del_methods%=@E Delegate methods:,,names,,
+%case_name%=@E Case:,,name,,
+%amp%=@E Test amp:,,name,,
+%library_file_name%=@E Library file:,,name,,
+%method_name%=@E Method:,,name,,
+%class_method_name%=@E Class method:,,name,,
+%self%=@E Self:,,,,
+%range%=@E Range:,,,,
+%pipe%=@E Pipe:,,,,
+%io%=@E IO:,,,,
+%test_case_file%=@E Testcase file:,,,,
+%sourcefile%=@O File:,,,Ruby files (*.rb;*.rbw)|*.rb;*.rbw,'
+;----------------------
+;------common----------
+%arg1%=@C Argument:,,,,
+%arg2%=@C Argument:,,,,
+%arg3%=@C Argument:,,,,
+%attr1%=@C Attribute:,,"name",,
+%attr2%=@C Attribute:,,"name",,
+%attr3%=@C Attribute:,,"name",,
+%collect%=@E Collection:,,,,
+%cond%=@E Condition:,,x==y,,
+%cond_if%=@E if:,,x>y,,
+%cond_elsif%=@E elsif:,,x<y,,
+%classname%=@E Class:,,name,,
+%elem1%=@E Element:,,elem,,
+%elem2%=@E Element:,,elem,,
+%elem3%=@E Element:,,elem,,
+%expr1%=@C Expression:,,,,
+%expr2%=@C Expression:,,,,
+%expr3%=@C Expression:,,,,
+%key%=@E Map:,,key,,
+%methodname%=@E Method:,,name,,
+%object%=@E Object:,,name,,
+%module_name%=@E Modul:,,name,,
+%name%=@E Name:,,,,
+%oldname%=@E Old name:,,,,
+%sourcefile%=@O File:,,,Ruby files (*.rb;*.rbw)|*.rb;*.rbw,'
+%superclass%=@E Superclass:,,name,,
+%value%=@E Map:,,value,,
+%var%=@E Variable:,,name,,
+;------------------------
+;------textmate----------
+[rb | #!d:/ruby/bin/ruby]
+#!d:/ruby/bin/ruby
+|
+;--------
+[forin| for … in … end]
+for %element% in %collection%
+	%element%.|
+end
+;--------
+[inject| inject object]
+inject(%object%) { ||%injection%, %element%|  }
+;--------
+[reject| reject element]
+reject { ||%element%| %element%.xxx }
+;--------
+[select| select element]
+select { ||%element%| %element%.xxx }
+;--------
+[ife| if … else … end]
+if %condition%
+	|
+else
+	
+end
+;--------
+[if| if … end]
+if %condition%
+	|
+end
+;--------
+[case| case … end]
+case %object%
+when %condition%
+	|
+end
+;--------
+[y| :yields:]
+ :yields: %arguments%
+;--------
+[# =>| Add '# =>' Marker]
+# =>|
+;--------
+[Array| Array.new(10) { |i| .. }]
+Array.new(${10}) { ||%i%| }
+;--------
+[bm| Benchmark.bmbm(..) do .. end]
+TESTS = 10_000
+Benchmark.bmbm(10) do |results|
+  |
+end
+;--------
+[Dir| Dir.glob("..") { |file| .. }]
+Dir.glob(%glob%) { ||%file%|  }
+;--------
+[File| File.foreach ("..") { |line| .. }]
+File.foreach(%file%) { ||%line%|  }
+;--------
+[Hash| Hash.new { |hash, key| hash[key] = .. }]
+Hash.new { ||%hash%, %key%| %hash%[%key%] = xxx }
+;--------
+[Md| Marshal.dump(.., file)]
+File.open(%dump%, "w") { |%file%| Marshal.dump(%obj%, %file%) }
+;--------
+[Ml| Marshal.load(obj)]
+File.open(%dump%) { ||%file%| Marshal.load(%file%) }
+;--------
+[Pn| PStore.new( .. )]
+PStore.new(%file_name%)
+;--------
+[b| New Block]
+=begin rdoc
+	|
+=end
+;--------
+[begin| begin … rescue … end]
+begin
+	%paste%
+rescue %Exception% => %e%
+	|
+end
+;--------
+[Yd| YAML.dump(.., file)]
+File.open(%yaml%, "w") { ||%file%| YAML.dump(%obj%, %file%) }
+;--------
+[Yl| YAML.load(file)]
+File.open(%yaml%) { ||%file%| YAML.load(%file%) }
+;--------
+[am| alias_method ..]
+alias_method :%new_name%, :%old_name%
+;--------
+[all| all? { |e| .. }]
+all? { ||%e%|  }
+;--------
+[any| any? { |e| .. }]
+any? { ||%e%|  }
+;--------
+[app| application_code { .. }]
+if __FILE__ == $$PROGRAM_NAME
+	|
+end
+;--------
+[as| assert(..)]
+assert(%test%, "%message%")
+;--------
+[ase| assert_equal(..)]
+assert_equal(%expected%, %actual%)
+;--------
+[asid| assert_in_delta(..)]
+assert_in_delta(%expected_float%, %actual_float%, 20)
+;--------
+[asio| assert_instance_of(..)]
+assert_instance_of(%ExpectedClass%, %actual_instance%)
+;--------
+[asko| assert_kind_of(..)]
+assert_kind_of(%ExpectedKind%, %actual_instance%)
+;--------
+[asm| assert_match(..)]
+assert_match(/%expected_pattern%/, %actual_string%)
+;--------
+[asn| assert_nil(..)]
+assert_nil(%instance%)
+;--------
+[asnm| assert_no_match(..)]
+assert_no_match(/%unexpected_pattern%/, %actual_string%)
+;--------
+[asne| assert_not_equal(..)]
+assert_not_equal(%unexpected%, %actual%)
+;--------
+[asnn| assert_not_nil(..)]
+assert_not_nil(%instance%)
+;--------
+[asns| assert_not_same(..)]
+assert_not_same(%unexpected%, %actual%)
+;--------
+[asnr| assert_nothing_raised(..) { .. }]
+assert_nothing_raised(%Exception%) { | }
+;--------
+[asnt| assert_nothing_thrown { .. }]
+assert_nothing_thrown { | }
+;--------
+[aso| assert_operator(..)]
+assert_operator(%left%, :%operator%, %right%)
+;--------
+[asr| assert_raise(..) { .. }]
+assert_raise(%Exception%) { | }
+;--------
+[asrt| assert_respond_to(..)]
+assert_respond_to(%object%, :%method%)
+;--------
+[ass| assert_same(..)]
+assert_same(%expected%, %actual%)
+;--------
+[ass| assert_send(..)]
+assert_send([%object%, :%message%, %args%])
+;--------
+[ast| assert_throws(..) { .. }]
+assert_throws(:%expected%) { | }
+;--------
+[rw| attr_accessor ..]
+attr_accessor :%attr_names%
+;--------
+[r| attr_reader ..]
+attr_reader :%attr_names%
+;--------
+[w| attr_writer ..]
+attr_writer :%attr_names%
+;--------
+[cla| class .. < DelegateClass .. initialize .. end]
+class ${ClassName} < DelegateClass(%ParentClass%)
+	def initialize
+		super(%del_obj%)
+		
+		|
+	end
+	
+end
+;--------
+[cla| class .. < ParentClass .. initialize .. end]
+class ${ClassName} < %ParentClass%
+	def initialize
+		|
+	end
+	
+end
+;--------
+[cla| class .. < Struct .. initialize .. end]
+class ${ClassName} < Struct.new(:%attr_names%)
+	def initialize(*args)
+		super
+		
+		|
+	end
+	
+end
+;--------
+[tc| class .. < Test::Unit::TestCase .. end]
+require "test/unit"
+
+require "%library_file_name%"
+
+class Test${amp} < Test::Unit::TestCase
+	def test_%case_name%
+		|
+	end
+end
+;--------
+[cla| class .. end]
+class %ClassName%
+	|
+end
+;--------
+[cla| class .. initialize .. end]
+class %ClassName%
+	def initialize
+		|
+	end
+	
+end
+;--------
+[cla| class BlankSlate .. initialize .. end]
+class ${BlankSlate}
+	instance_methods.each { |meth| undef_method(meth) unless meth =~ /\A__/ }
+	
+	def initialize${var}
+		@%delegate% = %delegate_object%
+		
+		|
+	end
+	
+	def method_missing(meth, *args, &block)
+		@${delegate}.send(meth, *args, &block)
+	end
+	
+end
+;--------
+[cla| class << self .. end]
+class << %self%
+	|
+end
+;--------
+[class| class … end]
+class %ClassName%
+	|
+end
+;--------
+[clafn| class_from_name()]
+split("::").inject(Object) { |par, const| par.const_get(const) }
+;--------
+[cl| classify { |e| .. }]
+classify { ||%e%|  }
+;--------
+[col| collect { |e| .. }]
+collect { ||%e%|  }
+;--------
+[collect| collect element]
+collect { ||%element%| %element%.xxx }
+;--------
+[dee| deep_copy(..)]
+Marshal.load(Marshal.dump(${obj_to_copy}))
+;--------
+[def| def … end]
+def %method_name%
+	|
+end
+;--------
+[mm| def method_missing .. end]
+def method_missing(meth, *args, &block)
+	|
+end
+;--------
+[defs| def self .. end]
+def self.%class_method_name%
+	|
+end
+;--------
+[deft| def test_ .. end]
+def test_%case_name%
+	|
+end
+;--------
+[defd| def_delegator ..]
+def_delegator :${del_obj}, :${del_meth}, :${new_name}
+;--------
+[defds| def_delegators ..]
+def_delegators :%del_obj%, :%del_methods%
+;--------
+[deli| delete_if { |e| .. }]
+delete_if { ||%e%|  }
+;--------
+[det| detect { |e| .. }]
+detect { ||%e%|  }
+;--------
+[do| do … end]
+do
+	|
+end
+;--------
+[doo| Insert do |object| … end]
+do ||%object%|
+	
+end
+;--------
+[dow| downto(0) { |n| .. }]
+downto(|) { |%n%| }
+;--------
+[ea| each { |e| .. }]
+each { ||%e%|  }
+;--------
+[each| each element]
+each { ||%element%| %element%.xxx }
+;--------
+[eab| each_byte { |byte| .. }]
+each_byte { ||%byte%| | }
+;--------
+[eac| each_char { |chr| .. }]
+each_char { ||%chr%| | }
+;--------
+[eac| each_cons(..) { |group| .. }]
+each_cons(|) { |%group%|  }
+;--------
+[eai| each_index { |i| .. }]
+each_index { ||%i%|  }
+;--------
+[eak| each_key { |key| .. }]
+each_key { ||%key%| | }
+;--------
+[eal| each_line { |line| .. }]
+each_line${1} { ||%line%|  }
+;--------
+[eap| each_pair { |name, val| .. }]
+each_pair { ||%name%, %val%|  }
+;--------
+[eas| each_slice(..) { |group| .. }]
+each_slice(|) { |%group%|  }
+;--------
+[eav| each_value { |val| .. }]
+each_value { ||%val%|  }
+;--------
+[eawi| each_with_index { |e, i| .. }]
+each_with_index { ||%e%, %i%|  }
+;--------
+[each_with_index| each_with_index]
+each_with_index { ||%element%, %index%| %element%.xxx }
+;--------
+[elsif| elsif ...]
+elsif %condition%
+	|
+;--------
+[Embedded Code — #{…}| Embedded Code — #{…}]
+#{%paste%}
+;--------
+[Forw| extend Forwardable]
+extend Forwardable
+;--------
+[fet| fetch(name) { |key| .. }]
+fetch(%name%) { ||%key%| }
+;--------
+[fil| fill(range) { |i| .. }]
+fill(%range%) { ||%i%| }
+;--------
+[fin| find { |e| .. }]
+find { ||%e%|  }
+;--------
+[fina| find_all { |e| .. }]
+find_all { ||%e%|  }
+;--------
+[flao| flatten_once()]
+inject(Array.new) { ||%arr%, %a%| %arr%.push(*%a%) }
+;--------
+[fl| flunk(..)]
+flunk("%message%")
+;--------
+[gre| grep(/pattern/) { |match| .. }]
+grep(%pattern%) { ||%match%|  }
+;--------
+[gsu| gsub(/../) { |match| .. }]
+gsub(/%5pattern%/) { ||%match%| }
+;--------
+[| Hash Pair — :key => "value"]
+:%key% => %value%
+;--------
+[Hash Pointer | Hash Pointer — =>]
+ => 
+ ;--------
+[=> | Hash Pointer — =>]
+ => 
+;--------
+[Comp| include Comparable ..]
+include Comparable
+
+def <=>(other)
+	|
+end
+;--------
+[Enum| include Enumerable ..]
+include Enumerable
+
+def each(&block)
+	|
+end
+;--------
+[inj| inject(init) { |mem, var| .. }]
+inject(%init%) { ||%mem%, %var%|  }
+;--------
+[lam| lambda { |args| .. }]
+lambda { ||%args%| }
+;--------
+[map| map { |e| .. }]
+map { ||%e%|  }
+;--------
+[mapwi| map_with_index { |e, i| .. }]
+enum_with_index.map { ||%e%, %i%|  }
+;--------
+[max| max { |a, b| .. }]
+max { ||a, b|  }
+;--------
+[min| min { |a, b| .. }]
+min { ||a, b|  }
+;--------
+[mod| module .. ClassMethods .. end]
+module %ModuleName%
+	module ClassMethods
+		|
+	end
+	
+	extend ClassMethods
+	
+	def self.included(receiver)
+		receiver.extend(ClassMethods)
+	end
+	
+end
+;--------
+[mod| module .. end]
+module %ModuleName%
+	|
+end
+;--------
+[mod| module .. module_function .. end]
+module %ModuleName%
+	module_function
+	|
+end
+;--------
+[Insert | Insert { |variable| … }]
+{ ||${variable}| §} 
+;--------
+[ope| open("path/or/url", "w") { |io| .. }]
+open(%pipe%) { ||%io%|  }
+;--------
+[optp| option_parse { .. }]
+require "optparse"
+require "ostruct"
+
+options = OpenStruct.new(|)
+
+ARGV.options do |opts|
+	opts.banner = "Usage:  #{File.basename($$PROGRAM_NAME)}[OPTIONS]"
+	
+	opts.separator ""
+	opts.separator "Specific Options:"
+	
+	|
+	
+	opts.separator "Common Options:"
+	
+	opts.on( "-h", "--help",
+	         "Show this message." ) do
+		puts opts
+		exit
+	end
+	
+	begin
+		opts.parse!
+	rescue
+		puts opts
+		exit
+	end
+end
+
+;--------
+[par| partition { |e| .. }]
+partition { ||%e%|  }
+;--------
+[patfh| path_from_here( .. )]
+File.join(File.dirname(__FILE__), *%w[here|])
+;--------
+[ran| randomize()]
+sort_by { rand }
+;--------
+[rej| reject { |e| .. }]
+reject { ||%e%|  }
+;--------
+[req| require "..""]
+require "|"
+;--------
+[ts| require "tc_.." ..]
+require "test/unit"
+
+require "tc_%test_case_file%"
+require "tc_|"
+
+;--------
+[rep| results.report(..) { .. }]
+results.report("%name%:") { TESTS.times { | } }
+;--------
+[reve| reverse_each { |e| .. }]
+reverse_each { ||%e%|  }
+;--------
+[sca| scan(/../) { |match| .. }]
+scan(/%pattern%/) { ||%match%|  }
+;--------
+[sel| select { |e| .. }]
+select { ||%e%|  }
+;--------
+[sin| singleton_class()]
+class << self; self end
+;--------
+[sor| sort { |a, b| .. }]
+sort { ||a, b|  }
+;--------
+[sorb| sort_by { |e| .. }]
+sort_by { ||%e%| | }
+;--------
+[ste| step(2) { |e| .. }]
+step(${2}) { ||%n%| }
+;--------
+[sub| sub(/../) { |match| .. }]
+sub(/%pattern%/) { ||%match%| }
+;--------
+[tim| times { |n| .. }]
+times { ||%n%| }
+;--------
+[tra| transaction( .. ) { .. }]
+transaction { | }
+;--------
+[uni| unix_filter { .. }]
+ARGF.each_line do ||%line%|
+	
+end
+;--------
+[unless| unless … end]
+unless %condition%
+	|
+end
+;--------
+[until| until ... end]
+until %condition%
+	|
+end
+;--------
+[opt| option(..)]
+opts.on( "-o", "--option",
+         "description" ) do ||opt|
+	
+end
+;--------
+[upt| upto(1.0/0.0) { |n| .. }]
+upto(|) { |%n%| }
+;--------
+[usai| usage_if()]
+if ARGV.${1}
+  puts "Usage:  #{$$PROGRAM_NAME} ARGS_GO_HERE"
+  exit
+end
+;--------
+[usau| usage_unless()]
+unless ARGV.${1}
+  puts "Usage:  #{$$PROGRAM_NAME} ARGS_GO_HERE"
+  exit
+end
+;--------
+[when| when …]
+when %condition%
+	|
+;--------
+[while| while ... end]
+while %condition%
+	|
+end
+;--------
+[zip| zip(enums) { |row| .. }]
+zip(enums) { ||row|  }
+;--------
+[mcol| Add Column]
+add_column :table, :column, :string|
+;--------
+[mcol| Create Column in Table]
+t.column :title, :string|
+;--------
+[mccc| Create Several Columns]
+t.column :title, :string
+mccc|
+;--------
+[mtab| Create Table]
+create_table :table do ||t|
+    
+end
+;--------
+[mtab| Drop / Create Table]
+drop_table :table
+;--------
+[mtab| Drop Table]
+drop_table :table
+|
+;--------
+[mcol| Remove Column]
+remove_column :table, :column
+;--------
+[rdb| RAILS_DEFAULT_LOGGER.debug]
+RAILS_DEFAULT_LOGGER.debug "%message%"|
+;--------
+[mcol| Rename Column]
+rename_column :column, :new_column
+;--------
+[mtab| Rename Table]
+rename_table :table, :new_name|
+;--------
+[art| assert_redirected_to]
+assert_redirected_to :action => "%index%"
+;--------
+[asre| assert_response]
+assert_response :success
+;--------
+[bt| belongs_to]
+belongs_to :${object}
+;--------
+[habtm| has_and_belongs_to_many]
+has_and_belongs_to_many :%object%
+;--------
+[hm| has_many]
+has_many :%objects%
+;--------
+[ho| has_one]
+has_one :%object%
+;--------
+[log| logger.debug]
+logger.debug "%message%"|
+;--------
+[log| logger.error]
+logger.error "%message%"|
+;--------
+[log| logger.fatal]
+logger.fatal "%message%"|
+;--------
+[log| logger.info]
+logger.info "%message%"|
+;--------
+[log| logger.warn]
+logger.warn "%message%"|
+;--------
+[flash| flash[…]]
+flash[:notice] = "Successfully"|
+;--------
+[params[…| params[…]]
+params[:id]
+;--------
+[session[…| session[…]]
+session[:User]
+;--------
+[rcea| render_component (action)]
+render_component :action => "%index%"
+;--------
+[rcec| render_component (controller)]
+render_component :controller => "%items%"
+;--------
+[rceca| render_component (controller, action)]
+render_component :controller => "%items%", :action => "%index%"
+;--------
+[rea| redirect_to (action)]
+redirect_to :action => "%index%"
+;--------
+[reai| redirect_to (action, id)]
+redirect_to :action => "show", :id => item
+;--------
+[rec| redirect_to (controller)]
+redirect_to :controller => "%items%"
+;--------
+[reca| redirect_to (controller, action)]
+redirect_to :controller => "items", :action => "list"
+;--------
+[recai| redirect_to (controller, action, id)]
+redirect_to :controller => "items", :action => "show", :id => item
+;--------
+[ra| render (action)]
+render :action => "action"
+;--------
+[ral| render (action, layout)]
+render :action => "action", :layout => "layoutname"
+;--------
+[rf| render (file)]
+render :file => "filepath"
+;--------
+[rfu| render (file, use_full_path)]
+render :file => "filepath", :use_full_path => false
+;--------
+[ri| render (inline)]
+render :inline => "hello"
+;--------
+[ril| render (inline, locals)]
+render :inline => "hello", :locals => { %name% => "%value%"| }
+;--------
+[rit| render (inline, type)]
+render :inline => "hello", :type => rxml
+;--------
+[rl| render (layout)]
+render :layout => "layoutname"
+;--------
+[rn| render (nothing)]
+render :nothing => true
+;--------
+[rns| render (nothing, status)]
+render :nothing => true, :status => 401
+;--------
+[rp| render (partial)]
+render :partial => "item"
+;--------
+[rpc| render (partial, collection)]
+render :partial => "item", :collection => items
+;--------
+[rpl| render (partial, locals)]
+render :partial => "item", :locals => { :%name% => "%value%| }
+;--------
+[rpo| render (partial, object)]
+render :partial => "item", :object => object
+;--------
+[rps| render (partial, status)]
+render :partial => "item", :status => 500
+;--------
+[rt| render (text)]
+render :text => "render"
+;--------
+[rtl| render (text, layout)]
+render :text => "render", :layout => "layoutname"
+;--------
+[rtlt| render (text, layout => true)]
+render :text => "render", :layout => true
+;--------
+[rts| render (text, status)]
+render :text => "render", :status => 401
+;--------
+[va| validates_associated]
+validates_associated :%attribute%
+;--------
+[vc| validates_confirmation_of]
+validates_confirmation_of :%attribute%
+;--------
+[ve| validates_exclusion_of]
+validates_exclusion_of :%attribute%
+;--------
+[vl| validates_length_of]
+validates_length_of :%attribute%, :within => 20
+;--------
+[vp| validates_presence_of]
+validates_presence_of :%attribute%
+;--------
+[vpif| validates_presence_of if]
+validates_presence_of :%attribute%, :if => proc { ||obj| %condition% }}
+;--------
+[vu| validates_uniqueness_of]
+validates_uniqueness_of :%attribute%
+;--------
+[verify| verify — render]
+verify :only => [:|], :method => :post, :render => {:status => 500, :text => "use HTTP-POST"}
+|
+;--------
+[verify| verify — redirect]
+verify :only => [:|], :session => :user, :params => :id, :redirect_to => {:action => '%index%'}
+|
+;----------------------
+;------common----------
+[class |N class … end]
+class %classname%
+  |
+end
+;-------------------
+[class init |N class … initialize … end]
+class %classname%
+  def initialize(%arg1)
+    |
+  end
+  
+end
+;-------------------
+[class < |N class name < superclass … end]
+class %classname% < %superclass%
+  |
+end
+;-------------------
+[class << |N class << object … end]
+class << %object% 
+  |
+end
+;-------------------
+[def |N def method]
+def %methodname%
+  |
+end
+;-------------------
+[def |N def method(arg)]
+def %methodname%(%arg1%)
+  |
+end
+;-------------------
+[attr_reader |N attr_reader …]
+attr_reader :|
+;-------------------
+[attr_writer |N attr_writer …]
+attr_writer :|
+;-------------------
+[attr_accessor |N attr_accessor …]
+attr_accessor :|
+;-------------------
+[attr_accessor |N attr_accessor :attr1, :attr2, :attr3]
+attr_accessor :%attr1%, :%attr2%, :%attr3% |
+;-------------------
+[def + |N def + method]
+def +(%object%)
+  return self.value + %object%.value
+end
+;-------------------
+[module |N module name]
+module %module_name%
+  |
+end
+;-------------------
+[do end |N do … end]
+do
+  |
+end
+;-------------------
+[{  } |N block {   }]
+{ | }
+;-------------------
+[if |N if …]
+if |
+;-------------------
+[if end |N if … end]
+if %cond_if%
+  |
+end
+;-------------------
+[if else |N if … else … end]
+if %cond_if%
+  |
+else
+  
+end
+;-------------------
+[else |N else … end]
+else
+  |
+end
+;-------------------
+[if elsif else |N if … elsif … else … end]
+if %cond_if% then
+  |
+elsif %cond_elsif% then
+  
+else
+  
+end
+;-------------------
+[unless |N code unless conditional]
+unless |
+;-------------------
+[unless else |N unless … else … end]
+unless %cond%
+  |
+else
+  
+end
+;-------------------
+[case |N case … end]
+case %object%
+when %cond% then
+  |
+end
+;-------------------
+[case |N case … when … else … end]
+case %expr1%
+when %expr2% then
+  |
+else
+  
+end
+;-------------------
+[while |N while …]
+while |
+;-------------------
+[while |N while … do]
+while %cond% do
+  |
+end
+;-------------------
+[begin while |N begin … end while …]
+begin 
+  |
+end while %cond%
+;-------------------
+[until |N until ...]
+until |
+;-------------------
+[until do |N until … do]
+until %cond% do
+  |
+end
+;-------------------
+[begin until |N begin … end until …]
+begin 
+  |
+end until %cond1%
+;-------------------
+[for |N for … in … end]
+for %elem1% in %collect%
+  %elem1%.|
+end
+;-------------------
+[for do|N for … in … do]
+for %var% in %expr1% do
+  |
+end
+;-------------------
+[each.do |N ….each do |var| … end]
+each.do ||%var%|  end
+;-------------------
+;-------------------
+[BEGIN |N BEGIN { … }]
+BEGIN { 
+  |
+}
+;-------------------
+[END |N END { … }]
+END { 
+  |
+}
+;-------------------
+[lambda |N lambda {|args| … }]
+lambda { ||%arg1%| }
+;-------------------
+[proc |N proc { … }]
+proc { | }
+;-------------------
+[alias_method |N alias_method :name, :old_name]
+alias_method :%name%, :%oldname%|
+;-------------------
+[all? |N all? { |e| … }]
+all? { ||e|  }
+;-------------------
+[any? |N any? { |e| … }]
+any? { ||e|  }
+;-------------------
+[application_code |N application_code { … }]
+if __FILE__ == $PROGRAM_NAME
+	|
+end
+;-------------------
+[any? |N any? { |e| … }]
+any? { ||e|  }
+;-------------------
+[Array |N Array.new(10) { |i| … }]
+Array.new(10) { ||i|  }
+;-------------------
+[array |N array with 3 elements]
+ [|elem1, elem2, elem3]
+;-------------------
+[array |N array with 3 elements]
+ [%elem1%, %elem2%, %elem3%|]
+;-------------------
+[{ hash } |N hash with 3 maps of key => value]
+{ |key1 => value2, key2 => value2, key3 => value3 }
+;-------------------
+[{ key => value } |N hash with one key => value map]
+{ %key% => %value%| }
+;-------------------
+[puts |N puts string]
+puts "§|"
+;-------------------
+[printf |N printf string]
+printf "§|"
+;-------------------
+["str".length | "string".length]
+"§|".length
+;-------------------
+[$var |N global variable]
+$|
+[@var |N instance variable]
+@|
+[@@var |N class variable]
+@@|
+;-------------------
+;---------------------------------------
+[Keywords]
+;---------------------------------------
+BEGIN
+END
+__FILE__
+__LINE__
+alias
+and
+attr_accessor
+begin
+break
+case
+class
+def
+defined?
+do
+else
+elsif
+end
+ensure
+false
+for
+if
+in
+module
+next
+nil
+not
+or
+raise
+redo
+rescue
+retry
+return
+self
+super
+then
+true
+undef
+unless
+until
+when
+while
+yield

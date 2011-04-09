@@ -1,0 +1,185 @@
+; Tento soubor obsahuje makra programu PSPad pro ObjectScript
+;
+; Autor: Angel Ezquerra
+; poslední revize: 28.4.2004
+;
+; Klicova slova: 28.4.2004
+;
+[Macro definition]
+;----------------------------------------------------------------------
+[rctx | Define the rctx Common Routing Context]
+var rctx = pkg.util.rctx;
+[rctx.addPrimHandler | Add a Primitive Handler]
+rctx.addPrimHandler(|handlerFunction, rctx.type(primitiveType));
+[rctx.removePrimHandler | Remove a Primitive Handler]
+rctx.removePrimHandler(|handlerFunction);
+[rctx.sendAndWaitForPrim | Send a Primitive and Wait for an answer]
+rctx.sendAndWaitForPrim(|new primitiveConstructor(constructorArgs), rctx.type(primitiveType));
+[abs | Returns the absolute value of a number]
+java.lang.Math.abs(|number)
+[acos | Returns the arccosine of a number]
+java.lang.Math.acos(|number)
+[asin | Returns the arcsine of a number]
+java.lang.Math.asin(|number)
+[atan | Returns the arctangent of a number]
+java.lang.Math.atan(|number)
+[atan2 | Returns the angle (in radians) from the X axis to a point (y,x)]
+java.lang.Math.atan2(|y, x)
+[ceil | Returns the smallest integer greater than or equal to its numeric argument]
+java.lang.Math.ceil(|number)
+[concat | Returns a new array consisting of a combination of two or more arrays]
+concat(|[item1[, item2[, . . . [, itemN]]]])
+[concat | Returns a string value containing the concatenation of two or more supplied strings]
+concat(|[string2[, string3[, . . . [, stringN]]]])
+[cos | Returns the cosine of a number]
+java.lang.Math.cos(|number)
+[eval | Evaluates ObjectScript code and executes it]
+eval(|codeString)
+[exp | Returns e (the base of natural logarithms) raised to a power]
+java.lang.Math.exp(|number)
+[floor | Returns the greatest integer less than or equal to its numeric argument]
+java.lang.Math.floor(|number)
+[indexOf | Returns the character position where the first occurrence of a substring occurs within a String object]
+indexOf(|subString[, startIndex])
+[join | Returns a string value consisting of all the elements of an array concatenated together and separated by the specified separator character]
+join(|separator)
+[lastIndexOf | Returns the last occurrence of a substring within a String object]
+lastIndexOf(|substring[, startindex])
+[log | Returns the natural logarithm of a number]
+java.lang.Math.log(|number)
+[match | Executes a search on a string using a regular expression pattern, and returns an array containing the results of that search]
+match(|rgExp)
+[max | Returns the greater of zero or more supplied numeric expressions]
+java.lang.Math.max(|[number1[, number2[. . . [, numberN]]]])
+[min | Returns the lesser of zero or more supplied numeric expressions]
+java.lang.Math.min(|[number1[, number2[. . . [,numberN]]]])
+[pop | Removes the last element from an array and returns it]
+pop()|
+[pow | Returns the value of a base expression taken to a specified power]
+java.lang.Math.pow(|base, exponent)
+[push | Appends new elements to an array, and returns the new length of the array]
+push(|[item1 [item2 [. . . [itemN ]]]])
+[random | Returns a pseudorandom number between 0 and 1]
+java.lang.Math.random(|&nbsp;)
+[replace | Returns a copy of a string with text replaced using a regular expression or search string]
+replace(|rgExp, replaceText)
+[reverse | Returns an Array object with the elements reversed]
+reverse(|&nbsp;)
+[round | Returns a supplied numeric expression rounded to the nearest integer]
+java.lang.Math.round(|number)
+[search | Returns the position of the first substring match in a regular expression search]
+search(|rgExp)
+[shift | Removes the first element from an array and returns it]
+shift()|
+[sin | Returns the sine of a number]
+java.lang.Math.sin(|number)
+[slice | Returns a section of an array]
+slice(|start, [end])
+[slice | Returns a section of a string]
+slice(|start, [end])
+[sort | Returns an Array object with the elements sorted]
+sort(|sortFunction)
+[splice | Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements]
+splice(|start, deleteCount, [item1[, item2[, . . . [,itemN]]]])
+[split | Returns the array of strings that results when a string is separated into substrings]
+split(|[separator[, limit]])
+[sqrt | Returns the square root of a number]
+java.lang.Math.sqrt(|number)
+[substring | Returns the substring at the specified location within a String object]
+substring(|start, end)
+[tan | Returns the tangent of a number]
+java.lang.Math.tan(|number)
+[toLowerCase | Returns a string where all alphabetic characters have been converted to lowercase]
+toLowerCase(|&nbsp;)
+[toString | Returns a string representation of an object]
+toString(|[radix])
+[toUpperCase | Returns a string where all alphabetic characters have been converted to uppercase]
+toUpperCase(|&nbsp;)
+[writeln | Writes a specified string and newline character to the Console]
+WriteLine(|[string])
+[E | Returns Euler's constant, the base of natural logarithms. The E property is approximately equal to 2.718]
+java.lang.Math.E|
+[lastIndex | Returns the character position where&nbsp; the next match begins in a searched string]
+lastIndex|
+[lastMatch | Returns the last matched characters from any regular expression search. Read-only]
+lastMatch|
+[length | Returns the length of a String object]
+length|
+[NaN | Returns the special value NaN indicating that an expression is not a number]
+NaN|
+[PI | Returns the ratio of the circumference of a circle to its diameter, approximately 3.141592653589793]
+java.lang.Math.PI|
+[type | Returns information about the type of a file or folder. For example, for files ending in .TXT, "Text Document" is returned]
+type|
+[undefined | Returns an initial value of undefined]
+undefined|
+;
+[Keywords]
+abs()
+acos()
+case
+catch
+continue
+else
+encoding
+escape()
+eval()
+extends
+false
+finally
+float
+for
+hash
+if
+implements
+import
+indexOf()
+instanceof
+lastIndexOf()
+lastIndexOf(,)
+length
+Math.abs()
+Math.acos()
+Math.asin()
+Math.atan()
+Math.ceil()
+Math.cos()
+Math.e
+Math.exp()
+Math.floor()
+Math.log()
+Math.max()
+Math.min()
+Math.pi
+Math.pow()
+Math.random()
+Math.round()
+Math.sin()
+Math.sqrt()
+Math.tan()
+method
+mixin
+new
+null
+parent
+protocol
+public
+reset()
+return
+search
+small()
+split()
+static
+substring()
+switch
+synchronized
+throw
+toString()
+toLowerCase()
+toString()
+toUpperCase()
+true
+try
+var
+with
+

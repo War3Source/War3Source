@@ -1,0 +1,185 @@
+; PSPad clip definition file for QBasic
+; author:  Kamil Havlíèek (hakam@centrum.cz) from XAGA
+; please visit http://ftipy.wz.cz
+; please visit http://files.unas.cz
+; last revision 08. I 2005  19:14
+; -----------------------------------------------------------------------------
+; dùležité a èasté znaky
+; -----------------------------------------------------------------------------
+[# | køížek]
+#
+["" | uvozovky]
+"|"
+[; | støedník]
+;----------------------------------
+[ABS | absolutní hodnota èísla]
+ABS(numeric-expression)
+[ACCESS | specifikace otevøení souboru]
+ACCESS {READ nebo WRITE nebo READ WRITE}
+[CALL ABSOLUTE | volání m-l procedury]
+CALL ABSOLUTE ([argumentlist,] offset%)
+[ASC | ASCII kód øetìzce]
+ASC(|stringexpression$)
+[CHR$ | vrací znak podle ASCII]
+CHR$(|ascii-code%)
+[SGN | zjistí znaménko èísla]
+SGN(|numeric-expression)
+; goniometrické funkce
+[ATN | arkustangens èísla]
+ATN(|numeric-expression)
+[COS | kosinus úhlu (v radiánech)]
+COS(|angle)
+[SIN | sinus úhlu (v radiánech)]
+SIN(|angle)
+[TAN | tangens úhlu (v radiánech)]
+SIN(|angle)
+;----
+[BEEP | pípnutí speakeru]
+BEEP
+[PLAY | zahrát noty]
+PLAY |commandstring$
+;----
+[BSAVE | uložit obsah pamìti do souboru]
+BSAVE |filespec$, offset%, length&
+[BLOAD | naèíst soubor uložený pomocí BLOAD]
+BLOAD |filespec$[,offset%]
+;---
+[CALL | volání procedury]
+CALL |name [([argumentlist])]
+;---
+[CASE | CASE podmínka-testování promìnné]
+{
+SELECT CASE testexpression
+CASE expressionlist1
+  [statementblock-1]
+CASE expressionlist2
+  [statementblock-2]]...
+CASE ELSE
+  [statementblock-n]]
+END SELECT
+}
+[IF..THEN..ELSEIF..ELSE | IF podmínka úplná]
+IF |condition1 THEN
+    [statementblock-1]
+ELSEIF condition2 THEN
+    [statementblock-2]]...
+ELSE
+    [statementblock-n]]
+END IF
+[IF..THEN..ELSE | IF podmínka 2 pøípady]
+IF |condition1 THEN
+    [statementblock-1]
+ELSE
+    [statementblock-2]]
+END IF
+[IF..THEN | IF podmínka neúplná]
+IF |condition1 THEN [statementblock]
+;--
+[CDBL | pøevede èíslo na double-precision hodnotu]
+CDBL(|numeric-expression)
+[CSNG | pøevede èíslo na single-precision hodnotu]
+CSNG(|numeric-expression)
+[CINT | zaokrouhlí èíslo na INTEGER]
+CINT(|numeric-expression)
+[CLNG | zaokrouhlí èíslo na LONG INETEGER (4byte)]
+CLNG(|numeric-expression)
+[FIX | usekne èást za desetinnou èárkou]
+FIX(numeric-expression)
+[INT | vrací nejvìtší èíslo, které je menší nebo rovno promìnné]
+INT(numeric-expression)
+[CHAIN | pøedá øízení jinému programu v Basicu]
+CHAIN filespec$
+[RUN | spustí program (znovu právì probíhající nebo jiný)]
+RUN [{linenumber nebo file$}]
+[SHELL | provede pøíkaz DOSu]
+SHELL [commandstring$]
+[CHDIR | zmìna adresáøe (change directory)]
+CHDIR pathname$
+[MKDIR | vytvoø adresáø èi podadresáø (make directory)]
+MKDIR pathname$
+[RMDIR | smaž adresáø èi podadresáø (remove directory)]
+RMDIR pathname$
+[FILES | zobraz obsah adresáøe]
+FILES [filespec$]
+[SCREEN | nastav mód a jiné vlastnosti obrazovky]
+SCREEN mode% [,[colorswitch%] [,[activepage%] [,visualpage%]]]
+[CIRCLE | nakresli kruh nebo elipsu na obrazovku]
+CIRCLE [STEP] (x!,y!),radius![,[color%] [,[start!] [,[end!] [,aspect!]]]]
+[LINE | nakresli èáru nebo pravoúhelník na obrazovku]
+LINE [[STEP](x1!,y1!)]-[STEP](x2!,y2!) [,[color%] [,[B | BF] [,style%]]]
+[DRAW | nakresli objekt]
+DRAW commandstring$
+[DRAW | nakresli objekt]
+DRAW commandstring$
+[VIEW | nakresli obdélník (definuj velikost výstupu)]
+VIEW [[SCREEN] (x1!,y1!)-(x2!,y2!) [,[color%] [,border%]]]
+[CLS | vymaž obrazovku (CLear the Screen)]
+CLS 0 nebo 1 nebo 2 nebo nic
+[POINT | vrací barvu pixelu]
+POINT {(n%) | (x%,y%)}
+[CLEAR | zavøi soubory, vymaž promìnné, apod.]
+CLEAR [,,stack&]
+[ERASE | pøeinicializuje pole]
+ERASE arrayname [,arrayname]...
+[CSRLIN | vrací pozici (øádek) kurzoru]
+CSRLIN
+[POS | vrací pozici (sloupec) kurzoru]
+POS(expression)
+[END | ukonèuje program, proceduru, blok apod.]
+END
+[STOP | pozastavuje program]
+STOP
+[SYSTEM | uzavírá všechny otevøené soubory a vrací øízení OS]
+SYSTEM
+[PRINT | napíše data na obrazovku nebo do souboru]
+PRINT [#filenumber%,] [expressionlist] [{; | ,}]
+[LPRINT | vytiskne data pøes tiskárnu na LPT1]
+LPRINT [expressionlist] [{; | ,}]
+[RETURN | vrací se zpìt ze subrutiny]
+LPRINT [expressionlist] [{; | ,}]
+[HEX$ | vrací hexadecimální èíselnou promìnnou]
+HEX$(numeric-expression&)
+[OCT$ | vrací osmièkovou èíselnou promìnnou]
+OCT$(numeric-expression&)
+[WHILE..WEND | cyklus s podmínkou na zaèátku]
+WHILE condition
+.
+.
+.
+WEND
+[FOR..NEXT | cyklus s koneèným poètem prùchodù (FOR-cyklus)]
+FOR counter = start TO end [STEP increment]
+    [statementblock]
+NEXT [counter [,counter]...]
+[DO..LOOP | cyklus s neurèitým poètem prùchodù]
+DO
+    [statementblock]
+LOOP [{WHILE | UNTIL} condition]
+[EXIT | opuštìní cyklù a funkcí]
+EXIT {DEF nebo DO nebo FOR nebo FUNCTION nebo SUB}
+[RANDOMIZE | inicializuje generátor náhodných èísel]
+RANDOMIZE [seed%]
+[RND | vrací náhodnì generované èíslo]
+RND[(n#)]
+[LEN | vrací délku øetìzce]
+LEN(stringexpression$)
+[REM | komentáø]
+REM |
+[RESET | uzavøe všechny otevøené soubory a zaøízení]
+RESET
+[SLEEP | "uspí program"]
+SLEEP [seconds&]
+[KILL | vymaže soubor z disku]
+KILL filespec$
+[FILEATTR | vrací informace o otevøeném souboru]
+FILEATTR(filenumber%,attribute%)
+[OPEN | otevøe soubor nebo zaøízení]
+OPEN file$ [FOR mode] [ACCESS access] [lock] AS [#]filenumber% [LEN=reclen%]
+[CLOSE | uzavøe 1 nebo více souborù èi zaøízení]
+CLOSE [[#]filenumber%[,[#]filenumber%]...]
+[LOG | pøirozený logaritmus èísla]
+LOG(numeric-expression)
+[LCASE$ | pøevede øetìzec na malá písmena]
+LCASE$(stringexpression$)
+[UCASE$ | pøevede øetìzec na velká písmena]
+UCASE$(stringexpression$)

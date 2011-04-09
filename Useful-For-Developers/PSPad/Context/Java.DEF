@@ -1,0 +1,315 @@
+; PSPad clip definition file for Java
+; Created by PSPad   14.7.2002
+; Author:  Jan Fiala  pspad@wo.cz
+; Extended by Ekkehard Kögel, 11.7.2005
+
+[prog | Java program - base]
+public class |MyProg {
+    /**
+     * code description.
+     */
+    public static void main(String[] args) {
+        /* multiline comments */
+        // single line comments
+        System.out.println("Hello world");
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object o) {
+    
+      if (!(o instanceof ${type})) {
+          return false;
+      }
+      ${type} other = (${type}) o;
+      return other.${name}.equals(this.${name});
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.getClass().getName())
+            .append(": attribute1")
+            .append(" attribute2");
+        return  sb.toString();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return this.${name}.hashCode();
+    }
+}
+;
+[servlet | Java Servlet - base]
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class |MyServlet extends HttpServlet {
+    PrintWriter out;
+
+    public void doGet(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            res.setContentType("text/html");
+            out = res.getWriter();
+            String html = "<html>Hello, world</html>";
+            out.println(html);
+        }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public void doPost(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            res.setContentType("text/html");
+            out = res.getWriter();
+            String html = "<html>Hello, world</html>";
+            out.println(html);
+        }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+}
+;
+[applet | Java Applet - base]
+import java.applet.Applet;
+import java.awt.Graphics;
+ 
+public class |MyApplet extends Applet {
+
+   /**
+    * Once invoked after instantiation. Initialises member variables, 
+    * load images or fonts, read parameters. 
+    * The equivalent to a constructor of an application.
+    * ...
+    */
+   public void init() {}
+   
+   /**
+    * Starts execution, especially for threads.
+    */
+   public void start() {}
+
+   /**
+    * Stops execution, especially for threads.
+    */
+   public void stop() {}
+
+   /**
+    * Browser destroys something before terminating the applet.
+    * For example needed in order to destroy a thread started during 
+    * initialisation of the applet.
+    */
+   public void destroy() {}
+
+   /**
+    * Returns information about the parameters accepted by the applet.
+    * You can define these parameters in a HTML file by means of a <param> tag.
+    * On his part this <param> tag is enclosed by the <applet> tag.
+    * You should overwrite this method.
+    * @return Array of <code>String[]</code>
+    */
+   public String[][] getParameterInfo() {
+     String[][] parameterInfo = {
+       {"name of parameter1","type of parameter1","description of parameter1"},
+       {"name of parameter2","type of parameter2","description of parameter2"},
+       {"...", "...", "..."}
+     };
+     return parameterInfo;
+   }
+
+   /**
+    * Returns information about the applet, the current version
+    * and about the author.
+    * You should overwrite this method.
+    * @return <code>String</code>
+    */
+   public String getAppletInfo() {
+     StringBuffer sb = new StringBuffer();
+     sb.append(Class.getName()).append(" version year author");
+     return sb.toString();
+   }
+
+   /**
+    * Example.
+    * @param g <code>Graphics</code> object, 
+    * the abstract base class for all graphics contexts that allow 
+    * an application to draw onto components that are realized on 
+    * various devices, as well as onto off-screen images. 
+    */
+   public void paint(Graphics g) {
+     showStatus("Hello world");
+     g.drawString("Hello world", 10, 50);
+   }
+
+}
+;
+[do | do while statement]
+do {
+	
+} while (|${condition});
+;
+[elseif | else if block]
+else if (|${condition}) {
+	
+}
+;
+[equals | overridden method equals()]
+/* (non-Javadoc)
+ * @see java.lang.Object#equals(java.lang.Object)
+ */
+public boolean equals(Object o) {
+
+  if (!(o instanceof |${type})) {
+      return false;
+  }
+  ${type} other = (${type}) o;
+  return other.${name}.equals(this.${name});
+}
+;
+[for | for cycle]
+for (int i = 0; i < |; i++) {}
+;
+[for | iterate over array]
+for (int |i = 0; i < ${array}.length; i++) {
+	
+}
+;
+[for | iterate over array with temporary variable]
+for (int |i = 0; i < ${array}.length; i++) {
+	${array_type} ${array_element} = ${array}[i];
+	
+}
+;
+[for | iterate over collection]
+for (Iterator |${iterator} = ${collection}.iterator(); ${iterator}.hasNext(); ) {
+	${type} ${element} = (${type}) ${iterator}.next();
+
+}
+;
+[foreach | iterate over an array or Iterable]
+for (${iterable_type} ${iterable_element} : ${iterable}) {
+	|
+}
+;
+[hashcode | overridden method hashCode()]
+/* (non-Javadoc)
+ * @see java.lang.Object#hashCode()
+ */
+public int hashCode() {
+    return this.|${name}.hashCode();
+}
+;
+[if | if statement]
+if (|${condition}) {
+	
+}
+;
+[ifelse | if else block]
+if (|${condition}) {
+	
+} else {
+	
+}
+;
+[instanceof | dynamic type test and cast]
+if (|${name} instanceof ${type}) {
+	${type} ${new_name} = (${type})${name};
+	
+}
+;
+[lazy | lazy creation]
+if (|${name} == null) {
+	${name} = new ${type}(${arguments});
+	
+}
+;
+[runnable | runnable]
+new Runnable() {
+	public void run() {
+		|
+	}
+}
+;
+[singleton | singleton constructor]
+private static |${type} ${name};
+
+private ${type}() {}
+
+public static ${type} getSingleton() {
+    if (${name} == null)
+      synchronized(${type}.class) {
+        if (${name} == null)
+            ${name} = new ${type}();
+      }
+    return ${name};
+}
+;
+[switch | switch case statement]
+switch (${key}) {
+	case ${value}:
+		|
+		break;
+
+	default:
+		break;
+}
+;
+[synchronized | synchronized block]
+synchronized (|${mutex}) {
+	
+}
+;
+[sysout | print to standard out]
+System.out.println(|);
+;
+[syserr | print to standard error]
+System.err.println(|);
+;
+[try | try-catch block]
+try {
+    |
+}
+catch (Exception e) {
+    e.getMessage();
+    System.err.println("Unexpected exception");
+    e.printStackTrace();
+}
+finally {}
+;
+[toarray | convert collection to array]
+(|${type}[]) ${collection}.toArray(new ${type}[${collection}.size()])
+;
+[tostring | overridden method toString()]
+/* (non-Javadoc)
+ * @see java.lang.Object#toString()
+ */
+public String toString() {
+    StringBuffer sb = new StringBuffer();
+    sb.append(this.getClass().getName())
+        .append(": |attribute1")
+        .append(" attribute2");
+    return  sb.toString();
+}
+;
+[while | while cycle]
+int i=0;
+while (i < |) {
+
+    i++;
+}
+;
+[while | while with iterator]
+while (${iterator}.hasNext()) {
+	${type} ${element} = (${type}) ${iterator}.next();
+	|
+}
+;
+[while | while with enumeration]
+while (${enumeration}.hasMoreElements()) {
+	${type} ${element} = (${type}) ${enumeration}.nextElement();
+	|
+}

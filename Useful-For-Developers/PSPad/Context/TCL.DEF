@@ -1,0 +1,229 @@
+; PSPad code template for Tcl/Tk
+; Created by PSPad   25.05.2004  20:33
+; Author:  gerhard.berthold@hamburg.de
+;
+[Macro definition]
+%name%=@E proc/method/class name:
+%autor%=@E author name:
+%args%=@E arguments:
+%desc%=@E description:
+[proc | procedure tcl]
+# ############################
+# Procedure: 	%name%
+# Author: 	 	%autor%
+#
+# description:	%desc%
+#
+# example:	 	%name% %args%
+proc %name% {%args%} {
+	set fcFun "%name%"
+}
+[method | method tcl]
+# ############################
+# method: %name%
+# Author: 	 %autor%
+#
+# description:	%desc%
+#
+# example:	 	%name% %args%
+method %name% {%args%} {
+
+}
+[class | class tcl]
+# ############################
+# class: %name%
+# Author: 	 %autor%
+#
+# description:	%desc%
+#
+# example:	 	%name% %args%
+class %name% {
+
+}
+
+[Keywords]
+after
+append
+array
+auto_execok
+auto_load
+auto_mkindex
+auto_reset
+bgerror
+break
+case
+catch
+cd
+clock
+close
+concat
+continue
+eof
+error
+eval
+exec
+exit
+expr
+else
+elseif
+fblocked
+fconfigure
+file
+fileevent
+flush
+for
+foreach
+format
+gets
+glob
+global
+history
+if
+incr
+info
+interp
+join
+lappend
+lindex
+linsert
+list
+llength
+load
+lrange
+lreplace
+lsearch
+lsort
+open
+package
+parray
+pid
+proc
+puts
+pwd
+read
+regexp
+regsub
+rename
+return
+scan
+seek
+set
+socket
+source
+split
+string
+subst
+switch
+tell
+time
+trace
+tcl_endOfWord
+tcl_startOfNextWord
+tcl_startOfPreviousWord
+tcl_wordBreakAfter
+tcl_wordBreakBefore
+unknown
+unset
+update
+uplevel
+upvar
+vwait
+while
+exit
+BINDIDPROC
+BINDPROC
+BINARY
+FILENAME
+HTTP
+FCOPY
+FONT
+LIBRARY
+LOADTK
+NAMESPACE
+RESOURCE
+THEN
+OPTIONS
+REGISTRY
+SAFEBASE
+TCLVARS
+TCL
+SENDOUT
+RGB
+PKG_MKINDEX
+NAMESPUPD
+VARIABLE
+auto_execs
+auto_index
+auto_noexec
+auto_noload
+auto_path
+env
+ErrorCode
+ErrorInfo
+tcl_library
+tcl_patchLevel
+tcl_pkgPath
+tcl_platform
+tcl_precision
+tcl_rcFileName
+tcl_rcRsrcName
+tcl_version
+tcl_nonwordchars
+tcl_wordchars
+unknown_active
+bell
+bind
+bindtags
+bitmap
+button
+canvas
+checkbutton
+clipboard
+destroy
+entry
+event
+focus
+frame
+grab
+grid
+image
+label
+listbox
+lower
+menu
+menubutton
+message
+option
+pack
+photo
+place
+radiobutton
+raise
+scale
+scrollbar
+selection
+send
+text
+tk
+tk_bindForTraversal
+tk_bisque
+tk_chooseColor
+tk_dialog
+tk_focusFollowsMouse
+tk_focusNext
+tk_focusPrev
+tk_getOpenFile
+tk_getSaveFile
+tk_menuBar
+tk_messageBox
+tk_optionMenu
+tk_popup
+tk_setPalette
+tkerror
+tkvars
+tkwait
+toplevel
+winfo
+wm
+dputs
+declaretag

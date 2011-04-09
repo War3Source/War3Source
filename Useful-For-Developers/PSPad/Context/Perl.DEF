@@ -1,0 +1,1074 @@
+; PSPad code template for Perl (Practical Extraction and Report Language)
+; Author: Karel Pavelka
+; E-mail: webjob@seznam.cz
+; Update: 2003-12-11
+;
+[abs | absolute value function]
+abs |VALUE
+[accept | accept an incoming socket connect]
+accept |NEWSOCKET,GENERICSOCKET
+[alarm | schedule a SIGALRM]
+alarm |SECONDS
+[bind | binds an address to a socket]
+bind |SOCKET,NAME
+[bless | create an object]
+bless |REF,CLASSNAME
+[atan2 | arctangent of Y/X in the range -PI to PI]
+atan2 (Y,X)
+[binmode | prepare binary files for I/O]
+binmode |FILEHANDLE, DISCIPLINE
+[caller | get context of the current subroutine call]
+caller |EXPR
+[chmod | changes the permissions on a list of files]
+chmod |LIST
+[chomp | remove a trailing record separator from a string]
+chomp |VARIABLE
+[chop | remove the last character from a string]
+chop |VARIABLE
+[chdir | change your current working directory]
+chdir |EXPR
+[chown | change the owership on a list of files]
+chown |LIST
+[chr | get character this number represents]
+chr |NUMBER
+[chroot | make directory new root for path lookups]
+chroot |FILENAME
+[close | close file (or pipe or socket) handle]
+close |FILEHANDLE
+[closedir | close directory handle]
+closedir |DIRHANDLE
+[connect | connect to a remote socket]
+connect |SOCKET,NAME
+[cos | cosine function]
+cos |EXPR
+[crypt | one-way passwd-style encryption]
+crypt |PLAINTEXT,SALT
+[continue | optional trailing block in a while or foreach]
+continue |BLOCK
+[dbmopen | create binding on a tied dbm file]
+dbmopen |HASH,DBNAME,MASK
+[defined | test whether a value, variable, or function is defined]
+defined |EXPR
+[delete | deletes a value from a hash]
+delete |EXPR
+[dbmclose | breaks binding on a tied dbm file]
+dbmclose |HASH
+[die | raise an exception or bail out]
+die |LIST
+[each | retrieve the next keyvalue pair from a hash]
+each |HASH
+[endgrent | be done using group file]
+endgrent |
+[do | turn a BLOCK into a TERM]
+do |BLOCK
+[dump | create an immediate core dump]
+dump |LABEL
+[endhostent | be done using hosts file]
+endhostent |
+[endpwent | be done using passwd file]
+endpwent |
+[endservent | be done using services file]
+endservent |
+[endnetent | be done using networks file]
+endnetent |
+[eof | test a filehandle for its end]
+eof |FILEHANDLE
+[endprotoent | be done using protocols file]
+endprotoent |
+[eval | catch exceptions or compile and run code]
+eval |EXPR
+[exists | test whether a hash key is present]
+exists |EXPR
+[exp | raise e to a power]
+exp |EXPR
+[exec | abandon this program to run another]
+exec |LIST
+[fcntl | file control system call]
+fcntl |FILEHANDLE,FUNCTION,SCALAR
+[exit | terminate this program]
+exit |EXPR
+[fileno | return file descriptor from filehandle]
+fileno |FILEHANDLE
+[flock | lock an entire file with an advisory lock]
+flock |FILEHANDLE,OPERATION
+[format | declare a picture format with use by the write() function]
+format |
+[fork | create a new process just like this one]
+fork |
+[getgrent | get next group record]
+getgrent |
+[getgrgid | get group record given group user ID]
+getgrgid |GID
+[formline | internal function used for formats]
+formline |PICTURE,LIST
+[getc | get	the next character from the filehandle]
+getc |FILEHANDLE
+[getgrnam | get group record given group name]
+getgrnam |NAME
+[gethostbyaddr | get host record given its address]
+gethostbyaddr |ADDR,ADDRTYPE
+[gethostbyname | get host record given name]
+gethostbyname |NAME
+[getlogin | return who logged in at this tty]
+getlogin |
+[getnetbyaddr | get network record given its address]
+getnetbyaddr |ADDR,ADDRTYPE
+[getpeername | find the other end of a socket connection]
+getpeername |SOCKET
+[getnetent | get next networks record]
+getnetent |
+[gethostent | get next hosts record]
+gethostent |
+[getppid | get parent process ID]
+getppid |
+[getpriority | get current nice value]
+getpriority |WHICH,WHO
+[getpgrp | get process group]
+getpgrp |PID
+[getnetbyname | get networks record given name]
+getnetbyname |NAME
+[getprotobyname | get protocol record given name]
+getprotobyname |NAME
+[getprotobynumber | get protocol record numeric protocol]
+getprotobynumber |NUMBER
+[getpwent | get next passwd record]
+getpwent |
+[getpwnam | get passwd record given user login name]
+getpwnam |NAME
+[getpwuid | get passwd record given user ID]
+getpwuid |UID
+[getprotoent | get next protocols record]
+getprotoent |
+[getservbyport | get services record given numeric port]
+getservbyport |PORT,PROTO
+[getsockname | retrieve the sockaddr for a given socket]
+getsockname |SOCKET
+[getservent | get next services record]
+getservent |
+[getsockopt | get socket options on a given socket]
+getsockopt |SOCKET,LEVEL,OPTNAME
+[getservbyname | get services record given its name]
+getservbyname |NAME,PROTO
+[glob | expand filenames using wildcards]
+glob |EXPR
+[grep | locate elements in a list test true against a given criterion]
+grep |BLOCK LIST
+[hex | convert a string to a hexadecimal number]
+hex |EXPR
+[gmtime | convert UNIX time into record or string using Greenwich time]
+gmtime |EXPR
+[import | patch a module's namespace into your own]
+import |
+[goto | create spaghetti code]
+goto |LABEL
+[join | join a list into a string using a separator]
+join |EXPR,LIST
+[int | get the integer portion of a number]
+int |EXPR
+[keys | retrieve list of indices from a hash]
+keys |HASH
+[kill | send a signal to a process or process group]
+kill |SIGNAL, LIST
+[last | exit a block prematurely]
+last |LABEL
+[ioctl | system-dependent device control system call]
+ioctl |FILEHANDLE,FUNCTION,SCALAR
+[lc | return lower-case version of a string]
+lc |EXPR
+[index | find a substring within a string]
+index |STR,SUBSTR,POSITION
+[length | return the number of bytes in a string]
+length |EXPR
+[link | create a hard link in the filesytem]
+link |OLDFILE,NEWFILE
+[lcfirst | return a string with just the next letter in lower case]
+lcfirst |EXPR
+[localtime | convert UNIX time into record or string using local time]
+localtime |EXPR
+[listen | register your socket as a server]
+listen |SOCKET,QUEUESIZE
+[lock | get a thread lock on a variable, subroutine, or method]
+lock |
+[local | create a temporary value for a global variable (dynamic scoping)]
+local |EXPR
+[log | retrieve the natural logarithm for a number]
+log |EXPR
+[lstat | stat a symbolic link]
+lstat |FILEHANDLE
+[mkdir | create a directory]
+mkdir |FILENAME,MASK
+[msgget | get SysV IPC message queue]
+msgget |KEY,FLAGS
+[map | apply a change to a list to get back a new list with the changes]
+map |BLOCK LIST
+[msgctl | SysV IPC message control operations]
+msgctl |ID,CMD,ARG
+[m | match a string with a regular expression pattern]
+m// |
+[msgsnd | send a SysV IPC message to a message queue]
+msgsnd |ID,MSG,FLAGS
+[my | declare and assign a local variable (lexical scoping)]
+my |EXPR
+[no | unimport some module symbols or semantics at compile time]
+no Module |LIST
+[oct | convert a string to an octal number]
+oct |EXPR
+[next | iterate a block prematurely]
+next |LABEL
+[msgrcv | receive a SysV IPC message from a message queue]
+msgrcv |ID,VAR,SIZE,TYPE,FLAGS
+[opendir | open a directory]
+opendir |DIRHANDLE,EXPR
+[ord | find a character's numeric representation]
+ord |EXPR
+[open | open a file, pipe, or descriptor]
+open |FILEHANDLE,MODE,LIST
+[pack | convert a list into a binary representation]
+pack |TEMPLATE,LIST
+[package | declare a separate global namespace]
+package |NAMESPACE
+[pop | remove the last element from an array and return it]
+pop |ARRAY
+[pos | find or set the offset for the lastnext mg search]
+pos |SCALAR
+[print | output a list to a filehandle]
+print |FILEHANDLE LIST
+[pipe | open a pair of connected filehandles]
+pipe |READHANDLE,WRITEHANDLE
+[prototype | get the prototype (if any) of a subroutine]
+prototype |FUNCTION
+[printf | output a formatted list to a filehandle]
+printf |FILEHANDLE FORMAT, LIST
+[qqSTRING | doubly quote a string]
+qq/STRING/ |
+[push | append one or more elements to an array]
+push |ARRAY,LIST
+[qSTRING | singly quote a string]
+q/STRING/ |
+[rand | retrieve the next pseudorandom number]
+rand |EXPR
+[quotemeta | quote regular expression magic characters]
+quotemeta |EXPR
+[qwSTRING | quote a list of words]
+qw/STRING/ |
+[read | fixed-length buffered input from a filehandle]
+read |FILEHANDLE,SCALAR,LENGTH,OFFSET
+[readdir | get a directory from a directory handle]
+readdir |DIRHANDLE
+[readline | fetch a record from a file]
+readline |EXPR
+[readlink | determine where a symbolic link is pointing]
+readlink |EXPR
+[qxSTRING | backquote quote a string]
+qx/STRING/ |
+[redo | start this loop iteration over again]
+redo |LABEL
+[recv | receive a message over a Socket]
+recv |SOCKET,SCALAR,LENGTH,FLAGS
+[rename | change a filename]
+rename |OLDNAME,NEWNAME
+[reset | clear all variables of a given name]
+reset |EXPR
+[ref | find out the type of thing being referenced]
+ref |EXPR
+[rewinddir | reset directory handle]
+rewinddir |DIRHANDLE
+[rmdir | remove a directory]
+rmdir |FILENAME
+[s | replace a pattern with a string]
+s/// |
+[reverse | flip a string or a list]
+reverse |LIST
+[require | load in external functions from a library at runtime]
+require |VERSION
+[return | get out of a function early]
+return |EXPR
+[scalar | force a scalar context]
+scalar |EXPR
+[seek | reposition file pointer for random-access I/O]
+seek |FILEHANDLE,POSITION,WHENCE
+[seekdir | reposition directory pointer]
+seekdir |DIRHANDLE,POS
+[rindex | right-to-left substring search]
+rindex |STR,SUBSTR,POSITION
+[select | reset default output or do I/O multiplexing]
+select |FILEHANDLE
+[semctl | SysV semaphore control operations]
+semctl |ID,SEMNUM,CMD,ARG
+[semget | get set of SysV semaphores]
+semget |KEY,NSEMS,FLAGS
+[semop | SysV semaphore operations]
+semop |KEY,OPSTRING
+[send | send a message over a socket]
+send |SOCKET,MSG,FLAGS,TO
+[setgrent | prepare group file for use]
+setgrent |
+[sethostent | prepare hosts file for use]
+sethostent |STAYOPEN
+[setpgrp | set the process group of a process]
+setpgrp |PID,PGRP
+[setnetent | prepare networks file for use]
+setnetent |STAYOPEN
+[setpriority | set a process's nice value]
+setpriority |WHICH,WHO,PRIORITY
+[setpwent | prepare passwd file for use]
+setpwent |
+[setservent | prepare services file for use]
+setservent |STAYOPEN
+[setsockopt | set some socket options]
+setsockopt |SOCKET,LEVEL,OPTNAME,OPTVAL
+[setprotoent | prepare protocols file for use]
+setprotoent |STAYOPEN
+[shmget | get SysV shared memory segment identifier]
+shmget |KEY,SIZE,FLAGS
+[shift | remove the first element of an array, and return it]
+shift |ARRAY
+[shmctl | SysV shared memory operations]
+shmctl |ID,CMD,ARG
+[shmwrite | write SysV shared memory]
+shmwrite |ID,STRING,POS,SIZE
+[shutdown | close down just half of a socket connection]
+shutdown |SOCKET,HOW
+[shmread | read SysV shared memory]
+shmread |ID,VAR,POS,SIZE
+[sleep | block for some number of seconds]
+sleep |EXPR
+[socket | create a socket]
+socket |SOCKET,DOMAIN,TYPE,PROTOCOL
+[sin | return the sine of a number]
+sin |EXPR
+[socketpair | create a pair of sockets]
+socketpair |SOCKET1,SOCKET2,DOMAIN,TYPE,PROTOCOL
+[sort | sort a list of values]
+sort |SUBNAME LIST
+[sqrt | square root function]
+sqrt |EXPR
+[sprintf | formatted print into a string]
+sprintf |FORMAT, LIST
+[split | split up a string using a regexp delimiter]
+split |/PATTERN/,EXPR,LIMIT
+[splice | add or remove elements anywhere in an array]
+splice |ARRAY,OFFSET,LENGTH,LIST
+[sub | declare a subroutine, possibly anonymously]
+sub |BLOCK
+[srand | seed the random number generator]
+srand |EXPR
+[symlink | create a symbolic link to a file]
+symlink |OLDFILE,NEWFILE
+[study | optimize input data for repeated searches]
+study |SCALAR
+[substr | get or alter a portion of a stirng]
+substr |EXPR,OFFSET,LENGTH,REPLACEMENT
+[syscall | execute an arbitrary system call]
+syscall |LIST
+[tell | get current seekpointer on a filehandle]
+tell |FILEHANDLE
+[sysread | fixed-length unbuffered input from a filehandle]
+sysread |FILEHANDLE,SCALAR,LENGTH,OFFSET
+[stat | get a file's status information]
+stat |FILEHANDLE
+[syswrite | fixed-length unbuffered output to a filehandle]
+syswrite |FILEHANDLE,SCALAR,LENGTH,OFFSET
+[telldir | get current seekpointer on a directory handle]
+telldir |DIRHANDLE
+[time | return number of seconds since 1970]
+time |
+[times | return elapsed time for self and child processes]
+times |
+[sysseek | position I/O pointer on handle used with sysread and syswrite]
+sysseek |FILEHANDLE,POSITION,WHENCE
+[tie | bind a variable to an object class]
+tie |VARIABLE,CLASSNAME,LIST
+[tr | transliterate a string]
+tr/// |
+[truncate | shorten a file]
+truncate |FILEHANDLE,LENGTH
+[uc | return upper-case version of a string]
+uc |EXPR
+[umask | set file creation mode mask]
+umask |EXPR
+[ucfirst | return a string with just the next letter in upper case]
+ucfirst |EXPR
+[undef | remove a variable or function definition]
+undef |EXPR
+[unlink | remove one link to a file]
+unlink |LIST
+[unpack | convert binary structure into normal perl variables]
+unpack |TEMPLATE,EXPR
+[untie | break a tie binding to a variable]
+untie |VARIABLE
+[system | run a separate program]
+system |LIST
+[unshift | prepend more elements to the beginning of a list]
+unshift |ARRAY,LIST
+[utime | set a file's last access and modify times]
+utime |LIST
+[values | return a list of the values in a hash]
+values |HASH
+[use | load in a module at compile time]
+use Module |VERSION LIST
+[wait | wait for any child process to die]
+wait |
+[wantarray | get void vs scalar vs list context of current subroutine call]
+wantarray |
+[write | print a picture record]
+write |FILEHANDLE
+[waitpid | wait for a particular child process to die]
+waitpid |PID,FLAGS
+[warn | print debugging info]
+warn |LIST
+[y | transliterate a string]
+y/// |
+[vec | test or set particular bits in a string]
+vec |EXPR,OFFSET,BITS
+;
+[Tree Content]
+Functions for SCALARs or strings
+ chomp
+ chop
+ chr
+ crypt
+ hex
+ index
+ lc
+ lcfirst
+ length
+ oct
+ ord
+ pack
+ q/STRING/
+ qq/STRING/
+ reverse
+ rindex
+ sprintf
+ substr
+ tr///
+ uc
+ ucfirst
+ y///
+Regular expressions and pattern matching
+ m//
+ pos
+ quotemeta
+ s///
+ split
+ study
+ qr//
+Numeric functions
+ abs
+ atan2
+ cos
+ exp
+ hex
+ int
+ log
+ oct
+ rand
+ sin
+ sqrt
+ srand
+Functions for real @ARRAYs
+ pop
+ push
+ shift
+ splice
+ unshift
+Functions for list data
+ grep
+ join
+ map
+ qw/STRING/
+ reverse
+ sort
+ unpack
+Functions for real %HASHes
+ delete
+ each
+ exists
+ keys
+ values
+Input and output functions
+ binmode
+ close
+ closedir
+ dbmclose
+ dbmopen
+ die
+ eof
+ fileno
+ flock
+ format
+ getc
+ print
+ printf
+ read
+ readdir
+ rewinddir
+ seek
+ seekdir
+ select
+ syscall
+ sysread
+ sysseek
+ syswrite
+ tell
+ telldir
+ truncate
+ warn
+ write
+Functions for fixed length data or records
+ pack
+ read
+ syscall
+ sysread
+ syswrite
+ unpack
+ ve
+Functions for filehandles, files, or directories
+ -X
+ chdir
+ chmod
+ chown
+ chroot
+ fcntl
+ glob
+ ioctl
+ link
+ lstat
+ mkdir
+ open
+ opendir
+ readlink
+ rename
+ rmdir
+ stat
+ symlink
+ sysopen
+ umask
+ unlink
+ utime
+Keywords related to the control flow of your perl program
+ caller
+ continue
+ die
+ do
+ dump
+ eval
+ exit
+ goto
+ last
+ next
+ redo
+ return
+ sub
+ wantarray
+Keywords related to scoping
+ caller
+ import
+ local
+ my
+ our
+ package
+ use
+Miscellaneous functions
+ defined
+ dump
+ eval
+ formline
+ local
+ my
+ our
+ reset
+ scalar
+ undef
+ wantarray
+Functions for processes and process groups
+ alarm
+ exec
+ fork
+ getpgrp
+ getppid
+ getpriority
+ kill
+ pipe
+ qx/STRING/
+ setpgrp
+ setpriority
+ sleep
+ system
+ times
+ wait
+ waitpid
+Keywords related to perl modules
+ do
+ import
+ no
+ package
+ require
+ use
+Keywords related to classes and object-orientedness
+ bless
+ dbmclose
+ dbmopen
+ package
+ ref
+ tie
+ tied
+ untie
+ use
+Low-level socket functions
+ accept
+ bind
+ connect
+ getpeername
+ getsockname
+ getsockopt
+ listen
+ recv
+ send
+ setsockopt
+ shutdown
+ socket
+ socketpair
+System V interprocess communication functions
+ msgctl
+ msgget
+ msgrcv
+ msgsnd
+ semctl
+ semget
+ semop
+ shmctl
+ shmget
+ shmread
+ shmwrite
+Fetching user and group info
+ endgrent
+ endhostent
+ endnetent
+ endpwent
+ getgrent
+ getgrgid
+ getgrnam
+ getlogin
+ getpwent
+ getpwnam
+ getpwuid
+ setgrent
+ setpwent
+Fetching network info
+ endprotoent
+ endservent
+ gethostbyaddr
+ gethostbyname
+ gethostent
+ getnetbyaddr
+ getnetbyname
+ getnetent
+ getprotobyname
+ getprotobynumber
+ getprotoent
+ getservbyname
+ getservbyport
+ getservent
+ sethostent
+ setnetent
+ setprotoent
+ setservent
+Time-related functions
+ gmtime
+ localtime
+ time
+ times
+Functions new in perl5
+ abs
+ bless
+ chomp
+ chr
+ exists
+ formline
+ glob
+ import
+ lc
+ lcfirst
+ map
+ my
+ no
+ our
+ prototype
+ qx
+ qw
+ readline
+ readpipe
+ ref
+ sub*
+ sysopen
+ tie
+ tied
+ uc
+ ucfirst
+ untie
+ use
+Functions obsoleted in perl5
+ dbmclose
+ dbmopen
+;
+;
+[KeyWords]
+$ENV{AUTH_TYPE};
+$ENV{DOCUMENT_ROOT};
+$ENV{GATEWAY_INTERFACE};
+$ENV{HTTP_ACCEPT_ENCODING};
+$ENV{HTTP_ACCEPT_CHARSET};
+$ENV{HTTP_ACCEPT_LANGUAGE};
+$ENV{HTTP_ACCEPT};
+$ENV{HTTP_COOKIE};
+$ENV{HTTP_FROM};
+$ENV{HTTP_HOST};
+$ENV{HTTP_REFERER};
+$ENV{HTTP_USER_AGENT};
+$ENV{HTTPS};
+$ENV{PATH_TRANSLATED};
+$ENV{QUERY_STRING};
+$ENV{REMOTE_ADDR};
+$ENV{REMOTE_HOST};
+$ENV{REMOTE_USER};
+$ENV{REQUEST_METHOD};
+$ENV{SCRIPT_NAME};
+$ENV{SERVER_NAME};
+$ENV{SERVER_PORT};
+$ENV{SERVER_PROTOCOL};
+$ENV{SERVER_SOFTWARE};
+abs
+accept
+alarm
+all
+and
+any
+append
+atan2
+attachment
+AUTH_TYPE
+author
+autoload
+base
+BGCOLOR
+bind
+binmode
+bless
+caller
+CGI
+close
+closedir
+cmp
+COMMONPROGRAMFILES
+compile
+COMPUTERNAME
+connect
+constant
+CONTENT_LENGTH
+content_type
+Content-type:
+continue
+Cookie
+cos
+crypt
+data
+dataend
+datasend
+dbmclose
+dbmopen
+debug
+defaults
+defined
+delete
+die
+do
+DOCUMENT_ROOT
+domain
+dump
+each
+end_html
+endgrent
+endhostent
+endnetent
+endprotoent
+endpwent
+endservent
+eof
+eq
+eval
+exec
+exists
+exit
+exp
+expires
+fcntl
+fetch
+fileno
+flock
+fork
+form
+format
+formline
+GATEWAY_INTERFACE
+getc
+getgrent
+getgrgid
+getgrnam
+gethostbyaddr
+gethostbyname
+gethostent
+getlogin
+getnetbyaddr
+getnetbyname
+getnetent
+getpeername
+getpgrp
+getppid
+getpriority
+getprotobyname
+getprotobynumber
+getprotoent
+getpwent
+getpwnam
+getpwuid
+getservbyname
+getservbyport
+getservent
+getsockname
+getsockopt
+glob
+gmtime
+goto
+grep
+gt
+header
+hex
+html
+html2
+html3
+http
+HTTP_ACCEPT
+HTTP_ACCEPT_ENCODING
+HTTP_ACCEPT_CHARSET
+HTTP_ACCEPT_LANGUAGE
+HTTP_COOKIE
+HTTP_FORWARDED
+HTTP_FROM
+HTTP_HOST
+HTTP_REFERER
+HTTP_USER_AGENT
+HTTPS
+charset
+chdir
+chmod
+chomp
+chop
+chown
+chr
+chroot
+import
+index
+INSTANCE_ID
+int
+ioctl
+join
+keys
+kill
+lang
+last
+lc
+lcfirst
+le
+length
+link
+listen
+local
+LOCAL_ADDR
+localtime
+Location:
+LOCK_EX
+LOCK_SH
+log
+lstat
+lt
+mail
+map
+meta
+mkdir
+msgctl
+msgget
+msgrcv
+msgsnd
+MXHOME
+my
+name
+ne
+Net
+netscape
+new
+newstyle_urls
+next
+no
+no_debug
+no_xhtml
+nosticky
+not
+nph
+oct
+oldstyle_urls
+open
+opendir
+or
+ord
+OS
+our
+pack
+package
+param
+param_fetch
+path
+PATH_INFO
+PATH_TRANSLATED
+PATHEXT
+pipe
+pop
+pos
+print
+printf
+private_tempfiles
+PROCESSOR_ARCHITECTURE
+PROCESSOR_IDENTIFIER
+PROGRAMFILES
+prototype
+push
+qq
+QUERY_STRING
+quit
+quotemeta
+qw
+rand
+raw_cookie
+read
+readdir
+readline
+readlink
+readpipe
+recv
+redirect
+redo
+ref
+referer
+REMOTE_ADDR
+REMOTE_HOST
+remote_user
+rename
+REQUEST_METHOD
+require
+reset
+return
+reverse
+rewinddir
+rindex
+rmdir
+scalar
+SCRIPT_NAME
+secure
+seek
+seekdir
+select
+semctl
+semget
+semop
+send
+SERVER_NAME
+SERVER_PORT
+SERVER_PORT_SECURE
+SERVER_PROTOCOL
+SERVER_SOFTWARE
+setgrent
+sethostent
+setnetent
+setpgrp
+setpriority
+setprotoent
+setpwent
+setservent
+setsockopt
+shift
+shmctl
+shmget
+shmread
+shmwrite
+shutdown
+sin
+sleep
+SMTP
+socket
+socketpair
+sort
+splice
+split
+sprintf
+sqrt
+srand
+standard
+start_html
+stat
+status
+STDERR
+STDIN
+STDOUT
+strict
+study
+style
+sub
+substr
+symlink
+syscall
+sysopen
+sysread
+sysseek
+system
+SYSTEMDRIVE
+SYSTEMROOT
+syswrite
+target
+tell
+telldir
+text/css
+text/html
+text/plain
+text/xml
+tie
+tied
+time
+times
+title
+to
+truncate
+type
+uc
+ucfirst
+umask
+undef
+unlink
+unpack
+unshift
+untie
+uri
+use
+user_agent
+user_name
+utime
+value
+values
+vec
+virtual_host
+wait
+waitpid
+wantarray
+warn
+write
+

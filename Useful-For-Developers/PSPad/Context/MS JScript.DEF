@@ -1,0 +1,614 @@
+﻿; Tento soubor obsahuje makra programu PSPad pro JScript
+;
+; Řádky začínající středníkem a prázdné řádky jsou ignorovány
+;
+; Formát příkazů :
+;  [jméno_příkazu | popis příkazu (libovolný text)]*klávesová_zkratka
+;  řádek příkazu, který bude vložen
+;  řádek příkazu, který bude vložen ...
+;
+; hlavička příkazu je uzavřena do [], znak | slouží jako oddělovač
+; jména příkazu a komentáře.
+; * určuje nepovinnou klávesovou zkratku
+; pokud řádek příkazu obsahuje znak |, kurzor se po vloľení do
+; textu zastaví na tomto místě
+; pokud řádek příkazu obsahuje znak §, bude zde vložen označený text
+;
+; autor: Ing. Aleš Daniel ales.daniel@centrum.cz
+; poslední revize: 10.8.2005
+;
+; Methods
+[abs | Returns the absolute value of a number]
+Math.abs(|number)
+[acos | Returns the arccosine of a number]
+Math.acos(|number)
+[anchor | Places an HTML anchor with a NAME attribute around specified text in the object]
+anchor(|anchorstring)
+[asin | Returns the arcsine of a number]
+Math.asin(|number)
+[atan | Returns the arctangent of a number]
+Math.atan(|number)
+[atan2 | Returns the angle (in radians) from the X axis to a point (y,x)]
+Math.atan2(|y, x)
+[atEnd | Returns a Boolean value indicating if the enumerator is at the end of the collection]
+atEnd()|
+[Add | Adds a key and item pair to a Dictionary object]
+Add (|key, item)
+[Add | Adds a new Folder to a Folders collection]
+Add (|folderName) 
+[big | Places HTML <BIG> tags around text in a String object]
+big()|
+[blink | Places HTML <BLINK> tags around text in a String object]
+blink()|
+[bold | Places HTML <B> tags around text in a String object]
+bold()|
+[BuildPath | Appends a name to an existing path]
+BuildPath(|path, name) 
+[ceil | Returns the smallest integer greater than or equal to its numeric argument]
+Math.ceil(|number)
+[charAt | Returns the character at the specified index]
+charAt(|index)
+[charCodeAt | Returns the Unicode encoding of the specified character]
+charCodeAt(|index)
+[Close | Closes an open TextStream file]
+Close()|
+[compile | Compiles a regular expression into an internal format]
+compile(|pattern)
+[concat(Arr) | Returns an new array consisting of a combination of two arrays]
+concat(|array2)
+[concat(Str) | Returns a String object containing the concatenation of two supplied strings]
+concat(|string2)
+[cos | Returns the cosine of a number]
+Math.cos(|number)
+[Copy | Copies a specified file or folder from one location to another]
+Copy(|destination[, overwrite]) 
+[CopyFile | Copies one or more files from one location to another]
+CopyFile(|source, destination[, overwrite]) 
+[CopyFolder | Recursively copies a folder from one location to another]
+CopyFolder(|source, destination[, overwrite])
+[CreateFolder | Creates a folder]
+CreateFolder(|foldername)
+[CreateTextFile | Creates a specified file name and returns a TextStream object that can be used to read from or write to the file]
+CreateTextFile(|filename[, overwrite[, unicode]])
+[Delete | Deletes a specified file or folder]
+Delete(|force)
+[DeleteFile | Deletes a specified file]
+DeleteFile(|filespec[, force]) 
+[DeleteFolder | Deletes a specified folder and its contents]
+DeleteFolder(|folderspec[, force]) 
+[dimensions | Returns the number of dimensions in a VBArray]
+dimensions()|
+[DriveExists | Returns True if the specified drive exists; False if it does not]
+DriveExists(|drivespec)
+[escape | Encodes String objects so they can be read on all computers]
+escape(|charstring)
+[eval | Evaluates JScript code and executes it]
+eval(|codestring)
+[exec | Executes a search for a match in a specified string]
+exec(|str)
+[Execute | Executes a regular expression search against a specified string]
+Execute(|string)
+[Exists | Returns True if a specified key exists in the Dictionary object, False if it does not]
+Exists(|key)
+[exp | Returns e (the base of natural logarithms) raised to a power]
+Math.exp(|number)
+[FileExists | Returns True if a specified file exists; False if it does not]
+FileExists(|filespec)
+[fixed | Places HTML <TT> tags around text in a String object]
+fixed()|
+[floor | Returns the greatest integer less than or equal to its numeric argument]
+Math.floor(|number)
+[FolderExists | Returns True if a specified folder exists; False if it does not]
+FolderExists(|folderspec)
+[fontcolor | Places an HTML <FONT> tag with the COLOR attribute around the text in a String object]
+fontcolor(|colorval)
+[fontsize | Places an HTML <FONT> tag with the SIZE attribute around the text in a String object]
+fontsize(|intSize)
+[fromCharCode | Returns a string from a number of Unicode character values]
+String.fromCharCode(|code1, code2, ..., coden)
+[GetAbsolutePathName | Returns a complete and unambiguous path from a provided path specification]
+GetAbsolutePathName(|pathspec)
+[GetBaseName | Returns a string containing the base name of the last component, less any file extension, in a path]
+GetBaseName(|path)
+[getDate | Returns the day of the month value in a Date object using local time]
+getDate()|
+[getDay | Returns the day of the week value in a Date object using local time]
+getDay()|
+[GetDrive | Returns a Drive object corresponding to the drive in a specified path]
+GetDrive(|drivespec) 
+[GetDriveName | Returns a string containing the name of the drive for a specified path]
+GetDriveName(|path)
+[GetExtensionName | Returns a string containing the extension name for the last component in a path]
+GetExtensionName(|path)
+[GetFile | Returns a File object corresponding to the file in a specified path]
+GetFile(|filespec)
+[GetFileName | Returns the last component of specified path that is not part of the drive specification]
+GetFileName(|pathspec)
+[GetFolder | Returns a Folder object corresponding to the folder in a specified path]
+GetFolder(|folderspec)
+[getFullYear | Returns the year value in the Date object using local time]
+getFullYear()|
+[getHours | Returns the hours value in a Date object using local time]
+getHours()|
+[getItem | Returns the item at the specified location]
+getItem(|dimension1[, dimension2, ...], dimensionn)
+[getMilliseconds | Returns the milliseconds value in a Date object using local time]
+getMilliseconds()|
+[getMinutes | Returns the minutes value in a Date object using local time]
+getMinutes()|
+[getMonth | Returns the minutes value in a Date object using local time]
+getMinutes()|
+[GetParentFolderName | Returns a string containing the name of the parent folder of the last file or folder in a specified path]
+GetParentFolderName(|path)
+[getSeconds | Returns the seconds value in a Date object using local time]
+getSeconds()|
+[GetSpecialFolder | Returns the special folder specified]
+GetSpecialFolder(|folderspec)
+[GetTempName | Returns a randomly generated temporary file or folder name that is useful for performing operations that require a temporary file or folder]
+GetTempName()| 
+[getTime | Returns the time value in a Date object]
+getTime()|
+[getTimezoneOffset | Returns the difference in minutes between the time on the host computer and Universal Coordinated Time (UTC)]
+getTimezoneOffset()|
+[getUTCDate | Returns the date in a Date object using Universal Coordinated Time (UTC)]
+getUTCDate()|
+[getUTCDay | Returns the day of the week value in a Date object using Universal Coordinated Time (UTC)]
+getUTCDay()|
+[getUTCFullYear | Returns the year value in a Date object using Universal Coordinated Time (UTC)]
+getUTCFullYear()|
+[getUTCHours | Returns the hours value in a Date object using Universal Coordinated Time (UTC)]
+getUTCHours()|
+[getUTCMilliseconds | Returns the milliseconds value in a Date object using Universal Coordinated Time (UTC)]
+getUTCHours()|
+[getUTCMinutes | Returns the minutes value in a Date object using Universal Coordinated Time (UTC)]
+getUTCMinutes()|
+[getUTCMonth | Returns the month value value in a Date object using Universal Coordinated Time (UTC)]
+getUTCMonth()|
+[getUTCSeconds | Returns the seconds value in a Date object using Universal Coordinated Time (UTC)]
+getUTCSeconds()|
+[getVarDate | Returns the VT_DATE value in a Date object]
+getVarDate()|
+[indexOf | Returns the character position where the first occurrence a substring occurs within a String object]
+indexOf(|substring, startindex)
+[isFinite | Returns a Boolean value that indicates if a supplied number is finite]
+isFinite(|number)
+[isNaN | Returns a Boolean value that indicates whether a value is the reserved value NaN (not a number)]
+isNaN(|numvalue)
+[italics | Places HTML <I> tags around text in a String object]
+italics()|
+[item | Returns the current item in the collection]
+item()|
+[Items | Returns an array containing all the items in a Dictionary object]
+Items()|
+[join | Returns a String object consisting of all the elements of an array concatenated together]
+join(|separator)
+[Keys | Returns an array containing all existing keys in a Dictionary object]
+Keys()|
+[lastIndexOf | Returns the last occurrence of a substring within a String object]
+lastIndexOf(|substring, startindex)
+[lbound | Returns the lowest index value used in the specified dimension of a VBArray]
+lbound(|dimension)
+[link | Places an HTML anchor with an HREF attribute around the text in a String object]
+link(|linkstring)
+[log | Returns the natural logarithm of a number]
+Math.log(|number)
+[match | Returns, as an array, the results of a search on a string using a supplied Regular Expression object]
+match(|rgExp)
+[max | Returns the greater of two supplied numeric expressions]
+Math.max(|number1, number2)
+[min | Returns the lesser of two supplied numbers]
+Math.min(|number1, number2)
+[Move | Moves a specified file or folder from one location to another]
+Move(|destination) 
+[MoveFile | Moves one or more files from one location to another]
+MoveFile(|source, destination); 
+[moveFirst | Resets the current item in the collection to the first item]
+moveFirst()|
+[MoveFolder | Moves one or more folders from one location to another]
+MoveFolder(|source, destination)
+[moveNext | Moves the current item to the next item in the collection]
+moveNext()|
+[OpenAsTextStream | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenAsTextStream(|[iomode, [format]])
+[OpenTextFile | Opens a specified file and returns a TextStream object that can be used to read from, write to, or append to the file]
+OpenTextFile(|filename[, iomode[, create[, format]]])
+[parse | Parses a string containing a date, and returns the number of milliseconds between that date and midnight, January 1, 1970]
+Date.parse(|dateVal)
+[parseFloat | Returns a floating-point number converted from a string]
+parseFloat(|numstring)
+[parseInt | Returns an integer converted from a string]
+parseInt(|numstring, [radix])
+[pow | Returns the value of a base expression taken to a specified power]
+Math.pow(|base, exponent)
+[random | Returns a pseudorandom number between 0 and 1]
+Math.random()|
+[Read | Reads a specified number of characters from a TextStream file and returns the resulting string]
+Read(|characters)
+[ReadAll | Reads an entire TextStream file and returns the resulting string]
+ReadAll()|
+[ReadLine | Reads an entire line (up to, but not including, the newline character) from a TextStream file and returns the resulting string]
+ReadLine()|
+[Remove | Removes a key, item pair from a Dictionary object]
+Remove(|key)
+[RemoveAll | The RemoveAll method removes all key, item pairs from a Dictionary object]
+RemoveAll()|
+[replace | Returns a copy of a string with text replaced using a regular expression]
+replace(|rgExp, replaceText)
+[reverse | Returns an Array object with the elements reversed]
+reverse()|
+[round | Returns a supplied numeric expression rounded to the nearest integer]
+Math.round(|number)
+[search | Returns the position of the first substring match in a regular expression search]
+search(|rgexp)
+[setDate | Sets the numeric date of the Date object using local time]
+setDate(|numDate)
+[setFullYear | Sets the year value in the Date object using local time]
+setFullYear(|numYear[, numMonth[, numDate]])
+[setHours | Sets the hour value in the Date object using local time]
+setHours(|numHours[, numMin[, numSec[, numMilli]]])
+[setMilliseconds | Sets the milliseconds value in the Date object using local time]
+setMilliseconds(|numMilli)
+[setMinutes | Sets the minutes value in the Date object using local time]
+setMinutes(|numMinutes[, numSeconds[, numMilli]])
+[setMonth | Sets the month value in the Date object using local time]
+setMonth(|numMonth[, dateVal])
+[setSeconds | Sets the seconds value in the Date object using local time]
+setSeconds(|numSeconds[, numMilli])
+[setTime | Sets the date and time value in the Date object]
+setTime(|milliseconds)
+[setUTCDate | Sets the numeric date in the Date object using Universal Coordinated Time (UTC)]
+setUTCDate(|numDate)
+[setUTCFullYear | Sets the year value in the Date object using Universal Coordinated Time (UTC).]
+setUTCFullYear(|numYear[, numMonth[, numDate]])
+[setUTCHours | Sets the hours value in the Date object using Universal Coordinated Time (UTC)]
+setUTCHours(|numHours[, numMin[, numSec[, numMilli]]])
+[setUTCMilliseconds | Sets the milliseconds value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMilliseconds(|numMilli)
+[setUTCMinutes | Sets the minutes value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMinutes(|numMinutes[, numSeconds[, numMilli]])
+[setUTCMonth | Sets the month value in the Date object using Universal Coordinated Time (UTC)]
+setUTCMonth(|numMonth[, dateVal])
+[setUTCSeconds | Sets the seconds value in the Date object using Universal Coordinated Time (UTC)]
+setUTCSeconds(|numSeconds[, numMilli])
+[setYear | Sets the year value in the Date object]
+setYear(|numYear)
+[sin | Returns the sine of a number]
+Math.sin(|number)
+[Skip | Skips a specified number of characters when reading a TextStream file]
+Skip(|characters)
+[SkipLine | Skips the next line when reading a TextStream file]
+SkipLine()|
+[slice(Arr) | Returns a section of an array]
+slice(|start, [end])
+[slice(Str) | Returns a section of a string]
+slice(|start, [end])
+[small | Places HTML <SMALL> tags around text in a String object]
+small()|
+[sort | Returns an Array objec with the elements sorted]
+sort(|sortfunction)
+[split | Returns the array of strings that results when a string is separated into substrings]
+split(|str)
+[sqrt | Returns the square root of a number]
+Math.sqrt(|number)
+[strike | Places HTML <STRIKE> tags around text in a String object]
+strike()|
+[sub | Places HTML <SUB> tags around text in a String object]
+sub()|
+[substr | Returns a substring beginning at a specified location and having a specified length]
+substr(|start [, length ])
+[substring | Returns the substring at the specified location within a String object]
+substring(|start, end)
+[sup | Places HTML <SUP> tags around text in a String object]
+sup()|
+[tan | Returns the tangent of a number]
+Math.tan(|number)
+[test | Returns a Boolean value that indicates whether or not a pattern exists in a searched string]
+test(|str)
+[toArray | Returns a standard JScript array converted from a VBArray]
+toArray()|
+[toGMTString | Returns a date converted to a string using Greenwich Mean Time(GMT)]
+toGMTString()|
+[toLocaleString | Returns a date converted to a string using the current locale]
+toLocaleString()|
+[toLowerCase | Returns a string where all alphabetic characters have been converted to lowercase]
+toLowerCase()|
+[toString | Returns a string representation of an object]
+toString(|[radix])
+[toUpperCase | Returns a string where all alphabetic characters have been converted to uppercase]
+toUpperCase()|
+[toUTCString | Returns a date converted to a string using Universal Coordinated Time (UTC)]
+toUTCString()|
+[ubound | Returns the highest index value used in the specified dimension of the VBArray]
+ubound(|dimension)
+[unescape | Decodes String objects encoded with the escape method]
+unescape(|charstring)
+[UTC | Returns the number of milliseconds between midnight, January 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the supplied date]
+Date.UTC(|year, month, day[, hours[, minutes[, seconds[,ms]]]])
+[valueOf | Returns the primitive value of the specified object]
+valueOf()|
+[Write | Writes a specified string to a TextStream file]
+Write(|string)
+[WriteBlankLines | Writes a specified number of newline characters to a TextStream file]
+WriteBlankLines(|lines)
+[WriteLine | Writes a specified string and newline character to a TextStream file]
+WriteLine(|[string])
+; Properties
+[arguments | Returns an array containing each argument passed to the currently executing function]
+arguments[|]
+[AtEndOfLine | Returns true if the file pointer is positioned immediately before the end-of-line marker in a TextStream file; false if it is not. Read-only]
+AtEndOfLine|
+[AtEndOfStream | Returns true if the file pointer is at the end of a TextStream file; false if it is not. Read-only]
+AtEndOfStream|
+[Attributes | Sets or returns the attributes of files or folders. Read/write or read-only, depending on the attribute]
+Attributes |[= newattributes]
+[AvailableSpace | Returns the amount of space available to a user on the specified drive or network share]
+AvailableSpace|
+[Column | Read-only property that returns the column number of the current character position in a TextStream file]
+Column|
+[CompareMode | Sets and returns the comparison mode for comparing string keys in a Dictionary object]
+CompareMode|[ = compare]
+[constructor | Specifies the function that creates an object]
+constructor|
+[Count | Returns the number of items in a collection or Dictionary object. Read-only]
+Count|
+[DateCreated | Returns the date and time that the specified file or folder was created. Read-only]
+DateCreated|
+[DateLastAccessed | Returns the date and time that the specified file or folder was last accessed. Read-only]
+DateLastAccessed|
+[DateLastModified | Returns the date and time that the specified file or folder was last modified. Read-only]
+DateLastModified|
+[description | Returns or sets the descriptive string associated with a specific error]
+description| [= stringexpression]
+[Drive | Returns the drive letter of the drive on which the specified file or folder resides. Read-only]
+Drive|
+[DriveLetter | Returns the drive letter of a physical local drive or a network share. Read-only]
+DriveLetter|
+[Drives | Returns a Drives collection consisting of all Drive objects available on the local machine]
+Drives|
+[DriveType | Returns a value indicating the type of a specified drive]
+DriveType|
+[E | Returns Euler's constant, the base of natural logarithms. The E property is approximately equal to 2.718]
+Math.E|
+[Files | Returns a Files collection consisting of all File objects contained in the specified folder, including those with hidden and system file attributes set]
+Files|
+[FileSystem | Returns the type of file system in use for the specified drive]
+FileSystem|
+[FreeSpace | Returns the amount of free space available to a user on the specified drive or network share. Read-only]
+FreeSpace|
+[index | Returns the character position where the first successful match begins in a searched string]
+RegExp.index|
+[Infinity | Returns an initial value of Number.POSITIVE_INFINITY]
+Infinity|
+[input | Returns the string against which a search was performed. Read-only]
+RegExp.input|
+[isFinite | Returns a Boolean value that indicates if a supplied number is finite]
+isFinite(|number)
+[IsReady | Returns True if the specified drive is ready; False if it is not]
+IsReady|
+[IsRootFolder | Returns True if the specified folder is the root folder; False if it is not]
+IsRootFolder|
+[Item | Sets or returns an item for a specified key in a Dictionary object. For collections, returns an item based on the specified key. Read/write]
+Item(|key)[ = newitem]
+[Key | Sets a key in a Dictionary object]
+Key(|key) = newkey
+[lastIndex | Returns the character position where the last successful match begins in a searched string]
+RegExp.lastIndex|
+[length(Arr) | Returns an integer value one higher than the highest element defined in an array]
+length|
+[length(Fcn) | Returns the number of arguments defined for a function]
+length|
+[length(Str) | Returns the length of a String object]
+length|
+[Line | Read-only property that returns the current line number in a TextStream file]
+Line|
+[LN2 | Returns the natural logarithm of 2]
+Math.LN2|
+[LN10 | Returns the natural logarithm of 10]
+Math.LN10|
+[LOG2E | Returns the base-2 logarithm of e, Euler's constant]
+LOG2E|
+[LOG10E | Returns the base-10 logarithm of e, Euler's constant]
+LOG10E|
+[MAX_VALUE | Returns the largest number representable in JScript. Equal to approximately 1.79E+308]
+MAX_VALUE|
+[MIN_VALUE | Returns the number closest to zero representable in JScript. Equal to approximately 2.22E-308]
+MIN_VALUE|
+[NaN(Gl) | Returns the special value NaN indicating that an expression is not a number]
+NaN|
+[NaN(Num) | A special value that indicates an arithmetic expression returned a value that was not a number]
+NaN|
+[Name | Sets or returns the name of a specified file or folder. Read/write]
+Name |[= newname]
+[NEGATIVE_INFINITY | Returns a value more negative than the largest negative number (-Number.MAX_VALUE) representable in JScript]
+NEGATIVE_INFINITY|
+[number | Returns or sets the numeric value associated with a specific error. The Error object's default property is number]
+number| [= errornumber]
+[ParentFolder | Returns the folder object for the parent of the specified file or folder. Read-only]
+ParentFolder|
+[Path | Returns the path for a specified file, folder, or drive]
+Path|
+[PI | Returns the ratio of the circumference of a circle to its diameter, approximately 3.141592653589793]
+Math.PI|
+[POSITIVE_INFINITY | Returns a value larger than the largest number (Number.MAX_VALUE) that can be represented in JScript]
+POSITIVE_INFINITY|
+[prototype | Returns a reference to the prototype for a class of objects]
+prototype|
+[RootFolder | Returns a Folder object representing the root folder of a specified drive. Read-only]
+RootFolder|
+[search | Returns the position of the first substring match in a regular expression search]
+search(|rgexp)
+[SerialNumber | Returns the decimal serial number used to uniquely identify a disk volume]
+SerialNumber|
+[ShareName | Returns the network share name for a specified drive]
+ShareName|
+[ShortName | Returns the short name used by programs that require the earlier 8.3 naming convention]
+ShortName|
+[ShortPath | Returns the short path used by programs that require the earlier 8.3 file naming convention]
+ShortPath|
+[Size | For files, returns the size, in bytes, of the specified file. For folders, returns the size, in bytes, of all files and subfolders contained in the folder]
+Size|
+[source | Returns a copy of the text of the regular expression pattern. Read-only]
+source|
+[SQRT1_2 | Returns he square root of 0.5, or one divided by the square root of 2]
+Math.SQRT1_2|
+[SQRT2 | Returns the square root of 2]
+Math.SQRT2|
+[SubFolders | Returns a Folders collection consisting of all folders contained in a specified folder, including those with hidden and system file attributes set]
+SubFolders|
+[TotalSize | Returns the total space, in bytes, of a drive or network share]
+TotalSize|
+[Type | Returns information about the type of a file or folder. For example, for files ending in .TXT, "Text Document" is returned]
+Type|
+[VolumeName | Sets or returns the volume name of the specified drive. Read/write]
+VolumeName |[= newname]
+; Functions
+[GetObject | Returns a reference to an Automation object from a file]
+GetObject(|[pathname] [, class])
+[ScriptEngine | Returns a string representing the scripting language in use]
+ScriptEngine()|
+[ScriptEngineBuildVersion | Returns the build version number of the scripting engine in use]
+ScriptEngineBuildVersion()|
+[ScriptEngineMajorVersion | Returns the major version number of the scripting engine in use]
+ScriptEngineMajorVersion()|
+[ScriptEngineMinorVersion | Returns the minor version number of the scripting engine in use]
+ScriptEngineMinorVersion()|
+; Objects
+[ActiveXObject | Enables and returns a reference to an Automation object]
+var | = new ActiveXObject("servername.typename"[, "location"])
+[Array | Provides support for creation of arrays of any data type]
+new Array(|);
+[Array() | Provides support for creation of arrays of any data type]
+var | = new Array();
+[Array(size) | Provides support for creation of arrays of any data type]
+var | = new Array(size);
+[Array(e0..en) | Provides support for creation of arrays of any data type]
+var | = new Array(element0, ..., elementn);
+[Boolean | Creates a new Boolean value]
+var | = new Boolean(boolvalue)
+[Date | Enables basic storage and retrieval of dates and times]
+var | = new Date()
+[Date(UCT) | Enables basic storage and retrieval of dates and times]
+var | = new Date(dateVal)
+[Date(y, m, ...) | Enables basic storage and retrieval of dates and times]
+var | = new Date(year, month, date[, hours[, minutes[, seconds[,ms]]]]) 
+[Dictionary | Object that stores data key, item pairs]
+var | = new ActiveXObject("Scripting.Dictionary")
+[Enumerator | Enables enumeration of items in a collection]
+var | = new Enumerator(collection) 
+[Error | Contains information about errors]
+var | = new Error() 
+[Error(num) | Contains information about errors]
+var | = new Error(number) 
+[Error(num, desc) | Contains information about errors]
+var | = new Error(number, description) 
+[FileSystemObject | Provides access to a computer's file system]
+var | = new ActiveXObject("Scripting.FileSystemObject")
+[Function | Creates a new function]
+function |functionname( [argname1 [, ... argnameN]] )
+{
+    
+}
+[Function(call) | Creates a new function]
+var |functionname = new Function( [argname1, [... argnameN,]] body );
+[Math | An intrinisic object that provides basic mathematics functionality and constants]
+Math|[.{property | method}]
+[Number | An object representation of the number data type and placeholder for numeric constants]
+var | = new Number(value);
+[Object | Provides functionality common to all JScript objects]
+var | = new Object([value]);
+[RegExp | Stores information on regular expression pattern searches]
+RegExp.|propertyname 
+[Regular Expression | Contains a regular expression pattern]
+var |regularexpression = /pattern/[switch]
+[Regular Expression() | Contains a regular expression pattern]
+var |regularexpression = new RegExp("pattern",["switch"])
+[String | Allows manipulation and formatting of text strings and determination and location of substrings within strings]
+|StringObj[.method]
+[VBArray | Provides access to Visual Basic safe arrays]
+var | = new VBArray(safeArray);
+; Statements
+[do...while | Executes a statement block once, and then repeats execution of the loop until a condition expression evaluates to false]
+do {
+   |
+} while (expression); 
+[for | Executes a block of statements for as long as a specified condition is true]
+for (|initialization; test; increment) {
+    
+}    
+[for...in | Executes one or more statements for each property of an object, or each element of an array]
+for (|variable in [object | array]) {
+  
+}    
+[@if | Conditionally executes a group of statements, depending on the value of an expression]
+@if (condition1)
+     text1
+\[@elif (condition2)
+     text2]
+\[@else
+     text3]
+@end 
+[if | Conditionally executes a group of statements, depending on the value of an expression]
+if (|){
+     
+}
+[if...else | Conditionally executes a group of statements, depending on the value of an expression]
+if (|condition){
+     
+}
+else {
+     
+} 
+[Labeled | Provides an identifier for a statement]
+|label :
+    statement 
+[@set | Creates variables used with conditional compilation statements]
+@set @|varname = term
+[switch | Enables the execution of one or more statements when a specified expression's value matches a label]
+switch (|expression) {
+   case label : statementlist
+   case label : statementlist
+   ...
+   default :    statementlist
+} 
+[throw | Generates an error condition that can be handled by a try...catch statement]
+throw |exception
+[try...catch | Implements error handling for JScript]
+try {
+  tryStatements
+}
+catch(exception){
+  catchStatements
+}
+[var | Declares a variable]
+var |variable [ = value ] [, variable2 [ = value2], ...] 
+[while | Executes a statement until a specified condition is false]
+while (expression){
+   statements
+}
+[with | Establishes the default object for a statement]
+with (|object){
+   statements
+}
+; Operators
+[instanceof | Returns a Boolean value that indicates whethor or not an object is an instance of a particular class]
+|result = object instanceof class
+; Function shotcuts
+[doc.write | Display information - parameter ]
+document.write(|)
+[doc.writeln | Display information - parameter ]
+document.writeln(|)
+; others
+[SCRIPT | Script description ]
+<SCRIPT LANGUAGE="JScript">
+  |
+</SCRIPT>
+[window.alert | Display message box ]
+window.alert(|)
+[window.confirm | Display message box with Yes, No buttons]
+window.confirm(|)
+[window.prompt | Display prompt with text field in which the user can type an answer in response to your prompt]
+window.prompt(|)
+[Create files | Short sample to create files]
+var |fso, f1;
+fso = new ActiveXObject("Scripting.FileSystemObject");
+f1 = fso.CreateTextFile("c:\\testfile.txt", true);

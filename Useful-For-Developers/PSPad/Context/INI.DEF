@@ -1,0 +1,21 @@
+; PSPad clip definition file for INI
+; Last revision: 24.4.2003
+;
+[Macro definition]
+%description%=@E description=,description=,,,
+%icon%=@O icon=,icon=,,icon file  (*.ico)|*.ico,
+%open%=@O open=,open=,,open file  (*.*)|*.*,
+%version%=@E version=,version=,,,
+;
+[autorun | Autorun CD file]
+ [autorun]
+ %open%
+ %icon%
+;
+;
+[info | info]
+ [info]
+ %title%
+ %description%
+ %version%
+;

@@ -1,0 +1,439 @@
+; PSPad code template for SAS
+; Created by JSK okt 2003
+;
+[Macro definition]
+%TableName%=@E Table name:,,,,
+%Package%=@E Package:,,,,
+%Author%=@E Author:,,,,
+%Date%=@D Date:,,,,
+;
+;
+[COMMENT |r COMMENT BLOCK]
+/*
+|§
+*/
+[IF | IF  END IF]
+IF | THEN
+END IF;
+[IFE | IF ELSE END IF]
+IF | THEN
+  NULL;
+ELSE
+  NULL;
+END IF;
+[IFI | IF ELSIF  END IF]
+IF | THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSIF THEN
+  NULL;
+ELSE
+END IF;
+[FOR iCnt | FOR iCnt IN .. LOOP]
+FOR iCnt IN |.. LOOP
+END LOOP;
+[FOR o | FOR o IN (SELECT LOOP]
+FOR o| IN  ( SELECT
+           )
+LOOP
+  NULL;
+END LOOP;
+;
+;
+--------------------------------------------------------------------------------
+[PROC SORT |m PROC SORT]*CTRL+ALT+S
+PROC SORT DATA=%TableName% <option(s)> <collating-sequence-option>;
+    BY <DESCENDING> variable-1 <...<DESCENDING> variable-n>;
+--------------------------------------------------------------------------------
+[PROC APPEND |m PROC APPEND]*CTRL+ALT+A
+PROC APPEND BASE=<libref.>SAS-data-set
+    <DATA=<libref.>SAS-data-set>
+    <FORCE>
+    <APPENDVER=V6>;
+--------------------------------------------------------------------------------
+[PROC COMPARE |m PROC COMPARE]*CTRL+ALT+C
+PROC COMPARE <option(s)>;
+    BY <DESCENDING> variable-1
+    <...<DESCENDING> variable-n>
+    <NOTSORTED>;
+
+    ID <DESCENDING> variable-1
+    <...<DESCENDING> variable-n>
+    <NOTSORTED>;
+
+     VAR variable(s);
+
+     WITH variable(s);
+--------------------------------------------------------------------------------
+[PROC CONTENTS |m PROC CONTENTS]*
+PROC CONTENTS < option(s) >;
+--------------------------------------------------------------------------------
+[PROC COPY |m PROC COPY]*
+PROC COPY OUT=libref-1 IN=libref-2
+    <CLONE|NOCLONE>
+    <CONSTRAINT=YES|NO>
+    <DATECOPY>
+    <INDEX=YES|NO>
+    <MEMTYPE=(mtype(s))>
+    <MOVE <ALTER=alter-password>>;
+
+    EXCLUDE SAS-file(s)
+    </ MEMTYPE=mtype>;
+
+     SELECT SAS-file(s)
+    </ <MEMTYPE=mtype>
+    <ALTER=alter-password>>;
+    /*
+    Note:   IN=libref-1 is required on PROC COPY, but is optional on the COPY
+    statement
+    */
+--------------------------------------------------------------------------------
+[PROC DATASETS |m PROC DATASETS]*
+PROC DATASETS < option(s) >;
+    AGE current-name related-SAS-file(s)
+    </ <ALTER=alter-password>
+    <MEMTYPE=mtype>>;
+
+     APPEND BASE= <libref.>SAS-data-set
+        <APPENDVER=V6>
+        <DATA=<libref.>SAS-data-set>
+        <GENNUM=integer>
+        <FORCE>;
+
+    AUDIT SAS-file-name <SAS-password>;
+        INITIATE;
+        <LOG < BEFORE_IMAGE=YES|NO>
+        <DATA_IMAGE=YES|NO>
+        <ERROR_IMAGE=YES|NO>>;
+        <USER_VAR=variable-1 <... variable-n>>;
+
+        or
+
+    AUDIT SAS-file-name <SAS-password><GENNUM= integer>;
+        SUSPEND|RESUME|TERMINATE;
+
+     CHANGE old-name-1=new-name-1
+    <...old-name-n=new-name-n >
+    </ <ALTER=alter-password>
+    <GENNUM=ALL|integer>
+    <MEMTYPE=mtype>>;
+
+     CONTENTS < option(s)>;
+
+     COPY OUT=libref-1
+    <CLONE|NOCLONE>
+    <CONSTRAINT=YES|NO>
+    <IN=libref-2>
+    <INDEX=YES|NO>
+    <MEMTYPE=(mtype(s))>
+    <MOVE <ALTER=alter-password>;>
+
+    EXCLUDE SAS-file(s) < / MEMTYPE=mtype>;
+
+     SELECT SAS-file(s)
+    </ <ALTER=alter-password>
+    <MEMTYPE= mtype>>;
+
+     DELETE SAS-file(s)
+    </ <ALTER=alter-password>
+    <GENNUM=ALL|HIST|REVERT|integer>
+    <MEMTYPE=mtype>>;
+
+
+     EXCHANGE name-1=other-name-1
+    <...name-n=other-name-n>
+    </ <ALTER=alter-password>
+    <MEMTYPE=mtype> >;
+
+
+     MODIFY SAS-file <(file-option(s))>
+    </ <GENNUM=integer> 
+    <MEMTYPE=mtype>>;  FORMAT variable-list-1 <format-1> 
+    <...variable-list-n <format-n>>;  
+    
+    IC CREATE <constraint-name>= (NOT NULL (variable) | 
+    CHECK(WHERE-expression) | 
+    PRIMARY KEY (variables) | 
+    UNIQUE (variables) | 
+    FOREIGN KEY (variables) REFERENCES <libref>.SAS-data-set 
+    <ON DELETE referential-action> <ON UPDATE referential-action>) 
+    <MESSAGE='message-string' <MSGTYPE=USER>>;  
+    
+    
+     IC DELETE constraint-name(s)| _ALL_;  
+    
+    
+     IC REACTIVATE foreign-key-name REFERENCES libref;  
+    
+    
+     INDEX CENTILES index(s) 
+    </ <REFRESH>
+    <UPDATECENTILES= 
+    ALWAYS|NEVER|integer> >;
+
+    
+     INDEX CREATE index-specification(s) 
+    </ <NOMISS> 
+    <UNIQUE> 
+    <UPDATECENTILES= 
+    ALWAYS|NEVER|integer>>;  
+    
+    
+     INDEX DELETE index(s)|_ALL_;  
+    
+    
+     INFORMAT variable-list-1 <informat-1> 
+    <...variable-list-n <informat-n>>;  
+    
+    
+     LABEL variable-1=<'label-1'|' '> 
+    <...variable-n=<'label-n'|' ' >>;  
+    
+    
+     RENAME old-name-1=new-name-1 
+    <...old-name-n=new-name-n>;  
+    
+    
+     
+    
+    
+     REPAIR SAS-file(s) 
+    </ <ALTER=alter-password>
+    <GENNUM=integer>
+    <MEMTYPE=mtype>>;
+
+
+     SAVE SAS-file(s) </ MEMTYPE=mtype>;
+--------------------------------------------------------------------------------
+[PROC EXPORT |m PROC EXPORT]*
+PROC EXPORT DATA=SAS-data-set
+    OUTFILE="filename" | OUTTABLE="tablename"
+    <DBMS=identifier> <REPLACE>;  < data-source-statements;>
+
+--------------------------------------------------------------------------------
+[PROC FORMAT |m PROC FORMAT]*
+PROC FORMAT <option(s)>;  EXCLUDE entry(s);
+
+    INVALUE <$>name <(informat-option(s))> value-range-set(s);
+
+    PICTURE name <(format-option(s))>
+    value-range-set-1 <(picture-1-option(s) )>
+    <...value-range-set-n <(picture-n-option(s))>>;
+
+    SELECT entry(s);
+
+    VALUE <$>name <(format-option(s))> value-range-set(s);
+--------------------------------------------------------------------------------
+[PROC FREQ |m PROC FREQ]*
+PROC FREQ <option(s)>;  BY <DESCENDING> variable-1 <...<DESCENDING> variable-n>
+    <NOTSORTED>;
+
+    EXACT statistic-keyword(s) </ option(s)>;
+
+    OUTPUT statistic-keyword(s) <OUT=SAS-data-set>;
+
+    TABLES request(s) </ option(s)>;
+
+    TEST statistic-keyword(s);
+
+    WEIGHT variable;
+--------------------------------------------------------------------------------
+[PROC IMPORT |m PROC IMPORT]*
+PROC IMPORT
+    DATAFILE="filename" | TABLE="tablename"
+    OUT=SAS-data-set
+    <DBMS=identifier><REPLACE>;  < data-source-statements;>
+    
+--------------------------------------------------------------------------------
+[PROC MEANS |m PROC MEANS]*
+PROC MEANS <option(s)> <statistic-keyword(s)>;
+    BY <DESCENDING> variable-1 <... <DESCENDING> variable-n><NOTSORTED>;
+
+    CLASS variable(s) </ option(s)>;
+
+    FREQ variable;
+
+    ID variable(s);
+
+    OUTPUT <OUT=SAS-data-set> <output-statistic-specification(s)>
+        <id-group-specification(s)> <maximum-id-specification(s)>
+        <minimum-id-specification(s)> </ option(s)> ;
+
+    TYPES request(s);
+
+    VAR variable(s) < / WEIGHT=weight-variable>;
+
+    WAYS list;
+
+    WEIGHT variable;
+
+--------------------------------------------------------------------------------
+[PROC PRINT |m PROC PRINT]*
+PROC PRINT < option(s)>;
+    BY < DESCENDING> variable-1  <...< DESCENDING> variable-n>< NOTSORTED>;
+
+    PAGEBY BY-variable;
+
+    SUMBY BY-variable;
+
+    ID variable(s);
+
+    SUM variable(s);
+
+    VAR variable(s);
+
+--------------------------------------------------------------------------------
+[PROC REPORT |m PROC REPORT]*
+PROC REPORT <option(s)>;
+    BREAK location break-variable</ option(s)>;
+
+    BY <DESCENDING> variable-1
+    <...<DESCENDING> variable-n> <NOTSORTED>;
+
+    COLUMN column-specification(s);
+
+    COMPUTE location <target>
+        </ STYLE=<style-name> <[style-attribute-specification(s)]>>;
+
+        LINE specification(s);
+
+        /* ... select SAS language elements ... */
+
+    ENDCOMP;
+    
+    COMPUTE report-item </ type-specification>;
+        CALL DEFINE (column-id, 'attribute-name', value);
+
+        /* ... select SAS language elements ... */
+
+    ENDCOMP;
+
+    DEFINE report-item / <usage>
+        <attribute(s)>
+        <option(s)>
+        <justification>
+        <COLOR=color>
+        <'column-header-1' <...'column-header-n'>>
+        <style>;
+
+    FREQ variable;
+
+    RBREAK location </ option(s)>;
+
+    WEIGHT variable;
+
+--------------------------------------------------------------------------------
+[PROC SQL |m PROC SQL]*
+PROC SQL< option-list>;
+    ALTER TABLE alter-statement;
+
+    CREATE create-statement;
+
+    DELETE delete-statement;
+
+    DESCRIBE describe-statement;
+
+    DROP drop-statement;
+
+    INSERT insert-statement;
+
+    RESET <reset statement option-list>;
+
+    SELECT select-statement;
+
+    UPDATE update-statement;
+
+    VALIDATE validate-statement;
+
+--------------------------------------------------------------------------------
+[PROC SUMMARY |m PROC SUMMARY]*
+/*
+See the MEANS procedure syntax for details.
+*/
+PROC SUMMARY <option(s)> <statistic-keyword(s)>;
+    BY <DESCENDING> variable-1<...<DESCENDING> variable-n> <NOTSORTED>;
+
+    CLASS variable(s) </ option(s)>;
+
+    FREQ variable;
+
+    ID variable(s);
+
+    OUTPUT <OUT=SAS-data-set><output-statistic-specification(s)>
+    <id-group-specification(s)> <maximum-id-specification(s)>
+    <minimum-id-specification(s)></ option(s)> ;
+
+    TYPES request(s);
+
+    VAR variable(s)</ WEIGHT=weight-variable>;
+
+    WAYS list;
+
+    WEIGHT variable;
+
+--------------------------------------------------------------------------------
+[PROC TABULATE |m PROC TABULATE]*
+PROC TABULATE <option(s)>;
+    BY <DESCENDING> variable-1 <...<DESCENDING> variable-n> <NOTSORTED>;
+
+    CLASS variable(s) </ options>;
+
+    CLASSLEV variable(s) / STYLE=<style-element-name | <PARENT>> <[style-attribute-specification(s)] >;
+
+    FREQ variable;
+
+    KEYLABEL keyword-1='description-1' <...keyword-n='description-n'>;
+
+    KEYWORD keyword(s) / STYLE =<style-element-name | <PARENT>> <[style-attribute-specification(s)] >;
+
+    TABLE <<page-expression,> row-expression,> column-expression </ table-option(s)>;
+
+    VAR analysis-variable(s)</ options>;
+
+    WEIGHT variable;
+
+--------------------------------------------------------------------------------
+[PROC TRANSPOSE |m PROC TRANSPOSE]*
+PROC TRANSPOSE <DATA=input-data-set> <LABEL=label> <LET>
+    <NAME=name> <OUT=output-data-set> <PREFIX=prefix>;
+    
+    BY <DESCENDING> variable-1 <...<DESCENDING> variable-n> <NOTSORTED>;
+
+    COPY variable(s);
+
+    ID variable;  IDLABEL variable;
+
+    VAR variable(s);
+
+--------------------------------------------------------------------------------
+[PROC UNIVARIATE |m PROC UNIVARIATE]
+PROC UNIVARIATE <option(s)>;
+    BY <DESCENDING> variable-1 <...<DESCENDING> variable-n> <NOTSORTED>;
+
+    CLASS variable-1<(variable-option(s))> <variable-2<(variable-option(s))>>
+        </ KEYLEVEL= 'value1'|('value1' 'value2')>;
+
+    FREQ variable;
+
+    HISTOGRAM <variable(s)> </ option(s)>;
+
+    ID variable(s);
+
+    INSET <keyword(s)> </ option(s)>;
+
+    OUTPUT <OUT=SAS-data-set>
+        statistic-keyword-1=name(s)
+        <... statistic-keyword-n=name(s)>
+        <percentiles-specification>;
+
+    PROBPLOT <variable(s)> </ option(s)>;
+
+    QQPLOT <variable(s)> </ option(s)>;
+
+    VAR variable(s);
+
+    WEIGHT variable;
+--------------------------------------------------------------------------------

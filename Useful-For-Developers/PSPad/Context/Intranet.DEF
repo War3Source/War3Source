@@ -1,0 +1,24 @@
+; PSPad code template for Intranet
+; Created by PSPad   14.10.2002  18:39
+; Author:  HOME
+;
+[Macro definition]
+%customer%=@E Customer,,
+%server%=@E Server,,
+%IP%=@E IP Address,,
+%database%=@C Database type,,SQL,Native;SQL,
+%memo%=@E Notes,,
+;
+[Config | Customer enviroment configuration]
+ <table border="0" bgcolor="gray" cellspacing="1" cellpadding="2" width="100%">
+  <tr bgcolor="#BDD6EF">
+    <td>&nbsp; <b>Connection confuguration</b> </td>
+  </tr>
+ <tr bgcolor="white" valign="top">
+ <td>&nbsp; <b>Customer:</b> %customer%  </td>
+ </tr>
+ <tr bgcolor="white" valign="top">
+ <td>&nbsp; <b>Server:</b> %server% <b>IP:</b> %IP% <b>Database:</b> %database% </td>
+ </tr>
+ </table>
+ |

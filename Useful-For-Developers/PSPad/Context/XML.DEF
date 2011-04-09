@@ -1,0 +1,1645 @@
+; PSPad clip definition file for XML/XUL
+;
+; black lines XML
+; green lines (G) HTML
+; gray lines (D) DTD
+; blue lines (B) PHP and other
+; dark blue (N) XSD
+; red lines (R) XSL
+; purple lines (P) XUL
+;
+; Author: Karel Pavelka webjob@seznam.cz
+; last revision: 4.6.2003
+; XUL definitions: Justin Rodes, 22-Aug-08 (www.codedawn.com)
+;
+[Macro definition]
+%align4%=@C align=,align=,,center;left;right;justify,"
+%alternate%=@C alternate=,alternate=,,yes;no,"
+%base%=@C base=,base=,,xsd:string;xsd:boolean;xsd:decimal;xsd:integer;xsd:positiveInteger;xsd:date;xsd:time;xsd:dateTime;xsd:gMonth;xsd:gYear;xsd:gDay;xsd:gYearMonth;xsd:anyURI,
+%caseorder%@C case-order=,case-order=,,"upper-first";"lower-first","
+%cdatasectionelements%=@E cdata-section-elements=,cdata-section-elements=,,,"
+%class%=@E class=,class=,,,"
+%contentspec%=@C Content specification,,,EMPTY;ANY;(#PCDATA);"()",
+%count%=@E count=,count=,,,"
+%datafld%=@E datafld=,datafld=,,,"
+%datatype%=@C data-type=,data-type=,,text;number,"
+%decimalseparator%=@E decimal-separator=,decimal-separator=,,,"
+%digit%=@E digit=,digit=,,,"
+%dir%=@C dir=,dir=,,ltr;rtl,"
+%disableoutputescaping%=@C disable-output-escaping=,disable-output-escaping=,,yes;no,"
+%doctypepublic%=@E doctype-public=,doctype-public=,,,"
+%doctypesystem%=@E doctype-system=,doctype-system=,,,"
+%dta%=@C Datový typ:,,,CDATA;ID;IDREF;NMTOKEN;NMTOKENS;ENTITY;ENTITIES;NOTATION,
+%dta2%=@C Datový typ:,,,#REQUIRED;#IMPLIED;#FIXED,
+%encoding%=@C encoding=,encoding=,,windows-1250;iso-8859-2;utf-8,"
+%excluderesultprefixes%%=@E exclude-result-prefixes=,exclude-result-prefixes=,,,"
+%extensionelementprefixes%=@E extension-element-prefixes=,extension-element-prefixes=,,,"
+%fixed%=@C fixed=, fixed=,,true;false,"
+%format%=@E format=,format=,,,"
+%from%=@E from=,from=,,,"
+%groupingseparator%=@E grouping-separator=,grouping-separator=,,,"
+%groupingsize %=@E grouping-size =,grouping-size =,,,"
+%h%=@C velikost nadpisu:,,,1;2;3;4;5;6,
+%height%=@E height=,height=,,,"
+%href%=@O HTML href=,href=,http://,html file (*.html;*.htm)|*.html;*.htm,"
+%hrefc%=@O CSS href=,href=,,CSS href (*.css)|*.css,',R/
+%hrefd%=@O DTD,,,DTD href (*.dtd)|*.dtd,',R/
+%hrefx%=@O XSL href=,href=,,XSL href (*.xsl)|*.xsl,',R/
+%charset%=@C charset=,charset=,,windows-1250;iso-8859-2;utf-8,
+%id%=@E id=,id=,,,"
+%include%=@O include,include ,, script file (*.php;*.php3;*.inc)|*.php;*.php3;*.inc,"
+%indent%=@C indent=,indent=,,yes;no,"
+%infinity%=@E infinity=,infinity=,,,"
+%koment%=@C Comment,,,"File name: ",
+%lang%=@C xml:lang=,xml:lang=,,cs;sk;de;en;hu;"
+%lettervalue%=@C letter-value=,letter-value=,,alphabetic;traditional,"
+%level%=@C level=,level=,,single;multiple;any,"
+%match%=@C match=,match=,,*;@*;/;//;|;.;"text()";"node()";"processing-instruction()";"comment()";"[]","
+%max%=@C maxOccurs=,maxOccurs=,,unbounded,"
+%media%=@C media,media=,,all;screen;print;aural;braille;projector,"
+%method%=@C method,method=,,html;xml;text,"
+%min%=@C minOccurs=, minOccurs=,,,"
+%minussign%=@E minus-sign=,minus-sign=,,,"
+%mixed%=@C mixed=, mixed=,,true;false,"
+%mode%=@E mode=,mode=,,,"
+%name%=@C name=,name=,,[],"
+%namea%=@C Atribut:,,,="",
+%namea2%=@C Atribut2:,,,="",
+%namea3%=@C Atribut3:,,,="",
+%namea4%=@C Atribut4:,,,="",
+%namee%=@E Element name:,,,
+%namei%=@E Name,,,
+%namek%=@E Root element name:,,,"
+%namespace%=@E namespace=,namespace=,,,"
+%NaN%=@E NaN=,NaN=,,,"
+%NDATA%=@E NDATA:,NDATA,,,
+%omitxmldeclaration%=@C omit-xml-declaration=, omit-xml-declaration=,,yes;no,"
+%on%=@C Událost:,,,onAbort="";onAfterUpdate="";onBack="";onBlur="";onBounce="";onClick="";onContextMenu="";onCopy="";onCut="";onDataAvailable="";onDatasetComplete="";onDataSetChange="";onDblClick="";onError="";onErrorUpdate="";onFilterChange="";onFocus="";onForward="";onHelp="";onChange="";onKeyDown="";onKeyPress=""; onKeyUp=""; onLoad=""; onMouseDown=""; onMouseDrag=""; onMouseMove=""; onMouseOut="";onMouseOver="";onMouseUp="";onMouseWheel="";onMove="";onPaste="";onReset="";onResize="";onRoweEnter="";onRoweExit=""; onScroll="";onSelect="";onSelectStart="";onSubmit="";onUnload="";
+%order%=@C order=,order=,,ascending;descending,"
+%patternseparator%=@E patternseparator=,pattern-separator=,,,"
+%percent%=@E percent=,percent=,,,"
+%permille%=@E per-mille=,per-mille=,,,"
+%php%=@C php,,,if;else:;elseif;endif;endfor,
+%priority%=@E priority=,priority=,,,"
+%PUBLIC%=@E PUBLIC:,PUBLIC,,,
+%resultprefix%=@E result-prefix=,result-prefix=,,,"
+%scroll%=@C scroll=,scroll=,,yes;no,"
+%sekce%=@C Insert section,,,INCLUDE;IGNORE;CDATA,
+%select%=@C select=,select=,,*;@*;/;//;|;.;..;"text()";"node()";"processing-instruction()";"comment()";"generate-id()","
+%src%=@O System identif.:,,,,"
+%standalone%=@C standalone=,standalone=,,no;yes,"
+%style%=@T style=,style=,,,"
+%stylesheetprefix%=@E stylesheet-prefix=,styleshee-tprefix=,,,"
+%SYSTEM%=@O SYSTEM:,,,,"
+%target%=@C target=,target=,,_blank;_parent;_self;_top,"
+%terminate%=@C terminate=,terminate=,,yes;no,"
+%test%=@E test=,test=,,,"
+%title%=@E title=,title=,,,"
+%title2%=@E Page title:
+%type%=@C type=,type=,,xsd:string;xsd:boolean;xsd:decimal;xsd:integer;xsd:positiveInteger;xsd:date;xsd:time;xsd:dateTime;xsd:gMonth;xsd:gYear;xsd:gDay;xsd:gYearMonth;xsd:anyURI,
+%type4%=@C type=,type=,,text/css;text/javascript,"
+%use%=@C use=,use=,,optional;required;prohibited,"
+%useattributesets%=@E use-attribute-sets=,use-attribute-sets=,,,"
+%valign%=@C valign=,valign=,,baseline;bottom;middle;top,"
+%value%=@E value=,value=,,,"
+%valued%=@E value:,,,'" "',"
+%version%=@C version=,version=,,"1.0";"1.1","
+%width%=@E width=,width=,,,"
+%xmlns%=@C xmlns=,xmlns=,,"http://www.w3.org/TR/REC-HTML40";"http://www.w3c.org/Profiles/XHTML-transitional";"http://www.w3.org/TR/xhtml1/strict","
+%xmlnsfo%=@K xmlns:fo,,'xmlns:fo="http://www.w3.org/1999/XSL/Format"',
+%zerodigit%=@E zero-digit=,zero-digit=,,,"
+;
+;                 ---------- XUL macro definitions ----------
+;
+%acceltext%=@E acceltext=,acceltext=,,,"
+%accessible%=@E accessible=,accessible=,,,"
+%accesskey%=@E accesskey=,accesskey=,,,"
+%activetitlebarcolor%=@L activetitlebarcolor=,activetitlebarcolor=,,,"
+%alignxul%=@C align=,align=,,start;center;end;baseline;stretch,"
+%allowevents%=@K allowevents,allowevents="true"
+%allownegativeassertions%=@C allownegativeassertions=,allownegativeassertions=,true,true;false,"
+%alternatingbackground%=@K alternatingbackground,alternatingbackground="true"
+%alwaysopenpopup%=@K alwaysopenpopup,alwaysopenpopup="true"
+%attribute%=@E attribute=,attribute=,,,"
+%autocheck%=@K autocheck="false",autocheck="false"
+%autoCheckB%=@K autoCheck="false",autoCheck="false"
+%autocompleteenabled%=@K autocompleteenabled,autocompleteenabled="true"
+%autocompletepopup%@E autocompletepopup=,autocompletepopup=,,,"
+%autocompletesearch%@E autocompletesearch=,autocompletesearch=,,,"
+%autocompletesearchparam%@E autocompletesearchparam=,autocompletesearchparam=,,,"
+%autoFill%=@K autoFill,autoFill="true"
+%autoFillAfterMatch%=@K autoFillAfterMatch,autoFillAfterMatch="true"
+%autoscroll%=@K autoscroll="false",autoscroll="false"
+%buttonaccesskeyaccept%=@E buttonaccesskeyaccept=,buttonaccesskeyaccept=,,,"
+%buttonaccesskeycancel%=@E buttonaccesskeycancel=,buttonaccesskeycancel=,,,"
+%buttonaccesskeydisclosure%=@E buttonaccesskeydisclosure=,buttonaccesskeydisclosure=,,,"
+%buttonaccesskeyextra1%=@E buttonaccesskeyextra1=,buttonaccesskeyextra1=,,,"
+%buttonaccesskeyextra2%=@E buttonaccesskeyextra2=,buttonaccesskeyextra2=,,,"
+%buttonaccesskeyhelp%=@E buttonaccesskeyhelp=,buttonaccesskeyhelp=,,,"
+%buttonalign%=@C buttonalign=,buttonalign=,,start;center;end;baseline;stretch,"
+%buttondir%=@C buttondir=,buttondir=,,normal;reverse,"
+%buttondisabledaccept%=@K buttondisabledaccept,buttondisabledaccept="true"
+%buttonlabelaccept%=@E buttonlabelaccept=,buttonlabelaccept=,,,"
+%buttonlabelcancel%=@E buttonlabelcancel=,buttonlabelcancel=,,,"
+%buttonlabeldisclosure%=@E buttonlabeldisclosure=,buttonlabeldisclosure=,,,"
+%buttonlabelextra1%=@E buttonlabelextra1=,buttonlabelextra1=,,,"
+%buttonlabelextra2%=@E buttonlabelextra2=,buttonlabelextra2=,,,"
+%buttonlabelhelp%=@E buttonlabelhelp=,buttonlabelhelp=,,,"
+%buttonorient%=@C buttonorient=,buttonorient=,,horizontal;vertical,"
+%buttonpack%=@C buttonpack=,buttonpack=,,start;center;end,"
+%buttons%=@E buttons=,buttons=,"accept,cancel",,"
+%checked%=@K checked,checked="true"
+%checkState%=@C checkState=,checkState=,,0;1;2,"
+%child%=@E child=,child=,,,"
+%classlabel%=@C class=,class=,,header;indent;monospace;plain;small-margin;text-link,"
+%classlistcell%=@C class=,class=,,listcell-iconic,"
+%classlistitem%=@C class=,class=,,listitem-iconic,"
+%classmenuitem%=@C class=,class=,,menuitem-iconic;menuitem-non-iconic,"
+%classseparator%=@C class=,class=,,groove;groove-thin;thin,"
+%classsplitter%=@K class="tree-splitter",class="tree-splitter"
+%closebutton%=@K closebutton,closebutton="true"
+%coalesceduplicatearcs%=@K coalesceduplicatearcs="false",coalesceduplicatearcs="false"
+%collapse%=@C collapse=,collapse=,,none;before;after;both,"
+%collapsed%=@K collapsed,collapsed="true"
+%color%=@L color=,color=,,,"
+%cols%=@E cols=,cols=,,,"
+%command%=@E command=,command=,,,"
+%commandupdater%=@K commandupdater,commandupdater="true"
+%completedefaultindex%=@K completedefaultindex,completedefaultindex="true"
+%container%=@K container,container="true"
+%container2%=@E container=,container=,,,"
+%containment%=@E containment=,containment=,,,"
+%contentcontextmenu%=@E contentcontextmenu=,contentcontextmenu=,,,"
+%contenttooltip%=@E contenttooltip=,contenttooltip=,,,"
+%context%=@E context=,context=,,,"
+%contextmenu%=@E contextmenu=,contextmenu=,,,"
+%control%=@E control=,control=,,,"
+%crop%=@C crop=,crop=,,start;end;left;right;center;none,"
+%currentset%=@E currentset=,currentset=,,,"
+%customizable%=@K customizable,customizable="true"
+%cycler%=@K cycler,cycler="true"
+%datasources%@E datasources=,datasources=,,,"
+%decimalplaces%=@E decimalplaces=,decimalplaces=,,,"
+%default%=@K default,default="true"
+%defaultButton%=@C defaultButton=,defaultButton=,,accept;cancel;help;disclosure;extra1;extra2,"
+%defaultset%=@E defaultset=,defaultset=,,,"
+%description%=@E description=,description=,,,"
+%dirxul%=@C dir=,dir=,,normal;reverse,"
+%dirresizer%=@C dir=,dir=,,left;right;top;bottom;bottomleft;bottomright;topleft;topright,"
+%disableautoselect%=@K disableautoselect="false",disableautoselect="false"
+%disableclose%=@K disableclose,disableclose="true"
+%disabled%=@K disabled,disabled="true"
+%disablehistory%=@K disablehistory="false",disablehistory="false"
+%disablekeynavigation%=@K disableKeyNavigation,disableKeyNavigation="true"
+%disablesecurity%=@K disablesecurity,disablesecurity="true"
+%dlgtype%=@C dlgtype=,dlgtype=,,accept;cancel;help;disclosure,"
+%domain%=@E domain=,domain=,,,"
+%editable%=@K editable,editable="true"
+%editortype%=@C editortype=,editortype=,,html;text,"
+%element%=@E element=,element=,,,"
+%emptytext%=@E emptytext=,emptytext=,,,"
+%enableColumnDrag%=@K enableColumnDrag,enableColumnDrag="true"
+%enablehistory%=@K enablehistory,enablehistory="true"
+%equalsize%=@C equalsize=,equalsize=,,always;never,"
+%eventnode%=@C eventnode=,eventnode=,,parent;window;document,"
+%events%=@E events=,events=,,,"
+%expr%=@E expr=,expr=,,,"
+%firstdayofweek%=@C firstdayofweek=,firstdayofweek=,,0;1;2;3;4;5;6,"
+%fixedxul%=@K fixed,fixed="true"
+%flags%=@C flags=,flags=,,dont-test-empty;dont-build-content,"
+%flex%=@E flex=,flex=,1,,"
+%forcecomplete%=@K forceComplete,forceComplete="true"
+%grippyhidden%=@K grippyhidden,grippyhidden="true"
+%grippytooltiptext%=@E grippytooltiptext=,grippytooltiptext=,,,"
+%group%=@E group=,group=,,,"
+%handleCtrlPageUpDown%=@K handleCtrlPageUpDown="false",handleCtrlPageUpDown="false"
+%handleCtrlTab%=@K handleCtrlTab="false",handleCtrlTab="false"
+;%height%=@E height=,height=,,,"
+%helpURI%=@E helpURI=,helpURI=,,,"
+%hidden%=@K hidden,hidden="true"
+%hidechrome%=@K hidechrome,hidechrome="true"
+%hidecolumnpicker%=@K hidecolumnpicker,hidecolumnpicker="true"
+%hideheader%=@K hideheader,hideheader="true"
+%hideseconds%=@K hideseconds,hideseconds="true"
+%hidespinbuttons%=@K hidespinbuttons,hidespinbuttons="true"
+%homepage%=@E homepage=,homepage=,,,"
+%hrefxul%=@E href=,href=,,,"
+;%id%=@E id=,id=,,,"
+%ignoreblurwhilesearching%=@K ignoreBlurWhileSearching,ignoreBlurWhileSearching="true"
+%ignorecase%=@K ignorecase,ignorecase="true"
+%ignoreincolumnpicker%=@K ignoreincolumnpicker,ignoreincolumnpicker="true"
+%ignorekeys%=@K ignorekeys,ignorekeys="true"
+%image%=@E image=,image=,,,"
+%inactivetitlebarcolor%=@L inactivetitlebarcolor=,inactivetitlebarcolor=,,,"
+%increment%=@E increment=,increment=,,,"
+%index%=@E index=,index=,,,"
+%inputtooltiptext%=@E inputtooltiptext=,inputtooltiptext=,,,"
+%insertafter%=@E insertafter=,insertafter=,,,"
+%insertbefore%=@E insertbefore=,insertbefore=,,,"
+%instantApply%=@K instantApply,instantApply="true"
+%inverted%=@K inverted,inverted="true"
+%iscontainer%=@C iscontainer=,iscontainer=,,true;false,"
+%isempty%=@C isempty=,isempty=,,true;false,"
+%key%=@E key=,key=,,,"
+%keycode%=@E keycode=,keycode=,,,"
+%keytext%=@E keytext=,keytext=,,,"
+%label%=@E label=,label=,,,"
+%lastSelected%=@E lastSelected=,lastSelected=,,,"
+%left%=@E left=,left=,,,"
+%linkedpanel%=@E linkedpanel=,linkedpanel=,,,"
+%maxxul%=@E max=,max=,,,"
+%maxheight%=@E maxheight=,maxheight=,,,"
+%maxlength%=@E maxlength=,maxlength=,,,"
+%maxpos%=@E maxpos=,maxpos=,,,"
+%maxrows%=@E maxrows=,maxrows=,,,"
+%maxwidth%=@E maxwidth=,maxwidth=,,,"
+%member%=@E member=,member=,,,"
+%menu%=@E menu=,menu=,,,"
+%minxul%=@E min=,min=,,,"
+%minheight%=@E minheight=,minheight=,,,"
+%minresultsforpopup%=@E minResultsForPopup=,minResultsForPopup=,,,"
+%minwidth%=@E minwidth=,minwidth=,,,"
+%modeprogressmeter%=@C mode=,mode=,,determined;undetermined,"
+%modetoolbar%=@C mode=,mode=,,icons;text;full,"
+%modetreecell%=@C mode=,mode=,,none;normal;undetermined,"
+%modifiers%=@E modifiers=,modifiers=,,,"
+%mousethrough%=@C mousethrough=,mousethrough=,,always;never,"
+%multiline%=@K multiline,multiline="true"
+%multiple%=@K multiple,multiple="true"
+%nameparam%=@E name=,name=,,,"
+%namexul%=@K name,name="true"
+%negate%=@K negate,negate="true"
+%newlines%=@C newlines=,newlines=,,pasteintact;pastetofirst;replacewithcommas;replacewithspaces;strip;stripsurroundingwhitespace,"
+%next%=@E next=,next=,,,"
+%noautofocus%=@K noautofocus,noautofocus="true"
+%noautohide%=@K noautohide,noautohide="true"
+%object%=@E object=,object=,,,"
+%observes%=@E observes=,observes=,,,"
+%onbeforeaccept%=@E onbeforeaccept=,onbeforeaccept=,,,"
+%onbookmarkgroup%=@E onbookmarkgroup=,onbookmarkgroup=,,,"
+%onbroadcast%=@E onbroadcast=,onbroadcast=,,,"
+%onchange%=@E onchange=,onchange=,,,"
+%onclosetab%=@E onclosetab=,onclosetab=,,,"
+%oncommand%=@E oncommand=,oncommand=,,,"
+%oncommandupdate%=@E oncommandupdate=,oncommandupdate=,,,"
+%ondialogaccept%=@E ondialogaccept=,ondialogaccept=,,,"
+%ondialogcancel%=@E ondialogcancel=,ondialogcancel=,,,"
+%ondialogclosure%=@E ondialogclosure=,ondialogclosure=,,,"
+%ondialogextra1%=@E ondialogextra1=,ondialogextra1=,,,"
+%ondialogextra2%=@E ondialogextra2=,ondialogextra2=,,,"
+%ondialoghelp%=@E ondialoghelp=,ondialoghelp=,,,"
+%ondown%@E ondown=,ondown=,,,"
+%onerror%=@E onerror=,onerror=,,,"
+%onerrorcommand%=@E onerrorcommand=,onerrorcommand=,,,"
+%onextra1%=@E onextra1=,onextra1=,,,"
+%onextra2%=@E onextra2=,onextra2=,,,"
+%oninput%=@E oninput=,oninput=,,,"
+%onload%=@E onload=,onload=,,,"
+%onnewtab%=@E onnewtab=,onnewtab=,,,"
+%onpageadvanced%=@E onpageadvanced=,onpageadvanced=,,,"
+%onpagehide%=@E onpagehide=,onpagehide=,,,"
+%onpagerewound%=@E onpagerewound=,onpagerewound=,,,"
+%onpageshow%=@E onpageshow=,onpageshow=,,,"
+%onpaneload%=@E onpaneload=,onpaneload=,,,"
+%onpopuphidden%=@E onpopuphidden=,onpopuphidden=,,,"
+%onpopuphiding%=@E onpopuphiding=,onpopuphiding=,,,"
+%onpopupshowing%=@E onpopupshowing=,onpopupshowing=,,,"
+%onpopupshown%=@E onpopupshown=,onpopupshown=,,,"
+%onsearchcomplete%=@E onsearchcomplete=,onsearchcomplete=,,,"
+%onselect%=@E onselect=,onselect=,,,"
+%ontextcommand%=@E ontextcommand=,ontextcommand=,,,"
+%ontextentered%=@E ontextentered=,ontextentered=,,,"
+%ontextrevert%=@E ontextrevert=,ontextrevert=,,,"
+%ontextreverted%=@E ontextreverted=,ontextreverted=,,,"
+%onup%=@E onup=,onup=,,,"
+%onwizardback%=@E onwizardback=,onwizardback=,,,"
+%onwizardcancel%=@E onwizardcancel=,onwizardcancel=,,,"
+%onwizardfinish%=@E onwizardfinish=,onwizardfinish=,,,"
+%onwizardnext%=@E onwizardnext=,onwizardnext=,,,"
+%open%=@K open,open="true"
+%ordinal%=@E ordinal=,ordinal=,,,"
+%orient%=@C orient=,orient=,,horizontal;vertical,"
+%pack%=@C pack=,pack=,,start;center;end,"
+%pageincrement%=@E pageincrement=,pageincrement=,,,"
+%parent%=@E parent=,parent=,,,"
+%parsetype%=@C parsetype=,parsetype=,,Integer,"
+%persist%=@E persist=,persist=,,,"
+%persistence%=@E persistence=,persistence=,,,"
+%phase%=@C phase=,phase=,,capturing;target,"
+%pickertooltiptext%=@E pickertooltiptext=,pickertooltiptext=,,,"
+%popup%=@E popup=,popup=,,,"
+%position%=@E position=,position=,,,"
+%positionpopup%=@C position=,position=,,after_start;after_end;before_start;before_end;end_after;end_before;start_after;start_before;overlap;at_pointer;after_pointer,"
+%predicate%=@E predicate=,predicate=,,,"
+%preference%=@E preference=,preference=,,,"
+%primary%=@K primary,primary="true"
+;%priority%=@E priority=,priority=,,,"
+%properties%=@E properties=,properties=,,,"
+%querytype%=@C querytype=,querytype=,,rdf;xml;storage,"
+%readonly%=@K readonly,readonly="true"
+%ref%=@E ref=,ref=,,,"
+%rel%=@C rel=,rel=,,equals;less;greater;before;after;startswith;endswith;contains,"
+%removeelement%=@E removeelement=,removeelement=,,,"
+%resizeafter%=@C resizeafter=,resizeafter=,,closest;farthest;grow;flex,"
+%resizebefore%=@C resizebefore=,resizebefore=,,closest;farthest;flex,"
+%rows%=@E rows=,rows=,,,"
+%searchSessions%=@C searchSessions=,searchSessions=,,history;addrbook;ldap,"
+%searchlabel%=@E searchlabel=,searchlabel=,,,"
+%selectedIndex%=@E selectedIndex=,selectedIndex=,,,"
+%seltype%=@C seltype=,seltype=,,single;multiple,"
+%setfocus%=@K setfocus="false",setfocus="false"
+%showcaret%=@K showcaret,showcaret="true"
+%showcommentcolumn%=@K showCommentColumn,showCommentColumn="true"
+%showpopup%=@K showpopup="false",showpopup="false"
+%size%=@E size=,size=,,,"
+%sizemode%=@C sizemode=,sizemode=,,normal;maximized;minimized,"
+%sizetopopup%=@K sizetopopup="always",sizetopopup="always"
+%smoothscroll%=@K smoothscroll,smoothscroll="true"
+%sort%=@E sort=,sort=,,,"
+%sortActive%=@K sortActive,sortActive="true"
+%sortDirection%=@C sortDirection=,sortDirection=,,ascending;descending;natural,"
+%sortResource%=@E sortResource=,sortResource=,,,"
+%sortResource2%=@E sortResource2=,sortResource2=,,,"
+%spellcheck%=@K spellcheck,spellcheck="true"
+%srceditor%=@E src=,src=,about:blank,,"
+%srcxul%=@E src=,src=,,,"
+%statedatasource%=@E statedatasource=,statedatasource=,,,"
+%statusbar%=@E statusbar=,statusbar=,,,"
+%statustext%=@E statustext=,statustext=,,,"
+;%style%=@E style=,style=,,,"
+%subject%=@E subject=,subject=,,,"
+%suppressonselect%=@K suppressonselect,suppressonselect="true"
+%tabindex%=@E tabindex=,tabindex=,,,"
+%tabscrolling%=@K tabScrolling,tabScrolling="true"
+%targets%=@E targets=,targets=,,,"
+%template%=@E template=,template=,,,"
+%timeout%=@E timeout=,timeout=,,,"
+;%title%=@E title=,title=,,,"
+%toolbarname%=@E toolbarname=,toolbarname=,,,"
+%tooltip%=@C tooltip=,tooltip=,,_child,"
+%tooltiptext%=@E tooltiptext=,tooltiptext=,,,"
+%top%=@E top=,top=,,,"
+%typebutton%=@C type=,type=,,menu;menu-button;checkbox;radio;repeat,"
+%typebrowser%=@C type=,type=,,content;content-primary,"
+%typecolorpicker%=@C type=,type=,,button,"
+%typedatepicker%=@C type=,type=,,normal;grid;popup,"
+%typelistitem%=@C type=,type=,,checkbox,"
+%typemenuitem%=@C type=,type=,,checkbox;radio,"
+%typenotification%=@C type=,type=,,info;warning;critical,"
+%typeobserves%=@C type=,type=,,element;session;app;global,"
+%typeparam%=@C type=,type=,,integer;int64;double;string,"
+%typepreference%=@C type=,type=,,bool;int;string;unichar;wstring;file,"
+%typeprefwindow%=@C type=,type=,,child,"
+%typescript%=@E type=,type=,application/x-javascript,,"
+%typetextbox%=@C type=,type=,,autocomplete;number;password;timed,"
+%typetoolbarbutton%=@C type=,type=,,menu;menu-button;checkbox;radio,"
+%typetreecol%=@C type=,type=,text,text;checkbox;progressmeter,"
+%uri%=@E uri=,uri=,,,"
+%validate%=@C validate=,validate=,,always;never,"
+%valuedatepicker%=@E value=,value=,YYYY-MM-DD,,"
+%var%=@E var=,var=,,,"
+%waitcursor%=@K wait-cursor,wait-cursor="true"
+;%width%=@E width=,width=,,,"
+%windowtype%=@E windowtype=,windowtype=,,,"
+%wrap%=@K wrap="off",wrap="off"
+%wraparound%=@K wraparound,wraparound="true"
+;
+;
+;---------------------------------------------------------------------
+; XML (black)
+;---------------------------------------------------------------------
+[&nbsp; |G nonbreakable space]*Shift+Ctrl+Space
+&nbsp;
+[&bdquo; |G quote down]*Shift+Ctrl+U
+&bdquo;
+[&ldquo; |G quote up]*Ctrl+U
+&rdquo;
+[&apos; |G single quote]
+&apos;
+[&gt; |G char ">"]
+&gt;
+[&lt; |G char "<"]
+&lt;
+[&amp; |G ampersand]
+&amp;
+;
+[<> | open tag <>]*Alt+,
+<|>
+[</> | close tag </|>]*Alt+.
+</|>
+;
+[!-- | line comment <!-- text -->]
+<!-- §| -->
+[!--- | block comment <!-- text -->]
+<!--
+ §|
+-->
+;
+[xml | declaration <?xml ?>]
+<?xml %version% %encoding% %standalone%?>
+|
+;
+[CDATA | <![CDATA[ ]
+<![CDATA[
+ §|
+]]>
+
+[css | CSS link]
+<?xml-stylesheet %alternate% %media% %title% type="text/css" %hrefc%?>
+|
+;
+[dtd | external declaration, <!DOCTYPE>]
+<!DOCTYPE %name% SYSTEM %hrefd%>
+|
+;
+[ELEMENT | insert XML mark]
+<%namee% %namea% %namea2% %namea3% %namea4% %lang%>§|</%namee%>
+|
+;
+[xsl | XSL binding]
+<?xml-stylesheet %media% type="text/xsl" %hrefx%?>
+|
+;
+[sekce | section CDATA/INCLUDE/IGNORE]
+<![%sekce%[
+ §|
+]]>
+;
+[entita | entity &name;]
+&%namei%;
+;
+;---------------------------------------------------------------------
+; HTML (G)
+;---------------------------------------------------------------------
+[A |G link, hyperlink]
+<A %href% %hrefx% %id% %name% %title% %style% %class% %target% %on%>
+ §|
+</A>
+;
+[B |G bold text <B></B>]*CTRL+B
+<B>§|</B>
+;
+[BODY |G document body]
+<BODY %class% %dir% %id% %lang% %on% %style% %title%>
+ §|
+</BODY>
+;
+[BR |G line break]*CTRL+ENTER
+<BR>
+;
+[DIV |G block]
+<DIV %class% %dir% %id% %lang% %on% %style% %title%>§|</DIV>
+;
+[I |G italic <I></I>]*CTRL+I
+<I>§|</I>
+;
+[H1 |G title <H1> až </H6>]
+<H%h% %class% %dir% %id% %lang% %on% %style% %title%>§|</H%h%>
+;
+[HTMLs |G simple HTML page template]
+<HTML>
+ <HEAD>
+  <META http-equiv="content-type" content="text/html; %charset%" />
+  <meta name="generator" content="PSPad editor, www.pspad.com">
+  <TITLE>%title2%</TITLE>
+  </HEAD>
+ <BODY>
+ §|
+ </BODY>
+</HTML>
+;
+[P | paragraph ]*SHIFT+CTRL+P
+<P %class% %dir% %id% %lang% %on% %style% %title%>
+ §|
+</P>
+;
+[SPAN |G container]
+<SPAN %class% %dir% %id% %lang% %on% %style% %title%>§|</SPAN>
+;
+[STYLE |G internal style definition]
+<STYLE %type4% %dir% %lang% %media% %title%>
+ §|
+</STYLE>
+;
+[TABLE |G table definition]
+<TABLE %border% %cellpadding% %cellspacing% %class% %dir% %frame% %id% %lang% %on% %rules% %style% %summary% %title% %width%>
+ §|
+</TABLE>
+;
+[TD |G table data]
+<TD %abbr% %alignt% %axis% %char% %charoff% %class% %colspan% %dir% %headers% %id% %lang% %on% %rowspan% %scope% %style% %title% %valign% %xmllang%>§|</TD>
+;
+[TR |G table row definition]
+<TR %alignt% %char% %charoff% %class% %dir% %id% %lang% %on% %style% %title% %valign%>§|</TR>
+;
+;---------------------------------------------------------------------
+; DTD (D)
+;---------------------------------------------------------------------
+[ATTLIST |D <!ATTLIST>, attribut deklaration]
+<!ATTLIST %namee%
+   %name% %dta% %dta2% %valued%>
+;
+[DOCTYPE |D <!DOCTYPE>, element deklaration]
+<!DOCTYPE %namek%
+  [
+  <!ELEMENT %namee% %contentspec%>
+  ]
+>
+;
+[ELEMENT |D <!ELEMENT>, element deklaration]
+<!ELEMENT %namee% %contentspec%>
+|
+;
+[ENTITY |D <!ENTITY>, entity deklaration]
+<!ENTITY %namei% %value% %SYSTEM% %PUBLIC% %NDATA%>
+|
+;
+[NOTATION |D <!NOTATION>, notation deklaration]
+<!NOTATION %namei% %src%>
+|
+;
+;---------------------------------------------------------------------
+; XSD (N)
+;---------------------------------------------------------------------
+;
+[ANNOTATION |N xsd:annotation]
+<xsd:annotation>
+ §|
+</xsd:annotation>
+;
+[ALL |N xsd:all, selection]
+<xsd:all>
+ §|
+</xsd:all>
+;
+[ATTRIBUTE |N xsd:attribute, attribut deklaration]
+<xsd:attribute %name% %type% %use% %default% %fixed%>
+ §|
+</xsd:attribute>
+;
+[CHOICE |N xsd:choice ]
+<xsd:choice %namei% %min% %max%>
+ §|
+</xsd:choice>
+;
+[ComplexType |N complexType ]
+<xsd:complexType %namei% %mixed%>
+ §|
+</xsd:complexType>
+;
+[DOCUMENTATION |N xsd:documentation]
+<xsd:documentation>
+ §|
+</xsd:documentation>
+;
+[ELEMENT |N xsd:element, root scheme elementu deklaration]
+<xsd:element %name% %type% %min% %max%>
+ §|
+</xsd:element>
+;
+[ELEMENT |N xsd:element, element scheme deklaration]
+<xsd:element %name% %type% %min% %max% />
+|
+;
+[enumeration |N xsd:enumeration ]
+<xsd:enumeration %value% />
+|
+;
+[extension |N xsd:extension ]
+<xsd:extension %base%>
+ §|
+</xsd:extension>
+;
+[fractionDigits |N xsd:fractionDigits ]
+<xsd:fractionDigits %value% />
+|
+;
+[HTMLe | insert HTML mark]
+<html:%namei% %xmlns% %namea% %namea2% %src% />
+|
+;
+[length |N xsd:length ]
+<xsd:length %value% />
+|
+;
+[maxExclusive |N xsd:maxExclusive ]
+<xsd:maxExclusive %value% />
+|
+;
+[maxInclusive |N xsd:maxInclusive ]
+<xsd:maxInclusive %value% />
+|
+;
+[maxLength |N xsd:maxLength ]
+<xsd:maxLength %value% />
+|
+;
+[minExclusive |N xsd:minExclusive ]
+<xsd:minExclusive %value% />
+|
+;
+[minInclusive |N xsd:minInclusive ]
+<xsd:minInclusive %value% />
+|
+;
+[minLength |N xsd:minLength ]
+<xsd:minLength %value% />
+|
+;
+[pattern |N xsd:pattern ]
+<xsd:pattern %value% />
+|
+;
+[RESTRICTION |N xsd:restriction ]
+<xsd:restriction %base%>
+ §|
+</xsd:restriction>
+;
+[SEQUENCE |N xsd:sekvence ]
+<xsd:sequence>
+ §|
+</xsd:sequence>
+;
+[SCHEMA |N xsd:schema, scheme deklaration]
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ §|
+</xsd:schema>
+;
+[simpleContent |N xsd:simpleContent ]
+<xsd:simpleContent>
+ §|
+</xsd:simpleContent>
+;
+[simpleType |N xsd:simpleType ]
+<xsd:simpleType>
+ §|
+</xsd:simpleType>
+;
+[totalDigits |N xsd:totalDigits ]
+<xsd:totalDigits %value% />
+|
+;
+[whiteSpace |N xsd:whiteSpace ]
+<xsd:whiteSpace %value% />
+|
+;
+;---------------------------------------------------------------------
+; XSL (R)
+;---------------------------------------------------------------------
+[ApplyImports |R xsl:apply-imports, apply template from imported stylesheetu]
+<xsl:apply-imports />
+|
+;
+[ApplyTemplates |R xsl:apply-templates, recursive stylesheet calling]
+<xsl:apply-templates %select% %mode%>
+ §|
+</xsl:apply-templates>
+;
+[ATTRIBUTE |R xsl:attribute, generate new element attribute]
+<xsl:attribute %name% %namespace%>
+ §|
+</xsl:attribute>
+;
+[AttributeSet |R xsl:attribute-set, attribute-set definition]
+<xsl:attribute-set %name% %useattributesets%>
+ §|
+</xsl:attribute-set>
+;
+[CallTemplate |R xsl:call-template]
+<xsl:call-template %name%>
+  §|
+</xsl:call-template>
+;
+[CHOOSE |R xsl:choose]
+<xsl:choose>
+ §|
+</xsl:choose>
+;
+[COMMENT |R xsl:comment, create ouptup XML comment]
+<xsl:comment>
+ §|
+</xsl:comment>
+;
+[COPY |R xsl:copy, copy actual node]
+<xsl:copy %useattributesets%>
+ §|
+</xsl:copy>
+;
+[CopyOf |R xsl:copy-of, copy element to output (include content)]
+<xsl:copy-of %select% />
+|
+;
+[DecimalFormat |R xsl:decimal-format, local number format definition]
+<xsl:decimal-format %name% %decimalseparator% %groupingseparator% %infinity% %minussign% %NaN% %percent% %permille% %zerodigit% %digit% %patternseparator% />
+|
+;
+[ELEMENT |R xsl:element ]
+<xsl:element %name% %namespace% %useattributesets%>
+ §|
+</xsl:element>
+;
+[Fallback |R xsl:fallback, alternative code definition]
+<xsl:fallback>
+ §|
+</xsl:fallback>
+;
+[ForEach |R xsl:for-each, loop for executing command inside element]
+<xsl:for-each %select%>
+ §|
+</xsl:for-each>
+;
+[IF |R xsl:if, insert content if condition]
+<xsl:if %test%>
+ §|
+</xsl:if>
+;
+[Import |R xsl-import, import content of stylesheetu]
+<xsl-import %hrefx% />
+|
+;
+[INCLUDE |R xsl-include, include content of stylesheetu]
+<xsl-include %hrefx% />
+|
+;
+[KEY |R xsl:key, define key]
+<xsl:key %name% %match% %use% />
+|
+;
+[MESSAGE |R xsl:message, write message to output]
+<xsl:message %terminate%>
+ §|
+</xsl:message>
+;
+[NamespaceAlias |R xsl:namespace-alias]
+<xsl:namespace-alias %stylesheetprefix% %resultprefix% />
+;
+[NUMBER |R xsl:number, create formated number]
+<xsl:number %level% %count% %from% %value% %format% %lang% %lettervalue% %groupingseparator% %groupingsize%>
+ §|
+</xsl:number>
+;
+[OTHERWISE |R xsl:otherwise]
+<xsl:otherwise>
+ §|
+</xsl:otherwise>
+;
+[OUTPUT |R xsl:output, define output format]
+<xsl:output %method% %version% %encoding% %omitxmldeclaration% %standalone% %doctypepublic% %doctypesystem% %cdatasectionelements% %indent% %mediatype% />
+|
+;
+[PARAM |R xsl:param, declare global or local parameter]
+<xsl:param %name% %select%>
+ §|
+</xsl:param>
+;
+[PreserveSpace |R xsl:preserve-space, preserve elements whitespace]
+<xsl:preserve-space %elements% />
+|
+;
+[ProcessingIns |R xsl:processing-instruction]
+<xsl:processing-instruction %name%>§|</xsl:processing-instruction>
+;
+[SORT |R xsl:sort, sort selected data with specific criteria]
+<xsl:sort %lang% %select% %datatype% %order% %caseorder% />
+|
+;
+[StripSpace |R xsl:strip-space, remove redundant witespace]
+<xsl:strip-space %elements% />
+|
+;
+[Stylesheet |R xsl:stylesheet, style XSLT declaration]
+<xsl:stylesheet %version% %extensionelementprefixes% %excluderesultprefixes% %id% xmlns:xsl="http://www.w3.org/1999/XSL/Transform" %xmlns% %xmlnsfo%>
+ §|
+</xsl:stylesheet>
+;
+[TEMPLATE |R xsl:template]
+<xsl:template %match% %name% %mode% %priority%>
+ §|
+</xsl:template>
+;
+[TEXT |R xsl:text, write string to output]
+<xsl:text %disableoutputescaping%>§|</xsl:text>
+;
+[Transform |R xsl:transform, same function as element "xsl:stylesheet"]
+<xsl:transform %version% %extensionelementprefixes% %excluderesultprefixes% %id% xmlns:xsl="http://www.w3.org/1999/XSL/Transform" %xmlns%>
+ §|
+</xsl:transform>
+;
+[ValueOf |R xsl:value-of, show element content with attribute "select"]
+<xsl:value-of %select% %disableoutputescaping% />
+|
+;
+[VARIABLE |R xsl:variable, global or local variable declaration]
+<xsl:variable %name% %select%>
+ §|
+</xsl:variable>
+;
+[WHEN |R xsl:when, condition]
+<xsl:when %test%>
+ §|
+</xsl:when>
+;
+[WithParam |R xsl:with-param, rewrite value inside template]
+<xsl:with-param %name% %select%>
+ §|
+</xsl:with-param>
+;
+[XSLs |R simple XSL page]
+<?xml version="1.0" %encoding%>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<!-- XSL generated by PSPad editor, www.pspad.com; %RFCTime% -->
+ <xsl:template match="/">
+|
+ </xsl:template>
+</xsl:stylesheet>
+;
+;---------------------------------------------------------------------
+; PHP a ostatní (B)
+;---------------------------------------------------------------------
+;
+[php |B PHP tag <?php ?>]
+<?php
+ §|
+?>
+;
+[PHPe |B PHP tag with echo command]
+<?php echo '§|'; ?>
+;
+[PHPi |B PHP tag include ]
+<?php %include%; ?>
+|
+;
+[PHPp |B inserting PHP code]
+<?php %php%| ?>
+;
+;---------------------------------------------------------------------
+; XUL
+;---------------------------------------------------------------------
+;
+[action |P template action]
+<action>
+  §|
+</action>
+;
+[arrowscrollbox |P box with arrows to scroll the content]
+<arrowscrollbox %id% %class% %orient% %pack% %align% %smoothscroll% %flex%>
+  §|
+</arrowscrollbox>
+;
+[assign |P specifies an additional variable to assign a value to]
+<assign %var% %expr%/>
+|
+;
+[bbox |P horizontal box that is baseline aligned]
+<bbox %id% %class% %pack% %flex%>
+  §|
+</bbox>
+;
+[binding |P used to bind a variable to a node]
+<binding %subject% %predicate% %object%/>
+|
+;
+[box |P generic container]
+<box %id% %class% %orient% %pack% %align% %flex%>
+  §|
+</box>
+;
+[broadcaster |P used for attribute forwarding]
+<broadcaster %id% %label%/>
+|
+;
+[broadcasterset |P container for broadcaster elements]
+<broadcasterset>
+  §|
+</broadcasterset>
+;
+[button |P button that can be pressed by the user]
+<button %id% %class% %label% %oncommand% %command% %typebutton% %accesskey% %autoCheckB% %checkState% %checked% %crop% %disabled% %group% %tabindex%/>
+|
+;
+[browser |P frame which contains Web content]
+<browser %id% %typebrowser% %srcxul% %autocompleteenabled% %autocompletepopup% %autoscroll% %disablehistory% %disablesecurity% %homepage% %showcaret% %flex%/>
+|
+;
+[checkbox |P box that can be checked/unchecked]
+<checkbox %id% %class% %label% %accesskey% %checked% %command% %preference% %crop% %disabled% %tabindex%/>
+|
+;
+[caption |P header for a groupbox]
+<caption %label% %crop%/>
+|
+;
+[colorpicker |P color selection palette]
+<colorpicker %id% %typecolorpicker% %preference% %onchange% %color% %disabled% %tabindex%/>
+|
+;
+[column |P single column in a columns element]
+<column flex="1">
+  §|
+</column>
+;
+[columns |P defines the columns of a grid]
+<columns>
+  §|
+</columns>
+;
+[commandset |P container for command elements]
+<commandset>
+  §|
+</commandset>
+;
+[command |P invokes an operation that can come from multiple sources]
+<command %id% %oncommand% %label% %disabled%/>
+;
+[content |P used to bind a variable to a content node during matching]
+<content %uri%/>
+|
+;
+[datepicker |P allows the user to enter a date]
+<datepicker %id% %typedatepicker% %valuedatepicker% %firstdayofweek% %readonly% %disabled% %tabindex%/>
+|
+;
+[deck |P element that displays only one of its children at a time]
+<deck %id% %selectedIndex%>
+  §|
+</deck>
+;
+[description (inline) |P displays a line of text]
+<description %id% %class% %value% %crop%/>
+;
+[description (block) |P displays a block of text]
+<description %id% %class%>
+  §|
+</description>
+;
+[dialog |P dialog box]
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        %id% %title% %buttons% %ondialogaccept% %buttonlabelaccept% %buttonaccesskeyaccept% %ondialogcancel% %buttonlabelcancel% %buttonaccesskeycancel% %ondialogdisclosure% %buttonlabeldisclosure% %buttonaccesskeydisclosure% %ondialoghelp% %buttonlabelhelp% %buttonaccesskeyhelp% %ondialogextra1% %buttonlabelextra1% %buttonaccesskeyextra1% %ondialogextra2% %buttonlabelextra2% %buttonaccesskeyextra2% %buttondisabledaccept% %defaultButton% %activetitlebarcolor% %inactivetitlebarcolor%/>
+  §|
+</dialog>
+;
+[dialogheader |P heading row for a dialog box]
+<dialogheader %title% %description% %crop%/>
+|
+;
+[dropmarker |P button with an arrow which will reveal more details when pressed]
+<dropmarker %id% %class%/>
+|
+;
+[editor |P frame to contain an editable document]
+<editor %id% %editortype% %srceditor% %typebrowser% %flex%/>
+|
+;
+[grid (column-based) |P container for rows and columns elements]
+<grid flex="1">
+  <columns>
+    |
+  </columns>
+  <rows>
+    
+  </rows>
+</grid>
+;
+[grid (row-based) |P container for rows and columns elements]
+<grid flex="1">
+  <rows>
+    |
+  </rows>
+  <columns>
+    
+  </columns>
+</grid>
+;
+[grippy |P used inside a splitter to collapse a sibling element]
+<grippy/>
+|
+;
+[groupbox |P box that draws a line around a set of controls]
+<groupbox %flex%>
+  <caption %label%/>
+  |§
+</groupbox>
+;
+[hbox |P horizontally oriented box]
+<hbox %id% %class% %pack% %align% %flex%>
+  §|
+</hbox>
+;
+[iframe |P inner frame for a content document]
+<iframe %id% %srcxul% %showcaret% %flex%/>
+|
+;
+[image |P displays an image]
+<image %srcxul% %width% %height% %validate% %onload% %onerror%/>
+|
+;
+[key |P defines a keyboard shortcut]
+<key %id% %key% %keycode% %modifiers% %keytext% %oncommand% %command% %phase% %disabled%/>
+|
+;
+[keyset |P container for key elements]
+<keyset>
+  §|
+</keyset>
+;
+[label |P provides a label for a control]
+<label %classlabel% %value% %control% %accesskey% %hrefxul% %crop% %disabled%/>
+|
+;
+[listbox |P list of items where one or more may be selected]
+<listbox %id% %preference% %seltype% %rows% %value% %suppressonselect% %disablekeynavigation% %disabled% %tabindex%>
+  §|
+</listbox>
+;
+[listcell |P single cell of a listbox]
+<listcell %classlistcell% %typelistitem% %label% %image% %crop% %disabled%/>
+|
+;
+[listcol |P column in a listbox]
+<listcol %flex%/>
+|
+;
+[listcols |P container for the columns of a listbox]
+<listcols>
+  §|
+</listcols>
+;
+[listhead |P header row of a listbox]
+<listhead %disabled%>
+  §|
+</listhead>
+;
+[listheader |P header for a single column in a listbox]
+<listheader %label% %disabled%/>
+|
+;
+[listitem |P single row in a listbox]
+<listitem %id% %classlistitem% %preference% %typelistitem% %label% %value% %command% %accesskey% %image% %crop% %disabled% %tabindex%/>
+|
+;
+[member |P used in a rule's conditions element to match elements]
+<member %container2% %child%/>
+|
+;
+[menu |P menu on a menu bar]
+<menu %id% %label% %command% %value% %accesskey% %acceltext% %allowevents% %sizetopopup% %crop% %disabled% %tabindex%>
+  <menupopup>
+    §|
+  </menupopup>
+</menu>
+;
+[menubar |P container for menu elements]
+<menubar %id% %statusbar%/>
+  §|
+</menubar>
+;
+[menuitem |P single choice in a menupopup element]
+<menuitem %id% %classmenuitem% %label% %accesskey% %acceltext% %command% %key% %typemenuitem% %name% %value% %description% %allowevents% %autocheck% %crop% %disabled% %tabindex% %validate%/>
+;
+[menulist |P drop-down list]
+<menulist %id% %label% %value% %oncommand% %accesskey% %editable% %disableautoselect% %readonly% %preference% %image% %sizetopopup% %crop% %disabled% %tabindex%>
+  <menupopup>
+    §|
+  </menupopup>
+</menulist>
+;
+[menupopup |P container for the contents of a popup menu]
+<menupopup %id% %onpopupshowing% %onpopupshown% %onpopuphiding% %onpopuphidden% %positionpopup% %top% %left% %ignorekeys%>
+  §|
+</menupopup>
+;
+[menuseparator |P separator between menu items]
+<menuseparator/>
+|
+;
+[notification |P used to display an informative message]
+<notification %typenotification% %label% %image% %priority% %persistence% %value%/>
+;
+[notificationbox |P displays notifications (like information bar)]
+<notificationbox flex="1">
+  §|
+</notificationbox>
+;
+[observerset |P container for observes elements]
+<observerset %id% %onbroadcast%>
+  §|
+</observerset>
+;
+[observes |P observes attribute changes on another element or chrome storage area changes]
+<observes %typeobserves% %element% %attribute% %domain% %key% %onbroadcast%/>
+;
+[overlay |P used to append, alter or share content in windows]
+<overlay %id% xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  §|
+</overlay>
+;
+[page |P like the window element but for an iframe]
+<page>
+  §|
+</page>
+;
+[panel |P popup window]
+<panel %id% %onpopupshowing% %onpopupshown% %onpopuphiding% %onpopuphidden% %noautofocus% %noautohide% %positionpopup% %top% %left% %ignorekeys%>
+  §|
+</panel>
+;
+[param |P binds values to parameters specified in an SQL statement]
+<param %index% %nameparam% %typeparam%/>
+;
+[popup |P container for the contents of a popup menu]
+<popup %id% %onpopupshowing% %onpopupshown% %onpopuphiding% %onpopuphidden% %positionpopup% %top% %left% %ignorekeys%>
+  §|
+</popup>
+;
+[popupset |P container for menupopup, panel and tooltip elements]
+<popupset>
+  §|
+</popupset>
+;
+[preference |P preference that may adjusted in a prefpane]
+<preference %id% %name% %typepreference% %onchange% %instantApply% %inverted% %readonly% %disabled% %tabindex%/>
+;
+[preferences |P container for preference elements]
+<preferences>
+  §|
+</preferences>
+;
+[prefpane |P single preference panel in a prefwindow]
+<prefpane %id% %label% %onpaneload% %image% %srcxul% %helpURI%>
+  §|
+</prefpane>
+;
+[prefwindow |P window used for preference dialogs]
+<prefwindow %id% %title% %type% %onpaneload% %ondialogdisclosure% %ondialoghelp% %onbeforeaccept% %ondialogaccept% %ondialogcancel% %buttons% %defaultButton% %buttonalign% %buttondir% %buttonorient% %buttonpack% %lastSelected% %activetitlebarcolor% %inactivetitlebarcolor%>
+  §|
+</prefwindow>
+;
+[progressmeter |P displays the progress of a lengthy operation]
+<progressmeter %id% %class% %modeprogressmeter% %value%/>
+;
+[query |P used to specify the query for a template (RDF)]
+<query>
+  §|
+</query>
+;
+[query |P used to specify the query for a template (XML)]
+<query %expr%/>
+;
+[queryset |P container for query elements]
+<queryset>
+  §|
+</queryset>
+;
+[radio |P option button that can be turned on/off]
+<radio %id% %class% %label% %accesskey% %group% %command% %value% %image% %crop% %disabled% %tabindex%/>
+|
+;
+[radiogroup |P group of option buttons]
+<radiogroup %id% %class% %preference% %disabled% %tabindex%>
+  §|
+</radiogroup>
+;
+[resizer |P element used for window resizing]
+<resizer %dirresizer% %flex% %height%/>
+|
+;
+[richlistbox |P list for content that is not simple text]
+<richlistbox %id% %class% %preference% %rows% %seltype% %suppressonselect% %disablekeynavigation% %disabled% %tabindex%>
+  §|
+</richlistbox>
+;
+[richlistitem |P individual item in a richlistbox]
+<richlistitem %searchlabel% %value% %disabled% %tabindex%/>
+|
+;
+[row |P single row in a rows element]
+<row>
+  §|
+</row>
+;
+[rows |P defines the rows of a grid]
+<rows>
+  §|
+</rows>
+;
+[rule |P declares the conditions used for matching content generated from a template]
+<rule %parent% %parsetype% %iscontainer% %isempty%>
+  §|
+</rule>
+;
+[scale |P slider control]
+<scale %id% %class% %orient% %dirxul% %minxul% %maxxul% %increment% %pageincrement% %value% %disabled% %tabindex%/>
+|
+;
+[script |P declares a script to be used by the XUL window]
+<script %srcxul% %typescript%/>
+|
+;
+[scrollbar |P enables scrolling for content larger than it's container]
+<scrollbar %maxpos% %increment% %pageincrement%/>
+|
+;
+[scrollbox |P box that has additional functions for scrolling content]
+<scrollbox>
+  §|
+</scrollbox>
+;
+[scrollcorner |P small box where horizontal and vertical scrollbars meet]
+<scrollcorner/>
+|
+;
+[separator |P creates a small gap between elements]
+<separator %classseparator% %orient%/>
+|
+;
+[spacer |P occupies space in a container]
+<spacer flex="1"/>
+|
+;
+[spinbuttons |P increase and decrease arrows for changing a control's value]
+<spinbuttons/>
+|
+;
+[splitter |P draggable divider in a container]
+<splitter %id% %classsplitter% %collapse% %resizebefore% %resizeafter%/>
+|
+;
+[stack |P element that renders its children on top of each other]
+<stack>
+  §|
+</stack>
+;
+[statusbar |P creates a status bar]
+<statusbar>
+  §|
+</statusbar>
+;
+[statusbarpanel |P individual element of a statusbar]
+<statusbarpanel %id% %label% %image% %crop%>
+  §|
+</statusbarpanel>
+;
+[stringbundle |P loads localized resources from property files]
+<stringbundle %id% %srcxul%/>
+|
+;
+[stringbundleset |P container for stringbundle elements]
+<stringbundleset id="|">
+  §
+</stringbundleset>
+;
+[tab |P single tab in a tabbox]
+<tab %id% %class% %label% %accesskey% %linkedpanel% %image% %validate% %command% %oncommand% %value% %crop% %disabled% %tabindex%/>
+;
+[tabbrowser |P holds a set of read-only views of web documents]
+<tabbrowser %id% %onbookmarkgroup% %onnewtab% %contentcontextmenu% %contenttooltip% %autocompleteenabled% %autocompletepopup% %autoscroll% %handleCtrlPageUpDown%>
+  §|
+</tabbrowser>
+;
+[tabbox |P container used to display tabbed pages of elements]
+<tabbox %id% %eventnode% %handleCtrlPageUpDown% %handleCtrlTab%>
+  §|
+</tabbox>
+;
+[tabpanel |P individual tab panel]
+<tabpanel %id% %orient%>
+  §|
+</tabpanel>
+;
+[tabpanels |P container to hold pages in a tabbox]
+<tabpanels selectedIndex="|">
+  §
+</tabpanels>
+;
+[tabs |P row of tabs in a tabbox]
+<tabs %onclosetab% %onnewtab% %onselect% %value% %closebutton% %disableclose% %tooltiptextnew% %setfocus% %disabled% %tabindex%>
+  §|
+</tabs>
+;
+[template |P template for rule-based construction of elements]
+<template %container2% %member%>
+  §|
+</template>
+;
+[textnode |P text node in a template rule]
+<textnode value="|"/>
+;
+[textbox |P text input field]
+<textbox %id% %class% %typetextbox% %preference% %onchange% %oninput% %multiline% %newlines% %wrap% %value% %label% %emptytext% %size% %rows% %cols% %maxlength% %readonly% %spellcheck% %inputtooltiptext% %autocompletesearch% %autocompletesearchparam% %autocompletepopup% %onsearchcomplete% %ontextentered% %ontextreverted% %enablehistory% %minresultsforpopup% %completedefaultindex% %forcecomplete% %disablekeynavigation% %ignoreblurwhilesearching% %maxrows% %showcommentcolumn% %tabscrolling% %timeout% %minxul% %maxxul% %increment% %wraparound% %decimalplaces% %hidespinbuttons% %disabled% %tabindex%/>
+|
+;
+[timepicker |P allows user to enter a time]
+<timepicker %id% %class% %value% %hideseconds% %increment% %readonly% %disabled% %tabindex%/>
+|
+;
+[titlebar |P window title bar]
+<titlebar>
+  §|
+</titlebar>
+;
+[toolbar |P contains a row of buttons]
+<toolbar %id% %toolbarname% %modetoolbar% %customizable% %defaultset% %currentset% %grippyhidden% %grippytooltiptext%>
+  §|
+</toolbar>
+;
+[toolbarbutton |P button that appears on a toolbar]
+<toolbarbutton %id% %typetoolbarbutton% %label% %accesskey% %image% %oncommand% %command% %tooltiptext% %group% %dlgtype% %autoCheckB% %checkState% %checked% %crop% %dirxul% %orient% %validate% %disabled% %tabindex%/>
+;
+[toolbargrippy |P notch on the side of a toolbar used to collapse and expand it]
+<toolbargrippy/>
+|
+;
+[toolbaritem |P item that appears on a toolbar]
+<toolbaritem>
+  §|
+</toolbaritem>
+;
+[toolbarpalette |P contains available toolbar items]
+<toolbarpalette id="|">
+  §|
+</toolbarpalette>
+;
+[toolbarseparator |P separator between groups of toolbar items]
+<toolbarseparator/>
+|
+;
+[toolbarset |P container for custom toolbars]
+<toolbarset id="|">
+  §|
+</toolbarset>
+;
+[toolbarspacer |P space between toolbar items]
+<toolbarspacer/>
+|
+;
+[toolbarspring |P flexible space between toolbar items]
+<toolbarspring flex="1"/>
+|
+;
+[toolbox |P container for toolbars]
+<toolbox %id% %class% %context%>
+  §|
+</toolbox>
+;
+[tooltip |P tooltip popup]
+<tooltip %id% %class% %label% %onpopupshowing% %onpopupshown% %onpopuphidden% %onpopuphiding% %default% %noautohide% %positionpopup% %crop%/>
+|
+;
+[tree |P holds a tabular or hierarchical set of rows of elements]
+<tree %id% %flex% %rows% %hidecolumnpicker% %seltype% %onselect% %editable% %enableColumnDrag% %flags% %statedatasource% %disablekeynavigation% %disabled% %tabindex%>
+  §|
+</tree>
+;
+[treecell |P single cell in a tree]
+<treecell %label% %srcxul% %value% %editable% %modetreecell% %ref% %properties%/>
+|
+;
+[treechildren |P body of a tree]
+<treechildren %id% %class% %alternatingbackground%>
+  §|
+</treechildren>
+;
+[treecol |P column of a tree]
+<treecol %id% %label% %flex% %typetreecol% %editable% %primary% %cycler% %fixedxul% %width% %hidden% %hideheader% %ignoreincolumnpicker% sort% %sortActive% %sortDirection% %srcxul%  %crop%/>
+|
+;
+[treecols |P group of treecol elements]
+<treecols pickertooltiptext="|">
+  §|
+</treecols>
+;
+[treeitem |P container for treerow elements]
+<treeitem %label% %uri% %container% %open% %empty%>
+  §|
+</treeitem>
+;
+[treerow |P single row in a tree]
+<treerow>
+  §|
+</treerow>
+;
+[treeseparator |P seperator row in a tree]
+<treeseparator/>
+|
+;
+[triple |P checks for an assertion within a graph]
+<triple %subject% %predicate% %object%/>
+|
+;
+[vbox |P vertically oriented box]
+<vbox %id% %class% %pack% %align% %flex%>
+  §|
+</vbox>
+;
+[where |P condition that must match for a template result to be used]
+<where %subject% %rel% %value% %ignorecase% %multiple% %negate%/>
+;
+[window |P top-level window]
+<window %id% %title% %windowtype% %width% %height% %screenX% %screenY% %sizemode% %hidechrome%>
+  §|
+</window>
+;
+[wizard |P wizard to guide the user in a multistep task]
+<wizard %id% %title% %onwizardnext% %onwizardback% %onwizardfinish% %onwizardcancel% %onextra1% %onextra2% %windowtype%>
+  §|
+</wizard>
+;
+[wizardpage |P defines a page in a wizard]
+<wizardpage %pageid% %description% %label% %onpageadvanced% %onpagehide% %onpagerewound% %onpageshow% %next%>
+  §|
+</wizardpage>
+;
+; ---------------------------------------------------
+;
+[Keywords]
+action=
+all
+alphabetic
+alternate=
+annotation
+ANY
+apply-imports
+apply-templates
+archive=
+ascending
+attribute
+attribute-set
+aural
+binding
+bindings
+body
+boolean()
+braille
+button=
+call-template
+case-order=
+CDATA
+cdata-section-elements=
+ceiling()
+charcode=
+charset=
+children
+choice
+choose
+clickcount=
+command=
+comment
+complexType
+concat()
+constructor
+contains()
+content
+copy
+copy-of
+count()
+current()
+datafld=
+data-type=
+decimal-format
+decimal-separator=
+descending
+destructor
+digit=
+disable-output-escaping=
+display=
+DOCTYPE
+doctype-public=
+doctype-system=
+document()
+documentation
+ecmascript
+element
+element-available()
+EMPTY
+encoding=
+ENTITIES
+ENTITY
+enumeration
+event=
+exclude-result-prefixes=
+extends=
+extension
+extension-element-prefixes=
+fallback
+false()
+field
+FIXED
+fixed=
+floor()
+for-each
+format=
+format-number()
+fractionDigits
+from=
+function-available()
+generate-id()
+getter
+grouping-separator=
+grouping-size=
+handler
+handlers
+http://www.w3.org/
+ID
+id()
+IDREF
+if
+IGNORE
+image
+implementation
+implements=
+IMPLIED
+import
+INCLUDE
+includes=
+inheritstyle=
+java
+JavaScript
+key
+key()
+keycode=
+lang()
+last()
+length
+letter-value=
+local-name()
+lower-first
+maxExclusive
+maxInclusive
+maxLength
+message
+method
+minExclusive
+minInclusive
+minLength
+modifiers=
+name()
+namespace-alias
+namespace-uri()
+NMTOKEN
+NMTOKENS
+normalize-space()
+not()
+NOTATION
+number
+number()
+onget=
+onset=
+otherwise
+output
+param
+parameter
+pattern
+pattern-separator=
+PCDATA
+per-mille=
+phase=
+position()
+preserve-space
+preventdefault=
+print
+priority=
+processing-instruction
+projector
+property
+readonly=
+REQUIRED
+resources
+restriction
+result-prefix=
+round()
+schema
+screen
+script
+sequence
+sequence-src=
+setter
+simpleContent
+simpleType
+sort
+starts-with()
+string()
+string-lenght()
+strip-space
+stylesheet
+substring()
+substring-after()
+substring-before()
+sum()
+system-property()
+template
+totalDigits
+traditional
+transform
+translate()
+true()
+unparsed-entity-uri()
+upper-first
+value-of
+variable
+when
+whiteSpace
+with-param
+xml-stylesheet
+xsd:
+xsl:
+zero-digit=

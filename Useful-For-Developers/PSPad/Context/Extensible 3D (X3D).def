@@ -1,0 +1,395 @@
+; PSPad clip definition file for Extensible 3D (X3D)
+; author:  Bart; area42 - Agentur & Systempartner; www.area42.de
+; last revision 15.05.2005 
+;
+[Macro definition]
+%access1%=@C "Access type:",accessType=,inputOutput,inputOnly;outputOnly;initializeOnly;inputOutput,"
+%access2%=@C "Access type:",accessType=,inputOutput,inputOnly;outputOnly;initializeOnly;inputOutput,"
+%access3%=@C "Access type:",accessType=,inputOutput,inputOnly;outputOnly;initializeOnly;inputOutput,"
+%access4%=@C "Access type:",accessType=,inputOutput,inputOnly;outputOnly;initializeOnly;inputOutput,"
+%anglecut%=@E "Cutoff angle (SFFloat):",cutOffAngle=,,,"
+%angledisc%=@E "Disk angle (SFFloat):",diskAngle=,,,"
+%angleend%=@E "End angle (SFFloat):",endAngle=,,,"
+%anglegrd%=@E "Ground angle (MFFloat):",groundAngle=,,,"
+%anglegrd%=@E "Ground angle (MFFloat):",groundAngle=,,,"
+%anglemax%=@E "Maximum angle (SFFloat):",maxAngle=,,,"
+%anglemin%=@E "Minimum angle (SFFloat):",minAngle=,,,"
+%anglestart%=@E "Start angle (SFFloat):",startAngle=,,,"
+%atten%=@E "Attenuation (SFVec3f):",attenuation=,"1 0 0",,"
+%avatarsize%=@E "Avatar (collision, height, step):",avatarSize=,"0.25 1.6 0.75",,"
+%axisOfRotation%=@E "Axis of rotation (SFVec3f):",axisOfRotation=,"0 0 0",,"
+%beam%=@E "Beam width (SFFloat):",beamWidth=,,,"
+%center%=@E "Center (SFVec3f):",center=,,,"
+%choice%=@E "Active child choice (SFInt32):",whichChoice=,,,"
+%color%=@L Color (SFColor):,color=,,,"
+%colors%=@L Specular color (SFColor):,specularColor=,,,"
+%colord%=@L Diffuse color (SFColor):,diffuseColor=,,,"
+%colorgrd%=@L Ground color (MFColor):,groundColor=,,,"
+%colorsky%=@L Sky color (MFColor):,skyColor=,,,"
+%colore%=@L Emissive color (SFColor):,emissiveColor=,,,"
+%content%=@O Content:,content=,,,"
+%contentd%=@D Creation Date:,content=,,,"
+%def%=@E "ID name:",DEF=,,,"
+%description%=@E "Description (SFString):",description=,,,"
+%direction%=@E "Direction (SFVec3f):",direction=,"0 0 -1",,"
+%family%=@F "Font (MFString):",family=,,,"
+%fromField%=@C "From field:",fromField=,,articulationParameterValue0_changed;articulationParameterValue1_changed;articulationParameterValue2_changed;articulationParameterValue3_changed;articulationParameterValue4_changed;articulationParameterValue5_changed;articulationParameterValue6_changed;articulationParameterValue7_changed;centerOfRotation_changed;duration_changed;fraction_changed;geovalue_changed;hitGeoCoord_changed;hitPoint_changed;hitNormal_changed;hitTexCoord_changed;normal_changed;orientation _change;position_changed;rotation_changed;trackPoint_changed;translation_changed;value_changed,"
+%fromNode%=@E "From node ID:",fromNode=,,,"
+%geosys%=@C "Geographic coordinate system:",geoSystem=,,GD;WE,"
+%info%=@E "Information (MFString):",info=,,,"
+%infoa%=@E " Application information (SFString):",appinfo=,,,"
+%inten%=@E "Intensity (SFFloat):",intensity=,,,"
+%intena%=@E "Ambient intensity (SFFloat):",ambientIntensity=,,,"
+%intervalcyc%=@E "Cycle interval in sec. (SFTime):",cycleInterval=,,,"
+%modemu1%=@C "Blending mode (SFString):",,,ADD;ADDSMOOTH;ADDSIGNED;ADDSIGNED2X;BLENDCURRENTALPHA;BLENDDIFFUSEALPHA;BLENDFACTORALPHA;BLENDTEXTUREALPHA;DOTPRODUCT3;MODULATE;MODULATE2X;MODULATE4X;MODULATEALPHA_ADDCOLOR;MODULATEINVALPHA_ADDCOLOR;MODULATEINVCOLOR_ADDALPHA;OFF;SELECTARG1;REPLACE;SELECTARG2;SUBTRACT,',"
+%modemu2%=@C "Blending mode (SFString):",,,ADD;ADDSMOOTH;ADDSIGNED;ADDSIGNED2X;BLENDCURRENTALPHA;BLENDDIFFUSEALPHA;BLENDFACTORALPHA;BLENDTEXTUREALPHA;DOTPRODUCT3;MODULATE;MODULATE2X;MODULATE4X;MODULATEALPHA_ADDCOLOR;MODULATEINVALPHA_ADDCOLOR;MODULATEINVCOLOR_ADDALPHA;OFF;SELECTARG1;REPLACE;SELECTARG2;SUBTRACT,',"
+%modemu3%=@C "Blending mode (SFString):",,,ADD;ADDSMOOTH;ADDSIGNED;ADDSIGNED2X;BLENDCURRENTALPHA;BLENDDIFFUSEALPHA;BLENDFACTORALPHA;BLENDTEXTUREALPHA;DOTPRODUCT3;MODULATE;MODULATE2X;MODULATE4X;MODULATEALPHA_ADDCOLOR;MODULATEINVALPHA_ADDCOLOR;MODULATEINVCOLOR_ADDALPHA;OFF;SELECTARG1;REPLACE;SELECTARG2;SUBTRACT,',"
+%modetcg%=@C "Texture coodinates mode:",mode=,,CAMERASPACENORMAL;CAMERASPACEPOSITION;CAMERASPACEREFLECTIONVECTOR;COORD;COORD-EYE;NOISE;NOISE-EYE;SPHERE;SPHERE-LOCAL;SPHERE-REFLECT;SPHERE-REFLECT-LOCAL,"
+%namep%=@E "Name of Proto node:",name=,,,"
+%namescr1%=@E "Field name:",name=,,,"
+%namescr2%=@E "Field name:",name=,,,"
+%namescr3%=@E "Field name:",name=,,,"
+%namescr4%=@E "Field name:",name=,,,"
+%function%=@C "Function:",,,;ALPHAREPLICATE;COMPLEMENT;NONE, ,"
+%functionname%=@C "Name of function:",,,initialize;shutdown;eventsProcessed;prepareEvents, ,"
+%justify%=@C "Justify:",style=,,BEGIN;END;FIRST;MIDDLE,"
+%key%=@E "Animation keys (MFFloat):",key=,"0, .5, 1",,"
+%keyvalcol%=@L "Animation values (MFColor):",keyValue=,,,"
+%keyvalrot%=@E "Animation values (MFRotation):",keyValue=,,,"
+%keyvalscal%=@E "Animation values (MFFloat):",keyValue=,,,"
+%keyvalvec3f%=@E "Animation values (MFVec3f):",keyValue=,,,"
+%keyvalvec2f%=@E "Animation values (MFVec2f):",keyValue=,,,"
+%language%=@C "Language code (SFString):",language=,,ar;de;el;en;es;fr;he;hi;it;ja;nl;ru;sa;ur;zh,"
+%location%=@E "Location (SFVec3f):",location=,"0 0 0",,"
+%nothing1%=@--
+%nothing2%=@--
+%nothing3%=@--
+%nothing4%=@--
+%nothing5%=@--
+%offsetcy%=@E "Offset (SFFloat):",offset=,,,"
+%offsetpl%=@E "Offset (SFVec3f):",offset=,,,"
+%parameter%=@C "Parameter (MFString):",parameter=,,_blank;_parent;_self;_top,"
+%paramtcg%=@E "Parameter (MFVec2f):",parameter=,,,"
+%pitch%=@E "Pitch rate (SFFloat):",pitch=,,,"
+%point%=@E "Points (MFVec2f):",point=,,,"
+%pointlines%=@E "Lines (MFVec2f):",lineSegments=,,,"
+%points%=@E "Points (MFVec2f):",points=,,,"
+%pointt%=@E "Vertices (MFVec2f):",vertices=,,,"
+%posmax%=@E "Maximum plane position (SFVec2f):",maxPosition=,,,"
+%posmin%=@E "Minimum plane position (SFVec2f):",minPosition=,,,"
+%profile%=@C "X3D profile:",profile=,,Full;Immersive;Interactive;Interchange;Core;MPEG4Interactive,"
+%radius%=@E "Radius (SFFloat):",radius=,,,"
+%Radiusinner%=@E "Inner radius (SFFloat):",innerRadius=,,,"
+%Radiusouter%=@E "Outer radius (SFFloat):",outerRadius=,,,"
+%range1%=@E "Range near:",,,,,"
+%range2%=@E "Range medium:",,,,,"
+%range3%=@E "Range far:",,,,,"
+%rotation%=@E "Rotation (SFRotation):",rotation=,"0 1 0 0",,"
+%rotationo%=@E "Offset (SFRotation):",offset=,"0 1 0 0",,"
+%rotationt%=@E "Rotation (SFFloat):",rotation=,,,"
+%scale%=@E "Scaling (SFVec3f):",scale=,,,"
+%scalet%=@E "Scaling (SFVec2f):",scale=,,,"
+%shine%=@E "Shininess (SFFloat):",shininess=,,,
+%size%=@E "Size (SFVec3f):",size=,"2 2 2",,"
+%sizetext%=@E "Size of text glyphs (SFFloat):",size=,".5",,"
+%speed%=@E "Travel speed (SFFloat):",speed=,,,"
+%speedm%=@E "Play speed (SFFloat):",speed=,,,"
+%spacing%=@E "Letter Spacing (SFFloat):",spacing=,,,"
+%style%=@C "Text style:",style=,,PLAIN;BOLD;ITALIC;BOLDITALIC,"
+%tfaoff%=@C "Auto offset (SFBool):",autoOffset=,,false;true,"
+%tfdel%=@C "Deletion allowed (SFBool):",deletionAllowed=,,false;true,"
+%tfenabled%=@C "Enabled (SFBool):",enabled=,,false;true,"
+%tfheadlight%=@C "Headlight (SFBool):",headlight=,false,false;true,"
+%tfhorizontal%=@C "Horizontal text direction (SFBool):",horizontal=,,false;true,"
+%tfleftToRight%=@C "Reading direction Left->Right (SFBool):",leftToRight=,,false;true,"
+%tfload%=@C "Load immediately (SFBool):",load=,false,false;true,"
+%tfloop%=@C "Loop (SFBool):",loop=,,false;true,"
+%tfonoff%=@C "Light is on (SFBool):",loop=,,false;true,"
+%tfreps%=@C "Repeat along s axis (SFBool):",repeatS=,,false;true,"
+%tfrept%=@C "Repeat along t axis (SFBool):",repeatT=,,false;true,"
+%tftopToBottom%=@C "Reading direction Top->Bottom (SFBool):",topToBottom=,,false;true,"
+%timeelap%=@E "Elapse time in sec. (SFTime):",elapsedTime=,,,"
+%timeout%=@E "Load timeout in sec. (SFTime):",timeOut=,,,"
+%timepause%=@E "Pause time in sec. (SFTime):",pauseTime=,,,"
+%timeres%=@E "Resume time in sec. (SFTime):",resumeTime=,,,"
+%timesta%=@E "Start time (SFTime):",startTime=,,,"
+%timesto%=@E "Stop time (SFTime):",stopTime=,,,"
+%title%=@E "Title of 3D world:",title=,,,"
+%toField%=@C "To field:",toField=,,set_articulationParameterValue0;set_articulationParameterValue1;set_articulationParameterValue2;set_articulationParameterValue3;set_articulationParameterValue4;set_articulationParameterValue5;set_articulationParameterValue6;set_articulationParameterValue7;set_bind;set_boolean;set_colorIndex;set_controlPoint;set_coordIndex;set_crossSection;set_fraction;set_height;set_loaded;set_normalIndex;set_orientation;set_position;set_progress;set_rotation;set_scale;set_spine;set_texCoordIndex;set_translation;set_triggerTime;set_uTessellation;set_vTessellation;set_weight,"
+%toNode%=@E "To node ID:",toNode=,,,"
+%translation%=@E "Translation (SFVec3f):",translation=,,,"
+%translationt%=@E "Translation (SFVec2f):",translation=,,,"
+%transp%=@E "Transparency (SFFloat):",transparency=,,,"
+%transpa%=@E "Alpha (SFFloat):",alpha=,,,"
+%typeclose%=@C "Type of closure:",closureType=,PIE,PIE;CHORD,"
+%typefog%=@C "Type of fog (SFString):",fogType=,LINEAR,LINEAR;EXPONENTIAL,"
+%typenavi1%=@C "Navigation mode:",,ANY,ANY;EXAMINE;FLY;NONE,',"
+%typenavi2%=@C "Navigation mode:",,EXAMINE,ANY;EXAMINE;FLY;NONE,',"
+%typemeta%=@C "Type:",name=,author,author;created;description;filename;generator;license;revised;translator;url;version,"
+%typescr1%=@C "Value type:",type=,,MFBool;MFColor;MFColorRGBA;MFDouble;MFFloat;MFImage;MFInt32;MFMatrix3d;MFMatrix3f;MFMatrix4d;MFMatrix4f;MFNode;MFRotatio;MFString;MFTime;MFVec2d;MFVec2f;MFVec3d;MFVec3f;SFBool;SFColor;SFColorRGBA;SFDouble;SFFloat;SFImage;SFInt32;SFMatrix3d;SFMatrix3f;SFMatrix4d;SFMatrix4f;SFNode;SFRotation;SFString;SFTime;SFVec2d;SFVec2f;SFVec3d;SFVec3f," 
+%typescr2%=@C "Value type:",type=,,MFBool;MFColor;MFColorRGBA;MFDouble;MFFloat;MFImage;MFInt32;MFMatrix3d;MFMatrix3f;MFMatrix4d;MFMatrix4f;MFNode;MFRotatio;MFString;MFTime;MFVec2d;MFVec2f;MFVec3d;MFVec3f;SFBool;SFColor;SFColorRGBA;SFDouble;SFFloat;SFImage;SFInt32;SFMatrix3d;SFMatrix3f;SFMatrix4d;SFMatrix4f;SFNode;SFRotation;SFString;SFTime;SFVec2d;SFVec2f;SFVec3d;SFVec3f,"
+%typescr3%=@C "Value type:",type=,,MFBool;MFColor;MFColorRGBA;MFDouble;MFFloat;MFImage;MFInt32;MFMatrix3d;MFMatrix3f;MFMatrix4d;MFMatrix4f;MFNode;MFRotatio;MFString;MFTime;MFVec2d;MFVec2f;MFVec3d;MFVec3f;SFBool;SFColor;SFColorRGBA;SFDouble;SFFloat;SFImage;SFInt32;SFMatrix3d;SFMatrix3f;SFMatrix4d;SFMatrix4f;SFNode;SFRotation;SFString;SFTime;SFVec2d;SFVec2f;SFVec3d;SFVec3f,"
+%typescr4%=@C "Value type:",type=,,MFBool;MFColor;MFColorRGBA;MFDouble;MFFloat;MFImage;MFInt32;MFMatrix3d;MFMatrix3f;MFMatrix4d;MFMatrix4f;MFNode;MFRotatio;MFString;MFTime;MFVec2d;MFVec2f;MFVec3d;MFVec3f;SFBool;SFColor;SFColorRGBA;SFDouble;SFFloat;SFImage;SFInt32;SFMatrix3d;SFMatrix3f;SFMatrix4d;SFMatrix4f;SFNode;SFRotation;SFString;SFTime;SFVec2d;SFVec2f;SFVec3d;SFVec3f,"
+%use%=@E "Use ID name:",USE=,,,"
+%url%=@O "File URL (MFString):",url=,,,"
+%urlba%=@P "Image texture back (MFString):",backUrl=,,,"
+%urlbt%=@P "Image texture bottom (MFString):",bottomUrl=,,,"
+%urld%=@O "Documentation URL (SFString):",url=,,,"
+%urlfr%=@P "Image texture front (MFString):",frontUrl=,,,"
+%urli%=@P "Image texture (MFString):",url=,,,"
+%urlle%=@P "Image texture left (MFString):",leftUrl=,,,"
+%urlm%=@O "Movie URL (MFString):",url=,,,"
+%urlri%=@P "Image texture right (MFString):",rightUrl=,,,"
+%urls%=@C "Color source:",source=,,DIFFUSE;FACTOR;PREVIOUS;SPECULAR,"
+%urltop%=@P "Image texture top (MFString):",topUrl=,,,"
+%urlttba%=@P "Image texture back (MFString):",backTexture=,,,"
+%urlttbt%=@P "Image texture bottom (MFString):",bottomTexture=,,,"
+%urlttfr%=@P "Image texture front (MFString):",frontTexture=,,,"
+%urlttle%=@P "Image texture left (MFString):",leftTexture=,,,"
+%urlttri%=@P "Image texture right (MFString):",rightTexture=,,,"
+%urltttop%=@P "Image texture top (MFString):",topTexture=,,,"
+%visibilitylimit%=@E "Visibility limit:",visibilityLimit=,,,"
+%visibilityrange%=@E "Visibility range:",visibilityRange=,,,"
+;
+[Anchor | grouping node]
+<Anchor %def% %use% %description% %url% %parameter%>
+	§|
+</Anchor>
+;
+[Appearance | visual property]
+<Appearance %def% %use%>
+	§|
+</Appearance>
+;
+[Arc2D | 2D geometry node]
+<Arc2D %def% %use% %nothing1% %radius% %anglestart% %angleend% />
+;
+[ArcClose2D | 2D geometry node]
+<ArcClose2D %def% %use% %nothing1% %radius% %anglestart% %angleend% %typeclose% />
+;
+[AudioClip | sound node]
+<AudioClip %def% %use% %nothing1% %description% %url% %tfloop% %pitch% %nothing2% %timesta% %timesto% %timepause% %timeres% %timeelap% />
+;
+[Background | atmospheric effect]
+<Background %def% %use% %nothing1% %colorsky% %anglesky% %colorgrd% %anglegrd% %nothing2% %urlfr% %urlba% %urlle% %urlri% %urltop% %urlbt% />
+;
+[Billboard | grouping node]
+<Billboard %def% %use% %axisOfRotation%>
+	§|
+</Billboard>
+;
+[Box | geometry node]
+<Box %def% %use% %size% />
+;
+[Circle2D | 2D geometry node]
+<Circle2D %def% %use% %radius% />
+;
+[Collision | grouping node]
+<Collision %def% %use% %tfenabled%>
+	§|
+</Collision>
+;
+[ColorInterpolator | animation node]
+<ColorInterpolator %def% %use% %nothing1% %key% %keyvalcol% />
+;
+[Contour2D | grouping node]
+<Contour2D %def% %use%>
+	§|
+</Contour2D>
+;
+[ContourPolyline2D | 2D curve node]
+<ContourPolyline2D %def% %use% %point%>
+	§|
+</ContourPolyline2D>
+;
+[CoordinateInterpolator | animation node]
+<CoordinateInterpolator %def% %use% %nothing1% %key% %keyvalvec3f% />
+;
+[CoordinateInterpolator2D | animation node]
+<CoordinateInterpolator2D %def% %use% %nothing1% %key% %keyvalvec2f% />
+;
+[CylinderSensor | event node]
+<CylinderSensor %def% %use% %nothing1% %tfenabled% %description% %tfaoff% %offsetcy% %nothing2% %anglemax% %anglemin% %angledisc% />
+;
+[DEF | create an ID for a object]
+DEF="|"
+;
+[DirectionalLight | lightning node]
+<DirectionalLight %def% %use% %nothing1% %tfonoff% %color% %intena% %inten% %nothing2% %direction />
+;
+[Disk2D | 2D geometry node]
+<Disk2D %def% %use% %nothing1% %Radiusinner% %Radiusouter%/>
+;
+[field | programmed behavior]
+<field %namescr4% %typescr4% %access4% />
+;
+[Fog | atmospheric effect]
+<Fog %def% %use% %nothing1% %color% %typefog% %visibilityrange% />
+;
+[FontStyle | text node]
+<FontStyle %def% %use% %nothing1% %family% %style% %justify% %sizetext% %spacing% %language% %nothing2% %tfhorizontal% %tfleftToRight% %tftopToBottom% />
+;
+[GeoTouchSensor | event node]
+<GeoTouchSensor %def% %use% %nothing1% %tfenabled% %geosys% />
+;
+[Group | grouping node]
+<Group %def% %use%>
+	§|
+</Group>
+;
+[ImageTexture | visual property]
+<ImageTexture %def% %use% %nothing1% %urli% %tfreps% %tfrept% />
+;
+[Inline | grouping node]
+<Inline %def% %use% %tfload% %url% />
+;
+[KeySensor | event node]
+<KeySensor %def% %use% %tfenabled% />
+;
+[LOD | grouping node]
+<LOD %def% %use% range="%range1%,%range2%,%range3%">
+	§|
+</LOD>
+;
+[NormalInterpolator | animation node]
+<NormalInterpolator %def% %use% %nothing1% %key% %keyvalvec3f% />
+;
+[LoadSensor | event node]
+<LoadSensor %def% %use% %nothing1% %tfenabled% %timeout% />
+;
+[Material | visual property]
+<Material %def% %use%	%colors% %colord% %colore%
+	%shine% %intena% %transp% />
+;
+[Meta | meta informations]
+<meta %typemeta% %content% />
+;
+[Meta creation date | meta informations]
+<meta name="created" %contentd% />
+;
+[MovieTexture | visual property]
+<MovieTexture %def% %use% %nothing1% %urlm% %speedm% %tfloop% %tfreps% %tfrept% %nothing2% %timesta% %timesto% %timepause% %timeres% %timeelap% />
+;
+[MultiTexture | visual property]
+<MultiTexture %def% %use% mode="%modemu1%,%modemu2%,%modemu3%" %urls% %function% %color% %transpa%>
+	§|
+</MultiTexture>
+;
+[NavigationInfo | how to viewing the model]
+<NavigationInfo %def% %avatarsize% %tfheadlight% %speed% type="%typenavi1%,%typenavi2%" %visibilitylimit% />
+;
+[OrientationInterpolator | animation node]
+<OrientationInterpolator %def% %use% %nothing1% %key% %keyvalrot% />
+;
+[PlaneSensor | event node]
+<PlaneSensor %def% %use% %nothing1% %tfenabled% %description% %tfaoff% %offsetpl% %nothing2% %posmax% %posmin% />
+;
+[PointLight | lightning node]
+<PointLight %def% %use% %nothing1% %tfonoff% %color% %intena% %inten% %radius% %nothing2% %atten% %location% />
+;
+[Polyline2D | 2D geometry node]
+<Polyline2D %def% %use% %pointlines% />
+;
+[Polypoint2D | 2D geometry node]
+<Polypoint2D %def% %use% %points% />
+;
+[PositionInterpolator | animation node]
+<PositionInterpolator %def% %use% %nothing1% %key% %keyvalvec3f% />
+;
+[PositionInterpolator2D | animation node]
+<PositionInterpolator2D %def% %use% %nothing1% %key% %keyvalvec2f% />
+;
+[ProtoDeclare | Prototype node]
+<ProtoDeclare %namep% %infoa% %urld%>
+	§|
+</ProtoDeclare>
+;
+[ProtoInstance | Prototype node]
+<ProtoInstance %def% %use% %namep%%>
+	§|
+</ProtoDeclare>
+;
+[ProximitySensor | event node]
+<ProximitySensor %def% %use% %nothing1% %tfenabled% %center% %size% />
+;
+[Rectangle2D | 2D geometry node]
+<Rectangle2D %def% %use% %size% />
+;
+[ROUTE | event passing]
+<ROUTE %fromNode% %fromField% %toNode% %toField% />
+;
+[ScalarInterpolator | animation node]
+<ScalarInterpolator %def% %use% %nothing1% %key% %keyvalscal% />
+;
+[Script | programmed behavior]
+<Script %def%>	%nothing1%
+	<field %namescr4% %typescr4% %access4% />	%nothing2%
+	<field %namescr2% %typescr2% %access2% />	%nothing3%
+	<field %namescr3% %typescr3% %access3% />	%nothing4%
+	<![CDATA[
+	ecmascript:
+	function%functionname%(value, timestamp)
+	{
+		§|
+	}
+	]]>
+</Script> 
+;
+[Sphere | geometry node]
+<Sphere %def% %use% %radius% />
+;
+[SphereSensor | event node]
+<SphereSensor %def% %use% %nothing1% %tfenabled% %description% %tfaoff% %rotationo% />
+;
+[SpotLight | lightning node]
+<SpotLight %def% %use% %nothing1% %tfonoff% %color% %intena% %inten% %radius% %nothing2% %atten% %beam% %anglecut% %direction% %location% />
+;
+[StaticGroup | grouping node]
+<StaticGroup %def% %use%>
+	§|
+</StaticGroup>
+;
+[StringSensor | event node]
+<StringSensor %def% %use% %nothing1% %tfenabled% %tfdel% />
+;
+[Switch | grouping node]
+<Switch %def% %use% %choice%>
+	§|
+</Switch>
+;
+[TextureBackground | atmospheric effect]
+<TextureBackground %def% %use% %nothing1% %colorsky% %anglesky% %colorgrd% %anglegrd% %transp% %nothing2% %urlttfr% %urlttba% %urlttle% %urlttri% %urltttop% %urlttbt% />
+;
+[TextureCoordinateGenerator | visual property]
+<TextureCoordinateGenerator %def% %use% %nothing1% %modetcg% %paramtcg%>
+		§|
+</TextureCoordinateGenerator>
+;
+[TextureTransform | visual property]
+<Transform %def% %use% %nothing1% %translationt% %rotationt% %scalet% />
+;
+[TimeSensor | event node]
+<TimeSensor %def% %use% %nothing1% %tfloop% %tfenabled% %intervalcyc% %nothing2% %timesta% %timesto% %timepause% %timeres% %timeelap% />
+;
+[TouchSensor | event node]
+<TouchSensor %def% %use% %nothing1% %tfenabled% %description% />
+;
+[Transform | grouping node]
+<Transform %def% %use% %translation% %rotation% %scale%>
+	§|
+</Transform>
+;
+[TriangleSet2D | 2D geometry node]
+<TriangleSet2D %def% %use% %pointt% />
+;
+[VisibilitySensor | event node]
+<VisibilitySensor %def% %use% %nothing1% %tfenabled% %size% />
+;
+[WorldInfo | document information]
+<WorldInfo %def% %title% %info% />
+;
+[X3D | document information]
+<X3D version="3.0" %profile% xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	§|
+</X3D>
+;
