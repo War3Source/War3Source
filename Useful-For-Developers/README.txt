@@ -8,6 +8,7 @@ Also put compiled.exe and spcomp.exe in War3SourceP folder, so the .bat works
 
 
 We recommend PSPad for programming, it has full directory searching.
+SM style syntax highligting included, you maybe have to do some work to make it default on .sp and .inc files
 
 
 put this in server.cfg
