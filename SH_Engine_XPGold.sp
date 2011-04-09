@@ -262,7 +262,13 @@ GetKillXP(level,leveldiff=0){
 	leveldiff+=0;
 	return 25+((leveldiff>0)?GetConVarInt(hLevelDifferenceBounus):0);
 }
-
+public OnWar3Event(W3EVENT:event,client){
+	if(SH()){
+		if(event==DoLevelCheck){
+			InternalLevelCheck(client);
+		}
+	}
+}
 
 InternalLevelCheck(client){
 	///seting xp or level recurses!!! SET XP FIRST!! or you will have a cascading level increment

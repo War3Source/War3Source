@@ -64,12 +64,16 @@ public NSHGetLevel(Handle:plugin,numParams){
 }
 public NSHSetLevel(Handle:plugin,numParams){
 	player[GetNativeCell(1)][level]=GetNativeCell(2);
+	W3CreateEvent(DoLevelCheck,client);
 }
 public NSHGetXP(Handle:plugin,numParams){
 	return player[GetNativeCell(1)][xp];
 }
 public NSHSetXP(Handle:plugin,numParams){
-	player[GetNativeCell(1)][xp]=GetNativeCell(2);
+	new client=GetNativeCell(1);
+	player[client][xp]=GetNativeCell(2);
+	W3CreateEvent(DoLevelCheck,client);
+	
 }
 
 
