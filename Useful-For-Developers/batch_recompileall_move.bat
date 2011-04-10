@@ -4,7 +4,8 @@ REM compile.exe must be in this directory
 
 @echo off
 del compiled /S /Q
-compile
+REM old: compile
+SMBatchCompile
 
 REM this line is a comment.... Change the path to your liking 
 REM you will have to press enter so the compiler exits (it doesnt exit by itself), then it starts copying

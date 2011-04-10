@@ -1,0 +1,7 @@
+SMBatchCompile.exe is made by Ownz to speed up compile speed 
+by compiling more than one plugin at a time, leaving less cores IDLE
+
+It compiles all .sp files within the directory to /compiled, 
+requires spcomp.exe and compile.exe in the same directory.
+It will try to compile 3 at a time (randomly),
+then will run compile.exe for a final scan so you can see any errors in order.
