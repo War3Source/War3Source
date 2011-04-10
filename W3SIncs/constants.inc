@@ -54,7 +54,7 @@ enum W3Var
 
 }
 
-new String:W3VarStrings[][32] = {"OldRace",
+stock String:W3VarStrings[][32] = {"OldRace",
 								"DeathRace",
 								"hDatabase",
 								"hDatabaseType",
