@@ -42,7 +42,7 @@ public OnPluginStart()
 
 		RegConsoleCmd("say",War3Source_SayCommand);
 		RegConsoleCmd("say_team",War3Source_SayCommand);
-		
+
 		RegConsoleCmd("+ultimate",SH_PowerCommand);
 		RegConsoleCmd("-ultimate",SH_PowerCommand);
 		RegConsoleCmd("+ability",SH_PowerCommand);
@@ -60,6 +60,8 @@ public OnPluginStart()
 	}
 		
 }
+
+
 
 public bool:InitNativesForwards()
 {
@@ -140,9 +142,9 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(SHSelectHeroesMenu,client);
 		return returnblocking;
 	}
-	else if(CommandCheck(arg1,"war3help")||CommandCheck(arg1,"help")||CommandCheck(arg1,"wchelp"))
+	else if(CommandCheck(arg1,"shhelp")||CommandCheck(arg1,"help")||CommandCheck(arg1,"wchelp"))
 	{
-		W3CreateEvent(DoShowHelpMenu,client);
+		W3CreateEvent(DoShowSHMenu,client);
 		return returnblocking;
 	}
 	else if(CommandCheck(arg1,"itemsinfo"))
@@ -168,12 +170,12 @@ public Action:War3Source_SayCommand(client,args)
 	else if(CommandCheck(arg1,"speed")){
 
 		new Float:currentmaxspeed=GetEntDataFloat(client,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
-		War3_ChatMessage(client,"Your max speed is %.2f",currentmaxspeed);
+		SH_ChatMessage(client,"Your max speed is %.2f",currentmaxspeed);
 	}
 	else if(CommandCheck(arg1,"maxhp"))
 	{
 		new maxhp = War3_GetMaxHP(client);
-		War3_ChatMessage(client,"Your max health is: %d",maxhp);
+		SH_ChatMessage(client,"Your max health is: %d",maxhp);
 	}
 	if(SHHasHeroesNum(client)>0)
 	{
@@ -194,7 +196,7 @@ public Action:War3Source_SayCommand(client,args)
 			if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race))
 				W3CreateEvent(DoShowSpendskillsMenu,client);
 			else
-				War3_ChatMessage(client,"You don't have any skill points to spend, if you want to reset your skills use resetskills.");
+				SH_ChatMessage(client,"You don't have any skill points to spend, if you want to reset your skills use resetskills.");
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"shopmenu"))
@@ -202,9 +204,9 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowShopMenu,client);
 			return returnblocking;
 		}*/
-		else if(CommandCheck(arg1,"war3menu"))
+		else if(CommandCheck(arg1,"shmenu"))
 		{
-			W3CreateEvent(DoShowWar3Menu,client);
+			W3CreateEvent(DoShowSHMenu,client);
 			return returnblocking;
 		}
 	/*	else if(CommandCheck(arg1,"levelbank"))
@@ -221,7 +223,7 @@ public Action:War3Source_SayCommand(client,args)
 			}
 			else
 			{
-				War3_ChatMessage(client,"This server doesn't save XP, feature disabled.");
+				SH_ChatMessage(client,"This server doesn't save XP, feature disabled.");
 			}  
 			return returnblocking;
 		}
@@ -233,7 +235,7 @@ public Action:War3Source_SayCommand(client,args)
 	*/	
 		else if(CommandCheck(arg1,"shdev"))
 		{
-			War3_ChatMessage(0,"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz STEAM_0:1:9724315 are developers for SH:Source.");
+			SH_ChatMessage(0,"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz STEAM_0:1:9724315 are developers for SH:Source.");
 			return returnblocking;
 		}
 		/*else if((top_num=CommandCheckEx(arg1,"war3top"))>0)
@@ -246,7 +248,7 @@ public Action:War3Source_SayCommand(client,args)
 			}
 			else
 			{
-				War3_ChatMessage(client,"This server doesn't save XP, feature disabled.");
+				SH_ChatMessage(client,"This server doesn't save XP, feature disabled.");
 			}
 			return returnblocking;
 		}
@@ -276,7 +278,7 @@ public Action:War3Source_SayCommand(client,args)
 		{
 			if(W3IsPlayerXPLoaded(client))
 			{
-				War3_ChatMessage(client,"Select a race first!!");
+				SH_ChatMessage(client,"Select a race first!!");
 				W3CreateEvent(SHSelectHeroesMenu,client);
 			}
 			return returnblocking;
