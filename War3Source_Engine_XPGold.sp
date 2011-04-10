@@ -49,8 +49,9 @@ new Handle:AssistGoldCvar;
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -781,7 +782,7 @@ LevelCheck(client){
 				War3_ChatMessage(client,"%T","You are now level {amount}",client,War3_GetLevel(client,race)+1);
 				
 				new newxp=War3_GetXP(client,race)-W3GetReqXP(curlevel+1);
-				War3_SetXP(client,race,newxp); //recurse first!!!! else u set level xp is same and it tries to use that xp again
+				War3_SetXP(client,race,newxp); //set xp first, else infinite level!!! else u set level xp is same and it tries to use that xp again
 				
 				War3_SetLevel(client,race,War3_GetLevel(client,race)+1); 
 				

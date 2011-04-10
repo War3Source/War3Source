@@ -17,8 +17,9 @@ public Plugin:myinfo = {
 	url = "war3source.com"
 };
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -123,11 +124,12 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	new Handle:plugin;
 	GetTrieValue(trie,"plugin",plugin);
 	
+	index=StrContains(responsestr,"success");
 	
 	CloseHandle(trie);
 	
 	Call_StartFunction(plugin,func);
-	Call_PushCell(1);
+	Call_PushCell(index>=0?1:0);
 	Call_PushCell(0);
 	Call_PushString(exploded[1]);
 	Call_Finish(dummy);

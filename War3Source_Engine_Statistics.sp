@@ -35,8 +35,9 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -122,6 +123,7 @@ public Action:cmdcheckupdate(client,args){
 	if(client==0){
 		ManyMinTimer(INVALID_HANDLE,0);
 	}
+	return Plugin_Handled;
 }
 public Action:cmdupdatestatus(client,args){
 	if(client==0){
@@ -516,7 +518,7 @@ public Action:ExecOnceTimer(Handle:h){
 	decl String:concatstr[256];
 	new limit=GetArraySize(cvarlist);
 	Format(longquery,sizeof(longquery),"ip=%s:%d&config=",serverip,serverport);
-	for(new i=0;i<limit;i++)
+	for(new i=1;i<limit;i++)
 	{
 		GetArrayString(cvarlist,i,cvarstr,sizeof(cvarstr));
 		W3GetCvarByString(cvarstr,cvarvalue,sizeof(cvarvalue));
@@ -528,19 +530,7 @@ public Action:ExecOnceTimer(Handle:h){
 			StrCat(longquery,sizeof(longquery),concatstr);
 		}
 	}
-	for(new i=0;i<limit;i++)
-	{
-		GetArrayString(cvarlist,i,cvarstr,sizeof(cvarstr));
-		W3GetCvarByString(cvarstr,cvarvalue,sizeof(cvarvalue));
-		if(strlen(cvarvalue)>0)
-		{
-			URLEncode(cvarstr,sizeof(cvarstr));
-			URLEncode(cvarvalue,sizeof(cvarvalue));
-			Format(concatstr,sizeof(concatstr),"%s=%s,",cvarstr,cvarvalue);
-			StrCat(longquery,sizeof(longquery),concatstr);
-
-		}
-	}
+	
 	W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
 	CloseHandle(cvarlist);
 	

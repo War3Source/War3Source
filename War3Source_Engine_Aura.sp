@@ -26,8 +26,9 @@ public Plugin:myinfo=
 	version="1.0",
 	url="http://war3source.com/"
 };
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -99,6 +100,7 @@ InternalClearPlayerVars(client){
 		AuraOrigin[client][aura]=false;
 	}
 }
+//re calculate auras when one of these things happen, however a 0.1 delay minimum (like 32 players spawn at round start, we dont calculate 32 times)
 public OnWar3EventSpawn(){ ShouldCalcAura();}
 public OnSHEventSpawn(){ ShouldCalcAura();}
 public OnWar3EventDeath(){ ShouldCalcAura();}

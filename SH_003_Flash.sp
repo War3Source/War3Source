@@ -77,7 +77,7 @@ public OnHeroChanged(client)
 public InitPassiveSkills(client){
 	if(SHHasHero(client,thisRaceID))
 	{
-		War3_SetBuff(client,fMaxSpeed,thisRaceID,1.5);
+		War3_SetBuff(client,fMaxSpeed,thisRaceID,1.25);
 	}
 }
 

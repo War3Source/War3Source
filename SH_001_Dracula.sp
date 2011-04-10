@@ -13,7 +13,7 @@
 
 // War3Source stuff
 new thisRaceID;
-new BeamSprite,HaloSprite;
+new BeamSprite;
 
 public Plugin:myinfo = 
 {
@@ -32,7 +32,6 @@ public OnPluginStart()
 public OnMapStart()
 {
 	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 }
 
 public OnSHLoadHeroOrItemOrdered(num)
@@ -52,7 +51,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 }
 
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage)
+public OnWar3EventPostHurt(victim,attacker,damage)
 {
 	if(ValidPlayer(victim)&&ValidPlayer(attacker,true)&&attacker!=victim)
 	{
@@ -62,29 +61,21 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 		{
 			if(SHHasHero(attacker,thisRaceID))
 			{
-				new Float:percent_health=0.25;
-				new leechhealth=RoundToFloor(damage*percent_health);
-				if(leechhealth>40) leechhealth=40; // woah, woah, woah, AWPs!
+					new Float:percent_health=0.25;
+					new leechhealth=RoundToFloor(damage*percent_health);
+					if(leechhealth>40) leechhealth=40; // woah, woah, woah, AWPs!
 				
-				PrintToConsole(attacker,"Leeched %d health",leechhealth);
-				new Float:victim_pos[3];
-				new Float:attacker_pos[3];
-				GetClientAbsOrigin(victim,victim_pos);
-				GetClientAbsOrigin(attacker,attacker_pos);
-				War3_HealToBuffHP(attacker,leechhealth);
-				victim_pos[2]+=30.0;
-				attacker_pos[2]+=30.0;
-				TE_SetupBeamPoints(attacker_pos,victim_pos,BeamSprite,HaloSprite,0,35,1.0,7.5,7.5,0,4.0,{180,20,20,225},40);
-				TE_SendToAll();
-				attacker_pos[0]+=20;
-				TE_SetupBeamPoints(attacker_pos,victim_pos,BeamSprite,HaloSprite,0,35,1.0,7.5,7.5,0,4.0,{180,20,20,225},40);
-				TE_SendToAll();
-				attacker_pos[0]-=40;
-				TE_SetupBeamPoints(attacker_pos,victim_pos,BeamSprite,HaloSprite,0,35,1.0,7.5,7.5,0,4.0,{180,20,20,225},40);
-				TE_SendToAll();
-				TE_SetupBeamRingPoint(victim_pos,1.0,500.0,BeamSprite,HaloSprite,0,15,0.5,200.0,0.5,{180,20,20,185},1,0);
-				TE_SendToAll();
+					PrintToConsole(attacker,"Leeched %d health",leechhealth);
+					new Float:victimoriginp[3];
+					new Float:attackeroriginp[3];
+					GetClientAbsOrigin(victim,victimoriginp);
+					GetClientAbsOrigin(attacker,attackeroriginp);
+					attackeroriginp[2]+=15.0;
+					victimoriginp[2]+=15.0;
+					TE_SetupBeamPoints(attackeroriginp,victimoriginp,BeamSprite,0,0,0,0.75,1.5,2.0,10,4.0,{238,44,44,255},20);
+					TE_SendToAll();	
+					War3_HealToBuffHP(attacker,leechhealth);
 			}
 		}
 	}
-}   
+}    

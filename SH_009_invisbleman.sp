@@ -42,8 +42,8 @@ public OnSHLoadHeroOrItemOrdered(num)
 		thisRaceID=SHRegisterHero(
 		"Invisible Man",
 		"invisibleman",
-		"stop 5sec, you are 100% invisble ",
-		"stop 5sec, you are 100% invisble ",
+		"equip knife and stop 5sec, you are 100% invisble ",
+		"equip knife and stop 5sec, you are 100% invisble ",
 		false
 		);
 	}
@@ -104,13 +104,15 @@ public Invsing(client)
 		SetWeaponColor(client,255,255,255,255);
 	
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,temp);	
-		if(now[client]<1)
+		if(StrEqual(weapon,"weapon_knife") && now[client]<1)
 		{
 			PrintHintText(client,"You are not invisible Man.");
 		}
 	}
 	else
 	{
+		if(StrEqual(weapon,"weapon_knife"))
+		{
 			if(now[client]>=7)
 			{
 				
@@ -150,13 +152,13 @@ public OnWeaponFired(client)
 	if(SH()){
 		new String:weapon[128];//weapon Char Array
 		GetClientWeapon(client, weapon, 128);// Get client Weapon(Knife)
-		if(SHHasHero(client,thisRaceID))
+		if(SHHasHero(client,thisRaceID) && StrEqual(weapon,"weapon_knife"))
 		{
 			now[client]=0;
 			temp=(10-now[client])*0.1;
 			
 			War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0-temp);	
-			if(now[client]<1)
+			if(StrEqual(weapon,"weapon_knife") && now[client]<1)
 			{
 				PrintHintText(client,"You are not invisbleman. reason : attacked");
 			}

@@ -1,8 +1,25 @@
+/*  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
+    War3source written by PimpinJuice (anthony) and Ownz (Dark Energy)
+    All rights reserved.
+*/	
+
 /*
 * File: War3Source.sp
 * Description: The main file for War3Source.
 * Author(s): Anthony Iacono  & OwnageOwnz (DarkEnergy)
-* OnPluginEnd is currently broken, along with the fact that the CloseHandle would be redundant. All handle leaks have been considered.
+* All handle leaks have been considered.
 * If you don't like it, read through the whole thing yourself and prove yourself wrong.
 */
 
@@ -38,9 +55,10 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-	PrintToServer("--------------------------AskPluginLoad2----------------------\n[War3Source] Plugin loading...");
+	GlobalOptionalNatives();
+	PrintToServer("--------------------------AskPluginLoad2Custom----------------------\n[War3Source] Plugin loading...");
 	
 	
 	new String:version[64];

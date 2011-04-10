@@ -38,7 +38,7 @@ public OnMapStart()
 
 public OnSHLoadHeroOrItemOrdered(num)
 {
-	if(num==330)
+	if(num==30)
 	{
 		
 		
@@ -64,7 +64,7 @@ public OnSHEventSpawn(client)
 
 public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
-	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID && ValidPlayer(client,true)){
+	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		//PrintToChatAll("1");
 		new time=10; 
 		if(pressed && shots[client]<time){
@@ -78,9 +78,8 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 				GetClientAbsOrigin(target,targpos);
 				TE_SetupBeamPoints(pos, targpos, BurnSprite, BurnSprite, 0, 8, 0.5, 10.0, 10.0, 10, 10.0, {255,255,255,255}, 70); 
 				TE_SendToAll();
-				IgniteEntity(target,3.0);
+				IgniteEntity(target,3);
 				targpos[2]+=50;
-				War3_DealDamage(target,8,client,DMG_BURN,"fire storm",_,W3DMGTYPE_MAGIC);
 				TE_SetupGlowSprite(targpos,BurnSprite,1.0,1.9,255);
 				TE_SendToAll();
 				shots[client]++;

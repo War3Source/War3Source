@@ -63,13 +63,18 @@ public NSHGetLevel(Handle:plugin,numParams){
 	return player[GetNativeCell(1)][level];
 }
 public NSHSetLevel(Handle:plugin,numParams){
-	player[GetNativeCell(1)][level]=GetNativeCell(2);
+	new client=GetNativeCell(1);
+	player[client][level]=GetNativeCell(2);
+	W3CreateEvent(DoLevelCheck,client);
 }
 public NSHGetXP(Handle:plugin,numParams){
 	return player[GetNativeCell(1)][xp];
 }
 public NSHSetXP(Handle:plugin,numParams){
-	player[GetNativeCell(1)][xp]=GetNativeCell(2);
+	new client=GetNativeCell(1);
+	player[client][xp]=GetNativeCell(2);
+	W3CreateEvent(DoLevelCheck,client);
+	
 }
 
 
@@ -88,10 +93,10 @@ public NSHSetHasHero(Handle:plugin,numParams){
 	SHGetHeroName(GetNativeCell(2),heroname,sizeof(heroname));
 	if(GetNativeCell(3)==true&&oldhas==false){
 		
-		SH_ChatMessage(GetNativeCell(1),"You now have hero %s",heroname);
+		War3_ChatMessage(GetNativeCell(1),"You now have hero %s",heroname);
 	}
 	else if(GetNativeCell(3)==false&&oldhas==true){
-		SH_ChatMessage(GetNativeCell(1),"You no longer have hero %s",heroname);
+		War3_ChatMessage(GetNativeCell(1),"You no longer have hero %s",heroname);
 	}
 	
 	Call_StartForward(g_OnHeroChangedHandle);

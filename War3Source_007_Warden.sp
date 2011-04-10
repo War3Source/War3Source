@@ -113,9 +113,9 @@ public OnWar3EventSpawn(client){
 	StrikesRemaining[client]=0;
 }
 
-public OnRaceSelected(client,race)
+public OnRaceChanged(client,oldrace,newrace)
 {
-	if(race!=thisRaceID)
+	if(newrace!=thisRaceID)
 	{	
 		War3_SetBuff(client,bImmunityUltimates,thisRaceID,false);
 	}

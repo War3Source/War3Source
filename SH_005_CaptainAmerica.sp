@@ -29,16 +29,16 @@ public OnPluginStart()
 }
 public OnSHLoadHeroOrItemOrdered(num)
 {
-	if(num==32)
+	if(num==40)
 	{
 	
 	
 		
 		thisRaceID=SHRegisterHero(
-		"Agent Smith",
-		"agents",
-		"10% Chance to dodge bullets (Evade)",
-		"10% Chance to dodge bullets (Evade)",
+		"Captain America",
+		"Captain America",
+		"30% Evade",
+		"30% Evade",
 		false
 		);
 	}
@@ -55,10 +55,10 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 			//evade
 			if(SHHasHero(victim,thisRaceID)) 
 			{
-				if(GetRandomFloat(0.0,1.0)<=0.1)
+				if(GetRandomFloat(0.0,1.0)<=0.3)
 				{
-					PrintHintText(attacker,"Enemy Dodged Bullet");
-					PrintHintText(victim,"You Dodge a Bullet");
+					PrintHintText(attacker,"Enemy Evade Bullet");
+					PrintHintText(victim,"You Evade Bullet");
 					W3FlashScreen(victim,RGBA_COLOR_BLUE);
 					War3_DamageModPercent(0.0); //NO DAMAMGE		
 				}

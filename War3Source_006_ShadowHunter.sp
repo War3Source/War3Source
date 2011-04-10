@@ -117,15 +117,16 @@ public OnWar3PlayerAuthed(client)
 	LastThunderClap[client]=0.0;
 }
 
-public OnRaceSelected(client,race)
+public OnRaceChanged(client,oldrace,newrace)
 {
-	if(race==thisRaceID)
+	if(newrace==thisRaceID)
 	{
-		new level=War3_GetSkillLevel(client,race,SKILL_HEALINGWAVE);
+		new level=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALINGWAVE);
 		W3SetAuraFromPlayer(client,AuraID,level>0?true:false,level);
 		
 	}
 	else{
+		//PrintToServer("deactivate aura");
 		War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
 		W3SetAuraFromPlayer(client,AuraID,false);
 		RemoveWards(client);
@@ -135,7 +136,7 @@ public OnRaceSelected(client,race)
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
 	
-	if(race==thisRaceID)
+	if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
 	{
 		if(skill==SKILL_HEALINGWAVE) //1
 		{

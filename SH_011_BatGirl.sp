@@ -25,7 +25,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 	{
 	    heroID=SHRegisterHero("Bat Girl","batgirl","Hook","Hook onto walls!",true);
 	    cvarColor=CreateConVar("batgirl_color","0"); // 0 == team, 1 == white
-	    cvarSpeed=CreateConVar("batgirl_hookspeed","500.0");
+	    cvarSpeed=CreateConVar("batgirl_hookspeed","300.0");
 	    HookEvent("round_freeze_end",RoundStart);
 	    HookEvent("round_end",RoundEnd);
     }
@@ -56,8 +56,6 @@ public OnPowerCommand(client,hero,bool:pressed)
 {
     if(hero==heroID&&SHHasHero(client,heroID))
     {
-     if (IsPlayerAlive(client)) {
-
         if(pressed&&canHook)
         {
             if(!isHooked[client])
@@ -66,7 +64,6 @@ public OnPowerCommand(client,hero,bool:pressed)
         else
             isHooked[client]=false;
     }
-}
 }
 
 Bat_Attach(client)

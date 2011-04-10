@@ -11,8 +11,8 @@
 
 
 
-#define VERSION_NUM "0.2.1"
-#define REVISION_NUM 10001 //increment every release
+#define VERSION_NUM "0.2.2"
+#define REVISION_NUM 10002 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
@@ -37,13 +37,13 @@ new Handle:hChangeGameDescCvar;
 
 
 
-public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-
+	GlobalOptionalNatives();
 	new String:version[64];
 	Format(version,sizeof(version),"%s by %s",VERSION_NUM,AUTHORS);
 	
-	CreateConVar("a_sh_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+	CreateConVar("a_sh_version",version,"SHSource version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	
 }
 

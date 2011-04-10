@@ -233,7 +233,7 @@ public War3_playersWhoAreThisRaceSel(Handle:menu,MenuAction:action,client,select
 		if(ValidPlayer(target))
 			War3_playertargetMenu(client,target);
 		else
-			SH_ChatMessage(client,"The player you selected has left the server.");
+			War3_ChatMessage(client,"The player you selected has left the server.");
 	
 	}
 	if(action==MenuAction_End)
@@ -278,10 +278,10 @@ War3_PlayerInfoMenu(client,String:arg[]){
 			}
 		}
 		if(target==0){
-			SH_ChatMessage(client,"playerinfo <optional name>: No target found");
+			War3_ChatMessage(client,"playerinfo <optional name>: No target found");
 		}
 		else if(found>1){
-			 SH_ChatMessage(client,"playerinfo <optional name>: More than one target found");
+			 War3_ChatMessage(client,"playerinfo <optional name>: More than one target found");
 		}
 		else {
 		    War3_playertargetMenu(client,target);
@@ -326,7 +326,7 @@ public War3_playerinfoSelected1(Handle:menu,MenuAction:action,client,selection)
 		if(ValidPlayer(target))
 			War3_playertargetMenu(client,target);
 		else
-			SH_ChatMessage(client,"The player you selected has left the server.");
+			War3_ChatMessage(client,"The player you selected has left the server.");
 	}
 	if(action==MenuAction_End)
 	{
@@ -397,7 +397,7 @@ public War3_playertargetMenuSelected(Handle:menu,MenuAction:action,client,select
 		GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 		new target=StringToInt(SelectionInfo);
 		if(!ValidPlayer(target)){
-			SH_ChatMessage(client,"The player you selected has left the server.");
+			War3_ChatMessage(client,"The player you selected has left the server.");
 		}
 		else{
 		

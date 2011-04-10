@@ -1,5 +1,14 @@
-
+s
 1.2.1
+B5
+INTERFACE CHANGE, moved AskPluginLoad2Custom to interface, required for early operations. (only affects those that register natives and forwards)
+Fixed shadow hunter aura leak
+deprecation: OnRaceChanged will change to OnRaceChanged(client,oldrace,newrace) for easier race management
+SH: added minlevel
+SH: some native renaming for SH/W3 ie W3GetReqXP -> SHGetReqXP as these are in different engines
+war3 cvarid = 0 is no longer used, can help catch some errors
+graceful unload via AskPluginLoad2
+faster initial system failure  check to prevent spam
 
 B4
 
@@ -8,7 +17,7 @@ INTERFACE CHANGE, FULL RECOMPILE OF CUSTOM PLUGINS REQUIRED
 shopmenu2 translated, thanks to schmarotzer
 major documentation changes
 
-changed how game mode is determined
+changed how game mode is determined to work with linux. Thanks to CGA for proving a linux server
 
 b3
 
@@ -709,7 +718,7 @@ stock print skill message  and damage functions (see interface)
 cvar for bonus xp for level difference (war3_xp_level_difference_bonus)*(level difference) if victim's level is higher
 
 removed OnRaceChanged
-please change it to OnRaceSelected
+please change it to OnRaceChanged
 
 revivals (mage, orc) allows guns to have full ammo
 

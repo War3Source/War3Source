@@ -41,7 +41,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 		"Hulk",
 		"hulk",
 		"Power Stomp",
-		"Stun close by enemies",
+		"Stun close by enemies and yourself",
 		true
 		);
 	}
@@ -50,8 +50,8 @@ public OnSHLoadHeroOrItemOrdered(num)
 public OnSHEventSpawn(client)
 {
 	if(SH()){	//PrintToChatAll("SPAWN %d",client);
-		War3_SetBuff(client,bNoMoveMode,thisRaceID,false);	
-		War3_SetBuff(client,bNoMoveMode,thisRaceID,false);
+		War3_SetBuff(client,bStunned,thisRaceID,false);	
+		War3_SetBuff(client,bStunned,thisRaceID,false);
 	}
 }
 
@@ -61,7 +61,6 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
 	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		//PrintToChatAll("1");
-		 if (IsPlayerAlive(client)) {
 		if(pressed && War3_SkillNotInCooldown(client,thisRaceID,0,true)){
 			new Float:dist = 360.0;
 			new ClaperTeam = GetClientTeam(client);
@@ -79,12 +78,12 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 					GetClientAbsOrigin(i,VecPos);
 					if(GetVectorDistance(ClaperPos,VecPos)<=dist)
 					{
+						War3_DealDamage(i,30,client,_,"powestomp",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);
 						if(GetClientTeam(i)!=ClaperTeam){
 						PrintHintText(i,"Attacked by Power Stomp -30HP , Slow");
-						War3_DealDamage(i,30,client,_,"powestomp",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);		
-						War3_SetBuff(i,bNoMoveMode,thisRaceID,true);
+						}			
+						War3_SetBuff(i,bStunned,thisRaceID,true);
 						CreateTimer(3.0,EndStunned,i);
-						}
 					}
 				}
 			}
@@ -92,11 +91,10 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 		}
 	}
 }
-}
 public Action:EndStunned(Handle:timer,any:client)
 {
 	if(ValidPlayer(client))
 	{
-		War3_SetBuff(client,bNoMoveMode,thisRaceID,false);
+		War3_SetBuff(client,bStunned,thisRaceID,false);
 	}
 }

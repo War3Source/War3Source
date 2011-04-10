@@ -47,11 +47,11 @@ public OnSHEventSpawn(client)
 	
 		if(SHHasHero(client,thisRaceID))
 		{
-			War3_SetBuff(client,bNoMoveMode,thisRaceID,false);
+			War3_SetBuff(client,bStunned,thisRaceID,false);
 			W3ResetPlayerColor(client,thisRaceID);
 		}
 		else{
-			War3_SetBuff(client,bNoMoveMode,thisRaceID,false);
+			War3_SetBuff(client,bStunned,thisRaceID,false);
 			W3ResetPlayerColor(client,thisRaceID);
 		}
 	
@@ -84,7 +84,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 }
 public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
-	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID && ValidPlayer(client,true)){
+	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		//PrintToChatAll("1");
 		if(pressed && War3_SkillNotInCooldown(client,thisRaceID,SKILL_BURY,true)){
 			new target = War3_GetTargetInViewCone(client,800.0,false,23.0);
@@ -99,7 +99,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 					CreateTimer(0.1,Buried,target);
 					PrintHintText(client,"Bury enemy!");
 					PrintHintText(target,"You are buring!");
-					War3_SetBuff(target,bNoMoveMode,thisRaceID,true);
+					War3_SetBuff(target,bStunned,thisRaceID,true);
 					SH_CooldownMGR(client,30.0,thisRaceID,_,_);
 					W3SetPlayerColor(target,thisRaceID,255,200,0,_,GLOW_ULTIMATE); //255,200,0);
 				}
@@ -115,15 +115,15 @@ public Action:Buried(Handle:h,any:client){
 	burypos[client][2]--;
 	TeleportEntity(client,burypos[client],NULL_VECTOR,NULL_VECTOR);
 	if(burypos[client][2]>oldpos[client][2]-55 && IsPlayerAlive(client)){
-		CreateTimer(0.2,Buried,client);
+		CreateTimer(0.1,Buried,client);
 	}
 	else if(!IsPlayerAlive(client)){
 	}
 	else{
-		CreateTimer(3.0,Buriedout,client);
+		CreateTimer(4.0,Buriedout,client);
 	}
 }
 public Action:Buriedout(Handle:h,any:client){
 	TeleportEntity(client,oldpos[client],NULL_VECTOR,NULL_VECTOR);
-	War3_SetBuff(client,bNoMoveMode,thisRaceID,false);
+	War3_SetBuff(client,bStunned,thisRaceID,false);
 }

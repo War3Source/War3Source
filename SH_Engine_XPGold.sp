@@ -42,17 +42,17 @@ public OnPluginStart()
 		hXPMultiCvar=CreateConVar("sh_xp_multi","100","how much additional xp required per level");
 		hMaxLevelCvar=CreateConVar("sh_maxlevel","10000","What level do people stop gaining XP?")
 	
-		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","40","Percent of kill XP awarded additionally for headshots");
+		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
 		MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
 		AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
-		RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","200","Percent of kill XP awarded for being on the winning team");
+		RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
 		//DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
 		//PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
 		//RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
 		//PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
 		//PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
 		//CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
-		hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","20","Bounus Xp awarded per level if victim has a higher level");
+		hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
 	
 		if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
 		{
@@ -108,11 +108,11 @@ public ShowXP(client)
 		if(level>SHMaxLevel()){
 			SHSetLevel(client,SHMaxLevel());
 		}
-		SH_ChatMessage(client,"Level %d",SHMaxLevel());
+		War3_ChatMessage(client,"Level %d",SHMaxLevel());
 		
 	}
 	else{
-		SH_ChatMessage(client,"Level %d - %d XP / %d XP.",level,SHGetXP(client),SHGetReqXP(level+1));
+		War3_ChatMessage(client,"Level %d - %d XP / %d XP.",level,SHGetXP(client),SHGetReqXP(level+1));
 	}
 
 }
@@ -210,7 +210,7 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 				new win_xp=((GetKillXP(SHGetLevel(i))*GetConVarInt(RoundWinXPCvar))/100);
 				znewxp=SHGetXP(i)+win_xp;
 				
-				SH_ChatMessage(i,"You have gained %d XP for being on the winning team.",win_xp);
+				War3_ChatMessage(i,"You have gained %d XP for being on the winning team.",win_xp);
 				SHSetXP(i,znewxp);
 				
 			}
@@ -233,7 +233,7 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
 	
 	
 	SHSetXP(client,SHGetXP(client)+addxp);
-	SH_ChatMessage(client,"You have gained %d XP for killing an enemy.",addxp);
+	War3_ChatMessage(client,"You have gained %d XP for killing an enemy.",addxp);
 
 	InternalLevelCheck(client);
 }
@@ -245,7 +245,7 @@ public GiveAssistKillXP(client)
 	new addxp=killxp;
 	SHSetXP(client,SHGetXP(client)+addxp);
 
-	SH_ChatMessage(client,"You have gained %d XP for assisting a kill.",addxp);
+	War3_ChatMessage(client,"You have gained %d XP for assisting a kill.",addxp);
 	
 	InternalLevelCheck(client);
 }
@@ -262,7 +262,13 @@ GetKillXP(level,leveldiff=0){
 	leveldiff+=0;
 	return 25+((leveldiff>0)?GetConVarInt(hLevelDifferenceBounus):0);
 }
-
+public OnWar3Event(W3EVENT:event,client){
+	if(SH()){
+		if(event==DoLevelCheck){
+			InternalLevelCheck(client);
+		}
+	}
+}
 
 InternalLevelCheck(client){
 	///seting xp or level recurses!!! SET XP FIRST!! or you will have a cascading level increment
@@ -277,7 +283,7 @@ InternalLevelCheck(client){
 		{
 			//PrintToChatAll("LEVEL %d xp %d reqxp=%d",curlevel,GetXP(client,race),ReqLevelXP(curlevel+1));
 			
-			SH_ChatMessage(client,"You are now level %d.",SHGetLevel(client)+1);
+			War3_ChatMessage(client,"You are now level %d.",SHGetLevel(client)+1);
 			
 			new newxp=SHGetXP(client)-SHGetReqXP(curlevel+1);
 			SHSetXP(client,newxp); //recurse first!!!! else u set level xp is same and it tries to use that xp again
