@@ -32,7 +32,7 @@ public OnMapStart()
 
 public OnSHLoadHeroOrItemOrdered(num)
 {
-	if(num==30)
+	if(num==340)
 	{
 		
 		thisRaceID=SHRegisterHero(

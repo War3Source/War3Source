@@ -54,8 +54,7 @@ enum W3Var
 
 }
 
-// Used to match index with variable name.
-stock String:W3VarStrings[][32] = {"OldRace",
+new String:W3VarStrings[][32] = {"OldRace",
 								"DeathRace",
 								"hDatabase",
 								"hDatabaseType",
@@ -133,6 +132,8 @@ enum W3EVENT
 	
 	UNLOADPLUGINSBYMODE,//testing plugin unload
 	DatabaseConnected,
+	
+	DoShowSHMenu,
 	
 }
 

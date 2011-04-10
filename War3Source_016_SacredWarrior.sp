@@ -201,9 +201,9 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage){
     }
 }
 
-public OnRaceChanged(client,oldrace,newrace)
+public OnRaceSelected(client,race)
 {
-    if(newrace!=thisRaceID)
+    if(race!=thisRaceID)
     {
         War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0); // Remove ASPD buff when changing races
     }

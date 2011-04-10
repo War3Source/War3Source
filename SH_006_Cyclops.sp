@@ -86,9 +86,9 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		new time=3;  // laser remain
 		//PrintToChatAll("1");
-		if(pressed && count[client]<time){
-			new dmg=10; // laser damage
-			new target = War3_GetTargetInViewCone(client,2000.0,false,23.0);
+		if(pressed && count[client]<time && ValidPlayer(client,true)){
+			new dmg=20; // laser damage
+			new target = War3_GetTargetInViewCone(client,1000.0,false,23.0);
 			new Float:pos[3];
 			new Float:otherpos[3];
 			if(target>0)

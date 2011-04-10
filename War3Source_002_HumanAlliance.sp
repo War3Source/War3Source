@@ -108,7 +108,7 @@ public Action:LoadSounds(Handle:h){
 	}
 }
 
-public OnRaceChanged(client,oldrace,newrace)
+public OnRaceSelected(client,newrace)
 {
 	if(newrace!=thisRaceID)
 	{

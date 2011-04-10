@@ -18,8 +18,7 @@ new RaceIDToReset[MAXPLAYERSCUSTOM];
 new String:levelupSound[]="war3source/levelupcaster.wav";
 
 
-new Handle:g_OnRaceChangedHandle;
-new Handle:g_OnRace_SelectedHandle;
+new Handle:g_OnRaceSelectedHandle;
 new Handle:g_OnSkillLevelChangedHandle;
 
 public Plugin:myinfo= 
@@ -32,9 +31,8 @@ public Plugin:myinfo=
 };
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
+public APLRes:AskPluginLoad2(Handle:myself,bool:late,String:error[],err_max)
 {
-	GlobalOptionalNatives();
 	if(!InitNativesForwards())
 	{
 		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
@@ -52,8 +50,7 @@ public OnMapStart(){
 
 bool:InitNativesForwards()
 {
-	g_OnRaceChangedHandle=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell);
-	g_OnRace_SelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+	g_OnRaceSelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 	
 	
@@ -97,17 +94,12 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		
 		p_properties[client][CurrentRace]=newrace;
 		
-		//REMOVE DEPRECATED
-		Call_StartForward(g_OnRaceChangedHandle);
+		Call_StartForward(g_OnRaceSelectedHandle);
 		Call_PushCell(client);
 		Call_PushCell(newrace);
-		Call_Finish(dummy);
-	
-		Call_StartForward(g_OnRace_SelectedHandle);
-		Call_PushCell(client);
-		Call_PushCell(oldrace);
-		Call_PushCell(newrace);
-		Call_Finish(dummy);
+		new result;
+		Call_Finish(result);
+		
 		
 		if(newrace>0) {
 			if(IsPlayerAlive(client)){
@@ -301,8 +293,8 @@ public OnWar3Event(W3EVENT:event,client){
 			W3CreateEvent(DoForwardClientLostItem2,client);
 		}
 		
+		W3SetPlayerProp(client,CurrentRace,0);
 		W3SetPlayerProp(client,PendingRace,0);
-		War3_SetRace(client,0); //need the race change event fired
 		W3SetPlayerProp(client,PlayerGold,0);
 		W3SetPlayerProp(client,PlayerDiamonds,0);
 		W3SetPlayerProp(client,iMaxHP,0);

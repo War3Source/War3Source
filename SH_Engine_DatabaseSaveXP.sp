@@ -185,7 +185,7 @@ public Action:DoAutosave(Handle:timer,any:data)
 			}
 		}
 		if(GetConVarInt(hCvarPrintOnSave)>0){
-			War3_ChatMessage(0,"Saving all player XP and updating stats.");
+			SH_ChatMessage(0,"Saving all player XP and updating stats.");
 		}
 		
 	}
@@ -365,7 +365,7 @@ public OnClientPutInServer(client)
 		
 		if(W3SaveEnabled())
 		{
-			War3_ChatMessage(client,"Loading player data...");
+			SH_ChatMessage(client,"Loading player data...");
 			SH_LoadPlayerData(client);
 		}
 		else{
@@ -464,7 +464,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
 				W3SetPlayerProp(client,xpLoaded,true);
-				War3_ChatMessage(client,"XP loaded successfully");
+				SH_ChatMessage(client,"XP loaded successfully");
 				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
 					W3CreateEvent(SHSelectHeroesMenu,client);
 				}
@@ -487,7 +487,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
 				W3SetPlayerProp(client,xpLoaded,true);
-				War3_ChatMessage(client,"Creating new XP entries");
+				SH_ChatMessage(client,"Creating new XP entries");
 				
 				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
 					W3CreateEvent(SHSelectHeroesMenu,client);

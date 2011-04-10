@@ -47,16 +47,16 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 	new bool:allowselect=true;
 	
 	if(allowselect&&SHHasHeroesNum(client)>=maxheroes){
-		War3_ChatMessage(client,"You can only have %d heroes",maxheroes);
+		SH_ChatMessage(client,"You can only have %d heroes",maxheroes);
 		allowselect=false;
 	}
 	
 	else if(SHHasHero(client,race_selected)){
-		War3_ChatMessage(client,"You already have %s",heroname);
+		SH_ChatMessage(client,"You already have %s",heroname);
 		allowselect=false;
 	}
 	else if(W3GetRaceMinLevelRequired(race_selected)>SHGetLevel(client)){
-		War3_ChatMessage(client,"This Hero requires level %d",W3GetRaceMinLevelRequired(race_selected));
+		SH_ChatMessage(client,"This Hero requires level %d",W3GetRaceMinLevelRequired(race_selected));
 		allowselect=false;
 	}
 	
@@ -70,12 +70,12 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 				SHSetPowerBind(client,i,race_selected);
 				foundempty=true;
 				
-				War3_ChatMessage(client,"%s has power bind, bounded to +power%d ",heroname,i+1);
+				SH_ChatMessage(client,"%s has power bind, bounded to +power%d ",heroname,i+1);
 				break;
 			}
 		}
 		if(foundempty==false){
-			War3_ChatMessage(client,"You can only have max 3 heroes that have power binds");
+			SH_ChatMessage(client,"You can only have max 3 heroes that have power binds");
 			allowselect=false;
 		}
 	}
@@ -184,7 +184,7 @@ InternalShowMyHeroes(client){
 
 	if(SHHasHeroesNum(client)==0){
 		
-		War3_ChatMessage(client,"You do not have any heroes");
+		SH_ChatMessage(client,"You do not have any heroes");
 		InternalSHChangeRaceMenu(client);
 	}
 	else{

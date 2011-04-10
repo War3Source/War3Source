@@ -104,7 +104,7 @@ public InitPassiveSkills(client)
 	}
 }
 
-public OnRaceChanged(client,oldrace,newrace)
+public OnRaceSelected(client,newrace)
 {
 	if(newrace!=thisRaceID)
 	{

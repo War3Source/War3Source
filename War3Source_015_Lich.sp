@@ -80,7 +80,7 @@ public OnMapStart()
 	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 }
 
-public OnRaceChanged(client,oldrace,newrace){
+public OnRaceSelected(client,newrace){
 	InitPassive(client); //checks race inside
 }
 public OnSkillLevelChanged(client,race,skill,level){

@@ -9,8 +9,10 @@
 new Float:teleportpos[66][3];
 new thisRaceID;
 new BeamSprite,HaloSprite;
+new AttackSprite;
 //new String:Rasengang[]="SH/Rasengang.wav";
 new Raattacker[66];
+new SKILL_RASEN;
 public Plugin:myinfo = 
 {
 	name = "SH Hero Naruto",
@@ -29,6 +31,7 @@ public OnMapStart()
 	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
 	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 	//War3_PrecacheSound(Rasengang);
+	AttackSprite = PrecacheModel( "sprites/physring1.vmt" );
 }
 
 public OnSHLoadHeroOrItemOrdered(num)
@@ -40,7 +43,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 		"Naruto",
 		"naruto",
 		"Rasengang",
-		"1.5sec Make Rasengang, and shot target",
+		"Use rasengang by teleporting to target and damaging him",
 		true
 		);
 		
@@ -58,12 +61,18 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
 	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		//PrintToChatAll("1");
-		if(pressed && War3_SkillNotInCooldown(client,thisRaceID,0,true)){
+		if(pressed && War3_SkillNotInCooldown(client,thisRaceID,SKILL_RASEN,true) && ValidPlayer(client,true)){
 			new target = War3_GetTargetInViewCone(client,500.0,false,_,ImmunityFilterFunc);
 			if(target>0)
 			{
 				GetClientAbsOrigin(client,oldpos[client]);
+				War3_DealDamage(target,25,client,DMG_BURN,"fire storm",_,W3DMGTYPE_MAGIC);
+				new Float:pos[3];
+				GetClientAbsOrigin( target, pos );
 				
+				TE_SetupGlowSprite( pos, AttackSprite, 1.0, 50.0, 255 );
+				TE_SendToAll();
+				SH_CooldownMGR(client,15.0,thisRaceID,_,_);
 				if(!TeleportToPlayer(client,target)){
 					PrintHintText(client,"Could not find empty location");
 				}
@@ -157,7 +166,7 @@ public bool:getEmptyLocationHull(client,Float:originalpos[3],Float:returnpos[3])
 							limit=-1;
 							break;
 						}
-					
+						
 						if(limit--<0){
 							break;
 						}
@@ -176,7 +185,7 @@ public bool:getEmptyLocationHull(client,Float:originalpos[3],Float:returnpos[3])
 		}
 		
 	}
-
+	
 } 
 public bool:CanHitThis(entityhit, mask, any:data)
 {
