@@ -42,46 +42,7 @@ public OnPluginStart()
 	RegServerCmd("shmode",cmdshmode);
 	RegServerCmd("whichmode",cmdwhichmode);
 }
-deadfunc(){
-	PrintToServer("Optional Natives");
-	new i=0;
-	new Handle:iter=GetPluginIterator();
-	while(MorePlugins(iter)){
-		i++;
-		//new String:buf[64];
-		new Handle:plugin=ReadPlugin(iter);
-		//GetPluginFilename(plugin,buf, 64);
-		new Function:func;
-		
-	
-		
-		func=GetFunctionByName(plugin, "W3SetForwarededVar");
-		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
-			Call_StartFunction(plugin, func);
-			Call_PushCell(ValveGame);
-			Call_PushCell(tValveGame);
-			Call_Finish(dummy);
-			
-			Call_StartFunction(plugin, func);
-			Call_PushCell(W3Mode);
-			Call_PushCell(bWar3Mode);
-			Call_Finish(dummy);
-			
-			Call_StartFunction(plugin, func);
-			Call_PushCell(SHMode);
-			Call_PushCell(bSHMode);
-			Call_Finish(dummy);
-		}
-		func=GetFunctionByName(plugin, "GlobalOptionalNatives");
-		if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
-			Call_StartFunction(plugin, func);
-			Call_Finish(dummy);
-		}
-		
-		
-	}
-	
-}
+
 public Action:cmdwar3mode(args)
 {
 	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "w"); //overwrite
