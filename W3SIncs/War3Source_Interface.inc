@@ -1806,6 +1806,7 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 {
 	decl String:query[256];
 	Format(query,256,"ALTER TABLE %s ADD COLUMN %s %s DEFAULT '0'",table_name,columnname,datatype);
+	PrintToServer("[War3Source] Tried to ADD column in TABLE %s: %s",table_name,columnname);
 	SQL_FastQueryLogOnError(DB,query);
 }
 

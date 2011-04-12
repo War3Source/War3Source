@@ -697,7 +697,11 @@ CreateRaceEnd(raceid){
 				new String:longquery[4001];
 				// populate war3sourceraces
 				
-				Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO war3sourceraces (shortname) VALUES ('%s')",W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",shortname);
+				Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO %s (shortname) VALUES ('%s')",
+					W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",
+					W3()?"war3sourceraces":(SH()?"shheroes":"invalidgametype"),
+					shortname
+					);
 				
 				SQL_TQuery(hDB,T_CallbackInsertRace1,longquery,raceid,DBPrio_High);
 				
@@ -718,7 +722,7 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	new String:retstr[2000];
 	new String:escapedstr[2000];
 	new String:longquery[4000];
-	Format(longquery,sizeof(longquery),"UPDATE war3sourceraces SET ");
+	Format(longquery,sizeof(longquery),"UPDATE %s SET ",W3()?"war3sourceraces":(SH()?"shheroes":"invalidgametype"));
 	
 	GetRaceName(raceid,retstr,sizeof(retstr));
 	SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));

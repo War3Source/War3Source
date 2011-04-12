@@ -2,6 +2,9 @@
  * File: AmmoControl.inc
  * Description: Native Interface to Ammo Control Addon.
  * Author(s): Frenzzy
+ * 
+ *
+ * THIS FILE MUST BE MANUALLY INCLUDED   
  */
 
 /**

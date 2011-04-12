@@ -170,7 +170,7 @@ ConnectDB(){
 			g_SQLType=SQLType_Unknown;
 		}
 		PrintToServer("[War3Source] SQL connection successful, driver %s",driver_ident);
-		
+		SQL_FastQuery(hDB, "SET NAMES \"UTF8\""); // 
 		W3SetVar(hDatabase,hDB);
 		W3SetVar(hDatabaseType,g_SQLType);
 		W3CreateEvent(DatabaseConnected,0);
@@ -205,18 +205,21 @@ public Action:DoAutosave(Handle:timer,any:data)
 
 War3Source_SQLTable()
 {
-	PrintToServer("War3Source_SQLTable war3source table check handling");
+	PrintToServer("{War3Source] War3Source_SQLTable war3source table check handling");
 	if(hDB!=INVALID_HANDLE)
 	{
-		// Check if the table exists
+	
 		SQL_LockDatabase(hDB); //non threading operations here, done once on plugin load only, not map change
 		
 		//war3sourceraces
-		PrintToServer("[War3Source] Dropping war3sourceraces and recreating it (normal)") ;
-		if(!SQL_FastQueryLogOnError(hDB,"DROP TABLE war3sourceraces")){
-			PrintToServer("[War3Source] Table: war3sourceraces didnt exist or failed to drop it");
+		new Handle:query=SQL_Query(hDB,"SELECT * from war3sourceraces LIMIT 1");
+		if(query!=INVALID_HANDLE) //table exists
+		{
+			PrintToServer("[War3Source] Dropping TABLE war3sourceraces and recreating it (normal)") ;
+			SQL_FastQueryLogOnError(hDB,"DROP TABLE war3sourceraces");
 		}
 		
+		//always create new table
 		new String:longquery[4000];
 		Format(longquery,sizeof(longquery),"CREATE TABLE war3sourceraces (");
 		Format(longquery,sizeof(longquery),"%s %s",longquery,"shortname varchar(16) UNIQUE,");
@@ -227,39 +230,36 @@ War3Source_SQLTable()
 			Format(longquery,sizeof(longquery),"%s, skilldesc%d varchar(2000)",longquery,i);
 		}
 		
-		Format(longquery,sizeof(longquery),"%s )",longquery);
-		
+		Format(longquery,sizeof(longquery),"%s ) %s",longquery,War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"");
+	
 		SQL_FastQueryLogOnError(hDB,longquery);
 		
 		
 		
 		
-		//war3source main table
-		new bool:dropandcreatetable=false;
-		// Database conversion methods
-		new Handle:query=SQL_Query(hDB,"SELECT * from war3source LIMIT 1");
+		
+		//main table
+		query=SQL_Query(hDB,"SELECT * from war3source LIMIT 1");
 		
 		
 		if(query==INVALID_HANDLE)
-		{   //query failed no result, re create table (table doesnt exist)
-			dropandcreatetable=true;
+		{   
+			new String:createtable[3000];
+			Format(createtable,sizeof(createtable),"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,    diamonds int,  total_level int,     total_xp int, levelbankV2 int,   last_seen int) %s",War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"" )
+			if(!SQL_FastQueryLogOnError(hDB,createtable))
+			{
+				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
+			}
 		}
 		else
-		{	//ok table exists
-			//SQL_Rewind(query);
-			//if(SQL_FetchRow(query))
-			//{
-			//new count=SQL_GetFieldCount(query);
-			
-			///if column not there then add
-			new dummyfield;
-			if(!SQL_FieldNameToNum(query, "levelbankV2", dummyfield))
+		{	
+		
+			if(!SQL_FieldNameToNum(query, "levelbankV2", dummy))
 			{
 				AddColumn(hDB,"levelbankV2","int","war3source");
-				PrintToServer("[War3Source] Tried to ADD column in TABLE %s: %s","war3source","levelbankV2");
 			}
 			
-			if(!SQL_FieldNameToNum(query, "gold", dummyfield))
+			if(!SQL_FieldNameToNum(query, "gold", dummy))
 			{
 				if(g_SQLType==SQLType_SQLite){
 					//sqlite cannot rename column
@@ -267,51 +267,48 @@ War3Source_SQLTable()
 				}
 				else{
 					SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
+					PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
 				}
-				PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
 			}
-			if(!SQL_FieldNameToNum(query, "diamonds", dummyfield))
+			if(!SQL_FieldNameToNum(query, "diamonds", dummy))
 			{
 				AddColumn(hDB,"diamonds","int","war3source");
-				PrintToServer("[War3Source] Tried to ADD column in TABLE %s: %s","war3source","diamonds");
 			}
-			
-			//}
-			//else{   ///zero rows, just drop and recreate
-			//	dropandcreatetable=true;
-			//}
+		
 			CloseHandle(query);
 		}
-		
-		
-		
-		if(dropandcreatetable)
-		{
-			PrintToServer("[War3Source] Dropping war3source main table and recreating it!!!") ;
-			SQL_FastQueryLogOnError(hDB,"DROP TABLE war3source");
-			if(!SQL_FastQueryLogOnError(hDB,"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,    diamonds int,  total_level int,     total_xp int, levelbankV2 int,   last_seen int)"  ))
-			{
-				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
-			}
-		}
-		
-		
-		
+	
 		
 		///NEW DATABASE STRUCTURE
-		new bool:createtablexpdata=false;
 		query=SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1");
 		if(query==INVALID_HANDLE)
 		{   
-			//query failed no result, re create table (table doesnt exist)
-			//best not to drop our xp rables
-			PrintToServer("[War3Source] war3source_racedata1 doesnt exist or has no entries, recreating!!!") ;
-			createtablexpdata=true;
+			PrintToServer("[War3Source] war3source_racedata1 doesnt exist, creating!!!") ;
+			new String:longquery2[4000];
+			Format(longquery2,sizeof(longquery2),"CREATE TABLE war3source_racedata1 (steamid varchar(64)  , raceshortname varchar(16),   level int,  xp int  , last_seen int)  %s",War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"");
 			
+			//for(new skillid=0;skillid<MAXSKILLCOUNT ;skillid++){
+			//	Format(longquery2,sizeof(longquery2),"%s, skill%d int ",longquery2,skillid);
+			//}
+			//Format(longquery2,sizeof(longquery2),"%s, last_seen int) %s",longquery2,);
+			
+			if(!SQL_FastQueryLogOnError(hDB,longquery2)
+			||
+			!SQL_FastQueryLogOnError(hDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
+			)
+			{
+				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
+			}
+			query=SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1"); //get a nother handle for next table check
 		}
-		//implement later to check for skill# columns
+		
+		//do another check for handle, cuz we may have just created database
+		if(query==INVALID_HANDLE)
+		{
+			SetFailState("invalid handle to data, ");
+		}
 		else
-		{	//ok table exists
+		{	//table exists by now, add skill columns if not exists
 			
 			new String:columnname[16];
 			new dummyfield;
@@ -322,39 +319,12 @@ War3Source_SQLTable()
 				if(!SQL_FieldNameToNum(query, columnname , dummyfield))
 				{
 					AddColumn(hDB,columnname,"int","war3source_racedata1");
-					PrintToServer("Tried to ADD column in TABLE %s: %s ","war3source_racedata1",columnname);
 				}
 				
 			}
 			CloseHandle(query);
 		}
-		if(createtablexpdata){
-			
-			//sqlite and mysql compatable
-			
-			//last_seen int
-			new String:longquery2[4000];
-			Format(longquery2,sizeof(longquery2),"CREATE TABLE war3source_racedata1 (steamid varchar(64)  , raceshortname varchar(16),   level int,  xp int");
-			
-			
-			for(new skillid=0;skillid<MAXSKILLCOUNT ;skillid++){
-				Format(longquery2,sizeof(longquery2),"%s, skill%d int ",longquery2,skillid);
-			}
-			Format(longquery2,sizeof(longquery2),"%s, last_seen int)",longquery2);
-			
-			
-			if(!SQL_FastQueryLogOnError(hDB,longquery2)
-			||
-			!SQL_FastQueryLogOnError(hDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
-			)
-			{
-				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
-			}
-		}
-		
-		
-		
-		
+
 		
 		
 		

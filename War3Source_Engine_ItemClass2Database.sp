@@ -60,15 +60,16 @@ public NW3SaveItem2ExpireTime(Handle:plugin,numParams)
 CheckTable(Handle:hDB){
 	SQL_LockDatabase(hDB); //non threading operations here, done once on plugin load only, not map change
 
-	// Database conversion methods
+
 	new Handle:query=SQL_Query(hDB,"SELECT * from war3source_item2 LIMIT 1");
-	
-	
 	if(query==INVALID_HANDLE)
-	{   //query failed no result, re create table (table doesnt exist)
-		PrintToServer("[War3Source] war3source_item2 empty or not found, dropping and re-creating it") ;
-		SQL_FastQueryLogOnError(hDB,"DROP TABLE war3source_item2");
-		if(!SQL_FastQueryLogOnError(hDB,"CREATE TABLE war3source_item2 (steamid varchar(64) , itemshort varchar(64), expiretime int)"  ))
+	{   //query failed no result, (table doesnt exist)
+		PrintToServer("[War3Source] TABLE war3source_item2  not found, creating it") ;
+		//SQL_FastQueryLogOnError(hDB,"DROP TABLE war3source_item2");
+		
+		new String:createtable[3000];
+		Format(createtable,sizeof(createtable),"CREATE TABLE war3source_item2 (steamid varchar(64) , itemshort varchar(64), expiretime int) %s", War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"");
+		if(!SQL_FastQueryLogOnError(hDB, createtable ))
 		{
 			War3Failed("[War3Source] ERROR in the creation of the SQL table war3source_item2.");
 		}
