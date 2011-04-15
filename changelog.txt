@@ -1,6 +1,9 @@
 s
 1.2.1
+
 B5
+
+recompiled after april 14 update
 INTERFACE CHANGE, moved AskPluginLoad2Custom to interface, required for early operations. (only affects those that register natives and forwards)
 Fixed shadow hunter aura leak
 deprecation: OnRaceChanged will change to OnRaceChanged(client,oldrace,newrace) for easier race management
