@@ -183,6 +183,9 @@ stock GlobalOptionalNatives(){
 	
 	MarkNativeAsOptional("War3_ShowXP");
 	MarkNativeAsOptional("SHShowXP");
+	
+	MarkNativeAsOptional("W3SaveXP");
+	MarkNativeAsOptional("SHSaveXP");
 }
 
 //Warcraft required executions, does common tasks, such as loading translations.

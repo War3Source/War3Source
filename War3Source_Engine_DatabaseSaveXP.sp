@@ -12,9 +12,6 @@
 
 
 new Handle:hDB;
-//new Handle:vecLevelConfiguration;
-new String:sCachedDBIName[256];
-new String:dbErrorMsg[512];
 
 new War3SQLType:g_SQLType; 
 
@@ -37,17 +34,8 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-bool:InitNativesForwards()
+
+public bool:InitNativesForwards()
 {
 	if(W3()){
 		PrintToServer("W3 MODE");
@@ -77,23 +65,7 @@ public OnPluginStart()
 	}
 	
 }
-public OnMapStart(){
-	
-}
 
-public OnPluginEnd(){
-	//sm bug? may not get called
-}
-
-public OnAllPluginsLoaded() //called once only, will not call again when map changes
-{
-	if(W3()){
-		ConnectDB();
-	}
-	if(hDB){
-		War3Source_SQLTable();
-	}
-}
 
 public NW3SaveXP(Handle:plugin,numParams)
 {
@@ -105,96 +77,21 @@ public NW3SaveEnabled(Handle:plugin,numParams)
 {
 	return GetConVarInt(m_SaveXPConVar);
 }
-public NW3GetDBHandle(Handle:plugin,numParams)
-{
-	return _:hDB;
-}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-ConnectDB(){
-
-	new Handle:keyValue=CreateKeyValues("War3SourceSettings");
-	decl String:path[1024];
-	BuildPath(Path_SM,path,sizeof(path),"configs/war3source.ini");
-	FileToKeyValues(keyValue,path);
-	// Load level configuration
-	KvRewind(keyValue);
-	new String:database_connect[256];
-	KvGetString(keyValue,"database",database_connect,sizeof(database_connect),"default");
-	decl String:error[256];
-	strcopy(sCachedDBIName,256,database_connect);
-	
-	
-	if(StrEqual(database_connect,"",false) || StrEqual(database_connect,"default",false))
+public OnWar3Event(W3EVENT:event,client){
+	if(event==DatabaseConnected)
 	{
-		hDB=SQL_DefConnect(error,sizeof(error));	///use default connect, returns a handle...
-	}
-	else
-	{
-		hDB=SQL_Connect(database_connect,true,error,sizeof(error));
-	}
-	if(!hDB)
-	{
-		LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
-		Format(dbErrorMsg,sizeof(dbErrorMsg),"ERR: Could not connect to DB. \n%s",error);
-		LogError("ERRMSG:(%s)",error);
-	}
-	else
-	{
+		if(SH()){
+			hDB=W3GetVar(hDatabase);
+			g_SQLType=W3GetVar(hDatabaseType);
 		
-		new String:driver_ident[64];
-		SQL_ReadDriver(hDB,driver_ident,sizeof(driver_ident));
-		if(StrEqual(driver_ident,"mysql",false))
-		{
-			g_SQLType=SQLType_MySQL;
+			Initialize_SQLTable();
 		}
-		else if(StrEqual(driver_ident,"sqlite",false))
-		{
-			g_SQLType=SQLType_SQLite;
-		}
-		else
-		{
-			g_SQLType=SQLType_Unknown;
-		}
-		PrintToServer("[War3Source] SQL connection successful, driver %s",driver_ident);
-		SQL_FastQuery(hDB, "SET NAMES \"UTF8\""); // 
-		W3SetVar(hDatabase,hDB);
-		W3SetVar(hDatabaseType,g_SQLType);
-		W3CreateEvent(DatabaseConnected,0);
 	}
-	return true;
-}
-
-public Action:DoAutosave(Handle:timer,any:data)
-{
-	if(W3SaveEnabled())
-	{
-		for(new x=1;x<=MaxClients;x++)
-		{
-			if(ValidPlayer(x)&& W3IsPlayerXPLoaded(x))
-			{
-				War3Source_SavePlayerData(x,War3_GetRace(x));
-			}
-		}
-		if(GetConVarInt(hCvarPrintOnSave)>0){
-			War3_ChatMessage(0,"%t","Saving all player XP and updating stats");
-		}
-		
-	}
-	CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
 }
 
 
@@ -203,9 +100,16 @@ public Action:DoAutosave(Handle:timer,any:data)
 
 
 
-War3Source_SQLTable()
+
+
+
+
+
+
+
+Initialize_SQLTable()
 {
-	PrintToServer("{War3Source] War3Source_SQLTable war3source table check handling");
+	PrintToServer("[War3Source] Initialize_SQLTable");
 	if(hDB!=INVALID_HANDLE)
 	{
 	
@@ -333,6 +237,29 @@ War3Source_SQLTable()
 	else
 		PrintToServer("hDB invalid 123");
 }
+
+
+public Action:DoAutosave(Handle:timer,any:data)
+{
+	if(W3SaveEnabled())
+	{
+		for(new x=1;x<=MaxClients;x++)
+		{
+			if(ValidPlayer(x)&& W3IsPlayerXPLoaded(x))
+			{
+				War3Source_SavePlayerData(x,War3_GetRace(x));
+			}
+		}
+		if(GetConVarInt(hCvarPrintOnSave)>0){
+			War3_ChatMessage(0,"%t","Saving all player XP and updating stats");
+		}
+		
+	}
+	CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
+}
+
+
+
 
 //SAVING SECTION
 
