@@ -26,7 +26,7 @@ new timerskip;
 new Handle:hweaponFiredFwd;
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Weapons",
+	name="W3S Engine Weapons",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

@@ -9,8 +9,10 @@
 #pragma dynamic 10000 //cells.....*4 for bytes
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
+new Handle:hShowSocketError;
+
 public Plugin:myinfo = {
-	name = "War3Source Engine Stats sockets",
+	name = "W3S Engine Stats sockets 2",
 	author = "Ownz (DarkEnergy)",
 	description = "statistics collector",
 	version = "1.0",
@@ -28,7 +30,7 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 	return APLRes_Success;
 }
 public OnPluginStart() {
-	
+	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
 }
 
 bool:InitNativesForwards()
@@ -140,12 +142,15 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	if(socket!=INVALID_HANDLE){
 		CloseHandle(socket);
 	}
-	W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
-	if(errorNum==10061){
-		W3LogNotError("Conn Refused");
-	}
-	if(errorNum==10060){
-		W3LogNotError("Timeout");
+	if(ShowError())
+	{
+		W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
+		if(errorNum==10061){
+			W3LogNotError("Conn Refused");
+		}
+		if(errorNum==10060){
+			W3LogNotError("Timeout");
+		}
 	}
 	
 
@@ -162,4 +167,7 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	Call_PushCell(1);
 	Call_Finish(dummy);
 	
+}
+stock bool:ShowError(){
+	return GetConVarInt(hShowSocketError)>0?true:false;
 }

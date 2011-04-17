@@ -8,7 +8,7 @@
 
 public Plugin:myinfo= 
 {
-	name="War3Source Menus Shopmenus",
+	name="War3Source Menus Shopmenus 2",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

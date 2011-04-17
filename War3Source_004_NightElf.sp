@@ -36,7 +36,7 @@ new BeamSprite,HaloSprite;
  
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Night Elf",
+	name = "Race - Night Elf",
 	author = "PimpinJuice",
 	description = "The Night Elf race for War3Source.",
 	version = "1.0.0.0",

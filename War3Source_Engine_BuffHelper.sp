@@ -24,7 +24,7 @@ new Float:BuffHelperSimpleRemoveTime[MAXPLAYERSCUSTOM][MAXRACES];
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Buff Tracker (Buff helper)",
+	name="W3S Engine Buff Tracker (Buff helper)",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

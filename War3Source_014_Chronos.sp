@@ -56,7 +56,7 @@ stock oldbuttons[MAXPLAYERSCUSTOM];
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Chronos",
+	name = "Race - Chronos",
 	author = "Ownz (DarkEnergy)",
 	description = "Chronos",
 	version = "1.0.0.0",

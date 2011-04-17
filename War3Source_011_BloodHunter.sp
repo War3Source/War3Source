@@ -41,7 +41,7 @@ new String:ultsnd[]="war3source/bh/ult.mp3";
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Blood Hunter",
+	name = "Race - Blood Hunter",
 	author = "Ownz (DarkEnergy)",
 	description = "Blood Hunter for War3Source.",
 	version = "1.0",

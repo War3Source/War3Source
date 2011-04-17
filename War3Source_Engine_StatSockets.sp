@@ -7,29 +7,22 @@
 
 #pragma dynamic 10000
 
+new Handle:hShowSocketError;
+
 public Plugin:myinfo = {
-	name = "War3Source Engine Stats sockets",
+	name = "W3S Engine Stats sockets",
 	author = "Ownz (DarkEnergy)",
 	description = "statistics collector",
 	version = "1.0",
 	url = "war3source.com"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
+
 public OnPluginStart() {
-	
+	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("W3Socket",NW3Socket);
 	return true;
@@ -130,12 +123,14 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:pack) {
 	if(socket!=INVALID_HANDLE){
 		CloseHandle(socket);
 	}
-	W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
-	if(errorNum==10061){
-		W3LogNotError("Conn refused");
-	}
-	if(errorNum==10060){
-		W3LogNotError("Timout");
+	if(ShowError()){
+		W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
+		if(errorNum==10061){
+			W3LogNotError("Conn refused");
+		}
+		if(errorNum==10060){
+			W3LogNotError("Timout");
+		}
 	}
 	
 	ResetPack(pack);
@@ -152,4 +147,7 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:pack) {
 	Call_PushCell(1);
 	Call_Finish(dummy);
 	
+}
+stock bool:ShowError(){
+	return GetConVarInt(hShowSocketError)>0?true:false;
 }

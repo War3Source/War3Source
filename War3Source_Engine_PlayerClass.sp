@@ -24,7 +24,7 @@ new Handle:g_OnSkillLevelChangedHandle;
 
 public Plugin:myinfo= 
 {
-	name="War3source Engine player class",
+	name="W3S Engine player class",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

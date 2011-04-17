@@ -12,7 +12,7 @@ new Handle:hCvarPrintLevelBank;
 
 public Plugin:myinfo= 
 {
-	name="War3source Engine LevelBank",
+	name="W3S Engine LevelBank",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

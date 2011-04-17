@@ -39,7 +39,7 @@ new String:ultimateSound[]="war3source/locustswarmloop.wav";
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Crypt Lord",
+	name = "Race - Crypt Lord",
 	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Crypt Lord race for War3Source.",
 	version = "1.0.0.0",

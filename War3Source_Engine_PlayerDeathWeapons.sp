@@ -26,7 +26,7 @@ new AmmoOffset;
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Death Weapons",
+	name="W3S Engine Death Weapons",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

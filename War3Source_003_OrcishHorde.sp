@@ -65,7 +65,7 @@ new bool:flashedscreen[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Orcish Horde",
+	name = "Race - Orcish Horde",
 	author = "PimpinJuice",
 	description = "The Orcish Horde race for War3Source.",
 	version = "1.0.0.0",

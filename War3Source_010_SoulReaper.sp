@@ -46,7 +46,7 @@ new String:ultsnd[]="war3source/sr/ult.mp3";
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Soul Reaper",
+	name = "Race - Soul Reaper",
 	author = "Ownz (DarkEnergy)",
 	description = "Soul Reaper for War3Source.",
 	version = "1.0",

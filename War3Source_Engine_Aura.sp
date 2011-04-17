@@ -20,7 +20,7 @@ new Handle:g_Forward;
 new Float:lastCalcAuraTime;
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Aura",
+	name="W3S Engine Aura",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

@@ -39,7 +39,7 @@ new Handle:g_hCvarEnable = INVALID_HANDLE;
 new bool:g_bCvar_Enable = true;
 
 public Plugin:myinfo = {
-	name = "War3Source Addon - Ammo Control",
+	name = "W3S Addon - Ammo Control",
 	author = "Frenzzy",
 	description = "Ammo Control",
 	version = PLUGIN_VERSION,

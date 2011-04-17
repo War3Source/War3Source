@@ -66,7 +66,7 @@ new MoneyOffsetCS;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Blood Mage",
+	name = "Race - Blood Mage",
 	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Blood Mage race for War3Source.",
 	version = "1.0.0.0",

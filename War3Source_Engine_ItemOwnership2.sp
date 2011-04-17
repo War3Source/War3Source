@@ -13,7 +13,7 @@ new Handle:hitemRestrictionCvar;
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Item2 Ownership",
+	name="W3S Engine Item2 Ownership",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

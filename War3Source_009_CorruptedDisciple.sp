@@ -72,7 +72,7 @@ new BeamSprite,HaloSprite;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Corrupted Disciple",
+	name = "Race - Corrupted Disciple",
 	author = "PimpJuice and Ownz (DarkEnergy)",
 	description = "The Corrupted Disciple race for War3Source.",
 	version = "1.0",

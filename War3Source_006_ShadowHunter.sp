@@ -66,7 +66,7 @@ new BeamSprite,HaloSprite; //wards
 new AuraID;
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Shadow Hunter",
+	name = "Race - Shadow Hunter",
 	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Shadow Hunter race for War3Source.",
 	version = "1.0.0.0",

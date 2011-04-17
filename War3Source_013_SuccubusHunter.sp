@@ -36,7 +36,7 @@ new Handle:ultCooldownCvar;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Succubus Hunter",
+	name = "Race - Succubus Hunter",
 	author = "DisturbeD",
 	description = "",
 	version = "2.0.6",

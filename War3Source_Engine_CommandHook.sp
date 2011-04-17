@@ -18,7 +18,7 @@ new Handle:g_OnAbilityCommandHandle;
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Command Hooks",
+	name="W3S Engine Command Hooks",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

@@ -8,7 +8,7 @@
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Player Trace",
+	name="W3S Engine Player Trace",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

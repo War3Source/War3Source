@@ -11,7 +11,7 @@ new war3statsversion = 2;
 
 new reportBugDelayTracker[MAXPLAYERSCUSTOM];
 new Handle:hSecondDBCvar;
-new Handle:hShowError;
+new Handle:hShowSocketError;
 
 
 new Handle:hdatabase2;
@@ -28,23 +28,12 @@ new bool:collectwlstats; //win loss stats
 new bool:collectkdstats;
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Statistics",
+	name="W3S Engine Statistics",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"
 };
-
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 
 public OnPluginStart()
@@ -73,7 +62,7 @@ public OnPluginStart()
 	}
 	
 	hSecondDBCvar=CreateConVar("war3_bug_to_my_db","0","send war3bug messages to your own database?");
-	hShowError=CreateConVar("war3_stats_sql_error","0","LOG SQL errors from statistics plugin");
+	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
 	
 	CreateTimer(180.0,ManyMinTimer,_,TIMER_REPEAT);
 	CreateTimer(1.0,ManyMinTimer);
@@ -109,7 +98,7 @@ public OnPluginStart()
 }
 
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("W3GetStatsVersion",NW3GetStatsVersion);
 	return true;
@@ -678,10 +667,9 @@ public SockCallbackWinLoss(succ,fail,String:buf[]){
 
 
 public SQLTCallbackFileBug(Handle:owner,Handle:hndl,const String:error[],any:client){
-	if(GetConVarInt(hShowError))
-	{
-		SQLCheckForErrors(hndl,error,"SQLTCallbackFileBug");
-	}
+	
+	SQLCheckForErrors(hndl,error,"SQLTCallbackFileBug");
+	
 	if(hndl==INVALID_HANDLE)
 	{
 		if(ValidPlayer(client))
@@ -709,4 +697,7 @@ stock URLEncode(String:str[],len)
 	{
 		ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
 	}
+}
+stock bool:ShowError(){
+	return GetConVarInt(hShowSocketError)>0?true:false;
 }

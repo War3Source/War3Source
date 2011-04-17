@@ -16,7 +16,7 @@ new clientParticle[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Addon - Display Particles on Level Up",
+	name = "W3S - Addon - Display Particles on Level Up",
 	author = "Ted Theodore Logan & xDr.HaaaaaaaXx",
 	description = "Displays particles whenever somebody levels up",
 	version = "1.2",

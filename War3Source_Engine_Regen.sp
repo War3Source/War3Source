@@ -6,7 +6,7 @@
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine HP Regen",
+	name="W3S Engine HP Regen",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

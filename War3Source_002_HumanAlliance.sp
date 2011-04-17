@@ -45,7 +45,7 @@ new String:teleportSound[]="war3source/blinkarrival.wav";
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Human Alliance",
+	name = "Race - Human Alliance",
 	author = "PimpinJuice",
 	description = "The Human Alliance race for War3Source.",
 	version = "1.0.0.0",

@@ -5,7 +5,7 @@
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Item2 Database",
+	name="W3S Engine Item2 Database",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

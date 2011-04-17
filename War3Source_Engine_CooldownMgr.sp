@@ -53,7 +53,7 @@ new threadsLoaded;
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Cooldown Manager",
+	name="W3S Engine Cooldown Manager",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
@@ -115,7 +115,7 @@ public NWar3_RegisterDelayTracker(Handle:plugin,numParams)
 	if(threadsLoaded<MAXTHREADS){
 		return threadsLoaded++;
 	}
-	LogError("[War3Source Engine 1] DELAY TRACKER MAXTHREADS LIMIT REACHED! return -1");
+	LogError("[W3S Engine 1] DELAY TRACKER MAXTHREADS LIMIT REACHED! return -1");
 	return -1;
 }
 public NWar3_TrackDelay(Handle:plugin,numParams)

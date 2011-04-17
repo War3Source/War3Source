@@ -58,7 +58,7 @@ new MyWeaponsOffset,AmmoOffset;//,Clip1Offset;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Warden",
+	name = "Race - Warden",
 	author = "PimpinJuice & Ownz (DarkEnergy)",
 	description = "The Warden race for War3Source.",
 	version = "1.0.0.0",

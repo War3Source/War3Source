@@ -27,7 +27,7 @@ new desiredRaceOnJoin[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Database save xp",
+	name="W3S Engine Database save xp",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
@@ -85,7 +85,7 @@ public NW3SaveEnabled(Handle:plugin,numParams)
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DatabaseConnected)
 	{
-		if(SH()){
+		if(W3()){
 			hDB=W3GetVar(hDatabase);
 			g_SQLType=W3GetVar(hDatabaseType);
 		
@@ -289,7 +289,9 @@ War3Source_SavePlayerData(client,race)
 //retrieve
 public OnClientPutInServer(client)
 {
+		//DP("PUTIN");
 	if(W3()){
+			//DP("PUTINW3");
 		W3SetPlayerProp(client,xpLoaded,false);
 	
 		W3CreateEvent(ClearPlayerVariables,client); 
@@ -323,6 +325,7 @@ public OnClientDisconnect(client)
 //SELECT STATEMENTS HERE
 War3Source_LoadPlayerData(client) //war3source calls this
 {
+		//DP("LOAD");
 	//need space for steam id
 	decl String:steamid[64];
 	

@@ -5,7 +5,7 @@
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine XP Gold",
+	name="W3S Engine XP Gold",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

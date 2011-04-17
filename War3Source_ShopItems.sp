@@ -59,7 +59,7 @@ new OriginOffset,MyWeaponsOffset,AmmoOffset,Clip1Offset;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Shopitems",
+	name = "W3S - Shopitems",
 	author = "PimpinJuice",
 	description = "The shop items that come with War3Source.",
 	version = "1.0.0.0",

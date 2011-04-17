@@ -43,7 +43,7 @@ new SKILL_LEECH,SKILL_SPEED,SKILL_LOWGRAV,SKILL_SUICIDE;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Undead Scourge",
+	name = "Race - Undead Scourge",
 	author = "PimpinJuice",
 	description = "The Undead Scourge race for War3Source.",
 	version = "1.0.0.0",

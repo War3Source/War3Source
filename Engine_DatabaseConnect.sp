@@ -5,12 +5,6 @@
 
 
 
-
-
-
-
-
-
 new Handle:hDB;
 
 
@@ -64,8 +58,10 @@ ConnectDB(){
 	if(!hDB)
 	{
 		LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
+		W3LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect. ");
 		Format(dbErrorMsg,sizeof(dbErrorMsg),"ERR: Could not connect to DB. \n%s",error);
 		LogError("ERRMSG:(%s)",error);
+		W3LogError("ERRMSG:(%s)",error);
 	}
 	else
 	{

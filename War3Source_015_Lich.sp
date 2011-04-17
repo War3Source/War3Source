@@ -43,7 +43,7 @@ new BeamSprite,HaloSprite;
 
 public Plugin:myinfo = 
 {
-	name = "War3Source Race - Lich",
+	name = "Race - Lich",
 	author = "[Oddity]TeacherCreature",
 	description = "The Lich race for War3Source.",
 	version = "1.0.0.0",

@@ -45,7 +45,7 @@ new String:creatingraceshortname[16];
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Race Class",
+	name="W3S Engine Race Class",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",

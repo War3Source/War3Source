@@ -61,7 +61,7 @@ new ItemID[ITEMENUM];
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Shopitems2",
+	name = "W3S - Shopitems2",
 	author = "Ownz",
 	description = "The shop items that come with War3Source.",
 	version = "1.0.0.0",

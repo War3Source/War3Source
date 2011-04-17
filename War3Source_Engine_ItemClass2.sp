@@ -23,7 +23,7 @@ new bool:itemTranslated[MAXITEMS];
 
 public Plugin:myinfo= 
 {
-	name="War3Source Engine Item Class 2",
+	name="W3S Engine Item Class 2",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
