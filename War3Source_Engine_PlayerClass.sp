@@ -80,7 +80,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		new oldrace=p_properties[client][CurrentRace];
 		W3SetVar(OldRace,p_properties[client][CurrentRace]);
 		
-		if(oldrace>0){
+		if(oldrace>0&&ValidPlayer(client)){
 			W3SaveXP(client,oldrace);
 		}
 		
@@ -143,6 +143,9 @@ public NWar3_SetLevel(Handle:plugin,numParams){
 	new race = GetNativeCell(2);
 	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
 	{
+		//new String:name[32];
+		//GetPluginFilename(plugin,name,sizeof(name));
+		//DP("SETLEVEL %d %s",GetNativeCell(3),name);
 		p_level[client][race]=GetNativeCell(3);
 	}
 }
@@ -151,6 +154,7 @@ public NWar3_GetLevel(Handle:plugin,numParams){
 	new race = GetNativeCell(2);
 	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
 	{
+		//DP("%d",p_level[client][race]);
 		return p_level[client][race];
 	}
 	else
@@ -273,7 +277,8 @@ public OnWar3Event(W3EVENT:event,client){
 		}
 	}
 	if(event==ClearPlayerVariables){
-		
+		//set xp loaded first, to block saving xp after race change
+		W3SetPlayerProp(client,xpLoaded,false);
 		for(new i=0;i<MAXRACES;i++)
 		{
 			War3_SetLevel(client,i,0);
@@ -297,7 +302,7 @@ public OnWar3Event(W3EVENT:event,client){
 		W3SetPlayerProp(client,PlayerDiamonds,0);
 		W3SetPlayerProp(client,iMaxHP,0);
 		W3SetPlayerProp(client,bIsDucking,false);
-		W3SetPlayerProp(client,xpLoaded,false);
+		
 		W3SetPlayerProp(client,RaceChosenTime,0.0);
 		W3SetPlayerProp(client,RaceSetByAdmin,false);
 		W3SetPlayerProp(client,SpawnedOnce,false);

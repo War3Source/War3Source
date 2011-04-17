@@ -85,32 +85,6 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 	//mark some natives
 	//MarkNativeAsOptional("TF2_IsPlayerInvuln");
 	//TE_ParticleToClient(attacker, "miss_text", pos); //mark?
-	new String:path_log[1024];
-	BuildPath(Path_SM,path_log,sizeof(path_log),"logs/war3sourcelog.txt");
-	new Handle:hFile=OpenFile(path_log,"a+");
-	if(hFile)
-	{
-		CloseHandle(hFile);
-		DeleteFile(path_log);
-		
-	}
-
-	hW3Log=OpenFile(path_log,"a+");
-	
-	BuildPath(Path_SM,path_log,sizeof(path_log),"logs/war3sourceerrorlog.txt");
-	hW3LogError=OpenFile(path_log,"a+");
-	
-	
-	
-	
-	BuildPath(Path_SM,path_log,sizeof(path_log),"logs/war3sourcenoterrorlog.txt");
-	hFile=OpenFile(path_log,"a+");
-	if(hFile)
-	{
-		CloseHandle(hFile);
-		DeleteFile(path_log);
-	}
-	hW3LogNotError=OpenFile(path_log,"a+");
 	
 	return APLRes_Success;
 }

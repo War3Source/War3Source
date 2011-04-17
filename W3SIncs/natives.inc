@@ -380,9 +380,7 @@ bool:War3Source_InitNatives()
 	CreateNative("W3GetVar",NW3GetVar);
 	CreateNative("W3SetVar",NW3SetVar);
 	
-	CreateNative("W3Log",NW3Log);
-	CreateNative("W3LogError",NW3LogError);
-	CreateNative("W3LogNotError",NW3LogNotError);
+
 	return true;
 }
 
@@ -409,61 +407,3 @@ public GetStatsVersion(){
 }
 
 
-
-public NW3Log(Handle:plugin,numParams)//{const String:fmt[],any:...)
-{
-	
-	decl String:outstr[1000];
-	
-	FormatNativeString(0, 
-                          1, 
-                          2, 
-                          sizeof(outstr),
-						  _,
-						  outstr);
-	decl String:date[32];
-	FormatTime(date, sizeof(date), "%c");					  					  
-	Format(outstr,sizeof(outstr),"%s %s",date,outstr);
-	
-	PrintToServer("%s",outstr);
-	WriteFileLine(hW3Log,outstr);
-	FlushFile(hW3Log);
-}
-public NW3LogError(Handle:plugin,numParams)//{const String:fmt[],any:...)
-{
-	
-	decl String:outstr[1000];
-	
-	FormatNativeString(0, 
-                          1, 
-                          2, 
-                          sizeof(outstr),
-						  _,
-						  outstr);
-	decl String:date[32];
-	FormatTime(date, sizeof(date), "%c");					  					  
-	Format(outstr,sizeof(outstr),"%s %s",date,outstr);
-	
-	PrintToServer("%s",outstr);
-	WriteFileLine(hW3LogError,outstr);
-	FlushFile(hW3LogError);
-}
-public NW3LogNotError(Handle:plugin,numParams)//{const String:fmt[],any:...)
-{
-	
-	decl String:outstr[1000];
-	
-	FormatNativeString(0, 
-                          1, 
-                          2, 
-                          sizeof(outstr),
-						  _,
-						  outstr);
-	decl String:date[32];
-	FormatTime(date, sizeof(date), "%c");					  					  
-	Format(outstr,sizeof(outstr),"%s %s",date,outstr);
-	
-	PrintToServer("%s",outstr);
-	WriteFileLine(hW3LogNotError,outstr);
-	FlushFile(hW3LogNotError);
-}

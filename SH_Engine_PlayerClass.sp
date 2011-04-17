@@ -130,6 +130,7 @@ public OnWar3Event(W3EVENT:event,client){
 	}
 }
 InternalClearPlayerVars(client){
+
 	for(new i=0;i<=War3_GetRacesLoaded();i++){
 		SHSetHasHero(client,i,false);
 		

@@ -6,6 +6,12 @@ B6
 database connection separated into own engine, game mode specific engines handle the rest
 war3_show_sockets_error cvar created, default 0, prevents socket error spam
 
+possible savexp fix: 
+on disconnect: save xp, reset all player variables, then subsequently retriggerd a save on a zeroed out race. 
+this mechanism has been there for a long time, don't know why it wasn't found until now
+
+renamed many engines
+
 B5
 
 recompiled after april 14 update

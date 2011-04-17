@@ -71,6 +71,7 @@ public NW3SaveXP(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
+	DP("SAVEXP CALLED");
 	War3Source_SavePlayerData(client,race) //saves main also
 }
 public NW3SaveEnabled(Handle:plugin,numParams)
@@ -92,6 +93,7 @@ public OnWar3Event(W3EVENT:event,client){
 			Initialize_SQLTable();
 		}
 	}
+	//DP("EVENT %d",event);
 }
 
 
@@ -313,9 +315,10 @@ public OnClientPutInServer(client)
 public OnClientDisconnect(client)
 {
 	if(W3()){
-		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
+		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client)){
 			War3Source_SavePlayerData(client,War3_GetRace(client));
-		
+		}
+
 		W3CreateEvent(ClearPlayerVariables,client); 
 		
 		desiredRaceOnJoin[client]=0;
@@ -645,8 +648,10 @@ public T_CallbackInsertPDataRace(Handle:owner,Handle:query,const String:error[],
 //save a race using new db style
 War3_SavePlayerRace(client,race)
 {
+	//DP("save");
 	if(hDB && W3SaveEnabled() && W3GetPlayerProp(client,xpLoaded)&&race>0)
 	{
+		//DP("save2");
 		//PrintToServer("race %d client %d",race,client);
 		decl String:steamid[64];
 	
@@ -656,7 +661,7 @@ War3_SavePlayerRace(client,race)
 			
 			new level=War3_GetLevel(client,race);
 			new xp=War3_GetXP(client,race);
-			
+			//DP("%d,%d,",level,xp);
 			new String:raceshortname[16];
 			War3_GetRaceShortname(race,raceshortname,sizeof(raceshortname));
 			
@@ -684,7 +689,8 @@ War3_SavePlayerRace(client,race)
 			
 			
 			SQL_TQuery(hDB,T_CallbackSavePlayerRace,longquery,client);
-			
+			//DP("%s",longquery);
+			//ThrowError("END SAVE");
 		}
 	}
 }
@@ -721,6 +727,7 @@ War3_SavePlayerMainData(client){
 			War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
 			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",name,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
 			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,client);
+			
 		}
 	}
 }

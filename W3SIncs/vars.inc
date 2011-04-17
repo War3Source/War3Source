@@ -14,10 +14,6 @@ new W3VarArr[W3Var];
 
 new dummyreturn; //for your not used return values
 
-new Handle:hW3Log;
-new Handle:hW3LogError;
-new Handle:hW3LogNotError;
-
 /*
  * single event variables 
  * these variables are reset as soon as the event finishes. when the event triggers, 
