@@ -1,6 +1,10 @@
 s
 1.2.1
 
+B7
+
+fixed OnRaceChanged and OnRaceSelected
+
 B6
 
 database connection separated into own engine, game mode specific engines handle the rest

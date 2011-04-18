@@ -18,8 +18,8 @@ new RaceIDToReset[MAXPLAYERSCUSTOM];
 new String:levelupSound[]="war3source/levelupcaster.wav";
 
 
-new Handle:g_OnRaceChangedHandle;
-new Handle:g_OnRace_SelectedHandle;
+new Handle:g_On_Race_Changed;
+new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
 
 public Plugin:myinfo= 
@@ -42,8 +42,8 @@ public OnMapStart(){
 
 public bool:InitNativesForwards()
 {
-	g_OnRaceChangedHandle=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell);
-	g_OnRace_SelectedHandle=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+	g_On_Race_Changed=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell);
+	g_On_Race_Selected=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 	g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 	
 	
@@ -88,14 +88,14 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		p_properties[client][CurrentRace]=newrace;
 		
 		//REMOVE DEPRECATED
-		Call_StartForward(g_OnRaceChangedHandle);
+		Call_StartForward(g_On_Race_Changed);
 		Call_PushCell(client);
+		Call_PushCell(oldrace);
 		Call_PushCell(newrace);
 		Call_Finish(dummy);
 	
-		Call_StartForward(g_OnRace_SelectedHandle);
+		Call_StartForward(g_On_Race_Selected);
 		Call_PushCell(client);
-		Call_PushCell(oldrace);
 		Call_PushCell(newrace);
 		Call_Finish(dummy);
 		
