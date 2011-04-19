@@ -87,13 +87,14 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		
 		p_properties[client][CurrentRace]=newrace;
 		
-		//REMOVE DEPRECATED
+		
 		Call_StartForward(g_On_Race_Changed);
 		Call_PushCell(client);
 		Call_PushCell(oldrace);
 		Call_PushCell(newrace);
 		Call_Finish(dummy);
-	
+		
+		//REMOVE DEPRECATED
 		Call_StartForward(g_On_Race_Selected);
 		Call_PushCell(client);
 		Call_PushCell(newrace);
