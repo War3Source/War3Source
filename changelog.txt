@@ -4,6 +4,7 @@ s
 B7
 
 fixed OnRaceChanged and OnRaceSelected
+fixed ^ again... thanks to Invalid
 
 B6
 
@@ -12,7 +13,7 @@ war3_show_sockets_error cvar created, default 0, prevents socket error spam
 
 possible savexp fix: 
 on disconnect: save xp, reset all player variables, then subsequently retriggerd a save on a zeroed out race. 
-this mechanism has been there for a long time, don't know why it wasn't found until now
+Valve must have alterned the order, where OnPlayerDisconnect, these functions returned true after the update.
 
 renamed many engines
 
