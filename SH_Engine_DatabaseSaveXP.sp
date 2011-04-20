@@ -220,6 +220,7 @@ public OnClientDisconnect(client)
 		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client))
 			SHSaveXP(client);
 		
+		W3SetPlayerProp(client,xpLoaded,false);
 		W3CreateEvent(ClearPlayerVariables,client); 
 	}
 }
