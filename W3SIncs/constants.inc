@@ -219,6 +219,7 @@ enum W3PlayerProp
 	Float:sqlStartLoadXPTime,
 	
 	bool:isDeveloper,
+	Float:LastChangeTeamTime,
 }
 
 //EXCLUSIVE: buffs that do not stack with itself: gravity, invisblity, however to make them stack use a second property ie gravity2, invisibilty2

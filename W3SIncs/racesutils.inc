@@ -17,9 +17,9 @@ CheckRaceTeamLimit(raceid,team){
 			{
 				if(GetClientTeam(i)==team)
 				{
-					if(W3GetPlayerProp(i,RaceChosenTime)>youngest){
+					if(W3GetPlayerProp(i,LastChangeTeamTime)>youngest){
 						target=i;
-						youngest=W3GetPlayerProp(i,RaceChosenTime);
+						youngest=W3GetPlayerProp(i,LastChangeTeamTime);
 					}
 				}
 			}

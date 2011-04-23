@@ -4,6 +4,8 @@ s
 B8
 
 limit outstanding socket 2 connections to 200
+player class property: LastChangeTeamTime to remember when the player last changed team
+removing a player from a limited race is now by LastChangeTeamTime
 
 B7
 

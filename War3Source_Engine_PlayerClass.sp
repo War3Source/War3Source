@@ -18,6 +18,7 @@ new RaceIDToReset[MAXPLAYERSCUSTOM];
 new String:levelupSound[]="war3source/levelupcaster.wav";
 
 
+
 new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
@@ -35,6 +36,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	RegConsoleCmd("war3notdev",cmdwar3notdev);
+	HookEvent("player_team",        Event_PlayerTeam);
 }
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
@@ -260,7 +262,11 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
 
 
 
-
+public Event_PlayerTeam(Handle:event,  const String:name[], bool:dontBroadcast)
+{
+	new client = GetClientOfUserId(GetEventInt(event, "userid"));
+	W3SetPlayerProp(client,LastChangeTeamTime,GetEngineTime());
+}
 
 
 public Action:cmdwar3notdev(client,args){
@@ -309,6 +315,7 @@ public OnWar3Event(W3EVENT:event,client){
 		W3SetPlayerProp(client,SpawnedOnce,false);
 		W3SetPlayerProp(client,sqlStartLoadXPTime,0.0);
 		W3SetPlayerProp(client,isDeveloper,false);
+		W3SetPlayerProp(client,LastChangeTeamTime,0.0);
 		
 		bResetSkillsOnSpawn[client]=false;
 	}
