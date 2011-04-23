@@ -26,8 +26,8 @@
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.1.7"
-#define REVISION_NUM 12107 //increment every release
+#define VERSION_NUM "1.2.1.8"
+#define REVISION_NUM 12108 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 

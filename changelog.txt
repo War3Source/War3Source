@@ -1,6 +1,10 @@
 s
 1.2.1
 
+B8
+
+limit outstanding socket 2 connections to 200
+
 B7
 
 fixed OnRaceChanged and OnRaceSelected

@@ -6,10 +6,12 @@
 //use ur own natives and stocks
 #include "W3SIncs/War3Source_Interface"
 
-#pragma dynamic 10000 //cells.....*4 for bytes
+#pragma dynamic 100000 //cells.....*4 for bytes
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
 new Handle:hShowSocketError;
+
+new trieCount;
 
 public Plugin:myinfo = {
 	name = "W3S Engine Stats sockets 2",
@@ -19,59 +21,64 @@ public Plugin:myinfo = {
 	url = "war3source.com"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
+
 public OnPluginStart() {
 	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
+	//CreateTimer(1.0,PrintTrieCount,_,TIMER_REPEAT);
 }
+//public Action:PrintTrieCount(Handle:t){
+//	PrintToServer("%d",trieCount);
+//}
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("W3Socket2",NW3Socket2);
 	return true;
 }
 public NW3Socket2(Handle:plugin,numParams){
-	new String:path[2000];
-	GetNativeString(1,path,sizeof(path));
+	if(trieCount<200)
+	{
+		new String:path[2000];
+		GetNativeString(1,path,sizeof(path));
+		
+		
+		new String:data[8000];
+		GetNativeString(2,data,sizeof(data));///ASSUME DATA IS PHP ESCAPED
+		
+		new Function:func=Function:GetNativeCell(3); //callback
+	
+		new Handle:trie = CreateTrie();
+		trieCount++;
+		
+		///////////////////////////////Fill in trie to magnify memory usage during debug
+		//new String:str[1000][8];
+		//new String:str2[]="zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+		//for(new i=0;i<1000;i++){
+		//	Format(str[i],sizeof(str),"%d",i);
+		//	
+		//}
+		//for(new i=0;i<1000;i++){
+		//	SetTrieString(trie, str[i], str2,true); 
+		//}
 	
 	
-	new String:data[8000];
-	GetNativeString(2,data,sizeof(data));///ASSUME DATA IS PHP ESCAPED
-	
-	//ReplaceString(data,sizeof(data)," ","%20");
-	//if(strlen(path)>sizeof(path)-10){
-	//	W3LogError("socket path exceeds 1990 string chars");
-	//}
-	
-	
-	//PrintToServer("%s",path);
-	
-	new Function:func=Function:GetNativeCell(3);
-	
-	
-	new Handle:trie = CreateTrie();
-	SetTrieString(trie,"path", path);
-	SetTrieString(trie,"data", data);
-	SetTrieValue(trie,"func", func);
-	SetTrieValue(trie,"plugin", plugin);
-	SetTrieString(trie,"response", "RESPONSE:");
-	
-	new Handle:socket = SocketCreate(SOCKET_TCP, OnSocketError);
-	SocketSetArg(socket,trie);
-	// open a file handle for writing the result
-	//new Handle:hFile = OpenFile("dl.htm", "wb");
-	// pass the file handle to the callbacks
-	//SocketSetArg(socket, hFile);
-	// connect the socket
-	SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
+		
+		SetTrieString(trie,"path", path);
+		SetTrieString(trie,"data", data);
+		SetTrieValue(trie,"func", func);
+		SetTrieValue(trie,"plugin", plugin);
+		SetTrieString(trie,"response", "RESPONSE:");
+		
+		new Handle:socket = SocketCreate(SOCKET_TCP, OnSocketError);
+		SocketSetArg(socket,trie);
+		// open a file handle for writing the result
+		//new Handle:hFile = OpenFile("dl.htm", "wb");
+		// pass the file handle to the callbacks
+		//SocketSetArg(socket, hFile);
+		// connect the socket
+		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
+		
+	}	
 }
 
 public OnSocketConnected(Handle:socket, any:trie) {
@@ -114,7 +121,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	new String:exploded[2][2000];
 	new index=StrContains(responsestr,"\r\n\r\n");
 	if(index==-1){
-		W3LogNotError("\r\n\r\n rnrn not found");
+		W3LogNotError("\r\n\r\n rnrn not found, reset / error / congestion");
 	}
 	else{
 		
@@ -129,6 +136,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	index=StrContains(responsestr,"success");
 	
 	CloseHandle(trie);
+	trieCount--;
 	
 	Call_StartFunction(plugin,func);
 	Call_PushCell(index>=0?1:0);
@@ -161,6 +169,7 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	
 	
 	CloseHandle(trie);
+	trieCount--;
 	
 	Call_StartFunction(plugin,func);
 	Call_PushCell(0);
