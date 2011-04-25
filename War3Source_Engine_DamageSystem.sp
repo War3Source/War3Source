@@ -193,7 +193,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 
 
 public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast){
-	W3SetVar(SmEvent,event);
+	
 
 	new victim_userid=GetEventInt(event,"userid");
 	new attacker_userid=GetEventInt(event,"attacker");
@@ -210,8 +210,11 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast){
 	
 	DamageStack[DamageStackLen]=dmgamount;
 	
-	
+	new Handle:oldevent=W3GetVar(SmEvent,event);
+	W3SetVar(SmEvent,event); //stacking on stack 
 	DoFwd_OnWar3EventPostHurt(victim,attacker,dmgamount);
+	W3SetVar(SmEvent,oldevent); //stacking on stack 
+	
 	
 	DamageStackLen--;
 }
