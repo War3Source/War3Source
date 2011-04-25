@@ -78,6 +78,12 @@ public NW3Socket2(Handle:plugin,numParams){
 		// connect the socket
 		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
 		
+	}
+	else{
+		if(ShowError())
+		{
+			W3LogNotError("Cannot create more sockets, 200 conections reached");
+		}
 	}	
 }
 
@@ -120,8 +126,12 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	
 	new String:exploded[2][2000];
 	new index=StrContains(responsestr,"\r\n\r\n");
-	if(index==-1){
-		W3LogNotError("\r\n\r\n rnrn not found, reset / error / congestion");
+	if(index==-1)
+	{
+		if(ShowError())
+		{
+			W3LogNotError("\r\n\r\n rnrn not found, reset / error / congestion");
+		}
 	}
 	else{
 		
