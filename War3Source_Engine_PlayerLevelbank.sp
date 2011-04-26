@@ -20,18 +20,6 @@ public Plugin:myinfo=
 };
 
 
-
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	hCvar_NewPlayerLevelbank=CreateConVar("war3_new_player_levelbank","30","The amount of free levels a person gets that is new to the server (no xp record)");
@@ -44,7 +32,7 @@ public OnPluginStart()
 	LoadTranslations("w3s.levelbank.phrases");
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("W3GetLevelBank",NW3GetLevelBank); //these have forwards to handle
 	CreateNative("W3SetLevelBank",NW3SetLevelBank); 

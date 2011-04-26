@@ -1,3 +1,4 @@
 fix change team kick limited races
 rename askpluginload2 custom
 public all initnativesforwards
+damage stack

@@ -39,12 +39,10 @@ new Handle:hChangeGameDescCvar;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-	GlobalOptionalNatives();
 	new String:version[64];
 	Format(version,sizeof(version),"%s by %s",VERSION_NUM,AUTHORS);
 	
 	CreateConVar("a_sh_version",version,"SHSource version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
-	
 }
 
 public OnPluginStart()

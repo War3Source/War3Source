@@ -42,16 +42,6 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -60,7 +50,7 @@ public OnPluginStart()
 }
 
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("War3_DamageModPercent",Native_War3_DamageModPercent);
 
@@ -210,7 +200,7 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast){
 	
 	DamageStack[DamageStackLen]=dmgamount;
 	
-	new Handle:oldevent=W3GetVar(SmEvent,event);
+	new Handle:oldevent=W3GetVar(SmEvent);
 	W3SetVar(SmEvent,event); //stacking on stack 
 	DoFwd_OnWar3EventPostHurt(victim,attacker,dmgamount);
 	W3SetVar(SmEvent,oldevent); //stacking on stack 

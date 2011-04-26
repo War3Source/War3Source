@@ -18,16 +18,7 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
+
 
 public OnPluginStart()
 {
@@ -37,7 +28,7 @@ public OnPluginStart()
 	War3Source_InitHelpCommands();
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("War3_CreateHelpCommand",Native_War3_CreateHelpCommand);
 	

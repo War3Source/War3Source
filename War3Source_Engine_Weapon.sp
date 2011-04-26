@@ -33,16 +33,6 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -90,7 +80,7 @@ public Action:weapontest(client,args){
 
 
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	CreateNative("War3_WeaponRestrictTo",NWar3_WeaponRestrictTo);
 	CreateNative("W3GetCurrentWeaponEnt",NW3GetCurrentWeaponEnt);

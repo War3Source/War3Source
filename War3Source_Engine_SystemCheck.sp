@@ -30,14 +30,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	g_War3FailedFH=CreateGlobalForward("War3FailedSignal",ET_Ignore,Param_String);
 
-	CreateNative("War3Failed",Native_War3Failed);
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {

@@ -33,23 +33,12 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	//CreateNative("W3RegisterBuffHelper",NW3ApplyBuff);
 	//CreateNative("W3SetBuffHelper",NW3ApplyBuff);

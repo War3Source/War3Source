@@ -49,16 +49,6 @@ new Handle:AssistGoldCvar;
 
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
 
 public OnPluginStart()
 {
@@ -140,7 +130,7 @@ public OnPluginStart()
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
 }
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	if(W3()){
 		CreateNative("W3GetReqXP" ,NW3GetReqXP);

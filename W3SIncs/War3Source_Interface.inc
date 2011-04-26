@@ -59,6 +59,7 @@ public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 		}
 	}
 	
+	//do not load if these functions exists
 	if(GetFunctionByName(plugin, "W3ONLY")!=INVALID_FUNCTION  &&  !W3()){
 		return APLRes_SilentFailure;
 	}

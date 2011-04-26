@@ -17,24 +17,13 @@ public Plugin:myinfo=
 
 
 
-public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
-{
-	GlobalOptionalNatives();
-	if(!InitNativesForwards())
-	{
-		LogError("[War3Source] There was a failure in creating the native / forwards based functions, definately halting.");
-		return APLRes_Failure;
-	}
-	return APLRes_Success;
-}
-
 public OnPluginStart()
 {
 	RegConsoleCmd("war3",cmdWar3,"War3 / SH internal variables and commands");
 	RegConsoleCmd("sh",cmdWar3,"War3 / SH internal variables and commands");
 }
 
-bool:InitNativesForwards()
+public bool:InitNativesForwards()
 {
 	Cvartrie=CreateTrie();
 	Cvararraylist=CreateArray(ByteCountToCells(64));  //cvar
