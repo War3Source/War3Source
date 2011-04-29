@@ -15,6 +15,7 @@ new trieCount;
 new socketCount;
 enum SOCKETTYPE{ RAW,HTTPGET,HTTPPOST};
 
+new backoffcounter;
 new Handle:socketQueue;
 public Plugin:myinfo = {
 	name = "W3S Engine Stats sockets 2",
@@ -82,7 +83,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 		SetTrieString(trie,"response", "RESPONSE:");
 		SetTrieValue(trie,"type", type);
 		
-		if(socketCount<MAXSOCKETS&&false)
+		if(socketCount<MAXSOCKETS&&backoffcounter==0)
 		{
 			InitiateSocket(trie);
 		}
@@ -111,7 +112,18 @@ InitiateSocket(Handle:trie){
 	}
 }
 public Action:SecondTimer(Handle:t){
+	if(backoffcounter>0){
+		backoffcounter--;
+		if(backoffcounter>20){
+			backoffcounter=20;
+		}
+		return;
+	}
+	
 	new initiates=MAXSOCKETS;
+	if(backoffcounter>0&&backoffcounter<10){ //only allow 1 socket if errored not long ago
+		initiates=1;
+	}
 	while(socketCount<MAXSOCKETS&&initiates>0){
 		initiates--;
 		if(GetArraySize(socketQueue)>0){
@@ -119,7 +131,8 @@ public Action:SecondTimer(Handle:t){
 			RemoveFromArray(socketQueue, 0);
 		}
 	}
-	DP("%d",GetArraySize(socketQueue));
+	return;
+	//DP("%d",GetArraySize(socketQueue));
 }
 public OnSocketConnected(Handle:socket, any:trie) {
 	decl String:path[2000];
@@ -224,7 +237,7 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	}
 	SetTrieString(trie,"response","");
 	FrontInsertQueue(trie);
-
+	backoffcounter+=5;
 /*	new Function:func;
 	GetTrieValue(trie,"func",func);
 	new Handle:plugin;
