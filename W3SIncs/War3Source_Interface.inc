@@ -510,7 +510,7 @@ native W3LOS(client,target);
  * @param WAR3_DMGTYPE: is this damage true (no armor) physical (physical armor/immunity)  or magic (magic armor/immunity)
  * @param respectVictimImmunity: should damage be blocked if victim has that type of immunity, accouts for ORIGIN immunity and DMG type. (SKILL, ULTIMATE, ITEM, |||| MAGIC AND PHYSICAL ) simplifies so that u dont have to check
  * @param countAsFirstDamageRetriggered: should this damage allow to be rehooked (creating a real hurt-event again)? this may cause infinite loops!  Yes to combime with items and other skills only if its not in a damage hook itself. (infinite loop triggering)
- * @return bool: did damage go through, false if player was immune to that damage type
+ * @return bool: did damage go through, false if player was immune to that damage type or damage was zero or something else failed
  */
 native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[],    War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED  ,   War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC  ,  bool:respectVictimImmunity=true   ,   bool:countAsFirstDamageRetriggered=false);       
 
@@ -1316,15 +1316,35 @@ forward OnSkillLevelChanged(client,race,skill,newskilllevel);
  * @param attacker: Attacker entity.
  * @param damage: How much damage is done.
  * @noreturn
+ * 
+ * order of execution is
+ * damageallpre
+ * bulletpre (if bullet)
+ * damageall
+ * bullet  (if bullet)       
  */ 
 //FF triggers this function!!! even though it didnt damage any teammate
-//THIS is a theoretical damage given by the engine, if u want real damage dealt use the hurt-event     
-forward OnW3TakeDmgAll(victim,attacker,Float:damage);  
+//THIS is a theoretical damage given by the engine, if u want real damage dealt use the hurt-event 
 //use natives to retrieve inflictor and game damagetype
 //becareful when using this, u should only use this to reduce incoming damage. if you want to return damge, only use on bullet (first trigger damage)(below) or check IsBullet
+//you may set damage mod percent HERE  
+//you may NOT DAMAGE IN HERE  
+forward OnW3TakeDmgAllPre(victim,attacker,Float:damage);  
+//bullet only 
+forward OnW3TakeDmgBulletPre(victim,attacker,Float:damage);  
 
+
+//you may NOT set damage mod percent HERE   
+//you may DAMAGE in here, however damage will be engine theoretical damage, not actual damage dealt 
+forward OnW3TakeDmgAll(victim,attacker,Float:damage);  
 // BULLET GAME DAMAGE ONLY or Warcraft damage that is allowed to be retriggered (allow more item and skill modifiers), (FILTERED)
+//you may NOT set damage mod percent HERE 
+//you may DAMAGE in here
 forward OnW3TakeDmgBullet(victim,attacker,Float:damage);  
+//no such thing as OnW3TakeDmgBulletPre, use OnW3TakeDmgAllPre instead and check for Is bullet
+
+
+
 
 //when a weapon fires, via weapon_fire or TF2 Calc critical (which crits must be on)
 forward OnWeaponFired(victim,attacker,Float:damage);  
@@ -1893,26 +1913,37 @@ stock StrTokenCount(const String:input[])
 //prints [W3S] You did %d damage to %name with SKILLNAME
 //prints [W3S] %name did %d damage to you with SKILLNAME
 new String:zzname[32];
-stock W3PrintSkillDmgConsole(victim=0,attacker,damage,String:skillname[]){
+stock W3PrintSkillDmgConsole(victim=0,attacker,damage,skillnum){
 	GetClientName(victim,zzname,sizeof(zzname));
+	new race=War3_GetRace(attacker);
+	new String:skillname[32];
+	SetTrans(attacker);
+	W3GetRaceSkillName(race,skillnum,skillname,sizeof(skillname));
 	PrintToConsole(attacker,"%T","[W3S] You did +{amount} damage to {player} with {skill}",attacker,damage,zzname,skillname);
 	
 	if(victim>0){
+		SetTrans(victim);
 		GetClientName(attacker,zzname,sizeof(zzname));
 		PrintToConsole(victim,"%T","[W3S] {player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
 	}
 }
 //+%d damage with skill name
-stock W3PrintSkillDmgHint(victim=0,attacker,damage,String:skillname[]){
+stock W3PrintSkillDmgHint(victim=0,attacker,damage,SKILLNUM){
+
+	new race=War3_GetRace(attacker);
+	new String:skillname[32];
+	SetTrans(attacker);
+	W3GetRaceSkillName(race,SKILLNUM,skillname,sizeof(skillname));
+	
 	PrintHintText(attacker,"%T","+{amount} damage with {skill}",attacker,damage,skillname);
 	
 	if(victim>0){
 		PrintHintText(victim,"%T","Received {amount} damage from {skill}",victim,damage,skillname);
 	}
 }
-stock W3PrintSkillDmgHintConsole(victim=0,attacker,damage,String:skillname[]){
-	W3PrintSkillDmgHint(victim,attacker,damage,skillname);
-	W3PrintSkillDmgConsole(victim,attacker,damage,skillname);
+stock W3PrintSkillDmgHintConsole(victim=0,attacker,damage,SKILLNUM){
+	W3PrintSkillDmgHint(victim,attacker,damage,SKILLNUM);
+	W3PrintSkillDmgConsole(victim,attacker,damage,SKILLNUM);
 }
 
 
@@ -2058,7 +2089,20 @@ stock W3MsgVengenceWasBlocked(client,String:reason[]){
 
 
 
+/**
+ * Prints Message to server and all chat
+ * For debugging prints
+ */ 
+stock DP(const String:szMessage[], any:...)
+{
+	
+	decl String:szBuffer[1000];
 
+	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
+	PrintToServer("[Debug Print] %s", szBuffer);
+	PrintToChatAll("[Debug Print] %s", szBuffer);
+
+}
 
 
 

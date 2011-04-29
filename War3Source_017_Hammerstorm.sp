@@ -114,7 +114,7 @@ public OnRaceChanged(client,oldrace,newrace)
 }
 
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 	if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
 		if(War3_GetRace(attacker)==thisRaceID)

@@ -10,9 +10,12 @@
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
 new Handle:hShowSocketError;
-
+new MAXSOCKETS=5;
 new trieCount;
+new socketCount;
+enum SOCKETTYPE{ RAW,HTTPGET,HTTPPOST};
 
+new Handle:socketQueue;
 public Plugin:myinfo = {
 	name = "W3S Engine Stats sockets 2",
 	author = "Ownz (DarkEnergy)",
@@ -24,7 +27,8 @@ public Plugin:myinfo = {
 
 public OnPluginStart() {
 	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
-	//CreateTimer(1.0,PrintTrieCount,_,TIMER_REPEAT);
+	CreateTimer(5.0,SecondTimer,_,TIMER_REPEAT);
+	socketQueue=CreateArray();
 }
 //public Action:PrintTrieCount(Handle:t){
 //	PrintToServer("%d",trieCount);
@@ -32,74 +36,115 @@ public OnPluginStart() {
 
 public bool:InitNativesForwards()
 {
+	CreateNative("W3Socket",NW3Socket);
 	CreateNative("W3Socket2",NW3Socket2);
 	return true;
 }
-public NW3Socket2(Handle:plugin,numParams){
-	if(trieCount<200)
+public NW3Socket(Handle:plugin,numParams)
+{
+	PrepareSocket(plugin,HTTPGET);
+}
+public NW3Socket2(Handle:plugin,numParams)
+{
+	PrepareSocket(plugin,HTTPPOST);
+}
+PrepareSocket(Handle:plugin,SOCKETTYPE:type)
+{
+
+	if(trieCount<2500)
 	{
-		new String:path[2000];
+		decl String:path[2000];
+		path[0]='\0';
 		GetNativeString(1,path,sizeof(path));
 		
+		decl String:data[8000];
+		data[0]='\0';
+		new Function:func;
+		if(type==HTTPGET){
+			
+			func=Function:GetNativeCell(2); //callback;
+		}
+		else if(type==HTTPPOST){
+			GetNativeString(2,data,sizeof(data));///ASSUME DATA IS PHP ESCAPED
+			func=Function:GetNativeCell(3); //callback;
+		}
 		
-		new String:data[8000];
-		GetNativeString(2,data,sizeof(data));///ASSUME DATA IS PHP ESCAPED
 		
-		new Function:func=Function:GetNativeCell(3); //callback
 	
 		new Handle:trie = CreateTrie();
 		trieCount++;
 		
-		///////////////////////////////Fill in trie to magnify memory usage during debug
-		//new String:str[1000][8];
-		//new String:str2[]="zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-		//for(new i=0;i<1000;i++){
-		//	Format(str[i],sizeof(str),"%d",i);
-		//	
-		//}
-		//for(new i=0;i<1000;i++){
-		//	SetTrieString(trie, str[i], str2,true); 
-		//}
-	
-	
 		
 		SetTrieString(trie,"path", path);
 		SetTrieString(trie,"data", data);
 		SetTrieValue(trie,"func", func);
 		SetTrieValue(trie,"plugin", plugin);
 		SetTrieString(trie,"response", "RESPONSE:");
+		SetTrieValue(trie,"type", type);
 		
-		new Handle:socket = SocketCreate(SOCKET_TCP, OnSocketError);
-		SocketSetArg(socket,trie);
-		// open a file handle for writing the result
-		//new Handle:hFile = OpenFile("dl.htm", "wb");
-		// pass the file handle to the callbacks
-		//SocketSetArg(socket, hFile);
-		// connect the socket
-		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
+		if(socketCount<MAXSOCKETS&&false)
+		{
+			InitiateSocket(trie);
+		}
+		else if(GetArraySize(socketQueue)<100000)
+		{
+			PushArrayCell(socketQueue,trie);
+		}
 		
 	}
 	else{
 		if(ShowError())
 		{
-			W3LogNotError("Cannot create more sockets, 200 conections reached");
+			W3LogNotError("Cannot create more sockets, 2500 conections reached");
 		}
 	}	
 }
-
+InitiateSocket(Handle:trie){
+	new Handle:socket = SocketCreate(SOCKET_TCP, OnSocketError);
+	if(socket!=INVALID_HANDLE){
+		socketCount++;	
+		SocketSetArg(socket,trie);
+		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
+	}
+	else{
+		W3LogError("Create Socket Failed");
+	}
+}
+public Action:SecondTimer(Handle:t){
+	new initiates=MAXSOCKETS;
+	while(socketCount<MAXSOCKETS&&initiates>0){
+		initiates--;
+		if(GetArraySize(socketQueue)>0){
+			InitiateSocket(GetArrayCell(socketQueue,0));
+			RemoveFromArray(socketQueue, 0);
+		}
+	}
+	DP("%d",GetArraySize(socketQueue));
+}
 public OnSocketConnected(Handle:socket, any:trie) {
-	new String:path[2000];
+	decl String:path[2000];
+	path[0]='\0';
 	GetTrieString(trie,"path",path,sizeof(path));
-	new String:data[8000];
+	
+	decl String:data[8000];
+	data[0]='\0';
 	GetTrieString(trie,"data",data,sizeof(data));
 	
-	new String:requestStr[8000];
+	decl String:requestStr[8000];
 	requestStr[0]='\0';
-	Format(requestStr, sizeof(requestStr), "POST /%s HTTP/1.0\r\nHost: %s\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: %d\r\n\r\n%s\r\n", path, "mysql.ownageclan.com",strlen(data),data);
-	//PrintToServer("/////////");
-	//PrintToServer("////////");
-	//PrintToServer("/////////");
-	//PrintToServer("%s",requestStr);
+	new SOCKETTYPE:type;
+	GetTrieValue(trie,"type",type);
+	if(type==HTTPGET)
+	{
+		Format(requestStr, sizeof(requestStr), "GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n\r\n", path, "mysql.ownageclan.com");
+	}
+	else if(type==HTTPPOST)
+	{
+		Format(requestStr, sizeof(requestStr), "POST /%s HTTP/1.0\r\nHost: %s\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: %d\r\n\r\n%s\r\n", path, "mysql.ownageclan.com",strlen(data),data);
+	}
+	else{
+		Format(requestStr, sizeof(requestStr), "%s",data);
+	}
 	SocketSend(socket, requestStr);
 	
 }
@@ -111,7 +156,8 @@ public OnSocketReceive(Handle:socket, String:receiveData[], const dataSize, any:
 	//PrintToServer(receiveData, false);
 	
 	
-	new String:responsestr[8000];
+	decl String:responsestr[8000];
+	responsestr[0]='\0';
 	GetTrieString(trie,"response",responsestr,sizeof(responsestr));
 	StrCat(responsestr,sizeof(responsestr),receiveData);
 	SetTrieString(trie,"response",responsestr);
@@ -119,7 +165,7 @@ public OnSocketReceive(Handle:socket, String:receiveData[], const dataSize, any:
 
 public OnSocketDisconnected(Handle:socket, any:trie) {
 	CloseHandle(socket);
-	
+	socketCount--;
 	
 	new String:responsestr[8000];
 	GetTrieString(trie,"response",responsestr,sizeof(responsestr));
@@ -137,6 +183,9 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 		
 		ExplodeString(responsestr, "\r\n\r\n", exploded, 2, 2000);
 	}
+	if(strlen(responsestr)==0&&ShowError()){ //zero length is probably failed, HTTP has 200 OK message at least
+		W3LogNotError("Zero length socket return disconnect");
+	}
 	
 	new Function:func;
 	GetTrieValue(trie,"func",func);
@@ -153,6 +202,8 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	Call_PushCell(0);
 	Call_PushString(exploded[1]);
 	Call_Finish(dummy);
+	
+	SecondTimer(INVALID_HANDLE);
 }
 
 public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
@@ -160,6 +211,7 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	if(socket!=INVALID_HANDLE){
 		CloseHandle(socket);
 	}
+	socketCount--;
 	if(ShowError())
 	{
 		W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
@@ -170,9 +222,10 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 			W3LogNotError("Timeout");
 		}
 	}
-	
+	SetTrieString(trie,"response","");
+	FrontInsertQueue(trie);
 
-	new Function:func;
+/*	new Function:func;
 	GetTrieValue(trie,"func",func);
 	new Handle:plugin;
 	GetTrieValue(trie,"plugin",plugin);
@@ -184,8 +237,18 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
 	Call_StartFunction(plugin,func);
 	Call_PushCell(0);
 	Call_PushCell(1);
-	Call_Finish(dummy);
+	Call_Finish(dummy);*/
 	
+}
+FrontInsertQueue(Handle:trie)
+{
+	if(GetArraySize(socketQueue)>0){
+		ShiftArrayUp(socketQueue,0);
+		SetArrayCell(socketQueue,0,trie);
+	}
+	else{
+		PushArrayCell(socketQueue,trie);
+	}
 }
 stock bool:ShowError(){
 	return GetConVarInt(hShowSocketError)>0?true:false;

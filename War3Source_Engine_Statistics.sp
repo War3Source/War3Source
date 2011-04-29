@@ -247,7 +247,7 @@ public Action:UpdateServerInfo(Handle:t,any:a){
 	
 	// This URL follows URLEncode() standards.
 	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&maxplayers=%d&ip=%s:%d",hostname,ourversion,gameencoded,mapname,clientcount,MaxClients,ipencoded,serverport);
-
+	
 	W3Socket2("w3stat/serverinfo.php",longquery,SockCallbackServerInfo);
 }
 public SockCallbackServerInfo(bool:success,fail,String:ret[])

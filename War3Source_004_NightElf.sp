@@ -181,7 +181,7 @@ public OnWar3EventSpawn(client)
 
 
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage)
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
 	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 	{
@@ -191,7 +191,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 		{
 			new race_attacker=War3_GetRace(attacker);
 			new race_victim=War3_GetRace(victim);
-			new skill_level_thorns=War3_GetSkillLevel(victim,thisRaceID,SKILL_THORNS);
+			//new skill_level_thorns=War3_GetSkillLevel(victim,thisRaceID,SKILL_THORNS);
 			new skill_level_trueshot=War3_GetSkillLevel(attacker,thisRaceID,SKILL_TRUESHOT);
 		
 			
@@ -217,7 +217,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 						
 				}
 				
-				//thorns only if he didnt evade
+			/*	//thorns only if he didnt evade
 				else if( skill_level_thorns>0 && IsPlayerAlive(attacker)&&!Hexed(victim,false))
 				{                                                                                
 					if(!W3HasImmunity(attacker,Immunity_Skills))
@@ -233,11 +233,11 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 						//	PrintToChatAll("2 %d",W3GetDamageIsBullet());
 							//W3ForceDamageIsBullet();
 							
-							W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),"Thorns");	
+							W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_THORNS);	
 						}
 						//}
 					}
-				}
+				}*/
 			}
 			
 			// Trueshot Aura
@@ -253,5 +253,30 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 		}
 	}
 }
+public OnWar3EventPostHurt(victim,attacker,damage){
+	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
+	{
+		
+		if(War3_GetRace(victim)==thisRaceID)
+		{
+			new skill_level=War3_GetSkillLevel(victim,thisRaceID,SKILL_THORNS);
+			if(skill_level>0&&!Hexed(victim,false))
+			{
+				if(!W3HasImmunity(attacker,Immunity_Skills)){
+				
+					new damage_i=RoundToFloor(damage*ThornsReturnDamage[skill_level]);
+					if(damage_i>0)
+					{
+						if(damage_i>40) damage_i=40; // lets not be too unfair ;]
+						
+						if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL)){
+							W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_THORNS);	
+						}
+					}
+				}
+			}
+		}
+	}		
 
+}
 

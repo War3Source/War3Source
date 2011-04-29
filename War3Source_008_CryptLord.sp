@@ -21,13 +21,13 @@ new SKILL_IMPALE,SKILL_SPIKE,SKILL_BEETLES,ULT_LOCUST;
 new Float:ImpaleChanceArr[]={0.0,0.05,0.09,0.12,0.15}; 
 
 //skill 2
-new Float:SpikeDamageRecieve[]={1.0,0.95,0.9,0.85,0.8};
+new Float:SpikeDamageRecieve[]={1.0,0.95,0.9,0.85,0.80}; //TEST
 new Float:SpikeArmorGainArr[]={0.0,0.1,0.20,0.3,0.40}; 
 new Float:SpikeReturnDmgArr[]={0.0,0.05,0.10,0.15,0.2}; 
 
 //skill 3
 new const BeetleDamage=15;
-new Float:BeetleChanceArr[]={0.0,0.05,0.1,0.15,0.2};
+new Float:BeetleChanceArr[]={0.0,0.05,0.1,0.15,0.20};
 
 //ultimate
 new Handle:ultCooldownCvar;
@@ -119,7 +119,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 						
 						if(War3_DealDamage(bestTarget,damage,client,DMG_BULLET,"locust")) //default magic
 						{
-							W3PrintSkillDmgHintConsole(bestTarget,client,War3_GetWar3DamageDealt(),"Locust");
+							W3PrintSkillDmgHintConsole(bestTarget,client,War3_GetWar3DamageDealt(),ULT_LOCUST);
 							W3FlashScreen(bestTarget,RGBA_COLOR_RED);
 							
 							EmitSoundToAll(ultimateSound,client);
@@ -139,13 +139,13 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 	if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
 		if(War3_GetRace(victim)==thisRaceID)
 		{
 			new skill_level=War3_GetSkillLevel(victim,thisRaceID,SKILL_SPIKE);
-			if(skill_level>0&&!Hexed(victim,false))
+			if(skill_level>0&&!Hexed(victim,false) )
 			{
 				War3_DamageModPercent(SpikeDamageRecieve[skill_level]);  
 			}
@@ -175,9 +175,10 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 					}
 					new returndmg=RoundFloat(FloatMul(SpikeReturnDmgArr[skill_level],float(damage)));
 					returndmg=returndmg<40?returndmg:40;
-					War3_DealDamage(attacker,returndmg,victim,_,"spiked_carapace",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL);
-					PrintToConsole(victim,"%T","Returned {amount} damage to {player}",victim,War3_GetWar3DamageDealt(),attacker);
-					PrintToConsole(attacker,"%T","Received {amount} damage from Spiked Carapace from {player}",attacker,War3_GetWar3DamageDealt(),victim);
+					if(War3_DealDamage(attacker,returndmg,victim,_,"spiked_carapace",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL))
+					{
+						W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_SPIKE);
+					}
 				}
 			}
 			
@@ -213,7 +214,7 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 				{
 					
 					War3_DealDamage(victim,BeetleDamage,attacker,DMG_BULLET,"beetles");
-					W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),"beetles");
+					W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_BEETLES);
 					W3FlashScreen(victim,RGBA_COLOR_RED);
 					
 				}

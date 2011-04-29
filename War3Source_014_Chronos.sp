@@ -334,7 +334,7 @@ public Action:sphereend(Handle:h,any:client){
 	
 }
 
-public OnW3TakeDmgAll(victim,attacker,Float:damage){
+public OnW3TakeDmgAllPre(victim,attacker,Float:damage){
 	if(bTrapped[victim]){ ///trapped people can only be damaged with knife
 		if(ValidPlayer(attacker,true)){
 			new wpnent = W3GetCurrentWeaponEnt(attacker);

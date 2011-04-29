@@ -244,7 +244,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 
 
-public OnW3TakeDmgAll(victim,attacker,Float:damage)
+public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 {
 	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0) //block self inflicted damage
 	{

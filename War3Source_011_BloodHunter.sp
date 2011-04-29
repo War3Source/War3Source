@@ -227,7 +227,7 @@ public Action:BloodCrazyDOTLoop(Handle:h,any:data){
 	}
 				
 }
-public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&victim!=attacker&&GetClientTeam(victim)!=GetClientTeam(attacker)){
 		if(War3_GetRace(attacker)==thisRaceID&&!Hexed(attacker,false)){
 			new skilllevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_CRAZY);

@@ -117,10 +117,10 @@ public OnPluginStart()
 	RegConsoleCmd("flashscreen",FlashTest);
 	RegConsoleCmd("ubertest",UberTest);
 //	RegConsoleCmd("fullskill",FullSkilltest);
-
+*/
 	RegConsoleCmd("war3refresh",refreshcooldowns);
 	RegConsoleCmd("armortest",armortest);
-	RegConsoleCmd("calltest",calltest);
+/*	RegConsoleCmd("calltest",calltest);
 	RegConsoleCmd("calltest2",calltest2);
 	
 	RegServerCmd("whichmode",cmdwhichmode);
@@ -204,7 +204,7 @@ public Action:calltest2(client,args){
 			Call_Finish(dummyreturn);
 		}
 	}
-}
+}?*/
 public Action:armortest(client,args){
 	if(W3IsDeveloper(client)){
 		for(new i=1;i<=MaxClients;i++){
@@ -215,7 +215,7 @@ public Action:armortest(client,args){
 			War3_SetBuff(i,fArmorMagic,1,num);
 		}
 	}
-}
+}/*
 public Action:CmdDmgTest(client,args){
 	War3_DealDamage(client,50,_,_,"testdmg");
 }
@@ -223,7 +223,7 @@ public Action:CmdLoadRaces(args){
 	PrintToServer("FORCE LOADING ALL RACES AND ITEMS");
 	LoadRacesAndItems();
 	return Plugin_Handled;
-}
+}*/
 public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
 		new raceid=War3_GetRace(client);
@@ -233,7 +233,7 @@ public Action:refreshcooldowns(client,args){
 		
 	}
 }
-
+/*
 public Action:FlashTest(client,args){
 	if(args==6){
 		new String:arg[32];

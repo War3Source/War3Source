@@ -71,7 +71,7 @@ public NW3SaveXP(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
-	DP("SAVEXP CALLED");
+//	DP("SAVEXP CALLED");
 	War3Source_SavePlayerData(client,race) //saves main also
 }
 public NW3SaveEnabled(Handle:plugin,numParams)
@@ -299,17 +299,22 @@ public OnClientPutInServer(client)
 		W3CreateEvent(ClearPlayerVariables,client); 
 		W3CreateEvent(InitPlayerVariables,client); 
 		
-		
-		if(W3SaveEnabled())
+		if(IsFakeClient(client)){
+			W3SetPlayerProp(client,xpLoaded,true);
+		}
+		else
 		{
-			War3_ChatMessage(client,"%T","Loading player data...",client);
-			War3Source_LoadPlayerData(client);
+			if(W3SaveEnabled())
+			{
+				War3_ChatMessage(client,"%T","Loading player data...",client);
+				War3Source_LoadPlayerData(client);
+			}
+			else{
+				DoForwardOnWar3PlayerAuthed(client);
+			}
+			if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
+				W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 		}
-		else{
-			DoForwardOnWar3PlayerAuthed(client);
-		}
-		if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
-			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
 	}
 }
 public OnClientDisconnect(client)

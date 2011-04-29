@@ -12,25 +12,38 @@
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
+///would you like to see the damage stack print out?
+//#define DEBUG
+
+new Handle:FHOnW3TakeDmgAllPre;
+new Handle:FHOnW3TakeDmgBulletPre;
 new Handle:FHOnW3TakeDmgAll;
 new Handle:FHOnW3TakeDmgBullet;
 
 new Handle:g_OnWar3EventPostHurtFH;
 
 
-new g_Lastdamagetype;
-new g_Lastinflictor; //variables from sdkhooks, natives retrieve them if needed
-new g_LastDamageIsWarcraft; //for this damage only
+new g_CurDamageType=-99;
+new g_CurInflictor=-99; //variables from sdkhooks, natives retrieve them if needed
+new g_CurDamageIsWarcraft=0; //for this damage only
+new g_CurDamageIsTrueDamage=0; //not used yet?
 
+new Float:g_CurDMGModifierPercent=-99.9;
 
-new Float:damageModifierPercent;
+new g_CurLastActualDamageDealt=-99;
 
-new actualdamagedealt;
-
-new bool:nextDamageIsWarcraftDamage; //dealdamage tells hook that the damage he hooked is warcraft damage
-new bool:nextDamageIsTrueDamage;
+new bool:g_CanSetDamageMod=false; //default false, you may not change damage percent when there is none to change
+new bool:g_CanDealDamage=true; //default true, you can initiate damage out of nowhere
+//for deal damage only
+new g_NextDamageIsWarcraftDamage=0; 
+new g_NextDamageIsTrueDamage=0;
 
 new dummyresult;
+
+#if defined DEBUG
+new teststack=0;
+#endif
+
 public Plugin:myinfo= 
 {
 	name="W3S Engine Damage",
@@ -41,12 +54,9 @@ public Plugin:myinfo=
 };
 
 
-
-
 public OnPluginStart()
 {
 	HookEvent("player_hurt",EventPlayerHurt);
-	CreateTimer(1.0,SecondTimer,_,TIMER_REPEAT);
 }
 
 
@@ -62,7 +72,9 @@ public bool:InitNativesForwards()
 	CreateNative("War3_DealDamage",Native_War3_DealDamage);
 	CreateNative("War3_GetWar3DamageDealt",Native_War3_GetWar3DamageDealt);
 
-	
+
+	FHOnW3TakeDmgAllPre=CreateGlobalForward("OnW3TakeDmgAllPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
+	FHOnW3TakeDmgBulletPre=CreateGlobalForward("OnW3TakeDmgBulletPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 	FHOnW3TakeDmgAll=CreateGlobalForward("OnW3TakeDmgAll",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 	FHOnW3TakeDmgBullet=CreateGlobalForward("OnW3TakeDmgBullet",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 
@@ -74,31 +86,36 @@ public bool:InitNativesForwards()
 
 public Native_War3_DamageModPercent(Handle:plugin,numParams)
 {
-	if(numParams==1)
-	{
-		new Float:num=GetNativeCell(1); 
-		//PrintToChatAll("percent change %f",num);
-		damageModifierPercent*=num;
-		//1.0*num;
-		//PrintToChatAll("2percent change %f",1.0+num);
-		//PrintToChatAll("3percent change %f",100.0*(1.0+num));
+	if(!g_CanSetDamageMod){
+		LogError("You may not set damage mod percent here, use ....Pre forward");
+		W3LogError("You may not set damage mod percent here, use ....Pre forward");
 	}
+
+	new Float:num=GetNativeCell(1); 
+	#if defined DEBUG
+	PrintToServer("percent change %f",num);
+	#endif
+	g_CurDMGModifierPercent*=num;
+	
 }
 
 
 
 public NW3GetDamageType(Handle:plugin,numParams){
-	return g_Lastdamagetype;
+	return g_CurDamageType;
 }
 public NW3GetDamageInflictor(Handle:plugin,numParams){
-	return g_Lastinflictor;
+	return g_CurInflictor;
 }
 public NW3GetDamageIsBullet(Handle:plugin,numParams){
-	return bool:(!g_LastDamageIsWarcraft);
+	return _:(!g_CurDamageIsWarcraft);
 }
 public NW3ForceDamageIsBullet(Handle:plugin,numParams){
-	g_LastDamageIsWarcraft=false;
+	g_CurDamageIsWarcraft=false;
 }
+
+
+
 
 
 public OnClientPutInServer(client){
@@ -109,61 +126,76 @@ public OnClientDisconnect(client){
 }
 
 
-new DamageStack[255];
-new DamageStackVictim[255];
-new DamageStackLen=-1;
 
 public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:damage,&damagetype)
 {
+	
+	new String:race[32];
+	War3_GetRaceName(War3_GetRace(attacker),race,sizeof(race));
+	
 	if(IsPlayerAlive(victim)){
+
+		//store old variables on local stack!
 	
-		if(DamageStackLen>240){
-			LogError("damage stack exceeded 240!");
-			return Plugin_Changed;
-		}
-		DamageStackLen++;
+		new old_DamageType= g_CurDamageType;
+		new old_Inflictor= g_CurInflictor;
+		new old_IsWarcraftDamage= g_CurDamageIsWarcraft;
+		new Float:old_DamageModifierPercent = g_CurDMGModifierPercent;
+		new old_IsTrueDamage = g_CurDamageIsTrueDamage;
 		
-		DamageStackVictim[DamageStackLen]=victim;
+		//set these to global
+		g_CurDamageType=damagetype;
+		g_CurInflictor=inflictor;
+		g_CurDMGModifierPercent=1.0;
+		g_CurDamageIsWarcraft=g_NextDamageIsWarcraftDamage;
+		g_CurDamageIsTrueDamage=g_NextDamageIsTrueDamage;
 		
-		//PrintToChatAll("SDKforwarded %f inflictor %d stack %d",damage,inflictor,DamageStackLen);
-		damageModifierPercent=1.0;
+		#if defined DEBUG
+		DP2("sdktakedamage %d->%d atrace %s damage [%.2f]",attacker,victim,race,damage);
+		teststack++;
+		#endif
 		
-	
-		//set these first
-		g_Lastdamagetype=damagetype;
-		g_Lastinflictor=inflictor;
-		
-		new isBulletDamage=true;
-		if(nextDamageIsWarcraftDamage){
-			nextDamageIsWarcraftDamage=false; //reset this and set g_LastDamageIsWarcraft to that value
-			g_LastDamageIsWarcraft=true;
-			
-			isBulletDamage=false;
-			
-			if(!nextDamageIsTrueDamage){
-				damage=FloatMul(damage,W3GetMagicArmorMulti(victim));
-			}
+		if(g_CurDamageIsWarcraft){
+			damage=FloatMul(damage,W3GetMagicArmorMulti(victim));
 			//PrintToChatAll("magic %f %d to %d",W3GetMagicArmorMulti(victim),attacker,victim);
 		}
-		else{ //count as bullet now
-		
-			if(!nextDamageIsTrueDamage){
-				damage=FloatMul(damage,W3GetPhysicalArmorMulti(victim));
-			}
+		else if(!g_CurDamageIsTrueDamage){ //bullet 
+			damage=FloatMul(damage,W3GetPhysicalArmorMulti(victim));
+			
 			//PrintToChatAll("physical %f %d to %d",W3GetPhysicalArmorMulti(victim),attacker,victim);
-			g_LastDamageIsWarcraft=false;
+			//g_CurDamageIsWarcraft=false;
 		}
+		//else it is true damage
+		//PrintToChatAll("takedmg %f BULLET %d   lastiswarcraft %d",damage,isBulletDamage,g_CurDamageIsWarcraft);
 		
-		//PrintToChatAll("takedmg %f BULLET %d   lastiswarcraft %d",damage,isBulletDamage,g_LastDamageIsWarcraft);
+		new bool:old_CanSetDamageMod=g_CanSetDamageMod;
+		new bool:old_CanDealDamage=g_CanDealDamage;
+		g_CanSetDamageMod=true;
+		g_CanDealDamage=false;
+		Call_StartForward(FHOnW3TakeDmgAllPre);
+		Call_PushCell(victim);
+		Call_PushCell(attacker);
+		Call_PushCell(damage);
+		Call_Finish(dummyresult); //this will be returned to
 		
-		
+		if(!g_CurDamageIsWarcraft){
+			Call_StartForward(FHOnW3TakeDmgBulletPre);
+			Call_PushCell(victim);
+			Call_PushCell(attacker);
+			Call_PushCell(damage);
+			Call_Finish(dummyresult); //this will be returned to
+			
+		}
+		g_CanSetDamageMod=false;
+		g_CanDealDamage=true;
 		Call_StartForward(FHOnW3TakeDmgAll);
 		Call_PushCell(victim);
 		Call_PushCell(attacker);
 		Call_PushCell(damage);
 		Call_Finish(dummyresult); //this will be returned to
-	
-		if(isBulletDamage){
+		
+		
+		if(!g_CurDamageIsWarcraft){
 			Call_StartForward(FHOnW3TakeDmgBullet);
 			Call_PushCell(victim);
 			Call_PushCell(attacker);
@@ -171,59 +203,94 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 			Call_Finish(dummyresult); //this will be returned to
 			
 		}
-	
+		g_CanSetDamageMod=old_CanSetDamageMod;
+		g_CanDealDamage=old_CanDealDamage;	
 		//modify final damage
-		damage=damage*damageModifierPercent; ////so we calculate the percent 
+		damage=damage*g_CurDMGModifierPercent; ////so we calculate the percent 
 	
-		//PrintToChatAll("new damage? %f",damage);
-		//return Action:result;
+		//nobobdy retrieves our global variables outside of the forward call, restore old stack vars
+		g_CurDamageType= old_DamageType;
+		g_CurInflictor= old_Inflictor;
+		g_CurDamageIsWarcraft= old_IsWarcraftDamage;
+		g_CurDMGModifierPercent = old_DamageModifierPercent;
+		g_CurDamageIsTrueDamage = old_IsTrueDamage;
+		
+		
+		#if defined DEBUG
+		teststack--;
+		DP2("sdktakedamage %d->%d END dmg [%.2f]",attacker,victim,damage);
+		#endif
+	
 	}
+	
 	return Plugin_Changed;
 }
 
 
-public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast){
+public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
+{
 	
-
 	new victim_userid=GetEventInt(event,"userid");
 	new attacker_userid=GetEventInt(event,"attacker");
-	new dmgamount=GetEventInt(event,"dmg_health");
+	new damage=GetEventInt(event,"dmg_health");
 	if(War3_GetGame()==Game_TF)
-		dmgamount=GetEventInt(event,"damageamount");
+		damage=GetEventInt(event,"damageamount");
 	
 	new victim=GetClientOfUserId(victim_userid);
+	
 	new attacker=GetClientOfUserId(attacker_userid);
 	
-//	new String:weapon[32];
-	//GetEventString(event, "weapon", weapon, sizeof(weapon));
-	//PrintToChatAll("PostHurt %d %s stack %d",dmgamount,weapon,DamageStackLen);
+	#if defined DEBUG
+	DP2("PlayerHurt %d->%d  dmg [%d] ",attacker,victim,damage);
+	teststack++;
+	#endif
+
 	
-	DamageStack[DamageStackLen]=dmgamount;
+	new bool:old_CanDealDamage=g_CanDealDamage;
+	g_CanSetDamageMod=true;
 	
 	new Handle:oldevent=W3GetVar(SmEvent);
 	W3SetVar(SmEvent,event); //stacking on stack 
-	DoFwd_OnWar3EventPostHurt(victim,attacker,dmgamount);
-	W3SetVar(SmEvent,oldevent); //stacking on stack 
 	
-	
-	DamageStackLen--;
-}
-
-DoFwd_OnWar3EventPostHurt(victim,attacker,dmgamount){
+	//do the forward
 	Call_StartForward(g_OnWar3EventPostHurtFH);
 	Call_PushCell(victim);
 	Call_PushCell(attacker);
-	Call_PushCell(dmgamount);
+	Call_PushCell(damage);
 	Call_Finish(dummyresult);
-//	PrintToChatAll("posthurt %d",dmgamount);
+	
+	W3SetVar(SmEvent,oldevent); //restore on stack , if any
+	g_CanDealDamage=old_CanDealDamage;
+	
+	#if defined DEBUG
+	teststack--;
+	DP2("PlayerHurt %d->%d  dmg [%d] END ",attacker,victim,damage);
+	
+	if(	teststack==0){
+	
+	PrintToServer("   ");
+	PrintToChatAll("   ");
+	PrintToServer("   ");
+	PrintToChatAll("   ");
+	}
+	#endif
+	
+	g_CurLastActualDamageDealt=damage;
+}
+stock DP2(const String:szMessage[], any:...)
+{
+	new String:szBuffer[1000];
+	new String:pre[132];
+	for(new i=0;i<teststack;i++){
+		StrCat(pre,sizeof(pre),"    ");
+	}
+	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
+	PrintToServer("[DP2] %s%s %s",pre,szBuffer,W3GetDamageIsBullet()?"B":"",!g_NextDamageIsWarcraftDamage?"NB":"");
+	PrintToChatAll("[DP2] %s%s %s", pre, szBuffer,W3GetDamageIsBullet()?"B":"",!g_NextDamageIsWarcraftDamage?"NB":"");
+	
 }
 
 
-////if dealdamage is called then player died, posthurt will not be called and stack length stays longer
-///since this is single threaded, we assume there is no actual damage exchange when a timer hits, we reset the stack length 
-public Action:SecondTimer(Handle:t,any:a){
-	DamageStackLen=-1;
-}
 
 
 
@@ -236,201 +303,187 @@ public Action:SecondTimer(Handle:t,any:a){
 
 
 
-
-
-
+//dealdamage reaches far into the stack:
+/*
+[DP2]     playerHurt 1->10  dmg [34]  B
+[DP2]     dealdamage 10->1 { 
+[DP2]         sdktakedamage 10->1 atrace Night Elf damage [6.00] 
+[DP2]         sdktakedamage 10->1 END dmg [6.00] 
+[DP2]         PlayerHurt 10->1  dmg [3]  
+[DP2]         PlayerHurt 10->1  dmg [3] END  
+				^^^^coplies the damage to global
+[DP2]     dealdamage 10->1 } B
+[*/
 public Native_War3_DealDamage(Handle:plugin,numParams)
 {
+	new bool:whattoreturn=true;
+	if(!g_CanDealDamage){
+		LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
+		W3LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
+	}
 	
-	if(numParams!=9){
 		
-		ThrowError("Error War3_DealDamage OLD INCOMPATABLE RACE!!: params %d",numParams);
-	}
-	if(numParams==9)
+	decl victim;
+	victim=GetNativeCell(1);
+	decl damage;
+	damage=GetNativeCell(2);
+	decl attacker;
+	attacker=GetNativeCell(3);
+		
+	
+	if(ValidPlayer(victim,true) && damage>0 )
 	{
+		//new old_DamageDealt=g_CurActualDamageDealt;
+		new old_IsWarcraftDamage= g_CurDamageIsWarcraft;
+		new old_IsTrueDamage = g_CurDamageIsTrueDamage;
+		
+		new old_NextDamageIsWarcraftDamage=g_NextDamageIsWarcraftDamage; 
+		new old_NextDamageIsTrueDamage=g_NextDamageIsTrueDamage;
+		
+		g_CurLastActualDamageDealt=-88;
 		
 		
-		decl victim;
-		victim=GetNativeCell(1);
-		decl damage;
-		damage=GetNativeCell(2);
+		new dmg_type;
+		dmg_type=GetNativeCell(4);  //original weapon damage type
+		decl String:weapon[64];
+		GetNativeString(5,weapon,64);
 		
-		if(ValidPlayer(victim,true) && damage>0 )
-		{
-			actualdamagedealt=0;
-			
-			decl attacker;
-			attacker=GetNativeCell(3);
-			new dmg_type;
-			dmg_type=GetNativeCell(4);  //original weapon damage type
-			decl String:weapon[64];
-			GetNativeString(5,weapon,64);
-			
-			
-			
-			decl War3DamageOrigin:W3DMGORIGIN;
-			W3DMGORIGIN=GetNativeCell(6);
-			decl War3DamageType:WAR3_DMGTYPE;
-			WAR3_DMGTYPE=GetNativeCell(7);
-			
-			decl bool:respectVictimImmunity;
-			respectVictimImmunity=GetNativeCell(8);
-			
-			if(respectVictimImmunity){
-				switch(W3DMGORIGIN){
-					case W3DMGORIGIN_SKILL:  {
-						if(W3HasImmunity(victim,Immunity_Skills) ){
-							return false;
-						}
+		
+		
+		decl War3DamageOrigin:W3DMGORIGIN;
+		W3DMGORIGIN=GetNativeCell(6);
+		decl War3DamageType:WAR3_DMGTYPE;
+		WAR3_DMGTYPE=GetNativeCell(7);
+		
+		decl bool:respectVictimImmunity;
+		respectVictimImmunity=GetNativeCell(8);
+		
+		if(respectVictimImmunity){
+			switch(W3DMGORIGIN){
+				case W3DMGORIGIN_SKILL:  {
+					if(W3HasImmunity(victim,Immunity_Skills) ){
+						return false;
 					}
-					case W3DMGORIGIN_ULTIMATE:  {
-						if(W3HasImmunity(victim,Immunity_Ultimates) ){
-							return false;
-						}
+				}
+				case W3DMGORIGIN_ULTIMATE:  {
+					if(W3HasImmunity(victim,Immunity_Ultimates) ){
+						return false;
 					}
-					case W3DMGORIGIN_ITEM:  {
-						if(W3HasImmunity(victim,Immunity_Items) ){
-							return false;
-						}
+				}
+				case W3DMGORIGIN_ITEM:  {
+					if(W3HasImmunity(victim,Immunity_Items) ){
+						return false;
 					}
-					
 				}
 				
-				
-				switch(WAR3_DMGTYPE){
-					case W3DMGTYPE_PHYSICAL:  {
-						if(W3HasImmunity(victim,Immunity_PhysicalDamage) ){
-							return false;
-						}
+			}
+			
+			
+			switch(WAR3_DMGTYPE){
+				case W3DMGTYPE_PHYSICAL:  {
+					if(W3HasImmunity(victim,Immunity_PhysicalDamage) ){
+						return false;
 					}
-					case W3DMGTYPE_MAGIC:  {
-						if(W3HasImmunity(victim,Immunity_MagicDamage) ){
-							return false;
-						}
+				}
+				case W3DMGTYPE_MAGIC:  {
+					if(W3HasImmunity(victim,Immunity_MagicDamage) ){
+						return false;
 					}
 				}
 			}
-			new bool:countAsFirstTriggeredDamage;
-			countAsFirstTriggeredDamage=GetNativeCell(9);
-			
-			if(countAsFirstTriggeredDamage){
-				nextDamageIsWarcraftDamage=false;
-			}
-			else {
-				nextDamageIsWarcraftDamage=true;
-			}
+		}
+		new bool:countAsFirstTriggeredDamage;
+		countAsFirstTriggeredDamage=GetNativeCell(9);
 		
-			new bool:settobullet=bool:W3GetDamageIsBullet(); //just in case someone dealt damage inside this forward and made it "not bullet"
-			new Float:oldDamageMulti=damageModifierPercent; //nested damage woudl change the first triggering damage multi
-			/////TO DO: IMPLEMENT PHYAISCAL AND MAGIC ARMOR
-			
-			actualdamagedealt=damage;
-			decl oldcsarmor;
-			if((WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG||WAR3_DMGTYPE==W3DMGTYPE_MAGIC)&&War3_GetGame()==CS){
-				oldcsarmor=War3_GetCSArmor(victim);
-				War3_SetCSArmor(victim,0) ;
-			}
-			
-			nextDamageIsTrueDamage=(WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG);
+		if(countAsFirstTriggeredDamage){
+			g_NextDamageIsWarcraftDamage=false;
+		}
+		else {
+			g_NextDamageIsWarcraftDamage=true;
+		}
+		g_CurDamageIsWarcraft=g_NextDamageIsWarcraftDamage;
+		///sdk immediately follows, we must expose this to posthurt once sdk exists
+		//new bool:settobullet=bool:W3GetDamageIsBullet(); //just in case someone dealt damage inside this forward and made it "not bullet"
+	 
 		
-			
-			if(damage<1){
-				damage=1;
-			}
+	
 		
-			
-			//decl oldvictimhp;
-			//oldvictimhp=GetClientHealth(victim);
-			
+		decl oldcsarmor;
+		if((WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG||WAR3_DMGTYPE==W3DMGTYPE_MAGIC)&&War3_GetGame()==CS){
+			oldcsarmor=War3_GetCSArmor(victim);
+			War3_SetCSArmor(victim,0) ;
+		}
+		
+		g_NextDamageIsTrueDamage=(WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG);
+		g_CurDamageIsTrueDamage=(WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG);
+		
+		if(damage<1){
+			damage=1;
+		}
+	
 
-			
-			decl String:dmg_str[16];
-			IntToString(damage,dmg_str,sizeof(dmg_str));
-			decl String:dmg_type_str[32];
-			IntToString(dmg_type,dmg_type_str,sizeof(dmg_type_str));
-			
-			new pointHurt=CreateEntityByName("point_hurt");
-			if(pointHurt)
+		#if defined DEBUG
+		DP2("dealdamage %d->%d {",attacker,victim);
+		teststack++;
+		#endif
+		
+		decl String:dmg_str[16];
+		IntToString(damage,dmg_str,sizeof(dmg_str));
+		decl String:dmg_type_str[32];
+		IntToString(dmg_type,dmg_type_str,sizeof(dmg_type_str));
+		
+		new pointHurt=CreateEntityByName("point_hurt");
+		if(pointHurt)
+		{
+			//	PrintToChatAll("%d %d %d",victim,damage,g_CurActualDamageDealt);
+			DispatchKeyValue(victim,"targetname","war3_hurtme"); //set victim as the target for damage
+			DispatchKeyValue(pointHurt,"Damagetarget","war3_hurtme");
+			DispatchKeyValue(pointHurt,"Damage",dmg_str);
+			DispatchKeyValue(pointHurt,"DamageType",dmg_type_str);
+			if(!StrEqual(weapon,""))
 			{
-			//	PrintToChatAll("%d %d %d",victim,damage,actualdamagedealt);
-				DispatchKeyValue(victim,"targetname","war3_hurtme"); //set victim as the target for damage
-				DispatchKeyValue(pointHurt,"Damagetarget","war3_hurtme");
-				DispatchKeyValue(pointHurt,"Damage",dmg_str);
-				DispatchKeyValue(pointHurt,"DamageType",dmg_type_str);
-				if(!StrEqual(weapon,""))
-				{
-					DispatchKeyValue(pointHurt,"classname",weapon);
-				}
-				else{
-					DispatchKeyValue(pointHurt,"classname","war3_point_hurt");
-				}
-				DispatchSpawn(pointHurt);
-				AcceptEntityInput(pointHurt,"Hurt",(attacker>0)?attacker:-1);
-				//DispatchKeyValue(pointHurt,"classname","point_hurt");
-				DispatchKeyValue(victim,"targetname","war3_donthurtme"); //unset the victim as target for damage
-				RemoveEdict(pointHurt);
-			//	PrintToChatAll("%d %d %d",victim,damage,actualdamagedealt);
+				DispatchKeyValue(pointHurt,"classname",weapon);
 			}
-			/*point_hurtEntity=CreateEntityByName("point_hurt");
-			if(point_hurtEntity)
-			{
-				
-				DispatchKeyValue(victim,"targetname","war3_hurtme"); //set victim as the target for damage
-				DispatchKeyValue(point_hurtEntity,"Damagetarget","war3_hurtme");
-				DispatchKeyValue(point_hurtEntity,"Damage",dmg_str);
-				DispatchKeyValue(point_hurtEntity,"DamageType",dmg_type_str);
-				
-				if(!StrEqual(weapon,""))
-				{
-					DispatchKeyValue(point_hurtEntity,"classname",weapon);
-				}
-				else{
-					DispatchKeyValue(point_hurtEntity,"classname","war3_point_hurt");
-				}
-				DispatchSpawn(point_hurtEntity);
-				AcceptEntityInput(point_hurtEntity,"Hurt",(attacker>0)?attacker:-1);
-				
-				DispatchKeyValue(victim,"targetname","war3_donthurtme"); //unset the victim as target for damage
-				RemoveEdict(point_hurtEntity);
-			}*/
-			
-			//PrintToChatAll("damagestack after dealdamage = %d len %d",DamageStack[DamageStackLen+1],DamageStackLen);
-			actualdamagedealt=DamageStack[DamageStackLen+1];
-			/*   ///after damage is dealt
-			if(IsPlayerAlive(victim)){
-				actualdamagedealt=oldvictimhp-GetClientHealth(victim);
-				//PrintToChatAll("victim still alive: remaining hp %d with, %d damage dealt?",GetClientHealth(victim),actualdamagedealt);
+			else{
+				DispatchKeyValue(pointHurt,"classname","war3_point_hurt");
 			}
-			else{    
-			
-				//he died, estimate ddamage dealt with armor
-				
-				if(WAR3_DMGTYPE==W3DMGTYPE_PHYSICAL){
-					damage=RoundFloat(FloatMul(W3GetPhysicalArmorMulti(victim),float(damage)));
-				}
-				else if(WAR3_DMGTYPE==W3DMGTYPE_MAGIC){
-					damage=RoundFloat(FloatMul(W3GetMagicArmorMulti(victim),float(damage)));
-				}
-				
-				actualdamagedealt=damage;
-				//PrintToChatAll("victim is dead, assumed damge = %d",actualdamagedealt);
-				
-			}*/
-			if((WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG||WAR3_DMGTYPE==W3DMGTYPE_MAGIC)&&War3_GetGame()==CS){
-				War3_SetCSArmor(victim,oldcsarmor);
-			}
-			
-			if(settobullet){
-				W3ForceDamageIsBullet(); //just in case someone dealt damage inside this forward and made it "not bullet"
-			}
-			damageModifierPercent=oldDamageMulti;
+			DispatchSpawn(pointHurt);
+			AcceptEntityInput(pointHurt,"Hurt",(attacker>0)?attacker:-1);
+			//DispatchKeyValue(pointHurt,"classname","point_hurt");
+			DispatchKeyValue(victim,"targetname","war3_donthurtme"); //unset the victim as target for damage
+			RemoveEdict(pointHurt);
+			//	PrintToChatAll("%d %d %d",victim,damage,g_CurActualDamageDealt);
 		}
-		else{
-			return false;
+		//damage has been dealt BY NOW
+		
+		if((WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG||WAR3_DMGTYPE==W3DMGTYPE_MAGIC)&&War3_GetGame()==CS){
+			War3_SetCSArmor(victim,oldcsarmor);
 		}
+		
+		if(g_CurLastActualDamageDealt==-88){
+			g_CurLastActualDamageDealt=0;
+			whattoreturn=false;
+		}
+		
+		g_CurDamageIsWarcraft= old_IsWarcraftDamage;
+	
+		g_CurDamageIsTrueDamage = old_IsTrueDamage;
+		
+		g_NextDamageIsWarcraftDamage=old_NextDamageIsWarcraftDamage; 
+		g_NextDamageIsTrueDamage=old_NextDamageIsTrueDamage;
 	}
-	return true;
+	else{
+		//player is already dead
+		whattoreturn=false;
+	}
+	#if defined DEBUG
+	teststack--;
+	DP2("dealdamage %d->%d }",attacker,victim);
+	#endif
+	
+	
+	return whattoreturn;
 }
 public Native_War3_GetWar3DamageDealt(Handle:plugin,numParams) {
-	return actualdamagedealt;
+	return g_CurLastActualDamageDealt;
 }
