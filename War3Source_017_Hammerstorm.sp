@@ -152,7 +152,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 						if(GetVectorDistance(OriginalVictimPos,VictimPos)<=dist)
 						{
 							War3_DealDamage(i,splashdmg,attacker,_,"greatcleave");
-							W3PrintSkillDmgConsole(i,attacker,War3_GetWar3DamageDealt(),"greatcleave");
+							W3PrintSkillDmgConsole(i,attacker,War3_GetWar3DamageDealt(),SKILL_CLEAVE);
 						}
 					}
 				}
@@ -195,7 +195,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 							if(GetClientTeam(i)!=AttackerTeam&&!W3HasImmunity(client,Immunity_Skills))
 							{
 								War3_DealDamage(i,damage,client,DMG_BURN,"stormbolt",W3DMGORIGIN_SKILL);
-								W3PrintSkillDmgConsole(i,client,War3_GetWar3DamageDealt(),"stormbolt");
+								W3PrintSkillDmgConsole(i,client,War3_GetWar3DamageDealt(),SKILL_BOLT);
 								
 								W3SetPlayerColor(i,thisRaceID, StormCol[0], StormCol[1], StormCol[2], StormCol[3]); 
 								War3_SetBuff(i,bStunned,thisRaceID,true);
