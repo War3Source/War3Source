@@ -117,12 +117,14 @@ public Action:SecondTimer(Handle:t){
 		if(backoffcounter>20){
 			backoffcounter=20;
 		}
-		return;
 	}
 	
 	new initiates=MAXSOCKETS;
 	if(backoffcounter>0&&backoffcounter<10){ //only allow 1 socket if errored not long ago
 		initiates=1;
+	}
+	else if(backoffcounter==0){
+		initiates=MAXSOCKETS;
 	}
 	while(socketCount<MAXSOCKETS&&initiates>0){
 		initiates--;

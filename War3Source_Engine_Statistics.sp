@@ -69,7 +69,7 @@ public OnPluginStart()
 	
 	CreateTimer(1.0,ExecOnceTimer);
 	
-	CreateTimer(10.0,UpdateServerInfo,_,TIMER_REPEAT);
+	CreateTimer(1.0,UpdateServerInfo,_,TIMER_REPEAT);
 	CreateTimer(5.0,UpdateServerInfo);
 	
 	CreateTimer(60.0,MinuteTimer,_,TIMER_REPEAT);
