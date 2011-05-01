@@ -329,7 +329,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 						//SetEntityZHealth(victim,new_health);
 						if(War3_DealDamage(victim,health_take,attacker,_,"orccrit",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL,true))
 						{	
-							W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),"Critical Strike");
+							W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_CRIT);
 							
 							
 							/*War3_DamageModPercent(percent);
@@ -410,7 +410,7 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 						//SetEntityZHealth(victim,new_health);
 						if(War3_DealDamage(victim,health_take,attacker,_,"criticalnade",W3DMGORIGIN_SKILL,W3DMGTYPE_TRUEDMG))
 						{
-							W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),"Critical Nade");
+							W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_NADE_INVIS);
 							W3FlashScreen(victim,RGBA_COLOR_RED);
 							if(onehp){
 								SetEntityHealth(victim,1); 
