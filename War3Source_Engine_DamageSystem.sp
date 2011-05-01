@@ -40,9 +40,9 @@ new g_NextDamageIsTrueDamage=0;
 
 new dummyresult;
 
-#if defined DEBUG
-new teststack=0;
-#endif
+
+new damagestack=0;
+
 
 public Plugin:myinfo= 
 {
@@ -72,6 +72,8 @@ public bool:InitNativesForwards()
 	CreateNative("War3_DealDamage",Native_War3_DealDamage);
 	CreateNative("War3_GetWar3DamageDealt",Native_War3_GetWar3DamageDealt);
 
+	CreateNative("W3GetDamageStack",NW3GetDamageStack);
+
 
 	FHOnW3TakeDmgAllPre=CreateGlobalForward("OnW3TakeDmgAllPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 	FHOnW3TakeDmgBulletPre=CreateGlobalForward("OnW3TakeDmgBulletPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
@@ -89,6 +91,7 @@ public Native_War3_DamageModPercent(Handle:plugin,numParams)
 	if(!g_CanSetDamageMod){
 		LogError("You may not set damage mod percent here, use ....Pre forward");
 		W3LogError("You may not set damage mod percent here, use ....Pre forward");
+		PrintPlugin(plugin);
 	}
 
 	new Float:num=GetNativeCell(1); 
@@ -113,7 +116,9 @@ public NW3GetDamageIsBullet(Handle:plugin,numParams){
 public NW3ForceDamageIsBullet(Handle:plugin,numParams){
 	g_CurDamageIsWarcraft=false;
 }
-
+public NW3GetDamageStack(Handle:plugin,numParams){
+	return damagestack;
+}
 
 
 
@@ -150,10 +155,11 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		g_CurDamageIsWarcraft=g_NextDamageIsWarcraftDamage;
 		g_CurDamageIsTrueDamage=g_NextDamageIsTrueDamage;
 		
+		
 		#if defined DEBUG
 		DP2("sdktakedamage %d->%d atrace %s damage [%.2f]",attacker,victim,race,damage);
-		teststack++;
 		#endif
+		damagestack++;
 		
 		if(g_CurDamageIsWarcraft){
 			damage=FloatMul(damage,W3GetMagicArmorMulti(victim));
@@ -216,8 +222,10 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		g_CurDamageIsTrueDamage = old_IsTrueDamage;
 		
 		
+		
+		damagestack--;
 		#if defined DEBUG
-		teststack--;
+		
 		DP2("sdktakedamage %d->%d END dmg [%.2f]",attacker,victim,damage);
 		#endif
 	
@@ -240,11 +248,12 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
 	
 	new attacker=GetClientOfUserId(attacker_userid);
 	
+	
+	
 	#if defined DEBUG
 	DP2("PlayerHurt %d->%d  dmg [%d] ",attacker,victim,damage);
-	teststack++;
 	#endif
-
+	damagestack++;
 	
 	new bool:old_CanDealDamage=g_CanDealDamage;
 	g_CanSetDamageMod=true;
@@ -262,11 +271,13 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
 	W3SetVar(SmEvent,oldevent); //restore on stack , if any
 	g_CanDealDamage=old_CanDealDamage;
 	
+	
+	damagestack--;
 	#if defined DEBUG
-	teststack--;
+	
 	DP2("PlayerHurt %d->%d  dmg [%d] END ",attacker,victim,damage);
 	
-	if(	teststack==0){
+	if(	damagestack==0){
 	
 	PrintToServer("   ");
 	PrintToChatAll("   ");
@@ -281,7 +292,7 @@ stock DP2(const String:szMessage[], any:...)
 {
 	new String:szBuffer[1000];
 	new String:pre[132];
-	for(new i=0;i<teststack;i++){
+	for(new i=0;i<damagestack;i++){
 		StrCat(pre,sizeof(pre),"    ");
 	}
 	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
@@ -320,6 +331,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 	if(!g_CanDealDamage){
 		LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
 		W3LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
+		PrintPlugin(plugin);
 	}
 	
 		
@@ -424,7 +436,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 
 		#if defined DEBUG
 		DP2("dealdamage %d->%d {",attacker,victim);
-		teststack++;
+		damagestack++;
 		#endif
 		
 		decl String:dmg_str[16];
@@ -477,7 +489,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 		whattoreturn=false;
 	}
 	#if defined DEBUG
-	teststack--;
+	damagestack--;
 	DP2("dealdamage %d->%d }",attacker,victim);
 	#endif
 	

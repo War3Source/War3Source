@@ -302,8 +302,9 @@ public OnWar3EventSpawn(client)
 	WindWalkReinvisTime[client]=0.0; 
 }
 
-
-public OnW3TakeDmgBullet(victim,attacker,Float:damage)
+new damagestackcritmatch=-1;
+new Float:critpercent=0.0;
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
 	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 	{
@@ -321,27 +322,10 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 					new Float:chance=0.15*chance_mod;
 					if( GetRandomFloat(0.0,1.0)<=chance && !W3HasImmunity(victim,Immunity_Skills))
 					{
+						damagestackcritmatch=W3GetDamageStack();
 						new Float:percent=CriticalStrikePercent[skill_cs_attacker]; //0.0 = zero effect -1.0 = no damage 1.0=double damage
-						new health_take=RoundFloat(damage*percent);
-						//new new_health=GetClientHealth(victim)-health_take;
-						//if(new_health<0)
-						//	new_health=0;
-						//SetEntityZHealth(victim,new_health);
-						if(War3_DealDamage(victim,health_take,attacker,_,"orccrit",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL,true))
-						{	
-							W3PrintSkillDmgHintConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_CRIT);
-							
-							
-							/*War3_DamageModPercent(percent);
-							PrintToConsole(attacker,"%.1fX Critical ! ",percent+1.0);
-							PrintHintText(attacker,"Critical !",percent+1.0);
-							
-							PrintToConsole(victim,"Received %.1fX Critical Dmg!",percent+1.0);
-							PrintHintText(victim,"Received Critical Dmg!");
-							*/
-							
-							W3FlashScreen(victim,RGBA_COLOR_RED);
-						}
+						War3_DamageModPercent(percent+1.0);
+						critpercent=percent;
 					}
 				}
 			}
@@ -354,6 +338,17 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 	if(victim>0&&attacker>0&&victim!=attacker)
 	{
 		new race_attacker=War3_GetRace(attacker);
+		
+		if(race_attacker==thisRaceID)
+		{
+			if(damagestackcritmatch==W3GetDamageStack()){
+				damagestackcritmatch=-1;
+				W3PrintSkillDmgHintConsole(victim,attacker,RoundFloat(float(dmg)*critpercent/(critpercent+1.0)),SKILL_CRIT);	
+				W3FlashScreen(victim,RGBA_COLOR_RED);	
+			}
+		}
+			
+			
 		if(War3_GetGame()==Game_TF)
 		{
 			if(race_attacker==thisRaceID)
@@ -366,6 +361,9 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 					War3_SetBuff(attacker,bInvisibilityDenySkill,thisRaceID,true); // make them visible, override so shop can't screw up
 					WindWalkReinvisTime[attacker]=GetGameTime()+fix_delay;
 				}
+				
+				
+				
 			}
 			//getting hurt = no invis allowed
 			if(War3_GetRace(victim)==thisRaceID){
@@ -380,7 +378,7 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 		}
 		else   //cs
 		{
-		
+			
 			new skill_cg_attacker=War3_GetSkillLevel(attacker,race_attacker,SKILL_NADE_INVIS);
 			if(race_attacker==thisRaceID && skill_cg_attacker>0 && !Hexed(attacker,false))
 			{

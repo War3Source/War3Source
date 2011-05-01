@@ -527,7 +527,8 @@ native W3ForceDamageIsBullet();
 //use this function after you have dealt damage inside a takedmg
 //so you can allow other isdmgbullet proc
 
-
+//get the depth of the damage stack, usually 1 or more
+native W3GetDamageStack();
 
 
 /**
@@ -2104,6 +2105,11 @@ stock DP(const String:szMessage[], any:...)
 
 }
 
+stock PrintPlugin(Handle:plugin){
+	new String:str[100];
+	GetPluginFilename(Handle:plugin, str, sizeof(str));
+	W3LogNotError("%s",str);
+}
 
 
 

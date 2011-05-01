@@ -154,10 +154,8 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 }
 public OnWar3EventPostHurt(victim,attacker,damage)
 {
-
 	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
-		
 		if(War3_GetRace(victim)==thisRaceID)
 		{
 			new skill_level=War3_GetSkillLevel(victim,thisRaceID,SKILL_SPIKE);

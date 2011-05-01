@@ -44,7 +44,7 @@ public OnSHLoadHeroOrItemOrdered(num)
 	}
 }
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage)
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
 	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 	{

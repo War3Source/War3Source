@@ -125,11 +125,19 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 				// GODS STRENGTH!
 				skilllvl = War3_GetSkillLevel(attacker,thisRaceID,ULT_STRENGTH);
 				War3_DamageModPercent(GodsStrength[skilllvl]);
-				// For Cleave...
-				damage = damage * GodsStrength[skilllvl];
+				
 			}
+		}
+	}
+}
+			
+public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+	if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))
+	{
+		if(War3_GetRace(attacker)==thisRaceID)
+		{
 			// Cleave
-			skilllvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_CLEAVE);
+			new skilllvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_CLEAVE);
 			new splashdmg = RoundToFloor(damage * CleaveMultiplier[skilllvl]);
 			// AWP? AWP!
 			if(splashdmg>40)

@@ -1,4 +1,4 @@
-s
+
 1.2.1
 
 B8
@@ -6,6 +6,22 @@ B8
 limit outstanding socket 2 connections to 200
 player class property: LastChangeTeamTime to remember when the player last changed team
 removing a player from a limited race is now by LastChangeTeamTime
+Damage Engine improved
+
+Checks for when dealdamage and damageModPercent can be called for consistency
+damagemodpercent can only be called in:
+forward OnW3TakeDmgAllPre(victim,attacker,Float:damage);  
+forward OnW3TakeDmgBulletPre(victim,attacker,Float:damage);  
+dealdamage can NOT be called on the above.
+native W3GetDamageStack(); to get the stack depth
+
+Races modified to fit the damage system
+ORC prints correct damage
+return damage based on post hurt, real damage values
+
+stock W3PrintSkillDmgConsole(victim=0,attacker,damage,skillnum){
+stock W3PrintSkillDmgHint(victim=0,attacker,damage,SKILLNUM){
+now takes the skill num in the last argument instead of the skill name, automatically gets the correct translation
 
 B7
 
