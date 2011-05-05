@@ -24,6 +24,7 @@ stock W3PrintSkillDmgHint(victim=0,attacker,damage,SKILLNUM){
 now takes the skill num in the last argument instead of the skill name, automatically gets the correct translation
 
 stats engine sockets 1 merged with sockets 2. Queues requests on error / timeout
+
 B7
 
 fixed OnRaceChanged and OnRaceSelected

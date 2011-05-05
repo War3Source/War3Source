@@ -26,6 +26,8 @@ new Float:lastserverinfoupdate;
 
 new bool:collectwlstats; //win loss stats
 new bool:collectkdstats;
+
+new Handle:hUpdateTimer;
 public Plugin:myinfo= 
 {
 	name="W3S Engine Statistics",
@@ -69,8 +71,8 @@ public OnPluginStart()
 	
 	CreateTimer(1.0,ExecOnceTimer);
 	
-	CreateTimer(1.0,UpdateServerInfo,_,TIMER_REPEAT);
-	CreateTimer(5.0,UpdateServerInfo);
+	
+	hUpdateTimer=CreateTimer(5.0,UpdateServerInfo,_,TIMER_REPEAT);
 	
 	CreateTimer(60.0,MinuteTimer,_,TIMER_REPEAT);
 	
@@ -94,6 +96,7 @@ public OnPluginStart()
 	
 	GetGameFolderName(game,32);
 
+	RegConsoleCmd("w3hyperupdate",cmdhyperupdate);
 	return;
 }
 
@@ -131,7 +134,17 @@ public Action:cmdupdatestatus(client,args){
 		}
 	}
 }
-
+public Action:cmdhyperupdate(client,args){
+	if(args>0){
+		CloseHandle(hUpdateTimer);
+		
+		new String:argzs[6];
+		GetCmdArg(1,argzs,sizeof(argzs));
+		new Float:updateinterval=StringToFloat(argzs);
+		PrintToServer("update interval %f ",updateinterval);
+		hUpdateTimer=CreateTimer(updateinterval,UpdateServerInfo,_,TIMER_REPEAT);
+	}
+}
 
 public OnMapStart(){
 	
@@ -249,6 +262,8 @@ public Action:UpdateServerInfo(Handle:t,any:a){
 	Format(longquery,sizeof(longquery),"hostname=%s&version=%s&game=%s&map=%s&players=%d&maxplayers=%d&ip=%s:%d",hostname,ourversion,gameencoded,mapname,clientcount,MaxClients,ipencoded,serverport);
 	
 	W3Socket2("w3stat/serverinfo.php",longquery,SockCallbackServerInfo);
+	
+	
 }
 public SockCallbackServerInfo(bool:success,fail,String:ret[])
 {

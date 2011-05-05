@@ -28,7 +28,7 @@ public Plugin:myinfo = {
 
 public OnPluginStart() {
 	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
-	CreateTimer(5.0,SecondTimer,_,TIMER_REPEAT);
+	CreateTimer(0.1,DeciTimer,_,TIMER_REPEAT);
 	socketQueue=CreateArray();
 }
 //public Action:PrintTrieCount(Handle:t){
@@ -111,16 +111,16 @@ InitiateSocket(Handle:trie){
 		W3LogError("Create Socket Failed");
 	}
 }
-public Action:SecondTimer(Handle:t){
+public Action:DeciTimer(Handle:t){
 	if(backoffcounter>0){
 		backoffcounter--;
-		if(backoffcounter>20){
-			backoffcounter=20;
+		if(backoffcounter>200){
+			backoffcounter=200;
 		}
 	}
 	
 	new initiates=MAXSOCKETS;
-	if(backoffcounter>0&&backoffcounter<10){ //only allow 1 socket if errored not long ago
+	if(backoffcounter>0&&backoffcounter<100){ //only allow 1 socket if errored not long ago
 		initiates=1;
 	}
 	else if(backoffcounter==0){
@@ -218,7 +218,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	Call_PushString(exploded[1]);
 	Call_Finish(dummy);
 	
-	SecondTimer(INVALID_HANDLE);
+	DeciTimer(INVALID_HANDLE);
 }
 
 public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
