@@ -294,10 +294,12 @@ public OnClientPutInServer(client)
 		//DP("PUTIN");
 	if(W3()){
 			//DP("PUTINW3");
+		W3SetPlayerProp(client,xpLoaded,false); //set race 0 may trigger unwanted behavior, block it first
+		W3CreateEvent(InitPlayerVariables,client); 
 		W3SetPlayerProp(client,xpLoaded,false);
 	
-		W3CreateEvent(ClearPlayerVariables,client); 
-		W3CreateEvent(InitPlayerVariables,client); 
+//		W3CreateEvent(ClearPlayerVariables,client); 
+		
 		
 		if(IsFakeClient(client)){
 			W3SetPlayerProp(client,xpLoaded,true);

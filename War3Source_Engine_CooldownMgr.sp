@@ -113,11 +113,11 @@ public NWar3_TrackDelay(Handle:plugin,numParams)
 {
 	new index=GetNativeCell(1);
 	new Float:delay=GetNativeCell(2);
-	expireTime[index]=GetGameTime()+delay;
+	expireTime[index]=GetEngineTime()+delay;
 }
 public NWar3_TrackDelayExpired(Handle:plugin,numParams)
 {
-	return GetGameTime()>expireTime[GetNativeCell(1)];
+	return GetEngineTime()>expireTime[GetNativeCell(1)];
 }
 	
 public NW3SkillCooldownOnSpawn(Handle:plugin,numParams)
@@ -169,7 +169,7 @@ public Native_War3_CooldownRMN(Handle:plugin,numParams) //cooldown remaining tim
 		
 		new index=GetCooldownIndexByCRS(client,raceid,skillNum);
 		if(index>0){
-			return RoundToCeil(Cooldown[index][cexpiretime]-GetGameTime());
+			return RoundToCeil(Cooldown[index][cexpiretime]-GetEngineTime());
 		}
 		return _:0.0;
 	}
@@ -279,7 +279,7 @@ Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSp
 			Cooldown[indextouse-1][cnext]=indextouse; //previous guy points to you
 		}
 		
-		Cooldown[indextouse][cexpiretime]=GetGameTime()+cooldownTime;
+		Cooldown[indextouse][cexpiretime]=GetEngineTime()+cooldownTime;
 		Cooldown[indextouse][cclient]=client;
 		Cooldown[indextouse][crace]=raceid;
 		Cooldown[indextouse][cskill]=skillNum;
@@ -293,10 +293,10 @@ public Action:DeciSecondTimer(Handle:h,any:data){
 	
 	CheckCooldownsForExpired(false);
 }
-CheckCooldownsForExpired(bool:expirespawn,client=0)
+CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 {
 	
-	new Float:currenttime=GetGameTime();
+	new Float:currenttime=GetEngineTime();
 	new tempnext;
 	new skippedfrom;
 	for(new i=0;i<MAXCOOLDOWNS;i++){
@@ -309,7 +309,7 @@ CheckCooldownsForExpired(bool:expirespawn,client=0)
 				expired=true;
 				bytime=true;
 			}
-			else if(expirespawn&&Cooldown[i][cclient]==client&&Cooldown[i][cexpireonspawn]){
+			else if(expirespawn&&Cooldown[i][cclient]==clientthatspawned&&Cooldown[i][cexpireonspawn]){
 				expired=true;
 			}
 			
@@ -331,6 +331,9 @@ CheckCooldownsForExpired(bool:expirespawn,client=0)
 				
 				i=skippedfrom;
 			}
+			else{
+				W3Hint(Cooldown[i][cclient],HINT_COOLDOWN_COUNTDOWN,4.0,"z%d %d %f ",Cooldown[i][crace],Cooldown[i][cskill],GetEngineTime()-Cooldown[i][cexpiretime]);
+			}
 		}
 		tempnext=Cooldown[i][cnext];
 	
@@ -346,7 +349,7 @@ CheckCooldownsForExpired(bool:expirespawn,client=0)
 
 CooldownResetByCRS(client,raceid,skillnum){
 	if(CooldownPointer[client][raceid][skillnum]>0){
-		Cooldown[CooldownPointer[client][raceid][skillnum]][cexpiretime]=GetGameTime(); ///lol
+		Cooldown[CooldownPointer[client][raceid][skillnum]][cexpiretime]=GetEngineTime(); ///lol
 	}
 }
 CooldownExpired(i,bool:expiredByTimer)
@@ -364,7 +367,7 @@ CooldownExpired(i,bool:expiredByTimer)
 				SetTrans(client);
 				W3GetRaceSkillName(raceid,skillNum,skillname,sizeof(skillname));
 				//{ultimate} is just an argument, we fill it in with skillname
-				PrintHintText(client,"%T","{ultimate} Is Ready",client,skillname);
+				//PrintHintText(client,"%T","{ultimate} Is Ready",client,skillname);
 		
 			
 				EmitSoundToAll( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);

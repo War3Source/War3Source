@@ -993,6 +993,7 @@ native W3GetDamageInflictor();
 //helper, directly uses last inflictor and damagetype
 native Float:W3ChanceModifier(attacker);
 
+native  W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
 
 //for activatable skills only
 stock bool:SkillAvailable(client,yourRaceID,skillnumber,bool:printCooldown=true,bool:checksilenced=true,bool:printSilenced=true){	

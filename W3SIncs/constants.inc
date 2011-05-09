@@ -513,6 +513,36 @@ enum War3SQLType
 	SQLType_SQLite,
 }
 
+
+enum W3HintPriority{
+	HINT_SKILL_STATUS, //"TELEPORTED!"
+	HINT_DMG_DEALT,
+	HINT_DMG_RCVD,
+	HINT_COOLDOWN_EXPIRED,
+	HINT_COOLDOWN_COUNTDOWN,
+	HINT_LOWEST,
+	
+	HINT_SIZE, //do not use this as priority
+}
+enum W3HintPriorityMultiType{
+	HINT_TYPE_SINGLE=0,	//show single, overrides old
+	HINT_TYPE_ALL,		//show all of them
+	HINT_TYPE_QUEUE,	//queue each one
+}
+//functio to retreve these constants
+stock any:W3GetHintPriorityType(W3HintPriority:priority){
+	switch(priority){
+		case HINT_SKILL_STATUS: return HINT_TYPE_ALL;
+		case HINT_DMG_DEALT: return HINT_TYPE_ALL;
+		case HINT_DMG_RCVD: return HINT_TYPE_ALL;
+		case HINT_COOLDOWN_EXPIRED:  return HINT_TYPE_ALL;
+		case HINT_COOLDOWN_COUNTDOWN:  return HINT_TYPE_SINGLE;
+		case HINT_LOWEST:  return HINT_TYPE_QUEUE;
+	}
+	return -1;
+}
+
+
 // The following are color presets for the War3_FlashScreen function
 #define RGBA_COLOR_RED		{255,0,0,4}
 #define RGBA_COLOR_GREEN	{0,255,0,3}

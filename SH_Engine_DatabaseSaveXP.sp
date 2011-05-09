@@ -198,9 +198,12 @@ public Action:DoAutosave(Handle:timer,any:data)
 public OnClientPutInServer(client)
 {
 	if(SH()){
+		W3SetPlayerProp(client,xpLoaded,false); //set race 0 may trigger unwanted behavior, block it first
+		W3CreateEvent(InitPlayerVariables,client); 
 		W3SetPlayerProp(client,xpLoaded,false);
 		
-		W3CreateEvent(ClearPlayerVariables,client); 
+//		W3CreateEvent(ClearPlayerVariables,client); 
+		
 		
 		if(W3SaveEnabled())
 		{

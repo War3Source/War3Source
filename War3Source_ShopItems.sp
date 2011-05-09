@@ -293,6 +293,7 @@ public OnItemPurchase(client,item)
 	}
 }
 
+//deactivate BUFFS AND PASSIVES
 public OnItemLost(client,item){ //deactivate passives , client may have disconnected
 	if(item==shopItem[SOCK])
 	{
@@ -321,6 +322,62 @@ public OnItemLost(client,item){ //deactivate passives , client may have disconne
 		War3_SetBuffItem(client,fHPRegen,shopItem[RING],0.0);
 	}
 }
+///change ownership only, DO NOT RESET BUFFS here, do that in OnItemLost
+public OnWar3EventDeath(client){
+	bDidDie[client]=true;
+	
+	if(War3_GetOwnsItem(client,shopItem[BOOTS])) // boots
+	{
+		War3_SetOwnsItem(client,shopItem[BOOTS],false);
+		War3_SetBuffItem(client,fMaxSpeed,shopItem[BOOTS],1.0);
+	}
+	if(War3_GetOwnsItem(client,shopItem[SOCK]))
+	{
+		War3_SetOwnsItem(client,shopItem[SOCK],false);
+		War3_SetBuffItem(client,fLowGravityItem,shopItem[SOCK],1.0);
+	}
+	if(War3_GetOwnsItem(client,shopItem[CLAW])) // claws
+	{
+		War3_SetOwnsItem(client,shopItem[CLAW],false);
+	}
+	if(War3_GetOwnsItem(client,shopItem[CLOAK]))
+	{
+		War3_SetOwnsItem(client,shopItem[CLOAK],false); // cloak
+		War3_SetBuffItem(client,fInvisibilityItem,shopItem[CLOAK],1.0);
+	}
+	if(War3_GetOwnsItem(client,shopItem[MASK]))
+	{
+		War3_SetOwnsItem(client,shopItem[MASK],false); // mask of death
+	}
+	if(War3_GetOwnsItem(client,shopItem[NECKLACE])) // immunity
+	{
+		War3_SetOwnsItem(client,shopItem[NECKLACE],false);
+	}
+	if(War3_GetOwnsItem(client,shopItem[FROST])) // orb of frost
+	{
+		War3_SetOwnsItem(client,shopItem[FROST],false);
+	}
+	if(War3_GetOwnsItem(client,shopItem[HEALTH]))
+	{
+		War3_SetOwnsItem(client,shopItem[HEALTH],false);
+	}
+	if(War3_GetGame()==Game_CS && War3_GetOwnsItem(client,shopItem[GLOVES])) // gloves
+	{
+		War3_SetOwnsItem(client,shopItem[GLOVES],false);
+	}
+	if(War3_GetOwnsItem(client,shopItem[RING])) // regen
+	{
+		War3_SetOwnsItem(client,shopItem[RING],false);
+		
+	}
+	//dont delete mole
+	if(War3_GetGame()!=Game_TF && War3_GetOwnsItem(client,shopItem[RESPAWN]))//&&!bSpawnedViaScrollRespawn[client])
+	{
+		CreateTimer(1.25,RespawnPlayerViaScrollRespawn,client);  ///default orc is 1.0, 1.25 so orc activates first
+		
+	}
+}
+
 public Action:DoAnkhAction(Handle:t,any:client){ //just respawned, passed that he didnt respawn from scroll, too bad if he respawned from orc or mage
 	GivePlayerCachedDeathWPNFull(INVALID_HANDLE,client);
 	War3_SetOwnsItem(client,shopItem[ANKH],false);
@@ -541,67 +598,6 @@ public OnWar3EventSpawn(client){
 	
 }
 
-public OnWar3EventDeath(client){
-	bDidDie[client]=true;
-	
-	if(/*War3_GetGame()!=Game_TF &&*/ War3_GetOwnsItem(client,shopItem[BOOTS])) // boots
-	{
-		War3_SetOwnsItem(client,shopItem[BOOTS],false);
-		War3_SetBuffItem(client,fMaxSpeed,shopItem[BOOTS],1.0);
-		//War3_SetMaxSpeed(client,1.0,shopItem[1]);
-	}
-	if(War3_GetOwnsItem(client,shopItem[SOCK]))
-	{
-		War3_SetOwnsItem(client,shopItem[SOCK],false);
-		//War3_SetMinGravity(client,1.0,shopItem[10]);
-		War3_SetBuffItem(client,fLowGravityItem,shopItem[SOCK],1.0);
-	}
-	if(War3_GetOwnsItem(client,shopItem[CLAW])) // claws
-	{
-		War3_SetOwnsItem(client,shopItem[CLAW],false);
-	}
-	if(War3_GetOwnsItem(client,shopItem[CLOAK]))
-	{
-		War3_SetOwnsItem(client,shopItem[CLOAK],false); // cloak
-		//War3_SetMinAlpha(client,255,shopItem[3]);
-		War3_SetBuffItem(client,fInvisibilityItem,shopItem[CLOAK],1.0);
-	}
-	if(War3_GetOwnsItem(client,shopItem[MASK]))
-	{
-		War3_SetOwnsItem(client,shopItem[MASK],false); // mask of death
-	}
-	if(War3_GetOwnsItem(client,shopItem[NECKLACE])) // immunity
-	{
-		War3_SetOwnsItem(client,shopItem[NECKLACE],false);
-		War3_SetBuffItem(client,bImmunityUltimates,shopItem[NECKLACE],false);
-	}
-	if(War3_GetOwnsItem(client,shopItem[FROST])) // orb of frost
-	{
-		War3_SetOwnsItem(client,shopItem[FROST],false);
-	}
-	if(War3_GetOwnsItem(client,shopItem[HEALTH]))
-	{
-		War3_SetOwnsItem(client,shopItem[HEALTH],false);
-	}
-	
-	if(War3_GetGame()==Game_CS && War3_GetOwnsItem(client,shopItem[GLOVES])) // gloves
-	{
-		War3_SetOwnsItem(client,shopItem[GLOVES],false);
-	}
-	if(War3_GetOwnsItem(client,shopItem[RING])) // regen
-	{
-		War3_SetOwnsItem(client,shopItem[RING],false);
-	}
-	//dont delete mole
-
-	
-	if(War3_GetGame()!=Game_TF && War3_GetOwnsItem(client,shopItem[RESPAWN]))//&&!bSpawnedViaScrollRespawn[client])
-	{
-		CreateTimer(1.25,RespawnPlayerViaScrollRespawn,client);  ///default orc is 1.0, 1.25 so orc activates first
-		
-	}
-
-}
 
 public Action:RespawnPlayerViaScrollRespawn(Handle:h,any:client)
 {

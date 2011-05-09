@@ -1,6 +1,12 @@
 
 1.2.1
 
+
+B9
+
+fixed ring regen leak
+
+
 B8
 
 limit outstanding socket 2 connections to 200

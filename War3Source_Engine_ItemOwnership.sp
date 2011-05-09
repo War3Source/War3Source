@@ -49,8 +49,31 @@ public NWar3_GetOwnsItem(Handle:plugin,numParams)
 
 public NWar3_SetOwnsItem(Handle:plugin,numParams)
 {
-
-	playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)]=bool:GetNativeCell(3);
+	new client=GetNativeCell(1);
+	new itemid=GetNativeCell(2);
+	new bool:old=playerOwnsItem[client][itemid];
+	playerOwnsItem[client][itemid]=bool:GetNativeCell(3);
+	if(old!=playerOwnsItem[client][itemid]){
+		switch(playerOwnsItem[client][itemid]){
+			case false:{
+				Call_StartForward(g_OnItemLostHandle); 
+				Call_PushCell(client);
+				Call_PushCell(itemid);
+				Call_Finish(dummy);
+			}
+			case true:{
+				Call_StartForward(g_OnItemPurchaseHandle); 
+				Call_PushCell(client);
+				Call_PushCell(itemid);
+				Call_Finish(dummy);
+			}
+			default: {
+				ThrowNativeError(0,"set owns item is not true or false");
+			}
+		}
+	}
+		
+	
 }
 public NW3IsItemDisabledGlobal(Handle:plugin,numParams)
 {
@@ -123,19 +146,11 @@ public OnWar3Event(W3EVENT:event,client){
 		new itemid=W3GetVar(TheItemBoughtOrLost);
 		War3_SetOwnsItem(client,itemid,true);
 	
-		Call_StartForward(g_OnItemPurchaseHandle); 
-		Call_PushCell(client);
-		Call_PushCell(itemid);
-		Call_Finish(dummy);
 	}
 	if(event==DoForwardClientLostItem){
 		new itemid=W3GetVar(TheItemBoughtOrLost);
 		War3_SetOwnsItem(client,itemid,false);
 	
-		Call_StartForward(g_OnItemLostHandle); 
-		Call_PushCell(client);
-		Call_PushCell(itemid);
-		Call_Finish(dummy);
 	}
 	if(event==DoCheckRestrictedItems){
 		CheckForRestrictedItemsOnRace(client);
