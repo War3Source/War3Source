@@ -455,6 +455,7 @@ new String:g_EventKeyList[][32] = {
 };
 
 new Handle:hCurrentEventData = INVALID_HANDLE;
+new Handle:hWCSRaces = INVALID_HANDLE;
  
 public Plugin:myinfo = 
 {
@@ -793,33 +794,36 @@ War3_LoadWCSRaces()
 			}*/
 			new String:raceName[64];
 			KvGetSectionName(curRace, raceName, sizeof(raceName));
-			new String:shortName[16];
+			new numberofskills = KvGetNum(curRace, "_numberofskills");	
+			//WCS_StartCreateRace(raceName, required,maximum,restrictmap,restrictteam,restrictitem,author,desc,spawncmd,deathcmd,roundstartcmd,roundendcmd,preloadcmd,allowonly,onchange,numberofskills,numberoflevels,skillnames,skilldescr,skillcfg,skillneeded);			
+/*			new String:shortName[16];
 			GenShortName(raceName, shortName, sizeof(shortName));
-			// Create the race. Wow, we kick ass.
-			// TODO: Prevent doubles.
-			// A temp place for strings.
-			new String:tString[1024];			
-			// How many skills?
-			KvGetString(curRace, "_numberofskills", tString, sizeof(tString));			
-			new numberOfSkills = StringToInt(tString);
-			// Min level?
-			KvGetString(curRace, "_required", tString, sizeof(tString));
-			new requiredLevel = StringToInt(tString);
-			// Restrict team?
-			KvGetString(curRace, "_restrictteam", tString, sizeof(tString));
-			new restrictTeam = StringToInt(tString);
-			new String:restrictItems[512];
-			KvGetString(curRace, "_restrictitem", restrictItems, sizeof(restrictItems));
-			ReplaceString(restrictItems, sizeof(restrictItems), "|", ",");
-			/*
-	spawncmd           = ""
-	deathcmd           = ""
-	roundstartcmd      = ""
-	roundendcmd        = ""
-	preloadcmd         = "" precaching, etc
-	onchange           = "" race change			
-			*/
-			if(numberOfSkills>=1)
+			*/			
+
+			CloseHandle(curRace); // Close key value.
+			CloseHandle(keysArray); // Close list of all key names.
+		}
+		PrintToServer("Total of %d races", size);
+	}
+	CloseHandle(fileArray); // Close the array of key values.
+}
+
+public OnMapStart()
+{
+	ClearDeletionQueue();
+	ClearArray(hWCSRaces);
+	War3_LoadWCSRaces();
+}
+
+// For ..., there should be numberofskills * 3 params + optional race alias'es in multiples of two params (aliasname, value)
+public WCS_StartCreateRace(const String:raceName[],required,maximum,const String:restrictmap[],restrictteam,const String:restrictitem[],const String:author[],
+				const String:desc[],const String:spawncmd[],const String:deathcmd[],const String:roundstartcmd[],
+				const String:roundendcmd[],const String:preloadcmd[],const String:allowonly[],const String:onchange[],
+				numberofskills,numberoflevels,const String:skillnames[],const String:skilldescr[],const String:skillcfg[],
+				const String:skillneeded[])
+{
+/*
+  			if(numberOfSkills>=1)
 			{
 				PrintToServer("Creating %s (%s) with %d skills", raceName, shortName, numberOfSkills);
 				new raceID = War3_CreateNewRace(raceName, shortName);
@@ -869,19 +873,13 @@ War3_LoadWCSRaces()
 			}
 			else
 			{
-			}					
-			CloseHandle(curRace); // Close key value.
-			CloseHandle(keysArray); // Close list of all key names.
-		}
-		PrintToServer("Total of %d races", size);
-	}
-	CloseHandle(fileArray); // Close the array of key values.
+			}	
+*/
 }
 
-public OnMapStart()
+public WCS_EndCreateRace(raceID)
 {
-	ClearDeletionQueue();
-	War3_LoadWCSRaces();
+	
 }
 
 GenShortName(const String:buffer[], String:out[], maxlen)
@@ -901,6 +899,7 @@ GenShortName(const String:buffer[], String:out[], maxlen)
 public OnPluginStart()
 {
 	g_ToDelete = CreateArray();
+	hWCSRaces = CreateArray();
 	ClearDeletionQueue();
 	RegServerCmd("war3_if", War3EngIf, "Logical statement.");
 	RegServerCmd("war3_xif", War3EngXIf, "Non-expanded logical statement.");		
@@ -1838,7 +1837,7 @@ GetArgCountCustom(const String:buffer[])
 	return argCount;      
 }
 
-public Action:War3GetPlayerLocation(arg_count, bool:expand)
+public Action:War3Effect(arg_count, bool:expand)
 {
 
 	new String:buffer[1024];
