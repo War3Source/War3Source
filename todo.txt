@@ -1,2 +1,4 @@
 hint management system
 damage prints
+spy invis target
+bot xp
