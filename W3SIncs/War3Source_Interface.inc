@@ -827,15 +827,17 @@ stock Entity_SetHealth(entity, health)
  * The skill name of the skill will be in ready and not ready messages.
  * when a cooldown expires (by time, by death, by spawn, by force reset), it will forward to OnCooldownExpired(....) forward, use if u need to
  * @noreturn
+ * 
+ * Usually the first 4 parameters are enough  
  */  
-native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
+native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,         bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
 
 //tells the cooldown manager to create a predefined cooldown time when player spawns with that race. 
 //cooldown is created regardless of resetOnSpawn in War3_CooldownMGR(...) calls
-//cooldown is created regardless of race of the client
-//only prints if client is that race
-//set this when u register your skills
+//only prints expired if client remains that race
+//set this ONCE when u register your skills
 native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsgonexpire=true);
+
 /**
  * how much time is left on this particular cooldown?
  * returns an int (rounted up from the float)
@@ -844,7 +846,7 @@ native War3_CooldownRemaining(client,raceid,skillNum);
 
 
 /**
- * basically make this cooldown expire, expiring is not considered "by time"
+ * basically make this cooldown expire, this expiration is not considered "by time"
  */  
 native War3_CooldownReset(client,raceid,skillNum);  
 
@@ -852,7 +854,7 @@ native War3_CooldownReset(client,raceid,skillNum);
 /**
  * is this skill NOT in COOLDOWN? YOU NEED TO CHECK IF CLIENT HAS LEVELED THIS SKILL FIRST, THIS IS ONLY COOLDOWN RELATED
  * you would only do this if this skill has a cooldown and u called War3_CooldownMGR
- * printTextIfNotReady=true will print a not ready message
+ * printTextIfNotReady=true will print a "not ready" message
  */  
 native bool:War3_SkillNotInCooldown(client,raceid,skillNum,bool:printTextIfNotReady=false);  
 
@@ -889,12 +891,13 @@ native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
 native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
 
+//not implemented
 native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:initialbuffvalue,Float:duration);
 
 ///RESETS a particular buff from your race on this client
 native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
 
-///RESETS ALL BUFFS PERTAIINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
+///RESETS ALL BUFFS PERTAINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
 native W3ResetAllBuffRace(client,raceid);
 
 
@@ -931,6 +934,18 @@ native W3GetBuffMinInt(client,W3Buff:buffindex);
 ///registers a tracker and returns an index that you must keep. usually do this for each each player or once if global
 // Register once on plugin start please!
 //returns -1 if tracker is full. LogErrors on Full
+/*
+usage:
+
+register tracker
+create delay
+
+repeat:{
+expired?
+create delay
+}
+
+*/
 native War3_RegisterDelayTracker();
 
 //create a delay
@@ -1000,6 +1015,7 @@ stock bool:SkillAvailable(client,yourRaceID,skillnumber,bool:printCooldown=true,
 	return War3_SkillNotInCooldown(client,yourRaceID,skillnumber,printCooldown)&& (!checksilenced||!Silenced(client,printSilenced));
 }
 
+//statuses
 stock bool:Stunned(client){
 	return W3GetBuffHasTrue(client,bStunned);
 }
@@ -1064,7 +1080,7 @@ native War3_SetRace(client,race);
 native War3_SetLevel(client,race,level);
 native War3_GetLevel(client,race);
 
-native W3GetTotalLevels(client); //sum of each level in each race
+native W3GetTotalLevels(client); //sum of  levels in each race
 
 native W3GetLevelBank(client);
 native W3SetLevelBank(client,newlevelbank);
@@ -1092,7 +1108,7 @@ native W3SetCvar(cvarid,String:cvarvalue[]);
 
 //returns -1 if not found, otherwise returns cvar id
 native W3FindCvar(String:cvar[]);
-native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values, names only
+native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values, names only. CLOSE THIS!!!
 native W3GetCvarByString(String:cvarstr[],String:returnstr[],maxlen);
 native W3GetCvarActualString(cvarid,String:returnstr[],maxlen); //get actual cvar name: undead_blah
 
