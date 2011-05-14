@@ -38,11 +38,12 @@ public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_ma
 	for(new i=0;i<GetArraySize(objarray);i++){
 		SetArrayCell(objarray,i,INVALID_HANDLE);
 	}
-//	CreateObj(1);
+	return APLRes_Success;
 }
 public bool:InitNativesForwards(){
 	CreateNative("W3Hint",NW3Hint);
 	//W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
+	return true;
 }
 public OnPluginStart()
 {

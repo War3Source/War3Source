@@ -19,14 +19,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
-{
-	
-}
-public bool:InitNativesForwards(){
-	//CreateNative("W3Hint",NW3Hint);
-	//W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
-}
+
 new global;
 new Handle:cr;
 new cvarvalue;
@@ -36,12 +29,12 @@ public OnPluginStart()
 	CreateTimer(1.0,dotime,_,TIMER_REPEAT);
 	cr=CreateCellReference(global);
 	
-	LinkConVar(FindConVar("sv_cheats"),cvarvalue);
+	LinkConVar(cvarvalue,"sv_cheats");
 }
 
 public Action:dotime(Handle:t){
 	PrintToServer("tick");
-	new Handle:obj=CreateObj(6);
+	new Object:obj=CreateObj(6);
 	SetObj(obj,0,66);
 	SetObjHandle(obj,1,CreateArray(1000,10000),Delete);
 	
@@ -55,7 +48,7 @@ public Action:dotime(Handle:t){
 	//DeleteObj(obj);
 	
 	
-	new Handle:obj3=CreateObj(100);
+	new Object:obj3=CreateObj(100);
 	SetObj(obj3,2,obj,DATA);
 	SetObj(obj3,2,true,IS_OBJECT);
 	

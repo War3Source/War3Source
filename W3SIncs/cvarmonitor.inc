@@ -31,15 +31,24 @@ enum ConVarType
 stock static Handle:ConVarTrie = INVALID_HANDLE;
 
 
+stock Handle:GetConVarOrCreate(String:convarstr[],String:defaultconvarvalue[]="",String:cvardescription[]="")
+{
+	new Handle:convar=FindConVar(convarstr);
+	if(!convar){
+		convar=CreateConVar(convarstr,defaultconvarvalue,cvardescription);
+	}
+	return convar;
+}
 /**
- * Links ConVar to an int.
+ * Links ConVar to an INT.
  *
  * @param convar		ConVar to link.
  * @param buffer		Buffer to link to.
  * @return				True on success, false otherwise.
  */
-stock bool:LinkConVar(const Handle:convar, &buffer)
+stock bool:LinkConVar(&any:buffer,String:convarstr[],String:defaultconvarvalue[]="",String:cvardescription[]="")
 {
+	new Handle:convar= GetConVarOrCreate(convarstr,defaultconvarvalue,cvardescription);
 	return LinkConVar_(convar, ConVarInt, buffer);
 }
 
@@ -50,8 +59,9 @@ stock bool:LinkConVar(const Handle:convar, &buffer)
  * @param buffer		Buffer to link to.
  * @return				True on success, false otherwise.
  */
-stock bool:LinkConVarFloat(const Handle:convar, &Float:buffer)
+stock bool:LinkConVarFloat(&any:buffer,String:convarstr[],String:defaultconvarvalue[]="",String:cvardescription[]="")
 {
+new Handle:convar= GetConVarOrCreate(convarstr,defaultconvarvalue,cvardescription);
 	return LinkConVar_(convar, ConVarFloat, buffer);
 }
 
