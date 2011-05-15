@@ -10,7 +10,10 @@
 
 #include <sourcemod>
 #include <sdktools>
+
+#undef REQUIRE_EXTENSIONS
 #include <cstrike>
+
 
 #define PLUGIN_VERSION "1.0"
 
