@@ -227,7 +227,7 @@ public Action:CmdLoadRaces(args){
 public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
 		new raceid=War3_GetRace(client);
-		for( new skillnum;skillnum<MAXSKILLCOUNT;skillnum++){
+		for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
 			War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
 		}
 		
@@ -300,7 +300,7 @@ public Action:UberTest(client,args){
 public Action:FullSkilltest(client,args){
 	new race=War3_GetRace(client);
 	new SkillCount = War3_GetRaceSkillCount(race);
-	for(new i;i<SkillCount;i++){
+	for(new i=1;i<=SkillCount;i++){
 		War3_SetSkillLevel(client,race,i,4);
 	}
 }

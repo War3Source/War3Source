@@ -6,18 +6,20 @@
 
 //for all war3source or SH plugins, we define MAXPlAYERS as 66
 //just so pigs dont fly when you run a 64 slot server with HLTV
-#define MAXPLAYERSCUSTOM 66   //+1 of real for normal servers, add +X number of HLTV slots
+#define MAXPLAYERSCUSTOM 66   //+2 of real for normal servers, add +X number of HLTV slots
 
 
+//dochecking up to <MAXRACES
+//limit check up to >=MAXRACES-1
 
-#define MAXRACES 200 //20 = [1]-[19]  ///can only hold X-1 races, IE 20 can only hold 19 races, we skip zeroth race!
+#define MAXRACES 200 //20 = [1]-[199]  ///can only hold X-1 races, IE 20 can only hold 19 races, we skip zeroth race!
 
 #define MAXITEMS 100  // [1]-[19] //(+1 of real number of items, if there are 8 items to load, use 9!! ignore zeroth rule)
 #define MAXITEMS2 100 
 //zeroth item not used
 
 
-#define MAXSKILLCOUNT 7 //0-6   //A SKILL IS GENERIC, set the property "ultimate" to true for ultmates
+#define MAXSKILLCOUNT 8 //[1]-[7]   //if you want 7 skills, use 8. A SKILL IS GENERIC, set the property "ultimate" to true for ultmates
 
 #define DEF_MAX_SKILL_LEVEL 4 //DO NOT CHANGE
 
@@ -537,7 +539,7 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 		case HINT_DMG_RCVD: return HINT_TYPE_ALL;
 		case HINT_COOLDOWN_EXPIRED:  return HINT_TYPE_ALL;
 		case HINT_COOLDOWN_COUNTDOWN:  return HINT_TYPE_SINGLE;
-		case HINT_LOWEST:  return HINT_TYPE_QUEUE;
+		case HINT_LOWEST:  return HINT_TYPE_ALL;
 	}
 	return -1;
 }

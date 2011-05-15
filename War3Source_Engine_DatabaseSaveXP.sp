@@ -131,7 +131,7 @@ Initialize_SQLTable()
 		Format(longquery,sizeof(longquery),"%s %s",longquery,"shortname varchar(16) UNIQUE,");
 		Format(longquery,sizeof(longquery),"%s %s",longquery,"name  varchar(32)");
 		
-		for(new i=0;i<MAXSKILLCOUNT;i++){
+		for(new i=1;i<MAXSKILLCOUNT;i++){
 			Format(longquery,sizeof(longquery),"%s, skill%d varchar(32)",longquery,i);
 			Format(longquery,sizeof(longquery),"%s, skilldesc%d varchar(2000)",longquery,i);
 		}
@@ -193,11 +193,6 @@ Initialize_SQLTable()
 			new String:longquery2[4000];
 			Format(longquery2,sizeof(longquery2),"CREATE TABLE war3source_racedata1 (steamid varchar(64)  , raceshortname varchar(16),   level int,  xp int  , last_seen int)  %s",War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"");
 			
-			//for(new skillid=0;skillid<MAXSKILLCOUNT ;skillid++){
-			//	Format(longquery2,sizeof(longquery2),"%s, skill%d int ",longquery2,skillid);
-			//}
-			//Format(longquery2,sizeof(longquery2),"%s, last_seen int) %s",longquery2,);
-			
 			if(!SQL_FastQueryLogOnError(hDB,longquery2)
 			||
 			!SQL_FastQueryLogOnError(hDB,"CREATE UNIQUE INDEX steamid ON war3source_racedata1 (steamid,raceshortname)")
@@ -219,7 +214,7 @@ Initialize_SQLTable()
 			new String:columnname[16];
 			new dummyfield;
 			
-			for(new i=0;i<MAXSKILLCOUNT;i++){
+			for(new i=1;i<MAXSKILLCOUNT;i++){
 				Format(columnname,sizeof(columnname),"skill%d",i);
 				
 				if(!SQL_FieldNameToNum(query, columnname , dummyfield))
@@ -538,7 +533,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 					new String:column[32];
 					new skilllevel;
 					new RacesSkillCount = War3_GetRaceSkillCount(raceid);
-					for(new skillid=0;skillid<RacesSkillCount;skillid++){
+					for(new skillid=1;skillid<=RacesSkillCount;skillid++){
 						Format(column,sizeof(column),"skill%d",skillid);
 						skilllevel=W3SQLPlayerInt(hndl,column);
 						War3_SetSkillLevel(client,raceid,skillid,skilllevel);
@@ -677,7 +672,7 @@ War3_SavePlayerRace(client,race)
 			Format(longquery,sizeof(longquery),"UPDATE war3source_racedata1 SET level='%d',xp='%d' ",level,xp);
 			
 			new SkillCount = War3_GetRaceSkillCount(race);
-			for(new skillid=0;skillid<SkillCount;skillid++){
+			for(new skillid=1;skillid<=SkillCount;skillid++){
 				Format(longquery,sizeof(longquery),"%s, skill%d=%d ",longquery,skillid,War3_GetSkillLevel(client,race,skillid));
 			}
 			

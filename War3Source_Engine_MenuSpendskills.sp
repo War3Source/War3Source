@@ -59,7 +59,7 @@ War3Source_SkillMenu(client)
 			decl String:sbuf[4];
 			decl String:buf[192];
 			new SkillCount = War3_GetRaceSkillCount(race_num);
-			for(new x=0;x<SkillCount;x++)
+			for(new x=1;x<=SkillCount;x++)
 			{
 				
 				
@@ -102,7 +102,7 @@ public War3Source_SMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 		if(ValidPlayer(client,false))
 		{
 			new raceid=War3_GetRace(client);
-			if(selection>=0&&selection<War3_GetRaceSkillCount(raceid))
+			if(selection>=0&&selection<=War3_GetRaceSkillCount(raceid))
 			{
 				// OPTIMZE THIS
 				decl String:SelectionInfo[4];

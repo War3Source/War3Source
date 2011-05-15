@@ -29,6 +29,8 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
+new bool:updatenextframe[MAXPLAYERSCUSTOM];
+
 public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
 {
 	for(new i=0;i<MAXKEYCOUNT;i++){
@@ -47,15 +49,15 @@ public bool:InitNativesForwards(){
 }
 public OnPluginStart()
 {
-	CreateTimer(1.0,Time,_,TIMER_REPEAT);
+	CreateTimer(0.2,Time,_,TIMER_REPEAT);
 	
 	
 	umHintText = GetUserMessageId("HintText");
 	
 	if (umHintText == INVALID_MESSAGE_ID)
-		SetFailState("This game doesn't support HintText");
+		SetFailState("This game doesn't support HintText???");
 	
-	HookUserMessage(umHintText, MsgHook_HintText);
+	HookUserMessage(umHintText, MsgHook_HintText,true);
 }
 public OnWar3Event(W3EVENT:event,client){
 	switch(event){
@@ -63,12 +65,12 @@ public OnWar3Event(W3EVENT:event,client){
 			 CreateObject(client);
 			 for(new i=0;i<_:HINT_SIZE;i++)
 			 {
-			 	SetCell(Object(client),  i  ,CreateArray(ByteCountToCells(128)));
+			 	SetCell(Object(client),  i  ,CreateArray(ByteCountToCells(128))); //128 characters
 			 	
 			 }
 			 for(new i=0;i<_:HINT_SIZE;i++)
 			 {
-			 	PrintToServer("%d",GetCell(Object(client),i));
+			 	//PrintToServer("%d",GetCell(Object(client),i));
 			 }
 		}
 		case ClearPlayerVariables:
@@ -77,8 +79,8 @@ public OnWar3Event(W3EVENT:event,client){
 			for(new i=0;i<_:HINT_SIZE;i++)
 			{
 				//new Handle:h=
-				PrintToServer("%d",GetCell(Object(client),i));
-				PrintToServer("%d",i);
+			//	PrintToServer("%d",GetCell(Object(client),i));
+				//PrintToServer("%d",i);
 			//	CloseHandle(Handle:GetCell(Object(client),i));
 			}
 			DeleteObject(client);
@@ -104,81 +106,115 @@ public NW3Hint(Handle:plugin,numParams)
                           dummy,
                           output
 						  );
-						  
-						 // PrintToServer("%s || %s",format,output);
+	
+	//must have \n					  
+	new len=strlen(output);		 
+	if(len>0&&output[len-1]!='\n'){
 	StrCat(output, sizeof(output), "\n");
+	}
 	new Handle:arr=Handle:GetCell(Object(client),priority);
 	if(W3GetHintPriorityType(W3HintPriority:priority)==HINT_TYPE_SINGLE){
 		ClearArray(Handle:arr);
 	}
-	PushArrayString(arr, output); //EVEN
-	PushArrayCell(arr,Duration); //ODD
-	Update(client);
+	//does it already exist? then update time
+	new index=FindStringInArray(arr,output);
+	if(index>=0){
+		SetArrayCell(arr,index+1,Duration); //ODD
+	}
+	else{
+		PushArrayString(arr, output); //EVEN
+		PushArrayCell(arr,Duration); //ODD
+	}
+	
+	updatenextframe[client]=true;
 	return 1;
 }
 public Action:Time(Handle:t){
 	//PrintHintTextToAll("01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n");
-	for (new i = 1; i <= MaxClients; i++)
-	{
-		if (ValidPlayer(i))
-		{
-			//Update(i);
-		}
-	} 
+	
 }
-Update(client){
+
+public OnGameFrame(){
 #if defined PROFILE
 	new Handle:p=CreateProfiler();
 	StartProfiling(p);
 #endif
-	static Float:lastshow[MAXPLAYERSCUSTOM];
-	if(lastshow[client]<GetEngineTime()-0.01){
-		
-		lastshow[client]=GetEngineTime();
-		new String:output[128];
-		for(new priority=0;priority<_:HINT_SIZE;priority++)
+	for (new client = 1; client <= MaxClients; client++)
+	{
+		if (ValidPlayer(client))
 		{
-			new Handle:arr=Handle:GetCell(Object(client),priority);
-			new size=GetArraySize(arr);
-			if(size){
-				for(new arrindex=0;arrindex<size;arrindex+=2){
-					new Float:expiretime=GetArrayCell(arr,arrindex+1);
-					if(expiretime<21.0){
-						SetArrayCell(arr,arrindex+1,expiretime+GetEngineTime());
-					}
-					if(expiretime<GetEngineTime()){
-						new String:str[128];
-						GetArrayString(arr,arrindex   ,str,sizeof(str));	
-						StrCat(output,sizeof(output),str);
-						if(W3GetHintPriorityType(W3HintPriority:priority)!=HINT_TYPE_ALL){
-							break;
+			
+
+			static Float:lastshow[MAXPLAYERSCUSTOM];
+			if(lastshow[client]<GetEngineTime()-0.2 || updatenextframe[client]){
+				updatenextframe[client]=false;
+				lastshow[client]=GetEngineTime();
+				new String:output[128];
+				for(new priority=0;priority<_:HINT_SIZE;priority++)
+				{
+					new Handle:arr=Handle:GetCell(Object(client),priority);
+					new size=GetArraySize(arr);
+					if(size){
+						for(new arrindex=0;arrindex<size;arrindex+=2){
+							new Float:expiretime=GetArrayCell(arr,arrindex+1);
+							if(expiretime<21.0){ //JUST ADDED?
+								expiretime=expiretime+GetEngineTime();
+								SetArrayCell(arr,arrindex+1,expiretime);
+							}
+							if(GetEngineTime()>expiretime){
+								//expired
+								RemoveFromArray(arr, arrindex);
+								RemoveFromArray(arr, arrindex); //new array shifted down, delete same position
+								size=GetArraySize(arr); //resized
+								arrindex-=2;					//rollback
+								continue;
+								
+							}
+							//then this did not expire, we can print
+							new String:str[128];
+							GetArrayString(arr,arrindex   ,str,sizeof(str));	
+							StrCat(output,sizeof(output),str);
+							if(W3GetHintPriorityType(W3HintPriority:priority)!=HINT_TYPE_ALL){ //PRINT ONLY 1
+								break;
+							}
+						
+							
 						}
 					}
-					else{
-						//expired
-						RemoveFromArray(arr, arrindex);
-						RemoveFromArray(arr, arrindex); //new array shifted down, delete same position
-						size=GetArraySize(arr); //resized
-						arrindex-=2;					//rollback
-						continue;
+				}
+				if(strlen(output)>1){
+					
+					StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
+					//if(output[strlen(output)-1]=='\n')
+					//{ 
+					//PrintToServer("deleted");
+					//output[strlen(output)-1]='\0';
+				//	}
+				/*	PrintToServer("|||%s",output);
+					new index=FindCharInString(output, '\n');
+					PrintToServer("IDE%d",index);
+					if(index>0&&index==strlen(output)-1){
+						//StrCat(output,sizeof(output),"\n\n");
+						PrintToServer("cat");
+					}*/
+					new len=strlen(output);
+					if(len>0&&output[len-1]=='\n'){
+						output[len-1]='\0';
 					}
+					PrintHintText(client," %s%s",output,(strlen(output)<100)?"":""); //it wants a space after it, or it will display same line twice....
 					
 				}
-			}
-		}
-		if(strlen(output)){
-			//PrintToServer("|||%s",output);
-			StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
-			PrintHintText(client,"%s \nASFD\nASFD\nASFD\nASFD\nASFD\nASFD\nASFD\nASFD",output); //it wants a space after it, or it will display same line twice....
 			
-		}
+			}
+			#if defined PROFILE
+			StopProfiling(p);
+			PrintToServer("%f",GetProfilerTime(p));
+			CloseHandle(p);
+			#endif
 	
-	}
-	#if defined PROFILE
-	StopProfiling(p);
-	PrintToServer("%f",GetProfilerTime(p));
-	CloseHandle(p);
-	#endif
+	//Update(i);
+		}
+	} 
 }
 
 
@@ -202,7 +238,7 @@ Handle:Object(client){
 }
 GetCell(Handle:obj,any:index){
 	
-	PrintToServer("%s",key[index]);
+	//PrintToServer("%s",key[index]);
 	new value;
 	if(!GetTrieValue(obj, key[index], value)){
 		return ThrowError("trie get cell failed");
@@ -234,14 +270,29 @@ stock SetString(Handle:obj,any:index,String:str[]){
 
 public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playersNum, bool:reliable, bool:init)
 {
-	//new String:str[128];
-	//BfReadString(Handle:bf, str, sizeof(str), false);
-	//	PrintToServer("%s",str);
+	new String:str[128];
+	BfReadString(Handle:bf, str, sizeof(str), false);
+	//PrintToServer("%s",str);
+	
+	new bool:intercept;
+	if(str[0]!=' '&&str[0]!='#'){
+		intercept=true;
+	}
+	
 	for (new i = 0; i < playersNum; i++)
 	{
 		if (players[i] != 0 && IsClientInGame(players[i]) && !IsFakeClient(players[i]))
 		{
 			StopSound(players[i], SNDCHAN_STATIC, "UI/hint.wav");
+			if(intercept){
+			
+				W3Hint(players[i],HINT_LOWEST,4.0,str);
+				//urgent update
+				updatenextframe[players[i]]=true;
+				//Update(players[i]);
+				
+			}
 		}
 	}
+	return intercept?Plugin_Handled:Plugin_Continue;
 }

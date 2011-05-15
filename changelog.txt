@@ -2,6 +2,10 @@
 1.2.1
 
 
+skillcount now ignores zero
+loop from 1 to skillcount
+skillid of 0 is now invalid
+
 B9
 
 fixed ring regen leak

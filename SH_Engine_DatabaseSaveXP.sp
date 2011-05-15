@@ -116,7 +116,7 @@ Initialize_SQLTable()
 		Format(longquery,4000,"%s %s",longquery,"shortname varchar(16) UNIQUE,");
 		Format(longquery,4000,"%s %s",longquery,"name  varchar(32)");
 		
-		for(new i=0;i<MAXSKILLCOUNT;i++){
+		for(new i=1;i<MAXSKILLCOUNT;i++){
 			Format(longquery,4000,"%s, skill%d varchar(32)",longquery,i);
 			Format(longquery,4000,"%s, skilldesc%d varchar(2000)",longquery,i);
 		}

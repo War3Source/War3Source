@@ -181,6 +181,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 		
 		if(ignoreRaceEnd==false&&numParams>4){
 			for(new arg=5;arg<=numParams;arg++){
+				
 				GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
 				raceSkillDescReplaceNum[raceid][newskillnum]++;
 			}
@@ -282,6 +283,12 @@ public NW3GetRaceSkillName(Handle:plugin,numParams)
 	new skill=GetNativeCell(2);
 	new maxlen=GetNativeCell(4);
 	
+	if(race<1||race>War3_GetRacesLoaded()){
+		ThrowNativeError(1,"bad race %d",race);
+	}
+	if(skill<1||skill>War3_GetRaceSkillCount(race)){
+		ThrowNativeError(1,"bad skillid %d",skill);
+	}
 	new String:buf[32];
 	GetRaceSkillName(race,skill,buf,sizeof(buf))
 	SetNativeString(3,buf,maxlen);
@@ -491,8 +498,8 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
 	
 	//make all skills zero so we can easily debug
 	for(new i=0;i<MAXSKILLCOUNT;i++){
-		Format(raceSkillName[traceid][i],31,"NO SKILL DEFINED");
-		Format(raceSkillDescription[traceid][i],2000,"NO SKILL DESCRIPTION DEFINED");
+		Format(raceSkillName[traceid][i],31,"NO SKILL DEFINED %d",i);
+		Format(raceSkillDescription[traceid][i],2000,"NO SKILL DESCRIPTION DEFINED %d",i);
 	}
 	
 	return traceid; //this will be the new race's id / index
@@ -567,7 +574,7 @@ GetRaceSkillCount(raceid){
 stock GetRaceSkillNonUltimateCount(raceid){
 	new num;
 	new skillcount = GetRaceSkillCount(raceid);
-	for(new i=0;i<skillcount;i++){
+	for(new i=1;i<=skillcount;i++){
 		if(!IsSkillUltimate(raceid,i)) //regular skill
 		{
 			num++;
@@ -578,7 +585,7 @@ stock GetRaceSkillNonUltimateCount(raceid){
 stock GetRaceSkillIsUltimateCount(raceid){
 	new num;
 	new SkillCount = GetRaceSkillCount(raceid);
-	for(new i=0;i<SkillCount;i++){
+	for(new i=1;i<=SkillCount;i++){
 		if(IsSkillUltimate(raceid,i)) //regular skill
 		{
 			num++;
@@ -590,7 +597,7 @@ stock GetRaceSkillIsUltimateCount(raceid){
 GetRaceMaxLevel(raceid){
 	new num=0;
 	new SkillCount = GetRaceSkillCount(raceid);
-	for(new skill=0;skill<SkillCount;skill++){
+	for(new skill=1;skill<=SkillCount;skill++){
 		num+=skillMaxLevel[raceid][skill];
 	}
 	return num;
@@ -606,7 +613,7 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		//ok is it an existing skill?
 		//new String:existingskillname[64];
 		new SkillCount = GetRaceSkillCount(raceid);
-		for(new i=0;i<SkillCount;i++){
+		for(new i=1;i<=SkillCount;i++){
 			//GetRaceSkillName(raceid,i,existingskillname,sizeof(existingskillname));
 			if(StrEqual(skillname,raceSkillName[raceid][i],false)){ ////need raw skill name, because of translations
 				//PrintToServer("Skill exists %s, returning old skillid %d",skillname,i);
@@ -619,12 +626,13 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		//}
 		
 		//not existing, will it exceeded maximum?
-		if(raceSkillCount[raceid]==MAXSKILLCOUNT){
+		if(raceSkillCount[raceid]+1==MAXSKILLCOUNT){
 			LogError("SKILL LIMIT FOR RACE %d reached!",raceid);
 			return -1;
 		}
 		
 		
+		raceSkillCount[raceid]++;
 		
 		strcopy(raceSkillName[raceid][raceSkillCount[raceid]], 32, skillname);
 		strcopy(raceSkillDescription[raceid][raceSkillCount[raceid]], 2000, skilldescription);
@@ -632,9 +640,9 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		
 		skillMaxLevel[raceid][raceSkillCount[raceid]]=tmaxskilllevel;
 		
-		raceSkillCount[raceid]++;
 		
-		return raceSkillCount[raceid]-1; //return their actual skill number
+		
+		return raceSkillCount[raceid]; //return their actual skill number
 		
 	}
 	return 0;
@@ -719,7 +727,7 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	
 	
 	new SkillCount = GetRaceSkillCount(raceid);
-	for(new i=0;i<SkillCount;i++){
+	for(new i=1;i<=SkillCount;i++){
 		GetRaceSkillName(raceid,i,retstr,sizeof(retstr));
 		SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));
 		Format(longquery,sizeof(longquery),"%s, skill%d='%s %s'",longquery,i,IsSkillUltimate(raceid,i)?"Ultimate":"",escapedstr);

@@ -239,7 +239,7 @@ ClearAllCooldowns()
 	{
 		for(new raceid=0;raceid< MAXRACES;raceid++)
 		{
-			for(new skillNum=0;skillNum<MAXSKILLCOUNT;skillNum++)
+			for(new skillNum=0;skillNum<MAXSKILLCOUNT;skillNum++) //strart from zero anyway
 			{
 				//CooldownExpireTime[i][raceid][skillNum]=0.0;
 				
@@ -269,12 +269,15 @@ Internal_CreateCooldown(client,Float:cooldownTime,raceid,skillNum,bool:resetOnSp
 			}
 		}
 	}
-	
+	/**********************
+	 * this isliked a linked list
+	 */	 	
 	if(indextouse==-1){
 		LogError("ERROR, UNABLE TO CREATE COOLDOWN");
 	}
 	else{
 		if(createlinks){ //if u create links again and u are already link from the prevous person, u will infinite loop
+		
 			Cooldown[indextouse][cnext]=Cooldown[indextouse-1][cnext]; //this next is the previous guy's next
 			Cooldown[indextouse-1][cnext]=indextouse; //previous guy points to you
 		}
@@ -299,10 +302,12 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 	new Float:currenttime=GetEngineTime();
 	new tempnext;
 	new skippedfrom;
+	
+	new Handle:arraylist[MAXPLAYERSCUSTOM]; //hint messages will be attached to an arraylist
+	
 	for(new i=0;i<MAXCOOLDOWNS;i++){
 		if(Cooldown[i][cexpiretime]>1.0) //enabled
 		{
-			//PrintToChatAll("ENABLED");
 			new bool:expired;
 			new bool:bytime;
 			if(currenttime>Cooldown[i][cexpiretime]){
@@ -320,7 +325,7 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 				CooldownExpired(i, bytime);
 				Cooldown[i][cexpiretime]=0.0;
 				
-				if(i>0){ //not front do some pointer changes
+				if(i>0){ //not front do some pointer changes, shouldnt be front anyway
 					Cooldown[skippedfrom][cnext]=Cooldown[i][cnext];
 					//PrintToChatAll("changing next at %d to %d",skippedfrom,Cooldown[i][cnext]);
 					
@@ -332,7 +337,18 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 				i=skippedfrom;
 			}
 			else{
-				W3Hint(Cooldown[i][cclient],HINT_COOLDOWN_COUNTDOWN,4.0,"z%d %d %f ",Cooldown[i][crace],Cooldown[i][cskill],GetEngineTime()-Cooldown[i][cexpiretime]);
+				new client=Cooldown[i][cclient];
+				
+				if(arraylist[client]==INVALID_HANDLE){
+					arraylist[client]=CreateArray(ByteCountToCells(128));
+				}
+				new String:str[128];
+				SetTrans(client);
+				new String:skillname[32];
+				W3GetRaceSkillName(Cooldown[i][crace],Cooldown[i][cskill],skillname,sizeof(skillname));
+				Format(str,sizeof(str),"%s%s: %d",GetArraySize(arraylist[client])>0?"\n":"",skillname,RoundToCeil(Cooldown[i][cexpiretime]-GetEngineTime()));
+				PushArrayString(arraylist[client],str);
+				
 			}
 		}
 		tempnext=Cooldown[i][cnext];
@@ -342,7 +358,25 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 			break;
 		}	
 		skippedfrom=i;
-		i=tempnext-1;
+		i=tempnext-1; //i will increment, decremet it first here
+	}
+	for(new client=1;client<=MaxClients;client++){
+	
+		if(arraylist[client]){
+			new Handle:array=arraylist[client];
+			new String:str[128];
+			new String:newstr[128];
+			new size=GetArraySize(array);
+			for(new i=0;i<size;i++){
+				GetArrayString(array,i,newstr,sizeof(newstr));
+				StrCat(str,sizeof(str),newstr);
+			}
+			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,4.0,str);
+
+		}
+		else{
+			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,0.0,"");//CLEAR IT , so we dont have "ready" and "cooldown" of same skill at same time
+		}
 	}
 }
 
@@ -367,8 +401,10 @@ CooldownExpired(i,bool:expiredByTimer)
 				SetTrans(client);
 				W3GetRaceSkillName(raceid,skillNum,skillname,sizeof(skillname));
 				//{ultimate} is just an argument, we fill it in with skillname
-				//PrintHintText(client,"%T","{ultimate} Is Ready",client,skillname);
-		
+				new String:str[128];
+				Format(str,sizeof(str),"%T","{ultimate} Is Ready",client,skillname);
+				W3Hint(client,HINT_COOLDOWN_EXPIRED,4.0,str);
+				
 			
 				EmitSoundToAll( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);
 			}
@@ -417,7 +453,7 @@ public OnWar3EventSpawn(client){
 	CheckCooldownsForExpired(true,client)
 	if(W3()){
 		new race=War3_GetRace(client);
-		for(new i=0;i<MAXSKILLCOUNT;i++){
+		for(new i=1;i<MAXSKILLCOUNT;i++){
 			if(CooldownOnSpawn[race][i]){ //only his race
 				
 				Internal_CreateCooldown(client,CooldownOnSpawnDuration[race][i],race,i,false,CdOnSpawnPrintOnExpire[race][i]);

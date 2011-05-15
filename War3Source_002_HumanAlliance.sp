@@ -171,7 +171,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 		if(ult_level>0)
 		{
 			
-			if(War3_SkillNotInCooldown(client,thisRaceID,3,true)&&!inteleportcheck[client]) //not in the 0.2 second delay when we check stuck via moving
+			if(War3_SkillNotInCooldown(client,thisRaceID,ULT_TELEPORT,true)&&!inteleportcheck[client]) //not in the 0.2 second delay when we check stuck via moving
 			{
 				TeleportPlayerView(client,TeleportDistance[ult_level]);
 			}
@@ -380,7 +380,7 @@ public Action:checkTeleport(Handle:h,any:client){
 		PrintHintText(client,"%T","Teleported",client);
 		
 		new Float:cooldown=GetConVarFloat(ultCooldownCvar);
-		War3_CooldownMGR(client,cooldown,thisRaceID,3,_,_);
+		War3_CooldownMGR(client,cooldown,thisRaceID,ULT_TELEPORT,_,_);
 	}
 }
 public bool:AimTargetFilter(entity,mask)

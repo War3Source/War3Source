@@ -26,7 +26,7 @@ new cvarvalue;
 public OnPluginStart()
 {
 	global=0;
-	CreateTimer(1.0,dotime,_,TIMER_REPEAT);
+	//CreateTimer(1.0,dotime,_,TIMER_REPEAT);
 	cr=CreateCellReference(global);
 	
 	LinkConVar(cvarvalue,"sv_cheats");

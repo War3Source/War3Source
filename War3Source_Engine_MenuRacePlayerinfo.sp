@@ -157,7 +157,7 @@ public War3_ShowParticularRaceInfoMenu(client,raceid){
 	
 	new level;
 	new SkillCount = War3_GetRaceSkillCount(raceid);
-	for(new x=0;x<SkillCount;x++)
+	for(new x=1;x<=SkillCount;x++)
 	{
 		decl String:str[1000];
 		W3GetRaceSkillName(raceid,x,skillname,sizeof(skillname));
@@ -184,10 +184,10 @@ public War3_ShowParticularRaceInfoMenu(client,raceid){
 		//Format(longbuf,sizeof(longbuf),"%s\n%s%s  (Level %d/%d)\n%s\n ",longbuf,,skillname,level,,skilldesc);
 		}
 		
-		if(x==War3_GetRaceSkillCount(raceid)-1&&raceinfoshowskillnumber[client]==x){
+		if(x==War3_GetRaceSkillCount(raceid)&&raceinfoshowskillnumber[client]==x){
 			Format(str,sizeof(str),"%s \n",str); //extend whitespace
 		}
-		else if(x==War3_GetRaceSkillCount(raceid)-1){
+		else if(x==War3_GetRaceSkillCount(raceid)){
 			Format(str,sizeof(str),"%s \n \n",str); //extend whitespace
 		}
 		
@@ -458,7 +458,7 @@ War3_playertargetMenu(client,target) {
 	Format(title,sizeof(title),"%s\n",title);
 	
 	new SkillCount = War3_GetRaceSkillCount(raceid);
-	for(new x=0;x<SkillCount;x++)
+	for(new x=1;x<=SkillCount;x++)
 	{
 		W3GetRaceSkillName(raceid,x,skillname,sizeof(skillname));
 		level=War3_GetSkillLevel(target,raceid,x) ;

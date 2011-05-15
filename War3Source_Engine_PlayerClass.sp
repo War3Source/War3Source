@@ -200,7 +200,7 @@ public NWar3_GetSkillLevel(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
 	new skill=GetNativeCell(3);
-	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES && skill >=0 && skill < MAXSKILLCOUNT)
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES && skill >0 && skill < MAXSKILLCOUNT)
 	{
 		return p_skilllevel[client][race][skill];
 	}
@@ -242,7 +242,7 @@ public NW3ClearSkillLevels(Handle:plugin,numParams){
 	{
 		new race=GetNativeCell(2);
 		new raceSkillCount = War3_GetRaceSkillCount(race)
-		for(new i=0;i<raceSkillCount;i++){
+		for(new i=1;i<=raceSkillCount;i++){
 			War3_SetSkillLevel(client,race,i,0);			
 		}
 	}
@@ -254,7 +254,7 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
 	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
 	{
 		new raceSkillCount = War3_GetRaceSkillCount(race);
-		for(new i=0;i<raceSkillCount;i++)
+		for(new i=1;i<=raceSkillCount;i++)
 			ret+=War3_GetSkillLevel(client,race,i);
 	}
 	return ret;
@@ -290,7 +290,7 @@ public OnWar3Event(W3EVENT:event,client){
 		{
 			War3_SetLevel(client,i,0);
 			War3_SetXP(client,i,0);
-			for(new x=0;x<MAXSKILLCOUNT;x++){
+			for(new x=1;x<MAXSKILLCOUNT;x++){
 				War3_SetSkillLevel(client,i,x,0);
 			}
 		}
