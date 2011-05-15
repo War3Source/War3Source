@@ -1,10 +1,29 @@
+1.2.2
+
+Extensions are now used, update the extensions folder!!
+Report as bug if they do not load or have errors!
+I can help you setup, PM ownz
+
+skillcount now ignores zero, aka skillnum of zero is invalid, if your race uses hard coded numbers, they will have errors
+loop from 1 to skillcount
+
+levels should not be lost, however:
+you SHOULD BACKUP YOUR DATABASE
+last skill will lose levels due to shift in skill level storage:
+[4 4 4 4] -> [4 4 4 0] but still level 16
+
+skillid of 0 is now invalid
+
+HINT engine, one plugin to manage all hint messages
+attaches other messages to itself for compatability
+
+Object engine:
+for flexible data management, psudo object oriented approach, can be used as arraylists
+
 
 1.2.1
 
-
-skillcount now ignores zero
-loop from 1 to skillcount
-skillid of 0 is now invalid
+(there is no final for this version as we continually add new features)
 
 B9
 

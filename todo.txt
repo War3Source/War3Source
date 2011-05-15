@@ -1,4 +1,7 @@
 hint management system
 damage prints
 spy invis target
-bot xp
+bot xp?
+shopmenu2 diamonds give
+
+sh give xp/level
