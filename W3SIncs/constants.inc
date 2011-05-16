@@ -207,6 +207,7 @@ enum ValveGameEnum
 //Basically Instance variables for the Player Class
 enum W3PlayerProp
 {
+	bool:bPutInServer,
 	CurrentRace,
 	PendingRace,
 	PlayerGold,

@@ -290,6 +290,7 @@ public OnClientPutInServer(client)
 	if(W3()){
 			//DP("PUTINW3");
 		W3SetPlayerProp(client,xpLoaded,false); //set race 0 may trigger unwanted behavior, block it first
+		W3SetPlayerProp(client,bPutInServer,true); //stateful entry
 		W3CreateEvent(InitPlayerVariables,client); 
 		W3SetPlayerProp(client,xpLoaded,false);
 	
@@ -317,13 +318,15 @@ public OnClientPutInServer(client)
 public OnClientDisconnect(client)
 {
 	if(W3()){
-		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client)){
-			War3Source_SavePlayerData(client,War3_GetRace(client));
+		if(W3GetPlayerProp(client,bPutInServer)){ //he must have joined (not just connected) server already
+			if(W3SaveEnabled() && W3IsPlayerXPLoaded(client)){
+				War3Source_SavePlayerData(client,War3_GetRace(client));
+			}
+	
+			W3CreateEvent(ClearPlayerVariables,client); 
+			W3SetPlayerProp(client,bPutInServer,false);
+			desiredRaceOnJoin[client]=0;
 		}
-
-		W3CreateEvent(ClearPlayerVariables,client); 
-		
-		desiredRaceOnJoin[client]=0;
 	}
 }
 

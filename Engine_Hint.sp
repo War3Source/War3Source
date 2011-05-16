@@ -135,6 +135,7 @@ public Action:Time(Handle:t){
 }
 
 public OnGameFrame(){
+//#define PROFILE
 #if defined PROFILE
 	new Handle:p=CreateProfiler();
 	StartProfiling(p);
@@ -211,15 +212,40 @@ public OnGameFrame(){
 				}
 			
 			}
-			#if defined PROFILE
-			StopProfiling(p);
-			PrintToServer("%f",GetProfilerTime(p));
-			CloseHandle(p);
-			#endif
+		
 	
 	//Update(i);
 		}
 	} 
+#if defined PROFILE
+	StopProfiling(p);
+	PrintToServer("%f",GetProfilerTime(p));
+	CloseHandle(p);
+	#endif
+	
+/*
+profile sample with 40 bots
+.000071
+.000009
+.000009
+.000009
+.000011
+.000009
+.000074
+.000009
+.000009
+.000010
+.000010
+.000009
+.000008
+.000073
+.000009
+.000009
+.000009
+.000009
+.000009
+.000009
+*/
 }
 
 
