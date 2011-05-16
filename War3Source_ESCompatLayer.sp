@@ -747,6 +747,26 @@ TestRecurse(Handle:kv)
 	}
 }
 
+KeyToAlias(const String:keyName[], numberOfSkills, String:aliasName[], maxAliasLength)
+{
+	for(new x=1;x<=numberOfSkills;x++)
+	{
+		new String:keyNameCheck[128];
+		Format(keyNameCheck, sizeof(keyNameCheck), "skill%d_racealias_", x);
+		new String:keyNameCheck2[128];
+		Format(keyNameCheck2, strlen(keyNameCheck)+1, "%s", keyName);
+		if(StrEqual(keyNameCheck, keyNameCheck2))
+		{
+			if(strlen(keyName)>strlen(keyNameCheck))
+			{
+				Format(aliasName, maxAliasLength, "racealias_%s", keyName[strlen(keyNameCheck)]);
+				return x;
+			}
+		}
+	}
+	return 0;
+}
+
 War3_LoadWCSRaces()
 {
 	new ecode;
@@ -784,22 +804,93 @@ War3_LoadWCSRaces()
 		{
 			new Handle:curRace = GetArrayCell(fileArray, x);
 			new Handle:keysArray = Handle:KvGetNum(curRace, "keys"); // This is a list of all key names.
-			/*for(new y=0;y<GetArraySize(keysArray);y++) // Just a test recurse and print.
+			new String:raceName[64];
+			KvGetSectionName(curRace, raceName, sizeof(raceName));
+			new numberofskills = KvGetNum(curRace, "_numberofskills");
+			new required = KvGetNum(curRace, "_required");
+			new maximum = KvGetNum(curRace, "_maximum");
+			new String:restrictmap[64];
+			KvGetString(curRace, "_restrictmap", restrictmap, sizeof(restrictmap));
+			new restrictteam = KvGetNum(curRace, "_restrictteam");
+			new String:restrictitem[256];
+			KvGetString(curRace, "_restrictitem", restrictitem, sizeof(restrictitem));
+			new String:author[64];
+			KvGetString(curRace, "_author", author, sizeof(author));
+			new String:desc[256];
+			KvGetString(curRace, "_desc", desc, sizeof(desc));
+			new String:spawncmd[4096];
+			KvGetString(curRace, "_spawncmd", spawncmd, sizeof(spawncmd));
+			new String:deathcmd[4096];
+			KvGetString(curRace, "_deathcmd", deathcmd, sizeof(deathcmd));
+			new String:roundstartcmd[4096];
+			KvGetString(curRace, "_roundstartcmd", roundstartcmd, sizeof(roundstartcmd));
+			new String:roundendcmd[4096];
+			KvGetString(curRace, "_roundendcmd", roundendcmd, sizeof(roundendcmd));			
+			new String:preloadcmd[4096];
+			KvGetString(curRace, "_preloadcmd", preloadcmd, sizeof(preloadcmd));	
+			new String:allowonly[512];
+			KvGetString(curRace, "_allowonly", allowonly, sizeof(allowonly));
+			new String:onchange[4096];
+			KvGetString(curRace, "_onchange", onchange, sizeof(onchange));
+			new numberoflevels = KvGetNum(curRace, "_numberoflevels");
+			new String:skillnames[1024];
+			KvGetString(curRace, "_skillnames", skillnames, sizeof(skillnames));													
+			new String:skilldescr[2048];
+			KvGetString(curRace, "_skilldescr", skilldescr, sizeof(skilldescr));
+			new String:skillcfg[1024];
+			KvGetString(curRace, "_skillcfg", skillcfg, sizeof(skillcfg));
+			new String:skillneeded[1024];
+			KvGetString(curRace, "_skillneeded", skillneeded, sizeof(skillneeded));
+			new raceID = WCS_StartCreateRace(raceName,
+								required,
+								maximum,
+								restrictmap,
+								restrictteam,
+								restrictitem,
+								author,
+								desc,
+								spawncmd,
+								deathcmd,
+								roundstartcmd,
+								roundendcmd,
+								preloadcmd,
+								allowonly,
+								onchange,
+								numberofskills,
+								numberoflevels,
+								skillnames,
+								skilldescr,
+								skillcfg,
+								skillneeded);
+			for(new y=1;y<=numberofskills;y++)
+			{
+				new String:tStr[128];
+				Format(tStr, sizeof(tStr), "skill%d_setting", y);
+				new String:sSetting[4096];
+				KvGetString(curRace, tStr, sSetting, sizeof(sSetting));
+				Format(tStr, sizeof(tStr), "skill%d_cmd", y);
+				new String:sCMD[4096];
+				KvGetString(curRace, tStr, sCMD, sizeof(sCMD));
+				Format(tStr, sizeof(tStr), "skill%d_sfx", y);
+				new String:sSFX[4096];
+				KvGetString(curRace, tStr, sSFX, sizeof(sSFX));
+				WCS_AddSkill(raceID, sSetting, sCMD, sSFX);
+			}
+			for(new y=0;y<GetArraySize(keysArray);y++) // Just a test recurse and print.
 			{
 				new String:keyValue[1024];
 				new String:keyName[64];
 				GetArrayString(keysArray, y, keyName, sizeof(keyName));
 				KvGetString(curRace, keyName, keyValue, sizeof(keyValue));
-				PrintToServer("[%s] - %s", keyName, keyValue);
-			}*/
-			new String:raceName[64];
-			KvGetSectionName(curRace, raceName, sizeof(raceName));
-			new numberofskills = KvGetNum(curRace, "_numberofskills");	
-			//WCS_StartCreateRace(raceName, required,maximum,restrictmap,restrictteam,restrictitem,author,desc,spawncmd,deathcmd,roundstartcmd,roundendcmd,preloadcmd,allowonly,onchange,numberofskills,numberoflevels,skillnames,skilldescr,skillcfg,skillneeded);			
-/*			new String:shortName[16];
-			GenShortName(raceName, shortName, sizeof(shortName));
-			*/			
-
+				new String:aliasName[128];
+				new skillNum = KeyToAlias(keyName, numberofskills, aliasName, sizeof(aliasName));
+				if(skillNum>0)
+				{
+					WCS_AddSkillAlias(raceID, skillNum, aliasName, keyValue);
+				}
+			}
+			WCS_EndCreateRace(raceID);
+							
 			CloseHandle(curRace); // Close key value.
 			CloseHandle(keysArray); // Close list of all key names.
 		}
@@ -811,75 +902,208 @@ War3_LoadWCSRaces()
 public OnMapStart()
 {
 	ClearDeletionQueue();
-	ClearArray(hWCSRaces);
+	WCSRacesClean();
 	War3_LoadWCSRaces();
 }
 
-// For ..., there should be numberofskills * 3 params + optional race alias'es in multiples of two params (aliasname, value)
-public WCS_StartCreateRace(const String:raceName[],required,maximum,const String:restrictmap[],restrictteam,const String:restrictitem[],const String:author[],
-				const String:desc[],const String:spawncmd[],const String:deathcmd[],const String:roundstartcmd[],
-				const String:roundendcmd[],const String:preloadcmd[],const String:allowonly[],const String:onchange[],
-				numberofskills,numberoflevels,const String:skillnames[],const String:skilldescr[],const String:skillcfg[],
-				const String:skillneeded[])
+WCSRacesClean()
 {
-/*
-  			if(numberOfSkills>=1)
+	new wcsCount = GetArraySize(hWCSRaces);
+	for(new x=0;x<wcsCount;x++)
+	{
+		new Handle:hCurRace = GetArrayCell(hWCSRaces, x);
+		new elemCount = GetArraySize(hCurRace);
+		for(new y=23;y<elemCount;y++)
+		{
+			new Handle:hCurSkill = GetArrayCell(hCurRace, y);
+			new curSkillSize = GetArraySize(hCurSkill);
+			for(new z=3;z<curSkillSize;z++)
 			{
-				PrintToServer("Creating %s (%s) with %d skills", raceName, shortName, numberOfSkills);
-				new raceID = War3_CreateNewRace(raceName, shortName);
-				for(new y=1;y<=numberOfSkills;y++)
-				{
-					new String:keyName[64];
-					
-					//War3_AddRaceSkill(raceID, skillName, skillDesc,(x==numberOfSkills),maxskilllevel=DEF_MAX_SKILL_LEVEL);
-				}
-				War3_CreateRaceEnd(raceID);
-				if(requiredLevel>0)
-				{
-					Format(tString, sizeof(tString), "%s_minlevel", shortName);
-					new var = W3FindCvar(tString);
-					new String:tString2[1024];
-					Format(tString2, sizeof(tString2), "%d", requiredLevel);
-					if(var>=0)
-					{
-						W3SetCvar(var, tString2);
-					}					
-				}
-				if(!StrEqual(restrictItems,"") && !StrEqual(restrictItems,"0"))
-				{
-					Format(tString, sizeof(tString), "%s_restrict_items", shortName);
-					new var = W3FindCvar(tString);
-					if(var>=0)
-					{
-						W3SetCvar(var, restrictItems);
-					}
-				}
-				if(restrictTeam>1)
-				{
-					if(restrictTeam==2)
-					{
-						Format(tString, sizeof(tString), "%s_team1_limit", shortName);
-					}
-					else if(restrictTeam==3)
-					{
-						Format(tString, sizeof(tString), "%s_team2_limit", shortName);
-					}
-					new var = W3FindCvar(tString);
-					if(var>=0)
-					{
-						W3SetCvar(var, "0");
-					}
-				}
+				// anything 3 and up is an array.
+				CloseHandle(GetArrayCell(hCurSkill, z));
 			}
-			else
-			{
-			}	
-*/
+			CloseHandle(hCurSkill);
+		}
+		CloseHandle(hCurRace);
+	}
+	ClearArray(hWCSRaces);
+}
+
+// For ..., there should be numberofskills * 3 params + optional race alias'es in multiples of two params (aliasname, value)
+/**
+ * Not supported by War3: Source
+ * - skillneeded  
+ */ 
+WCS_StartCreateRace(const String:raceName[],
+							required,
+							maximum,
+							const String:restrictmap[],
+							restrictteam,
+							String:restrictitem[],
+							const String:author[],
+							const String:desc[],
+							const String:spawncmd[],
+							const String:deathcmd[],
+							const String:roundstartcmd[],
+							const String:roundendcmd[],
+							const String:preloadcmd[],
+							const String:allowonly[],
+							const String:onchange[],
+							numberofskills,
+							numberoflevels,
+							const String:skillnames[],
+							const String:skilldescr[],
+							const String:skillcfg[],
+							const String:skillneeded[])
+{
+	if(numberofskills<1)
+		return 0;
+	new String:shortName[16];
+	GenShortName(raceName, shortName, sizeof(shortName));
+	new String:raceName2[64];
+	Format(raceName2, 64, "%s", raceName);
+	new raceID = War3_CreateNewRace(raceName2, shortName);
+
+	// Array for hWCSRaces
+	new Handle:hWCSRace = CreateArray(4096);
+	PushArrayCell(hWCSRace, raceID); // 0 == raceID
+	PushArrayString(hWCSRace, raceName); // 1
+	PushArrayString(hWCSRace, shortName); // 2
+	PushArrayCell(hWCSRace, required); // 3
+	PushArrayCell(hWCSRace, maximum); // 4
+	PushArrayString(hWCSRace, restrictmap); // 5
+	PushArrayCell(hWCSRace, restrictteam); // 6
+	PushArrayString(hWCSRace, restrictitem); // 7
+	PushArrayString(hWCSRace, author); // 8
+	PushArrayString(hWCSRace, desc); // 9
+	PushArrayString(hWCSRace, spawncmd); // 10
+	PushArrayString(hWCSRace, deathcmd); // 11
+	PushArrayString(hWCSRace, roundstartcmd); // 12
+	PushArrayString(hWCSRace, roundendcmd); // 13
+	PushArrayString(hWCSRace, preloadcmd); // 14
+	PushArrayString(hWCSRace, allowonly); // 15
+	PushArrayString(hWCSRace, onchange); // 16
+	PushArrayCell(hWCSRace, numberofskills); // 17
+	PushArrayCell(hWCSRace, numberoflevels); // 18
+	PushArrayString(hWCSRace, skillnames); // 19
+	PushArrayString(hWCSRace, skilldescr); // 20
+	PushArrayString(hWCSRace, skillcfg); // 21
+	PushArrayString(hWCSRace, skillneeded); // 22
+	// 23 and up are skill arrays.
+	PushArrayCell(hWCSRaces, hWCSRace);
+	// End array for hWCSRaces
+	
+	// Get each skill name.
+	new String:skillName[50][32];
+	ExplodeString(skillnames, "|", skillName, 50, 32);
+	// Get each skill desc.
+	new String:skillDesc[50][256];
+	ExplodeString(skilldescr, "|", skillDesc, 50, 256);
+	
+	for(new y=1;y<=numberofskills;y++)
+	{
+		// PrintToServer("Adding %s: %s", skillName[y-1], skillDesc[y-1]);
+		TrimString(skillName[y-1]);
+		TrimString(skillDesc[y-1]);
+		if(StrEqual(skillName[y-1], ""))
+		{
+			numberofskills = y-1;
+			break;
+		}
+		War3_AddRaceSkill(raceID, skillName[y-1], skillDesc[y-1], (y==numberofskills), numberoflevels);
+	}
+	War3_CreateRaceEnd(raceID);
+	new String:tString[1024];
+	if(required>0)
+	{
+		Format(tString, sizeof(tString), "%s_minlevel", shortName);
+		new var = W3FindCvar(tString);
+		new String:tString2[1024];
+		Format(tString2, sizeof(tString2), "%d", required);
+		if(var>=0)
+		{
+			W3SetCvar(var, tString2);
+		}					
+	}
+	if(!StrEqual(restrictitem,"") && !StrEqual(restrictitem,"0"))
+	{
+		Format(tString, sizeof(tString), "%s_restrict_items", shortName);
+		new var = W3FindCvar(tString);
+		if(var>=0)
+		{
+			W3SetCvar(var, restrictitem);
+		}
+	}
+	if(restrictteam>1)
+	{
+		if(restrictteam==2)
+		{
+			Format(tString, sizeof(tString), "%s_team1_limit", shortName);
+		}
+		else if(restrictteam==3)
+		{
+			Format(tString, sizeof(tString), "%s_team2_limit", shortName);
+		}
+		new var = W3FindCvar(tString);
+		if(var>=0)
+		{
+			W3SetCvar(var, "0");
+		}
+	}
+	return raceID;
+	// Well I guess as a sanity check, make sure number of skills is greater than 0.
+}
+
+Handle:WCS_RaceOfRaceID(raceID)
+{
+	new wcsCount = GetArraySize(hWCSRaces);
+	for(new x=0;x<wcsCount;x++)
+	{
+		new Handle:curRace = GetArrayCell(hWCSRaces, x);
+		if(GetArrayCell(curRace, 0) == raceID)
+		{
+			return curRace;
+		}
+	}
+	return INVALID_HANDLE;
+}
+
+bool:WCS_AddSkill(raceID, const String:Setting[], const String:CMD[], const String:SFX[])
+{
+	new Handle:hRace = WCS_RaceOfRaceID(raceID);
+	if(hRace==INVALID_HANDLE)
+		return false;
+	new Handle:hSkill = CreateArray(4096);
+	PushArrayString(hSkill, Setting);
+	PushArrayString(hSkill, CMD);
+	PushArrayString(hSkill, SFX);
+	PushArrayCell(hRace, hSkill);
+	return true;
+}
+
+bool:WCS_AddSkillAlias(raceID, skillNum, const String:aliasName[], const String:aliasCommand[])
+{
+	new Handle:hRace = WCS_RaceOfRaceID(raceID);
+	if(hRace==INVALID_HANDLE)
+		return false;
+	new Handle:hSkill = GetArrayCell(hRace, 22 + skillNum);
+	if(hSkill!=INVALID_HANDLE)
+	{
+		new Handle:hSkillAlias = CreateArray(4096);
+		PushArrayString(hSkillAlias, aliasName);
+		PushArrayString(hSkillAlias, aliasCommand);
+		PushArrayCell(hSkill, hSkillAlias);
+		return true;
+	}
+	return false;
 }
 
 public WCS_EndCreateRace(raceID)
 {
-	
+	// Just as a debug lets print out the values.
+	new Handle:hRace = WCS_RaceOfRaceID(raceID);
+	new raceSize = GetArraySize(hRace);
+	PrintToServer("Race %d is %d in size", raceID, raceSize);
 }
 
 GenShortName(const String:buffer[], String:out[], maxlen)
@@ -950,6 +1174,32 @@ public Action:GlobalEventCB(Handle:event, const String:name[], bool:dontBroadcas
 		if(!StrEqual(testStr, ""))
 		{
 			KvSetString(hCurrentEventData, g_EventKeyList[x], testStr);
+		}
+	}
+	
+	WCS_EventHandler(name, event);
+}
+
+WCS_EventHandler(const String:name[], Handle:event)
+{
+	if(StrEqual(name, "player_spawn"))
+	{
+		new userid = GetEventInt(event, "userid");
+		new client = GetClientOfUserId(userid);
+		if(client>0)
+		{
+			new race = War3_GetRace(client);
+			new Handle:wcsRace = WCS_RaceOfRaceID(race);
+			if(wcsRace!=INVALID_HANDLE)
+			{
+				new String:spawnCmd[4096];
+				GetArrayString(wcsRace, 10, spawnCmd, sizeof(spawnCmd));
+				if(!StrEqual(spawnCmd, ""))
+				{
+					// PrintToServer(spawnCmd);
+					ServerCommand("%s\n", spawnCmd);
+				}
+			}
 		}
 	}
 }
@@ -1933,10 +2183,8 @@ Creates a World Decal Effect.
 }
 public Action:War3GetPlayerLocation(arg_count, bool:expand)
 {
-
 	new String:buffer[1024];
 	GetCmdArgString(buffer, sizeof(buffer));
-
 	if(expand)
 	{
 		ExpandVars(buffer, sizeof(buffer));
@@ -1950,20 +2198,18 @@ public Action:War3GetPlayerLocation(arg_count, bool:expand)
 		PrintToServer("TODO: Syntax error.");
 		return Plugin_Handled;
 	}
-	
- 	new String:x_var[64];
- 	new String:y_var[64];
- 	new String:z_var[64];
- 	new String:userid[32];
- 	GetArgCustom(buffer, 1, x_var, sizeof(x_var));
- 	GetArgCustom(buffer, 2, y_var, sizeof(y_var));
- 	GetArgCustom(buffer, 3, z_var, sizeof(z_var));
- 	GetArgCustom(buffer, 4, userid, sizeof(userid));
- 	
- 	new uid = StringToInt(userid);
- 	new index = GetClientOfUserId(uid);
- 	if(ValidPlayer(index))
- 	{
+	new String:x_var[64];
+	new String:y_var[64];
+	new String:z_var[64];
+	new String:userid[32];
+	GetArgCustom(buffer, 1, x_var, sizeof(x_var));
+	GetArgCustom(buffer, 2, y_var, sizeof(y_var));
+	GetArgCustom(buffer, 3, z_var, sizeof(z_var));
+	GetArgCustom(buffer, 4, userid, sizeof(userid));	
+	new uid = StringToInt(userid);
+	new index = GetClientOfUserId(uid);
+	if(ValidPlayer(index))
+	{
  		new Float:location[3];
  		GetClientAbsOrigin(index, location);
  		new String:x_val[64];
@@ -1972,8 +2218,8 @@ public Action:War3GetPlayerLocation(arg_count, bool:expand)
  		Format(x_val, sizeof(x_val), "%f", location[0]);
  		Format(y_val, sizeof(y_val), "%f", location[1]);
  		Format(z_val, sizeof(z_val), "%f", location[2]);
- 		SetInf(x_var, x_val);
-        SetInf(y_var, y_val);
+		SetInf(x_var, x_val);
+		SetInf(y_var, y_val);
         SetInf(z_var, z_val);
 	}
 	else
