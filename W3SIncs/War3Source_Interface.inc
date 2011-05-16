@@ -17,7 +17,7 @@
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
-new String:interfaceVersion[]="1.2.1.5";//"1.1.8";////;
+new String:interfaceVersion[]="1.2.2.1";//"1.1.8";////;
 
 
 stock dummy; //variable for dummies! Use this where ever u want for a dummy return
@@ -31,7 +31,7 @@ stock String:dummystr[32]; //just a dummy string!
  * Calls your own functions (hackish way) if you have them:
  * InitNativesForwards()   
  * AskPluginLoad2CustomCustom(Handle:myself,bool:late,String:error[],err_max);
- * So if you want to do something in AskPluginLoad2Custom, implement public AskPluginLoad2CustomCustom(...) instead. 
+ * So if you want to do something in AskPluginLoad2, implement public AskPluginLoad2Custom(...) instead. 
  */ 
 public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 {
@@ -72,14 +72,17 @@ public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
  * Implement this if you have natives/forwards
  */ 
 forward bool:InitNativesForwards();
+
 /**********************
  * Implement this if you need AskPluginLoad2Custom
  */ 
 forward APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max);
+
 /**********************
  * Implement this with blank statement if you want this plugin to not load if it is not war3 mode
  */ 
 forward W3ONLY();
+
 /**********************
  * Implement this with blank statement if you want this plugin to not load if it is not sh mode
  */ 

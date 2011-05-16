@@ -338,17 +338,21 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 			}
 			else{
 				new client=Cooldown[i][cclient];
-				
-				if(arraylist[client]==INVALID_HANDLE){
-					arraylist[client]=CreateArray(ByteCountToCells(128));
+				new race=Cooldown[i][crace];
+				new skill=Cooldown[i][cskill];
+				new timeremaining=RoundToCeil(Cooldown[i][cexpiretime]-GetEngineTime());
+				if(War3_GetRace(client)==Cooldown[i][crace] && War3_GetSkillLevel(client,race,skill)>0&& timeremaining<=5 ){ //is this race, and has this skill
+					
+					if(arraylist[client]==INVALID_HANDLE){
+						arraylist[client]=CreateArray(ByteCountToCells(128));
+					}
+					new String:str[128];
+					SetTrans(client);
+					new String:skillname[32];
+					W3GetRaceSkillName(Cooldown[i][crace],Cooldown[i][cskill],skillname,sizeof(skillname));
+					Format(str,sizeof(str),"%s%s: %d",GetArraySize(arraylist[client])>0?"\n":"",skillname,timeremaining);
+					PushArrayString(arraylist[client],str);
 				}
-				new String:str[128];
-				SetTrans(client);
-				new String:skillname[32];
-				W3GetRaceSkillName(Cooldown[i][crace],Cooldown[i][cskill],skillname,sizeof(skillname));
-				Format(str,sizeof(str),"%s%s: %d",GetArraySize(arraylist[client])>0?"\n":"",skillname,RoundToCeil(Cooldown[i][cexpiretime]-GetEngineTime()));
-				PushArrayString(arraylist[client],str);
-				
 			}
 		}
 		tempnext=Cooldown[i][cnext];
@@ -404,7 +408,7 @@ CooldownExpired(i,bool:expiredByTimer)
 				new String:str[128];
 				Format(str,sizeof(str),"%T","{ultimate} Is Ready",client,skillname);
 				W3Hint(client,HINT_COOLDOWN_EXPIRED,4.0,str);
-				
+				W3Hint(client,HINT_COOLDOWN_NOTREADY,0.0,""); //if something is ready, force erase the not ready
 			
 				EmitSoundToAll( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);
 			}
@@ -442,7 +446,7 @@ public Internal_PrintSkillNotAvailable(cooldownindex){
 		new String:skillname[64];
 		SetTrans(client);
 		W3GetRaceSkillName(race,skill,skillname,sizeof(skillname));
-		PrintHintText(client,"%T","{skill} Is Not Ready. {amount} Seconds Remaining",client,skillname,War3_CooldownRemaining(client,race,skill));
+		W3Hint(client,HINT_COOLDOWN_NOTREADY,2.5,"%T","{skill} Is Not Ready. {amount} Seconds Remaining",client,skillname,War3_CooldownRemaining(client,race,skill));
 
 	}
 }

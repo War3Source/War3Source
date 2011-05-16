@@ -66,6 +66,7 @@ public Action:dotime(Handle:t){
 	PrintToServer(" global : %d",global);
 	
 	PrintToServer("cvar value %d",cvarvalue);
+
 }
 SetByRef(Handle:ref){
 	PrintToServer("handle %d",ref);

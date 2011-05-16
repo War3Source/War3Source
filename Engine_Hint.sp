@@ -141,7 +141,7 @@ public OnGameFrame(){
 #endif
 	for (new client = 1; client <= MaxClients; client++)
 	{
-		if (ValidPlayer(client))
+		if (ValidPlayer(client,true))
 		{
 			
 
@@ -178,7 +178,11 @@ public OnGameFrame(){
 								break;
 							}
 						
+						
 							
+						}
+						if(size&&W3HintPriority:priority==HINT_NORMAL){ //size may have changed when somethign expired
+							StrCat(output,sizeof(output)," \n");
 						}
 					}
 				}
@@ -198,10 +202,11 @@ public OnGameFrame(){
 						PrintToServer("cat");
 					}*/
 					new len=strlen(output);
-					if(len>0&&output[len-1]=='\n'){
+					while(len>0&&(output[len-1]=='\n'   ||  output[len-1]==' ' )){
 						output[len-1]='\0';
+						len-=1; //keep eating the last returns
 					}
-					PrintHintText(client," %s%s",output,(strlen(output)<100)?"":""); //it wants a space after it, or it will display same line twice....
+					PrintHintText(client," %s",output); 
 					
 				}
 			
@@ -286,7 +291,7 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 			StopSound(players[i], SNDCHAN_STATIC, "UI/hint.wav");
 			if(intercept){
 			
-				W3Hint(players[i],HINT_LOWEST,4.0,str);
+				W3Hint(players[i],HINT_NORMAL,4.0,str);
 				//urgent update
 				updatenextframe[players[i]]=true;
 				//Update(players[i]);

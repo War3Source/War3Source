@@ -490,6 +490,16 @@ enum SkillString
 	SkillTechnical,
 }
 
+enum W3SkillType{
+	NORMALSKILL=0,
+	ULTIMATE,
+	ABILITY,
+	ABILITY1,
+	ABILITY2,
+	ABILITY3,
+	ABILITY4,
+}
+
 // War3 Glow constants
 enum  
 {
@@ -517,9 +527,11 @@ enum War3SQLType
 
 
 enum W3HintPriority{
+	HINT_NORMAL, //things that are attached from non hint engine hints
 	HINT_SKILL_STATUS, //"TELEPORTED!"
 	HINT_DMG_DEALT,
 	HINT_DMG_RCVD,
+	HINT_COOLDOWN_NOTREADY,
 	HINT_COOLDOWN_EXPIRED,
 	HINT_COOLDOWN_COUNTDOWN,
 	HINT_LOWEST,
@@ -534,9 +546,11 @@ enum W3HintPriorityMultiType{
 //functio to retreve these constants
 stock any:W3GetHintPriorityType(W3HintPriority:priority){
 	switch(priority){
+		case HINT_NORMAL:  return HINT_TYPE_ALL;
 		case HINT_SKILL_STATUS: return HINT_TYPE_ALL;
 		case HINT_DMG_DEALT: return HINT_TYPE_ALL;
 		case HINT_DMG_RCVD: return HINT_TYPE_ALL;
+		case HINT_COOLDOWN_NOTREADY: return HINT_TYPE_SINGLE;
 		case HINT_COOLDOWN_EXPIRED:  return HINT_TYPE_ALL;
 		case HINT_COOLDOWN_COUNTDOWN:  return HINT_TYPE_SINGLE;
 		case HINT_LOWEST:  return HINT_TYPE_ALL;
