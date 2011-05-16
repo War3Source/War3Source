@@ -26,12 +26,11 @@ for flexible data management, psudo object oriented approach, can be used as arr
 
 (there is no final for this version as we continually add new features)
 
-B9
-
-fixed ring regen leak
 
 
 B8
+
+fixed ring regen leak
 
 limit outstanding socket 2 connections to 200
 player class property: LastChangeTeamTime to remember when the player last changed team
