@@ -568,7 +568,14 @@ GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen){
 }
 
 GetRaceSkillCount(raceid){
-	return raceSkillCount[raceid];
+	if(raceid>0){
+		return raceSkillCount[raceid];
+	}
+	else{
+		LogError("bad race ID %d",raceid);
+		ThrowNativeError(15,"bad race ID %d",raceid);
+	}
+	return 0;
 }
 
 stock GetRaceSkillNonUltimateCount(raceid){

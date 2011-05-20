@@ -228,11 +228,12 @@ public Action:CmdLoadRaces(args){
 }*/
 public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
-		new raceid=War3_GetRace(client);
-		for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
-			War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
+		if(W3()){
+			new raceid=War3_GetRace(client);
+			for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
+				War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
+			}
 		}
-		
 	}
 }
 /*

@@ -90,17 +90,19 @@ public	NSHTryToGiveClientHero(Handle:plugin,numParams){
 
 
 public OnWar3Event(W3EVENT:event,client){
+
 	if(SH()){
-	
 		if(event==SHSelectHeroesMenu){
 		
 			InternalSHChangeRaceMenu(client);
-			
+
 		}
 		if(event==SHClearPowers){
+			
 			InternalClearPowers(client);
 		}
 		if(event==SHMyHeroes){
+
 			InternalShowMyHeroes(client);
 		}
 	}
@@ -115,7 +117,7 @@ InternalSHChangeRaceMenu(client){
 	
 	new String:title[400];
 	if(strlen(dbErrorMsg)){
-		Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
+	//	Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
 	}
 	
 	Format(title,sizeof(title),"%s[SuperHero:Source] Select your desired heroes\nYou have %d out of %d heroes",title,SHHasHeroesNum(client),SHGetHeroesClientCanHave(client)) ;

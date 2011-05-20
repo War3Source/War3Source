@@ -106,7 +106,7 @@ stock SHShowCRMenuIfCanChoose(client){
  * cooldown wrapper, see war3_cooldownmgr for specifics
  */ 
 stock SH_CooldownMGR(client,Float:cooldownTime,ttheroID,bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true){
-	War3_CooldownMGR(client,Float:cooldownTime,ttheroID,0,resetOnSpawn, printMsgOnExpireByTime);  
+	War3_CooldownMGR(client,Float:cooldownTime,ttheroID,1,resetOnSpawn, printMsgOnExpireByTime);  
 } 
 stock SH_SetBuff(client,W3Buff:buffindex,heroid,any:value){
 	if(SH()){
