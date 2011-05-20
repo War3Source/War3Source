@@ -168,6 +168,11 @@ public Action:War3Source_SayCommand(client,args)
 		new maxhp = War3_GetMaxHP(client);
 		SH_ChatMessage(client,"Your max health is: %d",maxhp);
 	}
+	else if(CommandCheck(arg1,"shdev"))
+	{
+		SH_ChatMessage(0,"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz STEAM_0:1:9724315 are developers for SH:Source.");
+		return returnblocking;
+	}
 	if(SHHasHeroesNum(client)>0)
 	{
 		/*if(CommandCheck(arg1,"skillsinfo"))
@@ -224,11 +229,7 @@ public Action:War3Source_SayCommand(client,args)
 			return returnblocking;
 		}
 	*/	
-		else if(CommandCheck(arg1,"shdev"))
-		{
-			SH_ChatMessage(0,"Anthony (PimpinJuice) STEAM_0:1:6121386 and Ownz STEAM_0:1:9724315 are developers for SH:Source.");
-			return returnblocking;
-		}
+	
 		/*else if((top_num=CommandCheckEx(arg1,"war3top"))>0)
 		{
 			if(top_num>100) top_num=100;

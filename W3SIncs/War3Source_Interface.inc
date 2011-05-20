@@ -2128,6 +2128,14 @@ stock DP(const String:szMessage[], any:...)
 	PrintToChatAll("[Debug Print] %s", szBuffer);
 
 }
+stock DPP(Plugin:plugin)
+{
+	new String:szBuffer[1000];
+GetPluginFilename(Handle:plugin, szBuffer,sizeof(szBuffer));
+	PrintToServer("[Debug PrintP] %s", szBuffer);
+	PrintToChatAll("[Debug PrintP] %s", szBuffer);
+
+}
 
 stock PrintPlugin(Handle:plugin){
 	new String:str[100];

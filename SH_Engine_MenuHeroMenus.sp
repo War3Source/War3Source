@@ -93,7 +93,9 @@ public OnWar3Event(W3EVENT:event,client){
 	if(SH()){
 	
 		if(event==SHSelectHeroesMenu){
+		
 			InternalSHChangeRaceMenu(client);
+			
 		}
 		if(event==SHClearPowers){
 			InternalClearPowers(client);

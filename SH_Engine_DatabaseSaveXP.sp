@@ -308,9 +308,8 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
 				W3SetPlayerProp(client,xpLoaded,true);
 				War3_ChatMessage(client,"XP loaded successfully");
-				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
-					W3CreateEvent(SHSelectHeroesMenu,client);
-				}
+				SHShowCRMenuIfCanChoose(client);
+				
 			}
 		}
 		else if(SQL_GetRowCount(hndl) == 0) //he doesnt exist, new player
@@ -332,9 +331,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				W3SetPlayerProp(client,xpLoaded,true);
 				War3_ChatMessage(client,"Creating new XP entries");
 				
-				if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
-					W3CreateEvent(SHSelectHeroesMenu,client);
-				}
+				SHShowCRMenuIfCanChoose(client);
 			}
 			
 		}
