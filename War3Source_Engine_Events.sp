@@ -34,11 +34,9 @@ public NW3CreateEvent(Handle:plugin,numParams)
 	new event=GetNativeCell(1);
 	new client=GetNativeCell(2);
 	DoFwd_War3_Event(W3EVENT:event,client);
-	if(event==SHSelectHeroesMenu){
-		DPP(plugin);
-		DPP(plugin);
-		ThrowNativeError(1,"asdf");
-	}
+//	if(event==SHSelectHeroesMenu){
+//		ThrowNativeError(1,"asdf");
+//	}
 }
 
 DoFwd_War3_Event(W3EVENT:event,client){

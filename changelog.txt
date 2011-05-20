@@ -1,5 +1,12 @@
 1.2.2
 
+
+B2
+
+database not connected warning in race/hero menu
+
+B1
+
 Extensions are now used, update the extensions folder!!
 Report as bug if they do not load or have errors!
 I can help you setup, PM ownz
