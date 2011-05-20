@@ -103,12 +103,20 @@ public OnWar3Event(W3EVENT:event,client){
 		}
 	}
 }
+new String:dbErrorMsg[100];
+public OnWar3GlobalError(String:err[]){
+	 strcopy(dbErrorMsg,sizeof(dbErrorMsg),err);
+}
 InternalSHChangeRaceMenu(client){
 	new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
 	SetMenuExitButton(crMenu,true);
 	
 	new String:title[400];
-	Format(title,400,"[SuperHero:Source] Select your desired heroes\nYou have %d out of %d heroes",SHHasHeroesNum(client),SHGetHeroesClientCanHave(client)) ;
+	if(strlen(dbErrorMsg)){
+		Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
+	}
+	
+	Format(title,sizeof(title),"%s[SuperHero:Source] Select your desired heroes\nYou have %d out of %d heroes",title,SHHasHeroesNum(client),SHGetHeroesClientCanHave(client)) ;
 	//AddMenuItem(crMenu,"0","0");
 	for(new raceid=1;raceid<=War3_GetRacesLoaded();raceid++){
 		

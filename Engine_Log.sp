@@ -7,7 +7,7 @@
 new Handle:hW3Log;
 new Handle:hW3LogError;
 new Handle:hW3LogNotError;
-
+new Handle:hGlobalErrorFwd;
 public Plugin:myinfo= 
 {
 	name="Engine Log Error",
@@ -60,6 +60,9 @@ public bool:InitNativesForwards()
 	CreateNative("W3Log",NW3Log);
 	CreateNative("W3LogError",NW3LogError);
 	CreateNative("W3LogNotError",NW3LogNotError);
+
+	CreateNative("CreateWar3GlobalError",NCreateWar3GlobalError);
+	hGlobalErrorFwd=CreateGlobalForward("OnWar3GlobalError",ET_Ignore,Param_String);
 	
 	return true;
 }
@@ -121,4 +124,19 @@ public NW3LogNotError(Handle:plugin,numParams)//{const String:fmt[],any:...)
 	PrintToServer("%s",outstr);
 	WriteFileLine(hW3LogNotError,outstr);
 	FlushFile(hW3LogNotError);
+}
+public NCreateWar3GlobalError(Handle:plugin,numParams){
+	decl String:outstr[1000];
+	
+	FormatNativeString(0, 
+		      1, 
+		      2, 
+		      sizeof(outstr),
+			_,
+			outstr);
+			
+	Call_StartForward(hGlobalErrorFwd);
+	Call_PushString(outstr);
+	Call_Finish(dummy);
+
 }

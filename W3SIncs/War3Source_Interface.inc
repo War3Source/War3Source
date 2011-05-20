@@ -1186,6 +1186,7 @@ native W3SaveXP(client,race);
 native W3Log(const String:fmt[],any:...);
 native W3LogError(const String:fmt[],any:...);
 native W3LogNotError(const String:fmt[],any:...);
+
 /**
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
@@ -1236,8 +1237,11 @@ native W3LogNotError(const String:fmt[],any:...);
 
 
 
+//create an error displayed in various places at runtime
+native CreateWar3GlobalError(String:str[]);
 
-
+//forwarded when someone calls CreateWar3GlobalError, store that string for yourself
+forward OnWar3GlobalError(String:str[]);
 
 forward War3FailedSignal(String:str[]);
 public War3FailedSignal(String:str[]){

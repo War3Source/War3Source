@@ -39,6 +39,9 @@ public OnWar3Event(W3EVENT:event, client)
 		{
 			CSParticle(client);
 		}
+		new String:name[32];
+		GetClientName(client,name,sizeof(name));
+		War3_ChatMessage(0,"%s has leveled up to %d",name,War3_GetLevel(client,War3_GetRace(client)));
 	}
 }
 

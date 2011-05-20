@@ -94,7 +94,7 @@ native SHTryToGiveClientHero(client,herotogive,bool:showchangeracemenuagain);
  */ 
 stock SHShowCRMenuIfCanChoose(client){ 
 	if(W3IsPlayerXPLoaded(client)){
-		if(SHHasHeroesNum(client)<(client)){
+		if(SHHasHeroesNum(client)<SHGetHeroesClientCanHave(client)){
 			W3CreateEvent(SHSelectHeroesMenu,client);
 			return true;
 		}

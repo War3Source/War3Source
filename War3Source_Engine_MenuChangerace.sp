@@ -32,7 +32,10 @@ public OnWar3Event(W3EVENT:event,client){
 		}
 	}
 }
-
+new String:dbErrorMsg[100];
+public OnWar3GlobalError(String:err[]){
+	 strcopy(dbErrorMsg,sizeof(dbErrorMsg),err);
+}
 War3Source_ChangeRaceMenu(client)
 {
 	if(W3IsPlayerXPLoaded(client))
@@ -42,9 +45,9 @@ War3Source_ChangeRaceMenu(client)
 		SetMenuExitButton(crMenu,true);
 		
 		new String:title[400];
-		//if(strlen(dbErrorMsg)){
-		//	Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
-		//}
+		if(strlen(dbErrorMsg)){
+			Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
+		}
 		Format(title,sizeof(title),"%s%T",title,"[War3Source] Select your desired race",GetTrans()) ;
 		if(W3GetLevelBank(client)>0){
 			Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));

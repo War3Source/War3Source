@@ -62,6 +62,7 @@ ConnectDB(){
 		Format(dbErrorMsg,sizeof(dbErrorMsg),"ERR: Could not connect to DB. \n%s",error);
 		LogError("ERRMSG:(%s)",error);
 		W3LogError("ERRMSG:(%s)",error);
+		CreateWar3GlobalError("ERR: Could not connect to Database");
 	}
 	else
 	{
