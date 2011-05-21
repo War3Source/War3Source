@@ -4,6 +4,7 @@
 B2
 
 database not connected warning in race/hero menu
+print plugin name when damage engine errors one a few specific errors
 
 B1
 
