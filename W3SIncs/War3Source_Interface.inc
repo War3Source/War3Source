@@ -2142,6 +2142,12 @@ stock PrintPlugin(Handle:plugin){
 	GetPluginFilename(Handle:plugin, str, sizeof(str));
 	W3LogNotError("%s",str);
 }
+stock PrintPluginError(Handle:plugin){
+	new String:str[100];
+	GetPluginFilename(Handle:plugin, str, sizeof(str));
+	LogError("%s",str);
+	W3LogError("%s",str);
+}
 
 
 

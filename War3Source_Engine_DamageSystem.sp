@@ -91,7 +91,7 @@ public Native_War3_DamageModPercent(Handle:plugin,numParams)
 	if(!g_CanSetDamageMod){
 		LogError("You may not set damage mod percent here, use ....Pre forward");
 		W3LogError("You may not set damage mod percent here, use ....Pre forward");
-		PrintPlugin(plugin);
+		PrintPluginError(plugin);
 	}
 
 	new Float:num=GetNativeCell(1); 
@@ -331,7 +331,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 	if(!g_CanDealDamage){
 		LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
 		W3LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
-		PrintPlugin(plugin);
+		PrintPluginError(plugin);
 	}
 	
 		
