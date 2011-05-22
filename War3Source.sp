@@ -26,7 +26,7 @@
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.2.1"
+#define VERSION_NUM "1.2.2.2"
 #define REVISION_NUM 12202 //increment every release
 
 

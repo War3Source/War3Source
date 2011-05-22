@@ -7,6 +7,8 @@ database not connected warning in race/hero menu
 print plugin name when damage engine errors one a few specific errors
 sdkhooks.inc and sockets.inc how packaged inside w3incs, those will be used by the .sp files
 
+fixed cooldownmgr handle leak
+
 B1
 
 Extensions are now used, update the extensions folder!!
