@@ -376,7 +376,8 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 				StrCat(str,sizeof(str),newstr);
 			}
 			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,4.0,str);
-
+			CloseHandle(arraylist[client]);
+			arraylist[client]=INVALID_HANDLE;
 		}
 		else{
 			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,0.0,"");//CLEAR IT , so we dont have "ready" and "cooldown" of same skill at same time
