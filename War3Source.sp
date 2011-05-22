@@ -36,7 +36,7 @@
 #define WAR3MAIN
 
 #include <sourcemod>
-#include <sdkhooks>
+#include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 #include "W3SIncs/War3SourceMain"
 

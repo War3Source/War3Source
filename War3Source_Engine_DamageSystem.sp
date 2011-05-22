@@ -9,7 +9,7 @@
 #pragma semicolon 1
 
 #include <sourcemod>
-#include <sdkhooks>
+#include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
 ///would you like to see the damage stack print out?

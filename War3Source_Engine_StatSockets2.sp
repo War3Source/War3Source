@@ -2,7 +2,7 @@
 #pragma semicolon 1;
 
 #include <sourcemod>
-#include <socket>
+#include "W3SIncs/socket.inc"
 //use ur own natives and stocks
 #include "W3SIncs/War3Source_Interface"
 

@@ -7,7 +7,7 @@
 #pragma semicolon 1
 
 #include <sourcemod>
-#include <sdkhooks>
+#include "W3SIncs/sdkhooks"
 
 
 

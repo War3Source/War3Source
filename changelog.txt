@@ -5,6 +5,7 @@ B2
 
 database not connected warning in race/hero menu
 print plugin name when damage engine errors one a few specific errors
+sdkhooks.inc and sockets.inc how packaged inside w3incs, those will be used by the .sp files
 
 B1
 

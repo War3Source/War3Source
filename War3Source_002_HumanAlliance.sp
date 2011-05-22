@@ -12,7 +12,7 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
-#include <sdkhooks>
+#include "W3SIncs/sdkhooks"
 public W3ONLY(){} //unload this?
 new thisRaceID;
 

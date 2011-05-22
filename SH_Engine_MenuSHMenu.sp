@@ -30,8 +30,8 @@ public OnWar3Event(W3EVENT:event,client){
 ShowSHMenu(client){	
 	new Handle:war3Menu=CreateMenu(SuperHero_SHMenu_Select);
 	SetMenuTitle(war3Menu,"%T","[War3Source] Choose a task",client);
-	new limit=9;
-	new String:transbuf[32];
+//	new limit=9;
+//	new String:transbuf[32];
 	new String:menustr[100];
 	new String:numstr[4];
 	//for(new i=0;i<=limit;i++){
