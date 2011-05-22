@@ -1,7 +1,0 @@
-<html>
-	<head>Title</head>
-	
-	<body>
-		<!-- Content goes here -->
-	</body>
-</html>
