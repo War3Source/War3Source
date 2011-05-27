@@ -3,6 +3,8 @@
 
 #include "smsdk_ext.h"
 #include "igameevents.h"
+#include <IWebternet.h>
+#include <IThreader.h>
 //#include "war3dll.h" // copy this file from source please :)
 
 #define MAXMODULE 99
@@ -10,7 +12,12 @@
  * @brief Sample implementation of the SDK Extension.
  * Note: Uncomment one of the pre-defined virtual functions in order to use it.
  */
-class War3Ext : public SDKExtension, public IGameEventListener2, public IMetamodListener // now that War3Ext inherits eventlistener it can be added to the manager.
+class War3Ext : 
+	public SDKExtension, //implementing all these interfaces
+	public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
+	public IMetamodListener, 
+	public ITransferHandler, 
+	public IThread
 {
 public:
 	// Some variables.
@@ -96,7 +103,24 @@ public:
 								 bool background);
 	virtual void OnLevelShutdown();
 	virtual void FireGameEvent( IGameEvent *event );
+
+
+
+
+
 #endif
+		virtual ~War3Ext();
+	//itransferhandler
+	 DownloadWriteStatus OnDownloadWrite(IWebTransfer *session,
+                               void *userdata,
+                              void *ptr,
+                               size_t size,
+                              size_t nmemb);
+	 unsigned int GetURLInterfaceVersion();
+        
+	 //ithreader
+	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
+	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 };
 
 //extern is like function prototype, for variables

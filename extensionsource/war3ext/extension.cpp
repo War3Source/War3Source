@@ -23,12 +23,22 @@ SMEXT_LINK(&war3_ext); //not related to dll
 
 //Those are function pointers
 typedef int (*NumberListPtr)();
-typedef void (*LetterList)();
+typedef void (*LetterList)(); 
 typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
 typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
+SMInterface *sminterfaceIWebternet=NULL; //SMInterface
+ IWebTransfer *IWebTransferxfer; //single object for transfer handling
+
+		
+War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
+	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
+		META_CONPRINTF("[war3ext] could not get sm interface\n");
+	}
+	
+	
 	g_pShareSys->AddNatives(myself,MyNatives);
 	META_CONPRINTF("[war3ext] loaded\n");
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
@@ -193,12 +203,40 @@ static cell_t OurTestNative(IPluginContext *pCtx, const cell_t *params)
 	//return value of native, return cells only
 	return  sp_ftoc(2.4f);
 }
+unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
+	return 1;
+}
+ DownloadWriteStatus  War3Ext::OnDownloadWrite(IWebTransfer *session,
+                               void *userdata,
+                              void *ptr,
+                               size_t size,
+                              size_t nmemb)
+                     {
+						// META_CONPRINTF("%s",(char*)ptr);
+						 META_CONPRINTF("len %d ",size);
+                               return DownloadWrite_Okay;//DownloadWrite_Error;
+                    }
+
+ void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ META_CONPRINTF("IN THREAD"); 
+	IWebTransfer *foo=((IWebternet*)sminterfaceIWebternet)->CreateSession();
+
+	foo->Download("http://ownageclan.com",&war3_ext,IWebTransferxfer); //blocking
+	delete foo;
+	Sleep(1000);
+ } 
+ void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
 static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 {
 	//cwar3->PassStuff(g_pSM,engine);
 	cwar3->DoStuff();
 	cell_t result;
+
+	threader->MakeThread(&war3_ext);
+
+
+
+
 #ifdef BADDD
 		SMInterface *somesminterface;
 		if(g_pShareSys->RequestInterface("INativeInterface",0,myself,&somesminterface)){
