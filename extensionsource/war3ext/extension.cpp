@@ -214,8 +214,8 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
  DownloadWriteStatus  War3Ext::OnDownloadWrite(IWebTransfer *session,
                                void *userdata,
                               void *rcvddataptr,
-                               size_t size,
-                              size_t nmemb)
+                               size_t size, //supposed interpretation of data? number of bytes?
+                              size_t nmemb) //number of 'size' blocks, so total bytes = size * nmemb
                      {
 						 
 						 ((std::string*)(userdata))->append((char*)rcvddataptr,nmemb);
