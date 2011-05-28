@@ -222,7 +222,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 
 	foo->Download("http://ownageclan.com",&war3_ext,IWebTransferxfer); //blocking
 	delete foo;
-	sleep(1);
+	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
@@ -233,7 +233,7 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 	cell_t result;
 
 	threader->MakeThread(&war3_ext);
-
+	IMutex *mahmutex=threader->MakeMutex();
 
 
 

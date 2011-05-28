@@ -26,6 +26,7 @@ class War3Ext :
 	public IMetamodListener, 
 	public ITransferHandler, 
 	public IThread
+	
 {
 public:
 	// Some variables.
@@ -129,6 +130,13 @@ public:
 	 //ithreader
 	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
 	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
+
+	 //imutex
+	/* virtual ~IMutex() { };
+	virtual bool TryLock() =0;
+	virtual void Lock() =0;
+	virtual void Unlock() =0;
+	virtual void DestroyThis() =0;*/
 };
 
 //extern is like function prototype, for variables
