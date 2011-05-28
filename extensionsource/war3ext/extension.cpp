@@ -30,12 +30,17 @@ typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 SMInterface *sminterfaceIWebternet=NULL; //SMInterface
  IWebTransfer *IWebTransferxfer; //single object for transfer handling
 
+ IMutex *threadcountmutex;
+ int threadcount=0;
 		
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
 	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
 		META_CONPRINTF("[war3ext] could not get sm interface\n");
+	}
+	else{
+		threadcountmutex=threader->MakeMutex();
 	}
 	
 	
@@ -223,6 +228,11 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 	foo->Download("http://ownageclan.com",&war3_ext,IWebTransferxfer); //blocking
 	delete foo;
 	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
+
+
+	threadcountmutex->Lock();
+	threadcount--;
+	threadcountmutex->Unlock();
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
@@ -232,9 +242,10 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 	cwar3->DoStuff();
 	cell_t result;
 
+	threadcountmutex->Lock();
+	threadcount++;
 	threader->MakeThread(&war3_ext);
-	IMutex *mahmutex=threader->MakeMutex();
-
+	threadcountmutex->Unlock();
 
 
 #ifdef BADDD
