@@ -7,7 +7,7 @@
 #include <iostream>
 #include "os_calls.h"
 #include "war3dll2.h"
-
+#include <string>
 
 #define MAXMODULE 99
 
@@ -213,22 +213,25 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 }
  DownloadWriteStatus  War3Ext::OnDownloadWrite(IWebTransfer *session,
                                void *userdata,
-                              void *ptr,
+                              void *rcvddataptr,
                                size_t size,
                               size_t nmemb)
                      {
+						 
+						 ((std::string*)(userdata))->append((char*)rcvddataptr,nmemb);
 						// META_CONPRINTF("%s",(char*)ptr);
-						 META_CONPRINTF("len %d ",size);
+						 META_CONPRINTF("len %d %d",size,nmemb);
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 
  void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ META_CONPRINTF("IN THREAD"); 
 	IWebTransfer *foo=((IWebternet*)sminterfaceIWebternet)->CreateSession();
-
-	foo->Download("http://ownageclan.com",&war3_ext,IWebTransferxfer); //blocking
+	using namespace std;
+	string wtf=""; //auto delete when thread dies
+	foo->Download("http://ownageclan.com",&war3_ext,&wtf); //blocking
 	delete foo;
 	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
-
+	cout<<wtf<<endl;
 
 	threadcountmutex->Lock();
 	threadcount--;
