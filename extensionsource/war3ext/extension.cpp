@@ -48,7 +48,10 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 		threadcountmutex=threader->MakeMutex();
 
 	}
-	
+	///if((g_pShareSys->RequestInterface("ITimerSys",0,myself,(SMInterface**)&timersys))){
+	//	PRINT("TRUE");
+	//	timersys->CreateTimer(&war3_ext,10.0,NULL, TIMER_FLAG_REPEAT);
+	//}
 	g_pShareSys->AddNatives(myself,MyNatives);
 	//g_pShareSys->OverrideNatives(myself,&tMyNatives);
 	//timersys->CreateTimer(&war3_ext,10.0,NULL, TIMER_FLAG_REPEAT);
