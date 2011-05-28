@@ -222,7 +222,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 
 	foo->Download("http://ownageclan.com",&war3_ext,IWebTransferxfer); //blocking
 	delete foo;
-	Sleep(1000);
+	sleep(1);
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 

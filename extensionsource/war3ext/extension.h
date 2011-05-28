@@ -7,6 +7,12 @@
 #include <IThreader.h>
 //#include "war3dll.h" // copy this file from source please :)
 
+#ifdef WIN32
+#include <process.h>
+#include <fcntl.h>
+#define sleep(sec)   Sleep ((sec)*1000)
+#endif
+
 #define MAXMODULE 99
 /**
  * @brief Sample implementation of the SDK Extension.
