@@ -96,6 +96,7 @@ else
 endif
 
 INCLUDE += -I$(SMSDK)/public/extensions 
+INCLUDE += -I../war3dll2
 #-Icurl-src/include
 
 #LINK += -m32 -lm -ldl -lrt curl-src/Release/lib/.libs/libcurl.a 
