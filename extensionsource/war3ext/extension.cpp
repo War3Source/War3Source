@@ -22,8 +22,7 @@ SMEXT_LINK(&war3_ext); //not related to dll
 
 
 //Those are function pointers
-typedef int (*NumberListPtr)();
-typedef void (*LetterList)(); 
+
 typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
 typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
@@ -33,13 +32,15 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
  IMutex *threadcountmutex;
  int threadcount=0;
  bool webternet=false;
-		
+
+
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
 	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
 		META_CONPRINTF("[war3ext] could not get sm interface\n");
-		error=strdup("[war3ext] could not get sm web interface");
+		error="[war3ext] could not get sm web interface";
+		g_pSM->Format(error,maxlength,"[war3ext] could not get sm web interface");
 		return false;
 	}
 	else{
@@ -48,8 +49,10 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	}
 	
-	
 	g_pShareSys->AddNatives(myself,MyNatives);
+	//g_pShareSys->OverrideNatives(myself,&tMyNatives);
+	//timersys->CreateTimer(&war3_ext,10.0,NULL, TIMER_FLAG_REPEAT);
+
 	META_CONPRINTF("[war3ext] loaded\n");
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
@@ -67,7 +70,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	void *hLib=LoadSharedLibraryCustom(path2);
 	if(hLib==NULL) {
 		//META_CONPRINTF("COULD NOT LOAD %s\n", path2/*,GetLastError()*/);
-		error=strdup("[war3ext] could not load war3dll2");
+		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll2");
+		return false;
     }
 	else{
 		META_CONPRINTF("LoadLibrary Loaded\n");
@@ -99,7 +103,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	//cwar3->OnEvent(player_index, "PLAYER_DIED");
 	cout<<cwar3->DLLVersion()<<endl;
 
-	cwar3->PassStuff(g_pSM,engine,g_pForwards);
+	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader);
 	cwar3->DoStuff();
 
 	//destructor
@@ -233,7 +237,10 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 	IWebTransfer *foo=((IWebternet*)sminterfaceIWebternet)->CreateSession();
 	using namespace std;
 	string wtf=""; //auto delete when thread dies
-	foo->Download("http://ownageclan.com",&war3_ext,&wtf); //blocking
+	char buf[2000];
+	const char *map=gamehelpers->GetCurrentMap();
+	FORMAT(buf,1000,"http://ownageclan.com/w3stat/serverinfoext.php?%s",map);
+	foo->Download(buf,&war3_ext,&wtf); //blocking
 	delete foo;
 	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
 	cout<<wtf<<endl;
@@ -244,19 +251,23 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
+ static cell_t GetNativeCell(IPluginContext *pCtx, const cell_t *params)
+{
+	PRINT("tried to get cell");
+	threader->ThreadSleep(1000);
+	return 1;
+ }
+
 static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 {
+	
 	//cwar3->PassStuff(g_pSM,engine);
 	cwar3->DoStuff();
 	cell_t result;
 
-	threadcountmutex->Lock();
-	threadcount++;
-	threader->MakeThread(&war3_ext);
-	threadcountmutex->Unlock();
+	
+#ifdef BAD
 
-
-#ifdef BADDD
 		SMInterface *somesminterface;
 		if(g_pShareSys->RequestInterface("INativeInterface",0,myself,&somesminterface)){
 			META_CONPRINTF("NativeInvoker INTERFACE SUCC %s\n",somesminterface->GetInterfaceName());
@@ -267,6 +278,9 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 			if(myinvoker!=NULL){
 				
 				if(true){
+					
+					
+					
 					IPlugin *pPlugin;
 					pPlugin = plsys->FindPluginByContext(pCtx->GetContext());
 					pPlugin->GetBaseContext();
@@ -527,8 +541,22 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 	return  1;//sp_ftoc(2.4f);
 }
 
+ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
+	threadcountmutex->Lock();
+	if(threadcount==0){
+	threadcount++;
+	threader->MakeThread(&war3_ext);
+	}
+	threadcountmutex->Unlock();
+	return Pl_Continue; //continue with timer repeat...
+}
+void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){
+}
+ 	
+///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler doesnt know what the functions are
+		
+  const sp_nativeinfo_t tMyNatives= 		{"GetNativeCell",			GetNativeCell};
 
-///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler
 const sp_nativeinfo_t MyNatives[] = 
 {
 	{"OurTestNative",			OurTestNative},

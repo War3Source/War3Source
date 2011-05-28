@@ -5,6 +5,7 @@
 #include "igameevents.h"
 #include <IWebternet.h>
 #include <IThreader.h>
+#include <INativeInvoker.h>
 //#include "war3dll.h" // copy this file from source please :)
 
 #ifdef WIN32
@@ -15,6 +16,8 @@
 #define sleep(sec) usleep(1000*sec);
 #endif
 
+#define PRINT META_CONPRINTF
+#define FORMAT g_pSM->Format
 #define MAXMODULE 99
 /**
  * @brief Sample implementation of the SDK Extension.
@@ -25,8 +28,8 @@ class War3Ext :
 	public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
 	public IMetamodListener, 
 	public ITransferHandler, 
-	public IThread
-	
+	public IThread,
+	public ITimedEvent
 {
 public:
 	// Some variables.
@@ -137,11 +140,16 @@ public:
 	virtual void Lock() =0;
 	virtual void Unlock() =0;
 	virtual void DestroyThis() =0;*/
+
+	 //timer
+	 ResultType 	OnTimer (ITimer *pTimer, void *pData);
+	void 	OnTimerEnd (ITimer *pTimer, void *pData);
+ 	
 };
 
 //extern is like function prototype, for variables
-extern const sp_nativeinfo_t MyNatives[]; 
-
+extern const sp_nativeinfo_t MyNatives[]; //because functions are not listed in header, we cant initialize these entries at the beginning, we put them here so other places we can reference them first
+extern  const sp_nativeinfo_t tMyNatives;
 bool StrEquali(const char*,const char*);
 
 
