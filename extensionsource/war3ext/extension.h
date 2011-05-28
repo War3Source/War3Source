@@ -10,7 +10,9 @@
 #ifdef WIN32
 #include <process.h>
 #include <fcntl.h>
-#define sleep(sec)   Sleep ((sec)*1000)
+#define sleep(sec)   Sleep (sec)
+#else
+#define sleep(sec) usleep(1000*sec);
 #endif
 
 #define MAXMODULE 99
