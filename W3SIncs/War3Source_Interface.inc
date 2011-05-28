@@ -1483,6 +1483,8 @@ forward OnWar3PlayerAuthed(client);
  */
  #pragma deprecated Use OnRaceChanged(client,oldrace,newrace);
 forward OnRaceSelected(client,newrace); //to be removed
+
+//client is not check if valid or not, still forwarded if client is not present, so you can disable buffs etc
 forward OnRaceChanged(client,oldrace,newrace);
 
 /**

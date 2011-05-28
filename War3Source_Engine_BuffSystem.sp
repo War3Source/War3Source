@@ -221,6 +221,7 @@ public NW3ResetAllBuffRace(Handle:plugin,numParams) {
 		
 		ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,W3GetItemsLoaded()+race);
 	}
+	//SOME NEEDS TO BE SET AGAIN TO REFRESH
 	
 }
 public NW3ResetBuffRace(Handle:plugin,numParams) {
@@ -631,7 +632,7 @@ SetBuff(client,W3Buff:buffindex,itemraceindex,value)
 GetBuff(client,W3Buff:buffindex,itemraceindex){
 	return buffdebuff[client][buffindex][itemraceindex];
 }
-
+///REMOVE SINGLE BUFF FROM ALL RACES
 ResetBuff(client,W3Buff:buffindex){
 	
 	if(ValidBuff(buffindex))
@@ -643,14 +644,18 @@ ResetBuff(client,W3Buff:buffindex){
 			
 			DoCalculateBuffCache(client,buffindex);
 		}
+		reapplyspeed[client]++;
+
 	}
 }
+//RESET SINGLE BUFF OF SINGLE RACE
 ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,particularraceitemindex){
 	if(ValidBuff(buffindex))
 	{
 		buffdebuff[client][buffindex][particularraceitemindex]=BuffDefault(buffindex);
 		
 		DoCalculateBuffCache(client,buffindex);
+		reapplyspeed[client]++;
 	}
 }
 
