@@ -121,7 +121,9 @@ public:
 
 
 #endif
-		virtual ~War3Ext();
+	void cleanupmetamod();
+
+	 ~War3Ext();
 	//itransferhandler
 	 DownloadWriteStatus OnDownloadWrite(IWebTransfer *session,
                                void *userdata,

@@ -33,10 +33,14 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
  int threadcount=0;
  bool webternet=false;
 
-
+ //clean up metamod stuff
+ void War3Ext::cleanupmetamod(){
+	 m_EventManager->RemoveListener(this);
+ }
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
+	
 	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
 		META_CONPRINTF("[war3ext] could not get sm interface\n");
 		error="[war3ext] could not get sm web interface";
@@ -74,6 +78,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	if(hLib==NULL) {
 		//META_CONPRINTF("COULD NOT LOAD %s\n", path2/*,GetLastError()*/);
 		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll2");
+		cleanupmetamod();
 		return false;
     }
 	else{
@@ -127,10 +132,12 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
 	META_CONPRINTF("[war3ext] SDK_OnMetamodLoad\n");
+	
 
 	// add us to the metamod listener list
 	ismm->AddListener(this,this); // lemme find the first param
-
+	
+	
 	// i dont know if you are following 100% but basically they assume you'll use GET_V_IFACE_CURRENT inside OnMetaModload, since that is proper.
 	GET_V_IFACE_CURRENT(GetEngineFactory, m_Cvars, ICvar, CVAR_INTERFACE_VERSION);
 	GET_V_IFACE_CURRENT(GetEngineFactory, m_EventManager, IGameEventManager2, INTERFACEVERSION_GAMEEVENTSMANAGER2);
@@ -145,9 +152,10 @@ bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool 
 		return false;
 	}
 	// Now that you have the event manager, add listeners. I believe it is supposed to be done on map start
-
+	
 	m_EventManager->AddListener(this, "player_spawn", true);
 	m_EventManager->AddListener(this, "player_death", true);
+	
 	return true;
 }
 
