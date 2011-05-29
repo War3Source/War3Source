@@ -30,7 +30,7 @@ public Plugin:myinfo=
 };
 
 new bool:updatenextframe[MAXPLAYERSCUSTOM];
-
+new String:lastoutput[MAXPLAYERSCUSTOM][128];
 public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
 {
 	for(new i=0;i<MAXKEYCOUNT;i++){
@@ -112,6 +112,7 @@ public NW3Hint(Handle:plugin,numParams)
 	if(len>0&&output[len-1]!='\n'){
 	StrCat(output, sizeof(output), "\n");
 	}
+	
 	new Handle:arr=Handle:GetCell(Object(client),priority);
 	if(W3GetHintPriorityType(W3HintPriority:priority)==HINT_TYPE_SINGLE){
 		ClearArray(Handle:arr);
@@ -145,9 +146,10 @@ public OnGameFrame(){
 		if (ValidPlayer(client,true))
 		{
 			
-
+			//this 0.3 resolution only affects expiry, does not delay new messages as that is signaled by updatenextframe
 			static Float:lastshow[MAXPLAYERSCUSTOM];
-			if(lastshow[client]<GetEngineTime()-0.2 || updatenextframe[client]){
+			if(lastshow[client]<GetEngineTime()-0.3 || updatenextframe[client]){
+				//PrintToServer("%f < %f, bool %d", lastshow[client],GetEngineTime()-0.5,updatenextframe[client]);
 				updatenextframe[client]=false;
 				lastshow[client]=GetEngineTime();
 				new String:output[128];
@@ -207,7 +209,11 @@ public OnGameFrame(){
 						output[len-1]='\0';
 						len-=1; //keep eating the last returns
 					}
-					PrintHintText(client," %s",output); 
+					if(!StrEqual(lastoutput[client],output)){
+						PrintHintText(client," %s",output); //NEED SPACE
+						strcopy(lastoutput[client],128,output);
+						//PrintToChat(client,"%s %f",output,lastshow[client]);
+					}
 					
 				}
 			
@@ -317,11 +323,11 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 			StopSound(players[i], SNDCHAN_STATIC, "UI/hint.wav");
 			if(intercept){
 			
-				W3Hint(players[i],HINT_NORMAL,4.0,str);
+				W3Hint(players[i],HINT_NORMAL,4.0,str); //causes update
 				//urgent update
 				updatenextframe[players[i]]=true;
 				//Update(players[i]);
-				
+				//PrintToServer("captured");
 			}
 		}
 	}

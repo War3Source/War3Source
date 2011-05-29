@@ -364,6 +364,7 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 		skippedfrom=i;
 		i=tempnext-1; //i will increment, decremet it first here
 	}
+	static bool:cleared[MAXPLAYERSCUSTOM];
 	for(new client=1;client<=MaxClients;client++){
 	
 		if(arraylist[client]){
@@ -378,9 +379,13 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,4.0,str);
 			CloseHandle(arraylist[client]);
 			arraylist[client]=INVALID_HANDLE;
+			cleared[client]=false;
 		}
 		else{
-			W3Hint(client,HINT_COOLDOWN_COUNTDOWN,0.0,"");//CLEAR IT , so we dont have "ready" and "cooldown" of same skill at same time
+			if(cleared[client]==false){
+				cleared[client]=true;
+				W3Hint(client,HINT_COOLDOWN_COUNTDOWN,0.0,"");//CLEAR IT , so we dont have "ready" and "cooldown" of same skill at same time
+			}
 		}
 	}
 }

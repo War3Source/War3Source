@@ -3,6 +3,8 @@
 B3
 
 marked natives as optional, for debugging purposes
+removed DLL visual studio redistrubutable dependency
+fixed and improved hint engine and cooldown engine to work with tf2 correctly
 
 B2
 
