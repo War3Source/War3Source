@@ -40,7 +40,7 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	
+	sharesys->AddDependency(myself, "webternet.ext", true, true);
 	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
 		META_CONPRINTF("[war3ext] could not get sm interface\n");
 		error="[war3ext] could not get sm web interface";
