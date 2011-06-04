@@ -1,5 +1,9 @@
 1.2.2
 
+B4
+
+level up print prints the race (please translate, its in War3Source_Addon_LevelUpParticle)
+
 B3
 
 marked natives as optional, for debugging purposes
