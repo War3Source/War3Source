@@ -1561,7 +1561,6 @@ forward OnW3TakeDmgAll(victim,attacker,Float:damage);
 //you may NOT set damage mod percent HERE 
 //you may DAMAGE in here
 forward OnW3TakeDmgBullet(victim,attacker,Float:damage);  
-//no such thing as OnW3TakeDmgBulletPre, use OnW3TakeDmgAllPre instead and check for Is bullet
 
 
 

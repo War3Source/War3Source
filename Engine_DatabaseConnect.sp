@@ -4,7 +4,6 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-
 new Handle:hDB;
 
 

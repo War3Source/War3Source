@@ -41,7 +41,10 @@ public OnWar3Event(W3EVENT:event, client)
 		}
 		new String:name[32];
 		GetClientName(client,name,sizeof(name));
-		War3_ChatMessage(0,"%s has leveled up to %d",name,War3_GetLevel(client,War3_GetRace(client)));
+		new String:racename[32];
+		new race=War3_GetRace(client);
+		War3_GetRaceName(race,racename,sizeof(racename));
+		War3_ChatMessage(0,"%s has leveled {lightgreen}%s{default} to {lightgreen}%d",name,racename,War3_GetLevel(client,race));
 	}
 }
 
