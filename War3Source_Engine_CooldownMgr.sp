@@ -428,6 +428,8 @@ CooldownExpired(i,bool:expiredByTimer)
 	Call_PushCell(expiredByTimer);
 	new result;
 	Call_Finish(result); //this will be returned to ?
+	
+	//DP("expired");
 }
 
 

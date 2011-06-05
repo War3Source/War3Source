@@ -172,6 +172,7 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 	}
 	if(target<=0)
 	{
+	//DP("no target");
 		// no target, if first call dont do cooldown
 		if(first_call)
 		{
@@ -182,6 +183,7 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 			// alright, time to cooldown
 			new Float:cooldown=GetConVarFloat(ultCooldownCvar);
 			War3_CooldownMGR(client,cooldown,thisRaceID,ULT_LIGHTNING,_,_);
+			//DP("CD %f %d %d",cooldown,thisRaceID,ULT_LIGHTNING);
 		}
 	}
 	else
@@ -211,7 +213,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 		if(skill>0)
 		{
 			
-			if(War3_SkillNotInCooldown(client,thisRaceID,3,true)&&!Silenced(client))
+			if(War3_SkillNotInCooldown(client,thisRaceID,ULT_LIGHTNING,true)&&!Silenced(client))
 			{
 					
 				for(new x=1;x<=MaxClients;x++)
