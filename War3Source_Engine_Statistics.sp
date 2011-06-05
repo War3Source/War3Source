@@ -228,15 +228,15 @@ UpdateMsg(){
 
 public Action:UpdateServerInfo(Handle:t,any:a){
 
-	new String:hostname[64];
-	GetConVarString(FindConVar("hostname"),hostname,64);
+	decl String:hostname[1000];
+	GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
 	URLEncode(hostname,sizeof(hostname));
 	
-	new String:ourversion[32];
-	W3GetW3Version(ourversion,32);
+	decl String:ourversion[1000];
+	W3GetW3Version(ourversion,sizeof(ourversion));
 	URLEncode(ourversion,sizeof(ourversion));
 	
-	new String:longquery[512];
+	decl String:longquery[1000];
 	new clientcount=0;
 	for(new i=1;i<=MaxClients;i++)
 	{
@@ -246,15 +246,15 @@ public Action:UpdateServerInfo(Handle:t,any:a){
 		}
 	}
 	
-	new String:mapname[64];
+	decl String:mapname[1000];
 	GetCurrentMap(mapname,sizeof(mapname));
 	URLEncode(mapname, sizeof(mapname));
 	
-	new String:gameencoded[64];
+	decl String:gameencoded[1000];
 	Format(gameencoded, sizeof(gameencoded), "%s", game);
 	URLEncode(gameencoded, sizeof(gameencoded));
 	
-	new String:ipencoded[64];
+	decl String:ipencoded[1000];
 	Format(ipencoded, sizeof(ipencoded), "%s", serverip);
 	URLEncode(ipencoded, sizeof(ipencoded)); // should work now :D
 	
@@ -290,20 +290,20 @@ MayUpdateServerInfo(){
 public OnWar3PlayerAuthed(client)
 {
 	
-		new String:name[32];
+		new String:name[1000];
 		GetClientName(client,name,sizeof(name));
 		URLEncode(name,sizeof(name));
 		
-		new String:hostname[64];
+		new String:hostname[1000];
 		GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
 		URLEncode(hostname,sizeof(hostname));
 		
 		
-		new String:steamid[32];
+		new String:steamid[1000];
 		GetClientAuthString(client,steamid,sizeof(steamid));
 		URLEncode(steamid, sizeof(steamid));
 		
-		new String:clientip[32];
+		new String:clientip[1000];
 		GetClientIP(client, clientip, sizeof(clientip));
 		URLEncode(clientip, sizeof(clientip));
 		
@@ -389,19 +389,19 @@ FileBugReport(client,String:reportstr[]){
 	
 	if(hdatabase2)
 	{
-		new String:hostname_sql[64];
+		new String:hostname_sql[1000];
 		SQL_EscapeString(hdatabase2,hostname,hostname_sql, sizeof(hostname_sql));
 		
-		new String:client_name_escaped[64];
+		new String:client_name_escaped[1000];
 		SQL_EscapeString(hdatabase2,name, client_name_escaped, sizeof(client_name_escaped));
 		
-		new String:serverip_sql[64];
+		new String:serverip_sql[1000];
 		SQL_EscapeString(hdatabase2,serverip, serverip_sql, sizeof(serverip_sql));
 		
-		new String:version_sql[32];
+		new String:version_sql[1000];
 		SQL_EscapeString(hdatabase2,version, version_sql, sizeof(version_sql));
 	
-		new String:reportstr_sql[1024];
+		new String:reportstr_sql[1000];
 		SQL_EscapeString(hdatabase2, reportstr, reportstr_sql, sizeof(reportstr_sql));
 
 		// lets do this before we escape it all. and technically these should be SQL_EscapeString'ed
@@ -409,10 +409,10 @@ FileBugReport(client,String:reportstr[]){
 		steamid,client_name_escaped,GetTime(),clientip,hostname_sql,serverip_sql,serverport,version_sql,reportstr_sql);
 		SQL_TQuery(hdatabase2,SQLTCallbackFileBug,longquery,client);
 	}
-	new String:reportstr_url[1024];
+	decl String:reportstr_url[1000];
 	Format(reportstr_url, sizeof(reportstr_url), "%s", reportstr);
 		
-	new String:serveripenc[64];
+	decl String:serveripenc[1000];
 	Format(serveripenc, 64, "%s", serverip); // good this is for url and is encoded after
 	
 	URLEncode(reportstr_url,sizeof(reportstr_url));
@@ -442,8 +442,8 @@ public Action:ExecOnceTimer(Handle:h){
 	decl String:longquery[16000];
 
 		
-	new String:racename[64];
-	new String:raceshort[16];
+	decl String:racename[100];
+	decl String:raceshort[100];
 	new RacesLoaded = War3_GetRacesLoaded();
 	for(new raceid=1;raceid<=RacesLoaded;raceid++)
 	{
@@ -504,10 +504,10 @@ public Action:ExecOnceTimer(Handle:h){
 		
 	}
 	
-	new String:hostname[64];
-	GetConVarString(FindConVar("hostname"),hostname,64);
+	decl String:hostname[1000];
+	GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
 	URLEncode(hostname,sizeof(hostname));
-	new String:version[32];
+	decl String:version[1000];
 	W3GetW3Version(version,sizeof(version));
 	Format(longquery,sizeof(longquery),"ip=%s:%d&hostname=%s&version=%s",serverip,serverport,hostname,version);
 	W3Socket2("w3stat/crashlog.php",longquery,CrashLogCallback);
@@ -517,9 +517,9 @@ public Action:ExecOnceTimer(Handle:h){
 	
 	
 	new Handle:cvarlist=W3CvarList();
-	decl String:cvarstr[32];
-	decl String:cvarvalue[32];
-	decl String:concatstr[256];
+	decl String:cvarstr[1000];
+	decl String:cvarvalue[1000];
+	decl String:concatstr[1000];
 	new limit=GetArraySize(cvarlist);
 	Format(longquery,sizeof(longquery),"ip=%s:%d&config=",serverip,serverport);
 	for(new i=1;i<limit;i++)
@@ -546,6 +546,7 @@ public Action:ExecOnceTimer(Handle:h){
 		 URLEncode(raceshort,sizeof(raceshort));
 		 StrCat(longquery,sizeof(longquery),raceshort);
 		 StrCat(longquery,sizeof(longquery),",");
+		 W3Log("%d",RacesLoaded);
 	}
 	W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
 	
@@ -557,7 +558,7 @@ public Action:ExecOnceTimer(Handle:h){
 	
 	
 	//ITEMS
-	decl String:itemshort[16];
+	decl String:itemshort[100];
 	Format(longquery,sizeof(longquery),"ip=%s:%d&items=",serverip,serverport);
 	new ItemsLoaded = W3GetItemsLoaded();
 	for(new i=1;i<=ItemsLoaded;i++)
@@ -609,10 +610,10 @@ public Action:MinuteTimer(Handle:h)
 public OnWar3EventDeath(victim,attacker){
 	if(collectkdstats&&(ValidPlayer(victim)&&ValidPlayer(attacker)&&War3_GetRace(victim)>0&&War3_GetRace(attacker)>0&&!IsFakeClient(victim)&&!IsFakeClient(attacker)&&victim!=attacker)){
 		decl String:longquery[2000];
-		decl String:raceshortatt[32];
-		decl String:raceshortvic[32];
-		decl String:steamid[32];
-		decl String:victimsteamid[32];
+		decl String:raceshortatt[64];
+		decl String:raceshortvic[64];
+		decl String:steamid[64];
+		decl String:victimsteamid[64];
 		GetClientAuthString(attacker,steamid,sizeof(steamid));
 		GetClientAuthString(victim,victimsteamid,sizeof(victimsteamid));
 		URLEncode(steamid,sizeof(steamid));
@@ -661,10 +662,10 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 						{
 							decl String:longquery[4000];
 						
-							decl String:steamid[32];
+							decl String:steamid[65];
 							GetClientAuthString(i,steamid,sizeof(steamid));
 							URLEncode(steamid,sizeof(steamid));
-							decl String:raceshort[32];
+							decl String:raceshort[64];
 							War3_GetRaceShortname(race,raceshort,sizeof(raceshort));
 							URLEncode(raceshort,sizeof(raceshort));
 							Format(longquery,sizeof(longquery),"w3stat/winlossV2.php?steamid=%s&raceshort=%s&game=%s&ip=%s:%d&win=%d&clientteam=%d&lvl=%d",steamid,raceshort,game,serverip,serverport,clientteam==winteam?1:0,clientteam,War3_GetLevel(i,race));
@@ -711,6 +712,9 @@ stock URLEncode(String:str[],len)
 	for(new x=0;x<20;x++)
 	{
 		ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
+	}
+	if(strlen(str)>len-1){
+		War3Failed("statistics encode url exceeded length");
 	}
 }
 stock bool:ShowError(){

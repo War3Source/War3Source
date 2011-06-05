@@ -3,6 +3,8 @@
 B4
 
 level up print prints the race (please translate, its in War3Source_Addon_LevelUpParticle)
+discovered a sourcemod bug, replacestring not respecting max length and overwriting other people's memory, resulted in infinite loop. 
+buffer sizes have increased to counter this problem for now, this may also fix stack errors
 
 B3
 
