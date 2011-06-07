@@ -8,6 +8,7 @@
 #include "os_calls.h"
 #include "war3dll2.h"
 #include <string>
+#include <locale>
 
 #define MAXMODULE 99
 
@@ -33,6 +34,9 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
  int threadcount=0;
  bool webternet=false;
 
+ //helper functions from plugins
+ IPluginFunction *helpergetfunc;
+
  //clean up metamod stuff
  void War3Ext::cleanupmetamod(){
 	 m_EventManager->RemoveListener(this);
@@ -52,14 +56,13 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 		threadcountmutex=threader->MakeMutex();
 
 	}
-	///if((g_pShareSys->RequestInterface("ITimerSys",0,myself,(SMInterface**)&timersys))){
-	//	PRINT("TRUE");
-	//	timersys->CreateTimer(&war3_ext,10.0,NULL, TIMER_FLAG_REPEAT);
-	//}
+	if((g_pShareSys->RequestInterface("ITimerSys",0,myself,(SMInterface**)&timersys))){
+		
+		timersys->CreateTimer(&war3_ext,1.0,NULL, 0);
+	}
 	g_pShareSys->AddNatives(myself,MyNatives);
 	//g_pShareSys->OverrideNatives(myself,&tMyNatives);
-	//timersys->CreateTimer(&war3_ext,10.0,NULL, TIMER_FLAG_REPEAT);
-
+	
 	META_CONPRINTF("[war3ext] loaded\n");
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
@@ -255,6 +258,8 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 	delete foo;
 	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
 	cout<<wtf<<endl;
+	
+	
 
 	threadcountmutex->Lock();
 	threadcount--;
@@ -262,19 +267,13 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
- static cell_t GetNativeCell(IPluginContext *pCtx, const cell_t *params)
-{
-	PRINT("tried to get cell");
-	threader->ThreadSleep(1000);
-	return 1;
- }
 
 static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 {
 	
 	//cwar3->PassStuff(g_pSM,engine);
 	cwar3->DoStuff();
-	cell_t result;
+	//cell_t result;
 
 	
 #ifdef BAD
@@ -388,6 +387,26 @@ static cell_t W3ExtVersion(IPluginContext *pCtx, const cell_t *params)
 inline funcid_t PublicIndexToFuncId(uint32_t idx)
 {
 	return (idx << 1) | (1 << 0); //times 2 (shift left) then plus 1 (or with 1)
+}
+static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
+{
+	char* strarg1;
+	pCtx->LocalToString(params[1], &strarg1);
+	PRINT("%d smx loaded\n",strarg1);
+
+	helpergetfunc=pCtx->GetFunctionByName("Get");
+	if(helpergetfunc==NULL){
+		for(int i=0;i<100;i++){
+			g_pSM->LogError(myself,"ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
+			
+		}
+		exit(0);
+	}
+
+	cwar3->W3ExtRegister2(pCtx,params);
+	
+
+	return 1;
 }
 static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 {
@@ -553,20 +572,20 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 }
 
 ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
-	threadcountmutex->Lock();
-	if(threadcount==0){
-	threadcount++;
-	threader->MakeThread(&war3_ext);
+	if(helpergetfunc==NULL){
+		for(int i=0;i<100;i++){
+			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
+			
+		}
+		exit(0);
 	}
-	threadcountmutex->Unlock();
 	return Pl_Continue; //continue with timer repeat...
 }
 void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){
 }
  	
 ///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler doesnt know what the functions are
-		
-  const sp_nativeinfo_t tMyNatives= 		{"GetNativeCell",			GetNativeCell};
+
 
 const sp_nativeinfo_t MyNatives[] = 
 {
@@ -574,6 +593,8 @@ const sp_nativeinfo_t MyNatives[] =
 	{"OurTestNative2",			OurTestNative2},
 	{"W3ExtVersion",			W3ExtVersion},
 	{"W3ExtTestFunc",			W3ExtTestFunc},
+	{"W3ExtRegister",			W3ExtRegister},
+	
 	{NULL,							NULL}, // last entry is null, it marks the end for all the loop operations.
 };
 

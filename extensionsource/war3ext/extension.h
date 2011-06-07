@@ -16,8 +16,19 @@
 #define sleep(sec) usleep(1000*sec);
 #endif
 
-#define PRINT META_CONPRINTF
+
+//standard prints
+#ifndef PRINT
+#define PRINT printf
+#endif
+#ifndef CPRINT
+#define CPRINT std::cout << 
+#endif
+
 #define FORMAT g_pSM->Format
+//end standard prints
+
+
 #define MAXMODULE 99
 /**
  * @brief Sample implementation of the SDK Extension.
@@ -136,12 +147,7 @@ public:
 	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
 	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 
-	 //imutex
-	/* virtual ~IMutex() { };
-	virtual bool TryLock() =0;
-	virtual void Lock() =0;
-	virtual void Unlock() =0;
-	virtual void DestroyThis() =0;*/
+	
 
 	 //timer
 	 ResultType 	OnTimer (ITimer *pTimer, void *pData);
