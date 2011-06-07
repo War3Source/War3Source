@@ -10,7 +10,12 @@ native OurTestNative2();
 native W3ExtVersion(String:returnstr[],maxlen);
 native W3ExtTestFunc(Function:FuncToCall,Handle:somepluginhandle);
 
+//register plugin with extension
+native W3ExtRegister(String:returnstr[]);
+
 forward W3ExtTestForward(any:cell, String:text[]);
+
+
 
 /**
  * Do not edit below this line!

@@ -1900,7 +1900,7 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 	{
 		case Game_CS:
 		{
-			return StrEqual(weapon,"weapon_knife");
+			return StrEqual(weapon,"knife");
 		}
 		case Game_DOD:
 		{

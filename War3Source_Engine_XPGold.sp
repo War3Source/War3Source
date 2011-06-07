@@ -55,7 +55,7 @@ public OnPluginStart()
 	if(W3()){
 		BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
 		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
-		MeleeXPCvar=CreateConVar("war3_percent_meleexp","100","Percent of kill XP awarded additionally for melee/knife kills");
+		MeleeXPCvar=CreateConVar("war3_percent_meleexp","120","Percent of kill XP awarded additionally for melee/knife kills");
 		AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
 		RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
 		DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
@@ -342,8 +342,9 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 				is_hs=GetEventBool(event,"headshot");
 				
 			}
+			//DP("wep %s",weapon);
 			is_melee=W3IsDamageFromMelee(weapon);
-			
+			//DP("me %d",is_melee);
 			/*(StrEqual(weapon,"bat",false) ||
 					StrEqual(weapon,"bat_wood",false) ||
 					StrEqual(weapon,"bonesaw",false) ||
@@ -596,6 +597,8 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
 	new addxp=killxp;
 	if(headshot)	addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
 	if(melee)		addxp+=((killxp*GetConVarInt(MeleeXPCvar))/100);
+	
+
 	
 	new String:killaward[64];
 	Format(killaward,sizeof(killaward),"%T","a kill",client);

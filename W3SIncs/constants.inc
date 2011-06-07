@@ -311,7 +311,7 @@ enum W3Buff
 	
 	fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second
 	
-	
+	iAdditionalMaxHealth,   ///increase / decrease in maxhp
 	
 	
 	
