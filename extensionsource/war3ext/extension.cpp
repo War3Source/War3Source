@@ -392,7 +392,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 {
 	char* strarg1;
 	pCtx->LocalToString(params[1], &strarg1);
-	PRINT("%d smx loaded\n",strarg1);
+	PRINT("%d smx loaded\n",(int)strarg1);
 
 	helpergetfunc=pCtx->GetFunctionByName("Get");
 	if(helpergetfunc==NULL){
