@@ -47,7 +47,8 @@ new Handle:MaxGoldCvar;
 new Handle:KillGoldCvar;
 new Handle:AssistGoldCvar;
 
-
+//10 hostages?
+new bool:touchedHostage[MAXPLAYERSCUSTOM][10];
 
 
 public OnPluginStart()
@@ -90,7 +91,17 @@ public OnPluginStart()
 				PrintToServer("[War3Source] Could not hook the bomb_planted event.");
 				
 			}
+			if(!HookEventEx("hostage_follows",War3Source_HostageFollow))
+			{
+				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+				
+			}
 			if(!HookEventEx("hostage_rescued",War3Source_HostageRescuedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+				
+			}
+			if(!HookEventEx("hostage_killed",War3Source_HostageKilled))
 			{
 				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
 				
@@ -371,6 +382,11 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 }
 public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+	for(new i=1;i<=MaxClients;i++){
+		for(new j=0;j<10;j++){
+			touchedHostage[i][j]=false;
+		}
+	}
 // cs - int winner
 // tf2 - int team
 	new team=-1;
@@ -502,28 +518,57 @@ public War3Source_BombPlantedEvent(Handle:event,const String:name[],bool:dontBro
 	}
 }
 
+public War3Source_HostageFollow(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client=GetClientOfUserId(GetEventInt(event,"userid"));
+		new hostage=GetEventInt(event,"hostage");
+		if(!touchedHostage[client][hostage]){
+			touchedHostage[client][hostage]=true;
+		
+			new race=War3_GetRace(client);
+			new addxp=((GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+			
+			new String:hostageaward[64];
+			Format(hostageaward,sizeof(hostageaward),"%T","touching a hostage",client);
+			TryToGiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
+		}
+	}
+}
+
 public War3Source_HostageRescuedEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	if(GetEventInt(event,"userid")>0)
 	{
 		new client=GetClientOfUserId(GetEventInt(event,"userid"));
-		GiveHostageRescuedXP(client);
+	
+		// Called when a player rescues a hostage
+		new race=War3_GetRace(client);
+		new addxp=((GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+		
+		new String:hostageaward[64];
+		Format(hostageaward,sizeof(hostageaward),"%T","rescuing a hostage",client);
+		TryToGiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
 	}
 }
 
+public War3Source_HostageKilled(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client=GetClientOfUserId(GetEventInt(event,"userid"));
+		
+		// Called when a player rescues a hostage
+		new race=War3_GetRace(client);
+		new addxp=-2*((GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+		
+		new String:hostageaward[64];
+		Format(hostageaward,sizeof(hostageaward),"%T","killing a hostage",client);
+		TryToGiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
 
-
-
-
-
-
-
-
-
-
-
-
-
+	}
+}
 
 
 
@@ -551,6 +596,10 @@ TryToGiveXPGold(client,race,W3XPAwardedBy:awardedfromevent,xp,gold,String:awarde
 	new addxp=	W3GetVar(EventArg2); //retrieve possibly modified vars
 	new addgold=W3GetVar(EventArg3);
 	
+	if(addxp<0&&War3_GetXP(client,War3_GetRace(client)) +addxp<0){ //negative xp?
+		addxp=-1*War3_GetXP(client,War3_GetRace(client));
+	}
+	
 	War3_SetXP(client,race,War3_GetXP(client,War3_GetRace(client))+addxp);
 
 	new oldgold=War3_GetGold(client);
@@ -568,6 +617,14 @@ TryToGiveXPGold(client,race,W3XPAwardedBy:awardedfromevent,xp,gold,String:awarde
 		War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client,addxp,awardedprintstring);
 	else if(addgold>0){
 		War3_ChatMessage(client,"%T","You have gained {amount} gold for {award}",client,addgold,awardedprintstring);
+	}
+	
+	else if(addxp<0&&addgold<0)
+		War3_ChatMessage(client,"%T","You have lost {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
+	else if(addxp<0)
+		War3_ChatMessage(client,"%T","You have lost {amount} XP for {award}",client,addxp,awardedprintstring);
+	else if(addgold<0){
+		War3_ChatMessage(client,"%T","You have lost {amount} gold for {award}",client,addgold,awardedprintstring);
 	}
 	
 	if(War3_GetLevel(client,race)!=W3GetRaceMaxLevel(race))
@@ -673,16 +730,6 @@ public GivePlantXP(client)
 	
 }
 
-public GiveHostageRescuedXP(client)
-{
-	// Called when a player rescues a hostage
-	new race=War3_GetRace(client);
-	new addxp=((GetKillXP(War3_GetLevel(client,War3_GetRace(client)))*GetConVarInt(RescueHostageXPCvar))/100);
-	
-	new String:hostageaward[64];
-	Format(hostageaward,sizeof(hostageaward),"%T","rescuing a hostage",client);
-	TryToGiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
-}
 
 
 

@@ -1,5 +1,21 @@
 1.2.2
 
+B5
+
+fixed rewarding extra xp for melee kills
+some xp reward cvars have changed by default
+XP for touching hostages and losing xp for killing one
+
+additional translations: please translate
+You have lost {amount} XP and {amount} gold for {award}"
+You have lost {amount} XP for {award}"
+You have lost {amount} gold for {award}"
+"killing a hostage"
+"touching a hostage"
+
+touching hostage gains same amount as rescue
+killing hostage loses twice as much as rescue
+
 B4
 
 level up print prints the race (please translate, its in War3Source_Addon_LevelUpParticle)

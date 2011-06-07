@@ -1221,6 +1221,21 @@
 		"#format"	"{1:d},{2:s}"
 		"en"		"You have gained {1} gold for {2}."
 	}
+	"You have lost {amount} XP and {amount} gold for {award}"
+	{
+		"#format"	"{1:d},{2:d},{3:s}"
+		"en"		"You have lost {1} XP and {2} gold for {3}."
+	}
+	"You have lost {amount} XP for {award}"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"		"You have lost {1} XP for {2}."
+	}
+	"You have lost {amount} gold for {award}"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"		"You have lost {1} gold for {2}."
+	}
 	"being on the winning team"
 	{
 		"en"		"being on the winning team"
@@ -1260,6 +1275,14 @@
 	"rescuing a hostage"
 	{
 		"en"		"rescuing a hostage"
+	}
+	"touching a hostage"
+	{
+		"en"		"touching a hostage"
+	}
+	"killing a hostage"
+	{
+		"en"		"killing a hostage"
 	}
 	"A skill is over the maximum level allowed for your current level, please reselect your skills"
 	{
