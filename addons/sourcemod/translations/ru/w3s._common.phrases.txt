@@ -1094,6 +1094,18 @@
 	{
 		"ru"		"Вы получили {1} золота за {2}"
 	}
+	"You have lost {amount} XP and {amount} gold for {award}"
+	{
+		"ru"		"Вы потеряли {1} опыта и {2} золота за {3}."
+	}
+	"You have lost {amount} XP for {award}"
+	{
+		"ru"		"Вы потеряли {1} опыта за {2}."
+	}
+	"You have lost {amount} gold for {award}"
+	{
+		"ru"		"Вы потеряли {1} золота за {2}."
+	}
 	"being on the winning team"
 	{
 		"ru"		"командную победу"
@@ -1133,6 +1145,14 @@
 	"rescuing a hostage"
 	{
 		"ru"		"спасение заложников"
+	}
+	"touching a hostage"
+	{
+		"ru"		"ранение заложника"
+	}
+	"killing a hostage"
+	{
+		"ru"		"убийство заложника"
 	}
 	"A skill is over the maximum level allowed for your current level, please reselect your skills"
 	{
