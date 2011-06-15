@@ -5,18 +5,33 @@
 #include "igameevents.h"
 //#include "war3dll.h" // copy this file from source please :)
 
+#include "ownageheader.h"
+
 #define MAXMODULE 99
 /**
  * @brief Sample implementation of the SDK Extension.
  * Note: Uncomment one of the pre-defined virtual functions in order to use it.
  */
-class War3Obj : public SDKExtension, /*public IGameEventListener2,*/ public IMetamodListener, public IHandleTypeDispatch // now that War3Ext inherits eventlistener it can be added to the manager.
+
+//standard prints
+#ifndef PRINT
+#define PRINT printf
+#endif
+#ifndef CPRINT
+#define CPRINT std::cout << 
+#endif
+
+#define FORMAT g_pSM->Format
+//end standard prints
+
+
+class War3Obj : public SDKExtension, /*public IGameEventListener2,*/  public IHandleTypeDispatch // now that War3Ext inherits eventlistener it can be added to the manager.
 {
 public:
 	// Some variables.
 //	IWar3DLL *m_War3DLL;
 	IForward *m_OurTestForward;
-	ICvar *m_Cvars;
+	//ICvar *m_Cvars;
 	//IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct 
 	/**
 	 * @brief This is called after the initial loading sequence has been processed.
@@ -111,10 +126,6 @@ extern const sp_nativeinfo_t MyNatives[];
 
 
 
-static void ERR(char* str,...);
-
-
-#define DP META_CONPRINTF
 
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
 

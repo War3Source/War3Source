@@ -21,18 +21,8 @@ HandleType_t g_MyHandleType=0;
 
 #include "myobjectclass.include.cpp"
 
-size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params)
-{
-	size_t len = vsnprintf(buffer, maxlength, fmt, params);
 
-	if (len >= maxlength)
-	{
-		len = maxlength - 1;
-		buffer[len] = '\0';
-	}
 
-	return len;
-}
 enum ElementPropIndex{ //ENUM
 	DATA,
 	IS_VALID,
@@ -156,13 +146,13 @@ public:
 	}
 	
 };
-
+#ifdef SMEXT_CONF_METAMOD
 bool War3Obj::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
 
 	return true;
 }
-
+#endif
 bool War3Obj::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
 	g_pShareSys->AddNatives(myself,MyNatives);
@@ -217,17 +207,7 @@ void War3Obj::OnHandleDestroy(HandleType_t type, void *object){
 	}
 }
 
-static void ERR(char* format,...)
-{
-	va_list ap;
-	va_start(ap, format);
-	
-	
-	char buffer[2000];
-	UTIL_Format(buffer,sizeof(buffer),format,ap);
-	g_pSM->LogError(myself,buffer);
-	va_end(ap);
-}
+
 static void NERR(IPluginContext *pContext,char* format,...)
 {
 	va_list ap;
