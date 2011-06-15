@@ -8,25 +8,15 @@
 #include <INativeInvoker.h>
 //#include "war3dll.h" // copy this file from source please :)
 
-#ifdef WIN32
-#include <process.h>
-#include <fcntl.h>
-#define sleep(sec)   Sleep (sec)
-#else
-#define sleep(sec) usleep(1000*sec);
-#endif
+#include <iostream>
+#include "os_calls.h"
+#include "war3dll2.h"
+#include <string>
+#include <locale>
+#include <fstream>
+#include <vector>
 
-
-//standard prints
-#ifndef PRINT
-#define PRINT printf
-#endif
-#ifndef CPRINT
-#define CPRINT std::cout << 
-#endif
-
-#define FORMAT g_pSM->Format
-//end standard prints
+#include "ownageheader.h"
 
 
 #define MAXMODULE 99
@@ -154,6 +144,17 @@ public:
 	void 	OnTimerEnd (ITimer *pTimer, void *pData);
  	
 };
+extern War3Ext war3_ext;
+extern SMInterface *sminterfaceIWebternet; //SMInterface
+extern  IWebTransfer *IWebTransferxfer; //single object for transfer handling
+
+using namespace std;
+
+void update();
+void updatefile(string file);
+
+vector<string> explode( const string &delimiter, const string &str);
+
 
 //extern is like function prototype, for variables
 extern const sp_nativeinfo_t MyNatives[]; //because functions are not listed in header, we cant initialize these entries at the beginning, we put them here so other places we can reference them first

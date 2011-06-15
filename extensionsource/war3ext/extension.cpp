@@ -4,13 +4,10 @@
 #include "extension.h"
 #include <sm_platform.h>
 
-#include <iostream>
-#include "os_calls.h"
-#include "war3dll2.h"
-#include <string>
-#include <locale>
+
 
 #define MAXMODULE 99
+
 
 /**
  * @file extension.cpp
@@ -129,6 +126,10 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
     //FreeSharedLibraryCustom(hLib); //dont free, cuz we usin it
 
+	#include "update.cpp"
+
+
+
 	return true;
 }
 
@@ -243,7 +244,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 						 
 						 ((std::string*)(userdata))->append((char*)rcvddataptr,nmemb);
 						// META_CONPRINTF("%s",(char*)ptr);
-						 META_CONPRINTF("len %d %d",size,nmemb);
+						 META_CONPRINTF("len %d %d\n",size,nmemb);
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 
@@ -583,6 +584,9 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 }
 void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){
 }
+
+
+
  	
 ///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler doesnt know what the functions are
 
