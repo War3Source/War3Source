@@ -72,6 +72,10 @@ public Action:TwoSecondTimer(Handle:h,any:a){
 			}
 		}	
 	}
+//	new String:str[64];
+//	Format(str,sizeof(str),"живете зел1о, земля, 2и иже и ка3ко люди");
+//DP(str);
+//DP("%s",str);
 }
 
 

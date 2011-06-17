@@ -17,6 +17,7 @@ touching hostage gains same amount as rescue
 killing hostage loses twice as much as rescue
 
 fixed translation not found error for sh._common
+system check is now case insensitive
 
 extension:
 now correctly updates server info to master server
