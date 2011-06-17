@@ -458,6 +458,10 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fHPRegen][DefaultValue]=0.0;
 	buffpropertiesarray[ fHPRegen][BuffStackType]=fAbsolute;	
+	
+	buffpropertiesarray[ iAdditionalMaxHealth ][DefaultValue]=0;
+	buffpropertiesarray[ iAdditionalMaxHealth ][BuffStackType]=iAbsolute;
+	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)
 	{

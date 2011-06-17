@@ -48,6 +48,7 @@ public OnMapStart(){
 }
 public any:Get(id,String:buf[],maxlen){
 	buf[0]=0;
+	//PrintToServer("got id %d buf %s len %d",id,buf,maxlen);
 	switch(id){
 		case EXTH_HOSTNAME: GetConVarString(hHostname,buf,maxlen);
 		case EXTH_W3VERSION: W3GetW3Version(buf,maxlen);
