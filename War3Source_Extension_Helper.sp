@@ -5,16 +5,16 @@
 
 #include "W3SIncs/war3ext"
 
-#define EXTH_HOSTNAME 1
-#define EXTH_W3VERSION 2
-#define EXTH_GAME 3
-#define EXTH_W3_SH_MODE 4
-#define EXTH_IP 5
-#define EXTH_PORT 6
-#define EXTH_
-#define EXTH_
-#define EXTH_
-#define EXTH_
+//extension helper
+enum EXTH { 
+EXTH_HOSTNAME,
+EXTH_W3VERSION_STR,
+EXTH_W3VERSION_NUM,
+EXTH_GAME ,
+EXTH_W3_SH_MODE,
+ EXTH_IP ,
+EXTH_PORT
+};
 
 public Plugin:myinfo= 
 {
@@ -51,7 +51,8 @@ public any:Get(id,String:buf[],maxlen){
 	//PrintToServer("got id %d buf %s len %d",id,buf,maxlen);
 	switch(id){
 		case EXTH_HOSTNAME: GetConVarString(hHostname,buf,maxlen);
-		case EXTH_W3VERSION: W3GetW3Version(buf,maxlen);
+		case EXTH_W3VERSION_STR: W3GetW3Version(buf,maxlen);
+		case EXTH_W3VERSION_NUM: return W3GetW3Revision();
 		case EXTH_GAME: GetGameFolderName(buf,maxlen);
 		case EXTH_W3_SH_MODE: return W3();
 		case EXTH_IP: Format(buf,maxlen,serverip);
