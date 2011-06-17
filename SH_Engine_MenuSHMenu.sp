@@ -18,7 +18,7 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-	LoadTranslations("common.superh");
+	LoadTranslations("sh._common.phrases");
 }
 
 public OnWar3Event(W3EVENT:event,client){

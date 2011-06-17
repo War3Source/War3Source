@@ -5,6 +5,8 @@
 
 #include "W3SIncs/war3ext"
 
+#pragma dynamic 10000
+
 //extension helper
 enum EXTH { 
 EXTH_HOSTNAME,
@@ -48,6 +50,7 @@ public OnMapStart(){
 }
 public any:Get(id,String:buf[],maxlen){
 	buf[0]=0;
+	
 	//PrintToServer("got id %d buf %s len %d",id,buf,maxlen);
 	switch(id){
 		case EXTH_HOSTNAME: GetConVarString(hHostname,buf,maxlen);
@@ -57,6 +60,8 @@ public any:Get(id,String:buf[],maxlen){
 		case EXTH_W3_SH_MODE: return W3();
 		case EXTH_IP: Format(buf,maxlen,serverip);
 		case EXTH_PORT: return serverport;
+		
+		default: { PrintToServer("bad index for ext helper %d",id);}
 	}
 	return 0;
 }

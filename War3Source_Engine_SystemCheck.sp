@@ -87,7 +87,7 @@ stock Handle:FindPluginByFileCustom(const String:filename[])
 		pl = ReadPlugin(iter);
 		
 		GetPluginFilename(pl, buffer, sizeof(buffer));
-		if (StrContains(buffer,filename)>-1)
+		if (StrContains(buffer,filename,false)>-1) //not case sensitive
 		{
 			CloseHandle(iter);
 			return pl;
