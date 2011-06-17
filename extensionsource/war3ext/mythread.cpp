@@ -10,7 +10,7 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		ret[0]=0;
 		cell_t result;
 
-		for(int i=0;i<1000;i++){
+		for(int i=0;i<1;i++){
 		 
 	//cout<<"enter1";
 		helpergetfunc->PushCell(EXTH_IP);
@@ -58,8 +58,8 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		}
 
 
-		cout<<ret<<endl;
-		cout<<result<<endl;
+		//cout<<ret<<endl;
+		//cout<<result<<endl;
 
 
 
