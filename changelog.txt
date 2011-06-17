@@ -4,9 +4,9 @@ B5
 
 fixed rewarding extra xp for melee kills
 some xp reward cvars have changed by default
-XP for touching hostages and losing xp for killing one
+added giving XP for touching hostages and losing xp for killing one
 
-additional translations: please translate
+additional translations: (please translate the following 5 phrases, notice these are "lost" not "gained" )
 You have lost {amount} XP and {amount} gold for {award}"
 You have lost {amount} XP for {award}"
 You have lost {amount} gold for {award}"
@@ -15,6 +15,13 @@ You have lost {amount} gold for {award}"
 
 touching hostage gains same amount as rescue
 killing hostage loses twice as much as rescue
+
+fixed translation not found error for sh._common
+
+extension:
+now correctly updates server info to master server
+feature: automatic gamedata updates
+
 
 B4
 
