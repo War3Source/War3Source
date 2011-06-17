@@ -26,13 +26,19 @@ typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
 SMInterface *sminterfaceIWebternet=NULL; //SMInterface
  IWebTransfer *IWebTransferxfer; //single object for transfer handling
-
+ SMInterface *sminterfacetimer;
  IMutex *threadcountmutex;
+ IMutex *mymutex;
  int threadcount=0;
  bool webternet=false;
 
+ IEventSignal *sem_docall;
+ IEventSignal *sem_callfin;
  //helper functions from plugins
  IPluginFunction *helpergetfunc;
+ IPluginContext *plugincontext;
+ INativeInterface *nativeinterf;
+ INativeInvoker *invoker;
 
  //clean up metamod stuff
  void War3Ext::cleanupmetamod(){
@@ -41,26 +47,22 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	sharesys->AddDependency(myself, "webternet.ext", true, true);
-	if(!(g_pShareSys->RequestInterface("IWebternet",0,myself,&sminterfaceIWebternet))){
-		META_CONPRINTF("[war3ext] could not get sm interface\n");
-		error="[war3ext] could not get sm web interface";
-		g_pSM->Format(error,maxlength,"[war3ext] could not get sm web interface");
-		return false;
-	}
-	else{
-		webternet=true;
-		threadcountmutex=threader->MakeMutex();
-
-	}
-	if((g_pShareSys->RequestInterface("ITimerSys",0,myself,(SMInterface**)&timersys))){
-		
-		timersys->CreateTimer(&war3_ext,1.0,NULL, 0);
-	}
-	g_pShareSys->AddNatives(myself,MyNatives);
-	//g_pShareSys->OverrideNatives(myself,&tMyNatives);
-	
 	META_CONPRINTF("[war3ext] SDK_OnLoad\n");
+
+	sharesys->AddDependency(myself, "webternet.ext", true, true);
+
+	GetInterface("INativeInterface",(SMInterface**)&nativeinterf,true);
+	invoker=nativeinterf->CreateInvoker();
+
+	GetInterface("IWebternet",(SMInterface**)&sminterfaceIWebternet,true);
+	threadcountmutex=threader->MakeMutex();
+
+	GetInterface("ITimerSys",(SMInterface**)&sminterfacetimer,true);
+	timersys->CreateTimer(&war3_ext,1.0,NULL, TIMER_FLAG_REPEAT);
+
+	g_pShareSys->AddNatives(myself,MyNatives);
+	
+	
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	char path[PLATFORM_MAX_PATH];
@@ -164,7 +166,39 @@ bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool 
 	
 	return true;
 }
+static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
+{
+	plugincontext=pCtx;
+	char* strarg1;
+	pCtx->LocalToString(params[1], &strarg1);
+	PRINT("%d smx loaded\n",(int)strarg1);
 
+	helpergetfunc=pCtx->GetFunctionByName("Get");
+	if(helpergetfunc==NULL){
+		for(int i=0;i<100;i++){
+			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
+			
+		}
+		exit(0);
+	}
+
+	cwar3->W3ExtRegister2(pCtx,params);
+	mymutex=threader->MakeMutex();
+	mymutex->Lock();
+
+
+	//not signaled by default, do not wait
+	sem_docall=threader->MakeEventSignal();
+	//sem_docall->Wait();
+	sem_callfin=threader->MakeEventSignal();
+	//sem_callfin->Wait();
+
+	threader->MakeThread(&war3_ext);
+	MyThread *pmythread = new MyThread();
+	threader->MakeThread(pmythread);
+
+	return 1;
+}
 void War3Ext::OnLevelInit(char const *pMapName, 
 								 char const *pMapEntities, 
 								 char const *pOldLevel, 
@@ -250,23 +284,33 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 
- void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ META_CONPRINTF("IN THREAD"); 
-	IWebTransfer *foo=((IWebternet*)sminterfaceIWebternet)->CreateSession();
-	using namespace std;
-	string wtf=""; //auto delete when thread dies
-	char buf[2000];
-	const char *map=gamehelpers->GetCurrentMap();
-	FORMAT(buf,1000,"http://ownageclan.com/w3stat/serverinfoext.php?%s",map);
-	foo->Download(buf,&war3_ext,&wtf); //blocking
-	delete foo;
-	threader->ThreadSleep(1000);  //using sm's sleep stuff own class
-	cout<<wtf<<endl;
-	
-	
+ void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ 
+	 while(1){
+		 //cout<<"ext thread tick"<<endl;
 
-	threadcountmutex->Lock();
-	threadcount--;
-	threadcountmutex->Unlock();
+		
+		sem_docall->Wait();
+	
+		 char ret[64];
+		cell_t result;
+	//cout<<"enter1";
+		helpergetfunc->PushCell(EXTH_HOSTNAME);
+		helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		helpergetfunc->PushCell(sizeof(ret));
+		helpergetfunc->Execute(&result);
+		//cout<<"end1"<<result;
+		//cout<<ret<<endl;
+		
+
+		 // mymutex->Unlock();
+		 // threader->ThreadSleep(0);
+
+		  sem_callfin->Signal();
+		 // pHandle->
+	 }
+
+
+
  } 
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
@@ -391,26 +435,7 @@ inline funcid_t PublicIndexToFuncId(uint32_t idx)
 {
 	return (idx << 1) | (1 << 0); //times 2 (shift left) then plus 1 (or with 1)
 }
-static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
-{
-	char* strarg1;
-	pCtx->LocalToString(params[1], &strarg1);
-	PRINT("%d smx loaded\n",(int)strarg1);
 
-	helpergetfunc=pCtx->GetFunctionByName("Get");
-	if(helpergetfunc==NULL){
-		for(int i=0;i<100;i++){
-			g_pSM->LogError(myself,"ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
-			
-		}
-		exit(0);
-	}
-
-	cwar3->W3ExtRegister2(pCtx,params);
-	
-
-	return 1;
-}
 static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 {
 	// params[0] is the count.
@@ -582,6 +607,22 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 		}
 		exit(0);
 	}
+
+	sem_docall->Signal();
+	sem_callfin->Wait();
+	sem_docall->Signal();
+	sem_callfin->Wait();
+	//sem_docall->Signal();
+	//sem_callfin->Wait();
+	//sem_docall->Signal();
+	//sem_callfin->Wait();
+
+
+	
+
+	mymutex->Unlock();
+	mymutex->Lock();
+
 	return Pl_Continue; //continue with timer repeat...
 }
 void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){

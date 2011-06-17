@@ -30,35 +30,55 @@ namespace //anoynamous namespace,
 	//however, that means you have duplicate code...its a trade off for ease of use
 {
 
-//prototypes
-static void ERR(char* str,...);
-size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params);
+	//prototypes
+	void ERR(char* str,...);
+	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params);
+	bool GetInterface(char* interf,SMInterface** pointer,bool quitifnotfound=false);
 
-
-static void ERR(char* format,...)
-{
-	va_list ap;
-	va_start(ap, format);
-	
-	
-	char buffer[2000];
-	FORMAT(buffer,sizeof(buffer),format,ap);
-	g_pSM->LogError(myself,buffer);
-	va_end(ap);
-}
-
-size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params)
-{
-	size_t len = vsnprintf(buffer, maxlength, fmt, params);
-
-	if (len >= maxlength)
+	void ERR(char* format,...)
 	{
-		len = maxlength - 1;
-		buffer[len] = '\0';
+		va_list ap;
+		va_start(ap, format);
+	
+	
+		char buffer[2000];
+		UTIL_Format(buffer,sizeof(buffer),format,ap);
+		g_pSM->LogError(myself,buffer);
+		va_end(ap);
 	}
 
-	return len;
-}
+	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params)
+	{
+		size_t len = vsnprintf(buffer, maxlength, fmt, params);
+
+		if (len >= maxlength)
+		{
+			len = maxlength - 1;
+			buffer[len] = '\0';
+		}
+
+		return len;
+	}
+
+	//helper for getting a sm interface
+	bool GetInterface(char* interf,SMInterface** pointer,bool quitifnotfound){
+		//PRINT("[war3dll] try to get")<<interf<< std::endl;
+		if(!(g_pShareSys->RequestInterface(interf,0,myself,pointer))){
+			CPRINT("[war3ext] could not get sm interface ")<<interf<< std::endl;
+			if(quitifnotfound){
+				for(int i=0;i<100;i++){
+					ERR("could not get sm interface %s",interf);
+				}
+				exit(0);
+			}
+			return false;
+		}
+		else if(*pointer!=NULL){
+			CPRINT("[war3ext] got interface ")<<interf<< std::endl;
+			return true;
+		}
+		return false;
+	}
 }
 
 #endif

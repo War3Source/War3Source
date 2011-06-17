@@ -144,10 +144,27 @@ public:
 	void 	OnTimerEnd (ITimer *pTimer, void *pData);
  	
 };
+
+
+class MyThread : public IThread
+{
+public:
+	 //ithreader
+	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
+	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
+};
+
+
 extern War3Ext war3_ext;
 extern SMInterface *sminterfaceIWebternet; //SMInterface
 extern  IWebTransfer *IWebTransferxfer; //single object for transfer handling
-
+extern  IPluginFunction *helpergetfunc;
+extern IMutex *mymutex;
+extern  IEventSignal *sem_docall;
+extern IEventSignal *sem_callfin;
+extern IPluginContext *plugincontext; //context to call natives
+extern INativeInterface *nativeinterf;
+extern INativeInvoker *invoker;
 using namespace std;
 
 void update();
