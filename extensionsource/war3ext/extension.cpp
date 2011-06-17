@@ -60,7 +60,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g_pShareSys->AddNatives(myself,MyNatives);
 	//g_pShareSys->OverrideNatives(myself,&tMyNatives);
 	
-	META_CONPRINTF("[war3ext] loaded\n");
+	META_CONPRINTF("[war3ext] SDK_OnLoad\n");
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	char path[PLATFORM_MAX_PATH];
@@ -97,7 +97,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	else{
 		cout << "found CreateInterface"<<endl;
 	}
-
+	cout<<1;
 	GetCWar3DLLPtr GetCWar3DLL=(GetCWar3DLLPtr)GetFunctionCustom(hLib, "GetCWar3DLL");
 	if(GetCWar3DLL==NULL)
 	{
@@ -105,7 +105,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
         	FreeSharedLibraryCustom(hLib);
         	return false;
 	}
+	cout<<2;
 	cwar3=GetCWar3DLL();
+	cout<<3;
 	// to communicate with dll
 	cwar3->DLLVersion(); // this IS communication ;]
 	//cwar3->OnEvent(player_index, "PLAYER_DIED");
@@ -244,7 +246,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 						 
 						 ((std::string*)(userdata))->append((char*)rcvddataptr,nmemb);
 						// META_CONPRINTF("%s",(char*)ptr);
-						 META_CONPRINTF("len %d %d\n",size,nmemb);
+						 //META_CONPRINTF("len %d %d\n",size,nmemb);
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 

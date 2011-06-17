@@ -22,6 +22,9 @@
 //extern needs to stay outside of anoy-namespace
 extern ISourceMod *g_pSM;
 extern IExtension *myself;	
+
+
+
 namespace //anoynamous namespace, 
 	//these funcs are only accisible by the cpp files that included this file.
 	//however, that means you have duplicate code...its a trade off for ease of use
