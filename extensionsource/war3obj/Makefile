@@ -31,7 +31,11 @@ USEMETA = true
 #each cpp file must be listed here
 OBJECTS = \
 		sdk/smsdk_ext.cpp	\
-		extension.cpp		
+		extension.cpp	
+
+#additional include dirs
+
+INCLUDE += -I../war3ext	
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###

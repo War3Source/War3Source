@@ -245,7 +245,7 @@ cell_t CreateCellReference(IPluginContext *pCtx, const cell_t *params)
 {
 	cell_t *celladdr;
 	pCtx->LocalToPhysAddr(params[1], &celladdr);
-	DP("celladdr is %d\n",celladdr);
+	//DP("celladdr is %d\n",celladdr);
 	/* Create the Handle with our type, the plugin's identity, and our identity */
 	HandleError err; //will be garbage if handle created successfully
 	cell_t handle =  g_pHandleSys->CreateHandle(g_MyHandleType, 
@@ -265,7 +265,7 @@ cell_t CellDereference(IPluginContext *pContext, const cell_t *params)
 	cell_t *celladdr;
 	
 	celladdr = (cell_t*) HandleToObj(handle);
-	DP("CellDereference celladdr is %d\n",celladdr);
+	//DP("CellDereference celladdr is %d\n",celladdr);
 	return *celladdr;
 }
 cell_t SetCellByReference(IPluginContext *pContext, const cell_t *params)
@@ -274,7 +274,7 @@ cell_t SetCellByReference(IPluginContext *pContext, const cell_t *params)
 	cell_t *celladdr;
 	
 	celladdr =  (cell_t*)HandleToObj(handle);
-	DP("SetCellByReference celladdr is %d\n",celladdr);
+	//DP("SetCellByReference celladdr is %d\n",celladdr);
 	*celladdr = params[2];
 	return 1;
 }
@@ -284,3 +284,5 @@ cell_t SetCellByReference(IPluginContext *pContext, const cell_t *params)
 
 #include "mynativeslist.include.cpp"
 ///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler
+
+
