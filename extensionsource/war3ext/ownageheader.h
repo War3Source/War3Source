@@ -5,6 +5,7 @@
 //otherwise this file doesnt know what ISourceMod *g_pSM is
 
 
+#include <iostream>//need this, incase they didnt include it, need for cout<<endl
 
 //standard prints
 #ifndef PRINT

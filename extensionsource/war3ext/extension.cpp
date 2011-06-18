@@ -245,7 +245,7 @@ static cell_t OurTestNative(IPluginContext *pCtx, const cell_t *params)
 	cwar3->DoStuff();
 	
 	// params[0] is the count.
-	META_CONPRINTF("You passed me %d parameters.", params[0]);
+	PRINT("You passed me %d parameters.", (int)params[0]);
 
 	//show me float
 	float p1 = sp_ctof(params[1]);
@@ -256,7 +256,7 @@ static cell_t OurTestNative(IPluginContext *pCtx, const cell_t *params)
 
 	// third int
 	int p3 = params[3]; // literally NOTHING needs to be done.
-	META_CONPRINTF("Passed: %f %s %d\n", p1, pStr, p3);
+	PRINT("Passed: %f %s %d\n", p1, pStr, (int)p3);
 
 	// 4th param buffer, 5th maxlen
 	pCtx->StringToLocal(params[4], params[5], "Test this out ;]");
@@ -292,6 +292,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 		sem_docall->Wait();
 	
 		 char ret[64];
+
 		cell_t result;
 	//cout<<"enter1";
 		helpergetfunc->PushCell(EXTH_HOSTNAME);

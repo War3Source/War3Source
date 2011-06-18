@@ -5,12 +5,12 @@
 void updatefile(string file){
 	for(int breakme=0;breakme<1;breakme++){
 	int pos=file.find('\n');
-	if(pos!=string::npos){
+	if(pos!=(int)string::npos){
 		file.erase ( pos, 1);
 		//cout<<"FOUND slashN"<<endl;
 	}
 	pos=file.find('\r');
-	if(pos!=string::npos){
+	if(pos!=(int)string::npos){
 		file.erase ( pos, 1);
 		//cout<<"FOUND slashR"<<endl;
 	}

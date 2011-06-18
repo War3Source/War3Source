@@ -28,8 +28,12 @@ USEMETA = true
 
 #all .cpp files must be listed here
 OBJECTS = \
-		sdk/smsdk_ext.cpp	\
-		extension.cpp		
+sdk/smsdk_ext.cpp	\
+extension.cpp		 \
+updatefile.cpp \
+util.cpp\
+os_calls.cpp\
+mythread.cpp\
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###
