@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include "os_calls.h"
-#include "war3dll2.h"
+#include "war3dll.h"
 #include <string>
 #include <locale>
 #include <fstream>
@@ -27,11 +27,11 @@
  */
 
 
-class War3Ext : 
+class War3Ext :
 	public SDKExtension, //implementing all these interfaces
 	public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
-	public IMetamodListener, 
-	public ITransferHandler, 
+	public IMetamodListener,
+	public ITransferHandler,
 	public IThread,
 	public ITimedEvent
 {
@@ -40,7 +40,7 @@ public:
 //	IWar3DLL *m_War3DLL;
 	IForward *m_OurTestForward;
 	ICvar *m_Cvars;
-	IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct 
+	IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct
 	/**
 	 * @brief This is called after the initial loading sequence has been processed.
 	 *
@@ -50,7 +50,7 @@ public:
 	 * @return			True to succeed loading, false to fail.
 	 */
 	virtual bool SDK_OnLoad(char *error, size_t maxlength, bool late);
-	
+
 	/**
 	 * @brief This is called right before the extension is unloaded.
 	 */
@@ -111,11 +111,11 @@ public:
 	//virtual bool SDK_OnMetamodPauseChange(bool paused, char *error, size_t maxlength);
 
 	// Now we are also a metamod listener, which is essentially like a VSP class.
-	virtual void OnLevelInit(char const *pMapName, 
-								 char const *pMapEntities, 
-								 char const *pOldLevel, 
-								 char const *pLandmarkName, 
-								 bool loadGame, 
+	virtual void OnLevelInit(char const *pMapName,
+								 char const *pMapEntities,
+								 char const *pOldLevel,
+								 char const *pLandmarkName,
+								 bool loadGame,
 								 bool background);
 	virtual void OnLevelShutdown();
 	virtual void FireGameEvent( IGameEvent *event );
@@ -135,17 +135,17 @@ public:
                                size_t size,
                               size_t nmemb);
 	 unsigned int GetURLInterfaceVersion();
-        
+
 	 //ithreader
 	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
 	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 
-	
+
 
 	 //timer
 	 ResultType 	OnTimer (ITimer *pTimer, void *pData);
 	void 	OnTimerEnd (ITimer *pTimer, void *pData);
- 	
+
 };
 
 
@@ -164,7 +164,7 @@ struct myglobalstruct
 	SMInterface *sminterfacetimer;
 	IWebTransfer *IWebTransferxfer; //single object for transfer handling
 	IPluginFunction *helpergetfunc;
-	
+
 	IEventSignal *sem_callfin; //signal when OnTimer sychronous thread finished
 	IPluginContext *plugincontext; //context to call natives
 	INativeInterface *nativeinterf;

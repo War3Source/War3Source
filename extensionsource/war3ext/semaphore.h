@@ -8,7 +8,7 @@ class Semaphore
 	IEventSignal *mysem;
 	bool mysemsignaled;
 public:
-	
+
 	Semaphore(int uicount=1);
 	void Wait();
 	void Signal();

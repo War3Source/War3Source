@@ -36,6 +36,9 @@ os_calls.cpp\
 mythread.cpp\
 semaphore.cpp\
 
+#additional includes
+INCLUDE += -I../war3dll
+
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###
 ##############################################
@@ -100,11 +103,10 @@ else
 	INCLUDE += -I. -I.. -Isdk -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn
 endif
 
-INCLUDE += -I$(SMSDK)/public/extensions 
-INCLUDE += -I../war3dll2
-#-Icurl-src/include
+INCLUDE += -I$(SMSDK)/public/extensions
 
-#LINK += -m32 -lm -ldl -lrt curl-src/Release/lib/.libs/libcurl.a 
+
+#LINK += -m32 -lm -ldl -lrt curl-src/Release/lib/.libs/libcurl.a
 LINK += -lstdc++
 
 CFLAGS += -D_LINUX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp -Dstrnicmp=strncasecmp \

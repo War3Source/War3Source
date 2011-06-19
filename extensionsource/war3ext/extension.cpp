@@ -25,7 +25,7 @@ typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
 typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
 
-///super shared global vars!!! access with g.(members!) 
+///super shared global vars!!! access with g.(members!)
 myglobalstruct g;
 
 IMutex *threadcountmutex;
@@ -57,8 +57,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	timersys->CreateTimer(&war3_ext,1.0,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
-	
-	
+
+
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	char path[PLATFORM_MAX_PATH];
@@ -136,12 +136,12 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
 {
 	META_CONPRINTF("[war3ext] SDK_OnMetamodLoad\n");
-	
+
 
 	// add us to the metamod listener list
 	ismm->AddListener(this,this); // lemme find the first param
-	
-	
+
+
 	// i dont know if you are following 100% but basically they assume you'll use GET_V_IFACE_CURRENT inside OnMetaModload, since that is proper.
 	GET_V_IFACE_CURRENT(GetEngineFactory, m_Cvars, ICvar, CVAR_INTERFACE_VERSION);
 	GET_V_IFACE_CURRENT(GetEngineFactory, m_EventManager, IGameEventManager2, INTERFACEVERSION_GAMEEVENTSMANAGER2);
@@ -156,10 +156,10 @@ bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool 
 		return false;
 	}
 	// Now that you have the event manager, add listeners. I believe it is supposed to be done on map start
-	
+
 	m_EventManager->AddListener(this, "player_spawn", true);
 	m_EventManager->AddListener(this, "player_death", true);
-	
+
 	return true;
 }
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
@@ -173,7 +173,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
-			
+
 		}
 		exit(0);
 	}
@@ -182,7 +182,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 
 	//not signaled by default, do not wait
 	g.sem_callfin=threader->MakeEventSignal();
-	
+
 
 	threader->MakeThread(&war3_ext);
 
@@ -192,11 +192,11 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 
 	return 1;
 }
-void War3Ext::OnLevelInit(char const *pMapName, 
-								 char const *pMapEntities, 
-								 char const *pOldLevel, 
-								 char const *pLandmarkName, 
-								 bool loadGame, 
+void War3Ext::OnLevelInit(char const *pMapName,
+								 char const *pMapEntities,
+								 char const *pOldLevel,
+								 char const *pLandmarkName,
+								 bool loadGame,
 								 bool background)
 {
 	//m_EventManager->AddListener(this, "player_death", true);
@@ -220,7 +220,7 @@ bool StrEquali(const char *str1,const char *str2){
 	return (strcmpi(str1,str2)==0)?true:false;
 }
 void War3Ext::SDK_OnUnload()
-{ 
+{
 }
 
 const char *War3Ext::GetExtensionVerString()
@@ -236,7 +236,7 @@ const char *War3Ext::GetExtensionDateString()
 static cell_t OurTestNative(IPluginContext *pCtx, const cell_t *params)
 {
 	cwar3->DoStuff();
-	
+
 	// params[0] is the count.
 	PRINT("You passed me %d parameters.", (int)params[0]);
 
@@ -257,7 +257,7 @@ static cell_t OurTestNative(IPluginContext *pCtx, const cell_t *params)
 	//lets call a function in sourcepawn
 	//pCtx->
 
-	
+
 	//return value of native, return cells only
 	return  sp_ftoc(2.4f);
 }
@@ -270,47 +270,48 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
                                size_t size, //supposed interpretation of data? number of bytes?
                               size_t nmemb) //number of 'size' blocks, so total bytes = size * nmemb
                      {
-						 
+
 						 ((std::string*)(userdata))->append((char*)rcvddataptr,nmemb);
 						// META_CONPRINTF("%s",(char*)ptr);
 						 //META_CONPRINTF("len %d %d\n",size,nmemb);
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 
- void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ 
+ void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 	 while(1){
 		g.threadticketrequest->Signal();
 		g.threadticket->Wait();
 
+
 		 char ret[64];
 
 		cell_t result;
-	
+
 		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
 		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 		g.helpergetfunc->PushCell(sizeof(ret));
 		g.helpergetfunc->Execute(&result);
-		
-		//cout<<ret<<endl;
-		
+
+
 		g.sem_callfin->Signal();
-		 
+
+
 	 }
 
 
 
- } 
+ }
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
 
 static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 {
-	
+
 	//cwar3->PassStuff(g_pSM,engine);
 	cwar3->DoStuff();
 	//cell_t result;
 
-	
+
 #ifdef BAD
 
 		SMInterface *somesminterface;
@@ -321,17 +322,17 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 			IPluginRuntime *fakeruntime =myNativeInterface->CreateRuntime("war3extfakeruntime",NINVOKE_DEFAULT_MEMORY);
 			INativeInvoker* myinvoker=(INativeInvoker*)myNativeInterface->CreateInvoker();
 			if(myinvoker!=NULL){
-				
+
 				if(true){
-					
-					
-					
+
+
+
 					IPlugin *pPlugin;
 					pPlugin = plsys->FindPluginByContext(pCtx->GetContext());
 					pPlugin->GetBaseContext();
 					if(false==(myinvoker->Start(pPlugin->GetBaseContext(),"LogError")))
 					{
-					
+
 						myinvoker->PushCell(1111);
 						myinvoker->PushCell(2222);
 						myinvoker->Invoke(&result);
@@ -343,7 +344,7 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 
 				if(false==(myinvoker->Start((IPluginContext*)fakeruntime/*pCtx*/,"OurTestNative")))
 				{
-					
+
 					myinvoker->PushCell(1111);
 					myinvoker->PushCell(2222);
 					myinvoker->Invoke(&result);
@@ -354,7 +355,7 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 					nativeindex=0;
 					pCtx->FindNativeByName("OurTestNative",&nativeindex);
 					META_CONPRINTF("native index %d\n",nativeindex);
-					
+
 					nativeindex=0;
 					pCtx->FindNativeByName("OurTestNative2",&nativeindex);
 					META_CONPRINTF("native index %d\n",nativeindex);
@@ -388,8 +389,8 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 						META_CONPRINTF("Found pub func id : %d\n", pubfuncindex);
 					}*/
 
-					
-				
+
+
 				}
 
 			}
@@ -428,7 +429,7 @@ static cell_t W3ExtTick(IPluginContext *pCtx, const cell_t *params)
 	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
-			
+
 		}
 		exit(0);
 	}
@@ -439,6 +440,7 @@ static cell_t W3ExtTick(IPluginContext *pCtx, const cell_t *params)
 
 	//mymutex->Unlock();
 	//mymutex->Lock();
+	return 0;
 }
 static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 {
@@ -453,14 +455,14 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 		return pCtx->ThrowNativeError("Invalid function id (%X)", params[1], params[1]);
 	}
 	META_CONPRINTF("Directly passed Func id : %d = %X , pFunc->GetFunctionID()=%d \n", params[1], params[1],pFunc->GetFunctionID());
-	
+
 	cell_t res;//= static_cast<ResultType>(Pl_Continue); // nothing special, its the same as (cell_t)Pl_Continue;
 
 	pFunc->PushCell(32);
 	pFunc->PushString("4444445555");
 	pFunc->Execute(&res);
 	*/
-	
+
 	/*
 	IPluginFunction *pFunc3;
 	pFunc3 = pCtx->GetFunctionById(4);
@@ -488,7 +490,7 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 	// By the way, from my experience a static cast is basically the same as:
 	// Handle_t hndl = (Handle_t)params[4];
 	/*Handle_t hndl = static_cast<Handle_t>(params[2]);
-	HandleError err; 
+	HandleError err;
 	IPlugin *pPlugin;
 	if(hndl==0)
 	{
@@ -537,18 +539,18 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 	fwd->PushCell(5);
 	fwd->PushString("string pushing");
 	war3_ext.m_OurTestForward->Execute(&res); //leave this as an example
-	
 
-	
+
+
 	//ITERATING ALL PLUGINS, kinda like a forward
 	IPluginIterator *pIter = plsys->GetPluginIterator();
 	IPlugin *pCurPlugin;
 	while(pIter->MorePlugins())
 	{
 		pCurPlugin = pIter->GetPlugin();
-		
+
 		META_CONPRINTF("Current: %s\n", pCurPlugin->GetFilename());
-		
+
 		uint32_t pubfuncindex;
 		const char *pNamePub2="OnWar3Event";
 		//pCtx->LocalToString(params[5], &pNamePub); //if u want to get the function name from the params
@@ -560,7 +562,7 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 		else
 		{
 			META_CONPRINTF("Found pub func id : %d\n", pubfuncindex);
-		
+
 
 			pFunc2= pCurPlugin->GetBaseContext()->GetFunctionById(PublicIndexToFuncId(pubfuncindex));// so this is failing. maybe change it to
 			//pFunc2= pCtx->GetFunctionById(PublicIndexToFuncId(funcidx));
@@ -582,12 +584,12 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 
 	*/
 
-	
+
 	///call a native, like war3_
 	//native W3GetW3Version(String:retstr[],maxlen);//str
 	// So, it's simple. find it JUST like a public, you need to use the correct context too (pPlugin->GetBaseContext())
 	// we'll reuse the pPlugin as an example.
-	
+
 	///you shouldnt call natives, just make a public in .sp and call that, using the example above
 
 
@@ -607,20 +609,21 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
-			
+
 		}
 		exit(0);
 	}
-	while(g.threadticketrequest->WaitNoBlock()){ 
+
+	while(g.threadticketrequest->WaitNoBlock()){
+
 		//cout<<"GOT REQUEST, allow them now";
-		
+
 	}
 	if(!g.threadticket->WaitNoBlock()){ ///no ticket available
 		g.threadticket->Signal();
 		g.sem_callfin->Wait();
 	}
-		
-	
+
 
 	return Pl_Continue; //continue with timer repeat...
 }
@@ -629,11 +632,11 @@ void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){
 
 
 
- 	
+
 ///MUST BE AFTER NATIVE FUNCS, stupid 1 pass compiler doesnt know what the functions are
 
 
-const sp_nativeinfo_t MyNatives[] = 
+const sp_nativeinfo_t MyNatives[] =
 {
 	{"OurTestNative",			OurTestNative},
 	{"OurTestNative2",			OurTestNative2},
@@ -641,7 +644,7 @@ const sp_nativeinfo_t MyNatives[] =
 	{"W3ExtVersion",			W3ExtVersion},
 	{"W3ExtTestFunc",			W3ExtTestFunc},
 	{"W3ExtRegister",			W3ExtRegister},
-	
+
 	{NULL,							NULL}, // last entry is null, it marks the end for all the loop operations.
 };
 
