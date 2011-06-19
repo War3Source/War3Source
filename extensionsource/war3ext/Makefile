@@ -34,6 +34,7 @@ updatefile.cpp \
 util.cpp\
 os_calls.cpp\
 mythread.cpp\
+semaphore.cpp\
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###

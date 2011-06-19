@@ -16,6 +16,7 @@
 #include <fstream>
 #include <vector>
 
+#include "semaphore.h"
 #include "ownageheader.h"
 
 
@@ -160,11 +161,15 @@ extern SMInterface *sminterfaceIWebternet; //SMInterface
 extern  IWebTransfer *IWebTransferxfer; //single object for transfer handling
 extern  IPluginFunction *helpergetfunc;
 extern IMutex *mymutex;
-extern  IEventSignal *sem_docall;
+
 extern IEventSignal *sem_callfin;
 extern IPluginContext *plugincontext; //context to call natives
 extern INativeInterface *nativeinterf;
 extern INativeInvoker *invoker;
+
+extern Semaphore *threadticketrequest;
+extern Semaphore *threadticket;
+extern IMutex *threadticketmutex;
 using namespace std;
 
 void update();
