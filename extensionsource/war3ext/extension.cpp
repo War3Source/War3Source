@@ -24,25 +24,15 @@ SMEXT_LINK(&war3_ext); //not related to dll
 typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
 typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
-SMInterface *sminterfaceIWebternet=NULL; //SMInterface
- IWebTransfer *IWebTransferxfer; //single object for transfer handling
- SMInterface *sminterfacetimer;
- IMutex *threadcountmutex;
- IMutex *mymutex;
+
+///super shared global vars!!! access with g.(members!) 
+myglobalstruct g;
+
+IMutex *threadcountmutex;
+
  int threadcount=0;
  bool webternet=false;
 
- IEventSignal *sem_docall;
-
- //helper functions from plugins
- IPluginFunction *helpergetfunc;
- IPluginContext *plugincontext;
- INativeInterface *nativeinterf;
- INativeInvoker *invoker;
- Semaphore *threadticketrequest; //signal if you want to get a ticket
- Semaphore *threadticket; //wait on this ticket
- IMutex *threadticketmutex; //lock if your process is function invoking critical
-  IEventSignal *sem_callfin; //signal this when your thread is done
  //clean up metamod stuff
  void War3Ext::cleanupmetamod(){
 	 m_EventManager->RemoveListener(this);
@@ -50,20 +40,20 @@ SMInterface *sminterfaceIWebternet=NULL; //SMInterface
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	threadticket=new Semaphore(0);
-	threadticketrequest=new Semaphore(0);
-	threadticketmutex=threader->MakeMutex();
+	g.threadticket=new Semaphore(0);
+	g.threadticketrequest=new Semaphore(0);
+	g.threadticketmutex=threader->MakeMutex();
 	META_CONPRINTF("[war3ext] SDK_OnLoad\n");
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
-	GetInterface("INativeInterface",(SMInterface**)&nativeinterf,true);
-	invoker=nativeinterf->CreateInvoker();
+	GetInterface("INativeInterface",(SMInterface**)&g.nativeinterf,true);
+	g.invoker=g.nativeinterf->CreateInvoker();
 
-	GetInterface("IWebternet",(SMInterface**)&sminterfaceIWebternet,true);
+	GetInterface("IWebternet",(SMInterface**)&g.sminterfaceIWebternet,true);
 	threadcountmutex=threader->MakeMutex();
 
-	GetInterface("ITimerSys",(SMInterface**)&sminterfacetimer,true);
+	GetInterface("ITimerSys",(SMInterface**)&g.sminterfacetimer,true);
 	timersys->CreateTimer(&war3_ext,1.0,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
@@ -174,13 +164,13 @@ bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool 
 }
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 {
-	plugincontext=pCtx;
+	g.plugincontext=pCtx;
 	char* strarg1;
 	pCtx->LocalToString(params[1], &strarg1);
 	PRINT("%d smx loaded\n",(int)strarg1);
 
-	helpergetfunc=pCtx->GetFunctionByName("Get");
-	if(helpergetfunc==NULL){
+	g.helpergetfunc=pCtx->GetFunctionByName("Get");
+	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
 			
@@ -189,13 +179,9 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	}
 
 	cwar3->W3ExtRegister2(pCtx,params);
-	mymutex=threader->MakeMutex();
-	mymutex->Lock();
-
 
 	//not signaled by default, do not wait
-	sem_docall=threader->MakeEventSignal();
-	sem_callfin=threader->MakeEventSignal();
+	g.sem_callfin=threader->MakeEventSignal();
 	
 
 	threader->MakeThread(&war3_ext);
@@ -293,21 +279,21 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 
  void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ 
 	 while(1){
-		threadticketrequest->Signal();
-		threadticket->Wait();
+		g.threadticketrequest->Signal();
+		g.threadticket->Wait();
 
 		 char ret[64];
 
 		cell_t result;
 	
-		helpergetfunc->PushCell(EXTH_HOSTNAME);
-		helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
-		helpergetfunc->PushCell(sizeof(ret));
-		helpergetfunc->Execute(&result);
+		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
+		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		g.helpergetfunc->PushCell(sizeof(ret));
+		g.helpergetfunc->Execute(&result);
 		
-		cout<<ret<<endl;
+		//cout<<ret<<endl;
 		
-		sem_callfin->Signal();
+		g.sem_callfin->Signal();
 		 
 	 }
 
@@ -439,7 +425,7 @@ inline funcid_t PublicIndexToFuncId(uint32_t idx)
 }
 static cell_t W3ExtTick(IPluginContext *pCtx, const cell_t *params)
 {
-	if(helpergetfunc==NULL){
+	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 			
@@ -618,20 +604,20 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 }
 
 ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
-	if(helpergetfunc==NULL){
+	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 			
 		}
 		exit(0);
 	}
-	while(threadticketrequest->WaitNoBlock()){ 
+	while(g.threadticketrequest->WaitNoBlock()){ 
 		//cout<<"GOT REQUEST, allow them now";
 		
 	}
-	if(!threadticket->WaitNoBlock()){ ///no ticket available
-		threadticket->Signal();
-		sem_callfin->Wait();
+	if(!g.threadticket->WaitNoBlock()){ ///no ticket available
+		g.threadticket->Signal();
+		g.sem_callfin->Wait();
 	}
 		
 	

@@ -3,40 +3,40 @@
 
 void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){ 
 	 while(1){
-		threadticketrequest->Signal();
-		threadticket->Wait();
+		g.threadticketrequest->Signal();
+		g.threadticket->Wait();
 	
 		char ret[64];
 		ret[0]=0;
 		cell_t result;
 
-		helpergetfunc->PushCell(EXTH_IP);
-		helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
-		helpergetfunc->PushCell(sizeof(ret));
-		helpergetfunc->Execute(&result);
+		g.helpergetfunc->PushCell(EXTH_IP);
+		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		g.helpergetfunc->PushCell(sizeof(ret));
+		g.helpergetfunc->Execute(&result);
 		
-		if(!invoker->Start(plugincontext,"W3GetW3Revision")){
+		if(!g.invoker->Start(g.plugincontext,"W3GetW3Revision")){
 			ERR("failed to start invoke W3GetW3Revision");
 		}
 		else{
 			//DP("found native");
 
 			
-			invoker->Invoke(&result);
+			g.invoker->Invoke(&result);
 			//cout<<invoker->Invoke(&result)<<endl;
 			//cout<<result<<endl;
 		}
 
-		invoker->Start(plugincontext,"War3_GetRaceName");
+		g.invoker->Start(g.plugincontext,"War3_GetRaceName");
 
-		invoker->PushCell(1); //race 1
-		invoker->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
-		invoker->PushCell(sizeof(ret));
-		invoker->Invoke(&result);
+		g.invoker->PushCell(1); //race 1
+		g.invoker->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		g.invoker->PushCell(sizeof(ret));
+		g.invoker->Invoke(&result);
 
-		cout<<ret<<endl;
+		//cout<<ret<<endl;
 		
-		sem_callfin->Signal();
+		g.sem_callfin->Signal();
 	 }
  } 
  void MyThread::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}

@@ -25,6 +25,8 @@
  * @brief Sample implementation of the SDK Extension.
  * Note: Uncomment one of the pre-defined virtual functions in order to use it.
  */
+
+
 class War3Ext : 
 	public SDKExtension, //implementing all these interfaces
 	public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
@@ -154,22 +156,25 @@ public:
 	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
 	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 };
-
-
 extern War3Ext war3_ext;
-extern SMInterface *sminterfaceIWebternet; //SMInterface
-extern  IWebTransfer *IWebTransferxfer; //single object for transfer handling
-extern  IPluginFunction *helpergetfunc;
-extern IMutex *mymutex;
+struct myglobalstruct
+{
+	War3Ext *pwar3_ext;
+	SMInterface *sminterfaceIWebternet; //SMInterface
+	SMInterface *sminterfacetimer;
+	IWebTransfer *IWebTransferxfer; //single object for transfer handling
+	IPluginFunction *helpergetfunc;
+	
+	IEventSignal *sem_callfin; //signal when OnTimer sychronous thread finished
+	IPluginContext *plugincontext; //context to call natives
+	INativeInterface *nativeinterf;
+	INativeInvoker *invoker;
 
-extern IEventSignal *sem_callfin;
-extern IPluginContext *plugincontext; //context to call natives
-extern INativeInterface *nativeinterf;
-extern INativeInvoker *invoker;
-
-extern Semaphore *threadticketrequest;
-extern Semaphore *threadticket;
-extern IMutex *threadticketmutex;
+	Semaphore *threadticketrequest;
+	Semaphore *threadticket;
+	IMutex *threadticketmutex;
+};
+extern myglobalstruct g;
 using namespace std;
 
 void update();

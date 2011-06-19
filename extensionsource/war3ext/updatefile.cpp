@@ -31,7 +31,7 @@ void updatefile(string file){
 
 
 	char filepath[3000];
-	IWebTransfer *foo=((IWebternet*)sminterfaceIWebternet)->CreateSession();
+	IWebTransfer *foo=((IWebternet*)g.sminterfaceIWebternet)->CreateSession();
 	using namespace std;
 	string wtf=""; //auto delete when thread dies
 	char urlpath[3000];
