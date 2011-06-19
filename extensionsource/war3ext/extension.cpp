@@ -58,7 +58,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g_pShareSys->AddNatives(myself,MyNatives);
 
-
+ 
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	char path[PLATFORM_MAX_PATH];
@@ -68,14 +68,14 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	using namespace std;
 	char path2[PLATFORM_MAX_PATH]="\0";
 	strcat (path2,path);
-	strcat (path2,"/war3dll2");
+	strcat (path2,"/war3dll");
 
 
 
 	void *hLib=LoadSharedLibraryCustom(path2);
 	if(hLib==NULL) {
 		//META_CONPRINTF("COULD NOT LOAD %s\n", path2/*,GetLastError()*/);
-		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll2");
+		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll");
 		cleanupmetamod();
 		return false;
     }
