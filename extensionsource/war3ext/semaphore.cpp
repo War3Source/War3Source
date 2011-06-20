@@ -1,10 +1,10 @@
- 
+
 #include "extension.h"
 
 /*
 why is a binary semaphore not enough? well we need to keep counts thats all...
 consider this situation:
-threads must execute in a specific location in a script, and synchrounously, such as OnTimer, 
+threads must execute in a specific location in a script, and synchrounously, such as OnTimer,
 because we have to make sure no other functions are being called into the sourcepawn plugins.
 
 In the timer callback, it will allow these threads to execute by giving a ticket, where one of the threads is allowed to execute.
@@ -20,7 +20,7 @@ How does the OnTimer handler know there are 6 threads ready to execute? what if 
 Answer: semaphore for each thread, or a counting semphore! it can issue 6 or less tickets depending on the count of the semaphore.
 
 How does each thread tell the handler that it is ready to execute?
-Answer: semaphore as a flag for each thread, or a counting semaphore so the handler can give an exact amount of tickets. 
+Answer: semaphore as a flag for each thread, or a counting semaphore so the handler can give an exact amount of tickets.
 */
 
 
@@ -28,50 +28,49 @@ Answer: semaphore as a flag for each thread, or a counting semaphore so the hand
 
 Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
 	mutexwait=threader->MakeMutex();
-	//mutexsignal=threader->MakeMutex();
+	mutexsignal=threader->MakeMutex();
+	mutexsignal->Lock();
+
+	mutexwait2=threader->MakeMutex();
+
 	mysem=threader->MakeEventSignal();
-	mysemsignaled=true;
-	//mysem->Signal();
+
 }
 void Semaphore::Wait(){
+    mutexwait2->Lock(); //to prevent count from decremented below -1
 	mutexwait->Lock();
+
+
 	//cout<<count<<"|";;
 	count--; //count may go negative signally people are waiting (blocking) so we should use Signal internally when signalling
-	if(count>0){ // the last must acquire the actual Ieventsignal
-		
-		
-		mutexwait->Unlock();
-	}
-	else{
-		mutexwait->Unlock();
-		//cout<<"waiting";
-		mysem->Wait();
-		//cout<<"waitingfinished";
-		mutexwait->Lock();
-		//cout<<"d";
-		mysemsignaled=false;
-		//count--;
-		//cout<<"b ncount="<<count<<"]";
+	if(count>0){
+        //do nothing, we already did decrement
+        mutexwait2->Unlock();
 		mutexwait->Unlock();
 
 	}
-	
+	else{ //crap, it is now -1 or less, we must wait for a signal when someone releases
+
+		mutexwait->Unlock();
+
+		mutexsignal->Lock(); //when someone releases, this will be unlocked
+        mutexwait2->Unlock();
+	}
+
 }
 void Semaphore::Signal(){
-	//mutexsignal->Lock();
-	
 	mutexwait->Lock();
-	//cout<<count<<"||";
 	count++;
-	if(count<=1){
-		mysem->Signal();
-		mysemsignaled=true;
+	if(count<1){ //originally was -1 or less, that means some is doing the wait
+
+		mutexsignal->Unlock(); //unlock retains its unlcoked state
+
 	}
 	mutexwait->Unlock();
-	//mutexsignal->Unlock();
+
 }
 bool Semaphore::WaitNoBlock(){
-	
+
 	mutexwait->Lock();
 	bool returnvalue=false;
 	if(count>0){

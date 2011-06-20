@@ -40,10 +40,18 @@ IMutex *threadcountmutex;
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
+    META_CONPRINTF("[war3ext] SDK_OnLoad\n");
+
+
+	IEventSignal *sem_docall=threader->MakeEventSignal();
+	//sem_docall->Signal();
+	//sem_docall->Wait();
+	ERR("111pass making sempahorees");
+
 	g.threadticket=new Semaphore(0);
 	g.threadticketrequest=new Semaphore(0);
 	g.threadticketmutex=threader->MakeMutex();
-	META_CONPRINTF("[war3ext] SDK_OnLoad\n");
+
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
@@ -58,7 +66,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g_pShareSys->AddNatives(myself,MyNatives);
 
- 
+
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	char path[PLATFORM_MAX_PATH];
@@ -292,8 +300,10 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 		g.helpergetfunc->PushCell(sizeof(ret));
 		g.helpergetfunc->Execute(&result);
 
+    cout<<ret<<endl;
 
 		g.sem_callfin->Signal();
+		//threader->ThreadSleep(2000);
 
 
 	 }

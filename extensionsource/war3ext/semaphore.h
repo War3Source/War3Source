@@ -4,7 +4,9 @@ class Semaphore
 {
 	int count;
 	IMutex *mutexwait;
-	//IMutex *mutexsignal;
+	IMutex *mutexsignal;
+
+	IMutex *mutexwait2;
 	IEventSignal *mysem;
 	bool mysemsignaled;
 public:

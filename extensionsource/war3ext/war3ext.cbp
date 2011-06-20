@@ -3,10 +3,11 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="war3ext" />
+		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
+			<Target title=" ">
 				<Option output="bin/Debug/war3ext" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
@@ -20,7 +21,18 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="Makefile" />
+		<Unit filename="extension.cpp" />
+		<Unit filename="extension.h" />
+		<Unit filename="mythread.cpp" />
+		<Unit filename="os_calls.cpp" />
+		<Unit filename="os_calls.h" />
+		<Unit filename="ownageheader.h" />
+		<Unit filename="semaphore.cpp" />
+		<Unit filename="semaphore.h" />
+		<Unit filename="update.cpp" />
+		<Unit filename="updatefile.cpp" />
+		<Unit filename="util.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
