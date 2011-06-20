@@ -41,8 +41,10 @@ Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
 void Semaphore::Wait(){
     ERR("mutexwait2");
     mutexwait2->Lock(); //to prevent count from decremented below -1
+	ERR("mutexwait2 clear");
     ERR("mutexwait");
 	mutexwait->Lock();
+	ERR("mutexwait clear");
 
 
 	//cout<<count<<"|";;
@@ -56,15 +58,18 @@ void Semaphore::Wait(){
 	else{ //crap, it is now -1 or less, we must wait for a signal when someone releases
 
 		mutexwait->Unlock();
-
+		ERR("wait for signal");
 		mutexsignal->Lock(); //when someone releases, this will be unlocked
+		ERR("got signal");
         mutexwait2->Unlock();
+		ERR("mutexwait2 cleared");
 	}
 
 }
 void Semaphore::Signal(){
     ERR("mutexwait release");
 	mutexwait->Lock();
+	ERR("mutexwait release clear");
 	count++;
 	if(count<1){ //originally was -1 or less, that means some is doing the wait
 
@@ -77,6 +82,7 @@ void Semaphore::Signal(){
 bool Semaphore::WaitNoBlock(){
     ERR("mutexwait noblock");
 	mutexwait->Lock();
+	ERR("mutexwait noblock clear");
 	bool returnvalue=false;
 	if(count>0){
 		count--;

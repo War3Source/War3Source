@@ -1,4 +1,4 @@
-
+﻿
 //YOUR CUSTOM EXTENSION
 
 #include <sourcemod_version.h>
@@ -63,7 +63,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	threadcountmutex=threader->MakeMutex();
 
 	GetInterface("ITimerSys",(SMInterface**)&g.sminterfacetimer,true);
-	timersys->CreateTimer(&war3_ext,1.0,NULL, TIMER_FLAG_REPEAT);
+	timersys->CreateTimer(&war3_ext,0.01,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
 
