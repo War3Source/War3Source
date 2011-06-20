@@ -1,6 +1,3 @@
-﻿
-
-
 //YOUR CUSTOM EXTENSION
 #include <sourcemod_version.h>
 #include "extension.h"
