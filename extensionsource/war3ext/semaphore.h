@@ -6,9 +6,6 @@ class Semaphore
 	IMutex *mutexwait;
 	IMutex *mutexsignal;
 
-	IMutex *mutexwait2;
-	IEventSignal *mysem;
-	bool mysemsignaled;
 public:
 
 	Semaphore(int uicount=1);

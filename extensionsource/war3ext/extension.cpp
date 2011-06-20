@@ -40,12 +40,7 @@ War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
-
-
-	IEventSignal *sem_docall=threader->MakeEventSignal();
-	//sem_docall->Signal();
-	//sem_docall->Wait();
-	ERR("111pass making sempahorees");
+    g.pwar3_ext=this;
 
 	g.threadticket=new Semaphore(0);
 	g.threadticketrequest=new Semaphore(0);
@@ -191,7 +186,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	g.sem_callfin=new Semaphore(0);
 
 
-	threader->MakeThread(&war3_ext);
+	threader->MakeThread(g.pwar3_ext);
 
 
 	MyThread *pmythread = new MyThread();
@@ -289,17 +284,13 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 		g.threadticketrequest->Signal();
 		g.threadticket->Wait();
 
-
-		 char ret[64];
-
-		cell_t result;
+        char ret[64];
+        cell_t result;
 
 		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
 		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 		g.helpergetfunc->PushCell(sizeof(ret));
 		g.helpergetfunc->Execute(&result);
-
-    cout<<ret<<endl;
 
 		g.sem_callfin->Signal();
 		//threader->ThreadSleep(2000);
@@ -437,180 +428,16 @@ static cell_t W3ExtTick(IPluginContext *pCtx, const cell_t *params)
 {
 	if(g.helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
-			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
+			ERR("ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 
 		}
 		exit(0);
 	}
 
-	//sem_docall->Signal();
-	//sem_callfin->Wait();
-
-
-	//mymutex->Unlock();
-	//mymutex->Lock();
 	return 0;
 }
 static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 {
-	// params[0] is the count.
-	// in SM usually you dont have to, but we should verify params.
-	//if(params[0]<2) { return 0; } // todo: error?
-
-	/*IPluginFunction *pFunc;
-	pFunc = pCtx->GetFunctionById(params[1]);
-	if (!pFunc)
-	{
-		return pCtx->ThrowNativeError("Invalid function id (%X)", params[1], params[1]);
-	}
-	META_CONPRINTF("Directly passed Func id : %d = %X , pFunc->GetFunctionID()=%d \n", params[1], params[1],pFunc->GetFunctionID());
-
-	cell_t res;//= static_cast<ResultType>(Pl_Continue); // nothing special, its the same as (cell_t)Pl_Continue;
-
-	pFunc->PushCell(32);
-	pFunc->PushString("4444445555");
-	pFunc->Execute(&res);
-	*/
-
-	/*
-	IPluginFunction *pFunc3;
-	pFunc3 = pCtx->GetFunctionById(4);
-	if (!pFunc3)
-	{
-		return pCtx->ThrowNativeError("Invalid function id (%X)", 4);
-	}
-	META_CONPRINTF("Func id : %d\n", 4);
-
-	pFunc3->PushCell(32);
-	pFunc3->PushString("4444445555");
-	pFunc3->Execute(&res);
-	*/
-
-
-
-
-
-
-
-
-
-
-	// call by plugin handle and function name
-	// By the way, from my experience a static cast is basically the same as:
-	// Handle_t hndl = (Handle_t)params[4];
-	/*Handle_t hndl = static_cast<Handle_t>(params[2]);
-	HandleError err;
-	IPlugin *pPlugin;
-	if(hndl==0)
-	{
-		pPlugin = plsys->FindPluginByContext(pCtx->GetContext()); // pCtx is provided as a param to this function
-		//find the plugin calling us, we want to call him back
-	}
-	else
-	{
-		pPlugin = plsys->PluginFromHandle(hndl, &err); //hndl is casted from your param[]
-		//use the handle passed to us
-	}
-	if (!pPlugin)
-	{
-		return pCtx->ThrowNativeError("Plugin handle %x is invalid (error %d)", hndl, err);
-	}
-	uint32_t pubfuncindex;
-	const char *pNamePub="StaticFuncName";
-	//pCtx->LocalToString(params[5], &pNamePub); //if u want to get the function name from the params
-	int errCode = pPlugin->GetBaseContext()->FindPublicByName(pNamePub, &pubfuncindex);
-	if(errCode==SP_ERROR_NOT_FOUND)
-	{
-		return pCtx->ThrowNativeError("Plugin public function not found '%s'", pNamePub);
-	}
-	else
-	{
-		META_CONPRINTF("Found pub func id : %d\n", pubfuncindex);
-	}
-	IPluginFunction *pFunc2;
-	pFunc2= pPlugin->GetBaseContext()->GetFunctionById(PublicIndexToFuncId(pubfuncindex));// so this is failing. maybe change it to
-	//pFunc2= pCtx->GetFunctionById(PublicIndexToFuncId(funcidx));
-	if(!pFunc2)
-	{
-		// some error
-		return pCtx->ThrowNativeError("Plugin public function not casting '%s'", pNamePub);
-	}
-	META_CONPRINTF("Found  func id : %d , pFunc->GetFunctionID()=%d\n", PublicIndexToFuncId(pubfuncindex),pFunc2->GetFunctionID());
-	pFunc2->PushCell(1);
-	pFunc2->PushString("9999");
-	pFunc2->Execute(&res);
-	//return value of native, return cells only
-
-
-	//ACTUAL FORWARD
-	//this is global scope, we have to use object.blah
-	IForward *fwd = war3_ext.m_OurTestForward;
-	fwd->PushCell(5);
-	fwd->PushString("string pushing");
-	war3_ext.m_OurTestForward->Execute(&res); //leave this as an example
-
-
-
-	//ITERATING ALL PLUGINS, kinda like a forward
-	IPluginIterator *pIter = plsys->GetPluginIterator();
-	IPlugin *pCurPlugin;
-	while(pIter->MorePlugins())
-	{
-		pCurPlugin = pIter->GetPlugin();
-
-		META_CONPRINTF("Current: %s\n", pCurPlugin->GetFilename());
-
-		uint32_t pubfuncindex;
-		const char *pNamePub2="OnWar3Event";
-		//pCtx->LocalToString(params[5], &pNamePub); //if u want to get the function name from the params
-		int errCode = pCurPlugin->GetBaseContext()->FindPublicByName(pNamePub2, &pubfuncindex);
-		if(errCode==SP_ERROR_NOT_FOUND)
-		{
-			//return pCtx->ThrowNativeError("Plugin public function not found '%s'", pNamePub);
-		}
-		else
-		{
-			META_CONPRINTF("Found pub func id : %d\n", pubfuncindex);
-
-
-			pFunc2= pCurPlugin->GetBaseContext()->GetFunctionById(PublicIndexToFuncId(pubfuncindex));// so this is failing. maybe change it to
-			//pFunc2= pCtx->GetFunctionById(PublicIndexToFuncId(funcidx));
-			if(!pFunc2)
-			{
-				// some error
-				return pCtx->ThrowNativeError("Plugin public function not casting '%s'", pNamePub2);
-			}
-			META_CONPRINTF("Found  func id : %d , pFunc->GetFunctionID()=%d\n", PublicIndexToFuncId(pubfuncindex),pFunc2->GetFunctionID());
-			pFunc2->PushCell(-1);
-			pFunc2->PushCell(-1);
-			//pFunc2->PushString("looooopppping");
-			pFunc2->Execute(&res);
-		}
-
-		pIter->NextPlugin();
-	}
-	pIter->Release(); // at the end to kill
-
-	*/
-
-
-	///call a native, like war3_
-	//native W3GetW3Version(String:retstr[],maxlen);//str
-	// So, it's simple. find it JUST like a public, you need to use the correct context too (pPlugin->GetBaseContext())
-	// we'll reuse the pPlugin as an example.
-
-	///you shouldnt call natives, just make a public in .sp and call that, using the example above
-
-
-	//set some convar
-	ConVar *pswd = war3_ext.m_Cvars->FindVar("sv_stats");
-	if(pswd)
-	{
-		pswd->SetValue("2");
-		META_CONPRINTF("value: %s\n",pswd->GetString());
-	}
-
-
 	return  1;//sp_ftoc(2.4f);
 }
 
@@ -630,7 +457,6 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 	}
 	if(!g.threadticket->WaitNoBlock()){ ///no ticket available
 		g.threadticket->Signal();
-		ERR("wait fin");
 		g.sem_callfin->Wait();
 	}
 

@@ -19,12 +19,7 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 			ERR("failed to start invoke W3GetW3Revision");
 		}
 		else{
-			//DP("found native");
-
-
 			g.invoker->Invoke(&result);
-			//cout<<invoker->Invoke(&result)<<endl;
-			//cout<<result<<endl;
 		}
 
 		g.invoker->Start(g.plugincontext,"War3_GetRaceName");
@@ -34,8 +29,6 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		g.invoker->PushCell(sizeof(ret));
 		g.invoker->Invoke(&result);
 
-		cout<<ret<<endl;
-    ERR("end thread");
 		g.sem_callfin->Signal();
 		//threader->ThreadSleep(2000);
 	 }
