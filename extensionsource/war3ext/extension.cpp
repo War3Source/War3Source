@@ -1,6 +1,7 @@
 ﻿
-//YOUR CUSTOM EXTENSION
 
+
+//YOUR CUSTOM EXTENSION
 #include <sourcemod_version.h>
 #include "extension.h"
 #include <sm_platform.h>
