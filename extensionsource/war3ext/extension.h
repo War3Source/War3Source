@@ -165,7 +165,7 @@ struct myglobalstruct
 	IWebTransfer *IWebTransferxfer; //single object for transfer handling
 	IPluginFunction *helpergetfunc;
 
-	IEventSignal *sem_callfin; //signal when OnTimer sychronous thread finished
+	Semaphore *sem_callfin; //signal when OnTimer sychronous thread finished
 	IPluginContext *plugincontext; //context to call natives
 	INativeInterface *nativeinterf;
 	INativeInvoker *invoker;

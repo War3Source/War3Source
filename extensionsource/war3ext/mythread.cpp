@@ -35,7 +35,7 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		g.invoker->Invoke(&result);
 
 		cout<<ret<<endl;
-
+    ERR("end thread");
 		g.sem_callfin->Signal();
 		//threader->ThreadSleep(2000);
 	 }

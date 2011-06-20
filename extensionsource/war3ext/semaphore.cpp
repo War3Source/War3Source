@@ -27,7 +27,9 @@ Answer: semaphore as a flag for each thread, or a counting semaphore so the hand
 
 
 Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
+
 	mutexwait=threader->MakeMutex();
+
 	mutexsignal=threader->MakeMutex();
 	mutexsignal->Lock();
 
@@ -37,7 +39,9 @@ Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
 
 }
 void Semaphore::Wait(){
+    ERR("mutexwait2");
     mutexwait2->Lock(); //to prevent count from decremented below -1
+    ERR("mutexwait");
 	mutexwait->Lock();
 
 
@@ -59,6 +63,7 @@ void Semaphore::Wait(){
 
 }
 void Semaphore::Signal(){
+    ERR("mutexwait release");
 	mutexwait->Lock();
 	count++;
 	if(count<1){ //originally was -1 or less, that means some is doing the wait
@@ -70,7 +75,7 @@ void Semaphore::Signal(){
 
 }
 bool Semaphore::WaitNoBlock(){
-
+    ERR("mutexwait noblock");
 	mutexwait->Lock();
 	bool returnvalue=false;
 	if(count>0){
