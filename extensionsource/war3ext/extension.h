@@ -16,9 +16,9 @@
 #include <fstream>
 #include <vector>
 
-#include "semaphore.h"
 #include "ownageheader.h"
 
+#include "Semaphore.h"
 
 #define MAXMODULE 99
 /**
@@ -165,14 +165,15 @@ struct myglobalstruct
 	IWebTransfer *IWebTransferxfer; //single object for transfer handling
 	IPluginFunction *helpergetfunc;
 
-	Semaphore *sem_callfin; //signal when OnTimer sychronous thread finished
+	IEventSignal *sem_callfin; //signal when OnTimer sychronous thread finished
+	IMutex *docallmutex;
 	IPluginContext *plugincontext; //context to call natives
 	INativeInterface *nativeinterf;
 	INativeInvoker *invoker;
 
 	Semaphore *threadticketrequest;
 	Semaphore *threadticket;
-	IMutex *threadticketmutex;
+	Semaphore *threadticketdone;
 };
 extern myglobalstruct g;
 using namespace std;

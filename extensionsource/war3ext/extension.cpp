@@ -1,4 +1,4 @@
-
+﻿
 //YOUR CUSTOM EXTENSION
 #include <sourcemod_version.h>
 #include "extension.h"
@@ -18,7 +18,6 @@ War3Ext war3_ext;		/**< Global singleton for extension's main interface */
 CWar3DLLInterface *cwar3; //our dll object
 SMEXT_LINK(&war3_ext); //not related to dll
 
-
 //Those are function pointers
 
 typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
@@ -33,15 +32,11 @@ IMutex *threadcountmutex;
  int threadcount=0;
  bool webternet=false;
 
-
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
-    IMutex *fooz =threader->MakeMutex();;
-	fooz->Lock();
-	fooz->Lock();
-	fooz->Lock();
+
 
 	g.pwar3_ext=this;
 
@@ -49,7 +44,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g.threadticket=new Semaphore(0);
 	g.threadticketrequest=new Semaphore(0);
-	g.threadticketmutex=threader->MakeMutex();
+	g.threadticketdone=new Semaphore(0);
 
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
@@ -60,7 +55,6 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	GetInterface("IWebternet",(SMInterface**)&g.sminterfaceIWebternet,true);
 	threadcountmutex=threader->MakeMutex();
 
-	//GetInterface("ITimerSys",(SMInterface**)&g.sminterfacetimer,true);
 	timersys->CreateTimer(&war3_ext,1.1,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
@@ -146,17 +140,13 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		exit(0);
 	}
 
+	//pass to dll
 	cwar3->W3ExtRegister2(pCtx,params);
 
-	//not signaled by default, do not wait
-	g.sem_callfin=new Semaphore(0);
-
-
-	threader->MakeThread(g.pwar3_ext);
-
+	threader->MakeThread(g.pwar3_ext); //self
 
 	MyThread *pmythread = new MyThread();
-	//threader->MakeThread(pmythread);
+	threader->MakeThread(pmythread);
 
 	return 1;
 }
@@ -223,31 +213,7 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
                                return DownloadWrite_Okay;//DownloadWrite_Error;
                     }
 
- void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
-	 while(1){
-		g.threadticketrequest->Signal();
-		g.threadticket->Wait();
 
-        char ret[64];
-        cell_t result;
-		ERR("1");
-		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
-		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
-		g.helpergetfunc->PushCell(sizeof(ret));
-		g.helpergetfunc->Execute(&result);
-
-
-		ERR("5");
-		/**/
-		g.sem_callfin->Signal();
-		threader->ThreadSleep(5);
-		//ERR("6");
-
-	 }
-
-
-
- }
  void War3Ext::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}
 
 
@@ -303,20 +269,41 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 		exit(0);
 	}
 
-	while(g.threadticketrequest->WaitNoBlock()){
-
-		//cout<<"GOT REQUEST, allow them now";
-
-	}
-	if(!g.threadticket->WaitNoBlock()){ ///no ticket available
-		ERR("run");
+	if(g.threadticketrequest->Wait_Try()){ //eat 1 request at a time
+		
 		g.threadticket->Signal();
-		g.sem_callfin->Wait();
+		g.threadticketdone->Wait();
 	}
-
+	
+	ERR("ticked");
 
 	return Pl_Continue; //continue with timer repeat...
 }
+ void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
+	 //callfinmutex->Lock();
+	 while(1){
+		
+		g.threadticketrequest->Signal();
+		g.threadticket->Wait();
+		
+        char ret[64];
+        cell_t result;
+		ERR("1");
+		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
+		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		g.helpergetfunc->PushCell(sizeof(ret));
+		g.helpergetfunc->Execute(&result);
+
+
+		ERR("5");
+		g.threadticketdone->Signal();
+		//threader->ThreadSleep(2000);
+
+	 }
+
+
+
+ }
 void 	War3Ext::OnTimerEnd(ITimer *pTimer, void *pData){
 }
 

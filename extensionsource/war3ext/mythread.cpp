@@ -29,8 +29,9 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		g.invoker->PushCell(sizeof(ret));
 		g.invoker->Invoke(&result);
 
-		g.sem_callfin->Signal();
-		//threader->ThreadSleep(2000);
+		cout<<ret<<endl;
+		g.threadticketdone->Signal();
+		//threader->ThreadSleep(1900);
 	 }
  }
  void MyThread::OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) { META_CONPRINTF("THREAD TERMINATE cancel:%d\n",cancel);}

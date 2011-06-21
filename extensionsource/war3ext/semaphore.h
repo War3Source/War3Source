@@ -1,16 +1,12 @@
-#ifndef __SEMPAHOREHEADER
-#define __SEMPAHOREHEADER
-class Semaphore
-{
-	int count;
-	IMutex *mutexwait;
-	IMutex *mutexsignal;
-	IEventSignal* sig;
-public:
+#ifndef _Semaphore_
+#define _Semaphore_
 
-	Semaphore(int uicount=1);
-	void Wait();
-	void Signal();
-	bool WaitNoBlock();
-};
+#include <errno.h>
+
+#ifdef WIN32
+  #include "Win32/Semaphore.h"
+#else
+  #include "Posix/Semaphore.h"
 #endif
+
+#endif // !_Semaphore_
