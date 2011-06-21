@@ -1,4 +1,4 @@
-//YOUR CUSTOM EXTENSION
+﻿//YOUR CUSTOM EXTENSION
 #include <sourcemod_version.h>
 #include "extension.h"
 #include <sm_platform.h>
@@ -32,15 +32,19 @@ IMutex *threadcountmutex;
  int threadcount=0;
  bool webternet=false;
 
- //clean up metamod stuff
- void War3Ext::cleanupmetamod(){
-	 m_EventManager->RemoveListener(this);
- }
+
 War3Ext::~War3Ext(){}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
-    g.pwar3_ext=this;
+    IMutex *fooz =threader->MakeMutex();;
+	fooz->Lock();
+	fooz->Lock();
+	fooz->Lock();
+	
+	g.pwar3_ext=this;
+
+
 
 	g.threadticket=new Semaphore(0);
 	g.threadticketrequest=new Semaphore(0);
@@ -55,8 +59,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	GetInterface("IWebternet",(SMInterface**)&g.sminterfaceIWebternet,true);
 	threadcountmutex=threader->MakeMutex();
 
-	GetInterface("ITimerSys",(SMInterface**)&g.sminterfacetimer,true);
-	timersys->CreateTimer(&war3_ext,0.01,NULL, TIMER_FLAG_REPEAT);
+	//GetInterface("ITimerSys",(SMInterface**)&g.sminterfacetimer,true);
+	timersys->CreateTimer(&war3_ext,1.1,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
 
@@ -78,7 +82,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	if(hLib==NULL) {
 		//META_CONPRINTF("COULD NOT LOAD %s\n", path2/*,GetLastError()*/);
 		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll");
-		cleanupmetamod();
+		//cleanupmetamod();
 		return false;
     }
 	else{
@@ -105,28 +109,18 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
         	FreeSharedLibraryCustom(hLib);
         	return false;
 	}
-	cout<<2;
+	
 	cwar3=GetCWar3DLL();
-	cout<<3;
+	
 	// to communicate with dll
 	cwar3->DLLVersion(); // this IS communication ;]
-	//cwar3->OnEvent(player_index, "PLAYER_DIED");
+	
 	cout<<cwar3->DLLVersion()<<endl;
 
 	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader);
 	cwar3->DoStuff();
 
-	//destructor
-	/*DeleteCWar3DLLPtr DeleteCWar3DLL=(DeleteCWar3DLLPtr)GetFunctionCustom(hLib, "DeleteCWar3DLL");
-	if(DeleteCWar3DLL==NULL)
-	{
-		cout << "Unable to load function(s)." << endl;
-        FreeSharedLibraryCustom(hLib);
-        return false;
-	}
-	DeleteCWar3DLL(cwar3);*/
-
-    //FreeSharedLibraryCustom(hLib); //dont free, cuz we usin it
+	
 
 	#include "update.cpp"
 
@@ -135,35 +129,6 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	return true;
 }
 
-bool War3Ext::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bool late)
-{
-	META_CONPRINTF("[war3ext] SDK_OnMetamodLoad\n");
-
-
-	// add us to the metamod listener list
-	ismm->AddListener(this,this); // lemme find the first param
-
-
-	// i dont know if you are following 100% but basically they assume you'll use GET_V_IFACE_CURRENT inside OnMetaModload, since that is proper.
-	GET_V_IFACE_CURRENT(GetEngineFactory, m_Cvars, ICvar, CVAR_INTERFACE_VERSION);
-	GET_V_IFACE_CURRENT(GetEngineFactory, m_EventManager, IGameEventManager2, INTERFACEVERSION_GAMEEVENTSMANAGER2);
-	if(!m_Cvars)
-	{
-		META_CONPRINTF("[war3ext] ConVar interface found!\n");
-		return false;
-	}
-	if(!m_EventManager)
-	{
-		META_CONPRINTF("[war3ext] ConVar interface found!\n");
-		return false;
-	}
-	// Now that you have the event manager, add listeners. I believe it is supposed to be done on map start
-
-	m_EventManager->AddListener(this, "player_spawn", true);
-	m_EventManager->AddListener(this, "player_death", true);
-
-	return true;
-}
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 {
 	g.plugincontext=pCtx;
@@ -190,33 +155,11 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 
 
 	MyThread *pmythread = new MyThread();
-	threader->MakeThread(pmythread);
+	//threader->MakeThread(pmythread);
 
 	return 1;
 }
-void War3Ext::OnLevelInit(char const *pMapName,
-								 char const *pMapEntities,
-								 char const *pOldLevel,
-								 char const *pLandmarkName,
-								 bool loadGame,
-								 bool background)
-{
-	//m_EventManager->AddListener(this, "player_death", true);
-	//m_EventManager->AddListener(this, "player_spawn", true);
-}
 
-void War3Ext::OnLevelShutdown()
-{
-	//m_EventManager->RemoveListener(this);
-}
-
-void War3Ext::FireGameEvent( IGameEvent *event) ///event was fired
-{
-	//META_CONPRINTF("Event called: %s %i\n", event->GetName(),event->GetInt("userid")); // ooo name
-	//if(StrEquali(event->GetName(),"player_SPAWN")){
-	//	 std::cout<<"OMFG IT IS strcmp(event->GetName(),\n";
-	//}
-}
 //insensitive compare
 bool StrEquali(const char *str1,const char *str2){
 	return (strcmpi(str1,str2)==0)?true:false;
@@ -286,15 +229,18 @@ unsigned int War3Ext::GetURLInterfaceVersion( 		 ) {
 
         char ret[64];
         cell_t result;
-
+		ERR("1");
 		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
 		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 		g.helpergetfunc->PushCell(sizeof(ret));
 		g.helpergetfunc->Execute(&result);
 
-		g.sem_callfin->Signal();
-		//threader->ThreadSleep(2000);
 
+		ERR("5");
+		/**/
+		g.sem_callfin->Signal();
+		threader->ThreadSleep(5);
+		//ERR("6");
 
 	 }
 
@@ -311,100 +257,6 @@ static cell_t OurTestNative2(IPluginContext *pCtx, const cell_t *params)
 	cwar3->DoStuff();
 	//cell_t result;
 
-
-#ifdef BAD
-
-		SMInterface *somesminterface;
-		if(g_pShareSys->RequestInterface("INativeInterface",0,myself,&somesminterface)){
-			META_CONPRINTF("NativeInvoker INTERFACE SUCC %s\n",somesminterface->GetInterfaceName());
-
-			INativeInterface *myNativeInterface= (INativeInterface*)somesminterface;
-			IPluginRuntime *fakeruntime =myNativeInterface->CreateRuntime("war3extfakeruntime",NINVOKE_DEFAULT_MEMORY);
-			INativeInvoker* myinvoker=(INativeInvoker*)myNativeInterface->CreateInvoker();
-			if(myinvoker!=NULL){
-
-				if(true){
-
-
-
-					IPlugin *pPlugin;
-					pPlugin = plsys->FindPluginByContext(pCtx->GetContext());
-					pPlugin->GetBaseContext();
-					if(false==(myinvoker->Start(pPlugin->GetBaseContext(),"LogError")))
-					{
-
-						myinvoker->PushCell(1111);
-						myinvoker->PushCell(2222);
-						myinvoker->Invoke(&result);
-					}
-					else{
-						META_CONPRINTF("myinvoker->Start FAILED\n");
-					}
-				}
-
-				if(false==(myinvoker->Start((IPluginContext*)fakeruntime/*pCtx*/,"OurTestNative")))
-				{
-
-					myinvoker->PushCell(1111);
-					myinvoker->PushCell(2222);
-					myinvoker->Invoke(&result);
-				}
-				else{
-					META_CONPRINTF("myinvoker->Start FAILED\n");
-					unsigned int nativeindex;
-					nativeindex=0;
-					pCtx->FindNativeByName("OurTestNative",&nativeindex);
-					META_CONPRINTF("native index %d\n",nativeindex);
-
-					nativeindex=0;
-					pCtx->FindNativeByName("OurTestNative2",&nativeindex);
-					META_CONPRINTF("native index %d\n",nativeindex);
-
-					nativeindex=0;
-					pCtx->FindNativeByName("LogError",&nativeindex);
-					META_CONPRINTF("native index %d\n",nativeindex);
-
-					nativeindex=0;
-					pCtx->FindNativeByName("War3_CreateRace",&nativeindex);
-					META_CONPRINTF("native index %d\n",nativeindex);
-
-					nativeindex=0;
-					pCtx->FindNativeByName("GetNativeCell",&nativeindex);
-					META_CONPRINTF("native index %d\n",nativeindex);
-
-
-					IPlugin *pPlugin;
-					pPlugin = plsys->FindPluginByContext(pCtx->GetContext());
-					nativeindex=0;
-					pPlugin->GetBaseContext()->FindNativeByName("ExtensionSPNative",&nativeindex);
-
-					META_CONPRINTF("native index %d\n",nativeindex);
-					/*int errCode = pPlugin->GetBaseContext()-
-					if(errCode==SP_ERROR_NOT_FOUND)
-					{
-						return pCtx->ThrowNativeError("Plugin public function not found '%s'", pNamePub);
-					}
-					else
-					{
-						META_CONPRINTF("Found pub func id : %d\n", pubfuncindex);
-					}*/
-
-
-
-				}
-
-			}
-			else{
-				META_CONPRINTF("could not get invoker\n");
-			}
-
-		}
-		else{
-			META_CONPRINTF("NativeInvoker INTERFACE FAIL\n");
-
-		}
-#endif
-	//ExtensionSPNative
 	return 1;
 }
 static cell_t W3ExtVersion(IPluginContext *pCtx, const cell_t *params)
@@ -456,6 +308,7 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 
 	}
 	if(!g.threadticket->WaitNoBlock()){ ///no ticket available
+		ERR("run");
 		g.threadticket->Signal();
 		g.sem_callfin->Wait();
 	}

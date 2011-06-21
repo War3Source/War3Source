@@ -31,15 +31,30 @@ Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
 	mutexwait=threader->MakeMutex();
 
 	mutexsignal=threader->MakeMutex();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
+	mutexsignal->Unlock();
 	mutexsignal->Lock();
-
+	mutexsignal->Lock();
+	mutexsignal->Lock();
+	mutexsignal->Lock();
+	mutexsignal->Lock();
 }
 void Semaphore::Wait(){
+	
 	mutexwait->Lock();
 	count--; //count may go negative signally people are waiting (blocking) so we should use Signal internally when signalling
 	if(count<=-1){
 		mutexwait->Unlock();
+
         mutexsignal->Lock(); //when someone releases, this will be unlocked
+		ERR("got unlock");
 	}
 	else{
 		mutexwait->Unlock();
@@ -49,6 +64,7 @@ void Semaphore::Signal(){
 	mutexwait->Lock();
 	count++;
 	if(count<=0){ //originally was -1 or less, that means some is doing the wait
+		ERR("unlock");
 		mutexsignal->Unlock(); //unlock retains its unlcoked state
 	}
 	mutexwait->Unlock();

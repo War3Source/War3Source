@@ -29,8 +29,8 @@
 
 class War3Ext :
 	public SDKExtension, //implementing all these interfaces
-	public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
-	public IMetamodListener,
+	//public IGameEventListener2,   // now that War3Ext inherits eventlistener it can be added to the manager.
+	//public IMetamodListener,
 	public ITransferHandler,
 	public IThread,
 	public ITimedEvent
@@ -78,7 +78,7 @@ public:
 	const char *GetExtensionVerString();
 	const char *GetExtensionDateString();
 public:
-#if defined SMEXT_CONF_METAMOD
+#if defined SMEXT_CONF_METAMODzzzz
 	/**
 	 * @brief Called when Metamod is attached, before the extension version is called.
 	 *
@@ -122,10 +122,10 @@ public:
 
 
 
-
+	void cleanupmetamod();
 
 #endif
-	void cleanupmetamod();
+	
 
 	 ~War3Ext();
 	//itransferhandler

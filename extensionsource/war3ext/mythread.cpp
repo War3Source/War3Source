@@ -9,12 +9,12 @@ void MyThread::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 		char ret[64];
 		ret[0]=0;
 		cell_t result;
-
+		
 		g.helpergetfunc->PushCell(EXTH_IP);
 		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 		g.helpergetfunc->PushCell(sizeof(ret));
 		g.helpergetfunc->Execute(&result);
-
+		
 		if(!g.invoker->Start(g.plugincontext,"W3GetW3Revision")){
 			ERR("failed to start invoke W3GetW3Revision");
 		}
