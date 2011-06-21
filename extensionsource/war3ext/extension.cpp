@@ -1,4 +1,5 @@
-﻿//YOUR CUSTOM EXTENSION
+
+//YOUR CUSTOM EXTENSION
 #include <sourcemod_version.h>
 #include "extension.h"
 #include <sm_platform.h>
@@ -41,7 +42,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	fooz->Lock();
 	fooz->Lock();
 	fooz->Lock();
-	
+
 	g.pwar3_ext=this;
 
 
@@ -109,18 +110,18 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
         	FreeSharedLibraryCustom(hLib);
         	return false;
 	}
-	
+
 	cwar3=GetCWar3DLL();
-	
+
 	// to communicate with dll
 	cwar3->DLLVersion(); // this IS communication ;]
-	
+
 	cout<<cwar3->DLLVersion()<<endl;
 
 	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader);
 	cwar3->DoStuff();
 
-	
+
 
 	#include "update.cpp"
 
