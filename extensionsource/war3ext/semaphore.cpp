@@ -31,20 +31,8 @@ Semaphore::Semaphore( int tcount): count(tcount){ //c++ initialization list
 	mutexwait=threader->MakeMutex();
 
 	mutexsignal=threader->MakeMutex();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Unlock();
-	mutexsignal->Lock();
-	mutexsignal->Lock();
-	mutexsignal->Lock();
-	mutexsignal->Lock();
-	mutexsignal->Lock();
+	
+	sig=threader->MakeEventSignal();
 }
 void Semaphore::Wait(){
 	
@@ -53,7 +41,7 @@ void Semaphore::Wait(){
 	if(count<=-1){
 		mutexwait->Unlock();
 
-        mutexsignal->Lock(); //when someone releases, this will be unlocked
+        sig->Wait(); //when someone releases, this will be unlocked
 		ERR("got unlock");
 	}
 	else{
@@ -63,10 +51,10 @@ void Semaphore::Wait(){
 void Semaphore::Signal(){
 	mutexwait->Lock();
 	count++;
-	if(count<=0){ //originally was -1 or less, that means some is doing the wait
+	//if(count<=0){ //originally was -1 or less, that means some is doing the wait
 		ERR("unlock");
-		mutexsignal->Unlock(); //unlock retains its unlcoked state
-	}
+		sig->Signal(); //unlock retains its unlcoked state
+	//}
 	mutexwait->Unlock();
 }
 bool Semaphore::WaitNoBlock(){

@@ -5,7 +5,7 @@ class Semaphore
 	int count;
 	IMutex *mutexwait;
 	IMutex *mutexsignal;
-
+	IEventSignal* sig;
 public:
 
 	Semaphore(int uicount=1);
