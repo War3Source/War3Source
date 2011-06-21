@@ -34,7 +34,6 @@ updatefile.cpp \
 util.cpp\
 os_calls.cpp\
 mythread.cpp\
-semaphore.cpp\
 
 #additional includes
 INCLUDE += -I../war3dll
