@@ -18,7 +18,7 @@
 
 #include "ownageheader.h"
 
-#include "Semaphore.h"
+#include "mySemaphore.h" //not to conflict with postix semaphore.h
 
 #define MAXMODULE 99
 /**
@@ -125,7 +125,7 @@ public:
 	void cleanupmetamod();
 
 #endif
-	
+
 
 	 ~War3Ext();
 	//itransferhandler

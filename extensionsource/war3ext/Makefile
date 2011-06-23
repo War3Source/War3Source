@@ -107,6 +107,7 @@ INCLUDE += -I$(SMSDK)/public/extensions
 
 #LINK += -m32 -lm -ldl -lrt curl-src/Release/lib/.libs/libcurl.a
 LINK += -lstdc++
+LINK += -lpthread
 
 CFLAGS += -D_LINUX -Dstricmp=strcasecmp -D_stricmp=strcasecmp -D_strnicmp=strncasecmp -Dstrnicmp=strncasecmp \
 	-D_snprintf=snprintf -D_vsnprintf=vsnprintf -D_alloca=alloca -Dstrcmpi=strcasecmp -Wall -Werror -Wno-switch \

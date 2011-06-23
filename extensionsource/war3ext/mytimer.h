@@ -3,24 +3,24 @@
 typedef void (*funcpointer)(void); //of void return and no args
 ///use funcpointer variable= blah
 
-class MyTimer: 
+class MyTimer:
 	public IThread
 {
 public:
 	void AddTimer(funcpointer func,int milisecondInterval){
 		myvector.push_back(func);
-		myvectornexttick.push_back(timersys->GetTickedTime()*1000+ milisecondInterval);
+		myvectornexttick.push_back((long int)timersys->GetTickedTime()*1000+ milisecondInterval);
 		myvectorinterval.push_back( milisecondInterval);
 	}
 	MyTimer(){
 		threader->MakeThread(this);
 	}
 private:
-	
+
 	vector<funcpointer> myvector;
 	vector<long int> myvectornexttick;
 	vector<long int> myvectorinterval;
-	
+
 	void RunThread 	( 	IThreadHandle *  	pHandle 	 ) {
 		while(1){
 			threader->ThreadSleep(100);
@@ -36,9 +36,9 @@ private:
 				}
 				if(minindex>=0){
 					int nexttick=myvectornexttick.at(minindex)+myvectorinterval.at(minindex);
-					
+
 					myvectornexttick.at(minindex)=nexttick;
-					
+
 					funcpointer addr=(funcpointer)(myvector.at(minindex));
 					addr();
 				}
@@ -47,3 +47,5 @@ private:
 	}
 	void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) {}
 };
+
+
