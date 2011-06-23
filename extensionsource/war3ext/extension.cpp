@@ -41,6 +41,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
 	MyTimer *test=new MyTimer();
+	g.imytimer=test;
+
 	test->AddTimer(&functest,3000);
 
 	g.pwar3_ext=this;
@@ -117,7 +119,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	cout<<cwar3->DLLVersion()<<endl;
 
-	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader);
+	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
 	cwar3->DoStuff();
 
 
@@ -145,9 +147,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		exit(0);
 	}
 
-	//pass to dll
-	cwar3->W3ExtRegister2(pCtx,params);
-
+	
 	threader->MakeThread(g.pwar3_ext); //self
 
 	MyThread *pmythread = new MyThread();

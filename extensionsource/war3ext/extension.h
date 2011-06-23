@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include "os_calls.h"
-#include "war3dll.h"
+
 #include <string>
 #include <locale>
 #include <fstream>
@@ -19,6 +19,13 @@
 #include "ownageheader.h"
 
 #include "mySemaphore.h" //not to conflict with postix semaphore.h
+
+
+
+
+#include "shared.h"
+
+
 
 #define MAXMODULE 99
 /**
@@ -158,25 +165,7 @@ public:
 };
 
 extern War3Ext war3_ext;
-struct myglobalstruct
-{
-	War3Ext *pwar3_ext;
-	SMInterface *sminterfaceIWebternet; //SMInterface
-	SMInterface *sminterfacetimer;
-	IWebTransfer *IWebTransferxfer; //single object for transfer handling
-	IPluginFunction *helpergetfunc;
 
-	IEventSignal *sem_callfin; //signal when OnTimer sychronous thread finished
-	IMutex *docallmutex;
-	IPluginContext *plugincontext; //context to call natives
-	INativeInterface *nativeinterf;
-	INativeInvoker *invoker;
-
-	Semaphore *threadticketrequest;
-	Semaphore *threadticket;
-	Semaphore *threadticketdone;
-};
-extern myglobalstruct g;
 using namespace std;
 
 void update();

@@ -1,10 +1,9 @@
 #include "extension.h"
 
-typedef void (*funcpointer)(void); //of void return and no args
-///use funcpointer variable= blah
 
 class MyTimer:
-	public IThread
+	public IThread,
+	public IMyTimer
 {
 public:
 	void AddTimer(funcpointer func,int milisecondInterval){
