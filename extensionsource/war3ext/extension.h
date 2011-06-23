@@ -23,7 +23,7 @@
 
 
 #include "shared.h"
-#include "mySemaphore.h"
+#include "mysemaphore.h"
 
 
 #define MAXMODULE 99

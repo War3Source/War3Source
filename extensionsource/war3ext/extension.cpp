@@ -87,9 +87,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	GetInterface("IPlayerManager",(SMInterface**)&g->playermanager,true);
 
 	g->sminterfacetimersys=timersys;
-	timersys->CreateTimer(&war3_ext,1.1,NULL, TIMER_FLAG_REPEAT);
 
-	g_pShareSys->AddNatives(myself,MyNatives);
+
 
 
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
@@ -151,8 +150,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	#include "update.cpp"
 
+    timersys->CreateTimer(&war3_ext,20.1,NULL, TIMER_FLAG_REPEAT);
 
-
+	g_pShareSys->AddNatives(myself,MyNatives);
 	return true;
 }
 
@@ -176,12 +176,12 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	char ret[64];
 	ret[0]=0;
 	cell_t result;
-		
+
 	g->helpergetfunc->PushCell(EXTH_IP);
 	g->helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 	g->helpergetfunc->PushCell(sizeof(ret));
 	g->helpergetfunc->Execute(&result);
-		
+
 	if(!g->invoker->Start(g->plugincontext,"W3GetW3Revision")){
 		ERR("failed to start invoke W3GetW3Revision");
 	}
@@ -189,10 +189,10 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		g->invoker->Invoke(&result);
 		g->war3revision=result;
 	}
-	
+
 	//threader->MakeThread(g->pwar3_ext); //self
 
-	MyThread *pmythread = new MyThread();
+	//MyThread *pmythread = new MyThread();
 	//threader->MakeThread(pmythread);
 
 	return 1;
@@ -317,32 +317,32 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 	}
 
 	if(g->threadticketrequest->Wait_Try()){ //eat 1 request at a time
-		
+
 		g->threadticket->Signal();
 		g->threadticketdone->Wait();
 	}
-	
-	
+
+
 
 	return Pl_Continue; //continue with timer repeat...
 }
  void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 	 //callfinmutex->Lock();
 	 while(1){
-		
+
 		g->threadticketrequest->Signal();
 		g->threadticket->Wait();
-		
+
         char ret[64];
         cell_t result;
-		
+
 		g->helpergetfunc->PushCell(EXTH_HOSTNAME);
 		g->helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
 		g->helpergetfunc->PushCell(sizeof(ret));
 		g->helpergetfunc->Execute(&result);
 
 
-		
+
 		g->threadticketdone->Signal();
 		//threader->ThreadSleep(2000);
 
