@@ -12,7 +12,7 @@ public:
 		myvectorinterval.push_back( milisecondInterval);
 	}
 	MyTimer(){
-		//threader->MakeThread(this);
+		threader->MakeThread(this);
 	}
 private:
 
