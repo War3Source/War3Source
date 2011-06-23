@@ -495,6 +495,7 @@ public Action:ExecOnceTimer(Handle:h){
 			if(!KvJumpToKey(keyValue, keyracename)){
 				PrintToServer("could not jump to key %s",keyracename);
 			}
+			CloseHandle(keyValue);
 		}
 
 		//no english? or no translations? send nothing as racename

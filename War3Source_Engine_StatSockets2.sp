@@ -52,7 +52,7 @@ public NW3Socket2(Handle:plugin,numParams)
 PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 {
 
-	if(trieCount<2500)
+	if(trieCount<1000) //1000
 	{
 		decl String:path[2000];
 		path[0]='\0';
@@ -96,7 +96,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 	else{
 		if(ShowError())
 		{
-			W3LogNotError("Cannot create more sockets, 2500 conections reached");
+			W3LogNotError("Cannot create more sockets, 1000 conections reached");
 		}
 	}	
 }

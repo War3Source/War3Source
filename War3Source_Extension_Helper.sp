@@ -26,8 +26,7 @@ public Plugin:myinfo=
 	version="1.0",
 	url="http://war3source.com/"
 };
-
-
+native W3ExtTick();
 new Handle:hHostname;
 new String:serverip[16];
 new serverport;
@@ -36,7 +35,7 @@ public OnPluginStart()
 {
 	W3ExtRegister("helper1");
 	hHostname=FindConVar("hostname");
-	
+	CreateTimer(1.0,SecondTick,_,TIMER_REPEAT);
 }
 public OnMapStart(){
 	
@@ -65,5 +64,7 @@ public any:Get(id,String:buf[],maxlen){
 	}
 	return 0;
 }
-
+public Action:SecondTick(Handle:t){
+	W3ExtTick();
+}
 
