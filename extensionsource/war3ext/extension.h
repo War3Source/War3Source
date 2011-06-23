@@ -18,13 +18,12 @@
 
 #include "ownageheader.h"
 
-#include "mySemaphore.h" //not to conflict with postix semaphore.h
 
 
 
 
 #include "shared.h"
-
+#include "mySemaphore.h"
 
 
 #define MAXMODULE 99
@@ -75,7 +74,7 @@ public:
 	//virtual void SDK_OnPauseChange(bool paused);
 
 	/**
-	 * @brief this is called when Core wants to know if your extension is working.
+	 * @brief this is called when Core wants to know if your extension is working->
 	 *
 	 * @param error		Error message buffer.
 	 * @param maxlength	Size of error message buffer.
@@ -107,7 +106,7 @@ public:
 	//virtual bool SDK_OnMetamodUnload(char *error, size_t maxlength);
 
 	/**
-	 * @brief Called when Metamod's pause state is changing.
+	 * @brief Called when Metamod's pause state is changing->
 	 * NOTE: By default this is blocked unless sent from SourceMod.
 	 *
 	 * @param paused		Pause state being set.

@@ -24,8 +24,8 @@ typedef CWar3DLLInterface* (*GetCWar3DLLPtr)();
 typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
 
-///super shared global vars!!! access with g.(members!)
-myglobalstruct g;
+///super shared global vars!!! access with g->(members!)
+myglobalstruct *g;
 
 IMutex *threadcountmutex;
 
@@ -34,34 +34,59 @@ IMutex *threadcountmutex;
 
 War3Ext::~War3Ext(){}
 
-void functest(){
-	ERR("functesttick");
-}
+
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
+	g=new myglobalstruct;
+	g->pwar3_ext=NULL;
+	g->sminterfaceIWebternet=NULL; //SMInterface
+	g->sminterfacetimersys=NULL;
+	g->IWebTransferxfer=NULL; //single object for transfer handling
+	g->helpergetfunc=NULL;
+	g->playermanager=NULL;
+
+	g->sem_callfin=NULL; //signal when OnTimer sychronous thread finished
+	g->docallmutex=NULL;
+	g->plugincontext=NULL; //context to call natives
+	g->nativeinterf=NULL;
+	g->invoker=NULL;
+
+	g->threadticketrequest=NULL;
+	g->threadticket=NULL;
+	g->threadticketdone=NULL;
+
+	g->imytimer=NULL;
+
+	g->needsWar3Update=false;
+	g->minversionexceeded=false;
+
+
+
+
 	MyTimer *test=new MyTimer();
-	g.imytimer=test;
+	g->imytimer=test;
 
-	test->AddTimer(&functest,3000);
+	g->pwar3_ext=this;
+	//initalize struct
+	g->needsWar3Update=false;
 
-	g.pwar3_ext=this;
-
-
-
-	g.threadticket=new Semaphore(0);
-	g.threadticketrequest=new Semaphore(0);
-	g.threadticketdone=new Semaphore(0);
+	g->threadticket=new Semaphore(0);
+	g->threadticketrequest=new Semaphore(0);
+	g->threadticketdone=new Semaphore(0);
 
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
-	GetInterface("INativeInterface",(SMInterface**)&g.nativeinterf,true);
-	g.invoker=g.nativeinterf->CreateInvoker();
+	GetInterface("INativeInterface",(SMInterface**)&g->nativeinterf,true);
+	g->invoker=g->nativeinterf->CreateInvoker();
 
-	GetInterface("IWebternet",(SMInterface**)&g.sminterfaceIWebternet,true);
+	GetInterface("IWebternet",(SMInterface**)&g->sminterfaceIWebternet,true);
 	threadcountmutex=threader->MakeMutex();
 
+	GetInterface("IPlayerManager",(SMInterface**)&g->playermanager,true);
+
+	g->sminterfacetimersys=timersys;
 	timersys->CreateTimer(&war3_ext,1.1,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
@@ -133,13 +158,13 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 {
-	g.plugincontext=pCtx;
+	g->plugincontext=pCtx;
 	char* strarg1;
 	pCtx->LocalToString(params[1], &strarg1);
 	PRINT("%d smx loaded\n",(int)strarg1);
 
-	g.helpergetfunc=pCtx->GetFunctionByName("Get");
-	if(g.helpergetfunc==NULL){
+	g->helpergetfunc=pCtx->GetFunctionByName("Get");
+	if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
 
@@ -147,11 +172,28 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		exit(0);
 	}
 
+	///get revision once
+	char ret[64];
+	ret[0]=0;
+	cell_t result;
+		
+	g->helpergetfunc->PushCell(EXTH_IP);
+	g->helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+	g->helpergetfunc->PushCell(sizeof(ret));
+	g->helpergetfunc->Execute(&result);
+		
+	if(!g->invoker->Start(g->plugincontext,"W3GetW3Revision")){
+		ERR("failed to start invoke W3GetW3Revision");
+	}
+	else{
+		g->invoker->Invoke(&result);
+		g->war3revision=result;
+	}
 	
-	threader->MakeThread(g.pwar3_ext); //self
+	//threader->MakeThread(g->pwar3_ext); //self
 
 	MyThread *pmythread = new MyThread();
-	threader->MakeThread(pmythread);
+	//threader->MakeThread(pmythread);
 
 	return 1;
 }
@@ -250,7 +292,7 @@ inline funcid_t PublicIndexToFuncId(uint32_t idx)
 }
 static cell_t W3ExtTick(IPluginContext *pCtx, const cell_t *params)
 {
-	if(g.helpergetfunc==NULL){
+	if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			ERR("ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 
@@ -266,7 +308,7 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 }
 
 ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
-	if(g.helpergetfunc==NULL){
+	if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 
@@ -274,13 +316,13 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 		exit(0);
 	}
 
-	if(g.threadticketrequest->Wait_Try()){ //eat 1 request at a time
+	if(g->threadticketrequest->Wait_Try()){ //eat 1 request at a time
 		
-		g.threadticket->Signal();
-		g.threadticketdone->Wait();
+		g->threadticket->Signal();
+		g->threadticketdone->Wait();
 	}
 	
-	ERR("ticked");
+	
 
 	return Pl_Continue; //continue with timer repeat...
 }
@@ -288,20 +330,20 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 	 //callfinmutex->Lock();
 	 while(1){
 		
-		g.threadticketrequest->Signal();
-		g.threadticket->Wait();
+		g->threadticketrequest->Signal();
+		g->threadticket->Wait();
 		
         char ret[64];
         cell_t result;
-		ERR("1");
-		g.helpergetfunc->PushCell(EXTH_HOSTNAME);
-		g.helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
-		g.helpergetfunc->PushCell(sizeof(ret));
-		g.helpergetfunc->Execute(&result);
+		
+		g->helpergetfunc->PushCell(EXTH_HOSTNAME);
+		g->helpergetfunc->PushStringEx(ret,sizeof(ret),0,SM_PARAM_COPYBACK);
+		g->helpergetfunc->PushCell(sizeof(ret));
+		g->helpergetfunc->Execute(&result);
 
 
-		ERR("5");
-		g.threadticketdone->Signal();
+		
+		g->threadticketdone->Signal();
 		//threader->ThreadSleep(2000);
 
 	 }

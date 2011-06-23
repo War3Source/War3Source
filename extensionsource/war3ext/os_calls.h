@@ -1,4 +1,4 @@
-//http://www.codeproject.com/KB/architecture/plat_ind_coding.aspx
+//http://www.codeproject.com/KB/architecture/plat_ind_coding->aspx
 
 //Boby Thomas pazheparampil - march 2006
 #ifndef os_call_h

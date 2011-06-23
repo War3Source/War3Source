@@ -157,7 +157,7 @@ public:
 	virtual bool SDK_OnMetamodUnload(char *error, size_t maxlength);
 
 	/**
-	 * @brief Called when Metamod's pause state is changing.
+	 * @brief Called when Metamod's pause state is changing->
 	 * NOTE: By default this is blocked unless sent from SourceMod.
 	 *
 	 * @param paused		Pause state being set.

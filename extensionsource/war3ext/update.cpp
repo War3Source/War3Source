@@ -1,6 +1,6 @@
 
 		//try out our downloader
-	IWebTransfer *foo=((IWebternet*)g.sminterfaceIWebternet)->CreateSession();
+	IWebTransfer *foo=((IWebternet*)g->sminterfaceIWebternet)->CreateSession();
 	using namespace std;
 	string wtf=""; //auto delete when thread dies
 	char buf[2000];

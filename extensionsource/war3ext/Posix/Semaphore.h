@@ -23,19 +23,19 @@ class Semaphore
   virtual ~Semaphore()
   { sem_destroy(&S); }
 
-  void Wait() const
+  void Wait() 
   { sem_wait((sem_t *)&S); }
 
-  int Wait_Try() const
+  int Wait_Try() 
   { return (sem_trywait((sem_t *)&S)?errno:0); }
 
 
   //post / free
-  int Signal() const
+  int Signal() 
   { return (sem_post((sem_t *)&S)?errno:0); }
 
   //get value
-  int Value() const
+  int Value() 
   { 
 	  int V = -1;
 	  sem_getvalue((sem_t *)&S,&V);

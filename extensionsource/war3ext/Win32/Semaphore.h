@@ -15,25 +15,26 @@
 
 class Semaphore
 {
+public:
   HANDLE S;
   void operator=(const Semaphore &S){}
   Semaphore(const Semaphore &S){}
 
-  public:
+  
   Semaphore( int init = 0 )
   { S = CreateSemaphore(0,init,SEM_VALUE_MAX,0); }
 
   virtual ~Semaphore()
   { CloseHandle(S); }
 
-  void Wait() const
+  void Wait() 
   { WaitForSingleObject((HANDLE)S,INFINITE); }
 
-  int Wait_Try() const
+  int Wait_Try() 
   { return ((WaitForSingleObject((HANDLE)S,0)==WAIT_OBJECT_0)?1:0); }
 
   //post / free
-  int Signal() const
+  int Signal() 
   { return (ReleaseSemaphore((HANDLE)S,1,0)?0:ERANGE); }
 
   //get value

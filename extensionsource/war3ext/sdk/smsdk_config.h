@@ -33,7 +33,7 @@
 #define _INCLUDE_SOURCEMOD_EXTENSION_CONFIG_H_
 
 /**
- * @file smsdk_config.h
+ * @file smsdk_config->h
  * @brief Contains macros for configuring basic extension information.
  */
 
