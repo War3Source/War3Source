@@ -95,13 +95,13 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	char path[PLATFORM_MAX_PATH];
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
-	META_CONPRINTF("path %s\n", path);
+
 
 	using namespace std;
 	char path2[PLATFORM_MAX_PATH]="\0";
 	strcat (path2,path);
 	strcat (path2,"/war3dll");
-
+    META_CONPRINTF("path %s\n", path2);
 
 
 	void *hLib=LoadSharedLibraryCustom(path2);
