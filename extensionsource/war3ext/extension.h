@@ -156,6 +156,7 @@ public:
 	 void RunThread 	( 	IThreadHandle *  	pHandle 	 ) ;
 	 void OnTerminate 	( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 };
+
 extern War3Ext war3_ext;
 struct myglobalstruct
 {

@@ -4,6 +4,7 @@
 #include "extension.h"
 #include <sm_platform.h>
 
+#include "mytimer.h"
 
 
 #define MAXMODULE 99
@@ -33,10 +34,15 @@ IMutex *threadcountmutex;
  bool webternet=false;
 
 War3Ext::~War3Ext(){}
+
+void functest(){
+	ERR("functesttick");
+}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
-
+	MyTimer *test=new MyTimer();
+	test->AddTimer(&functest,3000);
 
 	g.pwar3_ext=this;
 
