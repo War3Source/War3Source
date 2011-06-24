@@ -175,6 +175,7 @@ enum War3Immunity
 	Immunity_Items, // Immune from shop items
 	Immunity_Skills, // Immune from all skills
 	Immunity_Wards, // Immune ward modifiers/damage. skill immunity includes ward immunity
+	Immunity_Ability, // Immune from abilities (not implemented by core)
 }; // The last of PimpinJuice's sexy syntax
 
 //where damage is from   skill or ultimate etc
