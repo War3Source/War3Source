@@ -34,7 +34,9 @@ IMutex *threadcountmutex;
 
 War3Ext::~War3Ext(){}
 
-
+void tickme(){
+    ERR("tickme");
+}
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
@@ -64,8 +66,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 
 
-	MyTimer *test=new MyTimer();
-	g->imytimer=test;
+
 
 	g->pwar3_ext=this;
 	//initalize struct
@@ -108,6 +109,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	if(hLib==NULL) {
 		//META_CONPRINTF("COULD NOT LOAD %s\n", path2/*,GetLastError()*/);
 		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll");
+		#if defined(__GNUC__)
+		ERR("%s",dlerror());
+		#endif
 		//cleanupmetamod();
 		return false;
     }
@@ -143,8 +147,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	cout<<cwar3->DLLVersion()<<endl;
 
-	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
-	cwar3->DoStuff();
+    g->teststr="globalteststr";
 
 
 
@@ -153,6 +156,14 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
     timersys->CreateTimer(&war3_ext,20.1,NULL, TIMER_FLAG_REPEAT);
 
 	g_pShareSys->AddNatives(myself,MyNatives);
+
+	g->imytimer=new MyTimer();
+	//g->imytimer->AddTimer(&tickme,100); //test
+
+
+	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
+	cwar3->DoStuff();
+
 	return true;
 }
 

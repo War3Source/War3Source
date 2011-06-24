@@ -36,6 +36,7 @@ struct myglobalstruct
 	int war3revision;
 	bool needsWar3Update;
 	bool minversionexceeded;
+	std::string teststr;
 
 };
 extern myglobalstruct *g;
@@ -45,7 +46,7 @@ extern myglobalstruct *g;
 //you add the semicolon
 
 //extension helper
-enum EXTH { 
+enum EXTH {
 EXTH_HOSTNAME,
 EXTH_W3VERSION_STR,
 EXTH_W3VERSION_NUM,
@@ -62,13 +63,13 @@ class CWar3DLLInterface
 {
 public:
     virtual ~CWar3DLLInterface()=0; // <= important!?
-	
+
 	//put all wrapped functions here, and in actual class
     virtual const char *DLLVersion() = 0; //rememer = 0;
-	virtual void PassStuff(ISourceMod*,IVEngineServer*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0; 
-	virtual void DoStuff()=0; 
-	
+	virtual void PassStuff(ISourceMod*,IVEngineServer*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
+	virtual void DoStuff()=0;
+
 };
 
-#endif 
+#endif
 

@@ -19,6 +19,7 @@
 	//	return (c == '/' || c == '\\');
 	//}
 	#include <Windows.h>
+	#define dlerror() "cannot get error msg on windows"
 #else
 	//#define DLL_EXPORT				extern "C" __attribute__((visibility("default")))
 	//#define openlib(lib)			dlopen(lib, RTLD_NOW)
@@ -34,7 +35,7 @@
 	#include <dlfcn.h>
 #endif
 
-#define dlerror() "cannot get error msg on windows"
+
 
 void* LoadSharedLibraryCustom(char *pcDllname, int iMode =2);
 void *GetFunctionCustom(void *Lib, char *Fnname);

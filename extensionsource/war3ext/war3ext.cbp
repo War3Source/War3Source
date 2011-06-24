@@ -25,11 +25,13 @@
 		<Unit filename="extension.cpp" />
 		<Unit filename="extension.h" />
 		<Unit filename="mythread.cpp" />
+		<Unit filename="mytimer.h" />
 		<Unit filename="os_calls.cpp" />
 		<Unit filename="os_calls.h" />
 		<Unit filename="ownageheader.h" />
 		<Unit filename="semaphore.cpp" />
 		<Unit filename="semaphore.h" />
+		<Unit filename="shared.h" />
 		<Unit filename="update.cpp" />
 		<Unit filename="updatefile.cpp" />
 		<Unit filename="util.cpp" />
