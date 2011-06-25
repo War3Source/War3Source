@@ -5,6 +5,7 @@ B6
 
 fixed naix leeching off self damage
 naix feast prints hp gained to console
+fixed incorrect semaphore behavior on linux, causing servers to hang after 20 seconds
 
 B5
 

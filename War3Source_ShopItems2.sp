@@ -77,7 +77,7 @@ public OnPluginStart()
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==10){
-		ItemID[POSTHASTE]=War3_CreateShopItem2("Post Haste","posthaste","+3% speed",0);
+		ItemID[POSTHASTE]=W3CreateShopItem22("Post Haste","posthaste","+3% speed",0);
 		ItemID[TRINKET]=War3_CreateShopItem2("Trinket of Restoraion","trinket","+0.5 HP regeneration",0);
 		ItemID[LIFETUBE]=War3_CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",0);
 	}
