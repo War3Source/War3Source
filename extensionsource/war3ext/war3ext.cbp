@@ -29,8 +29,6 @@
 		<Unit filename="os_calls.cpp" />
 		<Unit filename="os_calls.h" />
 		<Unit filename="ownageheader.h" />
-		<Unit filename="semaphore.cpp" />
-		<Unit filename="semaphore.h" />
 		<Unit filename="shared.h" />
 		<Unit filename="update.cpp" />
 		<Unit filename="updatefile.cpp" />

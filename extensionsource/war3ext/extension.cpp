@@ -126,7 +126,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
     GetModuleFileNameCustom(hLib, mod, MAXMODULE);
     cout << "Library loaded: " << mod << endl;
 
-   
+
 	GetCWar3DLLPtr GetCWar3DLL=(GetCWar3DLLPtr)GetFunctionCustom(hLib, "GetCWar3DLL");
 	if(GetCWar3DLL==NULL)
 	{
@@ -148,10 +148,10 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	#include "update.cpp"
 
-    timersys->CreateTimer(&war3_ext,20.1,NULL, TIMER_FLAG_REPEAT);
+    timersys->CreateTimer(&war3_ext,0.1,NULL, TIMER_FLAG_REPEAT);
 
 	sharesys->AddNatives(myself,MyNatives);
-	
+
 	g->imytimer=new MyTimer();
 	//g->imytimer->AddTimer(&tickme,100); //test
 
@@ -332,14 +332,10 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 		}
 		exit(0);
 	}
-
-	if(g->threadticketrequest->Wait_Try()){ //eat 1 request at a time
-
+	if(g->threadticketrequest->Wait_Try()){ //eat 1 request at a time, we have modified wait try to return 1 if successful
 		g->threadticket->Signal();
 		g->threadticketdone->Wait();
 	}
-
-
 
 	return Pl_Continue; //continue with timer repeat...
 }

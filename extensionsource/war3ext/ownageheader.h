@@ -6,13 +6,15 @@
 
 
 #include <iostream>//need this, incase they didnt include it, need for cout<<endl
+#include <stdio.h>
+#include <stdarg.h>
 
 //standard prints
 #ifndef PRINT
 #define PRINT printf
 #endif
 #ifndef CPRINT
-#define CPRINT std::cout << 
+#define CPRINT std::cout <<
 #endif
 
 #define FORMAT g_pSM->Format
@@ -22,11 +24,11 @@
 
 //extern needs to stay outside of anoy-namespace
 extern ISourceMod *g_pSM;
-extern IExtension *myself;	
+extern IExtension *myself;
 
 
 
-namespace //anoynamous namespace, 
+namespace //anoynamous namespace,
 	//these funcs are only accisible by the cpp files that included this file.
 	//however, that means you have duplicate code...its a trade off for ease of use
 {
@@ -40,8 +42,8 @@ namespace //anoynamous namespace,
 	{
 		va_list ap;
 		va_start(ap, format);
-	
-	
+
+
 		char buffer[2000];
 		UTIL_Format(buffer,sizeof(buffer),format,ap);
 		g_pSM->LogError(myself,buffer);
@@ -50,7 +52,7 @@ namespace //anoynamous namespace,
 
 	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params)
 	{
-		size_t len = vsnprintf_s(buffer, maxlength, 9999,fmt, params);
+		size_t len = vsnprintf(buffer, maxlength, fmt, params);
 
 		if (len >= maxlength)
 		{
