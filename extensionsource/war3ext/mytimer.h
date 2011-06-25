@@ -22,15 +22,19 @@ private:
 
 	void RunThread 	( 	IThreadHandle *  	pHandle 	 ) {
 		while(1){
-			threader->ThreadSleep(100);
+			static int sleeptime=100;
+			threader->ThreadSleep(sleeptime);
 			int size=myvector.size();
 			if(size>0){
+				int readycount=0;
+
 				float min=timersys->GetTickedTime()*1000;
 				int minindex=-1;
 				for(int i=0;i<size;i++){
 					if(myvectornexttick.at(i)<min){
 						min=myvectornexttick.at(i);
 						minindex=i;
+						readycount++;
 					}
 				}
 				if(minindex>=0){
@@ -41,6 +45,10 @@ private:
 					funcpointer addr=(funcpointer)(myvector.at(minindex));
 					addr();
 				}
+				sleeptime=(readycount>1)?100:10;
+			}
+			else{
+				sleeptime=100;
 			}
 		}
 	}

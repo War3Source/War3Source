@@ -50,7 +50,7 @@ namespace //anoynamous namespace,
 
 	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params)
 	{
-		size_t len = vsnprintf(buffer, maxlength, fmt, params);
+		size_t len = vsnprintf_s(buffer, maxlength, 9999,fmt, params);
 
 		if (len >= maxlength)
 		{

@@ -45,7 +45,7 @@ public:
 	// Some variables.
 //	IWar3DLL *m_War3DLL;
 	IForward *m_OurTestForward;
-	ICvar *m_Cvars;
+//	ICvar *m_Cvars;
 	IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct
 	/**
 	 * @brief This is called after the initial loading sequence has been processed.

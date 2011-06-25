@@ -12,9 +12,11 @@ public:
 	virtual void AddTimer(funcpointer func,int milisecondInterval)=0;
 };
 class War3Ext; //forward declaration...
+class IWar3DLL;
 struct myglobalstruct
 {
 	War3Ext *pwar3_ext;
+	
 	IWebternet *sminterfaceIWebternet; //SMInterface
 	ITimerSystem *sminterfacetimersys;
 	IWebTransfer *IWebTransferxfer; //single object for transfer handling
@@ -38,6 +40,8 @@ struct myglobalstruct
 	bool minversionexceeded;
 	std::string teststr;
 
+	IShareSys *sharesys;
+	IPlugin *helperplugin;
 };
 extern myglobalstruct *g;
 
@@ -66,10 +70,11 @@ public:
 
 	//put all wrapped functions here, and in actual class
     virtual const char *DLLVersion() = 0; //rememer = 0;
-	virtual void PassStuff(ISourceMod*,IVEngineServer*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
+	virtual void PassStuff(ISourceMod*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
 	virtual void DoStuff()=0;
 
 };
 
+#define META_CONPRINTF std::cout<<
 #endif
 

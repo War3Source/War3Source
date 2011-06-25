@@ -26,7 +26,7 @@ typedef void (*DeleteCWar3DLLPtr)(CWar3DLLInterface*);
 
 ///super shared global vars!!! access with g->(members!)
 myglobalstruct *g;
-
+myglobalstruct gg;
 IMutex *threadcountmutex;
 
  int threadcount=0;
@@ -40,7 +40,7 @@ void tickme(){
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
-	g=new myglobalstruct;
+	g=&gg;
 	g->pwar3_ext=NULL;
 	g->sminterfaceIWebternet=NULL; //SMInterface
 	g->sminterfacetimersys=NULL;
@@ -94,6 +94,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
+	g->sharesys=sharesys;
+
 	char path[PLATFORM_MAX_PATH];
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
 
@@ -124,20 +126,13 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
     GetModuleFileNameCustom(hLib, mod, MAXMODULE);
     cout << "Library loaded: " << mod << endl;
 
-
-    if(GetFunctionCustom(hLib, "CreateInterface")==NULL) {
-        cout << "Unable to load function(s): ERR "<< dlerror() << endl;
-    }
-	else{
-		cout << "found CreateInterface"<<endl;
-	}
-	cout<<1;
+   
 	GetCWar3DLLPtr GetCWar3DLL=(GetCWar3DLLPtr)GetFunctionCustom(hLib, "GetCWar3DLL");
 	if(GetCWar3DLL==NULL)
 	{
 		cout << "Unable to load function(s): GetCWar3DLL ERR "<< dlerror() << endl;
-        	FreeSharedLibraryCustom(hLib);
-        	return false;
+        FreeSharedLibraryCustom(hLib);
+        return false;
 	}
 
 	cwar3=GetCWar3DLL();
@@ -155,13 +150,13 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
     timersys->CreateTimer(&war3_ext,20.1,NULL, TIMER_FLAG_REPEAT);
 
-	g_pShareSys->AddNatives(myself,MyNatives);
-
+	sharesys->AddNatives(myself,MyNatives);
+	
 	g->imytimer=new MyTimer();
 	//g->imytimer->AddTimer(&tickme,100); //test
 
 
-	cwar3->PassStuff(g_pSM,engine,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
+	cwar3->PassStuff(g_pSM,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
 	cwar3->DoStuff();
 
 	return true;
@@ -182,6 +177,17 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		}
 		exit(0);
 	}
+	IPluginManager *interf;
+	GetInterface("IPluginManager",(SMInterface**)&interf,true);
+	IPlugin *iplugin=interf->FindPluginByContext((const sp_context_t*)pCtx);
+	if(iplugin==NULL){
+		for(int i=0;i<10;i++){
+			ERR("IPlugin *iplugin=interf->FindPluginByContext((const sp_context_t*)pCtx);");
+			exit(0);
+		}
+	}
+	g->helperplugin=iplugin;
+	//ERR("found iplugin");
 
 	///get revision once
 	char ret[64];
@@ -200,7 +206,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		g->invoker->Invoke(&result);
 		g->war3revision=result;
 	}
-
+	//g->helperplugin=
 	//threader->MakeThread(g->pwar3_ext); //self
 
 	//MyThread *pmythread = new MyThread();
