@@ -44,6 +44,11 @@
 	{
 		"en"		"Naix goes into a maddened Rage, gaining 10/20/30/40 percent attack speed"
 	}
+	"Feast +{amount} HP"
+	{
+		"#format"	"{1:d}"
+		"en"		"Feast +{1} HP"
+	}
 
 	"Your Maximum HP Increased by {amount}"
 	{

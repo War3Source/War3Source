@@ -1,5 +1,11 @@
 1.2.2
 
+
+B6
+
+fixed naix leeching off self damage
+naix feast prints hp gained to console
+
 B5
 
 fixed rewarding extra xp for melee kills

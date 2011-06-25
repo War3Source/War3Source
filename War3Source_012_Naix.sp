@@ -86,13 +86,14 @@ public OnMapStart() { //some precaches
 }
 
 public OnWar3EventPostHurt(victim,attacker,amount){
-	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)){
+	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
 		new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
 		if(level>0&&!Hexed(attacker,false)&&W3ChanceModifier(attacker)){
 			if(!W3HasImmunity(victim,Immunity_Skills)){	
 				new targetHp = GetClientHealth(victim)+amount;
 				new restore = RoundToNearest( float(targetHp) * feastPercent[level] );
 				War3_HealToMaxHP(attacker,restore);
+				PrintToConsole(attacker,"%T","Feast +{amount} HP",attacker,restore);
 			}
 		}
 	}
