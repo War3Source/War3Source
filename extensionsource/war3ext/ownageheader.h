@@ -82,7 +82,19 @@ namespace //anoynamous namespace,
 		}
 		return false;
 	}
+
+	bool ValidPlayer(int clientindex){
+		IGamePlayer *player = g->playermanager->GetGamePlayer(clientindex);
+		if (!player || !player->IsConnected() || !player->IsInGame())
+		{
+			return false;
+		}
+		return true;
+	}	
+
 }
+
+
 
 #endif
 

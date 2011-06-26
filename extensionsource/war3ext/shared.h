@@ -1,7 +1,7 @@
 #ifndef __INCLUDED_SHARED
 #define __INCLUDED_SHARED
 
-
+#include "ITranslator.h"
 class Semaphore;
 
 typedef void (*funcpointer)(void); //of void return and no args
@@ -42,6 +42,9 @@ struct myglobalstruct
 
 	IShareSys *sharesys;
 	IPlugin *helperplugin;
+
+	ITranslator *iphrase;
+	
 };
 extern myglobalstruct *g;
 
@@ -50,16 +53,16 @@ extern myglobalstruct *g;
 //you add the semicolon
 
 //extension helper
-enum EXTH {
+enum EXTH { 
 EXTH_HOSTNAME,
 EXTH_W3VERSION_STR,
 EXTH_W3VERSION_NUM,
 EXTH_GAME ,
 EXTH_W3_SH_MODE,
-EXTH_IP ,
-EXTH_PORT
+ EXTH_IP ,
+EXTH_PORT,
+EXTH_TRANS
 };
-
 
 
 
@@ -76,5 +79,8 @@ public:
 };
 
 #define META_CONPRINTF std::cout<<
+
+
+
 #endif
 

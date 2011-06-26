@@ -62,7 +62,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->needsWar3Update=false;
 	g->minversionexceeded=false;
+	g->sharesys=NULL;
 
+	g->iphrase=NULL;
 
 
 

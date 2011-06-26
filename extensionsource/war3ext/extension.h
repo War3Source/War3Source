@@ -1,6 +1,8 @@
 #ifndef _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
 #define _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "smsdk_ext.h"
 #include "igameevents.h"
 #include <IWebternet.h>
@@ -16,14 +18,14 @@
 #include <fstream>
 #include <vector>
 
-#include "ownageheader.h"
-
 
 
 
 
 #include "shared.h"
 #include "mysemaphore.h"
+#include "ownageheader.h"
+
 
 
 #define MAXMODULE 99
