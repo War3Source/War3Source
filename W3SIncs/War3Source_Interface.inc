@@ -550,7 +550,7 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 
 //Shopmenu 2 item class
 native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
-native W3CreateShopItem22(String:name[],String:shortname[],String:desc[],cost);
+native W3CreateShopItem22(String:name[],String:shortname[],String:desc[],cost,translated);
 //translated
 native War3_CreateShopItem2T(String:shortname[],cost);
 

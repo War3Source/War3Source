@@ -14,8 +14,9 @@ EXTH_W3VERSION_STR,
 EXTH_W3VERSION_NUM,
 EXTH_GAME ,
 EXTH_W3_SH_MODE,
- EXTH_IP ,
-EXTH_PORT
+EXTH_IP ,
+EXTH_PORT,
+EXTH_TRANS
 };
 
 public Plugin:myinfo= 
@@ -59,7 +60,7 @@ public any:Get(id,String:buf[],maxlen){
 		case EXTH_W3_SH_MODE: return W3();
 		case EXTH_IP: Format(buf,maxlen,serverip);
 		case EXTH_PORT: return serverport;
-		
+		case EXTH_TRANS: return GetTrans();
 		default: { PrintToServer("bad index for ext helper %d",id);}
 	}
 	return 0;
