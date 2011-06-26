@@ -48,6 +48,7 @@ public OnMapStart(){
 	
 	serverport=GetConVarInt(FindConVar("hostport"));
 }
+
 public any:Get(id,String:buf[],maxlen){
 	buf[0]=0;
 	
