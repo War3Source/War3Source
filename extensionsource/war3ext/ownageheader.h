@@ -91,7 +91,11 @@ namespace //anoynamous namespace,
 		}
 		return true;
 	}	
-
+	using namespace std;
+	using namespace boost;
+	void ocsplit(vector<string> &explodedz,string &line,char* delimiter){
+		iter_split(explodedz,line,first_finder(delimiter));
+	}
 }
 
 

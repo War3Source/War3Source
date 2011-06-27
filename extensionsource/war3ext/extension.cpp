@@ -1,10 +1,14 @@
 //YOUR CUSTOM EXTENSION
+
+
 #include <sourcemod_version.h>
 #include "extension.h"
 #include <sm_platform.h>
 
 #include "mytimer.h"
 
+//    using namespace std;
+   using namespace boost;
 
 #define MAXMODULE 99
 
@@ -39,6 +43,8 @@ void tickme(){
 }
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
+	
+
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
 	g=&gg;
 	g->pwar3_ext=NULL;
@@ -145,8 +151,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	cout<<cwar3->DLLVersion()<<endl;
 
     g->teststr="globalteststr";
-
-
+	
 
 	#include "update.cpp"
 
@@ -158,8 +163,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	//g->imytimer->AddTimer(&tickme,100); //test
 
 
-	cwar3->PassStuff(g_pSM,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
-	cwar3->DoStuff();
+	
+	//PASS STUFF
+	cwar3->Init(g_pSM,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
 
 	return true;
 }
@@ -190,6 +196,11 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	}
 	g->helperplugin=iplugin;
 	//ERR("found iplugin");
+
+	
+	cwar3->DoStuff();
+
+
 
 	///get revision once
 	char ret[64];

@@ -1,25 +1,32 @@
 #include "extension.h"
 
-
+struct TimerEntry{
+	funcpointer func;
+	bool repeat;
+	long int nexttick;
+	long int interval;
+};
 class MyTimer:
 	public IThread,
 	public IMyTimer
 {
 public:
-	void AddTimer(funcpointer func,int milisecondInterval){
-		myvector.push_back(func);
-		myvectornexttick.push_back((long int)timersys->GetTickedTime()*1000+ milisecondInterval);
-		myvectorinterval.push_back( milisecondInterval);
+	void AddTimer(funcpointer tfunc,int milisecondInterval,bool trepeat){
+		TimerEntry *te=new TimerEntry;
+		te->func=tfunc;
+		te->repeat=trepeat;
+		te->nexttick=(long int)timersys->GetTickedTime()*1000+ milisecondInterval;
+		te->interval=milisecondInterval;
+		myvector.push_back(te);
+		
 	}
 	MyTimer(){
 		threader->MakeThread(this);
 	}
 private:
 
-	vector<funcpointer> myvector;
-	vector<long int> myvectornexttick;
-	vector<long int> myvectorinterval;
-
+	vector<TimerEntry*> myvector;
+	
 	void RunThread 	( 	IThreadHandle *  	pHandle 	 ) {
 		while(1){
 			static int sleeptime=100;
@@ -31,19 +38,24 @@ private:
 				float min=timersys->GetTickedTime()*1000;
 				int minindex=-1;
 				for(int i=0;i<size;i++){
-					if(myvectornexttick.at(i)<min){
-						min=myvectornexttick.at(i);
+					TimerEntry *te=myvector.at(i);
+					if(te->nexttick<min){
+						min=te->nexttick;
 						minindex=i;
 						readycount++;
 					}
 				}
 				if(minindex>=0){
-					int nexttick=myvectornexttick.at(minindex)+myvectorinterval.at(minindex);
+					TimerEntry *te=myvector.at(minindex);
+					te->nexttick=te->nexttick+te->interval;
 
-					myvectornexttick.at(minindex)=nexttick;
+					funcpointer addr=(funcpointer)(te->func);
+					addr(); //invoke func
 
-					funcpointer addr=(funcpointer)(myvector.at(minindex));
-					addr();
+					if(!te->repeat){
+						delete myvector.at(minindex);
+						myvector.erase(myvector.begin()+minindex);
+					}
 				}
 				sleeptime=(readycount>1)?100:10;
 			}

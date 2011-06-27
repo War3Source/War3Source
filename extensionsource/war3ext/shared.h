@@ -1,5 +1,6 @@
 #ifndef __INCLUDED_SHARED
 #define __INCLUDED_SHARED
+#include <boost/algorithm/string.hpp>
 
 #include "ITranslator.h"
 class Semaphore;
@@ -9,7 +10,7 @@ typedef void (*funcpointer)(void); //of void return and no args
 class IMyTimer
 {
 public:
-	virtual void AddTimer(funcpointer func,int milisecondInterval)=0;
+	virtual void AddTimer(funcpointer func,int milisecondInterval,bool repeat=true)=0;
 };
 class War3Ext; //forward declaration...
 class IWar3DLL;
@@ -73,7 +74,7 @@ public:
 
 	//put all wrapped functions here, and in actual class
     virtual const char *DLLVersion() = 0; //rememer = 0;
-	virtual void PassStuff(ISourceMod*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
+	virtual void Init(ISourceMod*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
 	virtual void DoStuff()=0;
 
 };
