@@ -1,4 +1,20 @@
 
+#include "../DO NOT COMPILE"
+/**********************
+ * DO NOT COMPILE THIS FILE BY YOURSELF, use the .smx provided in the compiled folder.
+ * This file is required for war3 extensions, and must be not be tampered with.
+ * Purpose of this plugin is to provide inter plugin-extension communication and compatability. 
+ * War3 Extensions will not work properly if the hash of the .smx file is incorrect. 
+ * The include line above is to prevent users from compiling 
+ * 
+ * to forcibly compile verify that this plugin does not contain malicious code, 
+ *  remove the include line above, 
+ *  compile, 
+ *  and compare in binary of the file uncompressed using zlib
+ *  please note again that war3 extensions will not work properly if you are not using the provided .smx 
+ */ 
+
+
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -37,6 +53,10 @@ public OnPluginStart()
 	W3ExtRegister("helper1");
 	hHostname=FindConVar("hostname");
 	CreateTimer(1.0,SecondTick,_,TIMER_REPEAT);
+	if(!AddCommandListener(CommandListener,"")){
+		W3LogError("COULD NOT REGISTER COMMAND LISTENER");
+	}
+	RegConsoleCmd("w3e", OnCommand);
 }
 public OnMapStart(){
 	
@@ -69,4 +89,17 @@ public any:Get(id,String:buf[],maxlen){
 public Action:SecondTick(Handle:t){
 	W3ExtTick();
 }
+native W3ExtCommandListener(client, const String:command[], argc);
+public Action:CommandListener(client, const String:command[], argc){ //only actual commands
+	W3ExtCommandListener(client,command,argc);
+}
 
+public Action:OnCommand(client,args){
+	new String:cmd[1024];
+	new String:argstr[1024];
+	GetCmdArg(0,cmd,sizeof(cmd));
+	GetCmdArgString(argstr,sizeof(argstr)); //command is arg 0
+	Format(cmd,sizeof(cmd),"%s %s",cmd,argstr);
+	W3ExtCommandListener(client,cmd,args);
+	DP("%s",cmd);
+}
