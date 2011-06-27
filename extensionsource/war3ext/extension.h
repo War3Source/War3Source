@@ -2,8 +2,7 @@
 #define _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdint.h>
-#define HAVE_STDINT_H
+
 #include "smsdk_ext.h"
 #include "igameevents.h"
 #include <IWebternet.h>
