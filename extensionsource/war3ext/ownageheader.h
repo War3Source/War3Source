@@ -8,6 +8,8 @@
 #include <iostream>//need this, incase they didnt include it, need for cout<<endl
 #include <stdio.h>
 #include <stdarg.h>
+#include <string>
+#include <vector>
 
 //standard prints
 #ifndef PRINT
@@ -92,6 +94,38 @@ namespace //anoynamous namespace,
 		return true;
 	}	
 	using namespace std;
+	void explode(vector<string> &results,string str, string separator ){
+		int found;
+		found = str.find_first_of(separator);
+		while(found != string::npos){
+			if(found > 0){
+				results.push_back(str.substr(0,found));
+			}
+			str = str.substr(found+1);
+			found = str.find_first_of(separator);
+		}
+		if(str.length() > 0){
+			results.push_back(str);
+		}
+	}
+	string replacestr(string &str,string find,string replacewith){
+		size_t findlength=find.length();
+		size_t replacewithlen=replacewith.length();
+
+		size_t pos=0;
+		do{
+			pos=str.find(find,pos);
+			//ERR("pos %d",pos);
+			if(pos!=string::npos){
+				str=str.replace(pos,findlength,replacewith);
+				pos+=replacewithlen;
+				//ERR("str is now %s",str.c_str());
+			}
+		}
+		while(pos!=string::npos);
+		//ERR("returning %s",str.c_str());
+		return str;
+	}
 	//using namespace boost;
 	//void ocsplit(vector<string> &explodedz,string &line,char* delimiter){
 	//	iter_split(explodedz,line,first_finder(delimiter));

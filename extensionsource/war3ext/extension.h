@@ -173,9 +173,6 @@ using namespace std;
 void update();
 void updatefile(string file);
 
-vector<string> explode( const string &delimiter, const string &str);
-
-
 //extern is like function prototype, for variables
 extern const sp_nativeinfo_t MyNatives[]; //because functions are not listed in header, we cant initialize these entries at the beginning, we put them here so other places we can reference them first
 extern  const sp_nativeinfo_t tMyNatives;
