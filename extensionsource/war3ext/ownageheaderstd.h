@@ -37,7 +37,7 @@ namespace //anoynamous namespace,
 
 	using namespace std;
 
-	
+
 	//prototypes
 	void ERR(char* str,...);
 	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params);
@@ -89,7 +89,7 @@ namespace //anoynamous namespace,
 	}
 
 	void explode(vector<string> &results,string str, string separator ){
-		int found;
+		size_t found;
 		found = str.find_first_of(separator);
 		while(found != string::npos){
 			if(found > 0){
