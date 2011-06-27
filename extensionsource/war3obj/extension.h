@@ -5,7 +5,7 @@
 #include "igameevents.h"
 //#include "war3dll.h" // copy this file from source please :)
 
-#include "ownageheader.h"
+#include "ownageheaderstd.h"
 
 #define MAXMODULE 99
 /**
