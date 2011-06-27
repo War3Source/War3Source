@@ -8,7 +8,7 @@
 #include "mytimer.h"
 
 //    using namespace std;
-   using namespace boost;
+//   using namespace boost;
 
 #define MAXMODULE 99
 

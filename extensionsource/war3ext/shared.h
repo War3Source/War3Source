@@ -1,6 +1,6 @@
 #ifndef __INCLUDED_SHARED
 #define __INCLUDED_SHARED
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 
 #include "ITranslator.h"
 class Semaphore;
