@@ -10,7 +10,6 @@
 //    using namespace std;
 //   using namespace boost;
 
-#define MAXMODULE 99
 
 
 /**
@@ -130,9 +129,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 		META_CONPRINTF("LoadLibrary Loaded\n");
 	}
 
-	char mod[MAXMODULE];
+	char mod[PLATFORM_MAX_PATH];
 
-    GetModuleFileNameCustom(hLib, mod, MAXMODULE);
+    GetModuleFileNameCustom(hLib, mod, PLATFORM_MAX_PATH-1);
     cout << "Library loaded: " << mod << endl;
 
 
@@ -339,7 +338,7 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 }
 
 ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
-    ERR("tick");
+    //ERR("tick");
 	/*if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
@@ -381,10 +380,10 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 		threader->ThreadSleep(2000);
 
 	 }
-	 while(1){
+	 while(0){
 	     int foo=g->threadticketdone->Value()+g->threadticket->Value()+g->threadticketrequest->Value();
 	     ERR("%d  %d %d",g->threadticketrequest->Value(),g->threadticket->Value(),g->threadticketdone->Value());
-	     if(g->threadticketdone->Wait_Try()){
+	     /*if(g->threadticketdone->Wait_Try()){
 	         g->threadticketdone->Signal();
 	     }
 	     if(g->threadticketrequest->Wait_Try()){
@@ -392,7 +391,7 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 	     }
 	     if(g->threadticket->Wait_Try()){
 	         g->threadticket->Signal();
-	     }
+	     }*/
 	     threader->ThreadSleep(2000);
 	 }
 
