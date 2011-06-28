@@ -43,7 +43,7 @@ void tickme(){
 }
 bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 {
-	
+
 
     META_CONPRINTF("[war3ext] SDK_OnLoad\n");
 	g=&gg;
@@ -81,6 +81,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g->needsWar3Update=false;
 
 	g->threadticket=new Semaphore(0);
+
 	g->threadticketrequest=new Semaphore(0);
 	g->threadticketdone=new Semaphore(0);
 
@@ -151,7 +152,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	cout<<cwar3->DLLVersion()<<endl;
 
     g->teststr="globalteststr";
-	
+
 
 	#include "update.cpp"
 
@@ -163,7 +164,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	//g->imytimer->AddTimer(&tickme,100); //test
 
 
-	
+
 	//PASS STUFF
 	cwar3->Init(g_pSM,g_pForwards,g_pShareSys,myself,&war3_ext,threader,&g);
 
@@ -197,7 +198,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	g->helperplugin=iplugin;
 	//ERR("found iplugin");
 
-	
+
 	cwar3->DoStuff();
 
 
@@ -220,7 +221,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		g->war3revision=result;
 	}
 	//g->helperplugin=
-	//threader->MakeThread(g->pwar3_ext); //self
+	threader->MakeThread(g->pwar3_ext); //self
 
 	//MyThread *pmythread = new MyThread();
 	//threader->MakeThread(pmythread);
@@ -338,23 +339,30 @@ static cell_t W3ExtTestFunc(IPluginContext *pCtx, const cell_t *params)
 }
 
 ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
-	if(g->helpergetfunc==NULL){
+    ERR("tick");
+	/*if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
 			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
 
 		}
 		exit(0);
 	}
+
 	if(g->threadticketrequest->Wait_Try()){ //eat 1 request at a time, we have modified wait try to return 1 if successful
+		//ERR("got req");
 		g->threadticket->Signal();
+		//ERR("sig req");
+
 		g->threadticketdone->Wait();
 	}
-
+*/
 	return Pl_Continue; //continue with timer repeat...
 }
+
+//thread to do nothing.... somehow this allows semaphores to work properly??? on linux
  void War3Ext::RunThread 	( 	IThreadHandle *  	pHandle 	 ){
 	 //callfinmutex->Lock();
-	 while(1){
+	 while(0){
 
 		g->threadticketrequest->Signal();
 		g->threadticket->Wait();
@@ -370,8 +378,22 @@ ResultType 	War3Ext::OnTimer(ITimer *pTimer, void *pData){
 
 
 		g->threadticketdone->Signal();
-		//threader->ThreadSleep(2000);
+		threader->ThreadSleep(2000);
 
+	 }
+	 while(1){
+	     int foo=g->threadticketdone->Value()+g->threadticket->Value()+g->threadticketrequest->Value();
+	     ERR("%d  %d %d",g->threadticketrequest->Value(),g->threadticket->Value(),g->threadticketdone->Value());
+	     if(g->threadticketdone->Wait_Try()){
+	         g->threadticketdone->Signal();
+	     }
+	     if(g->threadticketrequest->Wait_Try()){
+	         g->threadticketrequest->Signal();
+	     }
+	     if(g->threadticket->Wait_Try()){
+	         g->threadticket->Signal();
+	     }
+	     threader->ThreadSleep(2000);
 	 }
 
 

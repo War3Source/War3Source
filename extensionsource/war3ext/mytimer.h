@@ -18,7 +18,7 @@ public:
 		te->nexttick=(long int)timersys->GetTickedTime()*1000+ milisecondInterval;
 		te->interval=milisecondInterval;
 		myvector.push_back(te);
-		
+
 	}
 	MyTimer(){
 		threader->MakeThread(this);
@@ -26,7 +26,7 @@ public:
 private:
 
 	vector<TimerEntry*> myvector;
-	
+
 	void RunThread 	( 	IThreadHandle *  	pHandle 	 ) {
 		while(1){
 			static int sleeptime=100;
@@ -36,6 +36,7 @@ private:
 				int readycount=0;
 
 				float min=timersys->GetTickedTime()*1000;
+				//ERR("%f",min);
 				int minindex=-1;
 				for(int i=0;i<size;i++){
 					TimerEntry *te=myvector.at(i);

@@ -18,7 +18,7 @@ class Semaphore
 
   public:
   Semaphore( int init = 0 )
-  { sem_init(&S,0,init); }
+  { sem_init(&S,1,init); }
 
   virtual ~Semaphore()
   { sem_destroy(&S); }
