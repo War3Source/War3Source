@@ -72,7 +72,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g->iphrase=NULL;
 
 	g->helper=false;
-
+	g->imenus=menus;
 
 
 	g->pwar3_ext=this;

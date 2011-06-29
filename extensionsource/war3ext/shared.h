@@ -46,6 +46,8 @@ struct myglobalstruct
 
 	ITranslator *iphrase;
 	bool helper;
+
+	IMenuManager *imenus;
 	
 };
 extern myglobalstruct *g;
