@@ -1,6 +1,12 @@
 1.2.2
 
 
+B7
+
+war3_hint_enabled 0/1 cvar for hint engine, why would you ever turn it off though? you can still see the votes.
+EXT: fixed possible startup hang on linux
+
+
 B6
 
 fixed naix leeching off self damage

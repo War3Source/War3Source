@@ -28,7 +28,8 @@ public OnPluginStart()
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowShopMenu2){
-		ShowMenuShop(client);
+		//ShowMenuShop(client);
+		W3ExtShowShop2(client);
 	}
 	if(event==DoTriedToBuyItem2){ //via say?
 		InternalTriedToBuyItem2(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event

@@ -575,6 +575,8 @@ native W3GetItems2Loaded(); //how many items are loaded?
 native bool:W3IsItem2DisabledGlobal(itemid);
 native bool:W3IsItem2DisabledForRace(race,itemid);
 
+native W3ExtShowShop2(client);
+
 //Forces a save into database of when the item expires
 //client must own item already
 native W3SaveItem2ExpireTime(client,itemid);
