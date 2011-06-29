@@ -71,7 +71,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->iphrase=NULL;
 
-
+	g->helper=false;
 
 
 
@@ -153,7 +153,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
     g->teststr="globalteststr";
 
 
-	#include "update.cpp"
+	//#include "update.cpp"
 
     timersys->CreateTimer(&war3_ext,0.1,NULL, TIMER_FLAG_REPEAT);
 

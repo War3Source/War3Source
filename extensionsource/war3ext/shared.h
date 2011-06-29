@@ -45,6 +45,7 @@ struct myglobalstruct
 	IPlugin *helperplugin;
 
 	ITranslator *iphrase;
+	bool helper;
 	
 };
 extern myglobalstruct *g;

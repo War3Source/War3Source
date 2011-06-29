@@ -90,13 +90,13 @@ namespace //anoynamous namespace,
 
 	void explode(vector<string> &results,string str, string separator ){
 		size_t found;
-		found = str.find_first_of(separator);
+		found = str.find(separator); //find searches multiple character sequence, unlike find first of which is any match
 		while(found != string::npos){
 			if(found > 0){
 				results.push_back(str.substr(0,found));
 			}
-			str = str.substr(found+1);
-			found = str.find_first_of(separator);
+			str = str.substr(found+separator.length());
+			found = str.find(separator);
 		}
 		if(str.length() > 0){
 			results.push_back(str);
@@ -119,6 +119,33 @@ namespace //anoynamous namespace,
 		while(pos!=string::npos);
 		//ERR("returning %s",str.c_str());
 		return str;
+	}
+	void ToLower(string &a_str){
+		int size=a_str.size();
+		for ( int ix = 0; ix<size; ix++)
+		{
+				a_str[ix] = tolower( (unsigned char) a_str[ix] );
+		}
+	}
+	void ToLower(char* a_str){
+		for ( int ix = 0; a_str[ix] != '\0'; ix++)
+		{
+				a_str[ix] = tolower( (unsigned char) a_str[ix] );
+		}
+	}
+	bool strequal(char* a,char* b,bool insensitive=true){
+		if(insensitive){
+			ToLower(a);
+			ToLower(b);
+		}
+		return strcmp(a,b)==0;
+	}
+	bool strequal(string a,string b,bool insensitive=true){
+		if(insensitive){
+			ToLower(a);
+			ToLower(b);
+		}
+		return a==b;
 	}
 	//using namespace boost;
 	//void ocsplit(vector<string> &explodedz,string &line,char* delimiter){
