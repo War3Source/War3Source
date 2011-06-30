@@ -100,3 +100,16 @@ stock W3AddDecal(const String:decal[], bool:precache = true, bool:preload = true
 	return 0;
 }
 
+//precache particle    doesn't add to download table
+stock War3_PrecacheParticle(String:particlename[])
+{
+	new Particle = CreateEntityByName("info_particle_system");
+	DispatchKeyValue(Particle, "effect_name", particlename);
+	DispatchSpawn(Particle);
+	ActivateEntity(Particle);
+	AcceptEntityInput(Particle, "start");
+	Particle = EntIndexToEntRef(Particle);
+	SetVariantString("OnUser1 !self:Kill::0.1:-1");
+	AcceptEntityInput(Particle, "AddOutput");
+	AcceptEntityInput(Particle, "FireUser1");
+}
