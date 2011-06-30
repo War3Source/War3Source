@@ -26,14 +26,18 @@ new cvarvalue;
 public OnPluginStart()
 {
 	global=0;
-	//CreateTimer(1.0,dotime,_,TIMER_REPEAT);
+//	CreateTimer(1.0,dotime,_,TIMER_REPEAT);
 	cr=CreateCellReference(global);
 	
 	LinkConVar(cvarvalue,"sv_cheats");
 }
 
 public Action:dotime(Handle:t){
-	PrintToServer("tick");
+	for(new i=0;i<10000;i++){
+	CreateObj(1);
+	PrintToServer("%d",i);
+	}
+	/*PrintToServer("tick");
 	new Object:obj=CreateObj(6);
 	SetObj(obj,0,66);
 	SetObjHandle(obj,1,CreateArray(1000,10000),Delete);
@@ -66,7 +70,7 @@ public Action:dotime(Handle:t){
 	PrintToServer(" global : %d",global);
 	
 	PrintToServer("cvar value %d",cvarvalue);
-
+*/
 }
 SetByRef(Handle:ref){
 	PrintToServer("handle %d",ref);
