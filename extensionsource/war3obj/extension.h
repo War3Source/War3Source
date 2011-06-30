@@ -2,7 +2,7 @@
 #define _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
 
 #include "smsdk_ext.h"
-#include "igameevents.h"
+
 //#include "war3dll.h" // copy this file from source please :)
 
 #include "ownageheaderstd.h"

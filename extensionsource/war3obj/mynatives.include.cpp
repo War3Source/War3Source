@@ -11,7 +11,7 @@ static MyObject* HandleToObj(Handle_t hndl){
 	if ((err = g_pHandleSys->ReadHandle(hndl, g_MyHandleType, &security, (void **)&objectpointer))
 			!= HandleError_None)
 	{
-		ERR("Invalid handle to war3obj  %x (error %d)\b", hndl, err);
+		ERRS("Invalid handle to war3obj  %x (error %d)\b", hndl, err);
 		return NULL;
 	}
 	return objectpointer;
@@ -51,7 +51,7 @@ static cell_t internal_delete_object(IPluginContext *pCtx,MyObject *myobj){
 		if(element->Get(IS_OBJECT)){ //data field a handle to another object, delete it recursively
 			hndl=element->Get(DATA);
 			//DP("recurse delete ");
-			//ERR("%x %d",hndl,i);
+			//ERRS("%x %d",hndl,i);
 
 			MyObject *nextobj=HandleToObj(hndl);
 			internal_delete_object(pCtx,nextobj);

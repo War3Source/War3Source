@@ -64,8 +64,8 @@ public:
 	}
 	char* GetStr(){
 		if(mystr==NULL){
-			ERR("tried to retrieve a string when string is not initialized, not even \"\" (NULL)");
-			ERR("we created a \"\" and returned to you just so this won't crash");
+			ERRS("tried to retrieve a string when string is not initialized, not even \"\" (NULL)");
+			ERRS("we created a \"\" and returned to you just so this won't crash");
 			mystr=(char*)malloc(1*sizeof(char));
 			mystr[0]='\0';
 		}
@@ -75,7 +75,7 @@ public:
 	cell_t Get(int propindex)
 	{
 		if(propindex>=OBJ_ELEMENTSIZE){
-			ERR("element prop index out of bounds: %d / max %d",propindex,OBJ_ELEMENTSIZE);
+			ERRS("element prop index out of bounds: %d / max %d",propindex,OBJ_ELEMENTSIZE);
 			return 0;
 		}
 		else{
@@ -86,7 +86,7 @@ public:
 	void Set(int propindex, cell_t value)
 	{
 		if(propindex>=OBJ_ELEMENTSIZE){
-			ERR("element prop index out of bounds: %d / max %d",propindex,OBJ_ELEMENTSIZE);
+			ERRS("element prop index out of bounds: %d / max %d",propindex,OBJ_ELEMENTSIZE);
 		}
 		else{
 			cells[propindex]=value;
@@ -124,7 +124,7 @@ public:
 		if(elementindex>=Size()||elementindex<0)
 		{
 			//if(isSTATIC){
-				ERR("index out of bounds! tried to access %d, size of %d",elementindex,Size());
+				ERRS("index out of bounds! tried to access %d, size of %d",elementindex,Size());
 				return NULL;
 			//}
 			/*else{ //dynamically add
@@ -136,7 +136,7 @@ public:
 					mynewobj->push_back(element);
 				}
 				//if(elementindex>200){
-				//	ERR("WARNING, AUTO GREW object to over 200");
+				//	ERRS("WARNING, AUTO GREW object to over 200");
 				//}
 			}*/
 		}
@@ -208,7 +208,7 @@ void War3Obj::OnHandleDestroy(HandleType_t type, void *object){
 }
 
 
-static void NERR(IPluginContext *pContext,char* format,...)
+static void NERRS(IPluginContext *pContext,char* format,...)
 {
 	va_list ap;
 	va_start(ap, format);
