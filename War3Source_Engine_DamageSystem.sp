@@ -204,7 +204,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 			//PrintToChatAll("physical %f %d to %d",W3GetPhysicalArmorMulti(victim),attacker,victim);
 			//g_CurDamageIsWarcraft=false;
 		}
-		if(!g_CurDamageIsWarcraft && !War3_IsCommonInfected(attacker) && !War3_IsWitch(attacker)){
+		if(!g_CurDamageIsWarcraft && ValidPlayer(attacker)){
 			new Float:now=GetGameTime();
 			new Float:value=now-LastDamageDealtTime[attacker];
 			if(value>1.0||value<0.0){
