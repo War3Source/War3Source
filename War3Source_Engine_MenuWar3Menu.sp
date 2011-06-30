@@ -42,7 +42,6 @@ ShowWar3Menu(client){
 		
 		AddMenuItem(war3Menu,numstr,menustr);
 	}
-	
 	DisplayMenu(war3Menu,client,MENU_TIME_FOREVER);
 }
 

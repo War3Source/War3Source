@@ -20,6 +20,8 @@ public bool:War3Source_InitOffset()
 		hGameConf=LoadGameConfigFile("sm-tf2.games");
 	else if(War3_GetGame()==Game_CS)
 		hGameConf=LoadGameConfigFile("sm-cstrike.games");
+	else if(War3_IsL4DEngine())
+		return true; // don't need fancy offsets... yet
 	if(hGameConf && War3_GetGame()==Game_TF)
 	{
 		StartPrepSDKCall(SDKCall_Entity);

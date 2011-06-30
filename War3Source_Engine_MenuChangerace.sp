@@ -6,8 +6,9 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-
-
+new Handle:g_hGameMode;
+new bool:bSurvivalStarted;
+new bool:bStartingArea[MAXPLAYERS];
 
 
 
@@ -22,7 +23,62 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
+	 if(War3_IsL4DEngine())
+	 {
+		g_hGameMode = FindConVar("mp_gamemode");
+		if(!HookEventEx("survival_round_start", War3Source_SurvivalStartEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the survival_round_start event.");
+		}
+		if(!HookEventEx("round_end", War3Source_RoundEndEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the round_end event.");
+		}
+		if(!HookEventEx("player_entered_checkpoint", War3Source_EnterCheckEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_entered_checkpoint event.");
+		}
+		if(!HookEventEx("player_left_checkpoint", War3Source_LeaveCheckEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_left_checkpoint event.");
+		}
+	 }
+}
 
+public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		if (ValidPlayer(client, true))
+		{
+			W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here!");
+			bStartingArea[client] = true;
+		}
+	}
+}
+
+public War3Source_LeaveCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		if (ValidPlayer(client, true))
+		{
+			W3Hint(client, HINT_LOWEST, 1.0, "You can no longer change your race!");
+			bStartingArea[client] = false;
+		}
+	}
+}
+
+public War3Source_SurvivalStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	bSurvivalStarted = true;
+}
+
+public War3Source_RoundEndEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	bSurvivalStarted = false;
 }
 
 public OnWar3Event(W3EVENT:event,client){
@@ -53,6 +109,7 @@ War3Source_ChangeRaceMenu(client)
 			Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
 		}
 		SetMenuTitle(crMenu,"%s\n \n",title);
+		
 		// Iteriate through the races and print them out
 		
 		decl String:rbuf[4];
@@ -68,9 +125,6 @@ War3Source_ChangeRaceMenu(client)
 		//	}
 		//}
 		
-		
-			
-			
 		for(new i=0;i<racedisplay;i++) //notice this starts at zero!
 		{
 			new	x=racelist[i];
@@ -117,7 +171,6 @@ War3Source_ChangeRaceMenu(client)
 			//if(!HasRaceAccess(client,race)){ //show that it is restricted?
 			//	Format(rdisp,sizeof(rdisp),"%s\nRestricted",rdisp);
 			//}
-			
 			
 			
 			AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
@@ -255,9 +308,36 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 				if(allowChooseRace){
 					if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
 					{
-						W3SetPendingRace(client,race_selected);
-						
-						War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+						if(War3_IsL4DEngine())
+						{
+							decl String:sGameMode[16];
+							
+							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else if (bStartingArea[client])
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else
+							{
+								W3SetPendingRace(client,race_selected);
+								
+								War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+							}
+						}
+						else
+						{
+							W3SetPendingRace(client,race_selected);
+							
+							War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+						}
 					}
 					//HAS NO RACE, CHANGE NOW
 					else //schedule the race change

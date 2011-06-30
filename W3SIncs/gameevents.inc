@@ -17,7 +17,7 @@ public bool:War3Source_HookEvents()
 	}
 	if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
 	{
-		PrintToServer("[War3Source] Could not hook the player_spawn event.");
+		PrintToServer("[War3Source] Could not hook the player_death event.");
 		return false;
 	}
 	if(War3_GetGame()==Game_CS)
@@ -133,13 +133,34 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 
 public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	new uid_victim=GetEventInt(event,"userid");
-	new uid_attacker=GetEventInt(event,"attacker");
+	new uid_victim = GetEventInt(event, "userid");
+	new uid_attacker = GetEventInt(event, "attacker");
+	new uid_entity = GetEventInt(event, "entityid");
 	
-	new victimIndex=GetClientOfUserId(uid_victim);
-	new attackerIndex=0;
+	new victimIndex = 0;
+	new attackerIndex = 0;
+	
 	if(uid_attacker>0){
 		attackerIndex=GetClientOfUserId(uid_attacker);
+	}
+	
+	if (War3_IsL4DEngine() && War3_IsCommonInfected(uid_entity))
+	{
+		new Handle:oldevent=W3GetVar(SmEvent);
+		W3SetVar(SmEvent,event); //stacking on stack 
+		
+		W3SetVar(EventArg1, attackerIndex);
+		//W3CreateEvent(OnDeathPre, uid_entity);
+		
+		//post death event actual forward
+		DoForward_OnWar3EventDeath(uid_entity, attackerIndex);
+		
+		W3SetVar(SmEvent,oldevent); //restore on stack , if any
+		return;
+	}
+	else
+	{
+		victimIndex=GetClientOfUserId(uid_victim);
 	}
 	//new uid_assister=0;
 	//if(War3_GetGame()==Game_TF)

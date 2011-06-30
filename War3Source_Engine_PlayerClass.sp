@@ -36,7 +36,15 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	RegConsoleCmd("war3notdev",cmdwar3notdev);
-	HookEvent("player_team",        Event_PlayerTeam);
+	HookEvent("player_team", Event_PlayerTeam);
+
+	if(War3_IsL4DEngine())
+	{
+		if(!HookEventEx("player_entered_checkpoint", War3Source_EnterCheckEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_entered_checkpoint event.");
+		}
+	}
 }
 public OnMapStart(){
 	War3_PrecacheSound(levelupSound);
@@ -343,16 +351,19 @@ public OnWar3Event(W3EVENT:event,client){
 
 public ResetSkillsAndSetVar(client)
 {
-    if(bResetSkillsOnSpawn[client]==true){
-		W3ClearSkillLevels(client,RaceIDToReset[client]);   
-		bResetSkillsOnSpawn[client]=false;		
+	if (ValidPlayer(client))
+	{
+		if(bResetSkillsOnSpawn[client]==true){
+			W3ClearSkillLevels(client,RaceIDToReset[client]);   
+			bResetSkillsOnSpawn[client]=false;		
 
-        // Check if the level of the race we reset is > 0 and the current race is still the one we reset
-		if((War3_GetLevel(client,RaceIDToReset[client])>0)&&(War3_GetRace(client)==RaceIDToReset[client])){
-            War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
-            W3CreateEvent(DoShowSpendskillsMenu,client);
-        }
-    }
+			// Check if the level of the race we reset is > 0 and the current race is still the one we reset
+			if((War3_GetLevel(client,RaceIDToReset[client])>0)&&(War3_GetRace(client)==RaceIDToReset[client])){
+				War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
+				W3CreateEvent(DoShowSpendskillsMenu,client);
+			}
+		}
+	}
 }
 
 public OnWar3EventSpawn(client)
@@ -365,6 +376,17 @@ public OnWar3EventDeath(victim, attacker)
     ResetSkillsAndSetVar(victim);
 }
 
+public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		if (ValidPlayer(client, true))
+		{
+			ResetSkillsAndSetVar(client);
+		}
+	}
+}
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {

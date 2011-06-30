@@ -87,7 +87,6 @@ public ShowMenuItemsinfo2(client,itemnum){
 	Format(str,sizeof(str),"%T","Back",client);
 	
 	AddMenuItem(helpMenu,"-1",str);
-	
 	DisplayMenu(helpMenu,client,MENU_TIME_FOREVER);
 }
 public ShowMenuItemsinfo2Selected(Handle:menu,MenuAction:action,client,selection)

@@ -58,7 +58,7 @@ public OnPluginStart()
 		m_OffsetSpeed=FindSendPropOffs("CTFPlayer","m_flMaxspeed");
 	}
 	else
-	m_OffsetSpeed=FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue");
+		m_OffsetSpeed=FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue");
 	if(m_OffsetSpeed==-1)
 	{
 		PrintToServer("[War3Source] Error finding speed offset.");
@@ -558,7 +558,7 @@ public OnGameFrame()
 						}
 					}
 					else{ //cs?
-						
+											
 						new Float:speedmulti=1.0;
 						
 						//new Float:speedadd=1.0;
@@ -595,7 +595,24 @@ public OnGameFrame()
 					shouldmoveas=MOVETYPE_FLY;
 				}
 				
-				if(currentmovetype!=shouldmoveas){
+				/* Glider (290611): 
+				 * 		I have implemented a extremly dirty way to prevent some
+				 *      shit that goes wrong in L4D2.
+				 *         
+				 *      If a tank tries to climb a object, he changes his
+				 *      move type. This code prevented them from ever
+				 *      climbing anything.
+				 *         
+				 *      Players also change their move type when they get
+				 *      hit so hard they stagger into a direction, making
+				 *      them move slower. This code made them stagger much
+				 *      faster, resulting in crossing a much larger distance
+				 *      (usually right into some pit).
+				 *         
+				 *      TODO: Fix properly ;)
+				 */
+				
+				if(currentmovetype!=shouldmoveas && !War3_IsL4DEngine()){
 					SetEntityMoveType(client,shouldmoveas);
 				}
 				//PrintToChatAll("end");

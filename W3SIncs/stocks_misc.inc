@@ -44,10 +44,19 @@ stock W3AddSound(const String:sound[], bool:precache = true, bool:preload = true
 }
 //precache sound    and adds to download table, an older function
 stock bool:War3_PrecacheSound(String:sound[]){
+
 	new String:longsound[512];
 	
 	Format(longsound,sizeof(longsound), "sound/%s", sound);
-	AddFileToDownloadsTable(longsound); 
+	
+	/* Glider: L4D doesn't allow you to download files from a server, in fact
+	 * 		   if you add something to the download table clients won't be
+	 * 		   able to connect at all!
+	 */
+	if(!War3_IsL4DEngine())
+	{
+		AddFileToDownloadsTable(longsound); 
+	}
 	
 	if(PrecacheSound(sound, true)){
 		//PrintToServer("TWar3_PrecacheSound %s",longsound);

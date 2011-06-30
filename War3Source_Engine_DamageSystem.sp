@@ -38,6 +38,9 @@ new bool:g_CanDealDamage=true; //default true, you can initiate damage out of no
 new g_NextDamageIsWarcraftDamage=0; 
 new g_NextDamageIsTrueDamage=0;
 
+static const String:CLASSNAME_INFECTED[]  	= "infected";
+static const String:CLASSNAME_WITCH[]	 	= "witch";
+
 new dummyresult;
 
 
@@ -58,7 +61,11 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-	HookEvent("player_hurt",EventPlayerHurt);
+	HookEvent("player_hurt", EventPlayerHurt);
+	if(War3_IsL4DEngine())
+	{
+		HookEvent("infected_hurt", EventInfectedHurt);
+	}
 }
 
 
@@ -126,6 +133,13 @@ public NW3GetDamageStack(Handle:plugin,numParams){
 
 
 
+public OnEntityCreated(entity, const String:classname[])
+{
+	if (StrEqual(classname, CLASSNAME_INFECTED, false) || StrEqual(classname, CLASSNAME_WITCH, false))
+	{
+		SDKHook(entity, SDKHook_OnTakeDamage, SDK_Forwarded_OnTakeDamage);
+	}
+}
 
 public OnClientPutInServer(client){
 	SDKHook(client,SDKHook_OnTakeDamage,SDK_Forwarded_OnTakeDamage);
@@ -156,8 +170,9 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 	new String:race[32];
 	War3_GetRaceName(War3_GetRace(attacker),race,sizeof(race));
 	
-	if(IsPlayerAlive(victim)&&ValidPlayer(attacker)){
-
+	// If we got a l4d infected or witch then this continues instead of checking
+	// if its alive since that is not a player
+	if((War3_IsL4DEngine() && (War3_IsCommonInfected(victim) || War3_IsWitch(victim))) || (IsPlayerAlive(victim) && ValidPlayer(victim))){
 		//store old variables on local stack!
 	
 		new old_DamageType= g_CurDamageType;
@@ -179,17 +194,17 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		#endif
 		damagestack++;
 		
-		if(g_CurDamageIsWarcraft){
+		if(g_CurDamageIsWarcraft && !War3_IsCommonInfected(victim) && !War3_IsWitch(victim)){
 			damage=FloatMul(damage,W3GetMagicArmorMulti(victim));
 			//PrintToChatAll("magic %f %d to %d",W3GetMagicArmorMulti(victim),attacker,victim);
 		}
-		else if(!g_CurDamageIsTrueDamage){ //bullet 
+		else if(!g_CurDamageIsTrueDamage && !War3_IsCommonInfected(victim) && !War3_IsWitch(victim)){ //bullet 
 			damage=FloatMul(damage,W3GetPhysicalArmorMulti(victim));
 			
 			//PrintToChatAll("physical %f %d to %d",W3GetPhysicalArmorMulti(victim),attacker,victim);
 			//g_CurDamageIsWarcraft=false;
 		}
-		if(!g_CurDamageIsWarcraft){
+		if(!g_CurDamageIsWarcraft && !War3_IsCommonInfected(attacker) && !War3_IsWitch(attacker)){
 			new Float:now=GetGameTime();
 			new Float:value=now-LastDamageDealtTime[attacker];
 			if(value>1.0||value<0.0){
@@ -324,6 +339,41 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
 	
 	g_CurLastActualDamageDealt=damage;
 }
+
+
+public EventInfectedHurt(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	//PrintToChatAll("Infected Hurt called!");
+	new victim_userid = GetEventInt(event, "entityid");
+	new attacker_userid = GetEventInt(event, "attacker");
+	new damage = GetEventInt(event, "amount");
+	
+	new attacker = GetClientOfUserId(attacker_userid);
+	
+	damagestack++;
+	
+	new bool:old_CanDealDamage = g_CanDealDamage;
+	g_CanSetDamageMod = true;
+	
+	new Handle:oldevent = W3GetVar(SmEvent);
+	W3SetVar(SmEvent, event); //stacking on stack 
+	
+	//do the forward
+	Call_StartForward(g_OnWar3EventPostHurtFH);
+	Call_PushCell(victim_userid); // THIS IS A ENTITY ID NOT A PLAYER ID!
+	Call_PushCell(attacker);
+	Call_PushCell(damage);
+	Call_Finish(dummyresult);
+	
+	W3SetVar(SmEvent,oldevent); //restore on stack , if any
+	g_CanDealDamage=old_CanDealDamage;
+	
+	damagestack--;	
+	g_CurLastActualDamageDealt=damage;
+}
+
+
+
 stock DP2(const String:szMessage[], any:...)
 {
 	new String:szBuffer[1000];
@@ -379,7 +429,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 	attacker=GetNativeCell(3);
 		
 	
-	if(ValidPlayer(victim,true) && damage>0 )
+	if((ValidPlayer(victim,true) || War3_IsCommonInfected(victim)) && damage>0 )
 	{
 		//new old_DamageDealt=g_CurActualDamageDealt;
 		new old_IsWarcraftDamage= g_CurDamageIsWarcraft;
@@ -406,7 +456,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 		decl bool:respectVictimImmunity;
 		respectVictimImmunity=GetNativeCell(8);
 		
-		if(respectVictimImmunity){
+		if(respectVictimImmunity && !War3_IsCommonInfected(victim)){
 			switch(W3DMGORIGIN){
 				case W3DMGORIGIN_SKILL:  {
 					if(W3HasImmunity(victim,Immunity_Skills) ){

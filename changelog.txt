@@ -1,5 +1,51 @@
 1.2.2
 
+Glider:
+	* Added new stock War3_PrecacheParticle(String:particlename[]) to precache particles
+		* Please note that this will not add the Particle to the download table automatically!
+	* Precache the achieved particle in the level up particle addon for games that use iT
+		
+	* EXPERIMENTAL L4D2 SUPPORT! (I have not tested L4D1 and don't plan to anytime soon)
+		* TAKE EVERYTHING IN HERE WITH A GRAIN OF SALT!
+		* SOME OF THE THINGS ARE STILL BUGGY/NOT FULLY IMPLEMENTED YET!
+		* PLEASE REFER TO THE FORUMS FOR MORE INFORMATIONS!
+	
+	+ Engine/Addon Changes
+	* Added UI/hint.wav to the files that are supposed to be precached since it wasn't on L4D2
+	* Made LevelUpParticle work for L4D2
+	* Prevented sounds from being added to the downloads table on a l4d/2 server
+	* Changed the damage engine to properly handle common infected and witches
+	* Changed the changerace code to allow race changing while standing in a saferoom on l4d/2
+		* Added an addon that allows race changing for the first few minutes on maps that don't have
+		  a saferoom
+  	* Allow race change in a survival game that has not started yet
+  	* Added special/common/uncommon infected aswell as the witch to the xp engine so you get credit for killing/surviving
+  		* Lots of cvars to tweak these values for your server! Look out for war3_l4d
+  		* Some of these don't seem to work properly yet (defib...)
+	* When somebody calls "resetskills" their skills will be reset next time they enter a saferoom
+		* If you are already in a saferoom you need to go out and back in currently
+  		
+	+ Include changes
+	* Don't load any offsets when the engine is l4d/2
+	* Added some new constants for W3XPAwardedBy. I'm not too fond of them, so they might disappear or be changed soon
+	* W3IsDamageFromMelee returns correctly for l4d2
+	* Added lots of new stuff to the War3Source_Interface
+		* bool:War3_IsL4DEngine()
+			* shortcut for checking if the engine is l4d or l4d2
+		* bool:War3_IsCommonInfected(iEntity)
+			* Check if iEntity is a zombie entity (common or uncommon)
+		* bool:War3_IsUncommonInfected(iEntity)
+			* Check if iEntity has a uncommon zombie model
+		* bool:War3_IsWitch(iEntity)
+			* Check if iEntity is a witch
+		* GetSurvivorTempHealth(client)
+			* Get the amount of temporary health (pills/adrenaline...) a client has
+		* SetSurvivorTempHealth(client, hp)
+			* Set the value of the temporary health (pills/adrenaline) of client to hp
+		* GetMaxMagSize(const String:weapon[])
+			* Returns the max amount of ammo a mag can hold for the given gun. I have only added the values for l4d, so please port this for tf2/css/dod:s
+		* GetMaxBackupAmmo(const String:weapon[])
+			* Returns the max amount of ammo a gun can hold as backup. I have only added the values for l4d, so please port this for tf2/css/dod:s
 
 B7
 

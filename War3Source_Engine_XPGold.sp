@@ -41,6 +41,25 @@ new Handle:PointCaptureXPCvar;
 new Handle:PointCapBlockXPCvar;
 new Handle:CaptureFlagXPCvar;
 
+// l4d
+new Handle:HealPlayerXPCvar;
+new Handle:RevivePlayerXPCvar;
+new Handle:RescuePlayerXPCvar;
+new Handle:KillSmokerXPCvar;
+new Handle:KillBoomerXPCvar;
+new Handle:KillHunterXPCvar;
+new Handle:KillJockeyXPCvar;
+new Handle:KillSpitterXPCvar;
+new Handle:KillChargerXPCvar;
+new Handle:KillCommonXPCvar;
+new Handle:KillUncommonXPCvar;
+new Handle:KillTankXPCvar;
+new Handle:KillTankSoloXPCvar;
+new Handle:KillWitchXPCvar;
+new Handle:KillWitchCrownedXPCvar;
+new Handle:HelpTeammateXPCvar;
+new MZombieClass;
+
 //gold
 
 new Handle:MaxGoldCvar;
@@ -68,6 +87,24 @@ public OnPluginStart()
 		hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
 		minplayersXP=CreateConVar("war3_min_players_xp_gain","2","minimum amount of players needed on teams for people to gain xp");
 		MaxGoldCvar=CreateConVar("war3_maxgold","1000");
+		
+		HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
+		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
+		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing another from a closet");
+		HelpTeammateXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player helping another get up");
+				
+		KillSmokerXPCvar=CreateConVar("war3_l4d_smokerxp","50","XP awarded to a player killing a Smoker");
+		KillBoomerXPCvar=CreateConVar("war3_l4d_boomerxp","50","XP awarded to a player killing a Boomer");
+		KillHunterXPCvar=CreateConVar("war3_l4d_hunterxp","50","XP awarded to a player killing a Hunter");
+		KillJockeyXPCvar=CreateConVar("war3_l4d_jockeyexp","50","XP awarded to a player killing a Jockey");
+		KillSpitterXPCvar=CreateConVar("war3_l4d_spitterxp","50","XP awarded to a player killing a Spitter");
+		KillChargerXPCvar=CreateConVar("war3_l4d_chargerexp","50","XP awarded to a player killing a Charger");
+		KillCommonXPCvar=CreateConVar("war3_l4d_commonexp","5","XP awarded to a player killing a common infected");
+		KillUncommonXPCvar=CreateConVar("war3_l4d_uncommonexp","10","XP awarded to a player killing a uncommon infected");
+		KillTankXPCvar=CreateConVar("war3_l4d_tankexp","500","XP awarded to team surviving a Tank");
+		KillTankSoloXPCvar=CreateConVar("war3_l4d_solotankexp","1000","XP awarded to player soloing a Tank");
+		KillWitchXPCvar=CreateConVar("war3_l4d_witchexp","250","XP awarded to team killing a Witch");
+		KillWitchCrownedXPCvar=CreateConVar("war3_l4d_crownwitchexp","100","XP awarded to player crowning a Witch");
 		
 		KillGoldCvar=CreateConVar("war3_killgold","2");
 		AssistGoldCvar=CreateConVar("war3_assistgold","1");
@@ -130,6 +167,38 @@ public OnPluginStart()
 			{
 				PrintToServer("[War3Source] Could not hook the teamplay_flag_event event.");
 				
+			}
+		}
+		
+		else if(War3_IsL4DEngine())
+		{		
+			MZombieClass = FindSendPropInfo("CTerrorPlayer", "m_zombieClass");
+			if(!HookEventEx("heal_success", War3Source_HealSuccessEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the heal_success event.");
+			}
+			if(!HookEventEx("survivor_rescued", War3Source_SurvivorRescuedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the survivor_rescued event.");
+			}
+			if(!HookEventEx("witch_killed", War3Source_WitchKilledEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the witch_killed event.");
+			}
+			if(!HookEventEx("tank_killed", War3Source_TankKilledEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the tank_killed event.");
+			}
+			if(!HookEventEx("revive_success", War3Source_SurvivorRevivedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the revive_success event.");
+			}
+		}
+		else if(War3_GetGame() == Game_L4D2) 
+		{
+			if(!HookEventEx("defibrillator_used", War3Source_DefibUsedEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the defibrillator_used event.");
 			}
 		}
 	}	
@@ -302,6 +371,137 @@ public ShowXP(client)
 //main plugin forwards this, does not forward on spy dead ringer, blocks double forward within same frame of same victim
 public OnWar3EventDeath(victim,attacker){
 	new Handle:event=W3GetVar(SmEvent);
+	if(War3_IsL4DEngine())
+	{
+		if (attacker > 0 && GetClientTeam(attacker) == TEAM_SURVIVORS)
+		{
+			new race = War3_GetRace(attacker);
+			new bool:is_hs = GetEventBool(event,"headshot");		
+			
+			decl String:victimclass[32];
+			GetEventString(event, "victimname", victimclass, sizeof(victimclass));
+			
+			new EventZombieClass = GetEntData(victim, MZombieClass);
+			
+			if (StrEqual(victimclass, "Infected"))
+			{
+				if (War3_IsUncommonInfected(GetEventInt(event, "entityid")))
+				{
+					new addxp = GetConVarInt(KillUncommonXPCvar);
+					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+					
+					new String:killaward[64];
+					Format(killaward,sizeof(killaward),"%T","killing a uncommon infected",attacker);
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				}
+				else
+				{
+					new addxp = GetConVarInt(KillCommonXPCvar);
+					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+					
+					new String:killaward[64];
+					Format(killaward,sizeof(killaward),"%T","killing a common infected",attacker);
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				}
+			}
+			else if (StrEqual(victimclass, "Smoker"))
+			{
+				new addxp = GetConVarInt(KillSmokerXPCvar);
+				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+				
+				new String:killaward[64];
+				Format(killaward,sizeof(killaward),"%T","killing a Smoker",attacker);
+				
+				if (ValidPlayer(victim) && IsFakeClient(victim))
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				else
+					GiveKillXPCreds(attacker, victim, false, false);
+			}
+			else if (StrEqual(victimclass, "Boomer"))
+			{
+				new addxp = GetConVarInt(KillBoomerXPCvar);
+				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+				
+				new String:killaward[64];
+				Format(killaward,sizeof(killaward),"%T","killing a Boomer",attacker);
+
+				if (ValidPlayer(victim) && IsFakeClient(victim))
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				else
+					GiveKillXPCreds(attacker, victim, false, false);
+			}
+			else if (StrEqual(victimclass, "Witch"))
+			{
+				return; // witch is handled in its own event
+			}
+			else if (StrEqual(victimclass, "Tank"))
+			{
+				return; // tank is handled in its own event
+			}
+			else if (StrEqual(victimclass, "Hunter"))
+			{
+				new addxp = GetConVarInt(KillHunterXPCvar);
+				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+				
+				new String:killaward[64];
+				Format(killaward,sizeof(killaward),"%T","killing a Hunter",attacker);
+
+				if (ValidPlayer(victim) && IsFakeClient(victim))
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				else
+					GiveKillXPCreds(attacker, victim, false, false);
+			}				
+			else if (StrEqual(victimclass, "Spitter"))
+			{
+				PrintToChatAll("WHAT THE FUCK?");
+			}
+			else if (StrEqual(victimclass, "Jockey"))
+			{
+				new addxp = GetConVarInt(KillJockeyXPCvar);
+				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+				
+				new String:killaward[64];
+				Format(killaward,sizeof(killaward),"%T","killing a Jockey",attacker);
+
+				if (ValidPlayer(victim) && IsFakeClient(victim))
+					TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+				else
+					GiveKillXPCreds(attacker, victim, false, false);
+			}
+			else if (StrEqual(victimclass, "Charger"))
+			{
+				if (EventZombieClass == 4)
+				{
+					new addxp = GetConVarInt(KillSpitterXPCvar);
+					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+					
+					new String:killaward[64];
+					Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
+
+					if (ValidPlayer(victim) && IsFakeClient(victim))
+						TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					else
+						GiveKillXPCreds(attacker, victim, false, false);
+				}
+				else
+				{
+					new addxp = GetConVarInt(KillChargerXPCvar);
+					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+					
+					new String:killaward[64];
+					Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
+	
+					if (ValidPlayer(victim) && IsFakeClient(victim))
+						TryToGiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					else
+						GiveKillXPCreds(attacker, victim, false, false);
+				}
+			}
+		}
+		// finished with l4d xp stuff, everything else is related to other games
+		return;
+	}
+	
 	//DP("get event %d",event);
 	new assister=0;
 	if(War3_GetGame()==Game_TF)
@@ -547,6 +747,146 @@ public War3Source_HostageKilled(Handle:event,const String:name[],bool:dontBroadc
 }
 
 
+// L4D related events
+public War3Source_HealSuccessEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new healer = GetEventInt(event, "userid");
+	new healee = GetEventInt(event, "subject");
+	if(((healer > 0) && (healee > 0)) && (healer != healee))
+	{
+		new client = GetClientOfUserId(healer);
+		
+		new race = War3_GetRace(client);
+		new addxp = GetConVarInt(HealPlayerXPCvar);
+		
+		new String:healaward[64];
+		Format(healaward,sizeof(healaward),"%T","healing a player",client);
+		TryToGiveXPGold(client,race,XPAwardByHealing,addxp,0,healaward);
+	}
+}
+
+public War3Source_DefibUsedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new healer = GetEventInt(event, "userid");
+	if(healer > 0)
+	{
+		new client = GetClientOfUserId(healer);
+		new race = War3_GetRace(client);
+		new addxp = GetConVarInt(RevivePlayerXPCvar);
+		
+		new String:reviveaward[64];
+		Format(reviveaward,sizeof(reviveaward),"%T","reviving a player",client);
+		TryToGiveXPGold(client,race,XPAwardByReviving,addxp,0,reviveaward);
+	}
+}
+
+public War3Source_SurvivorRescuedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new rescuer = GetEventInt(event, "rescuer");
+	if(rescuer > 0)
+	{
+		new client = GetClientOfUserId(rescuer);
+		new race = War3_GetRace(client);
+		new addxp =  GetConVarInt(RescuePlayerXPCvar);
+		
+		new String:rescueaward[64];
+		Format(rescueaward,sizeof(rescueaward),"%T","rescueing a player",client);
+		TryToGiveXPGold(client,race,XPAwardByRescueing,addxp,0,rescueaward);
+	}
+}
+
+
+
+
+
+
+
+
+
+public War3Source_SurvivorRevivedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	/*Help someone get up*/
+	new reviver = GetClientOfUserId(GetEventInt(event, "userid"))	
+	if(GetClientTeam(reviver) == TEAM_SURVIVORS)
+	{
+		new addxp = GetConVarInt(HelpTeammateXPCvar);
+		
+		new String:killaward[64];
+		Format(killaward,sizeof(killaward),"%T","helping a teammate", reviver);
+		TryToGiveXPGold(reviver, War3_GetRace(reviver), XPAwardByRescueing, addxp, 0, killaward);
+	}
+}
+
+public War3Source_WitchKilledEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new killer = GetEventInt(event, "userid");
+	if (killer > 0)
+	{
+		killer = GetClientOfUserId(killer);
+		if(killer > 0 && GetClientTeam(killer) == TEAM_SURVIVORS)
+		{
+			new String:killaward[64];
+			new bool:crowned = GetEventBool(event,"oneshot");	
+			
+			if (crowned)
+			{
+				new addxp = GetConVarInt(KillWitchCrownedXPCvar);
+				Format(killaward,sizeof(killaward),"%T","crowning a Witch", killer);
+				
+				TryToGiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
+			}
+			else
+			{
+				new addxp = GetConVarInt(KillWitchXPCvar);
+				Format(killaward,sizeof(killaward),"%T","surviving a Witch", killer);
+		
+				for(new client=1; client <= MaxClients; client++)
+					if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
+					{
+						TryToGiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
+					}
+			}
+		}
+	}
+}
+
+public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new killer = GetEventInt(event, "attacker");
+	if (killer > 0)
+	{
+		killer = GetClientOfUserId(killer);
+		//new victim = GetEventInt(event, "userid");
+		if(killer > 0 && GetClientTeam(killer) == TEAM_SURVIVORS)
+		{
+			new String:killaward[64];
+			new bool:solo = GetEventBool(event,"solo");	
+			if (solo)
+			{
+				new addxp = GetConVarInt(KillTankSoloXPCvar);
+				Format(killaward,sizeof(killaward),"%T","soloing a Tank",killer);
+				
+				TryToGiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
+				/*if (ValidPlayer(victim) && IsFakeClient(victim))
+					TryToGiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
+				else
+					GiveKillXPCreds(killer, victim, false, false);*/
+			}
+			
+			new addxp = GetConVarInt(KillTankXPCvar);
+			for(new client=1; client <= MaxClients; client++)
+				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && (!solo || (client != killer)))
+				{
+					Format(killaward,sizeof(killaward),"%T","surviving a Tank", client);
+					TryToGiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
+					/*if (ValidPlayer(victim) && IsFakeClient(victim))
+						TryToGiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
+					else
+						GiveKillXPCreds(client, victim, false, false);*/
+				}
+		}
+	}
+}
 
 
 

@@ -43,7 +43,10 @@ public bool:InitNativesForwards()
 
 public NWar3_GetOwnsItem(Handle:plugin,numParams)
 {
-	return _:playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)];
+	if (ValidPlayer(GetNativeCell(1)))
+		return _:playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)];
+	else
+		return false;
 
 }
 

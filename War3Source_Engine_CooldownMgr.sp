@@ -72,8 +72,10 @@ public OnMapStart(){
 	for(new i=0;i<MAXTHREADS;i++){
 		expireTime[i]=0.0;
 	}
+	
 	War3_PrecacheSound(abilityReadySound);
 	War3_PrecacheSound(ultimateReadySound);
+	War3_PrecacheSound("UI/hint.wav");
 	
 	
 	ClearAllCooldowns();

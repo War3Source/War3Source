@@ -1,7 +1,7 @@
 /**
  * File: War3Source_Addon_LevelUpParticle.sp
  * Description: Displays particles whenever somebody levels up.
- * Author(s): Ted Theodore Logan & xDr.HaaaaaaaXx
+ * Author(s): Glider & xDr.HaaaaaaaXx
  */
 
 #pragma semicolon 1
@@ -17,7 +17,7 @@ new clientParticle[MAXPLAYERSCUSTOM];
 public Plugin:myinfo = 
 {
 	name = "W3S - Addon - Display Particles on Level Up",
-	author = "Ted Theodore Logan & xDr.HaaaaaaaXx",
+	author = "Glider & xDr.HaaaaaaaXx",
 	description = "Displays particles whenever somebody levels up",
 	version = "1.2",
 };
@@ -25,6 +25,10 @@ public Plugin:myinfo =
 public OnMapStart()
 {
 	PrecacheModel("effects/combinemuzzle2.vmt");
+    if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
+    {
+        War3_PrecacheParticle("achieved");
+    }
 }
 
 public OnWar3Event(W3EVENT:event, client)
@@ -35,10 +39,14 @@ public OnWar3Event(W3EVENT:event, client)
 		{
 			TFParticle(client, 0, "achieved", "partyhat");
 		}
-		if (War3_GetGame() == Game_CS)
+		else if (War3_GetGame() == Game_CS)
 		{
 			CSParticle(client);
 		}
+		else if (War3_IsL4DEngine())
+		{
+			TFParticle(client, 0, "achieved", "eyes");
+		}	
 		new String:name[32];
 		GetClientName(client,name,sizeof(name));
 		new String:racename[32];

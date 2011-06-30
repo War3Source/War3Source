@@ -162,6 +162,9 @@ enum W3XPAwardedBy
 	XPAwardByPointCap,
 	XPAwardByPointCapBlock,
 	XPAwardByFlagCap,
+	XPAwardByHealing,
+	XPAwardByReviving,
+	XPAwardByRescueing,
 }
 
 // The types of immunities you can get/set from.
@@ -202,11 +205,15 @@ enum ValveGameEnum
 	Game_CS=1,
 	Game_DOD=2,
 	Game_TF=3,
+	Game_L4D=4,
+	Game_L4D2=5,
 	
 	//Are you feeling Lazy? use this!
 	CS=Game_CS,
 	DOD=Game_DOD,
 	TF=Game_TF,
+	L4D=Game_L4D,
+	L4D2=Game_L4D2
 }
 
 //Basically Instance variables for the Player Class
@@ -568,7 +575,6 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 	return -1;
 }
 
-
 // The following are color presets for the War3_FlashScreen function
 #define RGBA_COLOR_RED		{255,0,0,4}
 #define RGBA_COLOR_GREEN	{0,255,0,3}
@@ -599,3 +605,5 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 #define  TEAM_CT 3
 #define  TEAM_RED 2
 #define  TEAM_BLUE 3
+#define  TEAM_SURVIVORS 2
+#define  TEAM_INFECTED 3
