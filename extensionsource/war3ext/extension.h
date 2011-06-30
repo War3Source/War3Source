@@ -3,8 +3,9 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#define __W3EXT
 #include "smsdk_ext.h"
-#include "igameevents.h"
+//#include "igameevents.h"
 #include <IWebternet.h>
 #include <IThreader.h>
 #include <INativeInvoker.h>
@@ -24,8 +25,6 @@
 
 #include "shared.h"
 #include "mysemaphore.h"
-#include "ownageheader.h"
-
 
 
 #define MAXMODULE 99
@@ -41,14 +40,15 @@ class War3Ext :
 	//public IMetamodListener,
 	public ITransferHandler,
 	public IThread,
-	public ITimedEvent
+	public ITimedEvent,
+	public IWar3ExtInterface
 {
 public:
 	// Some variables.
 //	IWar3DLL *m_War3DLL;
 	IForward *m_OurTestForward;
 //	ICvar *m_Cvars;
-	IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct
+//	IGameEventManager2 *m_EventManager; // used to ADD listeners what can we exactly listen to? player5_hgurt, etc only engine stuff? no custom stuff? anything in the event system, but in general you can't create a custom event anyway. event with SM you are lismitted to events initialized so its not some kind of War3Event custom thing? correct
 	/**
 	 * @brief This is called after the initial loading sequence has been processed.
 	 *
@@ -136,6 +136,9 @@ public:
 
 
 	 ~War3Ext();
+
+	 void LOGf(char*,...);
+
 	//itransferhandler
 	 DownloadWriteStatus OnDownloadWrite(IWebTransfer *session,
                                void *userdata,
@@ -166,6 +169,8 @@ public:
 };
 
 extern War3Ext war3_ext;
+#include "ownageheader.h"
+
 
 using namespace std;
 

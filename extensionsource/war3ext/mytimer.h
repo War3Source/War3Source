@@ -41,7 +41,7 @@ private:
 				for(int i=0;i<size;i++){
 					TimerEntry *te=myvector.at(i);
 					if(te->nexttick<min){
-						min=te->nexttick;
+						min=(float)te->nexttick;
 						minindex=i;
 						readycount++;
 					}

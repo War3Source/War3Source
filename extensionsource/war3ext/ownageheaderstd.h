@@ -39,11 +39,12 @@ namespace //anoynamous namespace,
 
 
 	//prototypes
-	void ERR(char* str,...);
+	void ERRS(char* ,...);
+	void ERRS(char* ,...);
 	size_t UTIL_Format(char *buffer, size_t maxlength, const char *fmt, va_list params);
 	bool GetInterface(char* interf,SMInterface** pointer,bool quitifnotfound=false);
 
-	void ERR(char* format,...)
+	void ERRS(char* format,...)
 	{
 		va_list ap;
 		va_start(ap, format);
@@ -52,6 +53,7 @@ namespace //anoynamous namespace,
 		char buffer[2000];
 		UTIL_Format(buffer,sizeof(buffer),format,ap);
 		g_pSM->LogError(myself,buffer);
+		//fprintf(g->log,"[W3E] %s\n",buffer);
 		va_end(ap);
 	}
 
@@ -75,7 +77,7 @@ namespace //anoynamous namespace,
 			CPRINT("[war3ext] could not get sm interface ")<<interf<< std::endl;
 			if(quitifnotfound){
 				for(int i=0;i<100;i++){
-					ERR("could not get sm interface %s",interf);
+					ERRS("could not get sm interface %s",interf);
 				}
 				exit(0);
 			}
@@ -109,15 +111,15 @@ namespace //anoynamous namespace,
 		size_t pos=0;
 		do{
 			pos=str.find(find,pos);
-			//ERR("pos %d",pos);
+			//ERRS("pos %d",pos);
 			if(pos!=string::npos){
 				str=str.replace(pos,findlength,replacewith);
 				pos+=replacewithlen;
-				//ERR("str is now %s",str.c_str());
+				//ERRS("str is now %s",str.c_str());
 			}
 		}
 		while(pos!=string::npos);
-		//ERR("returning %s",str.c_str());
+		//ERRS("returning %s",str.c_str());
 		return str;
 	}
 	void ToLower(string &a_str){

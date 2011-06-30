@@ -49,6 +49,7 @@ struct myglobalstruct
 
 	IMenuManager *imenus;
 	IPhraseCollection *myphrasecollection;
+	FILE *log;
 };
 extern myglobalstruct *g;
 
@@ -80,6 +81,11 @@ public:
 	virtual void Init(ISourceMod*,IForwardManager*,IShareSys*,IExtension*,void*,IThreader *,myglobalstruct**)=0;
 	virtual void DoStuff()=0;
 
+};
+class IWar3ExtInterface //exposed funcs
+{
+public:
+	virtual void LOGf(char* format,...)=0;
 };
 
 #define META_CONPRINTF std::cout<<

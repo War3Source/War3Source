@@ -85,7 +85,17 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g->threadticketdone=new Semaphore(0);
 	g->myphrasecollection=g->iphrase->CreatePhraseCollection();
 
-
+	char path[PLATFORM_MAX_PATH];
+	g_pSM->BuildPath(Path_SM, path, sizeof(path), "logs/w3extlog.log");
+	g->log = fopen(path, "w");
+	if (!g->log)
+	{
+		ERR("COULD NOT OPEN W3E LOG %s",path);
+		
+		return false;
+	}
+	ERR("LOOL");
+	
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
 	GetInterface("INativeInterface",(SMInterface**)&g->nativeinterf,true);
@@ -109,7 +119,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->sharesys=sharesys;
 
-	char path[PLATFORM_MAX_PATH];
+	
 	
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
 
@@ -161,7 +171,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	//#include "update.cpp"
 
-    timersys->CreateTimer(&war3_ext,0.1,NULL, TIMER_FLAG_REPEAT);
+    timersys->CreateTimer(&war3_ext,0.1f,NULL, TIMER_FLAG_REPEAT);
 
 	sharesys->AddNatives(myself,MyNatives);
 
@@ -175,7 +185,26 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	return true;
 }
+void War3Ext::LOGf(char* format,...)
+{
+	va_list ap;
+	va_start(ap, format);
 
+	char buffer[2000];
+	UTIL_Format(buffer,sizeof(buffer),format,ap);
+	//g_pSM->LogError(myself,buffer);
+	time_t rawtime;
+	struct tm * timeinfo;
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+	char timebuffer[32];
+	strftime(timebuffer,sizeof(timebuffer)-1,"%m/%d %X",timeinfo);
+	fprintf(g->log,"%s [W3E] %s\n",timebuffer,buffer);
+	fflush(g->log);
+	printf("%s [W3E] %s\n",timebuffer,buffer);
+	
+	va_end(ap);
+}
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 {
 	g->plugincontext=pCtx;
