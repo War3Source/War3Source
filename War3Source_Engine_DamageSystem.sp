@@ -43,6 +43,8 @@ new dummyresult;
 
 new damagestack=0;
 
+new Float:LastDamageDealtTime[MAXPLAYERSCUSTOM];
+new Float:ChanceModifier[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo= 
 {
@@ -73,6 +75,8 @@ public bool:InitNativesForwards()
 	CreateNative("War3_GetWar3DamageDealt",Native_War3_GetWar3DamageDealt);
 
 	CreateNative("W3GetDamageStack",NW3GetDamageStack);
+
+	CreateNative("W3ChanceModifier",Native_W3ChanceModifier);
 
 
 	FHOnW3TakeDmgAllPre=CreateGlobalForward("OnW3TakeDmgAllPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
@@ -131,6 +135,20 @@ public OnClientDisconnect(client){
 }
 
 
+public Native_W3ChanceModifier(Handle:plugin,numParams)
+{
+	
+	new attacker=GetNativeCell(1);
+	//new inflictor=W3GetDamageInflictor();
+	//new damagetype=W3GetDamageType();
+	if(attacker<=0 || attacker>MaxClients || !IsValidEdict(attacker)){
+		return _:1.0;
+	}
+	
+	
+	return _:1.0;
+}
+
 
 public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:damage,&damagetype)
 {
@@ -138,7 +156,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 	new String:race[32];
 	War3_GetRaceName(War3_GetRace(attacker),race,sizeof(race));
 	
-	if(IsPlayerAlive(victim)){
+	if(IsPlayerAlive(victim)&&ValidPlayer(attacker)){
 
 		//store old variables on local stack!
 	
@@ -171,6 +189,18 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 			//PrintToChatAll("physical %f %d to %d",W3GetPhysicalArmorMulti(victim),attacker,victim);
 			//g_CurDamageIsWarcraft=false;
 		}
+		if(!g_CurDamageIsWarcraft){
+			new Float:now=GetGameTime();
+			new Float:value=now-LastDamageDealtTime[attacker];
+			if(value>1.0||value<0.0){
+				ChanceModifier[attacker]=1.0;
+			}
+			else{
+				ChanceModifier[attacker]=value;
+			}
+			//DP("%f",ChanceModifier[attacker]);
+			LastDamageDealtTime[attacker]=GetGameTime();
+		}
 		//else it is true damage
 		//PrintToChatAll("takedmg %f BULLET %d   lastiswarcraft %d",damage,isBulletDamage,g_CurDamageIsWarcraft);
 		
@@ -185,6 +215,8 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		Call_Finish(dummyresult); //this will be returned to
 		
 		if(!g_CurDamageIsWarcraft){
+		
+		
 			Call_StartForward(FHOnW3TakeDmgBulletPre);
 			Call_PushCell(victim);
 			Call_PushCell(attacker);
@@ -194,20 +226,24 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		}
 		g_CanSetDamageMod=false;
 		g_CanDealDamage=true;
-		Call_StartForward(FHOnW3TakeDmgAll);
-		Call_PushCell(victim);
-		Call_PushCell(attacker);
-		Call_PushCell(damage);
-		Call_Finish(dummyresult); //this will be returned to
+		if(g_CurDMGModifierPercent>0.001){ //so if damage is already canceled, no point in forwarding the second part , do we dont get: evaded but still recieve warcraft damage proc)
 		
 		
-		if(!g_CurDamageIsWarcraft){
-			Call_StartForward(FHOnW3TakeDmgBullet);
+			Call_StartForward(FHOnW3TakeDmgAll);
 			Call_PushCell(victim);
 			Call_PushCell(attacker);
 			Call_PushCell(damage);
 			Call_Finish(dummyresult); //this will be returned to
 			
+			
+			if(!g_CurDamageIsWarcraft){
+				Call_StartForward(FHOnW3TakeDmgBullet);
+				Call_PushCell(victim);
+				Call_PushCell(attacker);
+				Call_PushCell(damage);
+				Call_Finish(dummyresult); //this will be returned to
+				
+			}
 		}
 		g_CanSetDamageMod=old_CanSetDamageMod;
 		g_CanDealDamage=old_CanDealDamage;	

@@ -31,5 +31,10 @@ new bInFreezeTime; // again, kinda hacky
 
 new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
 
-
+new bHasDiedThisFrame[MAXPLAYERSCUSTOM]; 
+/**********************
+ * prevent double kills if the same player in the same frame, 
+ * like killed by skill damage is one kill message, killed by original damge is another death message, 
+ * woudl cause double xp kill, because skill damage is actually dealt first (nested)
+ */ 
 

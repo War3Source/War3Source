@@ -29,6 +29,7 @@ public OnPluginStart()
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowShopMenu2){
 		//ShowMenuShop(client);
+		SetTrans(client); //required
 		W3ExtShowShop2(client);
 	}
 	if(event==DoTriedToBuyItem2){ //via say?

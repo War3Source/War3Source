@@ -135,6 +135,12 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 {
 	new uid_victim=GetEventInt(event,"userid");
 	new uid_attacker=GetEventInt(event,"attacker");
+	
+	new victimIndex=GetClientOfUserId(uid_victim);
+	new attackerIndex=0;
+	if(uid_attacker>0){
+		attackerIndex=GetClientOfUserId(uid_attacker);
+	}
 	//new uid_assister=0;
 	//if(War3_GetGame()==Game_TF)
 	//{
@@ -143,9 +149,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 	
 	new bool:deadringereath=false;
 	if(uid_victim>0)
-	{
-		new victimIndex=GetClientOfUserId(uid_victim);
-		
+	{	
 		new deathFlags = GetEventInt(event, "death_flags");
 		if (War3_GetGame()==Game_TF&&deathFlags & 32) //TF_DEATHFLAG_DEADRINGER
 		{
@@ -154,26 +158,21 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		}
 		else
 		{
-			
-			
-			
-			
-			W3DoLevelCheck(victimIndex);
-			
+			W3DoLevelCheck(victimIndex);	
 		}
-		
 	}
 	
 	
 	//lastly
-	if(uid_victim>0&&!deadringereath) //forward to all other plugins last
+	//DP("died? %d",bHasDiedThisFrame[victimIndex]);
+	if(victimIndex&&!deadringereath&&bHasDiedThisFrame[victimIndex]++==0) //forward to all other plugins last
 	{
-		new victimIndex=GetClientOfUserId(uid_victim);
-		new attackerIndex=0;
-		if(uid_attacker>0){
-			attackerIndex=GetClientOfUserId(uid_attacker);
-		}
+
 		W3VarArr[DeathRace]=War3_GetRace(victimIndex);
+		
+		new Handle:oldevent=W3GetVar(SmEvent);
+	//	DP("new event %d",event);
+		W3SetVar(SmEvent,event); //stacking on stack 
 		
 		///pre death event, internal event
 		W3SetVar(EventArg1,attackerIndex);
@@ -182,13 +181,19 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		//post death event actual forward
 		DoForward_OnWar3EventDeath(victimIndex,attackerIndex);
 		
+		W3SetVar(SmEvent,oldevent); //restore on stack , if any
+		//DP("restore event %d",event);
 		//then we allow change race AFTER death forward
 		
 		CheckPendingRace(victimIndex);
 		
 	}
 }
-
+public OnGameFrame(){
+	for(new i=1;i<MAXPLAYERSCUSTOM;i++){
+		bHasDiedThisFrame[i]=0;
+	}
+}
 public Action:EndFreezeTime(Handle:timer,any:roundNum)
 {
 	if(roundNum==iRoundNumber)

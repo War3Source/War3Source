@@ -392,7 +392,7 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				
 				if(skill_level>0&&!Hexed(attacker,false)){
 					
-					if(ConduitUntilTime[victim]>1.0&&W3ChanceModifier(attacker)){
+					if(ConduitUntilTime[victim]>1.0&&W3Chance(W3ChanceModifier(attacker))){
 						//do nothing, already on conduit
 						ConduitSubtractDamage[victim]+=ConduitPerHit[skill_level];
 					}

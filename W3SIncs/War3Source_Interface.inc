@@ -172,7 +172,12 @@ stock DetermineGameMode(){
 	}
 	//bGameModeDetermined=true;
 }
-
+stock GameCS(){
+	return War3_GetGame()==Game_CS;
+}
+stock GameTF(){
+	return War3_GetGame()==Game_TF;
+}
 //We mark some natives optional so different plugins can still startup
 /**********************
  * CALL THIS IN ASKPLUGINLOAD if you are using any of these or have native errors

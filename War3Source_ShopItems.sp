@@ -77,7 +77,7 @@ public OnPluginStart()
 	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	BootsSpeedCvar=CreateConVar("war3_shop_boots_speed","1.2","Boots speed, 1.2 is default");
-	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage","6","Claws of attack additional damage");
+	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage",GameTF()?"20":"6","Claws of attack additional damage per bullet (CS) per second (TF)");
 	MaskDeathCvar=CreateConVar("war3_shop_mask_percent","0.30","Percent of damage rewarded for Mask of Death, from 0.0 - 1.0");
 	OrbFrostCvar=CreateConVar("war3_shop_orb_speed","0.6","Orb of Frost speed, 1.0 is normal speed, 0.6 default for orb.");
 	TomeCvar=CreateConVar("war3_shop_tome_xp","100","Experience awarded for Tome of Experience.");
@@ -625,20 +625,27 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 		new ateam=GetClientTeam(attacker);
 		if(vteam!=ateam)
 		{
-			new chance=RoundFloat(100.0*W3ChanceModifier(attacker));
-			if(GetRandomInt(1,100)<=chance)
+
+			if(W3Chance(W3ChanceModifier(attacker)))
 			{
 				if(!W3HasImmunity(victim,Immunity_Items))
 				{
 					if(War3_GetOwnsItem(attacker,shopItem[CLAW])&&!Perplexed(attacker)) // claws of attack
 					{
-						new dmg=GetConVarInt(ClawsAttackCvar);
-						if(dmg<0) 	dmg=0;
-						new new_hp=GetClientHealth(victim) - dmg;
-						if(new_hp<0) new_hp=0;
-						//SetEntityHealth(victim,new_hp);
+						new Float:dmg=GetConVarFloat(ClawsAttackCvar);
+						if(dmg<0.0) 	dmg=0.0;
 						
-						War3_DealDamage(victim,dmg,attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
+						//SetEntityHealth(victim,new_hp);
+						if(GameTF()){
+							if(W3ChanceModifier(attacker)<0.99){
+							dmg*=W3ChanceModifier(attacker);
+							}
+							else{
+								dmg*=0.50;
+							}
+						}
+						DP("%f",dmg);
+						War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
 						
 						PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
 					}

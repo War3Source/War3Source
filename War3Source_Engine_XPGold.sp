@@ -75,10 +75,6 @@ public OnPluginStart()
 		ParseXPSettingsFile();
 		
 		
-		if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
-		{
-			PrintToServer("[War3Source] Could not hook the player_spawn event.");
-		}
 		
 		if(War3_GetGame()==CS){
 			if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
@@ -303,45 +299,25 @@ public ShowXP(client)
 	else
 		War3_ChatMessage(client,"%T","{racename} - Level {amount} - {amount} XP",client,racename,level,War3_GetXP(client,race));
 }
-public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
-{
-	new uid_victim=GetEventInt(event,"userid");
-	new uid_attacker=GetEventInt(event,"attacker");
-	new uid_assister=0;
+//main plugin forwards this, does not forward on spy dead ringer, blocks double forward within same frame of same victim
+public OnWar3EventDeath(victim,attacker){
+	new Handle:event=W3GetVar(SmEvent);
+	//DP("get event %d",event);
+	new assister=0;
 	if(War3_GetGame()==Game_TF)
 	{
-		uid_assister=GetEventInt(event,"assister");
-	}
-	new victimIndex=GetClientOfUserId(uid_victim);
-	new attackerIndex=GetClientOfUserId(uid_attacker);
-		
-	new bool:deadringereath=false;
-	if(uid_victim>0)
-	{
-		
-		new deathFlags = GetEventInt(event, "death_flags");
-		if (War3_GetGame()==Game_TF&&deathFlags & 32 || IsPlayerAlive(victimIndex))
-		{
-			deadringereath=deadringereath?true:true; //stfu
-		   //PrintToChat(client,"war3 debug: dead ringer kill");
-		}
+		assister=GetClientOfUserId(GetEventInt(event,"assister"));
 	}
 
-	if(uid_victim!=uid_attacker&&uid_attacker>0)
+	if(victim!=attacker&&ValidPlayer(attacker))
 	{
 		
-		
-		new assistIndex=0;
-		if(uid_assister>0)
-		{
-			assistIndex=GetClientOfUserId(uid_assister);
-		}
-		if(GetClientTeam(attackerIndex)!=GetClientTeam(victimIndex))
+		if(GetClientTeam(attacker)!=GetClientTeam(victim))
 		{
 			decl String:weapon[64];
 			GetEventString(event,"weapon",weapon,sizeof(weapon));
 			new bool:is_hs,bool:is_melee;
-			if(IsFakeClient(victimIndex) && GetConVarBool(BotIgnoreXPCvar))
+			if(IsFakeClient(victim) && GetConVarBool(BotIgnoreXPCvar))
 				return;
 			if(War3_GetGame()==Game_TF)
 			{
@@ -370,12 +346,12 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 					
 					is_melee=StrEqual(weapon,"knife");*/
 					
-			if(assistIndex>=0 && War3_GetRace(assistIndex)>0)
+			if(assister>=0 && War3_GetRace(assister)>0)
 			{
-				GiveAssistKillXP(assistIndex);
+				GiveAssistKillXP(assister);
 			}
 			
-			GiveKillXPCreds(attackerIndex,victimIndex,is_hs,is_melee);
+			GiveKillXPCreds(attacker,victim,is_hs,is_melee);
 		}
 	}
 	

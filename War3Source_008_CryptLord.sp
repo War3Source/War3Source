@@ -156,7 +156,8 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 {
 	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
-		if(War3_GetRace(victim)==thisRaceID)
+	
+		if(War3_GetRace(victim)==thisRaceID &&W3Chance(W3ChanceModifier(attacker)) )
 		{
 			new skill_level=War3_GetSkillLevel(victim,thisRaceID,SKILL_SPIKE);
 			if(skill_level>0&&!Hexed(victim,false))

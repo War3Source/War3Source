@@ -297,10 +297,12 @@ public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
 		g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
 	} 
+	new Handle:oldevent=W3GetVar(SmEvent);
 	W3SetVar(SmEvent,event);
 	Call_StartForward(hweaponFiredFwd);
 	Call_PushCell(client);
 	Call_Finish(dummy);	
+	W3SetVar(SmEvent,oldevent);
 }
 
 

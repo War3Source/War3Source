@@ -30,56 +30,6 @@ public Native_War3_InFreezeTime(Handle:plugin,numParams)
 
 
 
-public Native_W3ChanceModifier(Handle:plugin,numParams)
-{
-	if(numParams!=1)
-		return _:1.0;
-	new attacker=GetNativeCell(1);
-	new inflictor=W3GetDamageInflictor();
-	new damagetype=W3GetDamageType();
-	if(attacker<=0 || attacker>MaxClients || !IsValidEdict(attacker))
-		return _:1.0;
-	if(damagetype&DMG_BURN)
-	{
-		return _:GetConVarFloat(ChanceModifierBurn);
-	}
-	if(damagetype&DMG_PLASMA)
-	{
-		return _:GetConVarFloat(ChanceModifierPlasma);
-	}
-	if(attacker!=inflictor)
-	{
-		if(inflictor>0 && IsValidEdict(inflictor))
-		{
-			new String:ent_name[64];
-			GetEdictClassname(inflictor,ent_name,sizeof(ent_name));
-			if(StrContains(ent_name,"obj_sentrygun",false)==0)
-			{
-				return _:GetConVarFloat(ChanceModifierSentry);
-			}
-			else if(StrContains(ent_name,"tf_projectile_sentryrocket",false)==0)
-			{
-				return _:GetConVarFloat(ChanceModifierSentryRocket);
-			}
-		}
-	}
-	new String:weapon[64];
-	GetClientWeapon(attacker,weapon,sizeof(weapon));
-	if(StrEqual(weapon,"tf_weapon_minigun",false))
-	{
-		return _:GetConVarFloat(ChanceModifierHeavy);
-	}
-	if(StrEqual(weapon,"tf_weapon_syringegun_medic",false))
-	{
-		return _:GetConVarFloat(ChanceModifierMedic);
-	}
-	if(StrEqual(weapon,"tf_weapon_smg",false))
-	{
-		return _:GetConVarFloat(ChanceModifierSMGSniper);
-	}
-	return _:1.0;
-}
-
 public Native_W3FlashScreen(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);
@@ -352,8 +302,7 @@ bool:War3Source_InitNatives()
 	CreateNative("War3_InFreezeTime",Native_War3_InFreezeTime);
 	
 	
-	CreateNative("W3ChanceModifier",Native_W3ChanceModifier);
-
+	
 	CreateNative("W3FlashScreen",Native_W3FlashScreen);
 	CreateNative("War3_ShakeScreen",Native_War3_ShakeScreen);
 

@@ -6,6 +6,23 @@ B7
 war3_hint_enabled 0/1 cvar for hint engine, why would you ever turn it off though? you can still see the votes.
 EXT: fixed possible startup hang on linux
 
+REDUCED default chance modifiers of sentry shots and burn shots to 0.1 (from 0.125)
+
+crypt and naix now have chance modifiers implemented on posthurt
+fixed other chance modifiers
+
+only allow 1 death message that is forwarded per frame per victim maximum to prevent double xp kills
+
+TF ONLY: chance modifier change, chance is now based on time since last bullet hit. 
+linearly reduced as last hit time goes from 1.0 seconds ago to 0.0 seconds ago.
+(if last hit was X seconds ago, chance is reduced to X percent chance on top of the original chance when implemented correctly)
+W3ChanceModifier returns 1.0 if last damage was longer than 1.0 seconds.
+Chance modifier time interval is only triggered on "bullet" damage
+
+TF ONLY: claw damage is now PER SECOND (default to 15) equivalent 
+except first shot (first shot deals 50% of that damage),  
+that means low rate of fire weapons like rocket launcher won't always reach 15 damage per second. 
+this algorithm may be changed later
 
 B6
 
