@@ -644,7 +644,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 								dmg*=0.50;
 							}
 						}
-						DP("%f",dmg);
+					//	DP("%f",dmg);
 						War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
 						
 						PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
