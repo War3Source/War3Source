@@ -1,7 +1,7 @@
 #ifndef __INCLUDED_SHARED
 #define __INCLUDED_SHARED
 //#include <boost/algorithm/string.hpp>
-
+typedef  unsigned int uint;
 #include "ITranslator.h"
 class Semaphore;
 
@@ -48,7 +48,7 @@ struct myglobalstruct
 	bool helper;
 
 	IMenuManager *imenus;
-	
+	IPhraseCollection *myphrasecollection;
 };
 extern myglobalstruct *g;
 

@@ -69,7 +69,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	g->minversionexceeded=false;
 	g->sharesys=NULL;
 
-	g->iphrase=NULL;
+	g->iphrase=translator;
 
 	g->helper=false;
 	g->imenus=menus;
@@ -83,6 +83,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->threadticketrequest=new Semaphore(0);
 	g->threadticketdone=new Semaphore(0);
+	g->myphrasecollection=g->iphrase->CreatePhraseCollection();
 
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
@@ -97,14 +98,19 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->sminterfacetimersys=timersys;
 
-
-
+	
+	//add translation
+	
+	g->myphrasecollection->AddPhraseFile("w3s._common.phrases");
+	g->myphrasecollection->AddPhraseFile("sh._common.phrases");
+	g->myphrasecollection->AddPhraseFile("w3s.shopmenu2.phrases");
 
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	g->sharesys=sharesys;
 
 	char path[PLATFORM_MAX_PATH];
+	
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
 
 

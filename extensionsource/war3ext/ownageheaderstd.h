@@ -151,6 +151,11 @@ namespace //anoynamous namespace,
 	//void ocsplit(vector<string> &explodedz,string &line,char* delimiter){
 	//	iter_split(explodedz,line,first_finder(delimiter));
 	//}
+	void strncpys(char* dest,int num,char* source){
+		std::strncpy(dest,source,num-2);
+		dest[num-1]=0;
+
+	}
 }
 
 
