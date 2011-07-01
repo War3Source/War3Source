@@ -320,6 +320,18 @@ stock GameCS(){
 stock GameTF(){
 	return War3_GetGame()==Game_TF;
 }
+
+stock GameL4D1(){
+	return (War3_GetGame() == Game_L4D);
+}
+
+stock GameL4D2(){
+	return ( War3_GetGame() == Game_L4D2);
+}
+
+stock GameL4DAny(){
+	return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
+}
 //We mark some natives optional so different plugins can still startup
 /**********************
  * CALL THIS IN ASKPLUGINLOAD if you are using any of these or have native errors

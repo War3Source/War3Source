@@ -17,10 +17,12 @@ new Handle:killTimer = INVALID_HANDLE;
 
 public OnMapStart()
 {	
-	startNewTimer();
-	
-	HookEvent("round_end", RoundEndEvent);
-	HookEvent("mission_lost", MissionLostEvent);
+	if(GameL4DAny()){
+		startNewTimer();
+		
+		HookEvent("round_end", RoundEndEvent);
+		HookEvent("mission_lost", MissionLostEvent);
+	}
 }
 
 public Action:FixRaceTimer(Handle:timer, any:userid)

@@ -47,3 +47,22 @@ But remember: You are not alone with those Powers!
 
 
 See installation and follow directions on how to run SuperHero Source mode.
+
+
+-----------------------
+CREDITS
+-----------------------
+FOUNDER
+Anthony Iacono (AKA "pimpinjuice") 
+
+LEAD DEVEOPER
+OwnageOwnz (Aka "DarkEnergy")
+
+TRANSLATIONS 
+Schmarotzer
+Frenzzy
+
+L4D compatibility
+Glider / Ted "Theodore" Logan
+
+
