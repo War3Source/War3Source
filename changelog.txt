@@ -2,7 +2,16 @@
 
 B7
 
-Glider:
+Glider 010711:
+	* New function in the Interface: bool:War3_IsL4DZombieEntity(iEntity)
+		* Shortcut for War3_IsCommonInfected(iEntity) || War3_IsWitch(iEntity)
+        * Also returns false if the game engine is not l4d!
+		
+	* Damage System engine:
+		* Check if a player is valid before checking if we should check immunitys
+		* Replaced some checks with War3_IsL4DZombieEntity
+
+Glider 300611:
 	* Added new stock War3_PrecacheParticle(String:particlename[]) to precache particles
 		* Please note that this will not add the Particle to the download table automatically!
 	* Precache the achieved particle in the level up particle addon for games that use iT
