@@ -171,8 +171,8 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 	War3_GetRaceName(War3_GetRace(attacker),race,sizeof(race));
 	
 	// If we got a l4d infected or witch then this continues instead of checking
-	// if its alive since that is not a player
-	if((War3_IsL4DEngine() && (War3_IsCommonInfected(victim) || War3_IsWitch(victim))) || (IsPlayerAlive(victim) && ValidPlayer(victim))){
+	// if its alive since that is not a player and therefor IsPlayerAlive fails
+	if(War3_IsL4DZombieEntity || (IsPlayerAlive(victim) && ValidPlayer(victim))){
 		//store old variables on local stack!
 	
 		new old_DamageType= g_CurDamageType;
@@ -429,7 +429,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 	attacker=GetNativeCell(3);
 		
 	
-	if((ValidPlayer(victim,true) || War3_IsCommonInfected(victim)) && damage>0 )
+	if((ValidPlayer(victim,true) || War3_IsL4DZombieEntity(victim)) && damage>0 )
 	{
 		//new old_DamageDealt=g_CurActualDamageDealt;
 		new old_IsWarcraftDamage= g_CurDamageIsWarcraft;
@@ -456,7 +456,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 		decl bool:respectVictimImmunity;
 		respectVictimImmunity=GetNativeCell(8);
 		
-		if(respectVictimImmunity && !War3_IsCommonInfected(victim)){
+		if(ValidPlayer(victim) && respectVictimImmunity){
 			switch(W3DMGORIGIN){
 				case W3DMGORIGIN_SKILL:  {
 					if(W3HasImmunity(victim,Immunity_Skills) ){

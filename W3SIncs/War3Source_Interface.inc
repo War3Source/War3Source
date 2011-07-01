@@ -111,9 +111,18 @@ stock ValveGameEnum:War3_GetGame(){
 	return ValveGameEnum:tValveGame;
 }
 
-//L4D stuff
-stock bool:War3_IsL4DEngine(){
+
+// L4D stuff
+stock bool:War3_IsL4DEngine() {
 	return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
+}
+
+stock bool:War3_IsL4DZombieEntity(iEntity) {
+    if (War3_IsL4DEngine()) {
+        return (War3_IsCommonInfected(iEntity) || War3_IsWitch(iEntity));
+    }
+    
+    return false;
 }
 
 stock bool:War3_IsCommonInfected(iEntity)

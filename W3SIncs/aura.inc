@@ -8,7 +8,7 @@ native W3RegisterAura(String:auraShortName[],Float:distance,bool:trackotherteam=
 //set and unset a player if he has or no longer has the origin of the aura
 //removed if player disconnects
 //level (optional) is a integer for a priority system, such as teammate has level 1 heal wave and another teammate has level 4 heal wave
-//the player recieves the level heal wave and does not stack with level 1 heal wave
+//the player recieves the level 4 heal wave and does not stack with level 1 heal wave
 native W3SetAuraFromPlayer(tAuraID,client,bool:auraOriginatesFromPlayer=true,level=1);
 
 ///is this player under the influence of this aura?
