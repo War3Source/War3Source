@@ -1,5 +1,7 @@
 1.2.2
 
+B7
+
 Glider:
 	* Added new stock War3_PrecacheParticle(String:particlename[]) to precache particles
 		* Please note that this will not add the Particle to the download table automatically!
@@ -8,7 +10,7 @@ Glider:
 	* EXPERIMENTAL L4D2 SUPPORT! (I have not tested L4D1 and don't plan to anytime soon)
 		* TAKE EVERYTHING IN HERE WITH A GRAIN OF SALT!
 		* SOME OF THE THINGS ARE STILL BUGGY/NOT FULLY IMPLEMENTED YET!
-		* PLEASE REFER TO THE FORUMS FOR MORE INFORMATIONS!
+		* PLEASE REFER TO THE FORUMS FOR MORE INFORMATION!
 	
 	+ Engine/Addon Changes
 	* Added UI/hint.wav to the files that are supposed to be precached since it wasn't on L4D2
@@ -47,7 +49,7 @@ Glider:
 		* GetMaxBackupAmmo(const String:weapon[])
 			* Returns the max amount of ammo a gun can hold as backup. I have only added the values for l4d, so please port this for tf2/css/dod:s
 
-B7
+
 
 war3_hint_enabled 0/1 cvar for hint engine, why would you ever turn it off though? you can still see the votes.
 EXT: fixed possible startup hang on linux
