@@ -72,8 +72,6 @@ except first shot (first shot deals 50% of that damage),
 that means low rate of fire weapons like rocket launcher won't always reach 15 damage per second. 
 this algorithm may be changed later
 
-B6
-
 fixed naix leeching off self damage
 naix feast prints hp gained to console
 fixed incorrect semaphore behavior on linux, causing servers to hang after 20 seconds
