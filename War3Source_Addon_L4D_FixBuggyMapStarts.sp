@@ -56,7 +56,7 @@ stock bool:IsFuckedUpMap()
 	
 	if (StrEqual(mapName, "c2m1_highway") || StrEqual(mapName, "c1m1_hotel") ||
 		StrEqual(mapName, "c3m1_plankcountry") || StrEqual(mapName, "c4m1_milltown_a") || 
-		StrEqual(mapName, "c5m1_waterfront"))
+		StrEqual(mapName, "c5m1_waterfront") || StrEqual(mapName, "c2m3_coaster"))
 	{
 		return true;
 	}
