@@ -206,6 +206,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 		}
 		if(!g_CurDamageIsWarcraft && ValidPlayer(attacker)){
 			new Float:now=GetGameTime();
+			
 			new Float:value=now-LastDamageDealtTime[attacker];
 			if(value>1.0||value<0.0){
 				ChanceModifier[attacker]=1.0;

@@ -22,10 +22,6 @@ new reapplyspeed[MAXPLAYERSCUSTOM];
 
 //for debuff index, see constants, its in an enum
 new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
-//start loop for items only: i=1;i<MAXITEMS   
-//start loop for races only: i=MAXITEMS;i<MAXITEMS+MAXRACES]
-//buffs may be bool, float, or int
-//MAXITEMS+MAXRACES is last because we usually loop through this last index
 
 new BuffProperties[W3Buff][W3BuffProperties];
 
@@ -515,8 +511,10 @@ public OnGameFrame()
 				
 				
 				new Float:currentmaxspeed=GetEntDataFloat(client,m_OffsetSpeed);
+				//DP("speed %f, speedbefore %f , we set %f",currentmaxspeed,speedBefore[client],speedWeSet[client]);
 				if(currentmaxspeed!=speedWeSet[client]) ///SO DID engien set a new speed? copy that!! //TFIsDefaultMaxSpeed(client,currentmaxspeed)){ //ONLY IF NOT SET YET
-				{	//PrintToChatAll("3");
+				{	
+					//DP("detected newspeed %f was %f",currentmaxspeed,speedWeSet[client]);
 					speedBefore[client]=currentmaxspeed;
 					reapplyspeed[client]++;
 				}
@@ -526,6 +524,7 @@ public OnGameFrame()
 				//PrintToChat(client,"speed %f %s",currentmaxspeed, TFIsDefaultMaxSpeed(client,currentmaxspeed)?"T":"F");
 				if(reapplyspeed[client]>0)
 				{
+			//	DP("reapply");
 					reapplyspeed[client]=0;
 					///player frame tracking, if client speed is not what we set, we reapply speed
 					
@@ -534,15 +533,15 @@ public OnGameFrame()
 						
 						
 						
-						
-						if(	speedBefore[client]>10.0){ //reapply speed, using previous cached base speed, make sure the cache isnt' zero lol 
+					//	if(true||	speedBefore[client]>3.0){ //reapply speed, using previous cached base speed, make sure the cache isnt' zero lol 
 							new Float:speedmulti=1.0;
-							
+							//DP("before");
 							//new Float:speedadd=1.0;
 							if(!GetBuffHasOneTrue(client,bBuffDenyAll)){
 								speedmulti=GetBuffMaxFloat(client,fMaxSpeed);
 							}
 							if(GetBuffHasOneTrue(client,bStunned)||GetBuffHasOneTrue(client,bBashed)){
+							//DP("stunned or bashed");
 								speedmulti=0.0;
 							}
 							if(!GetBuffHasOneTrue(client,bSlowImmunity)){
@@ -551,11 +550,14 @@ public OnGameFrame()
 							}
 							//PrintToConsole(client,"speedmulti should be 1.0 %f %f",speedmulti,speedadd);
 							new Float:newmaxspeed=FloatMul(speedBefore[client],speedmulti);
-							
+							if(newmaxspeed<0.1){
+								newmaxspeed=0.1;
+							}
 							speedWeSet[client]=newmaxspeed;
 							SetEntDataFloat(client,m_OffsetSpeed,newmaxspeed,true);
 							
-						}
+							//DP("%f",newmaxspeed);
+					//	}
 					}
 					else{ //cs?
 											
@@ -641,7 +643,7 @@ SetBuff(client,W3Buff:buffindex,itemraceindex,value)
 	buffdebuff[client][buffindex][itemraceindex]=value;
 	
 	if(buffindex==fMaxSpeed||buffindex==fSlow||buffindex==bStunned||buffindex==bBashed){
-		reapplyspeed[client]++; //0th is the 0th item which is dummy, kludge here
+		reapplyspeed[client]++; 
 	}
 	
 	DoCalculateBuffCache(client,buffindex);
