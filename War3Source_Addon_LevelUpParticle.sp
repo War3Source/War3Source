@@ -46,7 +46,7 @@ public OnWar3Event(W3EVENT:event, client)
 		}
 		else if (War3_GetGame() == Game_CS)
 		{
-			CSParticle(client);
+			CSParticle(client, level);
 		}
 		else if (War3_IsL4DEngine())
 		{
@@ -63,7 +63,7 @@ public Action:TFParticle(const client, const level, const String:effectName[], c
 	new particle = CreateEntityByName("info_particle_system");
 	if (IsValidEdict(particle) && IsClientInGame(client))
 	{
-		decl String:tName[32], String:pName[12], Float:fPos[3];
+		decl String:tName[32], Float:fPos[3];
 		GetEntPropVector(client, Prop_Send, "m_vecOrigin", fPos);
 		fPos[2] -= 5.0;
 		TeleportEntity(particle, fPos, NULL_VECTOR, NULL_VECTOR);
@@ -93,13 +93,13 @@ public Action:TFParticle(const client, const level, const String:effectName[], c
 	}
 }
 // Create Effect for Counter Strike Source:
-public Action:CSParticle(const client)
+public Action:CSParticle(const client, const level)
 {
 	new particle = CreateEntityByName("env_smokestack");
 	if(IsValidEdict(particle) && IsClientInGame(client))
 	{
 		decl String:Name[32], Float:fPos[3];
-		Format(Name, sizeof(Name), "CSParticle_%i", client);
+		Format(Name, sizeof(Name), "CSParticle_%i_%i", client, level);
 		GetEntPropVector(client, Prop_Send, "m_vecOrigin", fPos);
 		fPos[2] += 28.0;
 		new Float:fAng[3] = {0.0, 0.0, 0.0};
