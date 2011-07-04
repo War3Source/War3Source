@@ -96,6 +96,9 @@ new W3ForwarededVars[W3ForwardedVarsEnum];
 public W3SetForwarededVar(index,value){
 	W3ForwarededVars[index]=value;
 }
+stock EXT(){
+	return W3ForwarededVars[EXTAvailable];
+}
 
 //INTERFACE ONLY VARIABLES, use for determining game type
 stock tValveGame;
@@ -551,8 +554,10 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3LogNotError");
 	MarkNativeAsOptional("CreateWar3GlobalError");
 	MarkNativeAsOptional("W3CreateEvent");
-	 
-
+	MarkNativeAsOptional("War3_SetDiamondsEXT");
+	MarkNativeAsOptional("War3_GetDiamondsEXT");
+	MarkNativeAsOptional("War3_GetOwnsItem2EXT");
+	MarkNativeAsOptional("War3_SetOwnsItem2EXT");
 }
 
 //Warcraft required executions, does common tasks, such as loading translations.
@@ -797,7 +802,8 @@ native W3GetMaxGold();
  * @return The return value will be 1 if they own it, if 0 they don't, if -1 then it failed.
  */
 native War3_GetOwnsItem(client,item);
-native War3_GetOwnsItem2(client,item);
+native War3_SetOwnsItem(client,item,bool:ownsitem);
+
 native W3GetItem2ExpireTime(client,item);
 native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
 
@@ -812,8 +818,22 @@ native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()
  * 
  *	ITEM IS NOT LOST AUTOMATICALLY ON DEATH  
  */
-native War3_SetOwnsItem(client,item,bool:ownsitem);
-native War3_SetOwnsItem2(client,item,bool:ownsitem);
+
+native War3_GetOwnsItem2EXT(client,item);
+
+native War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
+stock War3_GetOwnsItem2(client,item){
+	if(EXT()){
+		return War3_GetOwnsItem2EXT(client,item);
+	}
+	return 0;
+}
+stock War3_SetOwnsItem2(client,item,bool:ownsitem){
+	if(EXT()){
+		War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
+	}
+}
+
 
 
 
@@ -1534,8 +1554,21 @@ stock War3_SetGold(client,newgold){
 stock War3_GetGold(client){
 	return W3GetPlayerProp(client,PlayerGold);
 }
-native War3_SetDiamonds(client,newd);
-native War3_GetDiamonds(client);
+
+native War3_GetDiamondsEXT(client);
+native War3_SetDiamondsEXT(client,newd);
+
+stock War3_GetDiamonds(client){
+	if(W3ForwarededVars[EXTAvailable]){
+		return War3_GetDiamondsEXT(client);
+	}
+	return 0;
+}
+stock War3_SetDiamonds(client,newd){
+	if(W3ForwarededVars[EXTAvailable]){
+		War3_SetDiamondsEXT(client,newd);
+	}
+}
 
 native W3IsDeveloper(client);
 

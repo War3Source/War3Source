@@ -42,9 +42,11 @@ public OnWar3Event(W3EVENT:event,client){
 }
 public NW3SaveItem2ExpireTime(Handle:plugin,numParams)
 {
-	new client=GetNativeCell(1);
-	new item=GetNativeCell(2);
-	INTERNALSaveItem2ExpireTime(client,item);
+	if(EXT()){
+		new client=GetNativeCell(1);
+		new item=GetNativeCell(2);
+		INTERNALSaveItem2ExpireTime(client,item);
+	}
 }
 
 

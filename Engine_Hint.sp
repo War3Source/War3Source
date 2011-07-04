@@ -142,6 +142,10 @@ public Action:Time(Handle:t){
 }
 
 public OnGameFrame(){
+
+	
+	
+	
 	if(enabled){
 	//#define PROFILE
 	#if defined PROFILE

@@ -81,7 +81,9 @@ ConnectDB(){
 			g_SQLType=SQLType_Unknown;
 		}
 		PrintToServer("[War3Source] SQL connection successful, driver %s",driver_ident);
-		SQL_FastQuery(hDB, "SET NAMES \"UTF8\""); // 
+		SQL_LockDatabase(hDB);
+		SQL_FastQuery(hDB, "SET NAMES \"UTF8\""); 
+		SQL_UnlockDatabase(hDB);
 		W3SetVar(hDatabase,hDB);
 		W3SetVar(hDatabaseType,g_SQLType);
 		W3CreateEvent(DatabaseConnected,0);

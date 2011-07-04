@@ -144,10 +144,9 @@ enum W3EVENT
 }
 
 // Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
+
 enum W3ForwardedVarsEnum{
-	ValveGame, //cs tf2
-	W3Mode, //true false
-	SHMode, //true false
+	EXTAvailable,
 }
 
 //Used as constants...identifies why a player was rewarded XP/Gold

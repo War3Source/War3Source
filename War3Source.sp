@@ -335,7 +335,9 @@ public OnMapStart()
 	
 	
 	OneTimeForwards();
-
+	
+	CheckExtensionAvailable();
+	
 }
 
 ///test script

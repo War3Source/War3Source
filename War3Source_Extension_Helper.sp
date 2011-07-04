@@ -34,7 +34,7 @@ EXTH_IP ,
 EXTH_PORT,
 EXTH_TRANS
 };
-
+public ExtensionAvailable(){}
 public Plugin:myinfo= 
 {
 	name="War3Source Extension Wrapper",

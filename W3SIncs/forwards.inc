@@ -55,6 +55,7 @@ new Handle:g_OnSHEventDeathFH;
 new Handle:g_CheckCompatabilityFH;
 new Handle:g_War3InterfaceExecFH;
 
+new Handle:g_hfwdW3SetForwarededVar;
 
 ///END forwards
 
@@ -79,9 +80,42 @@ bool:War3Source_InitForwards()
 	g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
 	g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
 	
+	g_hfwdW3SetForwarededVar=CreateGlobalForward("War3InterfaceExec",ET_Ignore,Param_Cell,Param_Cell);
 	return true;
 }
+//mapstart
+CheckExtensionAvailable(){
+	///check if extension is loaded
+	new bool:available=false;
+	static Handle:found=Handle:-1;	
+	new Handle:pl;
+	if(found==Handle:-1){
+		new Handle:iter = GetPluginIterator();
+		while (MorePlugins(iter))
+		{
+			pl = ReadPlugin(iter);
+			if(GetFunctionByName(pl,"ExtensionAvailable")){
+				found=pl;
+				
+			}
+		}
+		CloseHandle(iter);
+	}
+	if(found>Handle:-1){
+		if(PluginStatus:GetPluginStatus(Handle:found)== Plugin_Running){
+			available=true;
+		}
+	}
+	else if(found==Handle:-1){
+		found=Handle:-2;
+	}
 
+	Call_StartForward(g_hfwdW3SetForwarededVar);
+	Call_PushCell(EXTAvailable);
+	Call_PushCell(available);
+	Call_Finish(dummyreturn);
+}
+//mapstart
 OneTimeForwards(){
 	Call_StartForward(g_CheckCompatabilityFH);
 	Call_PushString(interfaceVersion);
