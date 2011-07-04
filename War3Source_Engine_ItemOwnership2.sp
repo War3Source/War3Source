@@ -44,30 +44,10 @@ public bool:InitNativesForwards()
 	
 	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
 	CreateNative("GetMaxShopitemsPerPlayer",NGetMaxShopitemsPerPlayer);
-}
-/*
-public NWar3_GetOwnsItem(Handle:plugin,numParams)
-{
-	return _:playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)];
-
-}
-
-public NWar3_SetOwnsItem(Handle:plugin,numParams)
-{
-	new client=GetNativeCell(1);
-	new item=GetNativeCell(2);
-	new bool:hasownership=GetNativeCell(3);
 	
-	//new Handle:hDB=W3GetDBHandle();
-	//if(hDB){
-	
-	playerOwnsItem[client][item]=bool:hasownership;
-	//}
-	//else{
-	//	return false;
-	//}
 	return true;
-}*/
+}
+
 public NW3IsItemDisabledGlobal(Handle:plugin,numParams)
 {
 	new itemid=GetNativeCell(1);
