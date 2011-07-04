@@ -314,7 +314,7 @@ public OnWar3Event(W3EVENT:event,client){
 		W3SetPlayerProp(client,PendingRace,0);
 		War3_SetRace(client,0); //need the race change event fired
 		W3SetPlayerProp(client,PlayerGold,0);
-		W3SetPlayerProp(client,PlayerDiamonds,0);
+		War3_SetDiamonds(client,0);
 		W3SetPlayerProp(client,iMaxHP,0);
 		W3SetPlayerProp(client,bIsDucking,false);
 		

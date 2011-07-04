@@ -223,7 +223,7 @@ enum W3PlayerProp
 	CurrentRace,
 	PendingRace,
 	PlayerGold,
-	PlayerDiamonds,
+	DERPPRERPER,//PlayerDiamonds, //DRPECE
 	iMaxHP,
 	bIsDucking,
 	

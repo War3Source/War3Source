@@ -1534,12 +1534,8 @@ stock War3_SetGold(client,newgold){
 stock War3_GetGold(client){
 	return W3GetPlayerProp(client,PlayerGold);
 }
-stock War3_SetDiamonds(client,newd){
-	W3SetPlayerProp(client,PlayerDiamonds,newd);
-}
-stock War3_GetDiamonds(client){
-	return W3GetPlayerProp(client,PlayerDiamonds);
-}
+native War3_SetDiamonds(client,newd);
+native War3_GetDiamonds(client);
 
 native W3IsDeveloper(client);
 
