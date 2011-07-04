@@ -12,8 +12,6 @@
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
 
-new clientParticle[MAXPLAYERSCUSTOM];
-
 public Plugin:myinfo = 
 {
 	name = "W3S - Addon - Display Particles on Level Up",
@@ -25,19 +23,26 @@ public Plugin:myinfo =
 public OnMapStart()
 {
 	PrecacheModel("effects/combinemuzzle2.vmt");
-    if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
-    {
-        War3_PrecacheParticle("achieved");
-    }
+	if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
+	{
+		War3_PrecacheParticle("achieved");
+	}
 }
 
 public OnWar3Event(W3EVENT:event, client)
 {
 	if (event == PlayerLeveledUp)
 	{
+		new String:name[32];
+		GetClientName(client, name, sizeof(name));
+		new String:racename[32];
+		new race = War3_GetRace(client);
+		War3_GetRaceName(race, racename, sizeof(racename));
+		new level = War3_GetLevel(client, race);
+		
 		if (War3_GetGame() == Game_TF)
 		{
-			TFParticle(client, 0, "achieved", "partyhat");
+			TFParticle(client, level, "achieved", "partyhat");
 		}
 		else if (War3_GetGame() == Game_CS)
 		{
@@ -45,22 +50,17 @@ public OnWar3Event(W3EVENT:event, client)
 		}
 		else if (War3_IsL4DEngine())
 		{
+			// Glider: I never checked if l4d1 has this particle & attachment, l4d2 has 'em
 			TFParticle(client, 0, "achieved", "eyes");
 		}	
-		new String:name[32];
-		GetClientName(client,name,sizeof(name));
-		new String:racename[32];
-		new race=War3_GetRace(client);
-		War3_GetRaceName(race,racename,sizeof(racename));
-		War3_ChatMessage(0,"%s has leveled {lightgreen}%s{default} to {lightgreen}%d",name,racename,War3_GetLevel(client,race));
+		War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
 	}
 }
 
-// Create Particle for Team Fortress 2:
-public Action:TFParticle(const client, const particleNum, const String:effectName[], const String:attachTo[])
+// Create Particle for Team Fortress 2 & L4D2:
+public Action:TFParticle(const client, const level, const String:effectName[], const String:attachTo[])
 {
-	clientParticle[particleNum] = CreateEntityByName("info_particle_system");
-	new particle = clientParticle[particleNum];
+	new particle = CreateEntityByName("info_particle_system");
 	if (IsValidEdict(particle) && IsClientInGame(client))
 	{
 		decl String:tName[32], String:pName[12], Float:fPos[3];
@@ -69,12 +69,8 @@ public Action:TFParticle(const client, const particleNum, const String:effectNam
 		TeleportEntity(particle, fPos, NULL_VECTOR, NULL_VECTOR);
 		
 		// Set Entity Keys & Spawn Entity (make sure dispatched entity name does not already exist, otherwise it will not work!!)
-		Format(tName, sizeof(tName), "lvlup_cl_%i", client);
+		Format(tName, sizeof(tName), "lvlup_cl_%i_%i", client, level);
 		DispatchKeyValue(client, "targetname", tName);
-		
-		// Set Key Values
-		Format(pName, sizeof(pName), "lvlup_pe_%i_%i", particleNum, client);
-		DispatchKeyValue(particle, "targetname", pName);
 		DispatchKeyValue(particle, "parentname", tName);
 		DispatchKeyValue(particle, "effect_name", effectName);
 		DispatchSpawn(particle);
@@ -86,6 +82,10 @@ public Action:TFParticle(const client, const particleNum, const String:effectNam
 		AcceptEntityInput(particle, "SetParentAttachmentMaintainOffset", particle, particle, 0);
 		ActivateEntity(particle);
 		AcceptEntityInput(particle, "Start");
+		particle = EntIndexToEntRef(particle);
+		SetVariantString("OnUser1 !self:Kill::5.0:-1");
+		AcceptEntityInput(particle, "AddOutput");
+		AcceptEntityInput(particle, "FireUser1");
 	}
 	else
 	{
@@ -128,19 +128,13 @@ public Action:CSParticle(const client)
 		SetVariantString("!activator");
 		AcceptEntityInput(particle, "SetParent", client, particle, 0);
 		AcceptEntityInput(particle, "TurnOn");
-		CreateTimer(3.5, RemoveCSParticle, particle);
+		particle = EntIndexToEntRef(particle);
+		SetVariantString("OnUser1 !self:Kill::3.5:-1");
+		AcceptEntityInput(particle, "AddOutput");
+		AcceptEntityInput(particle, "FireUser1");
 	}
 	else
 	{
 		LogError("Failed to create env_smokestack!");
-	}
-}
-
-public Action:RemoveCSParticle(Handle:timer, any:particle)
-{
-	if(IsValidEdict(particle))
-	{
-		AcceptEntityInput(particle, "TurnOff");
-		AcceptEntityInput(particle, "Kill");
 	}
 }
