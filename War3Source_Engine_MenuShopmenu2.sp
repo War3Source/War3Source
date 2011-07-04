@@ -16,21 +16,17 @@ public Plugin:myinfo=
 };
 
 
-new Handle:hCvarMaxShopitems;
-
-
 public OnPluginStart()
 {
 	LoadTranslations("w3s.shopmenu2.phrases");
-	hCvarMaxShopitems=CreateConVar("war3_max_shopitems2","3");
 	
 }
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowShopMenu2){
-		//ShowMenuShop(client);
+		ShowMenuShop(client);
 		SetTrans(client); //required
-		W3ExtShowShop2(client);
+		//W3ExtShowShop2(client);
 	}
 	if(event==DoTriedToBuyItem2){ //via say?
 		InternalTriedToBuyItem2(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
@@ -243,18 +239,5 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 
 	
 
-GetClientItemsOwned(client){
-	new num=0;
-	new ItemsLoaded = W3GetItems2Loaded();
-	for(new i=1;i<=ItemsLoaded;i++){
-		if(War3_GetOwnsItem2(client,i)){
-			num++;
-		}
-	}
-	return num;
-}
-GetMaxShopitemsPerPlayer(){
-	return GetConVarInt(hCvarMaxShopitems);
-}
 	
 	

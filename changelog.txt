@@ -63,8 +63,6 @@ Glider 300611:
 war3_hint_enabled 0/1 cvar for hint engine, why would you ever turn it off though? you can still see the votes.
 EXT: fixed possible startup hang on linux
 
-REDUCED default chance modifiers of sentry shots and burn shots to 0.1 (from 0.125)
-
 crypt and naix now have chance modifiers implemented on posthurt
 fixed other chance modifiers
 

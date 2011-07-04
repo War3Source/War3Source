@@ -400,6 +400,7 @@ public OnWar3EventPostHurt(victim,attacker,dmgamount)
 		
 		new skilllevel=War3_GetSkillLevel(victim,thisRaceID,SKILL_REWIND);
 		//we do a chance roll here, and if its less than our limit (RewindChance) we proceede i a with u
+		// allow self damage rewind
 		if(War3_GetRace(victim)==thisRaceID && skilllevel>0&& War3_Chance(RewindChance[skilllevel]) && !W3HasImmunity(attacker,Immunity_Skills)&&!Hexed(victim)) //chance roll, and attacker isnt immune to skills
 		{
 			RewindHPAmount[victim]+=dmgamount;//we create this variable
@@ -410,7 +411,7 @@ public OnWar3EventPostHurt(victim,attacker,dmgamount)
 		
 		new race_attacker=War3_GetRace(attacker);
 		skilllevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_TIMELOCK);
-		if(race_attacker==thisRaceID && skilllevel > 0 )
+		if(race_attacker==thisRaceID && skilllevel > 0 && victim!=attacker)
 		{
 			if(War3_Chance(TimeLockChance[skilllevel])&& !W3HasImmunity(victim,Immunity_Skills) && !Stunned(victim)&&!Hexed(attacker))
 			{

@@ -749,7 +749,8 @@ native W3ExtShowShop2(client);
 //client must own item already
 native W3SaveItem2ExpireTime(client,itemid);
 
-
+native GetClientItemsOwned(client);
+native GetMaxShopitemsPerPlayer();
 
 
 

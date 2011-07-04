@@ -10,7 +10,7 @@ new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 
 new Handle:hitemRestrictionCvar;
-
+new Handle:hCvarMaxShopitems;
 public Plugin:myinfo= 
 {
 	name="W3S Engine Item2 Ownership",
@@ -25,7 +25,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
-
+	hCvarMaxShopitems=CreateConVar("war3_max_shopitems2","3");
 }
 
 public bool:InitNativesForwards()
@@ -33,17 +33,19 @@ public bool:InitNativesForwards()
 	g_OnItemPurchaseHandle=CreateGlobalForward("OnItem2Purchase",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnItemLostHandle=CreateGlobalForward("OnItem2Lost",ET_Ignore,Param_Cell,Param_Cell);
 
-	CreateNative("War3_GetOwnsItem2",NWar3_GetOwnsItem);
-	CreateNative("War3_SetOwnsItem2",NWar3_SetOwnsItem);
+
 	
 	CreateNative("W3IsItem2DisabledGlobal",NW3IsItemDisabledGlobal);
 	CreateNative("W3IsItem2DisabledForRace",NW3IsItemDisabledForRace);
 	
 	CreateNative("W3GetItem2ExpireTime",NW3GetItem2ExpireTime);
 	CreateNative("W3SetItem2ExpireTime",NW3SetItem2ExpireTime);
-	return true;
+	
+	
+	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
+	CreateNative("GetMaxShopitemsPerPlayer",NGetMaxShopitemsPerPlayer);
 }
-
+/*
 public NWar3_GetOwnsItem(Handle:plugin,numParams)
 {
 	return _:playerOwnsItem[GetNativeCell(1)][GetNativeCell(2)];
@@ -65,7 +67,7 @@ public NWar3_SetOwnsItem(Handle:plugin,numParams)
 	//	return false;
 	//}
 	return true;
-}
+}*/
 public NW3IsItemDisabledGlobal(Handle:plugin,numParams)
 {
 	new itemid=GetNativeCell(1);
@@ -202,4 +204,21 @@ CheckForRestrictedItemsOnRace(client)
 			
 		}
 	}*/
+}
+
+
+
+public NGetClientItemsOwned(Handle:h,n){
+	new client=GetNativeCell(1);
+	new num=0;
+	new ItemsLoaded = W3GetItems2Loaded();
+	for(new i=1;i<=ItemsLoaded;i++){
+		if(War3_GetOwnsItem2(client,i)){
+			num++;
+		}
+	}
+	return num;
+}
+public NGetMaxShopitemsPerPlayer(Handle:h,n){
+	return GetConVarInt(hCvarMaxShopitems);
 }
