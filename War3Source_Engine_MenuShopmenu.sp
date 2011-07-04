@@ -18,14 +18,9 @@ public Plugin:myinfo=
 new Handle:hBuyItemUseCSMoneCvar;
 
 
-new Handle:hCvarMaxShopitems;
-
-
 public OnPluginStart()
 {
 	hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money to buy shopmenu items");
-	
-	hCvarMaxShopitems=CreateConVar("war3_max_shopitems","3");
 	
 }
 
@@ -268,19 +263,3 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 bool:BuyUseCSMoney(){
 	return ((War3_GetGame()==CS)&&GetConVarInt(hBuyItemUseCSMoneCvar)>0)?true:false;
 }
-	
-GetClientItemsOwned(client){
-	new num=0;
-	new ItemsLoaded = W3GetItemsLoaded();
-	for(new i=1;i<=ItemsLoaded;i++){
-		if(War3_GetOwnsItem(client,i)){
-			num++;
-		}
-	}
-	return num;
-}
-GetMaxShopitemsPerPlayer(){
-	return GetConVarInt(hCvarMaxShopitems);
-}
-	
-	
