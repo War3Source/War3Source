@@ -11,6 +11,12 @@ Glider 010711:
 		* Check if a player is valid before checking if we should check immunitys
 		* Replaced some checks with War3_IsL4DZombieEntity
 
+TF2 Speed buff system fixed. It did not set speed to zero when intended, so we now set speed to 1.0000
+
+
+B6
+
+
 Glider 300611:
 	* Added new stock War3_PrecacheParticle(String:particlename[]) to precache particles
 		* Please note that this will not add the Particle to the download table automatically!
