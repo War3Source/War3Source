@@ -12,6 +12,8 @@ buffs for speed gravity and glow are calculated in a seprate engine
 moved claw damage to posthurt
 optimized shopitems 1 
 
+succubs assault tackle cooldown is now 10 (why it was at 3 idk)
+
 B7
 
 Glider 010711:

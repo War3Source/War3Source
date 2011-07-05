@@ -410,7 +410,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				*/
 				
 				SetEntDataVector(client,m_vecBaseVelocity,velocity,true);
-				War3_CooldownMGR(client,3.0,thisRaceID,SKILL_ASSAULT,_,_);
+				War3_CooldownMGR(client,10.0,thisRaceID,SKILL_ASSAULT,_,_);
 				
 				new String:wpnstr[32];
 				GetClientWeapon(client, wpnstr, 32);
