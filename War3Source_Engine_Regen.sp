@@ -23,16 +23,21 @@ public OnPluginStart()
 
 public OnGameFrame()
 {
+	decl Float:playervec[3];
+		
 	new Float:now=GetEngineTime();
 	for(new client=1;client<=MaxClients;client++)
 	{
 		if(ValidPlayer(client,true))
 		{
 			if(nextRegenTime[client]<now){
-				
-				new Float:fbuffsum=W3GetBuffSumFloat(client,fHPRegen);
+				new Float:fbuffsum=0.0;
+				if(!W3GetBuffHasTrue(client,bBuffDenyAll)){
+					fbuffsum+=W3GetBuffSumFloat(client,fHPRegen);
+				}
+				fbuffsum-=W3GetBuffSumFloat(client,fHPDecay);
 				//PrintToChat(client,"regein tick %f %f",fbuffsum,now);
-				if(fbuffsum>0.01){
+				if(fbuffsum>0.01){ //heal
 					War3_HealToMaxHP(client,1);  
 					
 					if(War3_GetGame()==TF){
@@ -46,7 +51,20 @@ public OnGameFrame()
 						}
 					}
 				}
-				new Float:nexttime=1.0/fbuffsum;
+				if(fbuffsum<0.01){ //decay
+					if(War3_GetGame()==Game_TF&&W3Chance(0.25)){
+						GetClientAbsOrigin(client,playervec);
+						War3_TF_ParticleToClient(0, GetClientTeam(client)==2?"healthlost_red":"healthlost_blu", playervec);
+					}
+					if(GetClientHealth(client)>1){
+						SetEntityHealth(client,GetClientHealth(client)-1);
+						
+					}
+					else{
+						War3_DealDamage(client,1,_,_,GameTF()?"bleed_kill":"damageovertime",_,W3DMGTYPE_TRUEDMG);
+					}
+				}
+				new Float:nexttime=FloatAbs(1.0/fbuffsum);
 				if(nexttime<2.0&&nexttime>0.01){
 					//ok we use this value
 					//DP("nexttime<1.0&&nexttime>0.01");

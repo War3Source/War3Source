@@ -320,8 +320,9 @@ enum W3Buff
 	
 
 	
-	fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second
-	
+	fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second ( 1 hp per 2 seconds)
+	fHPDecay, //float sum, NO NEGATIVES, postive means lose this much HP / second, same requirements as fHPRegen
+	fHPRegenDeny, //set true to deny hp regen
 	iAdditionalMaxHealth,   ///increase / decrease in maxhp
 	
 	
@@ -469,6 +470,12 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fHPRegen][DefaultValue]=0.0;
 	buffpropertiesarray[ fHPRegen][BuffStackType]=fAbsolute;	
+	
+	buffpropertiesarray[ fHPDecay][DefaultValue]=0.0;
+	buffpropertiesarray[ fHPDecay][BuffStackType]=fAbsolute;	
+	
+	buffpropertiesarray[ fHPRegenDeny][DefaultValue]=false;
+	buffpropertiesarray[ fHPRegenDeny][BuffStackType]=bHasOneTrue;	
 	
 	buffpropertiesarray[ iAdditionalMaxHealth ][DefaultValue]=0;
 	buffpropertiesarray[ iAdditionalMaxHealth ][BuffStackType]=iAbsolute;

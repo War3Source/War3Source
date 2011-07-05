@@ -1304,6 +1304,7 @@ stock W3ResetPlayerColor(client,raceid){
 }
 
 //getting buffs
+native W3GetBuffLoopLimit(); //buff loop size , item count + race count + others, loop from 0 to <this return value
 native any:W3GetBuff(client,W3Buff:buffindex,RaceIDorItemID,IPassedItemID=false);
 native bool:W3GetBuffHasTrue(client,W3Buff:buffindex); //does this buff have one true (activated?)
 native Float:W3GetBuffStackedFloat(client,W3Buff:buffindex); //get buff stacked value of an buff, use appropriately
@@ -1311,6 +1312,9 @@ native Float:W3GetBuffSumFloat(client,W3Buff:buffindex);
 native Float:W3GetBuffMinFloat(client,W3Buff:buffindex);
 native Float:W3GetBuffMaxFloat(client,W3Buff:buffindex);
 native W3GetBuffMinInt(client,W3Buff:buffindex);
+
+//calculate player speed next frame
+native W3ReapplySpeed(client);
 
 //DELAY TRACKER
 //DELAY TRACKER

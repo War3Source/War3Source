@@ -12,14 +12,6 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new m_OffsetClrRender;
-
-
-new m_OffsetGravity[MAXPLAYERSCUSTOM];
-new m_OffsetSpeed;
-
-new reapplyspeed[MAXPLAYERSCUSTOM];
-
 //for debuff index, see constants, its in an enum
 new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
 
@@ -27,9 +19,6 @@ new BuffProperties[W3Buff][W3BuffProperties];
 
 new any:BuffCached[MAXPLAYERSCUSTOM][W3Buff];// instead of looping, we cache everything in the last dimension, see enum W3BuffCache
 
-new bool:skiptest;
-
-stock halo;
 public Plugin:myinfo= 
 {
 	name="War3Source Buff System",
@@ -39,42 +28,17 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-new bool:invisWeaponAttachments[MAXPLAYERSCUSTOM];
-
 
 
 public OnPluginStart()
 {
-	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
-	
+
 	InitiateBuffPropertiesArray(BuffProperties);
 	
-	if(War3_GetGame()==Game_TF)
-	{
-		m_OffsetSpeed=FindSendPropOffs("CTFPlayer","m_flMaxspeed");
-	}
-	else
-		m_OffsetSpeed=FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue");
-	if(m_OffsetSpeed==-1)
-	{
-		PrintToServer("[War3Source] Error finding speed offset.");
-	}
-	
-	m_OffsetClrRender=FindSendPropOffs("CBaseAnimating","m_clrRender");
-	if(m_OffsetClrRender==-1)
-	{
-		PrintToServer("[War3Source] Error finding render color offset.");
-	}
-	
-	RegConsoleCmd("skipbufftest",cmdskipbufftest);
-	RegConsoleCmd("skipbufftestend",cmdskipbufftestend);
 	
 	RegConsoleCmd("bufflist",cmdbufflist);
 }
 
-public OnMapStart(){
-	halo=PrecacheModel("materials/sprites/halo01.vmt");
-}
 public bool:InitNativesForwards()
 {
 	
@@ -99,7 +63,7 @@ public bool:InitNativesForwards()
 	CreateNative("W3ResetAllBuffRace",NW3ResetAllBuffRace);
 	CreateNative("W3ResetBuffRace",NW3ResetBuffRace);
 	
-
+	CreateNative("W3GetBuffLoopLimit",NW3GetBuffLoopLimit);
 	return true;
 }
 ItemsPlusRacesLoaded(){
@@ -227,21 +191,12 @@ public NW3ResetBuffRace(Handle:plugin,numParams) {
 	
 	ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,W3GetItemsLoaded()+race);	
 }
-
-
-
-public Action:cmdskipbufftest(client,args){
-	if(W3IsDeveloper(client)){
-		skiptest=true;
-		ReplyToCommand(client,"buffs will now skip");
-	}
+public NW3GetBuffLoopLimit(Handle:plugin,numParams) {
+	return BuffLoopLimit();
 }
-public Action:cmdskipbufftestend(client,args){
-	if(W3IsDeveloper(client)){
-		skiptest=false;
-		ReplyToCommand(client,"ending buff skipping");
-	}
-}
+
+
+
 
 public Action:cmdbufflist(client,args){
 
@@ -267,7 +222,6 @@ public Action:cmdbufflist(client,args){
 
 
 public OnClientPutInServer(client){
-	m_OffsetGravity[client]=FindDataMapOffs(client,"m_flGravity");
 	
 	//reset all buffs for each race and item
 	for(new buffindex=0;buffindex<MaxBuffLoopLimit;buffindex++)
@@ -278,363 +232,10 @@ public OnClientPutInServer(client){
 
 	//SDKHook(client, SDKHook_PreThink, OnPreThink);
 	//SDKHook(client, SDKHook_PostThinkPost, OnPreThink);
-	SDKHook(client,SDKHook_PostThinkPost,SDK_Forwarded_PostThinkPost);
-}
-public SDK_Forwarded_PostThinkPost(client)
-{	
-	//does not work, flickers
-	/*if(ValidPlayer(client,true)){
-    	if(invisWeaponAttachments[client]){
-					
-				if(War3_GetGame()==CS){
-					
-					SetEntProp(client, Prop_Send, "m_iAddonBits", 0); //m_iAddonBits //"m_iPrimaryAddon" and "m_iSecondaryAddon
-					SetEntProp(client, Prop_Send, "m_iPrimaryAddon",0);
-					SetEntProp(client, Prop_Send, "m_iSecondaryAddon",0);
-					//if(W3Chance(0.1)){
-					ChangeEdictState(client,  0);
-						PrintToServer("m_iAddonBits %d %f",client,GetGameTime());
-					//}
-				}
-			}
-		}
-	}*/
-}
-
-new Float:speedBefore[MAXPLAYERSCUSTOM];
-new Float:speedWeSet[MAXPLAYERSCUSTOM];
-
-public Action:DeciSecondTimer(Handle:timer)
-{
-	if(!skiptest){
-		// Boy, this is going to be fun.
-		for(new client=1;client<=MaxClients;client++)
-		{
-			if(ValidPlayer(client,true))
-			{
-				
-		
-				//PrintToChatAll("sdf %d",client);
-				new Float:gravity=1.0; //default
-				if(!GetBuffHasOneTrue(client,bLowGravityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) //can we change gravity?
-				{
-					//if(!GetBuffHasOneTrue(client,bLowGravityDenySkill)){
-					new Float:gravity1=GetBuffMinFloat(client,fLowGravitySkill);
-					//}
-					//if(!GetBuffHasOneTrue(client,bLowGravityDenyItem)){
-					new Float:gravity2=GetBuffMinFloat(client,fLowGravityItem);
-					
-					gravity=gravity1<gravity2?gravity1:gravity2;
-					//}
-					//gravity=; //replace
-					//PrintToChat(client,"mingrav=%f",gravity);
-				}
-				///now lets set the grav
-				if(GetEntDataFloat(client,m_OffsetGravity[client])!=gravity) ///gravity offset is somewhoe different for each person? this offset is got on PutInServer
-					SetEntDataFloat(client,m_OffsetGravity[client],gravity);
-				
-				
-				new r=255,g=255,b=255,alpha=255;
-			//	new bool:skipinvis=false;
-				
-				new bestindex=-1;
-				new highestvalue=0;
-				new Float:settime=0.0;
-				
-				new limit=W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded();
-				for(new i=0;i<=limit;i++){
-					if(GetBuff(client,iGlowPriority,i)>highestvalue){
-						highestvalue=GetBuff(client,iGlowPriority,i);
-						bestindex=i;
-						settime=Float:GetBuff(client,fGlowSetTime,i);
-					}
-					else if(GetBuff(client,iGlowPriority,i)==highestvalue&&highestvalue>0){ //equal priority
-						if(GetBuff(client,fGlowSetTime,i)>settime){ //only if this one set it sooner
-							highestvalue=GetBuff(client,iGlowPriority,i);
-							bestindex=i;
-							settime=Float:GetBuff(client,fGlowSetTime,i);
-						}
-					}
-				}
-				if(bestindex>-1){
-					r=GetBuff(client,iGlowRed,bestindex);
-					g=GetBuff(client,iGlowGreen,bestindex);
-					b=GetBuff(client,iGlowBlue,bestindex);
-					alpha=GetBuff(client,iGlowAlpha,bestindex);
-				//	skipinvis=true;
-				}
-				
-				new bool:set=false;
-				if(GetPlayerR(client)!=r)
-					set=true;
-				if(GetPlayerG(client)!=g)
-					set=true;
-				if(GetPlayerB(client)!=b)
-					set=true;
-				//alpha set is after invis block, not here
-				if(set){
-					//	PrintToChatAll("%d %d %d %d",r,g,b,alpha);
-					SetPlayerRGB(client,r,g,b);
-				}
-				
-				
-				
-				
-				
-				///invisbility!
-				//PrintToChatAll("GetBuffMinFloat(client,fInvisibility) %f %f %f ",GetBuffMinFloat(client,fInvisibility),float(alpha),float(alpha)*GetBuffMinFloat(client,fInvisibility));
-				if(!GetBuffHasOneTrue(client,bInvisibilityDenyAll)&&!GetBuffHasOneTrue(client,bBuffDenyAll)) ///buff is not denied
-				{
-					new Float:falpha=1.0;
-					if(!GetBuffHasOneTrue(client,bInvisibilityDenySkill))
-					{
-						falpha=FloatMul(falpha,GetBuffMinFloat(client,fInvisibilitySkill));
-						
-					}
-					//if(!GetBuffHasOneTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
-					new Float:itemalpha=GetBuffMinFloat(client,fInvisibilityItem);
-					if(falpha!=1.0){
-						//PrintToChatAll("has skill invis");
-						//has skill, reduce stack
-						itemalpha=Pow(itemalpha,0.75);
-					}
-					falpha=FloatMul(falpha,itemalpha);
-					
-					//PrintToChatAll("%f",GetBuffMinFloat(client,fInvisibilityItem));
-					
-					new alpha2=RoundFloat(       FloatMul(255.0,falpha)  ); 
-					//PrintToChatAll("alpha2 = %d",alpha2);
-					if(alpha2>=0&&alpha2<=255){
-						alpha=alpha2;
-					}
-					else{
-						LogError("alpha playertracking out of bounds 0 - 255");
-					}
-				}
-				//PrintToChatAll("%d",alpha);
-				if(GetEntityAlpha(client)!=alpha)
-					SetEntityAlpha(client,alpha);
-					
-				invisWeaponAttachments[client]=alpha<200?true:false;
-				
-					
-					
-					
-				new wpn=W3GetCurrentWeaponEnt(client);
-				if(wpn>0){
-					if(GetBuffHasOneTrue(client,bInvisWeaponOverride)){
-						new alphaw=-1;
-						new buffloop = BuffLoopLimit();
-						for(new i=0;i<=buffloop;i++){
-							if(W3GetBuff(client,bInvisWeaponOverride,i,true)){
-								alphaw=W3GetBuff(client,iInvisWeaponOverrideAmount,i,true);
-							}
-						}
-						if(alphaw==-1){
-							ThrowError("could not find a valid weapon alpha");
-						}
-						if(GetWeaponAlpha(client)!=alphaw){
-							SetEntityAlpha(wpn,alphaw);
-						}
-					}
-					else if(!GetBuffHasOneTrue(client,bDoNotInvisWeapon)){
-						if(GetWeaponAlpha(client)!=alpha){
-							SetEntityAlpha(wpn,alpha);
-							
-						}
-					}
-					
-				}
-				
-				
-				/*for(new i=0;i<10;i++){
-					new ent=GetPlayerWeaponSlot(client,i);
-					if(ent>0){
-						PrintToChatAll("2 ent %d %d %d",ent,GetEntityAlpha(ent),alpha);
-						if(GetEntityAlpha(ent)!=alpha)
-						{
-							PrintToChatAll("3");
-							
-							
-			
-							SetEntityRenderMode(ent,RENDER_NONE);
-							SetEntityRenderFx(ent,RENDERFX_FADE_FAST);
-							SetEntityRenderColor(ent,0,0,0,0);	
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iParentAttachment"),0,_,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","moveparent"),0,_,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","movetype"),0,_,true);
-							
-							TeleportEntity(ent,Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0},Float:{0.0,0.0,0.0});
-							//SetEntityAlpha(ent,alpha);
-							TE_SetupKillPlayerAttachments(client);
-							TE_SendToAll();
-							TE_SetupKillPlayerAttachments(ent);
-							TE_SendToAll();
-							ChangeEdictState(ent);
-							
-							
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bIsPlayerSimulated")  ,0,1,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bSimulatedEveryTick")  ,0,1,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0,1,true);
-							SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flAnimTime") ,0.0,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_bAnimatedEveryTick") ,0.0,_,true);
-							SetEntDataFloat(ent,FindSendPropOffs("CWeaponCSBaseGun","m_flSimulationTime") ,0.0,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nNextThinkTick") ,9999,true);
-							
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iViewModelIndex")  ,halo,1,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_iWorldModelIndex")  ,halo,1,true);
-							SetEntData(ent,FindSendPropOffs("CWeaponCSBaseGun","m_nModelIndex")  ,halo,1,true);
-							
-							
-							
-							PrintToChatAll("weapon alpha %d %f",alpha,GetGameTime());
-						}
-					}
-				}*/
-				
-				///NEED 4 SPEED!
-				///SPEED IS IN PLAYER FRAME	
-			}
-		}
-	}
+	//SDKHook(client,SDKHook_PostThinkPost,SDK_Forwarded_PostThinkPost);
 }
 
 
-public OnGameFrame()
-{
-	if(!skiptest){
-		for(new client=1;client<=MaxClients;client++)
-		{
-			if(ValidPlayer(client,true))//&&!bIgnoreTrackGF[client])
-			{
-				
-				
-				new Float:currentmaxspeed=GetEntDataFloat(client,m_OffsetSpeed);
-				//DP("speed %f, speedbefore %f , we set %f",currentmaxspeed,speedBefore[client],speedWeSet[client]);
-				if(currentmaxspeed!=speedWeSet[client]) ///SO DID engien set a new speed? copy that!! //TFIsDefaultMaxSpeed(client,currentmaxspeed)){ //ONLY IF NOT SET YET
-				{	
-					//DP("detected newspeed %f was %f",currentmaxspeed,speedWeSet[client]);
-					speedBefore[client]=currentmaxspeed;
-					reapplyspeed[client]++;
-				}
-				
-				
-				
-				//PrintToChat(client,"speed %f %s",currentmaxspeed, TFIsDefaultMaxSpeed(client,currentmaxspeed)?"T":"F");
-				if(reapplyspeed[client]>0)
-				{
-			//	DP("reapply");
-					reapplyspeed[client]=0;
-					///player frame tracking, if client speed is not what we set, we reapply speed
-					
-					//PrintToChatAll("1");
-					if(War3_GetGame()==Game_TF){
-						
-						
-						
-					//	if(true||	speedBefore[client]>3.0){ //reapply speed, using previous cached base speed, make sure the cache isnt' zero lol 
-							new Float:speedmulti=1.0;
-							//DP("before");
-							//new Float:speedadd=1.0;
-							if(!GetBuffHasOneTrue(client,bBuffDenyAll)){
-								speedmulti=GetBuffMaxFloat(client,fMaxSpeed);
-							}
-							if(GetBuffHasOneTrue(client,bStunned)||GetBuffHasOneTrue(client,bBashed)){
-							//DP("stunned or bashed");
-								speedmulti=0.0;
-							}
-							if(!GetBuffHasOneTrue(client,bSlowImmunity)){
-								speedmulti=FloatMul(speedmulti,GetBuffStackedFloat(client,fSlow)); 
-								speedmulti=FloatMul(speedmulti,GetBuffStackedFloat(client,fSlow2)); 
-							}
-							//PrintToConsole(client,"speedmulti should be 1.0 %f %f",speedmulti,speedadd);
-							new Float:newmaxspeed=FloatMul(speedBefore[client],speedmulti);
-							if(newmaxspeed<0.1){
-								newmaxspeed=0.1;
-							}
-							speedWeSet[client]=newmaxspeed;
-							SetEntDataFloat(client,m_OffsetSpeed,newmaxspeed,true);
-							
-							//DP("%f",newmaxspeed);
-					//	}
-					}
-					else{ //cs?
-											
-						new Float:speedmulti=1.0;
-						
-						//new Float:speedadd=1.0;
-						if(!GetBuffHasOneTrue(client,bBuffDenyAll)){
-							new Float:speedmulti1=GetBuffMaxFloat(client,fMaxSpeed);
-							new Float:speedmulti2=GetBuffMaxFloat(client,fMaxSpeed2);
-							speedmulti=speedmulti1+(speedmulti2-1.0); ///1.0 + 1.0 - 1.0 = 1.0
-						}
-						if(GetBuffHasOneTrue(client,bStunned)||GetBuffHasOneTrue(client,bBashed)){
-							speedmulti=0.0;
-						}
-						if(!GetBuffHasOneTrue(client,bSlowImmunity)){
-							speedmulti=FloatMul(speedmulti,GetBuffStackedFloat(client,fSlow)); 
-							speedmulti=FloatMul(speedmulti,GetBuffStackedFloat(client,fSlow2)); 
-						}
-						
-						if(GetEntDataFloat(client,m_OffsetSpeed)!=speedmulti){
-							SetEntDataFloat(client,m_OffsetSpeed,speedmulti);
-						}
-					}
-				}
-				
-				
-				
-				new MoveType:currentmovetype=GetEntityMoveType(client);
-				new MoveType:shouldmoveas=MOVETYPE_WALK;
-				if(GetBuffHasOneTrue(client,bNoMoveMode)){
-					shouldmoveas=MOVETYPE_NONE;
-				}
-				if(GetBuffHasOneTrue(client,bNoClipMode)){
-					shouldmoveas=MOVETYPE_NOCLIP;
-				}
-				else if(GetBuffHasOneTrue(client,bFlyMode)&&!GetBuffHasOneTrue(client,bFlyModeDeny)){
-					shouldmoveas=MOVETYPE_FLY;
-				}
-				
-				/* Glider (290611): 
-				 * 		I have implemented a extremly dirty way to prevent some
-				 *      shit that goes wrong in L4D2.
-				 *         
-				 *      If a tank tries to climb a object, he changes his
-				 *      move type. This code prevented them from ever
-				 *      climbing anything.
-				 *         
-				 *      Players also change their move type when they get
-				 *      hit so hard they stagger into a direction, making
-				 *      them move slower. This code made them stagger much
-				 *      faster, resulting in crossing a much larger distance
-				 *      (usually right into some pit).
-				 *         
-				 *      TODO: Fix properly ;)
-				 */
-				
-				if(currentmovetype!=shouldmoveas && !War3_IsL4DEngine()){
-					SetEntityMoveType(client,shouldmoveas);
-				}
-				//PrintToChatAll("end");
-			}
-		}
-	}
-}
-public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
-{
-	if(!skiptest&&ValidPlayer(client,true)){ //block attack
-		if(GetBuffHasOneTrue(client,bStunned)||GetBuffHasOneTrue(client,bDisarm)){
-			if((buttons & IN_ATTACK) || (buttons & IN_ATTACK2))
-			{
-				buttons &= ~IN_ATTACK;
-				buttons &= ~IN_ATTACK2;
-			}
-		}
-	}
-	return Plugin_Continue;
-}
 
 
 SetBuff(client,W3Buff:buffindex,itemraceindex,value)
@@ -643,14 +244,15 @@ SetBuff(client,W3Buff:buffindex,itemraceindex,value)
 	buffdebuff[client][buffindex][itemraceindex]=value;
 	
 	if(buffindex==fMaxSpeed||buffindex==fSlow||buffindex==bStunned||buffindex==bBashed){
-		reapplyspeed[client]++; 
+		W3ReapplySpeed(client); 
 	}
 	
 	DoCalculateBuffCache(client,buffindex);
 }
+/*
 GetBuff(client,W3Buff:buffindex,itemraceindex){
 	return buffdebuff[client][buffindex][itemraceindex];
-}
+}*/
 ///REMOVE SINGLE BUFF FROM ALL RACES
 ResetBuff(client,W3Buff:buffindex){
 	
@@ -663,7 +265,7 @@ ResetBuff(client,W3Buff:buffindex){
 			
 			DoCalculateBuffCache(client,buffindex);
 		}
-		reapplyspeed[client]++;
+		W3ReapplySpeed(client);
 
 	}
 }
@@ -674,7 +276,7 @@ ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,particularraceitemindex){
 		buffdebuff[client][buffindex][particularraceitemindex]=BuffDefault(buffindex);
 		
 		DoCalculateBuffCache(client,buffindex);
-		reapplyspeed[client]++;
+		W3ReapplySpeed(client);
 	}
 }
 

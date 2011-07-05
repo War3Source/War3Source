@@ -1,4 +1,13 @@
 1.2.2
+B8
+
+fHPDecay buff for continuous loss of HP, no proper kill credits yet
+Sacred Warrrior now uses fHPRegen buff and fHPDecay
+Soul reaper now uses Aura tracking and fHPDecay
+
+SMBatchCompile.exe updated, using compile.exe to compile. .sp files are randomly spread across 4 compile threads
+
+buffs for speed gravity and glow are calculated in a seprate engine
 
 B7
 

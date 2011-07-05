@@ -29,9 +29,8 @@ new JudgementAmount[5]={0,10,20,30,40};
 new Float:JudgementCooldownTime=10.0;
 new Float:JudgementRange=200.0;
 
-new PresenseSkipAmount[5]={0,4,3,2,1}; //skip per .5 seconds
+new Float:PresenseAmount[5]={0.0,0.5,1.0,1.5,2.0}; 
 new Float:PresenceRange=400.0;
-new PresenceSkipPlayer[MAXPLAYERSCUSTOM];
 
 new InhumanAmount[5]={0,5,10,15,20};
 new Float:InhumanRange=400.0;
@@ -42,7 +41,7 @@ new Float:ultiDamageMulti[5]={0.0,0.4,0.6,0.8,1.0};
 new String:judgesnd[]="war3source/sr/judgement.mp3";
 
 new String:ultsnd[]="war3source/sr/ult.mp3";
-
+new AuraID;
 
 public Plugin:myinfo = 
 {
@@ -58,7 +57,6 @@ public OnPluginStart()
 	HookEvent("player_death",PlayerDeathEvent);
 	
 	ultCooldownCvar=CreateConVar("war3_sr_ult_cooldown","20","Cooldown time for CD ult overload.");
-	CreateTimer(0.5,PresenceLoop,_,TIMER_REPEAT);
 	
 	LoadTranslations("w3s.race.sr.phrases");
 }
@@ -73,6 +71,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_INHUMAN=War3_AddRaceSkillT(thisRaceID,"InhumanNature",false,4);
 		ULT_EXECUTE=War3_AddRaceSkillT(thisRaceID,"DemonicExecution",true,4); 
 		War3_CreateRaceEnd(thisRaceID);
+		
+		AuraID=W3RegisterAura("witheringpresense",PresenceRange,true);
 	}
 }
 
@@ -169,54 +169,27 @@ public OnUltimateCommand(client,race,bool:pressed)
 	}
 }
 
-public Action:PresenceLoop(Handle:h,any:a)
+
+
+CheckAura(client){
+	new level=War3_GetSkillLevel(client,thisRaceID,SKILL_PRESENCE);
+	W3SetAuraFromPlayer(client,AuraID,level>0?true:false,level);
+}
+public OnRaceChanged(client,oldrace,newrace)
 {
-	if(thisRaceID>0){
-		//PrintToChatAll("sd");
-		decl team;
-		decl skilllevel;
-		decl Float:playervec[3];
-		decl Float:othervec[3];
-		
-		for(new client=1;client<=MaxClients;client++)
-		{
-			if(PresenceSkipPlayer[client]>0){
-				PresenceSkipPlayer[client]--;
-			}
-			
-			if(PresenceSkipPlayer[client]<=0&&ValidPlayer(client,true)&&War3_GetRace(client)==thisRaceID)
-			{
-				skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_PRESENCE);
-				if(skilllevel>0&&!Hexed(client,false)){
-					team=GetClientTeam(client);
-					GetClientAbsOrigin(client,playervec);
-					for(new target=1;target<=MaxClients;target++)
-					{
-						if(ValidPlayer(target,true)&&!W3HasImmunity(target,Immunity_Skills)&&GetClientTeam(target)!=team)
-						{
-							GetClientAbsOrigin(target,othervec);
-							if(GetVectorDistance(playervec,othervec)<PresenceRange)
-							{
-								PresenceSkipPlayer[client]=PresenseSkipAmount[skilllevel];
-								
-								if(War3_GetGame()==Game_TF&&W3Chance(0.25)){
-									War3_TF_ParticleToClient(0, GetClientTeam(target)==2?"healthlost_red":"healthlost_blu", othervec);
-								}
-								//PrintToChatAll("%f dmg 1",GetGameTime());
-								if(GetClientHealth(target)>1){
-									SetEntityHealth(target,GetClientHealth(target)-1);
-									
-								}
-								else{
-									War3_DealDamage(target,1,client,_,"witheringpresence",_,W3DMGTYPE_TRUEDMG);
-									
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+	if(newrace==thisRaceID)
+	{
+		CheckAura(client);
+	}
+	else if(oldrace==thisRaceID){
+		W3SetAuraFromPlayer(client,AuraID,false);
+	}
+}
+public OnSkillLevelChanged(client,race,skill,newskilllevel)
+{
+	if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
+	{
+		CheckAura(client);
 	}
 }
 
@@ -252,5 +225,14 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		//}
 
 		
+	}
+}
+
+public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
+{
+	if(aura==AuraID)
+	{
+		War3_SetBuff(client,fHPDecay,thisRaceID,inAura?PresenseAmount[level]:0.0);
+		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
 	}
 }
