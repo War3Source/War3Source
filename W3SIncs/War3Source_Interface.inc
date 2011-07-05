@@ -2350,6 +2350,7 @@ stock W3PrintSkillDmgConsole(victim=0,attacker,damage,skillnum){
 	
 	if(victim>0){
 		SetTrans(victim);
+		W3GetRaceSkillName(race,skillnum,skillname,sizeof(skillname)); //get trans again
 		GetClientName(attacker,zzname,sizeof(zzname));
 		PrintToConsole(victim,"%T","[W3S] {player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
 	}
@@ -2365,6 +2366,8 @@ stock W3PrintSkillDmgHint(victim=0,attacker,damage,SKILLNUM){
 	PrintHintText(attacker,"%T","+{amount} damage with {skill}",attacker,damage,skillname);
 	
 	if(victim>0){
+		SetTrans(victim);
+		W3GetRaceSkillName(race,SKILLNUM,skillname,sizeof(skillname));
 		PrintHintText(victim,"%T","Received {amount} damage from {skill}",victim,damage,skillname);
 	}
 }
@@ -2378,6 +2381,8 @@ stock W3PrintSkillDmgHintConsole(victim=0,attacker,damage,SKILLNUM){
 //prints [war3 tag] You did %d damage to %name with SKILLNAME
 //prints [war3 tag] %name did %d damage to you with SKILLNAME
 ///automatically goes into console
+//removed in favor of console and hint
+/*
 stock W3PrintSkillDmgChat(victim,attacker,damage,String:skillname[]){
 	GetClientName(victim,zzname,sizeof(zzname));
 	War3_ChatMessage(attacker,"%T","You did +{amount} damage to {player} with {skill}",attacker,damage,zzname,skillname);
@@ -2387,7 +2392,7 @@ stock W3PrintSkillDmgChat(victim,attacker,damage,String:skillname[]){
 		War3_ChatMessage(victim,"%T","{player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
 	}
 }
-
+*/
 
 stock W3MsgUltNotLeveled(client){
 	new String:buffer[100];
@@ -2412,11 +2417,8 @@ stock W3MsgNoTargetFound(client,Float:distancegameunits=0.0){
 stock W3MsgCreatedWard(client,currentwardcount=0,totalwardcount=0){
 	decl String:print[500];
 	Format(print,sizeof(print),"%T","You created a Ward",client);
-	if(currentwardcount>0){
-		Format(print,sizeof(print),"%T","You created a Ward {amount}",client,currentwardcount);
-		if(totalwardcount>0){
-			Format(print,sizeof(print),"%T","You created a Ward {amount}/{amount}",client,currentwardcount,totalwardcount);
-		}
+	if(totalwardcount>0){
+		Format(print,sizeof(print),"%T","You created a Ward {amount}/{amount}",client,currentwardcount,totalwardcount);
 	}
 	PrintHintText(client,"%s",print);
 }
@@ -2530,13 +2532,12 @@ stock DP(const String:szMessage[], any:...)
 	PrintToChatAll("[Debug Print] %s", szBuffer);
 
 }
+//prring plugin
 stock DPP(Plugin:plugin)
 {
 	new String:szBuffer[1000];
-GetPluginFilename(Handle:plugin, szBuffer,sizeof(szBuffer));
-	PrintToServer("[Debug PrintP] %s", szBuffer);
-	PrintToChatAll("[Debug PrintP] %s", szBuffer);
-
+	GetPluginFilename(Handle:plugin, szBuffer,sizeof(szBuffer));
+	DP("[Debug PrintP] %s", szBuffer);
 }
 
 stock PrintPlugin(Handle:plugin){
