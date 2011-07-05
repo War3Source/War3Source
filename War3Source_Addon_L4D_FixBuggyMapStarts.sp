@@ -68,8 +68,10 @@ stock bool:IsFuckedUpMap()
 startNewTimer()
 {
 	killAll();
-	
-	if ( IsFuckedUpMap() )
+	decl String:GameName[16];
+	GetConVarString(FindConVar("mp_gamemode"), GameName, sizeof(GameName));
+		
+	if ( !StrEqual(GameName, "survival", false) && IsFuckedUpMap() )
 	{
 		fixTimer = CreateTimer(0.1, FixRaceTimer, _, TIMER_REPEAT);
 		killTimer = CreateTimer(120.0, TimerKiller, _, TIMER_REPEAT);
