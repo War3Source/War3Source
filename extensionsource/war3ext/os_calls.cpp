@@ -17,14 +17,13 @@
 
 void* LoadSharedLibraryCustom(char *pcDllname, int iMode )
 {
-    std::string sDllName = pcDllname;
+    std::string sDllName(pcDllname);
     #if defined(_MSC_VER) // Microsoft compiler
     	sDllName += ".dll";
-	strcat (pcDllname,".dll");
-        return (void*)LoadLibrary(pcDllname);
+        return (void*)LoadLibrary(sDllName.c_str());
+
     #elif defined(__GNUC__) // GNU compiler
     	sDllName += ".so";
-	strcat (pcDllname,".so");
         return dlopen(sDllName.c_str(),iMode);
     #endif
 }

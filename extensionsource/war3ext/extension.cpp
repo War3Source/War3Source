@@ -138,6 +138,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 		#if defined(__GNUC__)
 		ERR("%s",dlerror());
 		#endif
+		ERR("GetLastError %d",GetLastError());
 		//cleanupmetamod();
 		return false;
     }
