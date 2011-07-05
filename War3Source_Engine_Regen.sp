@@ -51,7 +51,7 @@ public OnGameFrame()
 						}
 					}
 				}
-				if(fbuffsum<0.01){ //decay
+				if(fbuffsum<-0.01){ //decay
 					if(War3_GetGame()==Game_TF&&W3Chance(0.25)){
 						GetClientAbsOrigin(client,playervec);
 						War3_TF_ParticleToClient(0, GetClientTeam(client)==2?"healthlost_red":"healthlost_blu", playervec);
