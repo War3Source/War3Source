@@ -6,7 +6,7 @@
 public Plugin:myinfo = 
 {
 	name = "Race - Hammerstorm",
-	author = "Ted Theodore Logan",
+	author = "Glider",
 	description = "Hammerstorm (The Rogue Knight) race for War3Source.",
 	version = "1.2",
 };

@@ -526,9 +526,9 @@ fixed night elf evading and dealing thorns damage
 fixed cooldown ready when u dont have skill for race with spawn cooldown
 translated cooldown
 
-Mask no longer grants health when dealing damage to self (thanks to Foolishfox)
+Mask no longer grants health when dealing damage to self (thanks to Glider)
 
-resetskills will queue for next death (Foolishfox)
+resetskills will queue for next death (Glider)
 
 B8
 

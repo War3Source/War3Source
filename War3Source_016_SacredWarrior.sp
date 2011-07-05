@@ -6,7 +6,7 @@
 public Plugin:myinfo = 
 {
 	name = "Race - Sacred Warrior",
-	author = "Ted Theodore Logan / modified by Ownz (DarkEnergy)",
+	author = "Glider / modified by Ownz (DarkEnergy)",
 	description = "The Sacred Warrior race for War3Source.",
 	version = "1.1",
 };

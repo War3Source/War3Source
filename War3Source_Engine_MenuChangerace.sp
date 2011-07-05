@@ -4,6 +4,7 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+#include "W3SIncs/War3Source_L4D_Interface"
 
 
 new Handle:g_hGameMode;
@@ -41,6 +42,14 @@ public OnPluginStart()
 		if(!HookEventEx("player_left_checkpoint", War3Source_LeaveCheckEvent))
 		{
 			PrintToServer("[War3Source] Could not hook the player_left_checkpoint event.");
+		}
+		if(!HookEventEx("player_entered_start_area", War3Source_EnterCheckEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_entered_start_area event.");
+		}
+		if(!HookEventEx("player_left_start_area", War3Source_LeaveCheckEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_left_start_area event.");
 		}
 	 }
 }

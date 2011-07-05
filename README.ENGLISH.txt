@@ -63,6 +63,6 @@ Schmarotzer
 Frenzzy
 
 L4D compatibility
-Glider / Ted "Theodore" Logan
+Glider
 
 

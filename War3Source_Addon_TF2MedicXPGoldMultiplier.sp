@@ -12,7 +12,7 @@ new Handle:GoldMultiplierCVar;
 public Plugin:myinfo = 
 {
     name = "W3S - Addon - Additional Medic XP/Gold",
-    author = "Ted Theodore Logan",
+    author = "Glider",
     description = "Give medics more XP and gold when they assist someone",
     version = "1.2",
 };
