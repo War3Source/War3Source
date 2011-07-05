@@ -155,12 +155,12 @@ public Native_W3ChanceModifier(Handle:plugin,numParams)
 	new attacker=GetNativeCell(1);
 	//new inflictor=W3GetDamageInflictor();
 	//new damagetype=W3GetDamageType();
-	if(attacker<=0 || attacker>MaxClients || !IsValidEdict(attacker)){
+	if(!GameTF()||attacker<=0 || attacker>MaxClients || !IsValidEdict(attacker)){
 		return _:1.0;
 	}
 	
 	
-	return _:1.0;
+	return _:ChanceModifier[attacker];
 }
 
 
@@ -172,7 +172,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 	
 	// If we got a l4d infected or witch then this continues instead of checking
 	// if its alive since that is not a player and therefor IsPlayerAlive fails
-	if(War3_IsL4DZombieEntity || (IsPlayerAlive(victim) && ValidPlayer(victim))){
+	if(War3_IsL4DZombieEntity(victim) ||  ValidPlayer(victim,true)){
 		//store old variables on local stack!
 	
 		new old_DamageType= g_CurDamageType;

@@ -620,90 +620,83 @@ public Action:NoLongerSpawnedViaScroll(Handle:t,any:client){
 	bSpawnedViaScrollRespawn[client]=false;
 }
 
-public OnW3TakeDmgBullet(victim,attacker,Float:damage)
-{
-	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
-	{
-		new vteam=GetClientTeam(victim);
-		new ateam=GetClientTeam(attacker);
-		if(vteam!=ateam)
-		{
 
-			if(W3Chance(W3ChanceModifier(attacker)))
+
+public OnWar3EventPostHurt(victim,attacker,damage){
+	if(W3GetDamageIsBullet()&&ValidPlayer(victim)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
+	{
+	
+		//new vteam=GetClientTeam(victim);
+		//new ateam=GetClientTeam(attacker);
+		
+		if(!W3HasImmunity(victim,Immunity_Items)&&!Perplexed(attacker))
+		{
+			if(War3_GetOwnsItem(attacker,shopItem[CLAW])) // claws of attack
 			{
-				if(!W3HasImmunity(victim,Immunity_Items))
-				{
-					if(War3_GetOwnsItem(attacker,shopItem[CLAW])&&!Perplexed(attacker)) // claws of attack
-					{
-						new Float:dmg=GetConVarFloat(ClawsAttackCvar);
-						if(dmg<0.0) 	dmg=0.0;
-						
-						//SetEntityHealth(victim,new_hp);
-						if(GameTF()){
-							if(W3ChanceModifier(attacker)<0.99){
-							dmg*=W3ChanceModifier(attacker);
-							}
-							else{
-								dmg*=0.50;
-							}
-						}
-					//	DP("%f",dmg);
-						War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
-						
-						PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
+				new Float:dmg=GetConVarFloat(ClawsAttackCvar);
+				if(dmg<0.0) 	dmg=0.0;
+				
+				//SetEntityHealth(victim,new_hp);
+				if(GameTF()){
+					//DP("%f",W3ChanceModifier(attacker));
+					if(W3ChanceModifier(attacker)<0.99){
+					dmg*=W3ChanceModifier(attacker);
 					}
-					
-					if( War3_GetOwnsItem(attacker,shopItem[FROST]) && !bFrosted[victim] && !Perplexed(attacker))
-					{
-						new Float:speed_frost=GetConVarFloat(OrbFrostCvar);
-						if(speed_frost<=0.0) speed_frost=0.01; // 0.0 for override removes
-						if(speed_frost>1.0)	speed_frost=1.0;
-						War3_SetBuffItem(victim,fSlow,shopItem[FROST],speed_frost);
-						bFrosted[victim]=true;
-						
-						PrintToConsole(attacker,"%T","ORB OF FROST!",attacker);
-						PrintToConsole(victim,"%T","Frosted, reducing your speed",victim);
-						CreateTimer(2.0,Unfrost,victim);
+					else{
+						dmg*=0.50;
 					}
 				}
+			//	DP("%f",dmg);
+				War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
+				
+				PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
 			}
-		}
-	}
-}
-public OnWar3EventPostHurt(victim,attacker,damage)
-{
-	//PrintToChatAll("posthurt %d",W3GetDamageIsBullet());
-	if(ValidPlayer(victim)&&ValidPlayer(attacker,true)&&W3GetDamageIsBullet()&&victim!=attacker){
-		if(War3_GetOwnsItem(attacker,shopItem[MASK])&&!Perplexed(attacker)) // Mask of death
-		{
-			new Float:hp_percent=GetConVarFloat(MaskDeathCvar);
-			if(hp_percent<0.0)	hp_percent=0.0;
-			if(hp_percent>1.0)	hp_percent=1.0;  //1 = 100%
-			new add_hp=RoundFloat(FloatMul(float(damage),hp_percent));
-			if(add_hp>40)	add_hp=40; // awp or any other weapon, just limit it
-			War3_HealToBuffHP(attacker,add_hp);
-			/*
-			tock EmitSoundToAll(const String:sample[],
-                 entity = SOUND_FROM_PLAYER,
-                 channel = SNDCHAN_AUTO,
-                 level = SNDLEVEL_NORMAL,
-                 flags = SND_NOFLAGS,
-                 Float:volume = SNDVOL_NORMAL,
-                 pitch = SNDPITCH_NORMAL,
-                 speakerentity = -1,
-                 const Float:origin[3] = NULL_VECTOR,
-                 const Float:dir[3] = NULL_VECTOR,
-                 bool:updatePos = true, */
-                 
-			if(War3_TrackDelayExpired(maskSoundDelay[attacker])){
-				EmitSoundToAll(masksnd,attacker);
-				War3_TrackDelay(maskSoundDelay[attacker],0.25);
+				
+			if( War3_GetOwnsItem(attacker,shopItem[FROST]) && !bFrosted[victim]  )
+			{
+				new Float:speed_frost=GetConVarFloat(OrbFrostCvar);
+				if(speed_frost<=0.0) speed_frost=0.01; // 0.0 for override removes
+				if(speed_frost>1.0)	speed_frost=1.0;
+				War3_SetBuffItem(victim,fSlow,shopItem[FROST],speed_frost);
+				bFrosted[victim]=true;
+				
+				PrintToConsole(attacker,"%T","ORB OF FROST!",attacker);
+				PrintToConsole(victim,"%T","Frosted, reducing your speed",victim);
+				CreateTimer(2.0,Unfrost,victim);
 			}
-			if(War3_TrackDelayExpired(maskSoundDelay[victim])){
-				EmitSoundToAll(masksnd,victim);
-				War3_TrackDelay(maskSoundDelay[victim],0.25);
+	
+
+			if(War3_GetOwnsItem(attacker,shopItem[MASK])) // Mask of death
+			{
+				new Float:hp_percent=GetConVarFloat(MaskDeathCvar);
+				if(hp_percent<0.0)	hp_percent=0.0;
+				if(hp_percent>1.0)	hp_percent=1.0;  //1 = 100%
+				new add_hp=RoundFloat(FloatMul(float(damage),hp_percent));
+				if(add_hp>40)	add_hp=40; // awp or any other weapon, just limit it
+				War3_HealToBuffHP(attacker,add_hp);
+				/*
+				tock EmitSoundToAll(const String:sample[],
+	                 entity = SOUND_FROM_PLAYER,
+	                 channel = SNDCHAN_AUTO,
+	                 level = SNDLEVEL_NORMAL,
+	                 flags = SND_NOFLAGS,
+	                 Float:volume = SNDVOL_NORMAL,
+	                 pitch = SNDPITCH_NORMAL,
+	                 speakerentity = -1,
+	                 const Float:origin[3] = NULL_VECTOR,
+	                 const Float:dir[3] = NULL_VECTOR,
+	                 bool:updatePos = true, */
+	                 
+				if(War3_TrackDelayExpired(maskSoundDelay[attacker])){
+					EmitSoundToAll(masksnd,attacker);
+					War3_TrackDelay(maskSoundDelay[attacker],0.25);
+				}
+				if(War3_TrackDelayExpired(maskSoundDelay[victim])){
+					EmitSoundToAll(masksnd,victim);
+					War3_TrackDelay(maskSoundDelay[victim],0.25);
+				}
+				PrintToConsole(attacker,"%T","+{amount} Mask leeched HP",attacker,add_hp);
 			}
-			PrintToConsole(attacker,"%T","+{amount} Mask leeched HP",attacker,add_hp);
 		}
 	}
 }

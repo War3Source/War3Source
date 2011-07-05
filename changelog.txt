@@ -9,6 +9,9 @@ SMBatchCompile.exe updated, using compile.exe to compile. .sp files are randomly
 
 buffs for speed gravity and glow are calculated in a seprate engine
 
+moved claw damage to posthurt
+optimized shopitems 1 
+
 B7
 
 Glider 010711:
