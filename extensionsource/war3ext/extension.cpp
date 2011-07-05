@@ -91,11 +91,11 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	if (!g->log)
 	{
 		ERR("COULD NOT OPEN W3E LOG %s",path);
-		
+
 		return false;
 	}
 	ERR("LOOL");
-	
+
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
 	GetInterface("INativeInterface",(SMInterface**)&g->nativeinterf,true);
@@ -108,9 +108,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->sminterfacetimersys=timersys;
 
-	
+
 	//add translation
-	
+
 	g->myphrasecollection->AddPhraseFile("w3s._common.phrases");
 	g->myphrasecollection->AddPhraseFile("sh._common.phrases");
 	g->myphrasecollection->AddPhraseFile("w3s.shopmenu2.phrases");
@@ -119,8 +119,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->sharesys=sharesys;
 
-	
-	
+
+
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
 
 
@@ -137,8 +137,9 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 		g_pSM->Format(error,maxlength,"[war3ext] could not load war3dll");
 		#if defined(__GNUC__)
 		ERR("%s",dlerror());
-		#endif
-		ERR("GetLastError %d",GetLastError());
+		#else
+            ERR("GetLastError %d",GetLastError());
+        #endif
 		//cleanupmetamod();
 		return false;
     }
@@ -203,7 +204,7 @@ void War3Ext::LOGf(char* format,...)
 	fprintf(g->log,"%s [W3E] %s\n",timebuffer,buffer);
 	fflush(g->log);
 	printf("%s [W3E] %s\n",timebuffer,buffer);
-	
+
 	va_end(ap);
 }
 static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
