@@ -16,6 +16,8 @@ succubs assault tackle cooldown is now 10 (why it was at 3 idk)
 
 fixed damage recieved displayed in improper language
 
+optimized aura engine
+
 B7
 
 Glider 010711:

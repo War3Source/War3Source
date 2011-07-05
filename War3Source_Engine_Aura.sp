@@ -1,3 +1,10 @@
+/**********************
+ * Aura Engine
+ * Made by Ownz 
+ */ 
+
+
+
 #pragma dynamic 30000
 
 #include <sourcemod>
@@ -13,7 +20,7 @@ new HasAuraLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 new String:AuraShort[MAXAURAS][32];
 new Float:AuraDistance[MAXAURAS];
 new bool:AuraTrackOtherTeam[MAXAURAS];
-new AuraCount;
+new AuraCount=0;
 
 new Handle:g_Forward;
 
@@ -105,8 +112,8 @@ public Action:CalcAura(Handle:t)
 {
 	lastCalcAuraTime=GetEngineTime();
 	//store old aura count
-	new OldHasAura[MAXPLAYERSCUSTOM][MAXAURAS];
-	new OldHasAuraLevel[MAXPLAYERSCUSTOM][MAXAURAS];
+	decl OldHasAura[MAXPLAYERSCUSTOM][MAXAURAS];
+	decl OldHasAuraLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 	for(new client=1;client<=MaxClients;client++)
 	{
 		for(new aura=1;aura<=AuraCount;aura++){
@@ -118,9 +125,11 @@ public Action:CalcAura(Handle:t)
 	}
 	
 	
-	new Float:Distances[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM];
-	new Float:vec1[3];
-	new Float:vec2[3];
+//	new Float:Distances[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM];
+	decl Float:vec1[3];
+	decl Float:vec2[3];
+	decl teamtarget;
+	decl teamclient;
 	for(new client=1;client<=MaxClients;client++)
 	{
 		if(ValidPlayer(client,true))
@@ -129,37 +138,43 @@ public Action:CalcAura(Handle:t)
 			{
 				if(ValidPlayer(target,true))
 				{
+					teamtarget=GetClientTeam(target);
+					teamclient=GetClientTeam(client);
 					GetClientAbsOrigin(client,vec1);
 					GetClientAbsOrigin(target,vec2);
 					new Float:dis=GetVectorDistance(vec1,vec2);
-					Distances[client][target]=dis;
-					Distances[target][client]=dis;
+					//Distances[client][target]=dis;
+					//Distances[target][client]=dis;
 					//DP("aura %d  %f",client,dis);
 					for(new aura=1;aura<=AuraCount;aura++){
 						if(dis<AuraDistance[aura]){
 							
-							if(AuraOrigin[client][aura] ){ //client originating an aura
+							//boolean magic!!!!!!!! De Morgan wuz here
+							//client originating an aura
+							if(AuraOrigin[client][aura] ){ 
 								//DP("aura origin %d",client);
-								if( (!AuraTrackOtherTeam[aura]&&GetClientTeam(client)==GetClientTeam(target)) 
-								 || (AuraTrackOtherTeam[aura]&&GetClientTeam(client)!=GetClientTeam(target))
-								)
+								if( (!AuraTrackOtherTeam[aura])==(teamclient==teamtarget)) 
+								// || (AuraTrackOtherTeam[aura]&&teamclient!=teamtarget)
+								
 								{
 									//DP("aura target on %d",target);
 									HasAura[target][aura]++;
 									HasAuraLevel[target][aura]=IntMax(HasAuraLevel[target][aura],AuraOriginLevel[client][aura]);
 								}
 							}
-							if(AuraOrigin[target][aura] ){ //target originating an aura
-								if( (!AuraTrackOtherTeam[aura]&&GetClientTeam(client)==GetClientTeam(target)) 
-								 || (AuraTrackOtherTeam[aura]&&GetClientTeam(client)!=GetClientTeam(target))
-								)
+							
+							
+							//target originating an aura
+							if(AuraOrigin[target][aura] &&target!=client ){  //skip if client is target, which we already did up top
+								if( (!AuraTrackOtherTeam[aura])==(teamclient==teamtarget)   ) 
+								 //|| (AuraTrackOtherTeam[aura]&&teamclient!=teamtarget)
+								
 								{
 									HasAura[client][aura]++;
 									HasAuraLevel[client][aura]=IntMax(HasAuraLevel[client][aura],AuraOriginLevel[target][aura]);
 								}
 							}
 						}
-						
 					}
 				}
 			}
@@ -169,7 +184,7 @@ public Action:CalcAura(Handle:t)
 	{
 		for(new aura=1;aura<=AuraCount;aura++)
 		{
-			if(HasAura[client][aura]>1){
+			if(HasAura[client][aura]>1){ //overlapped from different people
 				HasAura[client][aura]=1;
 			}
 			//stat changed?
