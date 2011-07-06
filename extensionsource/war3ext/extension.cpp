@@ -213,15 +213,9 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	char* strarg1;
 	pCtx->LocalToString(params[1], &strarg1);
 	PRINT("%d smx loaded\n",(int)strarg1);
-
-	g->helpergetfunc=pCtx->GetFunctionByName("Get");
-	if(g->helpergetfunc==NULL){
-		for(int i=0;i<100;i++){
-			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
-
-		}
-		exit(0);
-	}
+	string fileid=string(strarg1);
+	g->filelist.push_back(fileid);
+	
 	IPluginManager *interf;
 	GetInterface("IPluginManager",(SMInterface**)&interf,true);
 	IPlugin *iplugin=interf->FindPluginByContext((const sp_context_t*)pCtx);
@@ -232,6 +226,24 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 		}
 	}
 	g->helperplugin=iplugin;
+
+	char path[PLATFORM_MAX_PATH*2];
+	g_pSM->BuildPath(Path_SM, path, sizeof(path), "plugins\\");
+	string filename=string(path);
+	filename+=string(g->helperplugin->GetFilename());
+	g->filepath.push_back(filename);
+
+
+
+	g->helpergetfunc=pCtx->GetFunctionByName("Get");
+	if(g->helpergetfunc==NULL){
+		for(int i=0;i<100;i++){
+			ERR("ERROR, COULD NOT GET FUNCTION FROM EXTENSION HELPER PLUGIN");
+
+		}
+		exit(0);
+	}
+	
 	//ERR("found iplugin");
 
 
@@ -265,10 +277,7 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	return 1;
 }
 
-//insensitive compare
-bool StrEquali(const char *str1,const char *str2){
-	return (strcmpi(str1,str2)==0)?true:false;
-}
+
 void War3Ext::SDK_OnUnload()
 {
 }

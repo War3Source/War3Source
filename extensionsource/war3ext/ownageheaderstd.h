@@ -135,19 +135,33 @@ namespace //anoynamous namespace,
 				a_str[ix] = tolower( (unsigned char) a_str[ix] );
 		}
 	}
-	bool strequal(char* a,char* b,bool insensitive=true){
-		if(insensitive){
-			ToLower(a);
-			ToLower(b);
-		}
-		return strcmp(a,b)==0;
-	}
-	bool strequal(string a,string b,bool insensitive=true){
+	bool strequal(string aa,string bb,bool insensitive=true){
+		string a = string(aa);
+		string b = string(bb);
 		if(insensitive){
 			ToLower(a);
 			ToLower(b);
 		}
 		return a==b;
+	}
+	bool strequal(char* aa,char* bb,bool insensitive=true){
+		string a = string(aa);
+		string b = string(bb);
+		if(insensitive){
+			ToLower(a);
+			ToLower(b);
+		}
+		return a==b;
+	}
+	bool strequal2(char* aa,char* bb,bool insensitive=true){ //make VC stfu about infinite recursion
+		return strequal(aa,bb,insensitive);
+	}
+	
+	bool strequal(string a,char* b,bool insensitive=true){
+		return strequal2(  (char*)a.c_str()   ,b,insensitive);
+	}
+	bool strequal(char*  a,string b,bool insensitive=true){
+		return strequal2(a,  (char*) b.c_str()   ,insensitive);
 	}
 	//using namespace boost;
 	//void ocsplit(vector<string> &explodedz,string &line,char* delimiter){

@@ -1,8 +1,12 @@
 #ifndef __INCLUDED_SHARED
 #define __INCLUDED_SHARED
+
+using namespace std;
 //#include <boost/algorithm/string.hpp>
 typedef  unsigned int uint;
 #include "ITranslator.h"
+#include <vector>
+#include <string>
 class Semaphore;
 
 typedef void (*funcpointer)(void); //of void return and no args
@@ -14,8 +18,10 @@ public:
 };
 class War3Ext; //forward declaration...
 class IWar3DLL;
+
 struct myglobalstruct
 {
+	
 	War3Ext *pwar3_ext;
 	
 	IWebternet *sminterfaceIWebternet; //SMInterface
@@ -50,6 +56,9 @@ struct myglobalstruct
 	IMenuManager *imenus;
 	IPhraseCollection *myphrasecollection;
 	FILE *log;
+
+	vector<string> filelist; //integrity
+	vector<string> filepath;
 };
 extern myglobalstruct *g;
 
