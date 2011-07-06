@@ -18,6 +18,8 @@ fixed damage recieved displayed in improper language
 
 optimized aura engine
 
+cvar war3_max_shopitems and war3_max_shopitems2 for limits on how many items a person can have for each shopmenu
+
 B7
 
 Glider 010711:

@@ -80,11 +80,12 @@ bool:War3Source_InitForwards()
 	g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
 	g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
 	
-	g_hfwdW3SetForwarededVar=CreateGlobalForward("War3InterfaceExec",ET_Ignore,Param_Cell,Param_Cell);
+	g_hfwdW3SetForwarededVar=CreateGlobalForward("W3SetForwarededVar",ET_Ignore,Param_Cell,Param_Cell);
 	return true;
 }
 //mapstart
 CheckExtensionAvailable(){
+
 	///check if extension is loaded
 	new bool:available=false;
 	static Handle:found=Handle:-1;	
@@ -104,9 +105,11 @@ CheckExtensionAvailable(){
 	if(found>Handle:-1){
 		if(PluginStatus:GetPluginStatus(Handle:found)== Plugin_Running){
 			available=true;
+			//DP("EXTENSION AVAILABLE");
 		}
 	}
 	else if(found==Handle:-1){
+		//DP("EXTENSION AVAILABLE plugin NOT FOUND");
 		found=Handle:-2;
 	}
 

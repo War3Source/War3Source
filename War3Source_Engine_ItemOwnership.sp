@@ -10,6 +10,7 @@ new Handle:g_OnItemLostHandle;
 
 new Handle:hitemRestrictionCvar;
 
+new Handle:hCvarMaxShopitems;
 public Plugin:myinfo= 
 {
 	name="W3S Engine Item Ownership",
@@ -26,6 +27,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
+	hCvarMaxShopitems=CreateConVar("war3_max_shopitems","2");
 }
 
 public bool:InitNativesForwards()
@@ -38,6 +40,9 @@ public bool:InitNativesForwards()
 	
 	CreateNative("W3IsItemDisabledGlobal",NW3IsItemDisabledGlobal);
 	CreateNative("W3IsItemDisabledForRace",NW3IsItemDisabledForRace);
+	
+	CreateNative("GetMaxShopitemsPerPlayer",NGetMaxShopitemsPerPlayer);
+	
 	return true;
 }
 
@@ -127,7 +132,9 @@ public NW3IsItemDisabledForRace(Handle:plugin,numParams)
 	}
 	return false;
 }
-
+public NGetMaxShopitemsPerPlayer(Handle:h,n){
+	return GetConVarInt(hCvarMaxShopitems);
+}
 
 
 

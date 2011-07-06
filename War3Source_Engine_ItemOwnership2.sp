@@ -4,13 +4,13 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
+//new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
 new playerOwnsItemExpireTime[MAXPLAYERSCUSTOM][MAXITEMS];
 new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 
 new Handle:hitemRestrictionCvar;
-new Handle:hCvarMaxShopitems;
+new Handle:hCvarMaxShopitems2;
 public Plugin:myinfo= 
 {
 	name="W3S Engine Item2 Ownership",
@@ -25,7 +25,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
-	hCvarMaxShopitems=CreateConVar("war3_max_shopitems2","3");
+	hCvarMaxShopitems2=CreateConVar("war3_max_shopitems2","2");
 }
 
 public bool:InitNativesForwards()
@@ -43,7 +43,7 @@ public bool:InitNativesForwards()
 	
 	
 	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
-	CreateNative("GetMaxShopitemsPerPlayer",NGetMaxShopitemsPerPlayer);
+	CreateNative("GetMaxShopitems2PerPlayer",NGetMaxShopitems2PerPlayer);
 	
 	return true;
 }
@@ -199,6 +199,6 @@ public NGetClientItemsOwned(Handle:h,n){
 	}
 	return num;
 }
-public NGetMaxShopitemsPerPlayer(Handle:h,n){
-	return GetConVarInt(hCvarMaxShopitems);
+public NGetMaxShopitems2PerPlayer(Handle:h,n){
+	return GetConVarInt(hCvarMaxShopitems2);
 }
