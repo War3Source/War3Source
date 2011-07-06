@@ -142,7 +142,10 @@ enum W3EVENT
 	DoShowSHMenu,
 	
 }
-
+enum W3DENY{
+	ChanceRace,
+	Suicide,
+}
 // Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
 
 enum W3ForwardedVarsEnum{

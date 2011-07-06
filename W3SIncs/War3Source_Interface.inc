@@ -1658,6 +1658,11 @@ forward OnWar3Event(W3EVENT:event,client);
 
 native W3CreateEvent(W3EVENT:event,client);
 
+//simple system for stopping actions, send a specific event with optinal player, those hooking can use W3Deny() to deny
+forward OnW3Denyable(W3DENY:event,client);
+native W3Denyable(W3DENY:event,client); //returns true if NOT DENIED
+native W3Deny();
+
 stock ShowChangeRaceMenu(client){
 	W3CreateEvent(DoShowChangeRaceMenu,client);
 }

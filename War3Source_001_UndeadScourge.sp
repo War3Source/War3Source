@@ -9,7 +9,9 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
-
+#undef REQUIRE_EXTENSIONS
+#include <tf2>
+#include <tf2_stocks>
 public W3ONLY(){} //unload this?
 
 // War3Source stuff
@@ -456,8 +458,11 @@ public OnWar3EventDeath(victim,attacker)
 	}
 }
 public Action:DelayedBomber(Handle:h,any:client){
-	if(ValidPlayer(client)&&!IsPlayerAlive(client)&& suicidedAsTeam[client]==GetClientTeam(client) ){
-		SuicideBomber(client,War3_GetSkillLevel(client,thisRaceID,SKILL_SUICIDE));
+	new level=War3_GetSkillLevel(client,thisRaceID,SKILL_SUICIDE);
+	if(level>0&&ValidPlayer(client)&&!IsPlayerAlive(client)&& suicidedAsTeam[client]==GetClientTeam(client) ){
+		if(W3Denyable(Suicide,client)){
+			SuicideBomber(client,War3_GetSkillLevel(client,thisRaceID,SKILL_SUICIDE));
+		}
 	}
 	else{
 		bSuicided[client]=false;
