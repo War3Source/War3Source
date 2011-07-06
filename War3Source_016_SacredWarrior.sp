@@ -197,14 +197,13 @@ CheckSkills(client){
 	new VictimMaxHP = War3_GetMaxHP(client);
 	new Float:DoubleTrigger = VictimMaxHP * 0.4;
 	
-	if(bSpearActivated[client]||skill==0){
+	if(bSpearActivated[client]){
 		War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
-		if(bSpearActivated[client]){
-			War3_SetBuff(client,fHPDecay,thisRaceID,VictimMaxHP*0.05);
-		}
+		War3_SetBuff(client,fHPDecay,thisRaceID,VictimMaxHP*0.05);	
 	}
 	else
 	{
+	//level 0 is fine
 		War3_SetBuff(client,fHPRegen,thisRaceID,  (VictimCurHP<=DoubleTrigger)  ?  VitalityHealed[skill]*2.0: VitalityHealed[skill] );
 		War3_SetBuff(client,fHPDecay,thisRaceID,0.0);
 	}

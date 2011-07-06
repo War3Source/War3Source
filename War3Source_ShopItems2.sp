@@ -77,12 +77,14 @@ public OnPluginStart()
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==10){
-		ItemID[POSTHASTE]=War3_CreateShopItem2("Post Haste","posthaste","+3% speed",0);
+	//War3_CreateShopItem2
+	//W3CreateShopItem2
+		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",0,true);
 		//new String:foo[32];
 		//W3GetItem2Name(ItemID[POSTHASTE],foo,32);
 		//DP("%s",foo);
-		ItemID[TRINKET]=War3_CreateShopItem2("Trinket of Restoraion","trinket","+0.5 HP regeneration",0);
-		ItemID[LIFETUBE]=War3_CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",0);
+		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoraion","trinket","+0.5 HP regeneration",0,false);
+		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",0,false);
 	}
 }
 public OnMapStart()

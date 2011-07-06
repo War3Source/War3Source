@@ -304,6 +304,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_SetItem2Property");
 	MarkNativeAsOptional("War3_GetItem2Property");
 	MarkNativeAsOptional("War3_GetItem2IdByShortname");
+	MarkNativeAsOptional("W3CreateShopItem2");
 	MarkNativeAsOptional("W3GetItem2Name");
 	MarkNativeAsOptional("W3GetItem2Shortname");
 	MarkNativeAsOptional("W3GetItem2Description");
@@ -592,7 +593,7 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 
 //Shopmenu 2 item class
 native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
-native W3CreateShopItem22(String:name[],String:shortname[],String:desc[],cost,translated);
+native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated);
 //translated
 native War3_CreateShopItem2T(String:shortname[],cost);
 

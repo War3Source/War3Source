@@ -104,6 +104,7 @@ public Action:OnCommand(client,args){
 	W3ExtCommandListener(client,cmd,args);
 	//DP("%s",cmd);
 }
-public mypublic(String:str[],maxlen,String:format[],...){
+public myvformat(String:str[],maxlen,String:format[],...){
+DP("'%s' '%d' '%s'",str,maxlen,  format);
 	VFormat(str,maxlen,  format, 4); 
 }
