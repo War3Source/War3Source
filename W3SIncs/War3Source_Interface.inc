@@ -54,6 +54,9 @@ public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 		Call_PushString(error);
 		Call_PushCell(err_max);
 		Call_Finish(dummy);
+		if(APLRes:dummy==APLRes_SilentFailure){
+			return APLRes_SilentFailure;
+		}
 		if(APLRes:dummy!=APLRes_Success){
 			LogError("AskPluginLoad2Custom did not return true, possible failure");
 		}

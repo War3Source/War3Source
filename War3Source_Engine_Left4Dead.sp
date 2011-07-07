@@ -15,6 +15,12 @@ public Plugin:myinfo=
 
 new bool:g_bIsHelpless[MAXPLAYERS+1];
 
+public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
+{
+	if(!GameL4DAny())
+		return APLRes_SilentFailure;
+	return APLRes_Success;
+}
 public bool:InitNativesForwards()
 {
 	///LIST ALL THESE NATIVES IN INTERFACE
