@@ -172,6 +172,11 @@ namespace //anoynamous namespace,
 		dest[num-1]=0;
 
 	}
+
+	using namespace std;
+	int strtoint(const char* input){
+		return atoi(input);
+	}
 }
 
 
