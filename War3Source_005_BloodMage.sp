@@ -260,14 +260,14 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 							else 
 							{
 								// TODO: Sound effects?
-								new Float:oldangle[3];
-								GetClientEyeAngles(victim,oldangle);
-								oldangle[0]+=GetRandomFloat(-20.0,20.0);
-								oldangle[1]+=GetRandomFloat(-20.0,20.0);
-								TeleportEntity(victim, NULL_VECTOR, oldangle, NULL_VECTOR);
+								//new Float:oldangle[3];
+								//GetClientEyeAngles(victim,oldangle);
+								//oldangle[0]+=GetRandomFloat(-20.0,20.0);
+								//oldangle[1]+=GetRandomFloat(-20.0,20.0);
+								//TeleportEntity(victim, NULL_VECTOR, oldangle, NULL_VECTOR);
 								W3MsgBanished(victim,attacker);
-								W3FlashScreen(victim,{0,0,0,255},0.5,_,FFADE_STAYOUT);
-								CreateTimer(0.5,Unbanish,GetClientUserId(victim));
+								W3FlashScreen(victim,{0,0,0,255},0.4,_,FFADE_STAYOUT);
+								CreateTimer(0.4,Unbanish,GetClientUserId(victim));
 							}
 						}
 					}

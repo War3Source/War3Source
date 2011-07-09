@@ -93,7 +93,7 @@ public War3Source_RoundEndEvent(Handle:event,const String:name[],bool:dontBroadc
 public OnWar3Event(W3EVENT:event,client){
 	if(W3()){
 		if(event==DoShowChangeRaceMenu){
-			if(W3Denyable(ChanceRace,client)){
+			if(W3Denyable(ChangeRace,client)){
 				War3Source_ChangeRaceMenu(client);
 			}
 		}
@@ -239,7 +239,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			
 			W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
 			
-			if(!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
+			if(allowChooseRace&&!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
 				
 				new AdminId:admin = GetUserAdmin(client);
 				if(admin == INVALID_ADMIN_ID) //flag is required and this client is not admin
@@ -271,77 +271,75 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			
 			
 			
+		
+			
+				//PrintToChatAll("1");
+			decl String:buf[192];
+			War3_GetRaceName(race_selected,buf,sizeof(buf));
+			if(allowChooseRace&&race_selected==War3_GetRace(client)/*&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    ) */){ //has no other pending race, cuz user might wana switch back
+				
+				War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
+				//if(W3GetPendingRace(client)){
+				W3SetPendingRace(client,-1);
+					
+				//}
+				allowChooseRace=false;
+				
+			}
+			if(allowChooseRace&&GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
+				if(GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
+					if(!W3IsDeveloper(client)){   
+						War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)));
+						
+						new cvar=W3GetRaceMaxLimitTeamCvar(race_selected,GetClientTeam(client));
+						new String:cvarstr[64];
+						if(cvar>-1){
+							W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
+						}
+						cvar=W3FindCvar(cvarstr);
+						new String:cvarvalue[64];
+						if(cvar>-1){
+							W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
+						}
+						
+						W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu) %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
+			
+						War3Source_ChangeRaceMenu(client);
+						allowChooseRace=false;
+						
+					}
+				}
+			}
+				
+				
+				
+				
+				
+			
 			if(allowChooseRace)
 			{
 				W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
-				
-				//PrintToChatAll("1");
-				decl String:buf[192];
-				War3_GetRaceName(race_selected,buf,sizeof(buf));
-				if(race_selected==War3_GetRace(client)&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    )){ //has no other pending race, cuz user might wana switch back
-					
-					War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
-					if(W3GetPendingRace(client)){
-						W3SetPendingRace(client,-1);
-					}
-					
-				}
-				else if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
-					if(GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
-						if(!W3IsDeveloper(client)){   
-							War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)));
-							
-							new cvar=W3GetRaceMaxLimitTeamCvar(race_selected,GetClientTeam(client));
-							new String:cvarstr[64];
-							if(cvar>-1){
-								W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
-							}
-							cvar=W3FindCvar(cvarstr);
-							new String:cvarvalue[64];
-							if(cvar>-1){
-								W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
-							}
-							
-							W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu) %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
-				
-							War3Source_ChangeRaceMenu(client);
-							allowChooseRace=false;
-							
-						}
-					}
-				}
-				
-				
-				
-				
-				
-				if(allowChooseRace){
-					if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+			
+				//has race, set pending, 
+				if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+				{
+					if(War3_IsL4DEngine())
 					{
-						if(War3_IsL4DEngine())
+						decl String:sGameMode[16];
+						
+						GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+						if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
 						{
-							decl String:sGameMode[16];
-							
-							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
-							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
-							{
-								W3SetPendingRace(client,-1);
-								War3_SetRace(client,race_selected);
-								W3DoLevelCheck(client);
-							}
-							else if (bStartingArea[client])
-							{
-								W3SetPendingRace(client,-1);
-								War3_SetRace(client,race_selected);
-								W3DoLevelCheck(client);
-							}
-							else
-							{
-								W3SetPendingRace(client,race_selected);
-								
-								War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
-							}
+							W3SetPendingRace(client,-1);
+							War3_SetRace(client,race_selected);
+							W3DoLevelCheck(client);
+						}
+						else if (bStartingArea[client])
+						{
+							W3SetPendingRace(client,-1);
+							War3_SetRace(client,race_selected);
+							W3DoLevelCheck(client);
 						}
 						else
 						{
@@ -350,19 +348,26 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 							War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
 						}
 					}
-					//HAS NO RACE, CHANGE NOW
-					else //schedule the race change
+					else
 					{
-						W3SetPendingRace(client,-1);
-						War3_SetRace(client,race_selected);
+						W3SetPendingRace(client,race_selected);
 						
-						//PrintToChatAll("2");
-						//print is in setrace
-						//War3_ChatMessage(client,"You are now %s",buf);
-						
-						W3DoLevelCheck(client);
+						War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
 					}
 				}
+				//HAS NO RACE, CHANGE NOW
+				else //schedule the race change
+				{
+					W3SetPendingRace(client,-1);
+					War3_SetRace(client,race_selected);
+					
+					//PrintToChatAll("2");
+					//print is in setrace
+					//War3_ChatMessage(client,"You are now %s",buf);
+					
+					W3DoLevelCheck(client);
+				}
+				
 					
 			}
 		}

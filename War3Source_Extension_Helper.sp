@@ -32,7 +32,8 @@ EXTH_GAME ,
 EXTH_W3_SH_MODE,
 EXTH_IP ,
 EXTH_PORT,
-EXTH_TRANS
+EXTH_TRANS,
+EXTH_TRANSSET
 };
 public ExtensionAvailable(){}
 public Plugin:myinfo= 
@@ -80,6 +81,7 @@ public any:Get(id,String:buf[],maxlen){
 		case EXTH_IP: Format(buf,maxlen,serverip);
 		case EXTH_PORT: return serverport;
 		case EXTH_TRANS: return GetTrans();
+		case EXTH_TRANSSET: return SetTrans(maxlen); //maxlen hax
 		default: { PrintToServer("bad index for ext helper %d",id);}
 	}
 	return 0;
@@ -105,6 +107,9 @@ public Action:OnCommand(client,args){
 	//DP("%s",cmd);
 }
 public myvformat(String:str[],maxlen,String:format[],...){
-DP("'%s' '%d' '%s'",str,maxlen,  format);
+	DP("'%s' '%d' '%s'",str,maxlen,  format);
 	VFormat(str,maxlen,  format, 4); 
+}
+public EXTChatMessage(client,String:str[]){
+	War3_ChatMessage(client,str);
 }

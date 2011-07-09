@@ -69,7 +69,7 @@ public OnWar3Event(W3EVENT:event,client){
 	}
 }
 public OnW3Denyable(W3DENY:event,client){
-	//if(event==ChanceRace){
+	//if(event==ChangeRace){
 //		W3Deny();
 //		DP("blocked chancerace %d",client);
 		//War3Source_War3Help(client);

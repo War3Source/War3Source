@@ -143,7 +143,7 @@ enum W3EVENT
 	
 }
 enum W3DENY{
-	ChanceRace,
+	ChangeRace,
 	Suicide,
 }
 // Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
