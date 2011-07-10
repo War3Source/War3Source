@@ -42,7 +42,7 @@ public bool:InitNativesForwards()
 	CreateNative("W3SetItem2ExpireTime",NW3SetItem2ExpireTime);
 	
 	
-	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
+	CreateNative("GetClientItems2Owned",NGetClientItems2Owned);
 	CreateNative("GetMaxShopitems2PerPlayer",NGetMaxShopitems2PerPlayer);
 	
 	return true;
@@ -188,7 +188,7 @@ CheckForRestrictedItemsOnRace(client)
 
 
 
-public NGetClientItemsOwned(Handle:h,n){
+public NGetClientItems2Owned(Handle:h,n){
 	new client=GetNativeCell(1);
 	new num=0;
 	new ItemsLoaded = W3GetItems2Loaded();

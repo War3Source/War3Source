@@ -43,6 +43,8 @@ public bool:InitNativesForwards()
 	
 	CreateNative("GetMaxShopitemsPerPlayer",NGetMaxShopitemsPerPlayer);
 	
+	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
+	
 	return true;
 }
 
@@ -132,6 +134,21 @@ public NW3IsItemDisabledForRace(Handle:plugin,numParams)
 	}
 	return false;
 }
+
+
+
+public NGetClientItemsOwned(Handle:h,n){
+	new client=GetNativeCell(1);
+	new num=0;
+	new ItemsLoaded = W3GetItemsLoaded();
+	for(new i=1;i<=ItemsLoaded;i++){
+		if(War3_GetOwnsItem(client,i)){
+			num++;
+		}
+	}
+	return num;
+}
+
 public NGetMaxShopitemsPerPlayer(Handle:h,n){
 	return GetConVarInt(hCvarMaxShopitems);
 }

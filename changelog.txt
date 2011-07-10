@@ -1,4 +1,11 @@
 1.2.2
+
+
+
+
+
+
+
 B8
 
 war3_hint_enabled removed
@@ -29,7 +36,7 @@ suiciding on spy is not allowed
 W3Denyable(event id, client) and W3Deny() is a 
 simple system of messaging where one plugin initiates a W3Denyable call and another addon would hook and call W3Deny() to block.
 this allows main engine to expose control paths to addons.
-this is much more simple than War3Event but offers less flexibility.
+this is just an easier event than War3Event but offers less flexibility.
 for an example, see undead and addon_nospysuicide
 
 banish reduced to 0.4 duration and no longer changes the victim's aim

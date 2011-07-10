@@ -77,7 +77,7 @@ public OnPluginStart()
 	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	BootsSpeedCvar=CreateConVar("war3_shop_boots_speed","1.2","Boots speed, 1.2 is default");
-	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage",GameTF()?"20":"6","Claws of attack additional damage per bullet (CS) per second (TF)");
+	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage",GameTF()?"10":"6","Claws of attack additional damage per bullet (CS) per second (TF)");
 	MaskDeathCvar=CreateConVar("war3_shop_mask_percent","0.30","Percent of damage rewarded for Mask of Death, from 0.0 - 1.0");
 	OrbFrostCvar=CreateConVar("war3_shop_orb_speed","0.6","Orb of Frost speed, 1.0 is normal speed, 0.6 default for orb.");
 	TomeCvar=CreateConVar("war3_shop_tome_xp","100","Experience awarded for Tome of Experience.");
