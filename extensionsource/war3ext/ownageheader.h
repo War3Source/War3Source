@@ -85,7 +85,7 @@ namespace //anoynamous namespace,
 		func->PushString(string);
 		func->Execute(&dummy);
 	}
-	
+#ifdef __W3DLL
 	//uses GetTrans
 	void TRANS(	char* buffer, cell_t bufferlen,char* translatedphrase){
 		cell_t client=GetTrans();
@@ -102,6 +102,7 @@ namespace //anoynamous namespace,
 			ERR("failed phrase %s",failedchar);
 		}
 	}
+#endif
 
 }
 
