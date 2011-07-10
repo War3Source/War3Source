@@ -1,6 +1,8 @@
 1.2.2
 B8
 
+war3_hint_enabled removed
+
 tweaks in chancerace menu handling
 
 fHPDecay buff for continuous loss of HP, no proper kill credits yet

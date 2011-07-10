@@ -2,8 +2,7 @@
 #include <profiler>
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/object.inc"
-#include "W3SIncs/cvarmonitor.inc"
+
 
 new Handle:objarray;
 new UserMsg:umHintText
@@ -53,7 +52,6 @@ public bool:InitNativesForwards(){
 public OnPluginStart()
 {
 	CreateTimer(0.2,Time,_,TIMER_REPEAT);
-	LinkConVar(enabled,"war3_hint_enabled","1");
 	
 	umHintText = GetUserMessageId("HintText");
 	
