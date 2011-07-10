@@ -58,6 +58,7 @@ new Handle:KillTankSoloXPCvar;
 new Handle:KillWitchXPCvar;
 new Handle:KillWitchCrownedXPCvar;
 new Handle:HelpTeammateXPCvar;
+new Handle:SaveTeammateXPCvar;
 new MZombieClass;
 
 //gold
@@ -92,7 +93,8 @@ public OnPluginStart()
 		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
 		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing another from a closet");
 		HelpTeammateXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player helping another get up");
-				
+		SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
+		
 		KillSmokerXPCvar=CreateConVar("war3_l4d_smokerxp","50","XP awarded to a player killing a Smoker");
 		KillBoomerXPCvar=CreateConVar("war3_l4d_boomerxp","50","XP awarded to a player killing a Boomer");
 		KillHunterXPCvar=CreateConVar("war3_l4d_hunterxp","50","XP awarded to a player killing a Hunter");
@@ -112,7 +114,7 @@ public OnPluginStart()
 		ParseXPSettingsFile();
 		
 		
-		
+		 
 		if(War3_GetGame()==CS){
 			if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
 			{
@@ -193,12 +195,29 @@ public OnPluginStart()
 			{
 				PrintToServer("[War3Source] Could not hook the revive_success event.");
 			}
-		}
-		else if(War3_GetGame() == Game_L4D2) 
-		{
-			if(!HookEventEx("defibrillator_used", War3Source_DefibUsedEvent))
+			if(!HookEventEx("choke_stopped", War3Source_SpecialRescueEvent))
 			{
-				PrintToServer("[War3Source] Could not hook the defibrillator_used event.");
+				PrintToServer("[War3Source] Could not hook the choke_stopped event.");
+			}
+			if(!HookEventEx("tongue_pull_stopped", War3Source_SpecialRescueEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the tongue_pull_stopped event.");
+			}
+			if(!HookEventEx("jockey_ride_end", War3Source_SpecialRescueEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the jockey_ride_end event.");
+			}
+			if(!HookEventEx("pounce_stopped", War3Source_SpecialRescueEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the pounce_stopped event.");
+			}
+			
+			if(War3_GetGame() == Game_L4D2)
+			{
+				if(!HookEventEx("defibrillator_used", War3Source_DefibUsedEvent))
+				{
+					PrintToServer("[War3Source] Could not hook the defibrillator_used event.");
+				}
 			}
 		}
 	}	
@@ -810,6 +829,30 @@ public War3Source_SurvivorRevivedEvent(Handle:event,const String:name[],bool:don
 	if(GetClientTeam(reviver) == TEAM_SURVIVORS)
 	{
 		new addxp = GetConVarInt(HelpTeammateXPCvar);
+		
+		new String:killaward[64];
+		Format(killaward,sizeof(killaward),"%T","helping a teammate", reviver);
+		TryToGiveXPGold(reviver, War3_GetRace(reviver), XPAwardByRescueing, addxp, 0, killaward);
+	}
+}
+
+public War3Source_SpecialRescueEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new reviver;
+	new victim = GetClientOfUserId(GetEventInt(event, "victim"));
+	if (StrEqual(name, "jockey_ride_end"))
+	{
+		reviver = GetClientOfUserId(GetEventInt(event, "rescuer"));
+	}
+	else
+	{
+		reviver = GetClientOfUserId(GetEventInt(event, "userid"));	
+	}
+		
+	if(ValidPlayer(reviver) && ValidPlayer(victim) && (reviver != victim) &&
+	   GetClientTeam(reviver) == TEAM_SURVIVORS)
+	{
+		new addxp = GetConVarInt(SaveTeammateXPCvar);
 		
 		new String:killaward[64];
 		Format(killaward,sizeof(killaward),"%T","helping a teammate", reviver);
