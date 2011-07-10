@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+
 //standard prints
 #ifndef PRINT
 #define PRINT printf
@@ -34,6 +35,7 @@ namespace //anoynamous namespace,
 	//these funcs are only accisible by the cpp files that included this file.
 	//however, that means you have duplicate code...its a trade off for ease of use
 {
+	cell_t dummy;
 
 	using namespace std;
 
@@ -177,6 +179,8 @@ namespace //anoynamous namespace,
 	int strtoint(const char* input){
 		return atoi(input);
 	}
+
+
 }
 
 
