@@ -13,7 +13,7 @@
 #include "W3SIncs/War3Source_Interface"
 
 ///would you like to see the damage stack print out?
-#define DEBUG
+//#define DEBUG
 
 new Handle:FHOnW3TakeDmgAllPre;
 new Handle:FHOnW3TakeDmgBulletPre;
@@ -516,10 +516,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 		g_NextDamageIsTrueDamage=(WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG);
 		g_CurDamageIsTrueDamage=(WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG);
 		
-		if(damage<1){
-			damage=1;
-		}
-	
+
 
 		#if defined DEBUG
 		DP2("dealdamage %d->%d {",attacker,victim);
@@ -578,6 +575,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 	else{
 		//player is already dead
 		whattoreturn=false;
+		g_CurLastActualDamageDealt=0;
 	}
 
 	

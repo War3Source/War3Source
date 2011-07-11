@@ -647,9 +647,10 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 					}
 				}
 			//	DP("%f",dmg);
-				War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL); //real damage with indicator
+				if(War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL)){ //real damage with indicator
 				
-				PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
+					PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
+				}
 			}
 				
 			if( War3_GetOwnsItem(attacker,shopItem[FROST]) && !bFrosted[victim]  )

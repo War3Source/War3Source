@@ -33,6 +33,7 @@ new Laser;
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar;
 
+new Float:assaultcooldown=10.0;
 
 public Plugin:myinfo = 
 {
@@ -410,7 +411,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				*/
 				
 				SetEntDataVector(client,m_vecBaseVelocity,velocity,true);
-				War3_CooldownMGR(client,10.0,thisRaceID,SKILL_ASSAULT,_,_);
+				War3_CooldownMGR(client,assaultcooldown,thisRaceID,SKILL_ASSAULT,_,_);
 				
 				new String:wpnstr[32];
 				GetClientWeapon(client, wpnstr, 32);
@@ -512,7 +513,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 					//velocity[1]*=amt;
 					//TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, velocity);
 					
-					War3_CooldownMGR(client,5.0,thisRaceID,SKILL_ASSAULT,_,_);
+					War3_CooldownMGR(client,assaultcooldown,thisRaceID,SKILL_ASSAULT,_,_);
 					//new color[4] = {255,127,0,255};
 					
 					
