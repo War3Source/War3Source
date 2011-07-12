@@ -197,6 +197,7 @@ public NGetClientItems2Owned(Handle:h,n){
 			num++;
 		}
 	}
+	//DP("ret %d loaded %d",num,W3GetItems2Loaded());
 	return num;
 }
 public NGetMaxShopitems2PerPlayer(Handle:h,n){

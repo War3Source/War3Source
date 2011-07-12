@@ -95,9 +95,13 @@ CheckExtensionAvailable(){
 		while (MorePlugins(iter))
 		{
 			pl = ReadPlugin(iter);
-			if(GetFunctionByName(pl,"ExtensionAvailable")){
+			if(GetFunctionByName(pl,"ExtensionAvailable")!=INVALID_FUNCTION){
 				found=pl;
-				
+				new String:name[64];
+				GetPluginFilename(pl,name,sizeof(name));
+				//DP("plugin %d %s %d",pl,name,INVALID_FUNCTION);
+				break;
+			
 			}
 		}
 		CloseHandle(iter);
@@ -105,7 +109,7 @@ CheckExtensionAvailable(){
 	if(found>Handle:-1){
 		if(PluginStatus:GetPluginStatus(Handle:found)== Plugin_Running){
 			available=true;
-			//DP("EXTENSION AVAILABLE");
+			DP("EXTENSION AVAILABLE");
 		}
 	}
 	else if(found==Handle:-1){

@@ -54,7 +54,7 @@ public bool:InitNativesForwards()
 	CreateNative("W3GetItem2Shortname",NW3GetItemShortname);
 	CreateNative("W3GetItem2Description",NW3GetItemDescription);
 
-	CreateNative("W3GetItems2Loaded",Native_GetItemsLoaded);
+	//CreateNative("W3GetItems2Loaded",Native_GetItemsLoaded);
 	
 	CreateNative("W3GetItem2Cost",NW3GetItemCost)
 

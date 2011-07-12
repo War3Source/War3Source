@@ -97,7 +97,7 @@ forward SHONLY();
 //variables forwarded to every w3 plugin
 new W3ForwarededVars[W3ForwardedVarsEnum];
 public W3SetForwarededVar(index,value){
-	//DP("forwarded %d %d",index,value);
+	DP("forwarded %d %d",index,value);
 	W3ForwarededVars[index]=value;
 }
 stock EXT(){
@@ -1436,13 +1436,13 @@ native War3_GetDiamondsEXT(client);
 native War3_SetDiamondsEXT(client,newd);
 
 stock War3_GetDiamonds(client){
-	if(W3ForwarededVars[EXTAvailable]){
+	if(EXT()){
 		return War3_GetDiamondsEXT(client);
 	}
 	return 0;
 }
 stock War3_SetDiamonds(client,newd){
-	if(W3ForwarededVars[EXTAvailable]){
+	if(EXT()){
 		War3_SetDiamondsEXT(client,newd);
 	}
 }

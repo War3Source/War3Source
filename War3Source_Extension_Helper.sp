@@ -81,7 +81,7 @@ public any:Get(id,String:buf[],maxlen){
 		case EXTH_IP: Format(buf,maxlen,serverip);
 		case EXTH_PORT: return serverport;
 		case EXTH_TRANS: return GetTrans();
-		case EXTH_TRANSSET: return SetTrans(maxlen); //maxlen hax
+		case EXTH_TRANSSET: {SetTrans(maxlen); return 0;} //maxlen hax
 		default: { PrintToServer("bad index for ext helper %d",id);}
 	}
 	return 0;
