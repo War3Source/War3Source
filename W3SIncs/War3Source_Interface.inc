@@ -97,7 +97,7 @@ forward SHONLY();
 //variables forwarded to every w3 plugin
 new W3ForwarededVars[W3ForwardedVarsEnum];
 public W3SetForwarededVar(index,value){
-	DP("forwarded %d %d",index,value);
+	//DP("forwarded %d %d",index,value);
 	W3ForwarededVars[index]=value;
 }
 stock EXT(){
