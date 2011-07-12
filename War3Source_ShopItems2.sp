@@ -76,7 +76,7 @@ public OnPluginStart()
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-	if(num==10){
+	if(num==10&&EXT()){
 	//War3_CreateShopItem2
 	//W3CreateShopItem2
 		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",0,true);
