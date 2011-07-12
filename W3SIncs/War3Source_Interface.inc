@@ -315,7 +315,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetItem2Order");
 	MarkNativeAsOptional("W3Item2HasFlag");
 	MarkNativeAsOptional("W3GetItem2Catagory");
-	MarkNativeAsOptional("W3GetItems2Loaded");
+	MarkNativeAsOptional("W3GetItems2LoadedEXT");
 	MarkNativeAsOptional("W3IsItem2DisabledGlobal");
 	MarkNativeAsOptional("W3IsItem2DisabledForRace");
 	MarkNativeAsOptional("W3SaveItem2ExpireTime");
@@ -616,7 +616,9 @@ native W3GetItem2Cost(itemid);
 native W3GetItem2Order(itemid);
 native W3Item2HasFlag(itemid,String:flagsearch[]);
 native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
-native W3GetItems2Loaded(); //how many items are loaded?
+stock W3GetItems2Loaded(){ //how many items are loaded?
+	return EXT()?W3GetItems2LoadedEXT():0;
+}
 
 native bool:W3IsItem2DisabledGlobal(itemid);
 native bool:W3IsItem2DisabledForRace(race,itemid);
