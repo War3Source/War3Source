@@ -1005,20 +1005,22 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
 {
 	//PrintToChatAll("1");
 	new race=War3_GetRace(client);
-	new killerlevel=War3_GetLevel(client,War3_GetRace(client));
-	new victimlevel=War3_GetLevel(playerkilled,War3_GetRace(playerkilled));
+	if(race>0){
+		new killerlevel=War3_GetLevel(client,War3_GetRace(client));
+		new victimlevel=War3_GetLevel(playerkilled,War3_GetRace(playerkilled));
+		
+		new killxp=GetKillXP(killerlevel,victimlevel-killerlevel);
+		
+		new addxp=killxp;
+		if(headshot)	addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
+		if(melee)		addxp+=((killxp*GetConVarInt(MeleeXPCvar))/100);
+		
 	
-	new killxp=GetKillXP(killerlevel,victimlevel-killerlevel);
-	
-	new addxp=killxp;
-	if(headshot)	addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
-	if(melee)		addxp+=((killxp*GetConVarInt(MeleeXPCvar))/100);
-	
-
-	
-	new String:killaward[64];
-	Format(killaward,sizeof(killaward),"%T","a kill",client);
-	TryToGiveXPGold(client,race,XPAwardByKill,addxp,GetKillGold(),killaward);
+		
+		new String:killaward[64];
+		Format(killaward,sizeof(killaward),"%T","a kill",client);
+		TryToGiveXPGold(client,race,XPAwardByKill,addxp,GetKillGold(),killaward);
+	}
 }
 
 public GiveAssistKillXP(client)
