@@ -63,6 +63,10 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
 		{
 			W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here!");
 			bStartingArea[client] = true;
+			
+			if (W3GetPendingRace(client) > 0 && W3GetPendingRace(client) != War3_GetRace(client))
+				War3_SetRace(client, W3GetPendingRace(client));
+			
 		}
 	}
 }

@@ -59,6 +59,7 @@ new Handle:KillWitchXPCvar;
 new Handle:KillWitchCrownedXPCvar;
 new Handle:HelpTeammateXPCvar;
 new Handle:SaveTeammateXPCvar;
+new Handle:ProtectTeammateXPCvar;
 new MZombieClass;
 
 //gold
@@ -92,8 +93,9 @@ public OnPluginStart()
 		HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
 		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
 		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing another from a closet");
-		HelpTeammateXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player helping another get up");
+		HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","100","XP awarded to a player helping another get up");
 		SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
+		ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");	
 		
 		KillSmokerXPCvar=CreateConVar("war3_l4d_smokerxp","50","XP awarded to a player killing a Smoker");
 		KillBoomerXPCvar=CreateConVar("war3_l4d_boomerxp","50","XP awarded to a player killing a Boomer");
@@ -210,6 +212,10 @@ public OnPluginStart()
 			if(!HookEventEx("pounce_stopped", War3Source_SpecialRescueEvent))
 			{
 				PrintToServer("[War3Source] Could not hook the pounce_stopped event.");
+			}
+			if(!HookEventEx("award_earned", War3Source_ProtectMateEvent))
+			{
+				PrintToServer("[War3Source] Could not hook the award_earned event.");
 			}
 			
 			if(War3_GetGame() == Game_L4D2)
@@ -814,6 +820,23 @@ public War3Source_SurvivorRescuedEvent(Handle:event,const String:name[],bool:don
 	}
 }
 
+public War3Source_ProtectMateEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new protector = GetEventInt(event, "userid");
+	new award = GetEventInt(event, "award");
+	
+	if( (protector > 0) && (award == 67))
+	{ 
+		new client = GetClientOfUserId(protector);
+		
+		new race = War3_GetRace(client);
+		new addxp = GetConVarInt(ProtectTeammateXPCvar);
+		
+		new String:rescueaward[64];
+		Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
+		TryToGiveXPGold(client,race,XPAwardByRescueing,addxp,0,rescueaward);
+	}
+}
 
 
 
