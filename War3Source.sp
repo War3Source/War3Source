@@ -325,6 +325,10 @@ public OnMapStart()
 	PrintToServer("OnMapStart");
 	W3CreateEvent(UNLOADPLUGINSBYMODE,0); // not something that is considered unapprovable but make sure your defines have naming schemas like War3Event_Blah
 		
+		
+	CheckExtensionAvailable();
+	
+		
 	DoWar3InterfaceExecForward();
 	
 	LoadRacesAndItems();
@@ -335,9 +339,7 @@ public OnMapStart()
 	
 	
 	OneTimeForwards();
-	
-	CheckExtensionAvailable();
-	
+
 }
 
 ///test script

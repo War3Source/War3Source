@@ -76,15 +76,16 @@ public OnPluginStart()
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
+//DP("%d",EXT());
 	if(num==10&&EXT()){
 	//War3_CreateShopItem2
 	//W3CreateShopItem2
-		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",0,true);
+		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",10,true);
 		//new String:foo[32];
 		//W3GetItem2Name(ItemID[POSTHASTE],foo,32);
 		//DP("%s",foo);
-		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoraion","trinket","+0.5 HP regeneration",0,false);
-		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",0,false);
+		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoration","trinket","+0.5 HP regeneration",15,false);
+		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",15,false);
 	}
 }
 public OnMapStart()
@@ -94,6 +95,7 @@ public OnMapStart()
 
 public OnItem2Purchase(client,item)
 {
+//DP("purchase %d %d",client,item);
 	if(item==ItemID[POSTHASTE] )
 	{
 		War3_SetBuffItem2(client,fMaxSpeed2,ItemID[POSTHASTE],1.034);
@@ -109,7 +111,7 @@ public OnItem2Purchase(client,item)
 }
 
 public OnItem2Lost(client,item){ //deactivate passives , client may have disconnected
-
+//DP("lost %d %d",client,item);
 	if(item==ItemID[POSTHASTE]){
 		War3_SetBuffItem2(client,fMaxSpeed2,ItemID[POSTHASTE],1.0);
 	}

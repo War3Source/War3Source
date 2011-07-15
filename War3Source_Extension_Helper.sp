@@ -95,6 +95,7 @@ native W3ExtCommandListener(client, const String:command[], argc);
 //}
 
 public Action:OnCommand(client,args){
+
 	new String:cmd[1024];
 	new String:argstr[1024];
 	GetCmdArg(0,cmd,sizeof(cmd));
