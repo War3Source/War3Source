@@ -133,7 +133,7 @@ stock AttachParticle(const client, const String:effectName[], const String:attac
 	return particle;
 }
 
-stock AttachedThrowAwayParticle(const client, const String:effectName[], const String:attachTo[], const Float:lifetime)
+stock AttachThrowAwayParticle(const client, const String:effectName[], const String:attachTo[], const Float:lifetime)
 {	
 	new particle = CreateW3SParticle(effectName, NULL_VECTOR);
 	ModifyEntityAttach(particle, client, attachTo);
@@ -160,7 +160,7 @@ stock AttachLight(const client, const String:color[], const String:style[], cons
 	return light;
 }
 
-stock AttachedThrowAwayLight(const client, const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
+stock AttachThrowAwayLight(const client, const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
 {	
 	new light = CreateW3SLight(NULL_VECTOR, color, style, distance);
 	ModifyEntityAttach(light, client, attachTo);
