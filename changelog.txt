@@ -3,7 +3,10 @@
 
 
 
+B9
 
+fixed some dependencies and native errors
+fixed error when awarding xp without race
 
 
 B8

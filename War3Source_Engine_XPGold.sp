@@ -69,11 +69,14 @@ new Handle:KillGoldCvar;
 new Handle:AssistGoldCvar;
 
 //10 hostages?
-new bool:touchedHostage[MAXPLAYERSCUSTOM][10];
+new Handle:touchedHostage[MAXPLAYERSCUSTOM];
 
 
 public OnPluginStart()
 {
+	for(new i=0;i<MAXPLAYERSCUSTOM;i++){
+		touchedHostage[i]=CreateArray();
+	}
 	if(W3()){
 		BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
 		HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
@@ -584,9 +587,7 @@ public OnWar3EventDeath(victim,attacker){
 public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	for(new i=1;i<=MaxClients;i++){
-		for(new j=0;j<10;j++){
-			touchedHostage[i][j]=false;
-		}
+		ClearArray(touchedHostage[i]);
 	}
 // cs - int winner
 // tf2 - int team
@@ -725,9 +726,8 @@ public War3Source_HostageFollow(Handle:event,const String:name[],bool:dontBroadc
 	{
 		new client=GetClientOfUserId(GetEventInt(event,"userid"));
 		new hostage=GetEventInt(event,"hostage");
-		if(!touchedHostage[client][hostage]){
-			touchedHostage[client][hostage]=true;
-		
+		if(FindValueInArray(touchedHostage[client],hostage)==-1){ 
+			PushArrayCell(touchedHostage[client],hostage);
 			new race=War3_GetRace(client);
 			new addxp=((GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
 			
