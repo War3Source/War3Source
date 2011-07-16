@@ -5,8 +5,11 @@ using namespace std;
 //#include <boost/algorithm/string.hpp>
 typedef  unsigned int uint;
 #include "ITranslator.h"
+#include "IPluginSys.h"
 #include <vector>
 #include <string>
+#include <iostream>
+#include <algorithm>
 class Semaphore;
 
 typedef void (*funcpointer)(void); //of void return and no args
@@ -59,6 +62,8 @@ struct myglobalstruct
 
 	vector<string> filelist; //integrity
 	vector<string> filepath;
+
+	IPluginManager *pluginmanager;
 };
 extern myglobalstruct *g;
 

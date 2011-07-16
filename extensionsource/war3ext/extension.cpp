@@ -108,6 +108,8 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->sminterfacetimersys=timersys;
 
+	
+	GetInterface("IPluginManager",(SMInterface**)&g->pluginmanager,true);
 
 	//add translation
 
@@ -214,11 +216,12 @@ static cell_t W3ExtRegister(IPluginContext *pCtx, const cell_t *params)
 	pCtx->LocalToString(params[1], &strarg1);
 	PRINT("%d smx loaded\n",(int)strarg1);
 	string fileid=string(strarg1);
-	g->filelist.push_back(fileid);
+	if(g->filelist.end()==find(g->filelist.begin(),g->filelist.end(),fileid)){ //doesnt exist already
+		g->filelist.push_back(fileid);
+	}
 	
-	IPluginManager *interf;
-	GetInterface("IPluginManager",(SMInterface**)&interf,true);
-	IPlugin *iplugin=interf->FindPluginByContext((const sp_context_t*)pCtx);
+	
+	IPlugin *iplugin=g->pluginmanager->FindPluginByContext((const sp_context_t*)pCtx);
 	if(iplugin==NULL){
 		for(int i=0;i<10;i++){
 			ERR("IPlugin *iplugin=interf->FindPluginByContext((const sp_context_t*)pCtx);");
