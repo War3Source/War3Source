@@ -11,6 +11,7 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
+#include "W3SIncs/War3Source_Effects"
 
 public Plugin:myinfo = 
 {
@@ -23,6 +24,7 @@ public Plugin:myinfo =
 public OnMapStart()
 {
 	PrecacheModel("effects/combinemuzzle2.vmt");
+	
 	if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
 	{
 		War3_PrecacheParticle("achieved");
@@ -42,7 +44,7 @@ public OnWar3Event(W3EVENT:event, client)
 		
 		if (War3_GetGame() == Game_TF)
 		{
-			TFParticle(client, level, "achieved", "partyhat");
+			AttachThrowAwayParticle(client, "achieved", "partyhat", 5.0);
 		}
 		else if (War3_GetGame() == Game_CS)
 		{
@@ -51,47 +53,12 @@ public OnWar3Event(W3EVENT:event, client)
 		else if (War3_IsL4DEngine())
 		{
 			// Glider: I never checked if l4d1 has this particle & attachment, l4d2 has 'em
-			TFParticle(client, 0, "achieved", "eyes");
+			AttachThrowAwayParticle(client, "achieved", "eyes", 5.0);
 		}	
 		War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
 	}
 }
 
-// Create Particle for Team Fortress 2 & L4D2:
-public Action:TFParticle(const client, const level, const String:effectName[], const String:attachTo[])
-{
-	new particle = CreateEntityByName("info_particle_system");
-	if (IsValidEdict(particle) && IsClientInGame(client))
-	{
-		decl String:tName[32], Float:fPos[3];
-		GetEntPropVector(client, Prop_Send, "m_vecOrigin", fPos);
-		fPos[2] -= 5.0;
-		TeleportEntity(particle, fPos, NULL_VECTOR, NULL_VECTOR);
-		
-		// Set Entity Keys & Spawn Entity (make sure dispatched entity name does not already exist, otherwise it will not work!!)
-		Format(tName, sizeof(tName), "lvlup_cl_%i_%i", client, level);
-		DispatchKeyValue(client, "targetname", tName);
-		DispatchKeyValue(particle, "parentname", tName);
-		DispatchKeyValue(particle, "effect_name", effectName);
-		DispatchSpawn(particle);
-		
-		// Set Entity Inputs
-		SetVariantString("!activator");
-		AcceptEntityInput(particle, "SetParent", client, particle, 0);
-		SetVariantString(attachTo);
-		AcceptEntityInput(particle, "SetParentAttachmentMaintainOffset", particle, particle, 0);
-		ActivateEntity(particle);
-		AcceptEntityInput(particle, "Start");
-		particle = EntIndexToEntRef(particle);
-		SetVariantString("OnUser1 !self:Kill::5.0:-1");
-		AcceptEntityInput(particle, "AddOutput");
-		AcceptEntityInput(particle, "FireUser1");
-	}
-	else
-	{
-		LogError("Failed to create info_particle_system!");
-	}
-}
 // Create Effect for Counter Strike Source:
 public Action:CSParticle(const client, const level)
 {
