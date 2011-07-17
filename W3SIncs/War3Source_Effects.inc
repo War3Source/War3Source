@@ -169,7 +169,7 @@ stock ThrowAwayLightEmitter(const Float:fPos[3], const String:color[], const Str
 stock AttachLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[])
 {	
 	new light = CreateW3SLight(fPos, color, style, distance);
-	ModifyEntityAttach(light, client, attach);
+	ModifyEntityAttach(light, client, attachTo);
 	
 	return light;
 }

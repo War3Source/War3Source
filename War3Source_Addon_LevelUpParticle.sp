@@ -43,7 +43,7 @@ public OnWar3Event(W3EVENT:event, client)
 		
 		if (War3_GetGame() == Game_TF)
 		{
-			AttachThrowAwayParticle(client, "achieved", "partyhat", 5.0);
+			AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "partyhat", 5.0);
 		}
 		else if (War3_GetGame() == Game_CS)
 		{
@@ -52,7 +52,7 @@ public OnWar3Event(W3EVENT:event, client)
 		else if (War3_IsL4DEngine())
 		{
 			// Glider: I never checked if l4d1 has this particle & attachment, l4d2 has 'em
-			AttachThrowAwayParticle(client, "achieved", "eyes", 5.0);
+			AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "eyes", 5.0);
 		}	
 		War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
 	}
