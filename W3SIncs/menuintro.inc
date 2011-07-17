@@ -13,11 +13,11 @@ public War3Source_IntroMenu(client)
 	SetMenuExitButton(introMenu,false);
 	new String:buf[64];
 	Format(buf,sizeof(buf),"%T","Lets Play!",client);
-	AddMenuItem(introMenu,"exit",buf)
+	AddMenuItem(introMenu,"exit",buf);
 	
 	GetConVarString(clanurl,buf,sizeof(buf));
 	if(strlen(buf)){
-		AddMenuItem(introMenu,"exit",buf)
+		AddMenuItem(introMenu,"exit",buf);
 	}
 	Format(buf,sizeof(buf),"Www.War3Source.Com");
 	AddMenuItem(introMenu,"exit",buf);

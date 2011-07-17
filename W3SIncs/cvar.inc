@@ -25,7 +25,7 @@ new Handle:clanurl;
 ///other cvar handle definitions are in war3source.inc ??
 War3Source_InitCVars()
 {
-	clanurl=CreateConVar("war3_clanurl","","The url to display on intro menu");
+	clanurl=CreateConVar("war3_clanurl","Www.OwnageClan.Com (set war3_clanurl)","The url to display on intro menu");
 	/*	
 	ChanceModifierPlasma=CreateConVar("war3_chancemodifier_directburn","0.0625","From 0.0 to 1.0 chance modifier for direct burns (plasma)");
 	ChanceModifierBurn=CreateConVar("war3_chancemodifier_burn","0.10","From 0.0 to 1.0 chance modifier for burns");

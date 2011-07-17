@@ -85,7 +85,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		//W3GetItem2Name(ItemID[POSTHASTE],foo,32);
 		//DP("%s",foo);
 		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoration","trinket","+0.5 HP regeneration",15,false);
-		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",15,false);
+		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",40,false);
 	}
 }
 public OnMapStart()
