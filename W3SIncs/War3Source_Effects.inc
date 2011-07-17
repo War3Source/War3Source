@@ -102,16 +102,21 @@ stock ModifyEntityAddDeathTimer(const entityIndex, const Float:lifetime)
  * @param entityIndex Entity index of the entity you want to modify
  * @param otherEntityIndex Entity index to attach the particle to
  * @param String:attachTo Attachment point of the otherEntityIndex.
+ * 						  Leave this out or set it to "" when you don't want
+ * 						  to attach to any specific point.
  */
-stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String:attachTo[])
+stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String:attachTo[]="")
 {	
 	if (IsValidEdict(entityIndex))
 	{
 		SetVariantString("!activator");
 		AcceptEntityInput(entityIndex, "SetParent", otherEntityIndex, entityIndex, 0);
 		
-		SetVariantString(attachTo);
-		AcceptEntityInput(entityIndex, "SetParentAttachment", entityIndex, entityIndex, 0);
+		if (!StrEqual(attachTo, ""))
+		{
+			SetVariantString(attachTo);
+			AcceptEntityInput(entityIndex, "SetParentAttachment", entityIndex, entityIndex, 0);
+		}
 		ActivateEntity(entityIndex);
 		AcceptEntityInput(entityIndex, "Start");
 	}
@@ -163,7 +168,7 @@ stock ThrowAwayLightEmitter(const Float:fPos[3], const String:color[], const Str
 stock AttachLight(const client, const String:color[], const String:style[], const Float:distance, const String:attachTo[])
 {	
 	new light = CreateW3SLight(NULL_VECTOR, color, style, distance);
-	ModifyEntityAttach(light, client, attachTo);
+	ModifyEntityAttach(light, client, attach);
 	
 	return light;
 }
