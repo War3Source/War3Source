@@ -37,4 +37,6 @@ new bHasDiedThisFrame[MAXPLAYERSCUSTOM];
  * like killed by skill damage is one kill message, killed by original damge is another death message, 
  * woudl cause double xp kill, because skill damage is actually dealt first (nested)
  */ 
+ 
+ 
 

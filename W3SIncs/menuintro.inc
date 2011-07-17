@@ -11,9 +11,16 @@ public War3Source_IntroMenu(client)
 	Format(welcome,sizeof(welcome),"%T\n \n","WelcomeToServer",client,VERSION_NUM,AUTHORS);
 	SetMenuTitle(introMenu,welcome);
 	SetMenuExitButton(introMenu,false);
-	new String:letsplay[64];
-	Format(letsplay,sizeof(letsplay),"%T","Lets Play!",client);
-	AddMenuItem(introMenu,"exit",letsplay);
+	new String:buf[64];
+	Format(buf,sizeof(buf),"%T","Lets Play!",client);
+	AddMenuItem(introMenu,"exit",buf)
+	
+	GetConVarString(clanurl,buf,sizeof(buf));
+	if(strlen(buf)){
+		AddMenuItem(introMenu,"exit",buf)
+	}
+	Format(buf,sizeof(buf),"Www.War3Source.Com");
+	AddMenuItem(introMenu,"exit",buf);
 	DisplayMenu(introMenu,client,MENU_TIME_FOREVER);
 }
 
