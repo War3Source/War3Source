@@ -44,6 +44,9 @@ public OnWar3Event(W3EVENT:event, client)
 		if (War3_GetGame() == Game_TF)
 		{
 			AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "partyhat", 5.0);
+			AttachThrowAwayParticle(client, "bday_1balloon", NULL_VECTOR, "partyhat", 5.0);
+			AttachThrowAwayParticle(client, "bday_balloon01", NULL_VECTOR, "partyhat", 5.0);
+			AttachThrowAwayParticle(client, "bday_balloon02", NULL_VECTOR, "partyhat", 5.0);
 		}
 		else if (War3_GetGame() == Game_CS)
 		{
