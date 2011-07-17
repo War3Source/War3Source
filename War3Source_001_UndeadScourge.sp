@@ -242,11 +242,19 @@ public SuicideBomber(client,level)
 		client_location[i]=SuicideLocation[client][i];
 	}
 	
+	
 	TE_SetupExplosion(client_location,ExplosionModel,10.0,1,0,RoundToFloor(radius),160);
 	TE_SendToAll();
 	
 	if(War3_GetGame()==Game_TF){
-		client_location[2]+=30.0;
+	
+
+		ThrowAwayParticle("ExplosionCore_buildings", client_location,  5.0);
+		ThrowAwayParticle("ExplosionCore_MidAir", client_location,  5.0);
+		ThrowAwayParticle("ExplosionCore_MidAir_underwater", client_location,  5.0);
+		ThrowAwayParticle("ExplosionCore_sapperdestroyed", client_location,  5.0);
+		ThrowAwayParticle("ExplosionCore_Wall", client_location,  5.0);
+		ThrowAwayParticle("ExplosionCore_Wall_underwater", client_location,  5.0);
 	}
 	else{
 		client_location[2]-=40.0;
@@ -365,8 +373,8 @@ public SuicideBomber(client,level)
 				//PrintToChatAll("daage suppose to be %d/%.1f max. distance %.1f",damage,SuicideBomberDamage[level],distance);
 				
 				War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);
-				PrintToConsole(client,"%T","Suicide bomber damage: {amount} to {amount} at distance {amount}",client,War3_GetWar3DamageDealt(),x,distance);
-				
+				//PrintToConsole(client,"%T","Suicide bomber damage: {amount} to {amount} at distance {amount}",client,War3_GetWar3DamageDealt(),x,distance);
+				W3PrintSkillDmgConsole(x,client,War3_GetWar3DamageDealt(),SKILL_SUICIDE);
 				
 				War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
 				W3FlashScreen(x,RGBA_COLOR_RED);
