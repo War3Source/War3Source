@@ -117,8 +117,6 @@ stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String
 			SetVariantString(attachTo);
 			AcceptEntityInput(entityIndex, "SetParentAttachment", entityIndex, entityIndex, 0);
 		}
-		ActivateEntity(entityIndex);
-		AcceptEntityInput(entityIndex, "Start");
 	}
 }
 
@@ -138,17 +136,19 @@ stock ThrowAwayParticle(const String:effectName[], const Float:fPos[3], const Fl
 	return particle;
 }
 
-stock AttachParticle(const client, const String:effectName[], const String:attachTo[])
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[]="")
 {	
-	new particle = CreateW3SParticle(effectName, NULL_VECTOR);
+	new particle = CreateW3SParticle(effectName, fPos);
 	ModifyEntityAttach(particle, client, attachTo);
 	
 	return particle;
 }
 
-stock AttachThrowAwayParticle(const client, const String:effectName[], const String:attachTo[], const Float:lifetime)
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachThrowAwayParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[], const Float:lifetime)
 {	
-	new particle = CreateW3SParticle(effectName, NULL_VECTOR);
+	new particle = CreateW3SParticle(effectName, fPos);
 	ModifyEntityAttach(particle, client, attachTo);
 	ModifyEntityAddDeathTimer(particle, lifetime);
 	
@@ -165,17 +165,19 @@ stock ThrowAwayLightEmitter(const Float:fPos[3], const String:color[], const Str
 	ModifyEntityAddDeathTimer(light, lifetime);
 }
 
-stock AttachLight(const client, const String:color[], const String:style[], const Float:distance, const String:attachTo[])
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[])
 {	
-	new light = CreateW3SLight(NULL_VECTOR, color, style, distance);
+	new light = CreateW3SLight(fPos, color, style, distance);
 	ModifyEntityAttach(light, client, attach);
 	
 	return light;
 }
 
-stock AttachThrowAwayLight(const client, const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachThrowAwayLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
 {	
-	new light = CreateW3SLight(NULL_VECTOR, color, style, distance);
+	new light = CreateW3SLight(fPos, color, style, distance);
 	ModifyEntityAttach(light, client, attachTo);
 	ModifyEntityAddDeathTimer(light, lifetime);
 	
