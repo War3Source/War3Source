@@ -28,6 +28,7 @@ stock CreateW3SParticle(const String:effectName[], const Float:fPos[3])
 
 		return particle;
 	}
+	else
 	{
 		PrintToServer("Couldn't create info_particle_system!");
 	}
@@ -99,15 +100,15 @@ stock ModifyEntityAddDeathTimer(const entityIndex, const Float:lifetime)
  * http://developer.valvesoftware.com/wiki/Entity_Hierarchy_%28parenting%29
  * 
  * @param entityIndex Entity index of the entity you want to modify
- * @param client Client index to attach the particle to
- * @param String:attachTo Model attachment to attach to.
+ * @param otherEntityIndex Entity index to attach the particle to
+ * @param String:attachTo Attachment point of the otherEntityIndex.
  */
-stock ModifyEntityAttach(const entityIndex, const client, const String:attachTo[])
+stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String:attachTo[])
 {	
 	if (IsValidEdict(entityIndex))
 	{
 		SetVariantString("!activator");
-		AcceptEntityInput(entityIndex, "SetParent", client, entityIndex, 0);
+		AcceptEntityInput(entityIndex, "SetParent", otherEntityIndex, entityIndex, 0);
 		
 		SetVariantString(attachTo);
 		AcceptEntityInput(entityIndex, "SetParentAttachment", entityIndex, entityIndex, 0);
