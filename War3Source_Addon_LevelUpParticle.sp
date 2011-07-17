@@ -11,7 +11,6 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/War3Source_Effects"
 
 public Plugin:myinfo = 
 {

@@ -114,3 +114,5 @@ public myvformat(String:str[],maxlen,String:format[],...){
 public EXTChatMessage(client,String:str[]){
 	War3_ChatMessage(client,str);
 }
+
+public EXTGetClientTeam(client){return GetClientTeam(client);}

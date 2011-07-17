@@ -12,12 +12,13 @@
 #include "W3SIncs/constants"
 #include "W3SIncs/colors"
 #include "W3SIncs/aura"
+#include "W3SIncs/War3Source_Effects"
 //sh include is at the end of this file
 
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
-new String:interfaceVersion[]="1.2.2.1";//"1.1.8";////;
+new String:interfaceVersion[]="1.2.2.1";
 
 
 stock dummy; //variable for dummies! Use this where ever u want for a dummy return

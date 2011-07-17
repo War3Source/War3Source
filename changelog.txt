@@ -7,7 +7,7 @@ B9
 
 fixed some dependencies and native errors
 fixed error when awarding xp without race
-
+1 diamond is given per second for each player on a team
 
 B8
 
