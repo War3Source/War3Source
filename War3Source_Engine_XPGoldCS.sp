@@ -97,13 +97,13 @@ public War3Source_BombDefusedEvent(Handle:event,const String:name[],bool:dontBro
 					// Called when a player defuses the bomb
 				
 					new race=War3_GetRace(i);
-					new addxp=((W3GetKillXP(War3_GetLevel(i,War3_GetRace(i)))*GetConVarInt(DefuseXPCvar))/100);
+					new addxp=(W3GetKillXP(i)*GetConVarInt(DefuseXPCvar))/100;
 					
 					new String:defusaward[64];
 					new String:helpdefusaward[64];
 					Format(defusaward,sizeof(defusaward),"%T","defusing the bomb",i);
 					Format(helpdefusaward,sizeof(helpdefusaward),"%T","being near bomb defuse",i);
-					W3GiveXPGold(i,race,XPAwardByBomb,addxp,0,i==client?defusaward:helpdefusaward);
+					W3GiveXPGold(i,XPAwardByBomb,addxp,0,i==client?defusaward:helpdefusaward);
 				}
 			}
 		}
@@ -130,13 +130,13 @@ public War3Source_BombPlantedEvent(Handle:event,const String:name[],bool:dontBro
 					// Called when a player plants the bomb
 				
 					new race=War3_GetRace(i);
-					new addxp=((W3GetKillXP(War3_GetLevel(i,War3_GetRace(i)))*GetConVarInt(PlantXPCvar))/100);
+					new addxp=(W3GetKillXP(i)*GetConVarInt(PlantXPCvar))/100;
 					
 					new String:plantaward[64];
 					new String:helpplantaward[64];
 					Format(plantaward,sizeof(plantaward),"%T","planting the bomb",i);
 					Format(helpplantaward,sizeof(helpplantaward),"%T","being near bomb plant",i);
-					W3GiveXPGold(i,race,XPAwardByBomb,addxp,0,i==client?plantaward:helpplantaward);
+					W3GiveXPGold(i,XPAwardByBomb,addxp,0,i==client?plantaward:helpplantaward);
 				}
 			}
 		}
@@ -153,11 +153,11 @@ public War3Source_HostageFollow(Handle:event,const String:name[],bool:dontBroadc
 		if(FindValueInArray(touchedHostage[client],hostage)==-1){ 
 			PushArrayCell(touchedHostage[client],hostage);
 			new race=War3_GetRace(client);
-			new addxp=((W3GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+			new addxp=(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 			
 			new String:hostageaward[64];
 			Format(hostageaward,sizeof(hostageaward),"%T","touching a hostage",client);
-			W3GiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
+			W3GiveXPGold(client,XPAwardByHostage,addxp,0,hostageaward);
 		}
 	}
 }
@@ -170,11 +170,11 @@ public War3Source_HostageRescuedEvent(Handle:event,const String:name[],bool:dont
 	
 		// Called when a player rescues a hostage
 		new race=War3_GetRace(client);
-		new addxp=((W3GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+		new addxp=(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 		
 		new String:hostageaward[64];
 		Format(hostageaward,sizeof(hostageaward),"%T","rescuing a hostage",client);
-		W3GiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
+		W3GiveXPGold(client,XPAwardByHostage,addxp,0,hostageaward);
 	}
 }
 
@@ -186,11 +186,11 @@ public War3Source_HostageKilled(Handle:event,const String:name[],bool:dontBroadc
 		
 		// Called when a player rescues a hostage
 		new race=War3_GetRace(client);
-		new addxp=-2*((W3GetKillXP(War3_GetLevel(client,race))*GetConVarInt(RescueHostageXPCvar))/100);
+		new addxp=-2*(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 		
 		new String:hostageaward[64];
 		Format(hostageaward,sizeof(hostageaward),"%T","killing a hostage",client);
-		W3GiveXPGold(client,race,XPAwardByHostage,addxp,0,hostageaward);
+		W3GiveXPGold(client,XPAwardByHostage,addxp,0,hostageaward);
 
 	}
 }

@@ -201,11 +201,16 @@ public NW3GetReqXP(Handle:plugin,numParams)
 }
 public NW3GetKillXP(Handle:plugin,numParams)
 {
-	new level=GetNativeCell(1);
-	if(level>MAXLEVELXPDEFINED)
-		level=MAXLEVELXPDEFINED;
-	new leveldiff=	GetNativeCell(2);
-	return (IsShortTerm()?XPShortTermKillXP[level] :XPLongTermKillXP[level]) + (GetConVarInt(hLevelDifferenceBounus)*leveldiff);
+	new client=GetNativeCell(1);
+	new race=War3_GetRace(client);
+	if(race>0){
+		new level=War3_GetLevel(client,race);
+		if(level>MAXLEVELXPDEFINED)
+			level=MAXLEVELXPDEFINED;
+		new leveldiff=	GetNativeCell(2);
+		return (IsShortTerm()?XPShortTermKillXP[level] :XPLongTermKillXP[level]) + (GetConVarInt(hLevelDifferenceBounus)*leveldiff);
+	}
+	return 0;
 }	
 public Native_War3_ShowXP(Handle:plugin,numParams)
 {
@@ -217,13 +222,12 @@ public NW3GetMaxGold(Handle:plugin,numParams)
 }
 public NW3GiveXPGold(Handle:plugin,args){
 	new client=GetNativeCell(1);
-	new race=GetNativeCell(2);
-	new W3XPAwardedBy:awardby=W3XPAwardedBy:GetNativeCell(3);
-	new xp=GetNativeCell(4);
-	new gold=GetNativeCell(5);
+	new W3XPAwardedBy:awardby=W3XPAwardedBy:GetNativeCell(2);
+	new xp=GetNativeCell(3);
+	new gold=GetNativeCell(4);
 	new String:strreason[64];
-	GetNativeString(6,strreason,sizeof(strreason));
-	TryToGiveXPGold(client,race,awardby,xp,gold,strreason);
+	GetNativeString(5,strreason,sizeof(strreason));
+	TryToGiveXPGold(client,awardby,xp,gold,strreason);
 	
 }
 
@@ -356,7 +360,7 @@ public OnWar3EventDeath(victim,attacker){
 	{
 		if (attacker > 0 && GetClientTeam(attacker) == TEAM_SURVIVORS)
 		{
-			new race = War3_GetRace(attacker);
+			
 			new bool:is_hs = GetEventBool(event,"headshot");		
 			
 			decl String:victimclass[32];
@@ -373,7 +377,7 @@ public OnWar3EventDeath(victim,attacker){
 					
 					new String:killaward[64];
 					Format(killaward,sizeof(killaward),"%T","killing a uncommon infected",attacker);
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				}
 				else
 				{
@@ -382,7 +386,7 @@ public OnWar3EventDeath(victim,attacker){
 					
 					new String:killaward[64];
 					Format(killaward,sizeof(killaward),"%T","killing a common infected",attacker);
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				}
 			}
 			else if (StrEqual(victimclass, "Smoker"))
@@ -394,7 +398,7 @@ public OnWar3EventDeath(victim,attacker){
 				Format(killaward,sizeof(killaward),"%T","killing a Smoker",attacker);
 				
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
@@ -407,7 +411,7 @@ public OnWar3EventDeath(victim,attacker){
 				Format(killaward,sizeof(killaward),"%T","killing a Boomer",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
@@ -428,7 +432,7 @@ public OnWar3EventDeath(victim,attacker){
 				Format(killaward,sizeof(killaward),"%T","killing a Hunter",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}				
@@ -445,7 +449,7 @@ public OnWar3EventDeath(victim,attacker){
 				Format(killaward,sizeof(killaward),"%T","killing a Jockey",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
@@ -460,7 +464,7 @@ public OnWar3EventDeath(victim,attacker){
 					Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
 
 					if (ValidPlayer(victim) && IsFakeClient(victim))
-						W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+						W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 					else
 						GiveKillXPCreds(attacker, victim, false, false);
 				}
@@ -473,7 +477,7 @@ public OnWar3EventDeath(victim,attacker){
 					Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
 	
 					if (ValidPlayer(victim) && IsFakeClient(victim))
-						W3GiveXPGold(attacker,race,XPAwardByKill,addxp,0,killaward);
+						W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
 					else
 						GiveKillXPCreds(attacker, victim, false, false);
 				}
@@ -557,17 +561,13 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 		{
 			
 			if(ValidPlayer(i)&&  GetClientTeam(i)==team)
-			{
+			{			
+				new addxp=((  W3GetKillXP(i)*GetConVarInt(RoundWinXPCvar)  )/100);
 				
-				new race=War3_GetRace(i);
-				if(race>0)
-				{
-					new addxp=((W3GetKillXP(War3_GetLevel(i,War3_GetRace(i)))*GetConVarInt(RoundWinXPCvar))/100);
-					
-					new String:teamwinaward[64];
-					Format(teamwinaward,sizeof(teamwinaward),"%T","being on the winning team",i);
-					W3GiveXPGold(i,race,XPAwardByWin,addxp,0,teamwinaward);
-				}
+				new String:teamwinaward[64];
+				Format(teamwinaward,sizeof(teamwinaward),"%T","being on the winning team",i);
+				W3GiveXPGold(i,XPAwardByWin,addxp,0,teamwinaward);
+			
 			}
 		}
 	}
@@ -585,12 +585,12 @@ public War3Source_HealSuccessEvent(Handle:event,const String:name[],bool:dontBro
 	{
 		new client = GetClientOfUserId(healer);
 		
-		new race = War3_GetRace(client);
+		
 		new addxp = GetConVarInt(HealPlayerXPCvar);
 		
 		new String:healaward[64];
 		Format(healaward,sizeof(healaward),"%T","healing a player",client);
-		W3GiveXPGold(client,race,XPAwardByHealing,addxp,0,healaward);
+		W3GiveXPGold(client,XPAwardByHealing,addxp,0,healaward);
 	}
 }
 
@@ -600,12 +600,11 @@ public War3Source_DefibUsedEvent(Handle:event,const String:name[],bool:dontBroad
 	if(healer > 0)
 	{
 		new client = GetClientOfUserId(healer);
-		new race = War3_GetRace(client);
 		new addxp = GetConVarInt(RevivePlayerXPCvar);
 		
 		new String:reviveaward[64];
 		Format(reviveaward,sizeof(reviveaward),"%T","reviving a player",client);
-		W3GiveXPGold(client,race,XPAwardByReviving,addxp,0,reviveaward);
+		W3GiveXPGold(client,XPAwardByReviving,addxp,0,reviveaward);
 	}
 }
 
@@ -615,12 +614,12 @@ public War3Source_SurvivorRescuedEvent(Handle:event,const String:name[],bool:don
 	if(rescuer > 0)
 	{
 		new client = GetClientOfUserId(rescuer);
-		new race = War3_GetRace(client);
+		
 		new addxp =  GetConVarInt(RescuePlayerXPCvar);
 		
 		new String:rescueaward[64];
 		Format(rescueaward,sizeof(rescueaward),"%T","rescueing a player",client);
-		W3GiveXPGold(client,race,XPAwardByRescueing,addxp,0,rescueaward);
+		W3GiveXPGold(client,XPAwardByRescueing,addxp,0,rescueaward);
 	}
 }
 
@@ -633,12 +632,12 @@ public War3Source_ProtectMateEvent(Handle:event,const String:name[],bool:dontBro
 	{ 
 		new client = GetClientOfUserId(protector);
 		
-		new race = War3_GetRace(client);
+	
 		new addxp = GetConVarInt(ProtectTeammateXPCvar);
 		
 		new String:rescueaward[64];
 		Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
-		W3GiveXPGold(client,race,XPAwardByRescueing,addxp,0,rescueaward);
+		W3GiveXPGold(client,XPAwardByRescueing,addxp,0,rescueaward);
 	}
 }
 
@@ -659,7 +658,7 @@ public War3Source_SurvivorRevivedEvent(Handle:event,const String:name[],bool:don
 		
 		new String:killaward[64];
 		Format(killaward,sizeof(killaward),"%T","helping a teammate", reviver);
-		W3GiveXPGold(reviver, War3_GetRace(reviver), XPAwardByRescueing, addxp, 0, killaward);
+		W3GiveXPGold(reviver,  XPAwardByRescueing, addxp, 0, killaward);
 	}
 }
 
@@ -683,7 +682,7 @@ public War3Source_SpecialRescueEvent(Handle:event,const String:name[],bool:dontB
 		
 		new String:killaward[64];
 		Format(killaward,sizeof(killaward),"%T","helping a teammate", reviver);
-		W3GiveXPGold(reviver, War3_GetRace(reviver), XPAwardByRescueing, addxp, 0, killaward);
+		W3GiveXPGold(reviver,  XPAwardByRescueing, addxp, 0, killaward);
 	}
 }
 
@@ -703,7 +702,7 @@ public War3Source_WitchKilledEvent(Handle:event,const String:name[],bool:dontBro
 				new addxp = GetConVarInt(KillWitchCrownedXPCvar);
 				Format(killaward,sizeof(killaward),"%T","crowning a Witch", killer);
 				
-				W3GiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
+				W3GiveXPGold(killer, XPAwardByKill, addxp, 0, killaward);
 			}
 			else
 			{
@@ -713,7 +712,7 @@ public War3Source_WitchKilledEvent(Handle:event,const String:name[],bool:dontBro
 				for(new client=1; client <= MaxClients; client++)
 					if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
 					{
-						W3GiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
+						W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
 					}
 			}
 		}
@@ -736,7 +735,7 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 				new addxp = GetConVarInt(KillTankSoloXPCvar);
 				Format(killaward,sizeof(killaward),"%T","soloing a Tank",killer);
 				
-				W3GiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
+				W3GiveXPGold(killer, XPAwardByKill, addxp, 0, killaward);
 				/*if (ValidPlayer(victim) && IsFakeClient(victim))
 					W3GiveXPGold(killer, War3_GetRace(killer), XPAwardByKill, addxp, 0, killaward);
 				else
@@ -748,7 +747,7 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && (!solo || (client != killer)))
 				{
 					Format(killaward,sizeof(killaward),"%T","surviving a Tank", client);
-					W3GiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
+					W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
 					/*if (ValidPlayer(victim) && IsFakeClient(victim))
 						W3GiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
 					else
@@ -768,55 +767,58 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 
 
 //fire event and allow addons to modify xp and gold
-TryToGiveXPGold(client,race,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprintstring[]){
-	if(GetConVarInt(minplayersXP)>PlayersOnTeam(2)+PlayersOnTeam(3)){
-		War3_ChatMessage(client,"%T","No XP is given when less than {amount} players are playing",client,GetConVarInt(minplayersXP));
-		return;
+TryToGiveXPGold(client,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprintstring[]){
+	new race=War3_GetRace(client);
+	if(race>0){
+		if(GetConVarInt(minplayersXP)>PlayersOnTeam(2)+PlayersOnTeam(3)){
+			War3_ChatMessage(client,"%T","No XP is given when less than {amount} players are playing",client,GetConVarInt(minplayersXP));
+			return;
+		}
+		W3SetVar(EventArg1,awardedfromevent); //set event vars
+		W3SetVar(EventArg2,xp);
+		W3SetVar(EventArg3,gold);
+		W3CreateEvent(OnPreGiveXPGold,client); //fire event
+		
+		
+		new addxp=	W3GetVar(EventArg2); //retrieve possibly modified vars
+		new addgold=W3GetVar(EventArg3);
+		
+		if(addxp<0&&War3_GetXP(client,War3_GetRace(client)) +addxp<0){ //negative xp?
+			addxp=-1*War3_GetXP(client,War3_GetRace(client));
+		}
+		
+		War3_SetXP(client,race,War3_GetXP(client,War3_GetRace(client))+addxp);
+	
+		new oldgold=War3_GetGold(client);
+		new newgold=oldgold+addgold;
+		new maxgold=GetConVarInt(MaxGoldCvar);
+		if(newgold>maxgold)
+		{
+			newgold=maxgold;
+			addgold=newgold-oldgold;
+		}
+		War3_SetGold(client,newgold);
+		if(addxp>0&&addgold>0)
+			War3_ChatMessage(client,"%T","You have gained {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
+		else if(addxp>0)
+			War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client,addxp,awardedprintstring);
+		else if(addgold>0){
+			War3_ChatMessage(client,"%T","You have gained {amount} gold for {award}",client,addgold,awardedprintstring);
+		}
+		
+		else if(addxp<0&&addgold<0)
+			War3_ChatMessage(client,"%T","You have lost {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
+		else if(addxp<0)
+			War3_ChatMessage(client,"%T","You have lost {amount} XP for {award}",client,addxp,awardedprintstring);
+		else if(addgold<0){
+			War3_ChatMessage(client,"%T","You have lost {amount} gold for {award}",client,addgold,awardedprintstring);
+		}
+		
+		if(War3_GetLevel(client,race)!=W3GetRaceMaxLevel(race))
+			W3DoLevelCheck(client);
+		
+		W3CreateEvent(OnPostGiveXPGold,client);	
 	}
-	W3SetVar(EventArg1,awardedfromevent); //set event vars
-	W3SetVar(EventArg2,xp);
-	W3SetVar(EventArg3,gold);
-	W3CreateEvent(OnPreGiveXPGold,client); //fire event
-	
-	
-	new addxp=	W3GetVar(EventArg2); //retrieve possibly modified vars
-	new addgold=W3GetVar(EventArg3);
-	
-	if(addxp<0&&War3_GetXP(client,War3_GetRace(client)) +addxp<0){ //negative xp?
-		addxp=-1*War3_GetXP(client,War3_GetRace(client));
-	}
-	
-	War3_SetXP(client,race,War3_GetXP(client,War3_GetRace(client))+addxp);
-
-	new oldgold=War3_GetGold(client);
-	new newgold=oldgold+addgold;
-	new maxgold=GetConVarInt(MaxGoldCvar);
-	if(newgold>maxgold)
-	{
-		newgold=maxgold;
-		addgold=newgold-oldgold;
-	}
-	War3_SetGold(client,newgold);
-	if(addxp>0&&addgold>0)
-		War3_ChatMessage(client,"%T","You have gained {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
-	else if(addxp>0)
-		War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client,addxp,awardedprintstring);
-	else if(addgold>0){
-		War3_ChatMessage(client,"%T","You have gained {amount} gold for {award}",client,addgold,awardedprintstring);
-	}
-	
-	else if(addxp<0&&addgold<0)
-		War3_ChatMessage(client,"%T","You have lost {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
-	else if(addxp<0)
-		War3_ChatMessage(client,"%T","You have lost {amount} XP for {award}",client,addxp,awardedprintstring);
-	else if(addgold<0){
-		War3_ChatMessage(client,"%T","You have lost {amount} gold for {award}",client,addgold,awardedprintstring);
-	}
-	
-	if(War3_GetLevel(client,race)!=W3GetRaceMaxLevel(race))
-		W3DoLevelCheck(client);
-	
-	W3CreateEvent(OnPostGiveXPGold,client);	
 	return;
 }
 
@@ -836,7 +838,7 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
 		new killerlevel=War3_GetLevel(client,War3_GetRace(client));
 		new victimlevel=War3_GetLevel(playerkilled,War3_GetRace(playerkilled));
 		
-		new killxp=W3GetKillXP(killerlevel,victimlevel-killerlevel);
+		new killxp=W3GetKillXP(client,victimlevel-killerlevel);
 		
 		new addxp=killxp;
 		if(headshot)	addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
@@ -846,18 +848,18 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
 		
 		new String:killaward[64];
 		Format(killaward,sizeof(killaward),"%T","a kill",client);
-		W3GiveXPGold(client,race,XPAwardByKill,addxp,W3GetKillGold(),killaward);
+		W3GiveXPGold(client,XPAwardByKill,addxp,W3GetKillGold(),killaward);
 	}
 }
 
 public GiveAssistKillXP(client)
 {
-	new race=War3_GetRace(client);
-	new addxp=((W3GetKillXP(War3_GetLevel(client,War3_GetRace(client)))*GetConVarInt(AssistKillXPCvar))/100);
+
+	new addxp=((W3GetKillXP(client)*GetConVarInt(AssistKillXPCvar))/100);
 	
 	new String:helpkillaward[64];
 	Format(helpkillaward,sizeof(helpkillaward),"%T","assisting a kill",client);
-	W3GiveXPGold(client,race,XPAwardByAssist,addxp,W3GetAssistGold(),helpkillaward);
+	W3GiveXPGold(client,XPAwardByAssist,addxp,W3GetAssistGold(),helpkillaward);
 }
 
 bool:IsShortTerm(){

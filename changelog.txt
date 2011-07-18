@@ -8,6 +8,9 @@ B9
 fixed some dependencies and native errors
 fixed error when awarding xp without race
 1 diamond is given per second for each player on a team
+XPGold engine now split for separate mods
+W3GetKillXP accepts client again
+W3GiveXPGold no longer accepts race and will automatically uses current race
 
 B8
 

@@ -657,7 +657,7 @@ native W3ClearSkillLevels(client,race);
  * @param client: Client index
  * adds extra xp per leveldifference if cvar is configured
  */
-native W3GetKillXP(level,leveldifference=0);
+native W3GetKillXP(client,leveldifference=0);
 native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
 native W3GetKillGold();
@@ -1366,7 +1366,9 @@ native War3_GetSkillLevel(client,race,skill);
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
 
-native W3GiveXPGold(client,race,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);
+//nothing happens if you give 0 xp 0 gold
+//automatically prints gained or lost xp/gold
+native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);
 
 
 
