@@ -114,6 +114,8 @@ public OnRaceChanged(client,oldrace,newrace)
 	{
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0); // if we aren't their race anymore we shouldn't be controlling their alpha
 	//	War3_SetBuff(client,bInvisWeaponOverride,thisRaceID,false);
+		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
+			
 	}
 	else
 	{
@@ -147,9 +149,11 @@ public ActivateSkills(client)
 			TE_SetupBeamRingPoint(vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
 			TE_SendToAll();
 
-			SetEntityHealth(client,GetClientHealth(client)+hpadd);
-			War3_SetMaxHP(client,War3_GetMaxHP(client)+hpadd);
-		
+			War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
+			
+		//	SetEntityHealth(client,GetClientHealth(client)+hpadd);
+		//	War3_SetMaxHP(client,War3_GetMaxHP(client)+hpadd);
+			
 		}
 		
 		new skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);

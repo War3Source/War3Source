@@ -50,7 +50,7 @@ public bool:InitNativesForwards()
 	
 	
 	CreateNative("W3GetBuff",NW3GetBuff);
-	
+	CreateNative("W3GetBuffSumInt",NW3GetBuffSumInt);
 	CreateNative("W3GetBuffHasTrue",NW3GetBuffHasTrue);
 	CreateNative("W3GetBuffStackedFloat",NW3GetBuffStackedFloat);
 	
@@ -138,7 +138,12 @@ public NW3GetBuff(Handle:plugin,numParams)
 	}
 	return -1;
 }
-
+public NW3GetBuffSumInt(Handle:plugin,numParams)
+{
+	new client=GetNativeCell(1);
+	new W3Buff:buffindex=GetNativeCell(2);
+	return GetBuffSumInt(client,buffindex);
+}
 
 //stop complaining that we are returning a float!
 public NW3GetPhysicalArmorMulti(Handle:plugin,numParams) {

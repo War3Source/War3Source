@@ -149,7 +149,7 @@ public OnWar3EventSpawn(client)
 			SetEntityHealth(client,old_health+hp);
 			
 			new old_XP = War3_GetXP(client,thisRaceID);
-			new kill_XP = W3GetKillXP(War3_GetLevel(client,thisRaceID));
+			new kill_XP = W3GetKillXP(client);
 			if (xp > kill_XP)
 				xp = kill_XP;
 			

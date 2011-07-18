@@ -492,7 +492,7 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 //=======================================================================
 //                  HEALING WAVE PARTICLE EFFECT (TF2 ONLY!)
 //=======================================================================
-
+/*
 // Written by FoxMulder with some tweaks by me https://forums.alliedmods.net/showpost.php?p=909189&postcount=7
 AttachParticle(ent, String:particleType[], controlpoint)
 {
@@ -545,7 +545,7 @@ AttachParticle(ent, String:particleType[], controlpoint)
 		}
 	}
 }
-
+*/
 StopParticleEffect(client, bKill)
 {
 	if(War3_GetGame() == Game_TF)
@@ -584,6 +584,7 @@ StopParticleEffect(client, bKill)
 }
 
 //not used
+/*
 public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
 {
 	if(War3_GetGame() == Game_TF)
@@ -632,3 +633,4 @@ public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
 					}
 				}
 }
+*/
