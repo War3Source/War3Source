@@ -8,6 +8,9 @@
  */
 
 #include <sdktools>
+#undef REQUIRE_EXTENSIONS
+#include <tf2>
+#include <tf2_stocks>
 
 #include "W3SIncs/constants"
 #include "W3SIncs/colors"
@@ -2404,7 +2407,26 @@ stock W3MsgVengenceWasBlocked(client,String:reason[]){
 	War3_ChatMessage(client,"%T","Vengence blocked ({reason})",client,reason);
 }
 
+stock bool:Spying(client){
+	return	GameTF()&&(   TF2_GetPlayerConditionFlags(client)&(TF_CONDFLAG_DISGUISED|TF_CONDFLAG_DISGUISING |TF_CONDFLAG_CLOAKED)   )
+}
+//team 2 3 swapped if spying
+stock GetApparentTeam(client){
+	new team=GetClientTeam(client);
+	if(Spying(client)){
+		if(team==2) team++;
+		else if(team==3) team--;
+	}
+	return team;
+}
+native W3IsBuffInvised(client); //returns true if client alpha is <50
 
+//invisible or cloaked?
+stock IsInvis(client){
+	 return (  GameTF()&&(   TF2_GetPlayerConditionFlags(client)&TF_CONDFLAG_CLOAKED) ||
+	 	W3IsBuffInvised(client)
+	 )
+}
 
 /**
  * Prints Message to server and all chat

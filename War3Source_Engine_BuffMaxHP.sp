@@ -29,14 +29,9 @@ public OnWar3EventSpawn(client){
 
 }
 public Action:CheckHP(Handle:h,any:client){
-DP("1");
 	if(ValidPlayer(client,true)){
-		
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-		DP("2 %d",hpadd):
 		SetEntityHealth(client,GetClientHealth(client)+hpadd);
 		War3_SetMaxHP(client,War3_GetMaxHP(client)+hpadd);
 	}
-	
-
 }

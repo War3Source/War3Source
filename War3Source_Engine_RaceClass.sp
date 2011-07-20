@@ -320,6 +320,7 @@ public NW3GetRaceAccessFlagStr(Handle:plugin,numParams)
 public NW3GetRaceOrder(Handle:plugin,numParams)
 {
 	new raceid=GetNativeCell(1);
+	//DP("getraceorder race %d cvar %d",raceid,RaceOrderCvar[raceid]);
 	return W3GetCvarInt(RaceOrderCvar[raceid]);
 	
 }
@@ -336,19 +337,19 @@ public NW3RaceHasFlag(Handle:plugin,numParams)
 public NW3GetRaceList(Handle:plugin,numParams){
 
 	new listcount=0;
-	
-	new Handle:hdynamicarray=CreateArray(1,War3_GetRacesLoaded()); //2 indexes
 	new RacesLoaded = War3_GetRacesLoaded();
+	new Handle:hdynamicarray=CreateArray(1); //1 cell
+	
 	for(new raceid=1;raceid<=RacesLoaded;raceid++){
+		
 		if(!W3RaceHasFlag(raceid,"hidden")){
-	
-	
-			SetArrayCell(hdynamicarray, listcount, raceid);
+		//	DP("not hidden %d",raceid);
+			PushArrayCell(hdynamicarray, raceid);
 			listcount++
 		}
-		//else{
-		//	PrintToChatAll("hidden");
-	//	}
+		else{
+		//	DP("hidden %d",raceid);
+		}
 	}
 	new racelist[MAXRACES];
 	new Handle:result=MergeSort(hdynamicarray); //closes hdynamicarray

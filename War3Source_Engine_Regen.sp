@@ -42,19 +42,19 @@ public OnGameFrame()
 					
 					if(War3_GetGame()==TF){
 						tf2displayskip[client]++;
-						if(tf2displayskip[client]>4){
+						if(tf2displayskip[client]>4 && !IsInvis(client)){
 							new Float:VecPos[3];
 							GetClientAbsOrigin(client,VecPos);
 							VecPos[2]+=55.0;
-							War3_TF_ParticleToClient(0, GetClientTeam(client)==2?"healthgained_red":"healthgained_blu", VecPos);
+							War3_TF_ParticleToClient(0, GetApparentTeam(client)==2?"healthgained_red":"healthgained_blu", VecPos);
 							tf2displayskip[client]=0;
 						}
 					}
 				}
 				if(fbuffsum<-0.01){ //decay
-					if(War3_GetGame()==Game_TF&&W3Chance(0.25)){
+					if(War3_GetGame()==Game_TF&&W3Chance(0.25)  && !IsInvis(client)){
 						GetClientAbsOrigin(client,playervec);
-						War3_TF_ParticleToClient(0, GetClientTeam(client)==2?"healthlost_red":"healthlost_blu", playervec);
+						War3_TF_ParticleToClient(0, GetApparentTeam(client)==2?"healthlost_red":"healthlost_blu", playervec);
 					}
 					if(GetClientHealth(client)>1){
 						SetEntityHealth(client,GetClientHealth(client)-1);

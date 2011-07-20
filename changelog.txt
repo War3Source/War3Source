@@ -11,6 +11,10 @@ fixed error when awarding xp without race
 XPGold engine now split for separate mods
 W3GetKillXP accepts client again
 W3GiveXPGold no longer accepts race and will automatically uses current race
+reduced shadow hunter ult duration by 0.33
+some effects are by apparrent team on tf2 (spy)
+some effects wont display if player is invis (tf)
+fixed race list when a race has "hidden" flag
 
 B8
 

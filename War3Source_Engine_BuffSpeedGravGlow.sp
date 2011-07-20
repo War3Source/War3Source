@@ -56,6 +56,7 @@ public bool:InitNativesForwards()
 		PrintToServer("[War3Source] Error finding render color offset.");
 	}
 	
+	CreateNative("W3IsBuffInvised",NW3IsBuffInvised);
 	
 	return true;
 }
@@ -65,6 +66,11 @@ public NW3ReapplySpeed(Handle:plugin,numParams)
 {	
 	new client=GetNativeCell(1);
 	reapplyspeed[client]++;
+}
+public NW3IsBuffInvised(Handle:plugin,numParams)
+{	
+	new client=GetNativeCell(1);
+	return GetEntityAlpha(client)<50;
 }
 
 
@@ -102,6 +108,9 @@ public Action:DeciSecondTimer(Handle:timer)
 				}
 				
 				
+				
+				
+				///GLOW
 				new r=255,g=255,b=255,alpha=255;
 			//	new bool:skipinvis=false;
 				

@@ -66,7 +66,7 @@ public NW3GetCvar(Handle:plugin,numParams){
 	
 	new String:outstr[1024];
 	if(!GetTrieString(Cvartrie, cvarstr, outstr, sizeof(outstr))){
-		ThrowError("Could not GET Cvar");
+		ThrowError("Could not GET Cvar: cvarid %d",cvarid);
 	}
 	//PrintToServer("%s %d",outstr,cvarid);
 	SetNativeString(2,outstr,GetNativeCell(3));

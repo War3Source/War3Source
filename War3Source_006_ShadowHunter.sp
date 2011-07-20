@@ -49,7 +49,7 @@ new Float:LastThunderClap[MAXPLAYERSCUSTOM];
 //ultimate
 new Handle:ultCooldownCvar;
 
-new Float:UltimateDuration[]={0.0,1.0,1.33,1.66,2.00}; ///big bad voodoo duration
+new Float:UltimateDuration[]={0.0,0.66,1.0,1.33,1.66}; ///big bad voodoo duration
 
 
 
