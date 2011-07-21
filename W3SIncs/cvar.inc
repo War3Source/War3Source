@@ -19,12 +19,14 @@ new Handle:ChanceModifierSMGSniper;
 new Handle:hChangeGameDescCvar;
 new Handle:hUseMetric;
 
+new Handle:introclannamecvar;
 new Handle:clanurl;
 
 /////END CVARS
 ///other cvar handle definitions are in war3source.inc ??
 War3Source_InitCVars()
 {
+	introclannamecvar=CreateConVar("war3_introclanname","this","Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
 	clanurl=CreateConVar("war3_clanurl","Www.OwnageClan.Com (set war3_clanurl)","The url to display on intro menu");
 	/*	
 	ChanceModifierPlasma=CreateConVar("war3_chancemodifier_directburn","0.0625","From 0.0 to 1.0 chance modifier for direct burns (plasma)");

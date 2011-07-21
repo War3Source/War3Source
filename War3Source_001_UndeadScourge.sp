@@ -9,7 +9,6 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
-#undef REQUIRE_EXTENSIONS
 #include <tf2>
 #include <tf2_stocks>
 public W3ONLY(){} //unload this?

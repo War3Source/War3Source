@@ -1,6 +1,5 @@
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 
-#undef REQUIRE_EXTENSIONS
 #undef AUTOLOAD_EXTENSIONS
 #include <tf2_stocks>
 

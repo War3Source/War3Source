@@ -12,7 +12,7 @@
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
 
-#undef REQUIRE_EXTENSIONS
+
 #include <tf2>
 #include <tf2_stocks>
 

@@ -5,11 +5,10 @@
  */
 
 
-#undef REQUIRE_EXTENSIONS
+
 #include <tf2>
 #include <cstrike>
 #include <tf2_stocks>
-#define REQUIRE_EXTENSIONS
 	
 #include <sdktools>
 #include <sdktools_functions>

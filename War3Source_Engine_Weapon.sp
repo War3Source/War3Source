@@ -275,6 +275,53 @@ stock PrintIfDebug(client,String:fmt[],any:...){
 
 
 
+public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
+{
+	if(ValidPlayer(client,true)){
+		static bool:wasdisarmed[MAXPLAYERSCUSTOM];
+		if(W3GetBuffHasTrue(client,bStunned)||W3GetBuffHasTrue(client,bDisarm)){
+			wasdisarmed[client]=true;
+			new ent = GetCurrentWeaponEnt(client);
+			if(ent != -1)
+			{
+				//new Float:time = GetEntDataFloat(ent,m_OffsetNextPrimaryAttack);
+				//SetEntDataFloat(ent,m_OffsetNextPrimaryAttack,Getgametime()+0.1,true);
+				//
+				 SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+0.2);
+				 //DP("%f ",GetGameTime()+0.1);
+				//fill the stack for next frame
+				//g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
+				//g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
+			} 
+		}
+		else if(	wasdisarmed[client]){
+			wasdisarmed[client]=false;
+			
+			new ent = GetCurrentWeaponEnt(client);
+			if(ent != -1)
+			{
+				//new Float:time = GetEntDataFloat(ent,m_OffsetNextPrimaryAttack);
+				//SetEntDataFloat(ent,m_OffsetNextPrimaryAttack,Getgametime()+0.1,true);
+				//
+				 SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+0.2);
+				 //DP("%f ",GetGameTime()+0.1);
+				//fill the stack for next frame
+				//g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
+				//g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
+			} 
+			SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime());
+		}
+	//	new ent = GetCurrentWeaponEnt(client);
+		//if(ent != -1)
+	//	{
+	//		new Float:time = GetEntDataFloat(ent,m_OffsetNextPrimaryAttack);
+	//		DP("chk %f /%f",time,GetGameTime());
+	//	}
+	}
+	
+	return Plugin_Continue;
+}
+
 
 
 
@@ -288,7 +335,7 @@ public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
 	
 	//if(!IsRace(client))
 	//  return;
-	// if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
+	// if( (g_fDuration[client] < Getgametime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
 	//    return;
 	new ent = GetCurrentWeaponEnt(client);
 	if(ent != -1)
@@ -311,7 +358,7 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
 	// new client = GetClientOfUserId(GetEventInt(event,"userid"));
 	//if(!IsRace(client))
 	//  return;
-	// if( (g_fDuration[client] < GetEngineTime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
+	// if( (g_fDuration[client] < Getgametime()) || ( g_fMulti[client] < 1.0 ) ) //g_fDuratioin is for "in the fast attack speed mode"
 	//    return;
 	new ent = GetEntDataEnt2(client,m_OffsetActiveWeapon);
 	if(ent != -1)
@@ -332,7 +379,7 @@ public OnGameFrame(){
 	if(g_iWeaponRateQueueLength>0)       //see events
 	{
 		decl ent, client, Float:time;
-		new Float:enginetime = GetGameTime();
+		new Float:gametime = GetGameTime();
 		for(new i = 0; i < g_iWeaponRateQueueLength; i++) {
 			ent = g_iWeaponRateQueue[i][0];
 			if(IsValidEntity(ent)) {   //weapon ent is valid
@@ -340,8 +387,8 @@ public OnGameFrame(){
 				client = g_iWeaponRateQueue[i][1];
 				new Float:multi = W3GetBuffStackedFloat(client,fAttackSpeed);
 				if(multi!=1.0){        //do we need to change it?
-					time = (GetEntDataFloat(ent,m_OffsetNextPrimaryAttack) - enginetime) / multi;
-					SetEntDataFloat(ent,m_OffsetNextPrimaryAttack,time + enginetime,true);
+					time = (GetEntDataFloat(ent,m_OffsetNextPrimaryAttack) - gametime) / multi;
+					SetEntDataFloat(ent,m_OffsetNextPrimaryAttack,time + gametime,true);
 				}
 			}
 		} 

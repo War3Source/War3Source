@@ -11,7 +11,6 @@
 #include <sourcemod>
 #include <sdktools>
 
-#undef REQUIRE_EXTENSIONS
 #include <cstrike>
 
 

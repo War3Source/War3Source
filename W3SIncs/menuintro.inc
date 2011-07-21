@@ -7,12 +7,16 @@ Author(s): Anthony Iacono
 public War3Source_IntroMenu(client)
 {
 	new Handle:introMenu=CreateMenu(War3Source_IntroMenu_Select);
+	
+	new String:clanname[32];
+	GetConVarString(introclannamecvar,clanname,sizeof(clanname));
+	
 	new String:welcome[512];
-	Format(welcome,sizeof(welcome),"%T\n \n","WelcomeToServer",client,VERSION_NUM,AUTHORS);
+	Format(welcome,sizeof(welcome),"%T\n \n","WelcomeToServer",client,clanname,VERSION_NUM,AUTHORS);
 	SetMenuTitle(introMenu,welcome);
 	SetMenuExitButton(introMenu,false);
 	new String:buf[64];
-	Format(buf,sizeof(buf),"%T","Lets Play!",client);
+	Format(buf,sizeof(buf),"%T","ForHelpIntro",client);
 	AddMenuItem(introMenu,"exit",buf);
 	
 	GetConVarString(clanurl,buf,sizeof(buf));

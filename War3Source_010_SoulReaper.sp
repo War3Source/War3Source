@@ -12,11 +12,8 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
-
-
-#undef REQUIRE_EXTENSIONS
 #include <cstrike>
-#define REQUIRE_EXTENSIONS
+
 public W3ONLY(){} //unload this?
 new thisRaceID;
 new Handle:ultCooldownCvar;

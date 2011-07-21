@@ -2,7 +2,7 @@
 //This function registers an aura, returns an number, save it as your AuraID
 //by default tracks teammates only
 //Track other team will track other team only, if you want to track both teams, use two different auras
-//aura does take account of line of sight
+//aura not does take account of line of sight
 native W3RegisterAura(String:auraShortName[],Float:distance,bool:trackotherteam=false);
 
 //set and unset a player if he has or no longer has the origin of the aura
