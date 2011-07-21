@@ -1389,12 +1389,12 @@
 	//W3SIncs/menuintro.inc
 	"WelcomeToServer"
 	{
-		"#format"	"{1:s},{2:s}"
-		"en"		"Welcome to this War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nFor help, type war3menu in chat.\n \nVisit the mod website @ Www.War3Source.Com\nVersion: {1} by {2}"
+		"#format"	"{1:s},{2:s},{3:s}"
+		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ Www.War3Source.Com\nVersion: {2} by {3}"
 	}
-	"Lets Play!"
+	"ForHelpIntro"
 	{
-		"en"		"Lets Play!"
+		"en"		"For help, say war3menu"
 	}
 	"Please be patient while we load your XP"
 	{
