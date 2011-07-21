@@ -164,11 +164,11 @@ public Action:DeciSecondTimer(Handle:timer)
 				
 			
 				new Float:falpha=1.0;
-			//	if(!W3GetBuffHasTrue(client,bInvisibilityDenySkill))
-			//	{
-				falpha=FloatMul(falpha,W3GetBuffMinFloat(client,fInvisibilitySkill));
-			//		
-			//	}
+				if(!W3GetBuffHasTrue(client,bInvisibilityDenySkill))
+				{
+					falpha=FloatMul(falpha,W3GetBuffMinFloat(client,fInvisibilitySkill));
+					
+				}
 				//if(!W3GetBuffHasTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
 				new Float:itemalpha=W3GetBuffMinFloat(client,fInvisibilityItem);
 				if(falpha!=1.0){
