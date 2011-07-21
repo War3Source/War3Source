@@ -15,7 +15,7 @@
 	}
 	"scout_skill_Vanish_desc"
 	{
-		"en"		"Turn invisible at the cost of #1# health / sec"
+		"en"		"+ability: Turn invisible at the cost of #1# health / sec for #2# seconds.\nCannot shoot for 1 second out of invis.\nLeave invis early by using ability again"
 	}
 
 	"scout_skill_TrueSight"
