@@ -280,7 +280,7 @@ enum W3Buff
 	fInvisibilitySkill, //0.4 ish?
 	fInvisibilityItem, //0.4 ish?
 	bInvisibilityDenyAll,
-	bInvisibilityDenySkill,
+	zzbInvisibilityDenySkill, //REMOVE, no longer implemented
 	bDoNotInvisWeapon,
 	bInvisWeaponOverride, //set true to use override amount, ONLY 1 RACE SHALL USE THIS AT A TIME PER CLIENT
 	iInvisWeaponOverrideAmount, ///amolunt of 0-255 , do not have to set back to 255, just set bInvisWeaponOverride to false
@@ -370,8 +370,8 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ bInvisibilityDenyAll ][DefaultValue]=false;
 	buffpropertiesarray[ bInvisibilityDenyAll ][BuffStackType]=bHasOneTrue;
 	
-	buffpropertiesarray[ bInvisibilityDenySkill ][DefaultValue]=false;
-	buffpropertiesarray[ bInvisibilityDenySkill ][BuffStackType]=bHasOneTrue;
+	buffpropertiesarray[ zzbInvisibilityDenySkill ][DefaultValue]=false;
+	buffpropertiesarray[ zzbInvisibilityDenySkill ][BuffStackType]=bHasOneTrue;
 		
 	buffpropertiesarray[ bDoNotInvisWeapon ][DefaultValue]=false;
 	buffpropertiesarray[ bDoNotInvisWeapon ][BuffStackType]=bHasOneTrue;	

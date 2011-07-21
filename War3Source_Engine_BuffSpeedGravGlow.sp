@@ -17,7 +17,7 @@ new m_OffsetClrRender=-1;
 
 new reapplyspeed[MAXPLAYERSCUSTOM];
 new bool:invisWeaponAttachments[MAXPLAYERSCUSTOM];
-
+new bool:bDeniedInvis[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo= 
 {
@@ -160,33 +160,45 @@ public Action:DeciSecondTimer(Handle:timer)
 				
 				///invisbility!
 				//PrintToChatAll("W3GetBuffMinFloat(client,fInvisibility) %f %f %f ",W3GetBuffMinFloat(client,fInvisibility),float(alpha),float(alpha)*W3GetBuffMinFloat(client,fInvisibility));
-				if(!W3GetBuffHasTrue(client,bInvisibilityDenyAll)&&!W3GetBuffHasTrue(client,bBuffDenyAll)) ///buff is not denied
-				{
-					new Float:falpha=1.0;
-					if(!W3GetBuffHasTrue(client,bInvisibilityDenySkill))
+				
+				
+			
+				new Float:falpha=1.0;
+			//	if(!W3GetBuffHasTrue(client,bInvisibilityDenySkill))
+			//	{
+				falpha=FloatMul(falpha,W3GetBuffMinFloat(client,fInvisibilitySkill));
+			//		
+			//	}
+				//if(!W3GetBuffHasTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
+				new Float:itemalpha=W3GetBuffMinFloat(client,fInvisibilityItem);
+				if(falpha!=1.0){
+					//PrintToChatAll("has skill invis");
+					//has skill, reduce stack
+					itemalpha=Pow(itemalpha,0.75);
+				}
+				falpha=FloatMul(falpha,itemalpha);
+				
+				//PrintToChatAll("%f",W3GetBuffMinFloat(client,fInvisibilityItem));
+				
+				new alpha2=RoundFloat(       FloatMul(255.0,falpha)  ); 
+				//PrintToChatAll("alpha2 = %d",alpha2);
+				if(alpha2>=0&&alpha2<=255){
+					alpha=alpha2;
+				}
+				else{
+					LogError("alpha playertracking out of bounds 0 - 255");
+				}
+				if(W3GetBuffHasTrue(client,bInvisibilityDenyAll)||W3GetBuffHasTrue(client,bBuffDenyAll) ){
+					if( bDeniedInvis[client]==false && alpha<222) ///buff is not denied
 					{
-						falpha=FloatMul(falpha,W3GetBuffMinFloat(client,fInvisibilitySkill));
+						bDeniedInvis[client]=true;
+						PrintHintText(client,"Cannot Invis. Being revealed");
 						
 					}
-					//if(!W3GetBuffHasTrue(client,bInvisibilityDenySkillbInvisibl  ///we dont have an item deny yet
-					new Float:itemalpha=W3GetBuffMinFloat(client,fInvisibilityItem);
-					if(falpha!=1.0){
-						//PrintToChatAll("has skill invis");
-						//has skill, reduce stack
-						itemalpha=Pow(itemalpha,0.75);
-					}
-					falpha=FloatMul(falpha,itemalpha);
-					
-					//PrintToChatAll("%f",W3GetBuffMinFloat(client,fInvisibilityItem));
-					
-					new alpha2=RoundFloat(       FloatMul(255.0,falpha)  ); 
-					//PrintToChatAll("alpha2 = %d",alpha2);
-					if(alpha2>=0&&alpha2<=255){
-						alpha=alpha2;
-					}
-					else{
-						LogError("alpha playertracking out of bounds 0 - 255");
-					}
+					alpha=255;
+				}
+				else{
+					bDeniedInvis[client]=false;
 				}
 				//PrintToChatAll("%d",alpha);
 				if(GetEntityAlpha(client)!=alpha)

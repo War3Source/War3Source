@@ -10,7 +10,9 @@ public War3Source_IntroMenu(client)
 	
 	new String:clanname[32];
 	GetConVarString(introclannamecvar,clanname,sizeof(clanname));
-	
+	//if(StrContains(clanname,"war3_intro")>-1){
+	//	Format(clanname,sizeof(clanname),"war3_introclanname");
+	//}
 	new String:welcome[512];
 	Format(welcome,sizeof(welcome),"%T\n \n","WelcomeToServer",client,clanname,VERSION_NUM,AUTHORS);
 	SetMenuTitle(introMenu,welcome);

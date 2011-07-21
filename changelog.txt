@@ -15,6 +15,15 @@ reduced shadow hunter ult duration by 0.33
 some effects are by apparrent team on tf2 (spy)
 some effects wont display if player is invis (tf)
 fixed race list when a race has "hidden" flag
+weapon firing rate modification on disarm
+"Cannot invis, being revealed" will be printed if the player is denied invis when the player would normally be (partially) invis
+
+changes to intro menu
+war3_introclanname cvar for customizing the intro menu, ie: Welcome to "war3_introclanname" war3source server!
+war3_clanurl cvar for customizing the intro menu
+Translators: please change the translations for intromenu
+
+test race: SCOUT
 
 B8
 

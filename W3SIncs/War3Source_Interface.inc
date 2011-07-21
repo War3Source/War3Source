@@ -7,8 +7,9 @@
  * LISTS NATIVES AND FORWARDS, BUT NOT ACTUALLY DEFINES THE CODE
  */
 
-#include <sdktools>
+
 #undef REQUIRE_EXTENSIONS
+#include <sdktools>
 #include <tf2>
 #include <tf2_stocks>
 

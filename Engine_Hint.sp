@@ -186,6 +186,7 @@ public OnGameFrame(){
 								new String:str[128];
 								GetArrayString(arr,arrindex   ,str,sizeof(str));	
 								StrCat(output,sizeof(output),str);
+								//DP("cat %s",str);
 								if(W3GetHintPriorityType(W3HintPriority:priority)!=HINT_TYPE_ALL){ //PRINT ONLY 1
 									break;
 								}
@@ -220,11 +221,15 @@ public OnGameFrame(){
 						}
 						if(!StrEqual(lastoutput[client],output)){
 							PrintHintText(client," %s",output); //NEED SPACE
-							strcopy(lastoutput[client],128,output);
+							//if(!IsFakeClient(client)){
+							//	DP("%s %d",output,GetGameTime());
+							//}
+							
 							//PrintToChat(client,"%s %f",output,lastshow[client]);
 						}
 						
 					}
+					strcopy(lastoutput[client],128,output);
 				
 				}
 			

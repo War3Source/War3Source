@@ -1,9 +1,10 @@
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 
-#undef AUTOLOAD_EXTENSIONS
-#include <tf2_stocks>
 
 #include "W3SIncs/War3Source_Interface"  
+
+#include <tf2_stocks>
+
 
 new Handle:XPMultiplierCVar;
 new Handle:GoldMultiplierCVar;

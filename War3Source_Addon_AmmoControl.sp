@@ -10,6 +10,7 @@
 
 #include <sourcemod>
 #include <sdktools>
+#include "W3SIncs/War3Source_Interface"
 
 #include <cstrike>
 
@@ -48,7 +49,7 @@ public Plugin:myinfo = {
 	url = "http://www.war3source.com/"
 };
 
-public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
+public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err_max)
 {
 	CreateNative("War3_GiveWeaponAmmo", Native_GiveWeaponAmmo);
 	CreateNative("War3_SetAmmoControl", Native_SetAmmoControl);
