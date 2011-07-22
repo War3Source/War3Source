@@ -277,10 +277,12 @@ public OnGameFrame()
 						
 					//	if(true||	speedBefore[client]>3.0){ //reapply speed, using previous cached base speed, make sure the cache isnt' zero lol 
 							new Float:speedmulti=1.0;
+	
 							//DP("before");
 							//new Float:speedadd=1.0;
 							if(!W3GetBuffHasTrue(client,bBuffDenyAll)){
-								speedmulti=W3GetBuffMaxFloat(client,fMaxSpeed);
+								speedmulti=W3GetBuffMaxFloat(client,fMaxSpeed)+W3GetBuffMaxFloat(client,fMaxSpeed2)-1.0;
+								
 							}
 							if(W3GetBuffHasTrue(client,bStunned)||W3GetBuffHasTrue(client,bBashed)){
 							//DP("stunned or bashed");
@@ -307,9 +309,7 @@ public OnGameFrame()
 						
 						//new Float:speedadd=1.0;
 						if(!W3GetBuffHasTrue(client,bBuffDenyAll)){
-							new Float:speedmulti1=W3GetBuffMaxFloat(client,fMaxSpeed);
-							new Float:speedmulti2=W3GetBuffMaxFloat(client,fMaxSpeed2);
-							speedmulti=speedmulti1+(speedmulti2-1.0); ///1.0 + 1.0 - 1.0 = 1.0
+							speedmulti=W3GetBuffMaxFloat(client,fMaxSpeed)+W3GetBuffMaxFloat(client,fMaxSpeed2)-1.0;
 						}
 						if(W3GetBuffHasTrue(client,bStunned)||W3GetBuffHasTrue(client,bBashed)){
 							speedmulti=0.0;

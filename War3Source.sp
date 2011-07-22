@@ -1,3 +1,4 @@
+ 
 /*  This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -22,6 +23,43 @@
 * All handle leaks have been considered.
 * If you don't like it, read through the whole thing yourself and prove yourself wrong.
 */
+
+
+// 
+// Dear maintainer:
+// 
+// Once you are done trying to 'optimize' this routine,
+// and have realized what a terrible mistake that was,
+// please increment the following counter as a warning
+// to the next guy:
+// 
+// total_hours_wasted_here = 39
+// 
+/**
+* For the brave souls who get this far: You are the chosen ones,
+* the valiant knights of programming who toil away, without rest,
+* fixing our most awful code. To you, true saviors, kings of men,
+* I say this: never gonna give you up, never gonna let you down,
+* never gonna run around and desert you. Never gonna make you cry,
+* never gonna say goodbye. Never gonna tell a lie and hurt you.
+*/
+
+//When I wrote this, only God and I understood what I was doing
+//Now, God only knows
+
+// sometimes I believe compiler ignores all my comments
+
+/*
+ * You may think you know what the following code does.
+ * But you dont. Trust me.
+ * Fiddle with it, and youll spend many a sleepless
+ * night cursing the moment you thought youd be clever
+ * enough to "optimize" the code below.
+ * Now close this file and go play with something else.
+ */ 
+ 
+//Dear future me. Please forgive me. 
+//I can't even begin to express how sorry I am.  
 
 #pragma semicolon 1
 

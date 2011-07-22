@@ -15,11 +15,6 @@ public W3ONLY(){} //unload this?
 new thisRaceID;
 
 
-//new Handle:UltCooldownCvar; // cooldown
-
-//new Handle:hWeaponDrop;
-
-
 new SKILL_INVIS, SKILL_TRUESIGHT, SKILL_DISARM, ULT_MARKSMAN;
 
 // Chance/Data Arrays
@@ -45,8 +40,8 @@ new standStillCount[MAXPLAYERSCUSTOM];
 new auras[5];
 public Plugin:myinfo = 
 {
-	name = "Race - Night Elf",
-	author = "PimpinJuice",
+	name = "Race - Scout",
+	author = "Ownz",
 	description = "The Night Elf race for War3Source.",
 	version = "1.0.0.0",
 	url = "http://pimpinjuice.net/"
@@ -58,7 +53,7 @@ public OnPluginStart()
 
 	//UltCooldownCvar=CreateConVar("war3_scout_ult_cooldown","20","Cooldown timer.");
 	
-	LoadTranslations("w3s.race.scout.phrases");
+	LoadTranslations("w3s.race.scout_o.phrases");
 	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 }
 
@@ -73,7 +68,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==40)
 	{
-		thisRaceID=War3_CreateNewRaceT("scout");
+		thisRaceID=War3_CreateNewRaceT("scout_o");
 		SKILL_INVIS=War3_AddRaceSkillT(thisRaceID,"Vanish",false,4,"5%","5-8");
 		SKILL_TRUESIGHT=War3_AddRaceSkillT(thisRaceID,"TrueSight",false,4,"400-800");
 		

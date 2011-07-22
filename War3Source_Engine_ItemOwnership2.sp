@@ -10,7 +10,7 @@ new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 
 new Handle:hitemRestrictionCvar;
-new Handle:hCvarMaxShopitems2;
+//new Handle:hCvarMaxShopitems2;
 public Plugin:myinfo= 
 {
 	name="W3S Engine Item2 Ownership",
@@ -25,7 +25,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
-	hCvarMaxShopitems2=CreateConVar("war3_max_shopitems2","2");
+	//hCvarMaxShopitems2=CreateConVar("war3_max_shopitems2","2");
 }
 
 public bool:InitNativesForwards()
@@ -43,7 +43,7 @@ public bool:InitNativesForwards()
 	
 	
 	CreateNative("GetClientItems2Owned",NGetClientItems2Owned);
-	CreateNative("GetMaxShopitems2PerPlayer",NGetMaxShopitems2PerPlayer);
+	//CreateNative("GetMaxShopitems2PerPlayer",NGetMaxShopitems2PerPlayer);
 	
 	return true;
 }
@@ -200,6 +200,6 @@ public NGetClientItems2Owned(Handle:h,n){
 	//DP("ret %d loaded %d",num,W3GetItems2Loaded());
 	return num;
 }
-public NGetMaxShopitems2PerPlayer(Handle:h,n){
-	return GetConVarInt(hCvarMaxShopitems2);
-}
+//public NGetMaxShopitems2PerPlayer(Handle:h,n){
+	//return GetConVarInt(hCvarMaxShopitems2);
+//}
