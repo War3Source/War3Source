@@ -1076,7 +1076,7 @@ native War3_HealToBuffHP(client,addhp);
  */
 native War3_DecreaseHP(client,decrease);
 
-stock Entity_SetHealth(entity, health)
+stock nsEntity_SetHealth(entity, health)
 {
 	SetEntProp(entity, Prop_Data, "m_iHealth", health);
 	ChangeEdictState(entity, 0);

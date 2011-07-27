@@ -258,7 +258,7 @@ public Native_War3_HTMHP(Handle:plugin,numParams)
 		if (newhp>maxhp){
 			newhp=maxhp;
 		}
-		Entity_SetHealth(client,newhp);
+		nsEntity_SetHealth(client,newhp);
 	}
 	return 0;
 }
@@ -273,7 +273,7 @@ public Native_War3_HTBHP(Handle:plugin,numParams)
 		if (newhp>maxhp){
 			newhp=maxhp;
 		}
-		Entity_SetHealth(client,newhp);
+		nsEntity_SetHealth(client,newhp);
 	}
 }
 
@@ -285,7 +285,7 @@ public Native_War3_DecreaseHP(Handle:plugin,numParams)
 	if(newhp<1){
 		newhp=1;
 	}
-	Entity_SetHealth(client,newhp);
+	nsEntity_SetHealth(client,newhp);
 }
 
 
