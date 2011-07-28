@@ -208,6 +208,9 @@ public NW3GetKillXP(Handle:plugin,numParams)
 		if(level>MAXLEVELXPDEFINED)
 			level=MAXLEVELXPDEFINED;
 		new leveldiff=	GetNativeCell(2);
+		
+		if(leveldiff<0) leveldiff=0;
+		
 		return (IsShortTerm()?XPShortTermKillXP[level] :XPLongTermKillXP[level]) + (GetConVarInt(hLevelDifferenceBounus)*leveldiff);
 	}
 	return 0;
