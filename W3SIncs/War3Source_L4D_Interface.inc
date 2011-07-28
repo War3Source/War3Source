@@ -76,6 +76,17 @@ stock bool:War3_IsWitch(iEntity)
     return false;
 }  
 
+// To check if an infected in versus hasn't spawned yet
+stock bool:IsPlayerGhost(client)
+{
+	if (GetEntProp(client, Prop_Send, "m_isGhost", 1) == 1)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
 stock GetSurvivorTempHealth(client)
 {
 	new temphp = RoundToCeil(GetEntPropFloat(client, Prop_Send, "m_healthBuffer") - ((GetGameTime() - GetEntPropFloat(client, Prop_Send, "m_healthBufferTime")) * GetConVarFloat(FindConVar("pain_pills_decay_rate")))) - 1;
