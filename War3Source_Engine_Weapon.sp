@@ -69,6 +69,10 @@ public OnPluginStart()
 		
 		HookEvent("weapon_fire",WeaponFireEvent, EventHookMode_Pre); //CS
 	}
+	if(War3_GetGame()==L4D2){
+		HookEvent("weapon_fire",WeaponFireEvent, EventHookMode_Pre);
+	}
+	
 	RegConsoleCmd("weapontest",weapontest);
 	
 }
