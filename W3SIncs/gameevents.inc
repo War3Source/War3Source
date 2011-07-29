@@ -125,7 +125,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 			//forward to all other plugins last
 			DoForward_OnWar3EventSpawn(client);
 			
-			
+			W3SetPlayerProp(client,bStatefulSpawn,false); //no longer a "stateful" spawn
 		}
 	}
 }
@@ -205,7 +205,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		W3SetVar(SmEvent,oldevent); //restore on stack , if any
 		//DP("restore event %d",event);
 		//then we allow change race AFTER death forward
-		
+		W3SetPlayerProp(victimIndex,bStatefulSpawn,true);//next spawn shall be stateful
 		CheckPendingRace(victimIndex);
 		
 	}

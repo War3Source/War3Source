@@ -107,7 +107,7 @@ public OnWar3EventSpawn(client)
 		War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);	
 		
 	
-	
+		
 		new skillleveltotem=War3_GetSkillLevel(client,race,SKILL_TOTEM); 
 		if (skillleveltotem )
 		{
@@ -152,15 +152,18 @@ public OnWar3EventSpawn(client)
 			new kill_XP = W3GetKillXP(client);
 			if (xp > kill_XP)
 				xp = kill_XP;
-			
-			War3_SetXP(client,thisRaceID,old_XP+xp);
+				
+			if(W3GetPlayerProp(client,bStatefulSpawn)){
+				War3_SetXP(client,thisRaceID,old_XP+xp);
+			}
 			
 			if (m_iAccount>0) //game with money
 			{
 				new old_cash=GetEntData(client, m_iAccount);
 				SetEntData(client, m_iAccount, old_cash + dollar);
-				
-				PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,dollar,xp);
+				if(W3GetPlayerProp(client,bStatefulSpawn)){
+					PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,dollar,xp);
+				}
 			}
 			else
 			{
@@ -173,15 +176,17 @@ public OnWar3EventSpawn(client)
 				if (new_credits > max)
 					new_credits = max;
 				
-				
-				War3_SetGold(client,new_credits);
+				if(W3GetPlayerProp(client,bStatefulSpawn)){
+					War3_SetGold(client,new_credits);
+				}
 				new_credits = War3_GetGold(client);
 				
 				if (new_credits > 0){
 					dollar = new_credits-old_credits;
 				}
-				
-				PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,dollar,xp);
+				if(W3GetPlayerProp(client,bStatefulSpawn)){
+					PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,dollar,xp);
+				}
 			}
 		}
 	}
@@ -243,8 +248,8 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 					vec[2]+=50.0;
 					TE_SetupGlowSprite(vec, BeamSprite, 2.0, 10.0, 5);
 					TE_SendToAll();
-					
-					PrintToConsole(attacker,"%T","[Daemonic Knife] You inflicted +{amount} Damage",attacker,0x04,0x01,damage);
+					W3PrintSkillDmgConsole(victim,attacker,damage,SKILL_HEADHUNTER);
+					//PrintToConsole(attacker,"%T","[Daemonic Knife] You inflicted +{amount} Damage",attacker,0x04,0x01,damage);
 				}
 				else
 				{
@@ -264,7 +269,8 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 					{
 						damage= RoundFloat(dmgamount * GetRandomFloat(0.20,0.40)); // 1.20-1.00,1.40-1.00
 						totaldamage += damage;
-						PrintToConsole(attacker,"%T","[Head Hunter] You inflicted +{amount} Damage",attacker,0x04,0x01,damage);
+						W3PrintSkillDmgConsole(victim,attacker,damage,SKILL_HEADHUNTER);
+						//PrintToConsole(attacker,"%T","[Head Hunter] You inflicted +{amount} Damage",attacker,0x04,0x01,damage);
 					}
 				}
 				

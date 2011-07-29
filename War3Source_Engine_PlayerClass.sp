@@ -325,7 +325,7 @@ public OnWar3Event(W3EVENT:event,client){
 		W3SetPlayerProp(client,sqlStartLoadXPTime,0.0);
 		W3SetPlayerProp(client,isDeveloper,false);
 		W3SetPlayerProp(client,LastChangeTeamTime,0.0);
-		
+		W3SetPlayerProp(client,bStatefulSpawn,true);
 		bResetSkillsOnSpawn[client]=false;
 	}
 

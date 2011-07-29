@@ -38,7 +38,7 @@
 enum W3Var
 {
 	OldRace, //the race he was before OnRaceChanged //REMOVE DEPRECATED
-	DeathRace, //race when player died 
+	DeathRace, //race when player died
 	hDatabase, // Handle to database
 	hDatabaseType, // DBI driver, ie sqlite or mysql
 	hSaveEnabledCvar, //Handle to war3_savexp
@@ -155,7 +155,7 @@ enum W3ForwardedVarsEnum{
 //Used as constants...identifies why a player was rewarded XP/Gold
 enum W3XPAwardedBy
 {
-	XPAwardByGeneric, ///not defined
+	XPAwardByGeneric=0, ///not defined
 	XPAwardByKill,
 	XPAwardByAssist,
 	XPAwardByWin,
@@ -232,11 +232,12 @@ enum W3PlayerProp
 	bool:xpLoaded,
 	Float:RaceChosenTime,
 	bool:RaceSetByAdmin,
-	bool:SpawnedOnce,
+	bool:SpawnedOnce, //if player has spawned once
 	Float:sqlStartLoadXPTime,
 	
 	bool:isDeveloper,
 	Float:LastChangeTeamTime,
+	bool:bStatefulSpawn, //set true if spawn is a non repeated spawn. set to true on join and death, set false after spawn forward is finished.
 }
 
 //EXCLUSIVE: buffs that do not stack with itself: gravity, invisblity, however to make them stack use a second property ie gravity2, invisibilty2
