@@ -1296,6 +1296,10 @@
 	{
 		"en"		"rescueing a player"
 	}
+	"protecting a player"
+	{
+		"en"		"protecting a player"
+	}
     "sharing ammo"
 	{
 		"en"		"sharing ammo"
