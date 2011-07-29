@@ -397,7 +397,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetDamageType");
 	MarkNativeAsOptional("W3GetDamageInflictor");
 	MarkNativeAsOptional("W3ChanceModifier");
-	MarkNativeAsOptional(" W3Hint");
+	MarkNativeAsOptional("W3Hint");
 	MarkNativeAsOptional("War3_GetRace");
 	MarkNativeAsOptional("War3_SetRace");
 	MarkNativeAsOptional("War3_SetLevel");
@@ -1285,6 +1285,7 @@ native W3GetDamageInflictor();
 //helper, directly uses last inflictor and damagetype
 native Float:W3ChanceModifier(attacker);
 
+//print via hint engine. format accepts translations
 native  W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
 
 //for activatable skills only
