@@ -1284,6 +1284,74 @@
 	{
 		"en"		"killing a hostage"
 	}
+	"healing a player"
+	{
+		"en"		"healing a player"
+	}
+	"reviving a player"
+	{
+		"en"		"reviving a player"
+	}
+	"rescueing a player"
+	{
+		"en"		"rescueing a player"
+	}
+    "sharing ammo"
+	{
+		"en"		"sharing ammo"
+	}
+	"killing a Smoker"
+	{
+		"en"		"killing a Smoker"
+	}
+	"killing a Boomer"
+	{
+		"en"		"killing a Boomer"
+	}
+	"killing a Hunter"
+	{
+		"en"		"killing a Hunter"
+	}
+	"killing a Spitter"
+	{
+		"en"		"killing a Spitter"
+	}
+	"killing a Charger"
+	{
+		"en"		"killing a Charger"
+	}
+	"killing a Jockey"
+	{
+		"en"		"killing a Jockey"
+	}
+	"surviving a Tank"
+	{
+		"en"		"surviving a Tank"
+	}
+	"soloing a Tank"
+	{
+		"en"		"soloing a Tank"
+	}
+	"surviving a Witch"
+	{
+		"en"		"surviving a Witch"
+	}
+	"crowning a Witch"
+	{
+		"en"		"crowning a Witch"
+	}
+	"killing a common infected"
+	{
+		"en"		"killing a common infected"
+	}
+	"killing a uncommon infected"
+	{
+		"en"		"killing a uncommon infected"
+	}
+	"helping a teammate"
+	{
+		"en"		"helping a teammate"
+	}
 	"A skill is over the maximum level allowed for your current level, please reselect your skills"
 	{
 		"en"		"A skill is over the maximum level allowed for your current level, please reselect your skills"
