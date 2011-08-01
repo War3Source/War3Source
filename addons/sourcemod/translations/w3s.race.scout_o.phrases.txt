@@ -44,4 +44,14 @@
 	{
 		"en"		"Standing still for 1 second, scout is able to deal #1#x damage the further the target.\n1000 units or more deals maximum damage"
 	}
+	
+	
+	"You sacrificed part of yourself for invis"
+	{
+		"ru"		"You sacrificed part of yourself for invis"
+	}
+	"No Longer Invis! Cannot shoot for 1 sec!"
+	{
+		"ru"		"No Longer Invis! Cannot shoot for 1 sec!"
+	}
 }

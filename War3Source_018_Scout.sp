@@ -72,7 +72,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_INVIS=War3_AddRaceSkillT(thisRaceID,"Vanish",false,4,"5%","5-8");
 		SKILL_TRUESIGHT=War3_AddRaceSkillT(thisRaceID,"TrueSight",false,4,"400-800");
 		
-		SKILL_DISARM=War3_AddRaceSkillT(thisRaceID,"Disarm",false,4,"Up to 15%");
+		SKILL_DISARM=War3_AddRaceSkillT(thisRaceID,"Disarm",false,4,"6/10/13/15%");
 		ULT_MARKSMAN=War3_AddRaceSkillT(thisRaceID,"Marksman",true,4,"1.2-1.6"); 
 	
 		War3_CreateRaceEnd(thisRaceID);
@@ -134,7 +134,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 			}
 		
 			else if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_INVIS,true))
-			{	
+			{	   
 			
 				War3_SetBuff(client,bDisarm,thisRaceID,true);
 				bDisarmed[client]=true;
@@ -143,7 +143,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				InvisEndTimer[client]=CreateTimer(InvisDuration[skilllvl],EndInvis,client);
 				
 				
-				PrintHintText(client,"You sacrificed part of yourself for invis",client);
+				PrintHintText(client,"%T","You sacrificed part of yourself for invis",client);
 				InInvis[client]=true;
 				War3_CooldownMGR(client,15.0,thisRaceID,SKILL_INVIS);
 				
@@ -157,7 +157,7 @@ public Action:EndInvis(Handle:timer,any:client)
 	War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0);
 	War3_SetBuff(client,fHPDecay,thisRaceID,0.0);
 	CreateTimer(1.0,EndInvis2,client);
-	PrintHintText(client,"No Longer Invis! Cannot shoot for 1 sec!");
+	PrintHintText(client,"%T","No Longer Invis! Cannot shoot for 1 sec!",client);
 	
 }
 public Action:EndInvis2(Handle:timer,any:client){
@@ -198,7 +198,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 
 public OnWar3EventPostHurt(victim,attacker,damage){
 	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
-	{
+	{	
 		if(War3_GetRace(attacker)==thisRaceID)
 		{
 			new skill_level=War3_GetSkillLevel(attacker,thisRaceID,SKILL_DISARM);
@@ -213,7 +213,7 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 				}
 			}
 		}
-	}		
+	}		   
 }
 public Action:Undisarm(Handle:t,any:client){
 	War3_SetBuff(client,bDisarm,thisRaceID,false);
@@ -266,4 +266,3 @@ public OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level){
 	}
 	
 }
-
