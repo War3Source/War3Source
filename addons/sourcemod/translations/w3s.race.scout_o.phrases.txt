@@ -48,10 +48,10 @@
 	
 	"You sacrificed part of yourself for invis"
 	{
-		"ru"		"You sacrificed part of yourself for invis"
+		"en"		"You sacrificed part of yourself for invis"
 	}
 	"No Longer Invis! Cannot shoot for 1 sec!"
 	{
-		"ru"		"No Longer Invis! Cannot shoot for 1 sec!"
+		"en"		"No Longer Invis! Cannot shoot for 1 sec!"
 	}
 }
