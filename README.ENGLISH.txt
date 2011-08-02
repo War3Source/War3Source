@@ -55,12 +55,12 @@ CREDITS
 FOUNDER
 Anthony Iacono (AKA "pimpinjuice") 
 
-LEAD DEVEOPER
+LEAD DEVELOPER
 OwnageOwnz (Aka "DarkEnergy")
 
 TRANSLATIONS 
-Schmarotzer
-Frenzzy
+[RUS] Schmarotzer
+[RUS] Frenzzy
 
 L4D compatibility
 Glider
