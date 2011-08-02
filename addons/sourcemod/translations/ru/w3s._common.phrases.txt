@@ -1154,6 +1154,78 @@
 	{
 		"ru"		"убийство заложника"
 	}
+	"healing a player"
+	{
+		"ru"		"излечение игрока"
+	}
+	"reviving a player"
+	{
+		"ru"		"воскрешение игрока"
+	}
+	"rescueing a player"
+	{
+		"ru"		"спасение игрока"
+	}
+	"protecting a player"
+	{
+		"ru"		"защиту игрока"
+	}
+    "sharing ammo"
+	{
+		"ru"		"выдачу боеприпасов"
+	}
+	"killing a Smoker"
+	{
+		"ru"		"убийство Курильщика"
+	}
+	"killing a Boomer"
+	{
+		"ru"		"убийство Толстяка"
+	}
+	"killing a Hunter"
+	{
+		"ru"		"убийство Охотника"
+	}
+	"killing a Spitter"
+	{
+		"ru"		"убийство Плевальщицы"
+	}
+	"killing a Charger"
+	{
+		"ru"		"убийство Громилы"
+	}
+	"killing a Jockey"
+	{
+		"ru"		"убийство Жокея"
+	}
+	"surviving a Tank"
+	{
+		"ru"		"выживание при Танке"
+	}
+	"soloing a Tank"
+	{
+		"ru"		"убийство Танка в одиночку"
+	}
+	"surviving a Witch"
+	{
+		"ru"		"выживание при Ведьме"
+	}
+	"crowning a Witch"
+	{
+		"ru"		"убийство Ведьмы в голову"
+	}
+	"killing a common infected"
+	{
+		"ru"		"убийство обычного инфицированного"
+	}
+	"killing a uncommon infected"
+	{
+		"ru"		"убийство необычного инфицированного"
+	}
+	"helping a teammate"
+	{
+		"ru"		"помощь союзнику"
+	}
 	"A skill is over the maximum level allowed for your current level, please reselect your skills"
 	{
 		"ru"		"Навык имеет максимальное число очков, допустимых на вашем текущем уровне, перераспределите ваши навыки"
@@ -1254,11 +1326,11 @@
 	//W3SIncs/menuintro.inc
 	"WelcomeToServer"
 	{
-		"ru"		"Добро пожаловать на War3Source!\nВы получаете опыт и золото за убийства\nврагов и выполнения заданий карты\n \nДля справки напишите war3menu в чат\n \nВерсия: {1} Авторы: {2}\nПеревод на русский язык: Schmarotzer и Frenzzy"
+		"ru"		"Добро пожаловать на {1} War3Source!\nВы получаете опыт и золото за убийства\nврагов и выполнения заданий карты\n \nВерсия: {2} Авторы: {3}\nПеревод на русский язык: Schmarotzer и Frenzzy"
 	}
-	"Lets Play!"
+	"ForHelpIntro"
 	{
-		"ru"		"Играть!"
+		"ru"		"Для помощи, напишите в чат war3menu"
 	}
 	"Please be patient while we load your XP"
 	{
