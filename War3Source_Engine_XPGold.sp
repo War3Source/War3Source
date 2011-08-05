@@ -894,84 +894,84 @@ public OnWar3Event(W3EVENT:event,client){
 
 LevelCheck(client){
 	new race=War3_GetRace(client);
-	
-	new skilllevel;
-	
-	new ultminlevel=W3GetMinUltLevel();
-	
-	///skill or ult is more than what he can be? ie level 4 skill when he is only level 4...
-	new curlevel=War3_GetLevel(client,race);
-	new SkillCount = War3_GetRaceSkillCount(race);
-	for(new i=1;i<=SkillCount;i++){
-		skilllevel=War3_GetSkillLevel(client,race,i);
-		if(!War3_IsSkillUltimate(race,i))
-		{
-			if(skilllevel*2>curlevel+1)
+	if(race>0){
+		new skilllevel;
+		
+		new ultminlevel=W3GetMinUltLevel();
+		
+		///skill or ult is more than what he can be? ie level 4 skill when he is only level 4...
+		new curlevel=War3_GetLevel(client,race);
+		new SkillCount = War3_GetRaceSkillCount(race);
+		for(new i=1;i<=SkillCount;i++){
+			skilllevel=War3_GetSkillLevel(client,race,i);
+			if(!War3_IsSkillUltimate(race,i))
 			{
-				ClearSkillLevels(client,race);
-				War3_ChatMessage(client,"%T","A skill is over the maximum level allowed for your current level, please reselect your skills",client);
-				W3CreateEvent(DoShowSpendskillsMenu,client);
+				if(skilllevel*2>curlevel+1)
+				{
+					ClearSkillLevels(client,race);
+					War3_ChatMessage(client,"%T","A skill is over the maximum level allowed for your current level, please reselect your skills",client);
+					W3CreateEvent(DoShowSpendskillsMenu,client);
+				}
+			}
+			else
+			{
+				if(skilllevel>0&&skilllevel*2+ultminlevel-1>curlevel+1){
+					ClearSkillLevels(client,race);
+					War3_ChatMessage(client,"%T","A ultimate is over the maximum level allowed for your current level, please reselect your skills",client);
+					W3CreateEvent(DoShowSpendskillsMenu,client);
+				}
 			}
 		}
-		else
-		{
-			if(skilllevel>0&&skilllevel*2+ultminlevel-1>curlevel+1){
-				ClearSkillLevels(client,race);
-				War3_ChatMessage(client,"%T","A ultimate is over the maximum level allowed for your current level, please reselect your skills",client);
-				W3CreateEvent(DoShowSpendskillsMenu,client);
-			}
-		}
-	}
-	
-	
-	
-	///seting xp or level recurses!!! SET XP FIRST!! or you will have a cascading level increment
-	new keepchecking=true;
-	while(keepchecking)
-	{	
-		curlevel=War3_GetLevel(client,race);
-		if(curlevel<W3GetRaceMaxLevel(race))
-		{
-			
-			if(War3_GetXP(client,race)>=W3GetReqXP(curlevel+1))
+		
+		
+		
+		///seting xp or level recurses!!! SET XP FIRST!! or you will have a cascading level increment
+		new keepchecking=true;
+		while(keepchecking)
+		{	
+			curlevel=War3_GetLevel(client,race);
+			if(curlevel<W3GetRaceMaxLevel(race))
 			{
-				//PrintToChatAll("LEVEL %d xp %d reqxp=%d",curlevel,War3_GetXP(client,race),ReqLevelXP(curlevel+1));
 				
-				War3_ChatMessage(client,"%T","You are now level {amount}",client,War3_GetLevel(client,race)+1);
-				
-				new newxp=War3_GetXP(client,race)-W3GetReqXP(curlevel+1);
-				War3_SetXP(client,race,newxp); //set xp first, else infinite level!!! else u set level xp is same and it tries to use that xp again
-				
-				War3_SetLevel(client,race,War3_GetLevel(client,race)+1); 
-				
-				
-				
-				//War3Source_SkillMenu(client);
-				
-				//PrintToChatAll("LEVEL %d  xp2 %d",War3_GetXP(client,race),ReqLevelXP(curlevel+1));
-				if(IsPlayerAlive(client)){
-					EmitSoundToAll(levelupSound,client);
+				if(War3_GetXP(client,race)>=W3GetReqXP(curlevel+1))
+				{
+					//PrintToChatAll("LEVEL %d xp %d reqxp=%d",curlevel,War3_GetXP(client,race),ReqLevelXP(curlevel+1));
+					
+					War3_ChatMessage(client,"%T","You are now level {amount}",client,War3_GetLevel(client,race)+1);
+					
+					new newxp=War3_GetXP(client,race)-W3GetReqXP(curlevel+1);
+					War3_SetXP(client,race,newxp); //set xp first, else infinite level!!! else u set level xp is same and it tries to use that xp again
+					
+					War3_SetLevel(client,race,War3_GetLevel(client,race)+1); 
+					
+					
+					
+					//War3Source_SkillMenu(client);
+					
+					//PrintToChatAll("LEVEL %d  xp2 %d",War3_GetXP(client,race),ReqLevelXP(curlevel+1));
+					if(IsPlayerAlive(client)){
+						EmitSoundToAll(levelupSound,client);
+					}
+					else{
+						EmitSoundToClient(client,levelupSound);
+					}
+					W3CreateEvent(PlayerLeveledUp,client);
 				}
 				else{
-					EmitSoundToClient(client,levelupSound);
+					keepchecking=false;
 				}
-				W3CreateEvent(PlayerLeveledUp,client);
 			}
 			else{
 				keepchecking=false;
 			}
-		}
-		else{
-			keepchecking=false;
-		}
-
-	}
 	
-	if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race)){
-		//War3Source_SkillMenu(client);
-		W3CreateEvent(DoShowSpendskillsMenu,client);
+		}
+		
+		if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race)){
+			//War3Source_SkillMenu(client);
+			W3CreateEvent(DoShowSpendskillsMenu,client);
+		}
 	}
-
 }
 
 
