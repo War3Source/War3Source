@@ -611,6 +611,8 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 #define FFADE_PURGE			0x0010		// Purges all other fades, replacing them with this one
 
 // Team ID's for the Valve specific game
+//0 == unassigned
+// 1 == spectator
 #define  TEAM_T 2
 #define  TEAM_CT 3
 #define  TEAM_RED 2
