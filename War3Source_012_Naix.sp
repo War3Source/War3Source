@@ -20,9 +20,9 @@ public W3ONLY(){} //unload this?
 
 //Skills Settings
  
-new Float:HPPercentHealPerKill[5] = { 0.0,0.10,  0.15,  0.20,  0.25 }; //SKILL_INFEST settings
+new Float:HPPercentHealPerKill[5] = { 0.0,0.5,  0.10,  0.15,  0.20 }; //SKILL_INFEST settings
 //Skill 1_1 really has 5 settings, so it's not a mistake
-new HPIncrease[5]       = { 0, 15, 30, 45, 60 };     //Increases Maximum health
+new HPIncrease[5]       = { 0, 10, 20, 30, 40 };     //Increases Maximum health
 
 new Float:feastPercent[5] = { 0.0, 0.04,  0.06,  0.08,  0.10 };   //Feast ratio (leech based on current victim hp
 
@@ -64,10 +64,10 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		thisRaceID=War3_CreateNewRaceT("naix");
 
 
-		SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false);
-		SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false);
-		SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false);
-		ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true);
+		SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false,"5-20%");
+		SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false,"10-40");
+		SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false,"4-10%");
+		ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true,"15-40%","3-6");
 		
 		War3_CreateRaceEnd(thisRaceID);
 	}

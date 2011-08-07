@@ -15,7 +15,7 @@
 	}
 	"naix_skill_Infest_desc"
 	{
-		"en"		"Regains 15/25/35/40 percent health upon killing an enemy.\nYou teleport to victim location (if you are ducking)"
+		"en"		"Regains #1# health upon killing an enemy.\nYou teleport to victim location if you are ducking"
 	}
 
 	"naix_skill_BloodBath"
@@ -24,7 +24,7 @@
 	}
 	"naix_skill_BloodBath_desc"
 	{
-		"en"		"Increases maximum health of the Naix,\nmaking all his other skills worthy"
+		"en"		"Increases maximum health of the Naix by #1#,\nmaking all his other skills worthy"
 	}
 
 	"naix_skill_Feast"
@@ -33,7 +33,7 @@
 	}
 	"naix_skill_Feast_desc"
 	{
-		"en"		"Regenerates 4/6/8/10 percent of enemys current HP"
+		"en"		"Regenerates #1# percent of enemy's current HP on hit."
 	}
 
 	"naix_skill_Rage"
@@ -42,7 +42,7 @@
 	}
 	"naix_skill_Rage_desc"
 	{
-		"en"		"Naix goes into a maddened Rage, gaining 10/20/30/40 percent attack speed"
+		"en"		"Naix goes into a maddened Rage, gaining #1# attack speed for #2# seconds"
 	}
 	"Feast +{amount} HP"
 	{
