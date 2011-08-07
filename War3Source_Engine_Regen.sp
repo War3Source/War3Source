@@ -16,11 +16,14 @@ public Plugin:myinfo=
 
 new Float:nextRegenTime[MAXPLAYERSCUSTOM];
 new tf2displayskip[MAXPLAYERSCUSTOM];
+new Float:lastTickTime[MAXPLAYERSCUSTOM];
 public OnPluginStart()
 {
 
 }
-
+public OnWar3EventSpawn(client){
+	lastTickTime[client]=GetEngineTime();
+}
 public OnGameFrame()
 {
 	decl Float:playervec[3];
@@ -30,12 +33,19 @@ public OnGameFrame()
 	{
 		if(ValidPlayer(client,true))
 		{
-			if(nextRegenTime[client]<now){
-				new Float:fbuffsum=0.0;
-				if(!W3GetBuffHasTrue(client,bBuffDenyAll)){
-					fbuffsum+=W3GetBuffSumFloat(client,fHPRegen);
-				}
-				fbuffsum-=W3GetBuffSumFloat(client,fHPDecay);
+			
+			new Float:fbuffsum=0.0;
+			if(!W3GetBuffHasTrue(client,bBuffDenyAll)){
+				fbuffsum+=W3GetBuffSumFloat(client,fHPRegen);
+			}
+			fbuffsum-=W3GetBuffSumFloat(client,fHPDecay);
+			if(fbuffsum<0.01&&fbuffsum>-0.01){ //no decay or regen, set tick time only
+				lastTickTime[client]=now;
+				continue;
+			}
+			new Float:period=FloatAbs(1.0/fbuffsum);
+			if(now-lastTickTime[client]>period){
+				lastTickTime[client]+=period;
 				//PrintToChat(client,"regein tick %f %f",fbuffsum,now);
 				if(fbuffsum>0.01){ //heal
 					War3_HealToMaxHP(client,1);  
@@ -51,6 +61,7 @@ public OnGameFrame()
 						}
 					}
 				}
+				
 				if(fbuffsum<-0.01){ //decay
 					if(War3_GetGame()==Game_TF&&W3Chance(0.25)  && !IsInvis(client)){
 						GetClientAbsOrigin(client,playervec);
@@ -64,16 +75,8 @@ public OnGameFrame()
 						War3_DealDamage(client,1,_,_,GameTF()?"bleed_kill":"damageovertime",_,W3DMGTYPE_TRUEDMG);
 					}
 				}
-				new Float:nexttime=FloatAbs(1.0/fbuffsum);
-				if(nexttime<2.0&&nexttime>0.01){
-					//ok we use this value
-					//DP("nexttime<1.0&&nexttime>0.01");
-				}
-				else{
-					nexttime=2.0;
-				}
-				nextRegenTime[client]=now+nexttime;
 			}
+			
 		}
 	}
 }

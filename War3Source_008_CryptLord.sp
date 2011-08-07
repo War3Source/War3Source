@@ -26,7 +26,7 @@ new Float:SpikeArmorGainArr[]={0.0,0.1,0.20,0.3,0.40};
 new Float:SpikeReturnDmgArr[]={0.0,0.05,0.10,0.15,0.2}; 
 
 //skill 3
-new const BeetleDamage=15;
+new const BeetleDamage=10;
 new Float:BeetleChanceArr[]={0.0,0.05,0.1,0.15,0.20};
 
 //ultimate

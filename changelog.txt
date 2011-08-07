@@ -1,6 +1,21 @@
+1.2.3
+
+B1
+nerfed naix. updated english translations for naix.
+statistics transmits war3revision and stats version for better filtering.
+scout no longer hidden, now the 18th race
+-------------
+Dark Elf packaged with some changes: 
+Tribunal speed up amount and health decay amount. 
+Tribunal no cooldown and is +ability toggle. Color animation fix and consideration for spies.
+-------------
+Reduced Carrion Beetles damage to 10
+Improved HP regen/decay engine, now instantaneously responsive to new regen decay values. It does use a little more cpu.
+
+
+
+
 1.2.2
-
-
 
 
 B9

@@ -625,7 +625,8 @@ public OnWar3EventDeath(victim,attacker){
 		War3_GetRaceShortname(racevic,raceshortvic,sizeof(raceshortvic));
 		URLEncode(raceshortatt,sizeof(raceshortatt));
 		URLEncode(raceshortvic,sizeof(raceshortvic));
-		Format(longquery,sizeof(longquery),"w3stat/kill.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s&killerlvl=%d&victimlvl=%d",steamid,raceshortatt,serverip,serverport,game,victimsteamid,raceshortvic,War3_GetLevel(attacker,raceatt),War3_GetLevel(victim,racevic));
+
+		Format(longquery,sizeof(longquery),"w3stat/kill.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s&killerlvl=%d&victimlvl=%d&war3revision=%d&statsversion=%d",steamid,raceshortatt,serverip,serverport,game,victimsteamid,raceshortvic,War3_GetLevel(attacker,raceatt),War3_GetLevel(victim,racevic),W3GetW3Revision(),W3GetStatsVersion());
 		
 		W3Socket(longquery,SockCallbackKill);
 	}

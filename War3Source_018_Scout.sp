@@ -66,7 +66,7 @@ public OnMapStart()
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-	if(num==40)
+	if(num==180)
 	{
 		thisRaceID=War3_CreateNewRaceT("scout_o");
 		SKILL_INVIS=War3_AddRaceSkillT(thisRaceID,"Vanish",false,4,"5%","5-8");
@@ -82,8 +82,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		auras[3] =W3RegisterAura("scout_reveal3",EyeRadius[3],true);	
 		auras[4] =W3RegisterAura("scout_reveal4",EyeRadius[4],true);
 
-		ServerCommand("war3 scout_flags hidden");
-		ServerExecute();
+		//ServerCommand("war3 scout_flags hidden");
+		//ServerExecute();
 	}
 }
 
