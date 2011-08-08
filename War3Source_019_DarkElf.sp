@@ -38,29 +38,32 @@ stock String:tribunal[]="war3source/darkelf/tribunal.mp3";
 stock String:darkorb[]="war3source/darkelf/darkorb.mp3";
 
 
-public OnWar3PluginReady(){
-	thisRaceID=War3_CreateNewRace("Dark Elf","darkelf_o");
-	SKILL_FADE=War3_AddRaceSkill(thisRaceID,"Fade","You fade out of sight on hit, 5-20% Chance",false,4);
-	SKILL_SLOWFALL=War3_AddRaceSkill(thisRaceID,"SlowFall","You fall a lot slower, 0.85-0.6 Gravity",false,4);
-	SKILL_TRIBUNAL=War3_AddRaceSkill(thisRaceID,"Tribunal","At the cost 4-7 hp/sec, you speed up 10-40%. +ability",false,4);
-	ULTIMATE_DARKORB=War3_AddRaceSkill(thisRaceID,"DarkOrb","Blind a player. 0.5-2 second duration & 1000 Range",true,4); 
-	War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+public OnWar3LoadRaceOrItemOrdered(num)
+{
+	if(num==190)
+	{
+		thisRaceID=War3_CreateNewRaceT("darkelf_o");
+		SKILL_FADE=War3_AddRaceSkillT(thisRaceID,"Fade",false,4);
+		SKILL_SLOWFALL=War3_AddRaceSkillT(thisRaceID,"SlowFall",false,4);
+		SKILL_TRIBUNAL=War3_AddRaceSkillT(thisRaceID,"Tribunal",false,4);
+		ULTIMATE_DARKORB=War3_AddRaceSkillT(thisRaceID,"DarkOrb",true,4); 
+		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+	}
 }
 
 public OnPluginStart()
 {
-
-CreateTimer(0.1,SlowfallTimer,_,TIMER_REPEAT);
-
+	CreateTimer(0.1,SlowfallTimer,_,TIMER_REPEAT);
+	LoadTranslations("w3s.race.scout_o.phrases");
 }
 
 public OnMapStart()
 {
-War3_PrecacheParticle("teleporter_blue_entrance");
-War3_PrecacheParticle("ghost_smoke");
+	War3_PrecacheParticle("teleporter_blue_entrance");
+	War3_PrecacheParticle("ghost_smoke");
 
-//War3_PrecacheSound(tribunal);
-//War3_PrecacheSound(darkorb);
+	//War3_PrecacheSound(tribunal);
+	//War3_PrecacheSound(darkorb);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)
@@ -85,8 +88,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 					//EmitSoundToAll(darkorb,target);
 					AttachThrowAwayParticle(target, "ghost_smoke", victimvec, "", duration);
 					War3_CooldownMGR(client,DarkorbCooldownTime,thisRaceID,ULTIMATE_DARKORB,_,_);
-					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"You've been blinded by a Dark Elf!");
-					W3Hint(client,HINT_COOLDOWN_NOTREADY,5.0,"DarkOrb blinded Successfully");
+					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"%T","You've been blinded by a Dark Elf!",target);
+					W3Hint(client,HINT_COOLDOWN_NOTREADY,5.0,"%T","DarkOrb blinded Successfully",client);
 				}
 			}
 		}	
@@ -97,7 +100,6 @@ public bool:DarkorbFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Ultimates));
 }
-
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
@@ -131,13 +133,14 @@ public Action:FadeTimer(Handle:timer,any:victim)
 	War3_SetBuff(victim,fInvisibilitySkill,thisRaceID,1.0);
 	
 }
-public OnWar3EventSpawn(client){
+
+public OnWar3EventSpawn(client)
+{
 	StopTribunal(client);
 }
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-	
 	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && ValidPlayer(client,true))
 	{
 		new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_TRIBUNAL);
@@ -158,13 +161,14 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					War3_SetBuff(client,fHPDecay,thisRaceID,decay);
 					
 			//		CreateTimer(TribunalDuration,TribunalTimer,client);
-					W3Hint(client,HINT_NORMAL,5.0,"You sacrificed for speed.");
+					W3Hint(client,HINT_NORMAL,5.0,"%T","You sacrificed for speed.",client);
 				}
 				//War3_CooldownMGR(client,TribunalCooldownTime,thisRaceID,SKILL_TRIBUNAL,_,_);
 			}
 		}
 	}
 }
+
 /*
 public Action:TribunalTimer(Handle:timer,any:client)
 {
@@ -226,7 +230,9 @@ public OnRaceChanged(client,oldrace,newrace)
 		StopTribunal(client);	
 	}
 }
-StopTribunal(client){
+
+StopTribunal(client)
+{
 	IsInTribunal[client]=false;
 	War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
 	War3_SetBuff(client,fHPDecay,thisRaceID,0.0);
