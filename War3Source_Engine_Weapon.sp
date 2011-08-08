@@ -307,13 +307,13 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 				//new Float:time = GetEntDataFloat(ent,m_OffsetNextPrimaryAttack);
 				//SetEntDataFloat(ent,m_OffsetNextPrimaryAttack,Getgametime()+0.1,true);
 				//
-				 SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime()+0.2);
+				 SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime());
 				 //DP("%f ",GetGameTime()+0.1);
 				//fill the stack for next frame
 				//g_iWeaponRateQueue[g_iWeaponRateQueueLength][0] = ent;
 				//g_iWeaponRateQueue[g_iWeaponRateQueueLength++][1] = client;
 			} 
-			SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime());
+			//SetEntPropFloat(ent, Prop_Send, "m_flNextPrimaryAttack", GetGameTime());
 		}
 	//	new ent = GetCurrentWeaponEnt(client);
 		//if(ent != -1)
