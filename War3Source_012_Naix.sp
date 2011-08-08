@@ -64,10 +64,10 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		thisRaceID=War3_CreateNewRaceT("naix");
 
 
-		SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false,"5-20%");
-		SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false,"10-40");
-		SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false,"4-10%");
-		ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true,"15-40%","3-6");
+		SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false,4,"5-20%");
+		SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false,4,"10-40");
+		SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false,4,"4-10%");
+		ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true,4,"15-40%","3-6");
 		
 		War3_CreateRaceEnd(thisRaceID);
 	}

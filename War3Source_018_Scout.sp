@@ -187,7 +187,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 					}
 					new Float:multi=distance*MarksmanCrit[lvl]/1000.0;
 					War3_DamageModPercent(multi+1.0);
-					PrintToConsole(attacker,"[W3S] %.2fX dmg by marksman shot");
+					PrintToConsole(attacker,"[W3S] %.2fX dmg by marksman shot",multi);
 					
 				}
 			}
