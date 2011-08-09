@@ -54,7 +54,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnPluginStart()
 {
 	CreateTimer(0.1,SlowfallTimer,_,TIMER_REPEAT);
-	LoadTranslations("w3s.race.scout_o.phrases");
+	LoadTranslations("w3s.race.darkelf_o.phrases");
 }
 
 public OnMapStart()

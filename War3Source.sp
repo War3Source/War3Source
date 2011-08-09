@@ -64,7 +64,7 @@
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.2.9"
+#define VERSION_NUM "1.2.3.1"
 #define REVISION_NUM 12301 //increment every release
 
 
@@ -103,13 +103,11 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 	
 	new String:version[64];
 	Format(version,sizeof(version),"%s by %s",VERSION_NUM,AUTHORS);
-	CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
-
-	
+	CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);	
 	CreateConVar("a_war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	
 	
-	
+
 	if(!War3Source_InitNatives())
 	{
 		LogError("[War3Source] There was a failure in creating the native based functions, definately halting.");
@@ -120,11 +118,6 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 		LogError("[War3Source] There was a failure in creating the forward based functions, definately halting.");
 		return APLRes_Failure;
 	}
-	
-	
-	//mark some natives
-	//MarkNativeAsOptional("TF2_IsPlayerInvuln");
-	//TE_ParticleToClient(attacker, "miss_text", pos); //mark?
 	
 	return APLRes_Success;
 }
