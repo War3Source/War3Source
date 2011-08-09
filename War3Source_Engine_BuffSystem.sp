@@ -45,6 +45,9 @@ public bool:InitNativesForwards()
 	CreateNative("War3_SetBuff",Native_War3_SetBuff);//for races
 	CreateNative("War3_SetBuffItem",Native_War3_SetBuffItem);//foritems
 	CreateNative("War3_SetBuffItem2",Native_War3_SetBuffItem2);//foritems
+	
+	CreateNative("W3BuffCustomOFFSET",NW3BuffCustomOFFSET);
+	
 	CreateNative("W3GetPhysicalArmorMulti",NW3GetPhysicalArmorMulti);
 	CreateNative("W3GetMagicArmorMulti",NW3GetMagicArmorMulti);
 	
@@ -69,7 +72,10 @@ public bool:InitNativesForwards()
 ItemsPlusRacesLoaded(){
 	return W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded()+CUSTOMMODIFIERS;
 }
-
+public NW3BuffCustomOFFSET(Handle:plugin,numParams)
+{
+	return W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded();
+}
 public Native_War3_SetBuff(Handle:plugin,numParams)
 {
 	if(numParams==4) //client,race,buffindex,value

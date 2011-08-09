@@ -1162,7 +1162,7 @@ native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
 */
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
 native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
-
+native W3BuffCustomOFFSET(); //get offset for custom buff modifier indexes. use War3_SetBuffItem(client,buffindex,W3BuffCustomOFFSET() + NUMBER,value) (YES, ITEM)
 //not implemented
 native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:initialbuffvalue,Float:duration);
 
