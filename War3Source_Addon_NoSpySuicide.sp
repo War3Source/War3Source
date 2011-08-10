@@ -29,7 +29,7 @@ public OnPluginStart(){
 }
 public OnW3Denyable(W3DENY:event, client)
 {
-	if(event==Suicide && GameTF() && TFClass_Spy==TF2_GetPlayerClass(client)){
+	if(event==DN_Suicide && GameTF() && TFClass_Spy==TF2_GetPlayerClass(client)){
 		W3Deny();
 		War3_ChatMessage(client,"%T","No suiciding on SPY",client);
 	}
