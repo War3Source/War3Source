@@ -194,24 +194,26 @@ public Action:SlowfallTimer(Handle:timer,any:zclient)
 }
 public Action:Slowfall2Timer(Handle:timer,any:client)
 {
-	GetClientAbsOrigin(client,darkvec);
-	new flags = GetEntityFlags(client);
-	if ( !(flags & FL_ONGROUND) )
-	{
-		
-		if (darkvec[2]<prevdarkvec[2])
+	if(ValidPlayer(client, true)){
+		GetClientAbsOrigin(client,darkvec);
+		new flags = GetEntityFlags(client);
+		if ( !(flags & FL_ONGROUND) )
 		{
-			new skilllevel_levi=War3_GetSkillLevel(client,thisRaceID,SKILL_SLOWFALL);
-			new Float:gravity=SlowfallGravity[skilllevel_levi];
-			War3_SetBuff(client,fLowGravitySkill,thisRaceID,gravity);
-			if(!IsInvis(client)){
-				AttachThrowAwayParticle(client, GetApparentTeam(client)==TEAM_RED?"teleporter_red_entrance":"teleporter_blue_entrance", darkvec, "", 1.0);
+			
+			if (darkvec[2]<prevdarkvec[2])
+			{
+				new skilllevel_levi=War3_GetSkillLevel(client,thisRaceID,SKILL_SLOWFALL);
+				new Float:gravity=SlowfallGravity[skilllevel_levi];
+				War3_SetBuff(client,fLowGravitySkill,thisRaceID,gravity);
+				if(!IsInvis(client)){
+					AttachThrowAwayParticle(client, GetApparentTeam(client)==TEAM_RED?"teleporter_red_entrance":"teleporter_blue_entrance", darkvec, "", 1.0);
+				}
 			}
-		}
-		else
-		{
-			War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);
-			//previousvec[2]=vec[2];
+			else
+			{
+				War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);
+				//previousvec[2]=vec[2];
+			}
 		}
 	}
 }
