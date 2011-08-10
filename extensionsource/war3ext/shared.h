@@ -54,7 +54,7 @@ struct myglobalstruct
 	IPlugin *helperplugin;
 
 	ITranslator *iphrase;
-	bool helper;
+	bool helperVerifiedIntegrity;
 
 	IMenuManager *imenus;
 	IPhraseCollection *myphrasecollection;
