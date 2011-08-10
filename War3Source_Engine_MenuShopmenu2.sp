@@ -34,9 +34,9 @@ public OnWar3Event(W3EVENT:event,client){
 			InternalTriedToBuyItem2(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
 		}
 	}
-	//else{
-//		DP("no ext");
-//	}
+	else{
+		War3_ChatMessage(client,"EXT not loaded, contact server admin");
+	}
 }
 new WantsToBuy[MAXPLAYERSCUSTOM];
 

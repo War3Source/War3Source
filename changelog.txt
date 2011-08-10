@@ -12,7 +12,7 @@ Tribunal no cooldown and is +ability toggle. Color animation fix and considerati
 Reduced Carrion Beetles damage to 10
 Improved HP regen/decay engine, now instantaneously responsive to new regen decay values. It does use a little more cpu.
 
-
+Error messages for extension failure
 
 
 1.2.2
