@@ -12,7 +12,9 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
+public LoadCheck(){
+	return GameCS();
+}
 
 // cs
 new Handle:DefuseXPCvar;
@@ -96,7 +98,7 @@ public War3Source_BombDefusedEvent(Handle:event,const String:name[],bool:dontBro
 			
 					// Called when a player defuses the bomb
 				
-					new race=War3_GetRace(i);
+					//new race=War3_GetRace(i);
 					new addxp=(W3GetKillXP(i)*GetConVarInt(DefuseXPCvar))/100;
 					
 					new String:defusaward[64];
@@ -129,7 +131,7 @@ public War3Source_BombPlantedEvent(Handle:event,const String:name[],bool:dontBro
 		
 					// Called when a player plants the bomb
 				
-					new race=War3_GetRace(i);
+					//new race=War3_GetRace(i);
 					new addxp=(W3GetKillXP(i)*GetConVarInt(PlantXPCvar))/100;
 					
 					new String:plantaward[64];
@@ -152,7 +154,7 @@ public War3Source_HostageFollow(Handle:event,const String:name[],bool:dontBroadc
 		new hostage=GetEventInt(event,"hostage");
 		if(FindValueInArray(touchedHostage[client],hostage)==-1){ 
 			PushArrayCell(touchedHostage[client],hostage);
-			new race=War3_GetRace(client);
+			//new race=War3_GetRace(client);
 			new addxp=(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 			
 			new String:hostageaward[64];
@@ -169,7 +171,7 @@ public War3Source_HostageRescuedEvent(Handle:event,const String:name[],bool:dont
 		new client=GetClientOfUserId(GetEventInt(event,"userid"));
 	
 		// Called when a player rescues a hostage
-		new race=War3_GetRace(client);
+		//new race=War3_GetRace(client);
 		new addxp=(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 		
 		new String:hostageaward[64];
@@ -185,7 +187,7 @@ public War3Source_HostageKilled(Handle:event,const String:name[],bool:dontBroadc
 		new client=GetClientOfUserId(GetEventInt(event,"userid"));
 		
 		// Called when a player rescues a hostage
-		new race=War3_GetRace(client);
+		//new race=War3_GetRace(client);
 		new addxp=-2*(W3GetKillXP(client)*GetConVarInt(RescueHostageXPCvar))/100;
 		
 		new String:hostageaward[64];

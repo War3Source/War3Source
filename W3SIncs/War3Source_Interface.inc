@@ -66,6 +66,14 @@ public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 			LogError("AskPluginLoad2Custom did not return true, possible failure");
 		}
 	}
+	func=GetFunctionByName(plugin, "LoadCheck");
+	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+		Call_StartFunction(plugin, func);
+		Call_Finish(dummy);
+		if(dummy==0){
+			return APLRes_SilentFailure;
+		}
+	}
 	
 	//do not load if these functions exists
 	if(GetFunctionByName(plugin, "W3ONLY")!=INVALID_FUNCTION  &&  !W3()){

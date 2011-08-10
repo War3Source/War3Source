@@ -19,6 +19,9 @@ public Plugin:myinfo =
 	version = "2.0.0.0",
 	url = "http://cgaclan.com/"
 };
+public LoadCheck(){
+	return GameTF();
+}
 
 new SKILL_ROAR,SKILL_SCALES,SKILL_DRAGONBORN,ULTIMATE_DRAGONBREATH;
 /*
@@ -72,11 +75,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		////USE #1# IN TRANSLATIONS
 		////USE #1# IN TRANSLATIONS
 		////USE #1# IN TRANSLATIONS
-		thisRaceID=War3_CreateNewRace("Dragonborn","Dragonborn");
-		SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 400 radius in a fear state for a duration. +Ability",false,4);
+		thisRaceID=War3_CreateNewRace("Dragonborn","dragonborn_o");
+		SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 400 radius in a fear state for 0.4-1.0 second. +Ability",false,4);
 		SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","1-4 physical armor",false,4);
 		SKILL_DRAGONBORN=War3_AddRaceSkill(thisRaceID,"Dragonborn","Being dragonborn gives immunitys to certain magics.\n15% chance of immunity to wards/slows/skills/ultimates ",false,4);
-		ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Jarate effect. 400-700 range.",true,4); 
+		ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Applies jarate effect. 400-700 range.",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 	}
 }
@@ -117,28 +120,13 @@ public OnUltimateCommand(client,race,bool:pressed)
 				//new Float:duration = DarkorbDuration[ult_level];
 				if(target>0)
 				{
-					if(GetClientTeam(client) == TEAM_RED)
-					{
-						EmitSoundToAll(ultsndred,client);
-						GetClientAbsOrigin(target,victimvec);
-						TF2_IgnitePlayer(target, target);
-						ThrowAwayParticle("explosion_trailFire", victimvec, 1.0);
-						AttachThrowAwayParticle(target, "explosion_trailSmoke", victimvec, "", 10.0);
-						War3_CooldownMGR(client,25.0,thisRaceID,ULTIMATE_DRAGONBREATH,_,_);
-						W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"A dragon set you aflame");
-					}
-					if(GetClientTeam(client) == TEAM_BLUE)
-					{
-						EmitSoundToAll(ultsndblue,client);
-						EmitSoundToAll(ultsndblue,client);
-						GetClientAbsOrigin(target,victimvec);
-						TF2_AddCondition(target, TFCond_Jarated, 10.0);
-						AttachThrowAwayParticle(target, "waterfall_bottomwaves", victimvec, "", 2.0);
-						War3_CooldownMGR(client,25.0,thisRaceID,ULTIMATE_DRAGONBREATH,_,_);
-						W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"A dragon weakend you with waterbreath");
-					}
-					//PrintHintText(target,"%T","You have been blinded by a Dark Elf!",target);
-					//PrintHintText(client,"%T","You have blinded someone!",client);
+					EmitSoundToAll(ultsndblue,client);
+					EmitSoundToAll(ultsndblue,client);
+					GetClientAbsOrigin(target,victimvec);
+					TF2_AddCondition(target, TFCond_Jarated, 5.0);
+					AttachThrowAwayParticle(target, "waterfall_bottomwaves", victimvec, "", 2.0);
+					War3_CooldownMGR(client,25.0,thisRaceID,ULTIMATE_DRAGONBREATH,_,_);
+					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"A dragon weakend you with dragon breath");
 				}
 			}
 		}	

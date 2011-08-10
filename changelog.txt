@@ -14,6 +14,11 @@ Improved HP regen/decay engine, now instantaneously responsive to new regen deca
 
 Error messages for extension failure
 
+Forward for checking load conditions and silent failure. Return false to silently fail.
+Example: this plugin should only load when game is TF
+public LoadCheck(){
+	return GameTF();
+}
 
 1.2.2
 
