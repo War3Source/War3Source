@@ -1,9 +1,48 @@
 
 spy invis target
 bot xp?
-shopmenu2 diamonds give
 
-sh give xp/level
+sh give xp/level?
 
-generic skills
-maxhp engine, hp buff for tf
+generic skills?
+
+
+rainbow dash
+speed
+evasion
+low grav?
+rainboom- ult, then must run 400 units away to self activate. shake effect and slow
+
+twilight sparkle
+damage aura? (Friendship is magic) - protective ?
+friendship beam (RNG damage)
+READ - stun
+teleport
+
+
+pinkie pie
+poisonous cupcakes
+invitation - chain lightning
+Voracious appetite ? heal on kill?
+ULT:party disables all including friendlies, or disables but immune (dance fucker dance, you never had a chance)
+
+fluttershy 
+Frightening stare
+tolerate - armor?
+heal aura
+sharing kindness - causes enemy to miss all, or have enemy heal instead
+
+
+rarity
+invis or anti invis
+heartbreak - chance to steal hp
+mesmierize - sleep
+Complain or telekinesis?
+
+apple jack
+jack of all apples. - eat em apples
+persistance - no slow
+your cheating. no grav no fly - lasso, no wings
+ULT ground stomp
+
+spike-race dragonborn
