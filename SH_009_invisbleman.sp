@@ -4,6 +4,8 @@
 * Author(s): Anthony Iacono 
 */
 
+public SHONLY(){}
+
 #pragma semicolon 1
 
 #include <sourcemod>

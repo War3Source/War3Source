@@ -10,6 +10,8 @@
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
 
+public SHONLY(){}
+
 
 // War3Source stuff
 new thisRaceID;

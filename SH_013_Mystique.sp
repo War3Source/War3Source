@@ -5,6 +5,8 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 
+public SHONLY(){}
+
 // War3Source stuff
 new change[66];
 new SKILL_CHANGE;

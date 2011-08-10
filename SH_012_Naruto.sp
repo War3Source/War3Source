@@ -5,6 +5,8 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 
+public SHONLY(){}
+
 // War3Source stuff
 new Float:teleportpos[66][3];
 new thisRaceID;

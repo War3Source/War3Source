@@ -5,6 +5,8 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 
+public SHONLY(){}
+
 // War3Source stuff
 new bool:bNoclip[66];
 new Float:oldpos[66][3];

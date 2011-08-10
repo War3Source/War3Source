@@ -1,6 +1,8 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public SHONLY(){}
+
 public Plugin:myinfo = 
 {
 	name = "SH Hero BatGirl",

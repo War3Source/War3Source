@@ -11,7 +11,7 @@ public Plugin:myinfo=
 	version="1.0",
 	url="http://war3source.com/"
 };
-
+public SHONLY(){}
 
 new Handle:hXPMultiCvar;
 new Handle:hMaxLevelCvar;

@@ -144,22 +144,12 @@ public Action:HalfSecondTimer(Handle:timer,any:clientz) //footsy flame/water eff
 	{
 		if(ValidPlayer(client, true))
 		{
-			if(War3_GetRace(client) == thisRaceID)
+			if(War3_GetRace(client) == thisRaceID&&!IsInvis(client))
 			{
 				GetClientAbsOrigin(client,dragvec);
 				//dragvec[2]+=35.0;  Crotch Level lololol Firecrotch 
 				dragvec[2]+=15;
-				if(GetClientTeam(client) == TEAM_BLUE)
-				{
-					//New Hint text to use. W3Hint(client,HINT_COOLDOWN_NOTREADY,5.0,"BUTTSANDWOIUADHAL;KJDA;LKFJAL;SDFJ;LASDKFJKL;ASDFJKL;ASDFJKL;");
-					AttachThrowAwayParticle(client, "water_bulletsplash01", dragvec, "", 1.5);
-				}
-				if(GetClientTeam(client) == TEAM_RED)
-				{
-					AttachThrowAwayParticle(client, "burningplayer_flyingbits", dragvec, "", 1.5);
-				}
-				
-				
+				AttachThrowAwayParticle(client, GetApparentTeam(client) == TEAM_BLUE?"water_bulletsplash01":"burningplayer_flyingbits", dragvec, "", 1.5);
 			}
 		}
 	}

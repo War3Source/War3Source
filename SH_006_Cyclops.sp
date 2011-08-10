@@ -9,6 +9,10 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
+
+
+public SHONLY(){}
+
 new count[66];
 // War3Source stuff
 new thisRaceID;

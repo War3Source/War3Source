@@ -9,6 +9,12 @@ Dark Elf packaged with some changes:
 Tribunal speed up amount and health decay amount. 
 Tribunal no cooldown and is +ability toggle. Color animation fix and consideration for spies.
 -------------
+Dragon born packaged with some changes: 
+static range for roar, level increases duration
+scales only give physical armor
+Dragonborn is 15% chance of immunity of ward/slow/skill/ult
+ULT: breath: 5 second jarate for both teams.
+-------------
 Reduced Carrion Beetles damage to 10
 Improved HP regen/decay engine, now instantaneously responsive to new regen decay values. It does use a little more cpu.
 

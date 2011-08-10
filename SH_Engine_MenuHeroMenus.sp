@@ -12,7 +12,7 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
+public SHONLY(){}
 
 //new WantsRace[MAXPLAYERSCUSTOM];
 
