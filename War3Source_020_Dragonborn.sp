@@ -44,33 +44,46 @@ Cool things learned this race:
 **new const SkillColor[4] = {255, 255, 255, 155} changing skill colors via array, neato.
 **That max health in tf2 is stupid.
 */
-new RoarRadius[5]={0,200,450,700,950};
+new Float:RoarRadius=400.0;
+new Float:RoarDuration[5]={0.0,0.4,0.6,0.8,1.0};
 new Float:RoarCooldownTime=25.0;
-new Float:ScalesMagic[5]={0.0,1.0,2.0,3.0,4.0};
-new Float:ScalesPhysical[5]={0.0,2.0,4.0,6.0,8.0}; 
+new Float:ScalesPhysical[5]={0.0,1.0,2.0,3.0,4.0};
+new Float:ImmunityChance=0.15;
 new Float:dragvec[3]={0.0,0.0,0.0};
 new Float:victimvec[3]={0.0,0.0,0.0};
-new Float:DragonBreathRange[5]={0.0,400.0,600.0,800.0,1000.0};
+new Float:DragonBreathRange[5]={0.0,400.0,500.0,600.0,700.0};
 
 // Sounds
 new String:roarsound[]="war3source/dragonborn/roar.mp3";
 new String:ultsndblue[]="war3source/dragonborn/ultblue.mp3";
 new String:ultsndred[]="war3source/dragonborn/ultred.mp3";
 
-public OnWar3PluginReady()
+
+
+public OnWar3LoadRaceOrItemOrdered(num)
 {
-	thisRaceID=War3_CreateNewRace("Dragonborn","Dragonborn");
-	SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 200/450/700/950 radius in a fear state for a 1.5 duration. +Ability",false,4);
-	SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","Gives you a high physical resistance. 2/4/6/8 physical 1/2/3/4 magic armor. Passive",false,4);
-	SKILL_DRAGONBORN=War3_AddRaceSkill(thisRaceID,"Dragonborn","Being dragonborn gives immunitys to certain magics. immunity to wards/skills/slows/ultimates",false,4);
-	ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Blue Team - 10 second jarate effect | Red Team - set player on fire for 10 seconds. Level increases range +Ultimate",true,4); 
-	War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+	if(num==200)
+	{
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		////USE #1# IN TRANSLATIONS
+		thisRaceID=War3_CreateNewRace("Dragonborn","Dragonborn");
+		SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 400 radius in a fear state for a duration. +Ability",false,4);
+		SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","1-4 physical armor",false,4);
+		SKILL_DRAGONBORN=War3_AddRaceSkill(thisRaceID,"Dragonborn","Being dragonborn gives immunitys to certain magics.\n15% chance of immunity to wards/slows/skills/ultimates ",false,4);
+		ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Jarate effect. 400-700 range.",true,4); 
+		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+	}
 }
 
 public OnPluginStart()
 {
-CreateTimer(0.5,FootstepTimer,_,TIMER_REPEAT); //The footstep effect
-
+	CreateTimer(0.5,HalfSecondTimer,_,TIMER_REPEAT); //The footstep effect
 }
 
 public OnMapStart()
@@ -137,7 +150,7 @@ public bool:DragonFilter(client)
 	return (!W3HasImmunity(client,Immunity_Ultimates));
 }
 
-public Action:FootstepTimer(Handle:timer,any:client) //footsy flame/water effects only on ground yay!
+public Action:HalfSecondTimer(Handle:timer,any:clientz) //footsy flame/water effects only on ground yay!
 {
 	for(new client=1; client <= MaxClients; client++)
 	{
@@ -157,6 +170,8 @@ public Action:FootstepTimer(Handle:timer,any:client) //footsy flame/water effect
 				{
 					AttachThrowAwayParticle(client, "burningplayer_flyingbits", dragvec, "", 1.5);
 				}
+				
+				
 			}
 		}
 	}
@@ -181,14 +196,14 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					if(ValidPlayer(i,true))
 					{
 						GetClientAbsOrigin(i,VictimPos);
-						if(GetVectorDistance(AttackerPos,VictimPos)<RoarRadius[skilllvl])
+						if(GetVectorDistance(AttackerPos,VictimPos)<RoarRadius)
 						{
 							if(GetClientTeam(i)!=AttackerTeam&&!W3HasImmunity(client,Immunity_Ultimates))
 							{
 								//TF2_StunPlayer(client, Float:duration, Float:slowdown=0.0, stunflags, attacker=0);
 								EmitSoundToAll(roarsound,client);
 								EmitSoundToAll(roarsound,client);
-								TF2_StunPlayer(i, 1.0, _, TF_STUNFLAGS_GHOSTSCARE,0);
+								TF2_StunPlayer(i, RoarDuration[skilllvl], _, TF_STUNFLAGS_GHOSTSCARE,client);
 								War3_CooldownMGR(client,RoarCooldownTime,thisRaceID,SKILL_ROAR,_,_);
 								GetClientAbsOrigin(client,dragvec);
 								dragvec[2]+=70;
@@ -215,47 +230,49 @@ public InitPassiveSkills(client)
 {
 	if(War3_GetRace(client)==thisRaceID)
 	{
+		//scales
 		new skilllevel_armor=War3_GetSkillLevel(client,thisRaceID,SKILL_SCALES);
-		new magicarmor=ScalesMagic[skilllevel_armor];
-		new physicalarmor=ScalesPhysical[skilllevel_armor];
-		War3_SetBuff(client,fArmorMagic,thisRaceID,magicarmor);
-		War3_SetBuff(client,fArmorPhysical,thisRaceID,physicalarmor);
+		War3_SetBuff(client,fArmorPhysical,thisRaceID,ScalesPhysical[skilllevel_armor]);
+		
+		//dragonborn
 		new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_DRAGONBORN);
-		if (skilllvl > 0)
+		new bool:value=(GetRandomFloat(0.0,1.0)<=ImmunityChance&&!Hexed(client,false));
+		if(value && skilllvl > 0)
 		{
 			War3_SetBuff(client,bImmunityWards,thisRaceID,1);
 			if (skilllvl > 1)
 			{
+				War3_SetBuff(client,bSlowImmunity,thisRaceID,1);
+			}
+			if (skilllvl >2)
+			{
 				War3_SetBuff(client,bImmunitySkills,thisRaceID,1);
-				if (skilllvl >2)
-				{
-					War3_SetBuff(client,bSlowImmunity,thisRaceID,1);
-					if (skilllvl >3)
-					{
-						War3_SetBuff(client,bImmunityUltimates,thisRaceID,1);
-					}
-				}
+			}
+			if (skilllvl >3)
+			{
+				War3_SetBuff(client,bImmunityUltimates,thisRaceID,1);
 			}
 		}	
+		else{
+			RemoveImmunity(client);
+		}
 	}
 }
-
+RemoveImmunity(client){
+	War3_SetBuff(client,bImmunityWards,thisRaceID,0);
+	War3_SetBuff(client,bImmunitySkills,thisRaceID,0);
+	War3_SetBuff(client,bSlowImmunity,thisRaceID,0);
+	War3_SetBuff(client,bImmunityUltimates,thisRaceID,0);
+}
 public OnRaceChanged(client,oldrace,newrace)
 {
-	if(newrace!=thisRaceID)
-	{
-		War3_SetBuff(client,fArmorMagic,thisRaceID,0);
-		War3_SetBuff(client,fArmorPhysical,thisRaceID,0);
-		War3_SetBuff(client,bImmunityWards,thisRaceID,0);
-		War3_SetBuff(client,bImmunitySkills,thisRaceID,0);
-		War3_SetBuff(client,bSlowImmunity,thisRaceID,0);
-		War3_SetBuff(client,bImmunityUltimates,thisRaceID,0);
-	}
-	else
+	if(newrace==thisRaceID)
 	{	
-		if(IsPlayerAlive(client)){
-			InitPassiveSkills(client);
-			
-		}	
+		InitPassiveSkills(client);
+	}
+	else if(oldrace==thisRaceID)
+	{
+		War3_SetBuff(client,fArmorPhysical,thisRaceID,0);
+		RemoveImmunity(client);
 	}
 }
