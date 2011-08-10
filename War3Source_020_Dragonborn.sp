@@ -14,7 +14,7 @@ new thisRaceID;
 public Plugin:myinfo = 
 {
 	name = "Race - Dragonborn",
-	author = "Smilax",
+	author = "Smilax", //with help from Glider
 	description = "The Dragonborn race for War3Source.",
 	version = "2.0.0.0",
 	url = "http://cgaclan.com/"

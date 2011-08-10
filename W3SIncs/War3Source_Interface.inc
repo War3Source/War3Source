@@ -1687,8 +1687,19 @@ native W3CreateEvent(W3EVENT:event,client);
 
 //simple system for stopping actions, send a specific event with optinal player, those hooking can use W3Deny() to deny
 forward OnW3Denyable(W3DENY:event,client);
-native W3Denyable(W3DENY:event,client); //returns true if NOT DENIED
+native W3Denied(W3DENY:event,client); //returns FALSE if NOT DENIED
 native W3Deny();
+
+stock bool:CanSelectRace(client,race){
+	W3SetVar(EventArg1,race);
+	new bool:value=!W3Denied(DN_CanSelectRace,client);
+	if(value==false && W3IsDeveloper(client)){
+		War3_ChatMessage(client,"You are normally not allowed to select this race, but since you are developer we will allow you to select this race");
+		return true;
+	}
+	return value;
+}
+
 
 stock ShowChangeRaceMenu(client){
 	W3CreateEvent(DoShowChangeRaceMenu,client);

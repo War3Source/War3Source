@@ -26,6 +26,9 @@ public LoadCheck(){
 	return GameTF();
 }
 
+native name change
+W3Denyable is now !W3Denied
+
 1.2.2
 
 

@@ -97,7 +97,7 @@ public War3Source_RoundEndEvent(Handle:event,const String:name[],bool:dontBroadc
 public OnWar3Event(W3EVENT:event,client){
 	if(W3()){
 		if(event==DoShowChangeRaceMenu){
-			if(W3Denyable(ChangeRace,client)){
+			if(!W3Denied(DN_ShowChangeRace,client)){
 				War3Source_ChangeRaceMenu(client);
 			}
 		}
@@ -211,29 +211,32 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			decl String:SelectionInfo[4];
 			decl String:SelectionDispText[256];
 			
-			new bool:allowChooseRace=true;
+			
 			
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
 			
-			
-			// Minimum level?
-			
-			new total_level=0;
-			new RacesLoaded = War3_GetRacesLoaded();
-			for(new x=1;x<=RacesLoaded;x++)
-			{
-				total_level+=War3_GetLevel(client,x);
-			}
-			new min_level=W3GetRaceMinLevelRequired(race_selected);
-			if(min_level<0) min_level=0;
-			
-			if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
-			{
-				War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
-				War3Source_ChangeRaceMenu(client);
-				allowChooseRace=false;
+			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected);
+		
+			if(allowChooseRace){
+				// Minimum level?
+				
+				new total_level=0;
+				new RacesLoaded = War3_GetRacesLoaded();
+				for(new x=1;x<=RacesLoaded;x++)
+				{
+					total_level+=War3_GetLevel(client,x);
+				}
+				new min_level=W3GetRaceMinLevelRequired(race_selected);
+				if(min_level<0) min_level=0;
+				
+				if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
+				{
+					War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
+					War3Source_ChangeRaceMenu(client);
+					allowChooseRace=false;
+				}
 			}
 				
 				

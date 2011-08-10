@@ -467,7 +467,7 @@ public OnWar3EventDeath(victim,attacker)
 public Action:DelayedBomber(Handle:h,any:client){
 	new level=War3_GetSkillLevel(client,thisRaceID,SKILL_SUICIDE);
 	if(level>0&&ValidPlayer(client)&&!IsPlayerAlive(client)&& suicidedAsTeam[client]==GetClientTeam(client) ){
-		if(W3Denyable(Suicide,client)){
+		if(!W3Denied(DN_Suicide,client)){
 			SuicideBomber(client,War3_GetSkillLevel(client,thisRaceID,SKILL_SUICIDE));
 		}
 	}

@@ -18,10 +18,10 @@
 
 public Plugin:myinfo = 
 {
-	name = "W3S - Addon - Display Particles on Level Up",
-	author = "Glider & xDr.HaaaaaaaXx",
-	description = "Displays particles whenever somebody levels up",
-	version = "1.2",
+	name = "W3S - Addon - No Spy Suicide",
+	author = "ownz - DarkEnergy",
+	description = "",
+	version = "1.0",
 };
 
 public OnPluginStart(){

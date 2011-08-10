@@ -143,8 +143,9 @@ enum W3EVENT
 	
 }
 enum W3DENY{
-	ChangeRace,
-	Suicide,
+	DN_ShowChangeRace, //can show the menu
+	DN_Suicide, //can undead suicide
+	DN_CanSelectRace, //can select a race, use EventArg1
 }
 // Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
 

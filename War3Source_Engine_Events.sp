@@ -27,7 +27,7 @@ public bool:InitNativesForwards()
 {
 	CreateNative("W3CreateEvent",NW3CreateEvent);//foritems
 	
-	CreateNative("W3Denyable",NW3Denyable);
+	CreateNative("W3Denied",NW3Denied);
 	CreateNative("W3Deny",NW3Deny);
 	g_War3GlobalEventFH=CreateGlobalForward("OnWar3Event",ET_Ignore,Param_Cell,Param_Cell);
 	g_hfwddenyable=CreateGlobalForward("OnW3Denyable",ET_Ignore,Param_Cell,Param_Cell);
@@ -51,13 +51,13 @@ DoFwd_War3_Event(W3EVENT:event,client){
 	Call_Finish(dummyreturn);
 }
 
-public NW3Denyable(Handle:plugin,numParams){
+public NW3Denied(Handle:plugin,numParams){
 	notdenied=true;
 	Call_StartForward(g_hfwddenyable);
 	Call_PushCell(GetNativeCell(1)); //event,/
 	Call_PushCell(GetNativeCell(2));	//client
 	Call_Finish(dummyreturn);
-	return notdenied;
+	return !notdenied;
 }
 public NW3Deny(Handle:plugin,numParams){
 	notdenied=false;

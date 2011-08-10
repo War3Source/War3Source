@@ -599,7 +599,10 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 		//PrintToServer("shoudl set race? %d client %d",raceDesiredOnJoin,client);
 			new bool:doset=true;
 			if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
-				if(GetRacesOnTeam(desiredRaceOnJoin[client],GetClientTeam(client))>=W3GetRaceMaxLimitTeam(desiredRaceOnJoin[client],GetClientTeam(client)))
+				if(!CanSelectRace(client,desiredRaceOnJoin[client])){
+					doset=false;
+				}
+				else if(GetRacesOnTeam(desiredRaceOnJoin[client],GetClientTeam(client))>=W3GetRaceMaxLimitTeam(desiredRaceOnJoin[client],GetClientTeam(client)))
 				{
 					doset=false;
 					War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",client,W3GetRaceMaxLimitTeam(desiredRaceOnJoin[client],GetClientTeam(client)));
