@@ -202,7 +202,7 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 }
 
 public OnWar3EventPostHurt(victim,attacker,damage){
-	LastDamageTime[victim]=GetGameTime();
+	LastDamageTime[victim]=GetEngineTime();
 	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 	{
 		
@@ -246,6 +246,7 @@ public OnWar3EventSpawn(client){
 	if(race==thisRaceID)
 	{
 		ActivateSkills(client);
+		LastDamageTime[client]=GetEngineTime()-10.0;
 	}
 }
 
@@ -496,15 +497,16 @@ public Action:TFHPBuff(Handle:h,any:data){
 		//only create timer of TF2
 		for(new i=1;i<=MaxClients;i++){
 			if(ValidPlayer(i,true)){
-				if(War3_GetRace(i)==thisRaceID&&GetGameTime()>LastDamageTime[i]+10.0){
+				if(War3_GetRace(i)==thisRaceID&&GetEngineTime()>LastDamageTime[i]+10.0){
 					new skill_devo=War3_GetSkillLevel(i,thisRaceID,SKILL_HEALTH);
 					if(skill_devo)
 					{
 						// Devotion Aura
 						new curhp =GetClientHealth(i);
-						new maxhp =War3_GetMaxHP(i);
 						new hpadd=DevotionHealth[skill_devo];
-						if(curhp>=maxhp&&curhp<=maxhp+hpadd){ ///we should add
+						new maxhp =War3_GetMaxHP(i)-hpadd;
+						
+						if(curhp>=maxhp&&curhp<maxhp+hpadd){ ///we should add
 							new newhp=curhp+2;
 							if(newhp>maxhp+hpadd){
 								newhp=maxhp+hpadd;
@@ -515,8 +517,16 @@ public Action:TFHPBuff(Handle:h,any:data){
 							//SetEntProp(i, Prop_Data , "m_iMaxHealth", maxhp+hpadd);
 
 							SetEntData(i, health_Offset, newhp, 4, true);
+							
 							//SetEntProp(i, Prop_Send, "m_iHealth", newhp , 1);
 						}
+						//curhp =GetClientHealth(i);
+						//if(curhp>maxhp&&curhp<=maxhp+hpadd)
+						//{
+						//	TF2_AddCondition(i, TFCond_Healing, 1.0); //TF2 AUTOMATICALLY ADDS PARTICLES?
+					//	}
+						//else{
+						//}
 					}
 				}
 			}

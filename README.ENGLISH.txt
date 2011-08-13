@@ -25,13 +25,14 @@ Many subsystems are available to the coder that EventScripts does not offer, suc
 A Cooldown System which simplifies skills and ultimate cooldowns
 A buff/debuff system where races are expected to respect other race's buffs and debuffs, resolves conflicts between races.
 A Aura tracking system which simplifies the coding and application of Auras.
+An internal event system for inter-plugin communication.
 
 W3S came first to the source engine, WCS came later and matured faster under the nature of ES/Python prototyping 
 languages, but reached its limit in performance and features compared to W3S. 
 
 W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the founder of superhero mod (SH).
 Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
-and took over primary develpement after march 2010.
+and took over primary development after march 2010.
 
 
 ==== SuperHero Source (SH) ====
@@ -64,5 +65,7 @@ TRANSLATIONS
 
 L4D compatibility
 Glider
+
+AND ALL OTHERS CREDITS GIVEN WITHIN THE PLUGIN SOURCE FILE
 
 

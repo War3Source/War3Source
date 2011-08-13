@@ -610,7 +610,7 @@ public Action:MinuteTimer(Handle:h)
 }
 public OnWar3EventDeath(victim,attacker){
 	if(collectkdstats&&(ValidPlayer(victim)&&ValidPlayer(attacker)&&War3_GetRace(victim)>0&&War3_GetRace(attacker)>0&&!IsFakeClient(victim)&&!IsFakeClient(attacker)&&victim!=attacker)){
-		decl String:longquery[2000];
+		decl String:longquery[4000];
 		decl String:raceshortatt[64];
 		decl String:raceshortvic[64];
 		decl String:steamid[64];

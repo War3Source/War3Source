@@ -128,6 +128,9 @@ public OnUltimateCommand(client,race,bool:pressed)
 					War3_CooldownMGR(client,25.0,thisRaceID,ULTIMATE_DRAGONBREATH,_,_);
 					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"A dragon weakend you with dragon breath");
 				}
+				else{
+					W3MsgNoTargetFound(client,breathrange);
+				}
 			}
 		}	
 	}			

@@ -29,6 +29,8 @@ public LoadCheck(){
 native name change
 W3Denyable is now !W3Denied
 
+fixed human health buff on tf2 and css
+
 1.2.2
 
 

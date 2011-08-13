@@ -30,12 +30,12 @@ Put stuff in 'sound' beings in your 'sound' folder (always overwrite all on this
 If you have a fast download mirror, put 'sound' into the appropriate location on your fast download mirror
 
 
-(Advanced users only:) If you wish to add custom races or content / learn to program SM and W3S, put "*.sp" files and "W3SIncs" in your designated programming (scripting) folder
+(Advanced users only:) If you wish to add custom races or content or learn to program SM and W3S, put "*.sp" files and "W3SIncs" in your designated programming (scripting) folder
 
 ----------------------------------
 CONFIGURATION:
 
-war3source.cfg is executed after war3source is loaded
+/cfg/war3source.cfg is executed after war3source is loaded 
 
 SH_....smx is not required for war3source to run.
 War3Source_.....smx is REQUIRED for SH to run.
