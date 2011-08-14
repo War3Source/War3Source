@@ -1,5 +1,13 @@
 1.2.3
 
+B2
+
+
+TF2: invis tf_wearables too!!!! and exceptions like tf_wearables_demoshield.
+if you find a weapon that doesnt invis, search for it in server console: "find_ent tf_wear" and paste the result or find the item.
+
+*note "Cannot Invis. Being revealed" needs translating in Engine_BuffSpeedGravGlow
+
 B1
 nerfed naix. updated english translations for naix.
 statistics transmits war3revision and stats version for better filtering.

@@ -152,6 +152,8 @@ public Action:DeciSecondTimer(Handle:timer)
 				if(set){
 					//	PrintToChatAll("%d %d %d %d",r,g,b,alpha);
 					SetPlayerRGB(client,r,g,b);
+					
+					
 				}
 				
 				
@@ -189,10 +191,10 @@ public Action:DeciSecondTimer(Handle:timer)
 					LogError("alpha playertracking out of bounds 0 - 255");
 				}
 				if(W3GetBuffHasTrue(client,bInvisibilityDenyAll)||W3GetBuffHasTrue(client,bBuffDenyAll) ){
-					if( bDeniedInvis[client]==false && alpha<222) ///buff is not denied
+					if( /*bDeniedInvis[client]==false &&*/ alpha<222) ///buff is not denied
 					{
 						bDeniedInvis[client]=true;
-						PrintHintText(client,"Cannot Invis. Being revealed");
+						W3Hint(client,HINT_NORMAL,4.0,"Cannot Invis. Being revealed");
 						
 					}
 					alpha=255;
@@ -200,9 +202,52 @@ public Action:DeciSecondTimer(Handle:timer)
 				else{
 					bDeniedInvis[client]=false;
 				}
+				static skipcheckingwearables[MAXPLAYERSCUSTOM];
 				//PrintToChatAll("%d",alpha);
-				if(GetEntityAlpha(client)!=alpha)
+				if(GetEntityAlpha(client)!=alpha){
 					SetEntityAlpha(client,alpha);
+					skipcheckingwearables[client]=0;
+					
+				}
+				
+				if(GameTF()&&skipcheckingwearables[client]<=0){
+					new ent=-1;
+					//DP("check");
+					while ((ent = FindEntityByClassname(ent, "tf_wearable")) != -1){
+						if(GetEntPropEnt(ent,Prop_Send, "m_hOwnerEntity")==client){
+							if(GetEntityAlpha(ent)!=alpha){
+								SetEntityAlpha(ent,alpha);
+						//		DP("alpha on %d wearable",ent);
+							}
+						}
+					//	DP("wearable was owned by %d",GetEntPropEnt(ent,Prop_Send, "m_hOwnerEntity"));
+					}
+					while ((ent = FindEntityByClassname(ent, "tf_wearable_demoshield")) != -1){
+						if(GetEntPropEnt(ent,Prop_Send, "m_hOwnerEntity")==client){
+							if(GetEntityAlpha(ent)!=alpha){
+								SetEntityAlpha(ent,alpha);
+						//		DP("alpha on %d wearable",ent);
+							}
+						}
+					//	DP("wearable was owned by %d",GetEntPropEnt(ent,Prop_Send, "m_hOwnerEntity"));
+					}
+					
+					for(new i=0;i<10;i++){
+						if(-1!=GetPlayerWeaponSlot(client, i)){
+							new went=GetPlayerWeaponSlot(client, i);
+							//DP("weapon slot %d ent %d",i,went);
+							if(GetEntityAlpha(went)!=alpha){
+								SetEntityAlpha(went,alpha);
+								
+							}
+						}
+					}
+					skipcheckingwearables[client]=10;
+				}
+				else{
+					skipcheckingwearables[client]--;
+				}
+			
 					
 				invisWeaponAttachments[client]=alpha<200?true:false;
 				
@@ -211,26 +256,23 @@ public Action:DeciSecondTimer(Handle:timer)
 					
 				new wpn=W3GetCurrentWeaponEnt(client);
 				if(wpn>0){
+					new alphaw=alpha;
 					if(W3GetBuffHasTrue(client,bInvisWeaponOverride)){
-						new alphaw=-1;
+						
 						new buffloop = W3GetBuffLoopLimit();
 						for(new i=0;i<=buffloop;i++){
 							if(W3GetBuff(client,bInvisWeaponOverride,i,true)){
 								alphaw=W3GetBuffMinInt(client,iInvisWeaponOverrideAmount);
 							}
 						}
-						if(alphaw==-1){
-							ThrowError("could not find a valid weapon alpha");
-						}
-						if(GetWeaponAlpha(client)!=alphaw){
-							SetEntityAlpha(wpn,alphaw);
-						}
+						
 					}
-					else if(!W3GetBuffHasTrue(client,bDoNotInvisWeapon)){
-						if(GetWeaponAlpha(client)!=alpha){
-							SetEntityAlpha(wpn,alpha);
+					if(!W3GetBuffHasTrue(client,bDoNotInvisWeapon)){
+						if(GetEntityAlpha(wpn)!=alphaw){
+							SetEntityAlpha(wpn,alphaw);
 							
 						}
+						
 					}
 					
 				}
