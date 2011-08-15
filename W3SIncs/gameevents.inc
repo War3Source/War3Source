@@ -59,7 +59,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 	if(GetEventInt(event,"userid")>0)
 	{
 		new client=GetClientOfUserId(GetEventInt(event,"userid"));
-		if(ValidPlayer(client))
+		if(ValidPlayer(client,true))
 		{
 			
 			//	PrintToServer("spawn");

@@ -2,6 +2,12 @@
 
 B2
 
+Hint engine fix: automatically force refresh after spawn
+New addon: automatically buy item if their gold is at maximum at spawn
+("war3_autobuy_on_max_gold","lace","automatically buy this item if their gold is full");
+//addon needs translating (not urgent)
+
+some natives exposed
 
 TF2: invis tf_wearables too!!!! and exceptions like tf_wearables_demoshield.
 if you find a weapon that doesnt invis, search for it in server console: "find_ent tf_wear" and paste the result or find the item.

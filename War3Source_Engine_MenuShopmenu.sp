@@ -18,6 +18,12 @@ public Plugin:myinfo=
 new Handle:hBuyItemUseCSMoneCvar;
 
 
+
+public bool:InitNativesForwards()
+{
+
+	CreateNative("W3BuyUseCSMoney",NW3BuyUseCSMoney);
+}
 public OnPluginStart()
 {
 	hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money to buy shopmenu items");
@@ -42,7 +48,7 @@ ShowMenuShop(client){
 	
 	new String:title[300];
 	Format(title,sizeof(title),"%T\n","[War3Source] Select an item to buy. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-	if(BuyUseCSMoney()){
+	if(W3BuyUseCSMoney()){
 		Format(title,sizeof(title),"%s \n",title);
 	}
 	else {
@@ -62,16 +68,16 @@ ShowMenuShop(client){
 		if(!W3IsItemDisabledGlobal(x)&&!W3ItemHasFlag(x,"hidden")){
 			Format(itembuf,sizeof(itembuf),"%d",x);
 			W3GetItemName(x,itemname,sizeof(itemname));
-			cost=W3GetItemCost(x,BuyUseCSMoney());
+			cost=W3GetItemCost(x,W3BuyUseCSMoney());
 			if(War3_GetOwnsItem(client,x)){
-				if(BuyUseCSMoney()){
+				if(W3BuyUseCSMoney()){
 					Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
 				}else{
 					Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Gold",client,itemname,cost);
 				}
 			}
 			else{
-				if(BuyUseCSMoney()){
+				if(W3BuyUseCSMoney()){
 					Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
 				}else{
 					Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
@@ -113,7 +119,7 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true){
 		
 		new cred=War3_GetGold(client);
 		new money=GetCSMoney(client);
-		new cost_num=W3GetItemCost(item,BuyUseCSMoney());
+		new cost_num=W3GetItemCost(item,W3BuyUseCSMoney());
 		
 		new bool:canbuy=true;
 		
@@ -137,7 +143,7 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true){
 			War3_ChatMessage(client,"%T","You already own {itemname}",GetTrans(),itemname);
 			canbuy=false;
 		}
-		else if((BuyUseCSMoney()?money:cred)<cost_num){
+		else if((W3BuyUseCSMoney()?money:cred)<cost_num){
 			War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
 			if(reshowmenu){
 				ShowMenuShop(client);
@@ -164,7 +170,7 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true){
 		
 		
 		if(canbuy){
-			if(BuyUseCSMoney()){
+			if(W3BuyUseCSMoney()){
 				SetCSMoney(client,money-cost_num);
 			}
 			else{
@@ -222,12 +228,12 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 				
 				new cred=War3_GetGold(client);
 				new money=GetCSMoney(client);
-				new cost_num=W3GetItemCost(WantsToBuy[client],BuyUseCSMoney());
+				new cost_num=W3GetItemCost(WantsToBuy[client],W3BuyUseCSMoney());
 				decl String:itemname[64];
 				W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
 				
 			
-				if((BuyUseCSMoney()?money:cred)<cost_num){
+				if((W3BuyUseCSMoney()?money:cred)<cost_num){
 					War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
 					ShowMenuShop(client);
 				}
@@ -236,7 +242,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 					W3CreateEvent(DoForwardClientLostItem,client); //old item
 					
 					
-					if(BuyUseCSMoney()){
+					if(W3BuyUseCSMoney()){
 						SetCSMoney(client,money-cost_num);
 					}
 					else{
@@ -260,6 +266,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 	
 	
 	///quick cvar access functions
-bool:BuyUseCSMoney(){
+public NW3BuyUseCSMoney(Handle:plugin,numParams)
+{
 	return ((War3_GetGame()==CS)&&GetConVarInt(hBuyItemUseCSMoneCvar)>0)?true:false;
 }

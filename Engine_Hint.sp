@@ -60,6 +60,10 @@ public OnPluginStart()
 	
 	HookUserMessage(umHintText, MsgHook_HintText,true);
 }
+public OnWar3EventSpawn(client){
+	//delay then refresh their hints
+	W3Hint(client,_,0.2,"-"); //this is a hackish way of doing it, since it will not refresh if hint string is equal
+}
 public OnWar3Event(W3EVENT:event,client){
 
 	switch(event){
@@ -98,7 +102,7 @@ public NW3Hint(Handle:plugin,numParams)
 		
 		new priority=GetNativeCell(2);
 		new Float:Duration=GetNativeCell(3);
-		if(Duration>20){ Duration=20.0;}	
+		if(Duration>20.0){ Duration=20.0;}	
 		new String:format[128];
 		GetNativeString(4,format,sizeof(format));
 		new String:output[128];

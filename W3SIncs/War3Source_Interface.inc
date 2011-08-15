@@ -696,10 +696,11 @@ native W3GetMaxGold();
 native War3_GetOwnsItem(client,item);
 native War3_SetOwnsItem(client,item,bool:ownsitem);
 
+
 native W3GetItem2ExpireTime(client,item);
 native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
 
-
+native bool:W3BuyUseCSMoney();
 
 /**
  * Sets if the player owns a specific item.
