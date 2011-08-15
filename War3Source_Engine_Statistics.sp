@@ -601,7 +601,7 @@ public Action:MinuteTimer(Handle:h)
 				decl String:raceshort[16];
 				War3_GetRaceShortname(race,raceshort,sizeof(raceshort));
 
-				Format(longquery,sizeof(longquery),"w3stat/timeplayed.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s",steamid,raceshort,serverip,serverport,game,"1",IsPlayerAlive(i)?"alive":"dead");
+				Format(longquery,sizeof(longquery),"w3stat/timeplayed.php?steamid=%s&raceshort=%s&ip=%s:%d&game=%s&data1=%s&data2=%s&level=%d",steamid,raceshort,serverip,serverport,game,"1",IsPlayerAlive(i)?"alive":"dead",War3_GetLevel(i,race));
 
 				W3Socket(longquery,SockCallbackKill);
 			}
