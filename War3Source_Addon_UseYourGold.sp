@@ -23,6 +23,7 @@ new Handle:cvaritemtobuy;
 public OnPluginStart()
 {
 	cvaritemtobuy=CreateConVar("war3_autobuy_on_max_gold","lace","automatically buy this item if their gold is full");
+	LoadTranslations("w3s.addon.useyourgold.phrases");
 }
 public OnWar3EventSpawn(client){
 	//DP("1 %d %d %d %d",client,!W3BuyUseCSMoney(),W3GetMaxGold()==War3_GetGold(client),IsPlayerAlive(client));
@@ -45,8 +46,8 @@ public OnWar3EventSpawn(client){
 				
 				if(War3_GetOwnsItem(client,item)){
 					
-					War3_ChatMessage(client,"Your gold is maxed out, we bought an item for you. Say shopmenu to use your gold");
-					W3Hint(client,_,15.0,"Your gold is maxed out\nSay shopmenu to use your gold!");
+					War3_ChatMessage(client,"%T","Your gold is maxed out, we bought an item for you. Say shopmenu to use your gold",client);
+					W3Hint(client,_,15.0,"%T","Your gold is maxed out\nSay shopmenu to use your gold!",client);
 					 //blank like forcing refresh after 0.2 sec
 				}
 			}
