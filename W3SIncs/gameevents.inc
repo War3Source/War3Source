@@ -10,7 +10,7 @@ new iRoundNumber;
 public bool:War3Source_HookEvents()
 {
 	// Events for all games
-	if(!HookEventEx("player_spawn",War3Source_PlayerSpawnEvent,EventHookMode_Pre))
+	if(!HookEventEx("player_spawn",War3Source_PlayerSpawnEvent,EventHookMode_Pre)) //,EventHookMode_Pre
 	{
 		PrintToServer("[War3Source] Could not hook the player_spawn event.");
 		return false;
@@ -62,7 +62,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 		if(ValidPlayer(client,true))
 		{
 			
-			//	PrintToServer("spawn");
+			///DP("spawn %d",client);
 			
 			
 			
