@@ -22,14 +22,14 @@ new SKILL_REVIVE, SKILL_BANISH, SKILL_MONEYSTEAL,ULT_FLAMESTRIKE;
 //skill 1
 new Float:MaxRevivalChance[MAXPLAYERSCUSTOM]; //chance for first attempt at revival
 new Float:CurrentRevivalChance[MAXPLAYERSCUSTOM]; //decays by half per revival attempt, will stay at minimum of 10% after decays
-new Float:RevivalChancesArr[]={0.00,0.25,0.50,0.75,1.00};
+new Float:RevivalChancesArr[]={0.00,0.2,0.3,0.4,0.5};
 new RevivedBy[MAXPLAYERSCUSTOM];
 new bool:bRevived[MAXPLAYERSCUSTOM];
 new Float:fLastRevive[MAXPLAYERSCUSTOM];
  
 //skill 2
 new Float:BanishChance[MAXPLAYERSCUSTOM];
-new Float:BanishChancesArr[5]={0.00,0.02,0.050,0.075,0.100};
+new Float:BanishChancesArr[5]={0.00,0.05,0.10,0.15,0.20};
 
 //skill 3
 new Float:MoneyStealPercent[MAXPLAYERSCUSTOM];
@@ -96,10 +96,10 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	if(num==40)
 	{
 		thisRaceID=War3_CreateNewRaceT("mage");
-		SKILL_REVIVE=War3_AddRaceSkillT(thisRaceID,"Phoenix",false,4);
-		SKILL_BANISH=War3_AddRaceSkillT(thisRaceID,"Banish",false,4);
-		SKILL_MONEYSTEAL=War3_AddRaceSkillT(thisRaceID,"SiphonMana",false,4);
-		ULT_FLAMESTRIKE=War3_AddRaceSkillT(thisRaceID,"FlameStrike",true,4); 
+		SKILL_REVIVE=War3_AddRaceSkillT(thisRaceID,"Phoenix",false,4,"20-50%","2-8%");
+		SKILL_BANISH=War3_AddRaceSkillT(thisRaceID,"Banish",false,4,"20%","0.2");
+		SKILL_MONEYSTEAL=War3_AddRaceSkillT(thisRaceID,"SiphonMana",false,4,"8%","1%","10%");
+		ULT_FLAMESTRIKE=War3_AddRaceSkillT(thisRaceID,"FlameStrike",true,4,GameTF()?"10":"5", "4-10", "500"); 
 		War3_CreateRaceEnd(thisRaceID);
 	}
 	
@@ -267,7 +267,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 								//TeleportEntity(victim, NULL_VECTOR, oldangle, NULL_VECTOR);
 								W3MsgBanished(victim,attacker);
 								W3FlashScreen(victim,{0,0,0,255},0.4,_,FFADE_STAYOUT);
-								CreateTimer(0.4,Unbanish,GetClientUserId(victim));
+								CreateTimer(0.2,Unbanish,GetClientUserId(victim));
 							}
 						}
 					}
@@ -472,7 +472,7 @@ public Action:DoRevival(Handle:timer,any:client)
 
 bool:CooldownRevive(client)
 {
-	if(GetGameTime() >= (fLastRevive[client]+15.0))
+	if(GetGameTime() >= (fLastRevive[client]+30.0))
 		return true;
 	return false;
 }
@@ -519,8 +519,8 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 							if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
 							{
 								CurrentRevivalChance[i]/=2.0;
-								if(CurrentRevivalChance[i]<0.025*skillevel){
-									CurrentRevivalChance[i]=0.025*skillevel;
+								if(CurrentRevivalChance[i]<0.020*skillevel){
+									CurrentRevivalChance[i]=0.020*skillevel;
 								}
 								RevivedBy[victim]=i;
 								bRevived[victim]=true;

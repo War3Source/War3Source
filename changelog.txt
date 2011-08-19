@@ -1,5 +1,7 @@
 1.2.3
 
+
+
 B2
 
 Hint engine fix: automatically force refresh after spawn
@@ -13,6 +15,12 @@ TF2: invis tf_wearables too!!!! and exceptions like tf_wearables_demoshield.
 if you find a weapon that doesnt invis, search for it in server console: "find_ent tf_wear" and paste the result or find the item.
 
 *note "Cannot Invis. Being revealed" needs translating in Engine_BuffSpeedGravGlow
+
+Fixed extension scheduling error
+
+BLOOD MAGE: balance needed. KDR low and WLR high
+banish chance increased to 20%, duration reduced to 0.2 seconds
+revival chance reduced to 50% maximum at spawn. minimum of 2% per level (from 2.5%)
 
 B1
 nerfed naix. updated english translations for naix.
