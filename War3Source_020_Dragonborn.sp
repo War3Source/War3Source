@@ -158,9 +158,16 @@ public Action:HalfSecondTimer(Handle:timer,any:clientz) //footsy flame/water eff
 	}
 }
 
+public Action:stopspeed(Handle:t,any:client){
+//W3ResetBuffRace(client,fMaxSpeed,thisRaceID);
+//TF2_StunPlayer(client,0.0, 0.0,TF_STUNFLAGS_LOSERSTATE,0);
+}
 //Roar - If it's too overpowered I might add in an adrenaline effect to all clients effect afterward (Increased speed during thirdperson stun animation)
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+	//TF2_StunPlayer(client,5.0, 0.0,TF_STUNFLAG_SLOWDOWN|TF_STUNFLAG_THIRDPERSON,0);
+	//War3_SetBuff(client,fMaxSpeed,thisRaceID,2.0);
+	//CreateTimer(1.0,stopspeed,client);
 	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
 	{
 		if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_ROAR,true))
