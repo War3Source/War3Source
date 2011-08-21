@@ -71,7 +71,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 	g->iphrase=translator;
 
-	g->helper=false;
+//	g->helper=false;
 	g->imenus=menus;
 
 
@@ -94,7 +94,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 
 		return false;
 	}
-	ERR("LOOL");
+	ERR("LOG TEST");
 
 	sharesys->AddDependency(myself, "webternet.ext", true, true);
 
