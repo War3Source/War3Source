@@ -518,15 +518,16 @@ enum SkillString
 	SkillTechnical,
 }
 
+/* DEFUNCT
 enum W3SkillType{
-	NORMALSKILL=0,
-	ULTIMATE,
-	ABILITY,
-	ABILITY1,
-	ABILITY2,
-	ABILITY3,
-	ABILITY4,
-}
+	SKT_NORMALSKILL=0,
+	SKT_ULTIMATE,
+	SKT_ABILITY,
+	SKT_ABILITY1,
+	SKT_ABILITY2,
+	SKT_ABILITY3,
+	SKT_ABILITY4,
+}*/
 
 // War3 Glow constants
 enum  

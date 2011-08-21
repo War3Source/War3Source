@@ -10,7 +10,8 @@
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
 new Handle:hShowSocketError;
-new MAXSOCKETS=5;
+new const MAXSOCKETS=3;
+new const MAXQUEUELEN=1000;
 new trieCount;
 new socketCount;
 enum SOCKETTYPE{ RAW,HTTPGET,HTTPPOST};
@@ -52,7 +53,7 @@ public NW3Socket2(Handle:plugin,numParams)
 PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 {
 
-	if(trieCount<1000) //1000
+	if(trieCount<MAXQUEUELEN) //1000
 	{
 		decl String:path[2000];
 		path[0]='\0';
@@ -96,7 +97,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 	else{
 		if(ShowError())
 		{
-			W3LogNotError("Cannot create more sockets, 1000 conections reached");
+			W3LogNotError("Cannot create more queue tries, %d queued connections reached",MAXQUEUELEN);
 		}
 	}	
 }
@@ -120,7 +121,7 @@ public Action:DeciTimer(Handle:t){
 	}
 	
 	new initiates=MAXSOCKETS;
-	if(backoffcounter>0&&backoffcounter<100){ //only allow 1 socket if errored not long ago
+	if(backoffcounter>0){ //only allow 1 socket if errored not long ago
 		initiates=1;
 	}
 	else if(backoffcounter==0){

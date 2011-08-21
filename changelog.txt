@@ -17,6 +17,7 @@ if you find a weapon that doesnt invis, search for it in server console: "find_e
 *note "Cannot Invis. Being revealed" needs translating in Engine_BuffSpeedGravGlow
 
 Fixed extension scheduling error
+Extension debugging of shopmenu2 crash
 
 BLOOD MAGE: balance needed. KDR low and WLR high
 banish chance increased to 20%, duration reduced to 0.2 seconds

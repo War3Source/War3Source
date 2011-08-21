@@ -153,6 +153,7 @@ public OnPluginStart()
 */
 	RegConsoleCmd("war3refresh",refreshcooldowns);
 	RegConsoleCmd("armortest",armortest);
+	RegConsoleCmd("exttest",exttest);
 /*	RegConsoleCmd("calltest",calltest);
 	RegConsoleCmd("calltest2",calltest2);
 	
@@ -267,6 +268,11 @@ public Action:refreshcooldowns(client,args){
 				}
 			}
 		}
+	}
+}
+public Action:exttest(client,args){
+	if(W3IsDeveloper(client)){
+		PrintToConsole(client,"EXT() %d",EXT());
 	}
 }
 /*
