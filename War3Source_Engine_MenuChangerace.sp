@@ -97,7 +97,7 @@ public War3Source_RoundEndEvent(Handle:event,const String:name[],bool:dontBroadc
 public OnWar3Event(W3EVENT:event,client){
 	if(W3()){
 		if(event==DoShowChangeRaceMenu){
-			if(!W3Denied(DN_ShowChangeRace,client)){
+			if(ValidPlayer(client)&& !W3Denied(DN_ShowChangeRace,client)){
 				War3Source_ChangeRaceMenu(client);
 			}
 		}
