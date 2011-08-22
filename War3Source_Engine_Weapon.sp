@@ -74,13 +74,17 @@ public OnPluginStart()
 	}
 	
 	RegConsoleCmd("weapontest",weapontest);
-	
+	RegConsoleCmd("w3dropweapon",cmddroptest);
 }
 
 public Action:weapontest(client,args){
 	zdebug[client]=true;
 }
-
+public Action:cmddroptest(client,args){
+	if(W3IsDeveloper(client)){
+		War3_WeaponRestrictTo(client, War3_GetRace(client),"weapon_knife",1);
+	}
+}
 
 
 
