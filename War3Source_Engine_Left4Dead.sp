@@ -3,6 +3,8 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+#include "W3SIncs/War3Source_L4D_Interface"
+#include <sdkhooks>
 
 public Plugin:myinfo= 
 {
@@ -14,6 +16,7 @@ public Plugin:myinfo=
 };
 
 new bool:g_bIsHelpless[MAXPLAYERS+1];
+new Handle:g_hArrayOfKaboom = INVALID_HANDLE;
 
 public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
 {
@@ -25,6 +28,7 @@ public bool:InitNativesForwards()
 {
 	///LIST ALL THESE NATIVES IN INTERFACE
 	CreateNative("War3_L4D_IsHelpless", Native_War3_L4D_IsHelpless);
+	CreateNative("War3_L4D_Explode", Native_L4D_CauseExplosion);
 	return true;
 }
 
@@ -60,6 +64,15 @@ public OnPluginStart()
 	HookEvent("player_death", Event_ResetHelplessUserID);
 	HookEvent("player_connect_full", Event_ResetHelplessUserID);
 	HookEvent("player_disconnect", Event_ResetHelplessUserID);
+	
+	g_hArrayOfKaboom = CreateArray();
+}
+
+// Make sure they are always precached!
+public OnMapStart()
+{
+	PrecacheModel(MODEL_GASCAN, true);
+	PrecacheModel(MODEL_PROPANE, true);
 }
 
 public Event_IsHelpless (Handle:event, const String:name[], bool:dontBroadcast)
@@ -96,3 +109,101 @@ public Native_War3_L4D_IsHelpless(Handle:plugin, numParams)
 	new client = GetNativeCell(1);
 	return g_bIsHelpless[client];
 }
+
+
+
+
+public Native_L4D_CauseExplosion(Handle:plugin, numParams)
+{
+	decl Float:pos[3];
+	
+	new attacker = GetNativeCell(1);
+	GetNativeArray(2, pos, sizeof(pos));
+	new type = GetNativeCell(3);
+			
+	CauseExplosion(attacker, pos, type);
+}
+
+/* type == 0: Fire
+ * type != 0: Explosion
+ */
+stock CauseExplosion(attacker, Float:pos[3], type)
+{
+	new entity = CreateEntityByName("prop_physics");
+	if (IsValidEntity(entity))
+	{
+		PushArrayCell(g_hArrayOfKaboom, entity);
+		SDKHook(entity, SDKHook_SetTransmit, Hook_SetTransmit);
+		
+		pos[2] += 10.0;
+		if (type == 0)
+			DispatchKeyValue(entity, "model", MODEL_GASCAN);
+		else
+			DispatchKeyValue(entity, "model", MODEL_PROPANE);
+		DispatchSpawn(entity);
+		TeleportEntity(entity, pos, NULL_VECTOR, NULL_VECTOR);
+		SetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity", attacker);
+	}
+}
+
+public Action:Hook_SetTransmit(temp_explosive, client)
+{
+	//return Plugin_Continue;
+	return Plugin_Handled; 
+}
+
+/* Glider my good man - what the fuck are you doing?
+ * Well you see, person reading this source code, when I called the explosion
+ * code right after spawning the entity it wouldn't work. If I put a 0.1
+ * timer in before it worked. Since 0.1 is too big of a delay, I'm just checking
+ * OnGameFrame to make it explode as soon as possible. 
+ * 
+ * Is this dirty? Yes. Would I rather have it another way? Yes. Will I spend
+ * months trying to come up with a better solution? Fuck no. Deal with it.
+ */
+public OnGameFrame()
+{
+	while(GetArraySize(g_hArrayOfKaboom))
+	{
+		new item = GetArrayCell(g_hArrayOfKaboom, 0);
+		if(IsValidEntity(item))
+		{
+			ExplodeThisEntity(item);
+		}
+	
+		RemoveFromArray(g_hArrayOfKaboom, 0);
+	}
+}
+
+public ExplodeThisEntity(entity)
+{
+	new attacker = GetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity");
+
+	new pointHurt = CreateEntityByName("point_hurt");
+	if(IsValidEntity(pointHurt))
+	{
+		DispatchKeyValue(entity, "targetname", "war3_hurtme");
+		DispatchKeyValue(pointHurt, "Damagetarget","war3_hurtme");
+		DispatchKeyValue(pointHurt, "Damage", "10000");
+		DispatchKeyValue(pointHurt, "DamageType", "1");
+		DispatchKeyValue(pointHurt, "classname", "war3_point_hurt");
+		DispatchSpawn(pointHurt);
+		
+		AcceptEntityInput(pointHurt, "Hurt", attacker);
+		DispatchKeyValue(entity, "targetname", "war3_donthurtme");
+		RemoveEdict(pointHurt);
+		//PrintToChatAll("Exploded %f", GetEngineTime());
+	}
+}
+
+/*
+public OnEntityCreated(entity, const String:classname[])
+{
+	if (StrEqual(classname, "pipe_bomb_projectile"))
+	{
+		PrintToChatAll("A PIPEBOMB!");
+		new attacker = GetEntPropEnt(entity, Prop_Data, "m_hThrower");
+		PrintToChatAll("Owned by %i", attacker);
+	}
+}
+*/
