@@ -33,7 +33,7 @@
 	}
 	"mage_skill_SiphonMana_desc"
 	{
-		"en"		"#1# chance of steal #2# enemy's money (CS) or #3# gold (TF) on damage"
+		"en"		"#1# chance of steal #2# enemy's money (CS)\nor #3# gold (TF) on damage"
 	}
 
 	"mage_skill_FlameStrike"
@@ -42,7 +42,7 @@
 	}
 	"mage_skill_FlameStrike_desc"
 	{
-		"en"		"Burn the enemy over time for #1# damage #1# times. #3# range"
+		"en"		"Burn the enemy over time for #1# damage #1# times.\n#3# range"
 	}
 
 	"Flame Strike!"
