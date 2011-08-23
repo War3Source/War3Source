@@ -1,3 +1,4 @@
+extension auto dl helper
 
 spy invis target
 bot xp?

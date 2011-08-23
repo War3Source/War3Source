@@ -52,7 +52,7 @@
 /*
  * You may think you know what the following code does.
  * But you dont. Trust me.
- * Fiddle with it, and youll spend many a sleepless
+ * Fiddle with it, and you'll spend many a sleepless
  * night cursing the moment you thought youd be clever
  * enough to "optimize" the code below.
  * Now close this file and go play with something else.
@@ -64,8 +64,8 @@
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.3.1"
-#define REVISION_NUM 12301 //increment every release
+#define VERSION_NUM "1.2.3.2"
+#define REVISION_NUM 12302 //increment every release
 
 
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 

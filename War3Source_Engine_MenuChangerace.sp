@@ -218,6 +218,12 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new race_selected=StringToInt(SelectionInfo);
 			
 			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected);
+			
+			if(allowChooseRace==false){
+				War3Source_ChangeRaceMenu(client);//derpy hooves
+			}
+			
+			
 		/* MOVED TO RESTRICT ENGINE
 			if(allowChooseRace){
 				// Minimum level?

@@ -595,7 +595,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 		PrintToConsole(client,"%T","[War3Source] XP RETRIEVED IN {amount} seconds",client,GetGameTime()-Float:W3GetPlayerProp(client,sqlStartLoadXPTime)) ;
 		DoForwardOnWar3PlayerAuthed(client);
 		
-		if(War3_GetRace(client)<=0){
+		if(War3_GetRace(client)<=0 && desiredRaceOnJoin[client]>0){
 		//PrintToServer("shoudl set race? %d client %d",raceDesiredOnJoin,client);
 			new bool:doset=true;
 			if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){

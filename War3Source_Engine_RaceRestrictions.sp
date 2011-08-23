@@ -18,7 +18,10 @@ public OnPluginStart()
 public OnW3Denyable(W3DENY:event,client){
 	if(event==DN_CanSelectRace){
 		new race_selected=W3GetVar(EventArg1);
-		
+		if(race_selected<=0){
+			ThrowError(" DN_CanSelectRace CALLED WITH INVALID RACE [%d]",race_selected);
+			return W3Deny();
+		}
 		//MIN LEVEL CHECK
 		new total_level=0;
 		new RacesLoaded = War3_GetRacesLoaded();
