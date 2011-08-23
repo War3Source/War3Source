@@ -23,13 +23,14 @@ public Plugin:myinfo =
 	description = "",
 	version = "1.0",
 };
-
+new Handle:nosuicidecvar;
 public OnPluginStart(){
 	LoadTranslations("w3s.addon.nospysuicide.phrases");
+	nosuicidecvar=CreateConVar("war3_no_spy_suicide","1");
 }
 public OnW3Denyable(W3DENY:event, client)
 {
-	if(event==DN_Suicide && GameTF() && TFClass_Spy==TF2_GetPlayerClass(client)){
+	if(event==DN_Suicide && GameTF() && TFClass_Spy==TF2_GetPlayerClass(client)&&GetConVarInt(nosuicidecvar)){
 		W3Deny();
 		War3_ChatMessage(client,"%T","No suiciding on SPY",client);
 	}
