@@ -38,7 +38,7 @@ public OnWar3Event(W3EVENT:event, client)
 		GetClientName(client, name, sizeof(name));
 		new String:racename[32];
 		new race = War3_GetRace(client);
-		War3_GetRaceName(race, racename, sizeof(racename));
+		
 		new level = War3_GetLevel(client, race);
 		
 		if (War3_GetGame() == Game_TF)
@@ -58,7 +58,14 @@ public OnWar3Event(W3EVENT:event, client)
 			// Glider: I never checked if l4d1 has this particle & attachment, l4d2 has 'em
 			AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "eyes", 5.0);
 		}	
-		War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
+		for(new i=1;i<=MaxClients;i++){
+			if(ValidPlayer(i)){
+				SetTrans(client);
+				War3_GetRaceName(race, racename, sizeof(racename));
+				War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
+			}
+		}
+		
 	}
 }
 
