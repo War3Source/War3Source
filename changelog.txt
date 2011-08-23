@@ -27,6 +27,9 @@ NEW ENGINE: race restrictions
 currently checks for minlevel, admin requirements. 
 Functionality is basically from changerace but now exposed to allow database handler also check for race restricitons (on join)
 
+fixed EXT not loaded spamming (you should still load it anyway)
+
+
 B1
 nerfed naix. updated english translations for naix.
 statistics transmits war3revision and stats version for better filtering.
