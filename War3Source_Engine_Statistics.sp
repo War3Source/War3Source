@@ -97,6 +97,7 @@ public OnPluginStart()
 	GetGameFolderName(game,32);
 
 	RegConsoleCmd("w3hyperupdate",cmdhyperupdate);
+	RegConsoleCmd("w3hyperupdate2",cmdhyperupdate2);
 	return;
 }
 
@@ -135,7 +136,7 @@ public Action:cmdupdatestatus(client,args){
 	}
 }
 public Action:cmdhyperupdate(client,args){
-	if(args>0){
+	if(args>0&&client==0){
 		CloseHandle(hUpdateTimer);
 		
 		new String:argzs[6];
@@ -143,6 +144,13 @@ public Action:cmdhyperupdate(client,args){
 		new Float:updateinterval=StringToFloat(argzs);
 		PrintToServer("update interval %f ",updateinterval);
 		hUpdateTimer=CreateTimer(updateinterval,UpdateServerInfo,_,TIMER_REPEAT);
+	}
+}
+public Action:cmdhyperupdate2(client,args){
+	if(client==0){
+		for(new i=0;i<3000;i++){
+			UpdateServerInfo(Handle:0,0);
+		}
 	}
 }
 

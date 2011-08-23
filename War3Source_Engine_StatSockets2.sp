@@ -10,8 +10,8 @@
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
 new Handle:hShowSocketError;
-new const MAXSOCKETS=3;
-new const MAXQUEUELEN=1000;
+new const MAXSOCKETS=5;
+new const MAXQUEUELEN=3000;
 new trieCount;
 new socketCount;
 enum SOCKETTYPE{ RAW,HTTPGET,HTTPPOST};
@@ -29,7 +29,7 @@ public Plugin:myinfo = {
 
 public OnPluginStart() {
 	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
-	CreateTimer(0.1,DeciTimer,_,TIMER_REPEAT);
+//	CreateTimer(0.1,DeciTimer,_,TIMER_REPEAT);
 	socketQueue=CreateArray();
 }
 //public Action:PrintTrieCount(Handle:t){
@@ -83,6 +83,15 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 		SetTrieValue(trie,"plugin", plugin);
 		SetTrieString(trie,"response", "RESPONSE:");
 		SetTrieValue(trie,"type", type);
+		SetTrieString(trie,"TEST","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST1","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST2","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST111","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST112","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST111","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+		SetTrieString(trie,"TEST112","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		
 		if(socketCount<MAXSOCKETS&&backoffcounter==0)
 		{
@@ -112,7 +121,7 @@ InitiateSocket(Handle:trie){
 		W3LogError("Create Socket Failed");
 	}
 }
-public Action:DeciTimer(Handle:t){
+public OnGameFrame(){
 	if(backoffcounter>0){
 		backoffcounter--;
 		if(backoffcounter>200){
@@ -120,7 +129,7 @@ public Action:DeciTimer(Handle:t){
 		}
 	}
 	
-	new initiates=MAXSOCKETS;
+	new initiates=MAXSOCKETS; //wonpt actually be this many, it will consider the amount of open sockets later
 	if(backoffcounter>0){ //only allow 1 socket if errored not long ago
 		initiates=1;
 	}
@@ -219,7 +228,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
 	Call_PushString(exploded[1]);
 	Call_Finish(dummy);
 	
-	DeciTimer(INVALID_HANDLE);
+	
 }
 
 public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {

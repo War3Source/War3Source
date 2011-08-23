@@ -440,7 +440,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetDiamondsEXT");
 	MarkNativeAsOptional("War3_GetOwnsItem2EXT");
 	MarkNativeAsOptional("War3_SetOwnsItem2EXT");
-	
+	MarkNativeAsOptional("W3ExtShowShop2");
 	// L4D
 	MarkNativeAsOptional("War3_L4D_IsHelpless");
 

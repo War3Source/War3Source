@@ -280,7 +280,9 @@ public Event_PlayerTeam(Handle:event,  const String:name[], bool:dontBroadcast)
 public Action:cmdwar3notdev(client,args){
 	if(ValidPlayer(client)){
 		W3SetPlayerProp(client,isDeveloper,false);
+		
 	}
+	return Plugin_Handled;
 }
 
 public OnWar3Event(W3EVENT:event,client){

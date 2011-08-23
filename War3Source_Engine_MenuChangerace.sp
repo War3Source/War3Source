@@ -218,7 +218,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new race_selected=StringToInt(SelectionInfo);
 			
 			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected);
-		
+		/* MOVED TO RESTRICT ENGINE
 			if(allowChooseRace){
 				// Minimum level?
 				
@@ -238,10 +238,15 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 					allowChooseRace=false;
 				}
 			}
-				
+				*/
 				
 			// GetUserFlagBits(client)&ADMFLAG_ROOT??
 			
+			
+			
+			
+			///MOVED TO RESTRICT ENGINE
+			/*
 			new String:requiredflagstr[32];
 			
 			W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
@@ -276,7 +281,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 				}
 			}
 			
-			
+			*/
 			
 		
 			

@@ -23,21 +23,32 @@ public OnPluginStart()
 }
 
 public OnWar3Event(W3EVENT:event,client){
-	if(EXT()){
-		if(event==DoShowShopMenu2){
+	if(event==DoShowShopMenu2){
+		if(EXT()){
+	
 			SetTrans(client); //required
 			W3ExtShowShop2(client);
 			//ShowMenuShop(client);
 			
 			//W3ExtShowShop2(client);
 		}
-		if(event==DoTriedToBuyItem2){ //via say?
+		else{
+		//DO NOT TRANSLATE
+			War3_ChatMessage(client,"EXT not loaded, contact server admin");
+		}
+		
+		
+	}
+	if(event==DoTriedToBuyItem2){ //via say?
+		if(EXT()){
 			InternalTriedToBuyItem2(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
 		}
+		else{
+			//DO NOT TRANSLATE
+			War3_ChatMessage(client,"EXT not loaded, contact server admin --Do Tried To Buy Item2--");
+		}
 	}
-	else{
-		War3_ChatMessage(client,"EXT not loaded, contact server admin");
-	}
+	
 }
 new WantsToBuy[MAXPLAYERSCUSTOM];
 
