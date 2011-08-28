@@ -23,6 +23,7 @@ public bool:InitNativesForwards()
 {
 
 	CreateNative("W3BuyUseCSMoney",NW3BuyUseCSMoney);
+	return true;
 }
 public OnPluginStart()
 {

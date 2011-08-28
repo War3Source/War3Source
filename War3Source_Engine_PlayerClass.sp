@@ -15,7 +15,7 @@ new bool:bResetSkillsOnSpawn[MAXPLAYERSCUSTOM];
 new RaceIDToReset[MAXPLAYERSCUSTOM];
 
 
-new String:levelupSound[]="war3source/levelupcaster.wav";
+new String:levelupSound[]="war3source/levelupcaster.mp3";
 
 
 

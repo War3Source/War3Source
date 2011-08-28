@@ -311,9 +311,15 @@ bool:TeleportPlayerView(client,Float:distance)
 			}
 			
 			//PrintToChatAll("1endpos %f %f %f",endpos[0],endpos[1],endpos[2]);
-			distance=GetVectorDistance(startpos,endpos);
+			new Float:distanceteleport=GetVectorDistance(startpos,endpos);
+			if(distanceteleport<150.0){
+				new String:buffer[100];
+				Format(buffer, sizeof(buffer), "%T", "Distance too short.", client);
+				PrintHintText(client,buffer);
+				return false;
+			}
 			GetAngleVectors(angle, dir, NULL_VECTOR, NULL_VECTOR);///get dir again
-			ScaleVector(dir, distance-33.0);
+			ScaleVector(dir, distanceteleport-33.0);
 			
 			AddVectors(startpos,dir,endpos);
 			//PrintToChatAll("DIR %f %f %f",dir[0],dir[1],dir[2]);
@@ -483,7 +489,7 @@ public bool:enemyImmunityInRange(client,Float:playerVec[3])
 		if(ValidPlayer(i,true)&&GetClientTeam(i)!=team&&W3HasImmunity(i,Immunity_Ultimates))
 		{
 			GetClientAbsOrigin(i,otherVec);
-			if(GetVectorDistance(playerVec,otherVec)<300)
+			if(GetVectorDistance(playerVec,otherVec)<350)
 			{
 				return true;
 			}

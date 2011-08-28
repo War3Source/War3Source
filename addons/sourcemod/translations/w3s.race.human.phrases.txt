@@ -42,7 +42,7 @@
 	}
 	"human_skill_Teleport_desc"
 	{
-		"en"		"Teleport toward where you aim.\n#1# range."
+		"en"		"Teleport toward where you aim.\n#1# range. Ultimate Immunity has 350 blocking radius."
 	}
 
 	"Teleported"
@@ -64,5 +64,9 @@
 	"Bashed"
 	{
 		"en"		"Bashed enemy"
+	}
+	"Distance too short."
+	{
+		"en"		"Distance too short."
 	}
 }

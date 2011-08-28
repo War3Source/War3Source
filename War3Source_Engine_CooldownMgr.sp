@@ -17,7 +17,7 @@ new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];
 new bool:CdOnSpawnPrintOnExpire[MAXRACES][MAXSKILLCOUNT];
 new Float:CooldownOnSpawnDuration[MAXRACES][MAXSKILLCOUNT];
 
-new String:ultimateReadySound[]="war3source/ult_ready.wav";
+new String:ultimateReadySound[]="war3source/ult_ready.mp3";
 new String:abilityReadySound[]="war3source/ability_refresh.mp3";
 
 new Handle:g_CooldownExpiredForwardHandle;

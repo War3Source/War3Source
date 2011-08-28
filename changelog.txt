@@ -1,6 +1,6 @@
 1.2.3
 
-
+ 
 
 B2
 
@@ -29,6 +29,8 @@ Functionality is basically from changerace but now exposed to allow database han
 
 fixed EXT not loaded spamming (you should still load it anyway)
 
+Human teleport will abort of initial aim end point is < 150 units. Prevents lame short teleports...
+Fixed minor startup error from shopmenu
 
 B1
 nerfed naix. updated english translations for naix.
