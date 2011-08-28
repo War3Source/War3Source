@@ -323,26 +323,28 @@ public OnWar3EventDeath(victim,attacker){
 			else if (StrEqual(victimclass, "Smoker"))
 			{
 				new addxp = GetConVarInt(KillSmokerXPCvar);
+				new addgold = GetConVarInt(KillGoldCvar);
 				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 				
 				new String:killaward[64];
 				Format(killaward,sizeof(killaward),"%T","killing a Smoker",attacker);
 				
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
 			else if (StrEqual(victimclass, "Boomer"))
 			{
 				new addxp = GetConVarInt(KillBoomerXPCvar);
+				new addgold = GetConVarInt(KillGoldCvar);
 				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 				
 				new String:killaward[64];
 				Format(killaward,sizeof(killaward),"%T","killing a Boomer",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
@@ -357,13 +359,14 @@ public OnWar3EventDeath(victim,attacker){
 			else if (StrEqual(victimclass, "Hunter"))
 			{
 				new addxp = GetConVarInt(KillHunterXPCvar);
+				new addgold = GetConVarInt(KillGoldCvar);
 				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 				
 				new String:killaward[64];
 				Format(killaward,sizeof(killaward),"%T","killing a Hunter",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}				
@@ -374,13 +377,14 @@ public OnWar3EventDeath(victim,attacker){
 			else if (StrEqual(victimclass, "Jockey"))
 			{
 				new addxp = GetConVarInt(KillJockeyXPCvar);
+				new addgold = GetConVarInt(KillGoldCvar);
 				if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 				
 				new String:killaward[64];
 				Format(killaward,sizeof(killaward),"%T","killing a Jockey",attacker);
 
 				if (ValidPlayer(victim) && IsFakeClient(victim))
-					W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+					W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 				else
 					GiveKillXPCreds(attacker, victim, false, false);
 			}
@@ -389,26 +393,28 @@ public OnWar3EventDeath(victim,attacker){
 				if (EventZombieClass == 4)
 				{
 					new addxp = GetConVarInt(KillSpitterXPCvar);
+					new addgold = GetConVarInt(KillGoldCvar);
 					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 					
 					new String:killaward[64];
 					Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
 
 					if (ValidPlayer(victim) && IsFakeClient(victim))
-						W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+						W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 					else
 						GiveKillXPCreds(attacker, victim, false, false);
 				}
 				else
 				{
 					new addxp = GetConVarInt(KillChargerXPCvar);
+					new addgold = GetConVarInt(KillGoldCvar);
 					if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
 					
 					new String:killaward[64];
 					Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
 	
 					if (ValidPlayer(victim) && IsFakeClient(victim))
-						W3GiveXPGold(attacker,XPAwardByKill,addxp,0,killaward);
+						W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
 					else
 						GiveKillXPCreds(attacker, victim, false, false);
 				}

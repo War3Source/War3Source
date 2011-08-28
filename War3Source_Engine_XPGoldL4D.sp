@@ -5,8 +5,8 @@
 
 public Plugin:myinfo= 
 {
-	name="W3S Engine XP Gold CS",
-	author="Ownz (DarkEnergy)",
+	name="W3S Engine XP Gold L4D",
+	author="Glider",
 	description="War3Source Core Plugins",
 	version="1.0",
 	url="http://war3source.com/"
@@ -16,6 +16,7 @@ public Plugin:myinfo=
  
 // l4d
 new Handle:HealPlayerXPCvar;
+new Handle:DeployUpgradeXPCvar;
 new Handle:RevivePlayerXPCvar;
 new Handle:RescuePlayerXPCvar;
 new Handle:HelpTeammateXPCvar;
@@ -32,10 +33,11 @@ public OnPluginStart()
 	{
 		HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
 		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
-		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing another from a closet");
+		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","50","XP awarded to a player helping somebody get up");
 		HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","100","XP awarded to a player helping another get up");
 		SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
-		ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");	
+		ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");
+		DeployUpgradeXPCvar=CreateConVar("war3_l4d_upgradeexp","100","XP awarded to a player deploying a upgrade pack");
 		
 		KillTankXPCvar=CreateConVar("war3_l4d_tankexp","500","XP awarded to team surviving a Tank");
 		KillTankSoloXPCvar=CreateConVar("war3_l4d_solotankexp","1000","XP awarded to player soloing a Tank");
@@ -92,11 +94,31 @@ public OnPluginStart()
 			{
 				PrintToServer("[War3Source] Could not hook the defibrillator_used event.");
 			}
+			if(!HookEventEx("upgrade_pack_used", War3Source_DeployUpgrade))
+			{
+				PrintToServer("[War3Source] Could not hook the upgrade_pack_used event.");
+			}
 		}
 	}
 }
 
-// L4D related events
+public War3Source_DeployUpgrade(Handle:event,const String:name[],bool:dontBroadcast)
+{	
+	new userid = GetEventInt(event, "userid");
+	
+	if (userid > 0)
+	{
+		new client = GetClientOfUserId(userid);
+		
+		new addxp = GetConVarInt(DeployUpgradeXPCvar);
+				
+		//new String:healaward[64];
+		//Format(healaward,sizeof(healaward),"%T","deplo a player",client);
+		W3GiveXPGold(client,XPAwardByGeneric,addxp,0,"deploying a upgradepack");
+	}
+
+}
+
 public War3Source_HealSuccessEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	new healer = GetEventInt(event, "userid");
@@ -104,7 +126,6 @@ public War3Source_HealSuccessEvent(Handle:event,const String:name[],bool:dontBro
 	if(((healer > 0) && (healee > 0)) && (healer != healee))
 	{
 		new client = GetClientOfUserId(healer);
-		
 		
 		new addxp = GetConVarInt(HealPlayerXPCvar);
 		
@@ -230,7 +251,7 @@ public War3Source_WitchKilledEvent(Handle:event,const String:name[],bool:dontBro
 				Format(killaward,sizeof(killaward),"%T","surviving a Witch", killer);
 		
 				for(new client=1; client <= MaxClients; client++)
-					if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
+					if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && !War3_IsPlayerIncapped(client))
 					{
 						W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
 					}
@@ -264,7 +285,7 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 			
 			new addxp = GetConVarInt(KillTankXPCvar);
 			for(new client=1; client <= MaxClients; client++)
-				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && (!solo || (client != killer)))
+				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && !War3_IsPlayerIncapped(client) && (!solo || (client != killer)))
 				{
 					Format(killaward,sizeof(killaward),"%T","surviving a Tank", client);
 					W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
