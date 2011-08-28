@@ -60,9 +60,9 @@ public OnWar3Event(W3EVENT:event, client)
 		}	
 		for(new i=1;i<=MaxClients;i++){
 			if(ValidPlayer(i)){
-				SetTrans(client);
+				SetTrans(i);
 				War3_GetRaceName(race, racename, sizeof(racename));
-				War3_ChatMessage(0, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
+				War3_ChatMessage(i, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
 			}
 		}
 		
