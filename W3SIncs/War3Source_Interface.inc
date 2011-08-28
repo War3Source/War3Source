@@ -311,7 +311,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetItemCost");
 	MarkNativeAsOptional("W3GetItemOrder");
 	MarkNativeAsOptional("W3ItemHasFlag");
-	MarkNativeAsOptional("W3GetItemCatagory");
+	MarkNativeAsOptional("W3GetItemCategory");
 	MarkNativeAsOptional("W3GetItemsLoaded");
 	MarkNativeAsOptional("W3IsItemDisabledGlobal");
 	MarkNativeAsOptional("W3IsItemDisabledForRace");
@@ -599,7 +599,7 @@ native W3GetItemDescription(itemid,String:ret[],maxlen);
 native W3GetItemCost(itemid,bool:csmoney);
 native W3GetItemOrder(itemid);
 native W3ItemHasFlag(itemid,String:flagsearch[]);
-native W3GetItemCatagory(itemid,String:retcatagorystr[],maxlen);
+native W3GetItemCategory(itemid,String:retcatagorystr[],maxlen);
 native W3GetItemsLoaded(); //how many items are loaded?
 
 native bool:W3IsItemDisabledGlobal(itemid);

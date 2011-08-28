@@ -1100,6 +1100,11 @@
 		"#format"	"{1:d},{2:d}"
 		"en"		"[War3Source] Select an item to buy. You have {1}/{2} items"
 	}
+	"[War3Source] Select an item category to browse. You have {amount}/{amount} items"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"(War3Source) Select an item category to browse. You have {1}/{2} items"
+	}
 	"You have {amount} Gold"
 	{
 		"#format"	"{1:d}"

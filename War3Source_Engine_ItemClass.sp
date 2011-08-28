@@ -18,7 +18,7 @@ new itemProperty[MAXITEMS][W3ItemProp] ;
 
 new itemOrderCvar[MAXITEMS];
 new itemFlagsCvar[MAXITEMS];
-new itemCatagoryCvar[MAXITEMS];
+new itemCategoryCvar[MAXITEMS];
 
 new bool:itemTranslated[MAXITEMS];
 
@@ -60,7 +60,7 @@ public bool:InitNativesForwards()
 	
 	//CreateNative("W3GetItemOrder",NW3GetItemOrder);
 	CreateNative("W3ItemHasFlag",NW3ItemHasFlag);
-	//CreateNative("W3GetItemCatagory",NW3GetItemCatagory);
+	CreateNative("W3GetItemCategory",NW3GetItemCategory);
 
 	return true;
 }
@@ -187,11 +187,11 @@ public NW3ItemHasFlag(Handle:plugin,numParams)
 	
 	return (StrContains(buf,flagsearch)>-1);
 }
-public NW3GetItemCatagory(Handle:plugin,numParams)
+public NW3GetItemCategory(Handle:plugin,numParams)
 {
 	new itemid=GetNativeCell(1);
 	new String:buf[1000];
-	W3GetCvar(itemCatagoryCvar[itemid],buf,sizeof(buf));
+	W3GetCvar(itemCategoryCvar[itemid],buf,sizeof(buf));
 	SetNativeString(2,buf,GetNativeCell(3));
 }
 
@@ -251,8 +251,8 @@ CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescripti
 	Format(cvarstr,sizeof(cvarstr),"%s_itemflags",titemshortname);
 	itemFlagsCvar[titemid]=W3CreateCvar(cvarstr,"","item flags");
 	
-	Format(cvarstr,sizeof(cvarstr),"%s_itemcatagory",titemshortname);
-	itemCatagoryCvar[titemid]=W3CreateCvar(cvarstr,"","item catagory");
+	Format(cvarstr,sizeof(cvarstr),"%s_itemcategory",titemshortname);
+	itemCategoryCvar[titemid]=W3CreateCvar(cvarstr,"","item category");
 	
 	return titemid; //this will be the new item's id / index
 }

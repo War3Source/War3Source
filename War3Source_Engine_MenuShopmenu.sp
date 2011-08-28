@@ -16,7 +16,7 @@ public Plugin:myinfo=
 };
 
 new Handle:hBuyItemUseCSMoneCvar;
-
+new Handle:hUseCategorysCvar;
 
 
 public bool:InitNativesForwards()
@@ -28,12 +28,16 @@ public bool:InitNativesForwards()
 public OnPluginStart()
 {
 	hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money to buy shopmenu items");
-	
+	hUseCategorysCvar=CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);	
 }
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowShopMenu){
-		ShowMenuShop(client);
+		new bool:useCategory = GetConVarBool(hUseCategorysCvar);
+		if (useCategory)
+			ShowMenuShopCategory(client);
+		else
+			ShowMenuShop(client);
 	}
 	if(event==DoTriedToBuyItem){ //via say?
 		War3_TriedToBuyItem(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
@@ -41,10 +45,62 @@ public OnWar3Event(W3EVENT:event,client){
 }
 new WantsToBuy[MAXPLAYERSCUSTOM];
 
-ShowMenuShop(client){
+ShowMenuShopCategory(client)
+{
+	SetTrans(client);
+	new Handle:shopMenu = CreateMenu(War3Source_ShopMenuCategory_Sel);
+	SetMenuExitButton(shopMenu, true);
+	new gold = War3_GetGold(client);
+	
+	new String:title[300];
+	Format(title,sizeof(title),"%T\n","[War3Source] Select an item category to browse. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
+	
+	if(W3BuyUseCSMoney()){
+		Format(title,sizeof(title),"%s \n",title);
+	}
+	else {
+		Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold", GetTrans(), gold);
+	}
+	
+	SetMenuTitle(shopMenu, title);
+	
+	new Handle:h_ItemCategorys = CreateArray(ByteCountToCells(64));
+	decl String:category[64];
+	new ItemsLoaded = W3GetItemsLoaded();
+	
+	// find all possible categorys and fill the menu
+	for(new x=1; x <= ItemsLoaded; x++)
+	{
+		if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x,"hidden"))
+		{
+			W3GetItemCategory(x, category, sizeof(category));
+			
+			if ((FindStringInArray(h_ItemCategorys, category) >= 0) || StrEqual(category, ""))
+				continue;
+			else
+				PushArrayString(h_ItemCategorys, category);
+		}
+	}
+	
+	// fill the menu with the categorys
+	while(GetArraySize(h_ItemCategorys))
+	{
+		GetArrayString(h_ItemCategorys, 0, category, sizeof(category));
+		
+		AddMenuItem(shopMenu, category, category, ITEMDRAW_DEFAULT);
+		RemoveFromArray(h_ItemCategorys, 0);
+	}
+	
+	CloseHandle(h_ItemCategorys);
+	
+	DisplayMenu(shopMenu,client,20);
+}
+
+ShowMenuShop(client, const String:category[]=""){
 	SetTrans(client);
 	new Handle:shopMenu=CreateMenu(War3Source_ShopMenu_Selected);
 	SetMenuExitButton(shopMenu,true);
+	
 	new gold=War3_GetGold(client);
 	
 	new String:title[300];
@@ -59,6 +115,7 @@ ShowMenuShop(client){
 	decl String:itemname[64];
 	decl String:itembuf[4];
 	decl String:linestr[96];
+	decl String:itemcategory[64];
 	decl cost;
 	new ItemsLoaded = W3GetItemsLoaded();
 	for(new x=1;x<=ItemsLoaded;x++)
@@ -67,28 +124,34 @@ ShowMenuShop(client){
 		//	PrintToServer("hidden %d",x);
 		//}
 		if(!W3IsItemDisabledGlobal(x)&&!W3ItemHasFlag(x,"hidden")){
-			Format(itembuf,sizeof(itembuf),"%d",x);
-			W3GetItemName(x,itemname,sizeof(itemname));
-			cost=W3GetItemCost(x,W3BuyUseCSMoney());
-			if(War3_GetOwnsItem(client,x)){
-				if(W3BuyUseCSMoney()){
-					Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
-				}else{
-					Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Gold",client,itemname,cost);
+			W3GetItemCategory(x, itemcategory, sizeof(itemcategory));
+			
+			if ((!StrEqual(category, "") && StrEqual(category, itemcategory)) || (StrEqual(category, "")))
+			{
+				Format(itembuf,sizeof(itembuf),"%d",x);
+				W3GetItemName(x,itemname,sizeof(itemname));
+				cost=W3GetItemCost(x,W3BuyUseCSMoney());
+				if(War3_GetOwnsItem(client,x)){
+					if(W3BuyUseCSMoney()){
+						Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
+					}else{
+						Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Gold",client,itemname,cost);
+					}
 				}
-			}
-			else{
-				if(W3BuyUseCSMoney()){
-					Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
-				}else{
-					Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
+				else{
+					if(W3BuyUseCSMoney()){
+						Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
+					}else{
+						Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
+					}
 				}
+				AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(War3_GetRace(client),x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
 			}
-			AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(War3_GetRace(client),x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
 		}
 	}
 	DisplayMenu(shopMenu,client,20);
 }
+
 public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 {
 	if(action==MenuAction_Select)
@@ -109,6 +172,27 @@ public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selecti
 		CloseHandle(menu);
 	}
 }
+
+public War3Source_ShopMenuCategory_Sel(Handle:menu, MenuAction:action, client, selection)
+{
+	if(action==MenuAction_Select)
+	{
+		if(ValidPlayer(client))
+		{
+			decl String:SelectionInfo[64];
+			decl String:SelectionDispText[256];
+			new SelectionStyle;
+			GetMenuItem(menu, selection, SelectionInfo, sizeof(SelectionInfo), SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
+			
+			ShowMenuShop(client, SelectionInfo);
+		}
+	}
+	if(action==MenuAction_End)
+	{
+		CloseHandle(menu);
+	}
+}
+
 War3_TriedToBuyItem(client,item,bool:reshowmenu=true){
 	if(item>0&&item<=W3GetItemsLoaded())
 	{	
