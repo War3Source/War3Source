@@ -992,7 +992,6 @@
 	}
 	"[War3Source] Select an item category to browse. You have {amount}/{amount} items"
 	{
-		"#format"	"{1:d},{2:d}"
 		"ru"		"[КАТЕГОРИИ МАГАЗИНА]\nУ вас {1}/{2} артефактов"
 	}
 	"You have {amount} Gold"
