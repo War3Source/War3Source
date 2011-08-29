@@ -1843,10 +1843,28 @@ stock bool:IS_PLAYER(x)
 	return false;
 }
 
+/*
+There are two ways to get admin
+//need 
+//good if you need the string to admin flag like "o" -> number
+id= native bool:GetAdminFlag(AdminId:id, AdminFlag:flag, AdmAccessMode:mode=Access_Effective);
+	Admin_RCON,			
+	Admin_Root,
+	
+	VS
+	
+	//good if u know the access level
+GetUserFlagBits(client)	
+	
+	ADMFLAG_RCON
+	ADMFLAG_ROOT
+	*/
+
 stock HasSMAccess(client,flag)
 {
 	new flags = GetUserFlagBits(client);
-	if (flags & flag) //ADMFLAG_ROOT
+	DP("flags %d",flags);
+	if (flags & (flag|ADMFLAG_ROOT)) //ADMFLAG_ROOT is "z"
 	{
 		return true;
 	}
