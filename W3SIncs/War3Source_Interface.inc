@@ -1863,7 +1863,7 @@ GetUserFlagBits(client)
 stock HasSMAccess(client,flag)
 {
 	new flags = GetUserFlagBits(client);
-	DP("flags %d",flags);
+	//DP("flags %d",flags);
 	if (flags & (flag|ADMFLAG_ROOT)) //ADMFLAG_ROOT is "z"
 	{
 		return true;
