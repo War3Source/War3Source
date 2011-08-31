@@ -2507,6 +2507,7 @@ stock PrintPluginError(Handle:plugin){
 
 
 #include "W3SIncs/stocks_precache"
+#include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/stocks_misc"
 
 //SUPER HERO INDLUDE FILE, many stock requires war3 functions to be delcared first...

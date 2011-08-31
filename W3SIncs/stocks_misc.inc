@@ -4,7 +4,7 @@
  * Author(s): Frenzzy
  */
  
-#include "W3SIncs/War3Source_L4D_Interface"
+//#include "W3SIncs/War3Source_L4D_Interface"
 
 /**
  * Adds a file to the downloadables network string table.
