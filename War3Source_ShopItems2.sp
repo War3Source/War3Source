@@ -16,10 +16,12 @@ enum ITEMENUM{ ///
 	POSTHASTE=0,
 	TRINKET,
 	LIFETUBE,
+	SNAKE_BRACELET,
+	FORTIFIED_BRACER
 	/*
 	//basic "Accessories"
 	striders
-	Fortified Bracelet
+	
 	soulscream ring , Alchemist's Bones, charged hammer
 	Trinket of Restoration
 	sustainer
@@ -68,22 +70,23 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
+	//CreateTimer(1.0,test,_,TIMER_REPEAT);
 	
-	
+}
+public Action:test(Handle:t,any:a){
+	//DP("ItemID[FORTIFIED_BRACER]=%d ItemID[SNAKE_BRACELET]=%d ItemID[LIFETUBE]=%d",ItemID[FORTIFIED_BRACER],ItemID[SNAKE_BRACELET],ItemID[LIFETUBE]);
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-//DP("%d",EXT());
 	if(num==10&&EXT()){
-	//War3_CreateShopItem2
-	//W3CreateShopItem2
-		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",10,true);
-		//new String:foo[32];
-		//W3GetItem2Name(ItemID[POSTHASTE],foo,32);
-		//DP("%s",foo);
+		ItemID[POSTHASTE]=W3CreateShopItem2("Post Hasteut","posthaste","+3% speedut",10,true);	
 		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoration","trinket","+0.5 HP regeneration",15,false);
 		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",40,false);
+		ItemID[SNAKE_BRACELET]=W3CreateShopItem2("Snake Bracelet","snakebracelet","5% Evasion",10,false);
+		ItemID[FORTIFIED_BRACER]=W3CreateShopItem2("Fortified Braceraaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","fortifiedbracer","+10 max HP",10,false);
+		
+		
 	}
 }
 public OnMapStart()
@@ -106,6 +109,9 @@ public OnItem2Purchase(client,item)
 	{
 		War3_SetBuffItem2(client,fHPRegen,ItemID[LIFETUBE],1.0);
 	}
+	if(item==ItemID[FORTIFIED_BRACER]){
+		War3_SetBuffItem2(client,iAdditionalMaxHealth,ItemID[FORTIFIED_BRACER],10);
+	}
 }
 
 public OnItem2Lost(client,item){ //deactivate passives , client may have disconnected
@@ -121,4 +127,29 @@ public OnItem2Lost(client,item){ //deactivate passives , client may have disconn
 	{
 		War3_SetBuffItem2(client,fHPRegen,ItemID[LIFETUBE],0.0);
 	}
+	if(item==ItemID[FORTIFIED_BRACER]){
+		War3_SetBuffItem2(client,iAdditionalMaxHealth,ItemID[FORTIFIED_BRACER],0);
+	}
 }
+public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
+{
+	if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
+	{
+		new vteam=GetClientTeam(victim);
+		new ateam=GetClientTeam(attacker);
+		if(vteam!=ateam)
+		{
+			if(!Perplexed(victim,false)&&War3_GetOwnsItem2(victim,ItemID[SNAKE_BRACELET]))
+			{
+				if(W3Chance(0.05))
+				{
+					War3_DamageModPercent(0.0); //NO DAMAMGE
+					W3MsgEvaded(victim,attacker);
+				}
+			}
+		}
+	}
+}
+		
+
+

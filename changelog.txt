@@ -32,6 +32,10 @@ fixed EXT not loaded spamming (you should still load it anyway)
 Human teleport will abort of initial aim end point is < 150 units. Prevents lame short teleports...
 Fixed minor startup error from shopmenu
 
+ITEM2: snake bracelet 5% evasion
+ITEM2: fortified bracers +10 HP
+FIX: Major error in item2 registration
+
 B1
 nerfed naix. updated english translations for naix.
 statistics transmits war3revision and stats version for better filtering.
