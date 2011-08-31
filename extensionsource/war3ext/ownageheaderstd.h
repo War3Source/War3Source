@@ -174,6 +174,19 @@ namespace //anoynamous namespace,
 		dest[num-1]=0;
 
 	}
+	//to be safe num = 16, then 15 characters can be stored
+	bool strtruncate(char * src,int num){
+		num--; //if its 16, we null at index 15
+		int i=0;
+		while(i<=num){ //check the 15th index also
+			if(src[i]==0){
+				return false;
+			}
+			i++;
+		}
+		src[num]=0;
+		return true;
+	}
 
 	using namespace std;
 	int strtoint(const char* input){
