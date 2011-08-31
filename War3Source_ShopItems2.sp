@@ -84,7 +84,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		ItemID[TRINKET]=W3CreateShopItem2("Trinket of Restoration","trinket","+0.5 HP regeneration",15,false);
 		ItemID[LIFETUBE]=W3CreateShopItem2("Lifetube","lifetube","+1 HP regeneration",40,false);
 		ItemID[SNAKE_BRACELET]=W3CreateShopItem2("Snake Bracelet","snakebracelet","5% Evasion",10,false);
-		ItemID[FORTIFIED_BRACER]=W3CreateShopItem2("Fortified Braceraaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","fortifiedbracer","+10 max HP",10,false);
+		ItemID[FORTIFIED_BRACER]=W3CreateShopItem2("Fortified Bracer","fortifiedbracer","+10 max HP",10,false);
 		
 		
 	}
