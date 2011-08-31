@@ -6,7 +6,6 @@
  */
 
 #include <sdktools>
-#include "W3SIncs/constants"
 
 static const	ASSAULT_RIFLE_OFFSET_IAMMO		= 12;
 static const	SMG_OFFSET_IAMMO				= 20;
@@ -329,6 +328,3 @@ stock KillProgressBar(client)
 	SetEntPropFloat(client, Prop_Send, "m_flProgressBarDuration", 0.0);
 	SetEntPropFloat(client, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
 }  
-
-#include "W3SIncs/stocks_precache"
-#include "W3SIncs/stocks_misc"

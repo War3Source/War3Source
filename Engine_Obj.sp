@@ -21,7 +21,7 @@ public Plugin:myinfo=
 
 
 new global;
-new Handle:cr;
+stock Handle:cr;
 new cvarvalue;
 public OnPluginStart()
 {
@@ -72,7 +72,7 @@ public Action:dotime(Handle:t){
 	PrintToServer("cvar value %d",cvarvalue);
 */
 }
-SetByRef(Handle:ref){
+stock SetByRef(Handle:ref){
 	PrintToServer("handle %d",ref);
 	PrintToServer("deref %d",CellDereference(ref));
 	SetCellByReference(ref,CellDereference(ref)+1);
