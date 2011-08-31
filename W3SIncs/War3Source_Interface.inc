@@ -2448,7 +2448,7 @@ stock W3MsgVengenceWasBlocked(client,String:reason[]){
 }
 
 stock bool:Spying(client){
-	return	GameTF()&&(   TF2_GetPlayerConditionFlags(client)&(TF_CONDFLAG_DISGUISED|TF_CONDFLAG_DISGUISING |TF_CONDFLAG_CLOAKED));   
+	return	GameTF()&&(   TF2_IsPlayerInCondition(client,TFCond_Disguising)||TF2_IsPlayerInCondition(client,TFCond_Disguised) || TF2_IsPlayerInCondition(client,TFCond_Cloaked));
 }
 //team 2 3 swapped if spying
 stock GetApparentTeam(client){
@@ -2464,9 +2464,9 @@ native W3IsBuffInvised(client); //returns true if client alpha is <50
 //invisible or cloaked?
 stock IsInvis(client){
 	 return (  GameTF()
-	 &&(   TF2_GetPlayerConditionFlags(client)&TF_CONDFLAG_CLOAKED) ||
+	 &&(   TF2_IsPlayerInCondition(client,TFCond_Cloaked) ||
 	 	W3IsBuffInvised(client)
-	 );
+	 ));
 }
 
 /**

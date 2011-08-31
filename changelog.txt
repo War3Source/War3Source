@@ -36,6 +36,11 @@ ITEM2: snake bracelet 5% evasion
 ITEM2: fortified bracers +10 HP
 FIX: Major error in item2 registration
 
+INTERFACE UPDATED TO SM 1.3.8
+Recursive includes eliminated(SM compiler has changed). 
+
+
+
 B1
 nerfed naix. updated english translations for naix.
 statistics transmits war3revision and stats version for better filtering.

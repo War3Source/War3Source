@@ -4,7 +4,6 @@ public SHONLY(){}
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/SuperHero_Interface"
 
 public Plugin:myinfo= 
 {

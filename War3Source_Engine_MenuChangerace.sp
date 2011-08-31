@@ -4,8 +4,6 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/War3Source_L4D_Interface"
-
 
 new Handle:g_hGameMode;
 new bool:bSurvivalStarted;

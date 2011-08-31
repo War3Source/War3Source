@@ -3,7 +3,7 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/War3Source_L4D_Interface"
+
 #include <sdkhooks>
 
 public Plugin:myinfo= 

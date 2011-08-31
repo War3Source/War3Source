@@ -8,7 +8,6 @@
 #include <tf2>
 #include <tf2_stocks>
 #include "W3SIncs/War3Source_Interface"  
-#include "W3SIncs/War3Source_Effects"
 
 new thisRaceID;
 public Plugin:myinfo = 
