@@ -6,6 +6,8 @@ War3Source/SH REQUIRES SDKHOOKS
 http://forums.alliedmods.net/showthread.php?t=106748
 download the correct version (likely CSS/TF2/DODS)
 
+TIPS: 
+
 DO NOT USE COMMAND SPAMMING KICKER ON YOUR SERVER! WAR3SOURCE/SH IS COMMAND INPUT INTENSIVE!
 
 We do not recomend strict sv_pure. You should know what you are doing if you are using sv_pure.

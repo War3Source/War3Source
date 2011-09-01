@@ -1,3 +1,0 @@
-war3dll2 is not a SM extension
-it is specifically designed to be a "library" which is not required to be released, (as confirmed by bail/dvander, psychonic, and pimpinjuice)
-and is for things that you should not tamper with, such as the perma-shop authentication system
