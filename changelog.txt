@@ -7,7 +7,7 @@ B2
 Hint engine fix: automatically force refresh after spawn
 New addon: automatically buy item if their gold is at maximum at spawn
 ("war3_autobuy_on_max_gold","lace","automatically buy this item if their gold is full");
-//addon needs translating (not urgent)
+//thanks for translating this
 
 some natives exposed
 
