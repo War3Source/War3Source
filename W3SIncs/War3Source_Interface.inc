@@ -791,9 +791,10 @@ native W3LOS(client,target);
  * @param WAR3_DMGTYPE: is this damage true (no armor) physical (physical armor/immunity)  or magic (magic armor/immunity)
  * @param respectVictimImmunity: should damage be blocked if victim has that type of immunity, accouts for ORIGIN immunity and DMG type. (SKILL, ULTIMATE, ITEM, |||| MAGIC AND PHYSICAL ) simplifies so that u dont have to check
  * @param countAsFirstDamageRetriggered: should this damage allow to be rehooked (creating a real hurt-event again)? this may cause infinite loops!  Yes to combime with items and other skills only if its not in a damage hook itself. (infinite loop triggering)
+ * @param noWarning: Prevent warning print when using DealDamage from a event where it's error prone
  * @return bool: did damage go through, false if player was immune to that damage type or damage was zero or something else failed
  */
-native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[],    War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED  ,   War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC  ,  bool:respectVictimImmunity=true   ,   bool:countAsFirstDamageRetriggered=false);       
+native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[],    War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED  ,   War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC  ,  bool:respectVictimImmunity=true   ,   bool:countAsFirstDamageRetriggered=false, bool:noWarning=false);       
 
 //get the actual damage dealt from War3_DealDamage, because real damage is different after taking account to magic/physical armor
 //u wana call this immediately after War3_DealDamage cuz this is a single global variable. when someone else calls War3_DealDamage it will be changed

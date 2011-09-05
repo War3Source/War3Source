@@ -415,7 +415,10 @@ stock DP2(const String:szMessage[], any:...)
 public Native_War3_DealDamage(Handle:plugin,numParams)
 {
 	new bool:whattoreturn=true;
-	if(!g_CanDealDamage){
+	
+	new bool:noWarning = GetNativeCell(9);
+	
+	if(!g_CanDealDamage && !noWarning){
 		LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
 		W3LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
 		PrintPluginError(plugin);
