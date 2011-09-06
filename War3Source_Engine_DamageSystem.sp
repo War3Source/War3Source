@@ -416,7 +416,9 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 {
 	new bool:whattoreturn=true;
 	
-	new bool:noWarning = GetNativeCell(9);
+	new bool:noWarning = false;
+	if (numParams >= 9)
+		noWarning = GetNativeCell(9);
 	
 	if(!g_CanDealDamage && !noWarning){
 		LogError("War3_DealDamage called when DealDamage is not suppose to be called, please use the non PRE forward");
