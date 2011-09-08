@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"posthaste_ItemName"
+	{
+		"en"		"Post Hasteut"
+	}
+	"posthaste_ItemDesc"
+	{
+		"en"		"+3% speedut."
+	}
+}

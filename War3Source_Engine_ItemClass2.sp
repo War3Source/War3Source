@@ -92,9 +92,11 @@ public NWar3_CreateShopItemT(Handle:plugin,numParams)
 	new itemid=CreateNewItem(name,shortname,desc,cost);
 	itemTranslated[itemid]=true;
 	
+	/*
 	if(StrEqual(shortname,"scroll")){
 		Format(shortname,sizeof(shortname),"_scroll");   ///SHORTNAME IS ONLY USED ONCE BELOW
 	}
+	*/
 	
 	new String:buf[64];
 	Format(buf,sizeof(buf),"w3s.item2.%s.phrases",shortname);
