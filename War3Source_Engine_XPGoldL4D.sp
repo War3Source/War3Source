@@ -26,6 +26,12 @@ new Handle:KillTankXPCvar;
 new Handle:KillTankSoloXPCvar;
 new Handle:KillWitchXPCvar;
 new Handle:KillWitchCrownedXPCvar;
+new Handle:InfectedDamageModXPCvar;
+new Handle:PukeEnemyXPCvar;
+new Handle:PukeFatalXPCvar;
+new Handle:IncapXPCvar;
+new Handle:KillSurvivorXPCvar
+
 
 public OnPluginStart()
 {
@@ -43,6 +49,12 @@ public OnPluginStart()
 		KillTankSoloXPCvar=CreateConVar("war3_l4d_solotankexp","1000","XP awarded to player soloing a Tank");
 		KillWitchXPCvar=CreateConVar("war3_l4d_witchexp","250","XP awarded to team killing a Witch");
 		KillWitchCrownedXPCvar=CreateConVar("war3_l4d_crownwitchexp","100","XP awarded to player crowning a Witch");
+		
+		InfectedDamageModXPCvar=CreateConVar("war3_l4d_specialdmgexpmod","2.5","Damage * this = XP for a special infected doing damage");
+		PukeEnemyXPCvar=CreateConVar("war3_l4d_pukexp","50","XP awarded to a boomer puking on a survivor");
+		PukeFatalXPCvar=CreateConVar("war3_l4d_pukefatalxp","100","XP awarded to a boomer who pukes on somebody that gets incapped");
+		IncapXPCvar=CreateConVar("war3_l4d_incapxp","100","XP awarded to a infected incapping a survivor");
+		KillSurvivorXPCvar=CreateConVar("war3_l4d_killsurvivorxp","200","XP awarded to a infected killing a survivor");
 	}
 	
 	if(War3_IsL4DEngine())
@@ -87,7 +99,22 @@ public OnPluginStart()
 		{
 			PrintToServer("[War3Source] Could not hook the award_earned event.");
 		}
-		
+		if(!HookEventEx("map_transition", War3Source_EndRoundEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the map_transition event.");
+		}
+		if(!HookEventEx("player_now_it", War3Source_PlayerBoomedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_now_it event.");
+		}
+		if(!HookEventEx("fatal_vomit", War3Source_PlayerFBoomedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the fatal_vomit event.");
+		}
+		if(!HookEventEx("player_incapacitated", War3Source_PlayerIncappedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_incapacitated event.");
+		}
 		if(War3_GetGame() == Game_L4D2)
 		{
 			if(!HookEventEx("defibrillator_used", War3Source_DefibUsedEvent))
@@ -182,11 +209,89 @@ public War3Source_ProtectMateEvent(Handle:event,const String:name[],bool:dontBro
 	}
 }
 
+public War3Source_EndRoundEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	// Reward survivors for being excellent :)
+	RewardInOrder("m_checkpointZombieKills", 1.0);
+	RewardInOrder("m_checkpointDamageToTank", 0.03);
+	RewardInOrder("m_checkpointDamageToWitch", 0.05);
+}
 
-
-
-
-
+RewardInOrder(const String:netprop[], Float:final_multiplier)
+{
+	new iAmountList[MAXPLAYERS];
+	new iAmount;
+	new iAmountOfPlayers = 0;
+	
+	// Get everybodys values
+	for(new client=1; client <= MaxClients; client++)
+	{
+		if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
+		{
+			iAmount = GetEntProp(client, Prop_Send, netprop);
+			iAmountList[client] = iAmount;
+			
+			iAmountOfPlayers++;
+		}
+	}
+	
+	SortIntegers(iAmountList, sizeof(iAmountList), Sort_Descending);
+	
+	new place = 0;
+	new previous_amount = 0;
+	new rewarded_players = 0;
+	new reward_multiplier = 0;
+	new addxp = 0;
+	decl String:PlayerName[64];
+	
+	// Reward them
+	while (rewarded_players < iAmountOfPlayers)
+	{		
+		for(new client=1; client <= MaxClients; client++)
+		{
+			if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
+			{
+				iAmount = GetEntProp(client, Prop_Send, netprop);
+				
+				// Sorry, you were no asset to the team ;(
+				if (iAmount == 0)
+				{
+					rewarded_players++;
+					continue
+				}
+				
+				// Player has as much!
+				if (iAmountList[place] == iAmount)
+				{
+					place++;
+					// Previous place had just as much!
+					if (previous_amount == iAmount)
+					{
+						place--;
+					}
+					
+					GetClientName(client, PlayerName, sizeof(PlayerName)); 
+					
+					//War3_ChatMessage(0, "You are on place %i for %s!", place, netprop);
+					reward_multiplier = iAmountOfPlayers + 1 - place;
+					//War3_ChatMessage(client, "Your multiplier is %i", reward_multiplier);
+					addxp = RoundToCeil((iAmount * reward_multiplier) * final_multiplier)
+					
+					if (StrEqual(netprop, "m_checkpointZombieKills"))
+						W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, "Zombie kills");
+					else if (StrEqual(netprop, "m_checkpointDamageToTank"))
+						W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, "Tank damage");
+					else if (StrEqual(netprop, "m_checkpointDamageToWitch"))
+						W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, "Witch damage");
+										
+					
+					rewarded_players++;
+					previous_amount = iAmount;
+				}
+			}
+		}
+	}
+}
 
 
 public War3Source_SurvivorRevivedEvent(Handle:event,const String:name[],bool:dontBroadcast)
@@ -295,5 +400,86 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 						GiveKillXPCreds(client, victim, false, false);*/
 				}
 		}
+	}
+}
+
+
+
+
+// Zombies, Specials, Versus Mode...
+
+/* XP for doing damage as special infected */
+public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
+{
+	if( ValidPlayer(attacker) && (GetClientTeam(attacker) == TEAM_INFECTED) )
+	{
+		if( ValidPlayer(victim, true) && (GetClientTeam(victim) == TEAM_SURVIVORS) )
+		{
+			new addxp = RoundToCeil(damage * GetConVarFloat(InfectedDamageModXPCvar));
+			
+			if (addxp > 0)
+			{
+				W3GiveXPGold(attacker, XPAwardByGeneric, addxp, 0, "doing damage");
+			}
+		}
+	}
+}
+
+public War3Source_PlayerBoomedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new victim = GetClientOfUserId(GetEventInt(event, "userid"));
+	new attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+	
+	new bool:by_boomer = GetEventBool(event, "by_boomer");
+	
+	if( by_boomer && ValidPlayer(victim) && ValidPlayer(attacker) )
+	{ 
+		new addxp = GetConVarInt(PukeEnemyXPCvar);
+		
+		//new String:rescueaward[64];
+		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
+		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"puking on a enemy");
+	}
+}
+
+public War3Source_PlayerFBoomedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new attacker = GetClientOfUserId(GetEventInt(event, "userid"));
+	new victim = GetClientOfUserId(GetEventInt(event, "userid"));
+	
+	if( ValidPlayer(victim) && ValidPlayer(attacker) )
+	{ 
+		new addxp = GetConVarInt(PukeFatalXPCvar);
+		
+		//new String:rescueaward[64];
+		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
+		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"helping to incap a survivor");
+	}
+}
+
+public War3Source_PlayerIncappedEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	new attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+	new victim = GetClientOfUserId(GetEventInt(event, "userid"));
+	
+	if( ValidPlayer(victim) && ValidPlayer(attacker) && (GetClientTeam(attacker) == TEAM_INFECTED) )
+	{ 
+		new addxp = GetConVarInt(IncapXPCvar);
+		
+		//new String:rescueaward[64];
+		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
+		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"incapping a survivor");
+	}
+}
+
+public OnWar3EventDeath(victim, attacker)
+{
+	if( ValidPlayer(victim) && ValidPlayer(attacker) && (GetClientTeam(attacker) == TEAM_INFECTED) && (GetClientTeam(victim) == TEAM_SURVIVORS) )
+	{ 
+		new addxp = GetConVarInt(KillSurvivorXPCvar);
+		
+		//new String:rescueaward[64];
+		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
+		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"killing a survivor");
 	}
 }
