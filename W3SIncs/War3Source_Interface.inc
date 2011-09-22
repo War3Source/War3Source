@@ -611,7 +611,9 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
 native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated);
 //translated
-native War3_CreateShopItem2T(String:shortname[],cost);
+stock War3_CreateShopItem2T(String:shortname[],cost){
+	W3CreateShopItem2("",shortname,"",cost,true);
+}
 
 native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
 native War3_GetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY);
