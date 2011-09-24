@@ -80,11 +80,11 @@ public Action:test(Handle:t,any:a){
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==10&&EXT()){
-		ItemID[POSTHASTE]=War3_CreateShopItem2T("posthaste",10,true);	
-		ItemID[TRINKET]=War3_CreateShopItem2T("trinket",15,false);
-		ItemID[LIFETUBE]=War3_CreateShopItem2T("lifetube",40,false);
-		ItemID[SNAKE_BRACELET]=War3_CreateShopItem2T("snakebracelet",10,false);
-		ItemID[FORTIFIED_BRACER]=War3_CreateShopItem2T("fortifiedbracer",10,false);
+		ItemID[POSTHASTE]=W3CreateShopItem2T("posthaste",10);	
+		ItemID[TRINKET]=W3CreateShopItem2T("trinket",15);
+		ItemID[LIFETUBE]=W3CreateShopItem2T("lifetube",40);
+		ItemID[SNAKE_BRACELET]=W3CreateShopItem2T("snakebracelet",10);
+		ItemID[FORTIFIED_BRACER]=W3CreateShopItem2T("fortifiedbracer",10);
 		
 		
 	}

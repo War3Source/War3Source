@@ -608,10 +608,10 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 
 
 //Shopmenu 2 item class
-native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
-native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated);
+//native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
+native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
 //translated
-stock War3_CreateShopItem2T(String:shortname[],cost){
+stock W3CreateShopItem2T(String:shortname[],cost){
 	W3CreateShopItem2("",shortname,"",cost,true);
 }
 

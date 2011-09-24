@@ -1,6 +1,8 @@
 1.2.3
 
- 
+B3
+shop2 items translated (THANKS)
+fixed shop2 non existant natives
 
 B2
 
