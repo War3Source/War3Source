@@ -612,7 +612,8 @@ native bool:W3IsItemDisabledForRace(race,itemid);
 native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
 //translated
 stock W3CreateShopItem2T(String:shortname[],cost){
-	W3CreateShopItem2("",shortname,"",cost,true);
+	return W3CreateShopItem2("",shortname,"",cost,true);
+	
 }
 
 native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
@@ -719,6 +720,10 @@ native War3_GetOwnsItem2EXT(client,item);
 native War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
 stock War3_GetOwnsItem2(client,item){
 	if(EXT()){
+		if(item<1){
+			DP("err invalid item id %d client %d",item,client);
+			ThrowError("asdf");
+		}
 		return War3_GetOwnsItem2EXT(client,item);
 	}
 	return 0;

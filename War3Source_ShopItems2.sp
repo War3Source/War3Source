@@ -70,17 +70,20 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	//CreateTimer(1.0,test,_,TIMER_REPEAT);
+	CreateTimer(1.0,test,_,TIMER_REPEAT);
 	
 }
 public Action:test(Handle:t,any:a){
-	//DP("ItemID[FORTIFIED_BRACER]=%d ItemID[SNAKE_BRACELET]=%d ItemID[LIFETUBE]=%d",ItemID[FORTIFIED_BRACER],ItemID[SNAKE_BRACELET],ItemID[LIFETUBE]);
+	DP("ItemID[FORTIFIED_BRACER]=%d ItemID[SNAKE_BRACELET]=%d ItemID[LIFETUBE]=%d",ItemID[FORTIFIED_BRACER],ItemID[SNAKE_BRACELET],ItemID[LIFETUBE]);
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==10&&EXT()){
 		ItemID[POSTHASTE]=W3CreateShopItem2T("posthaste",10);	
+		if(ItemID[POSTHASTE]==0){
+			DP("ERR ITEM ID RETURNED IS ZERO");
+		}
 		ItemID[TRINKET]=W3CreateShopItem2T("trinket",15);
 		ItemID[LIFETUBE]=W3CreateShopItem2T("lifetube",40);
 		ItemID[SNAKE_BRACELET]=W3CreateShopItem2T("snakebracelet",10);

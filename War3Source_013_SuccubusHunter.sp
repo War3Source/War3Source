@@ -96,7 +96,11 @@ public OnPluginStart()
 	
 	LoadTranslations("w3s.race.succubus.phrases");
 }
-
+public OnRaceChanged(client,oldrace,newrace){
+	if(oldrace==thisRaceID){
+		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
+	}
+}
 public OnWar3EventSpawn(client)
 {
 	new race=War3_GetRace(client); 
@@ -145,8 +149,14 @@ public OnWar3EventSpawn(client)
 			dollar *= skulls[client];
 			xp *= skulls[client];
 			
-			new old_health=GetClientHealth(client);
-			SetEntityHealth(client,old_health+hp);
+			if(GameCS()){	
+				new old_health=GetClientHealth(client);
+				SetEntityHealth(client,old_health+hp);
+			}
+			else{
+			
+				War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hp);
+			}
 			
 			new old_XP = War3_GetXP(client,thisRaceID);
 			new kill_XP = W3GetKillXP(client);
