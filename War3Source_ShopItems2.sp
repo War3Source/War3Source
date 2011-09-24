@@ -70,11 +70,11 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	CreateTimer(1.0,test,_,TIMER_REPEAT);
+	//CreateTimer(1.0,test,_,TIMER_REPEAT);
 	
 }
 public Action:test(Handle:t,any:a){
-	DP("ItemID[FORTIFIED_BRACER]=%d ItemID[SNAKE_BRACELET]=%d ItemID[LIFETUBE]=%d",ItemID[FORTIFIED_BRACER],ItemID[SNAKE_BRACELET],ItemID[LIFETUBE]);
+	//DP("ItemID[FORTIFIED_BRACER]=%d ItemID[SNAKE_BRACELET]=%d ItemID[LIFETUBE]=%d",ItemID[FORTIFIED_BRACER],ItemID[SNAKE_BRACELET],ItemID[LIFETUBE]);
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)
