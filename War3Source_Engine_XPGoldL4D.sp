@@ -33,6 +33,13 @@ new Handle:IncapXPCvar;
 new Handle:KillSurvivorXPCvar
 
 
+public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
+{
+	if(!GameL4DAny())
+		return APLRes_SilentFailure;
+	return APLRes_Success;
+}
+
 public OnPluginStart()
 {
 	if(W3())
