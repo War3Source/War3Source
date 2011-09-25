@@ -6,6 +6,7 @@ fixed shop2 non existant natives
 shop2 translations begin with w3s.item2. instead of w3s.item
 hint and cooldown engine now checked by system check in case of handle leaks
 FIXED a hint handle leak
+fix scout vanish leaking into next spawn
 
 B2
 

@@ -84,9 +84,7 @@ public OnWar3Event(W3EVENT:event,client){
 			//if ur object holds handles, close them!!
 			for(new i=0;i<_:HINT_SIZE;i++)
 			{
-				//new Handle:h=
-				PrintToServer("%d",GetCell(Object(client),i));
-				//PrintToServer("%d",i);
+				//PrintToServer("%d",GetCell(Object(client),i));
 				CloseHandle(Handle:GetCell(Object(client),i)); //this is the array created above
 			}
 			DeleteObject(client);
