@@ -5,7 +5,7 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-#define COREPLUGINSNUM 7
+#define COREPLUGINSNUM 9
 new String:coreplugins[COREPLUGINSNUM][]={
 "War3Source.smx",
 "War3Source_Engine_CooldownMgr",
@@ -13,7 +13,9 @@ new String:coreplugins[COREPLUGINSNUM][]={
 "War3Source_Engine_PlayerCollision",
 "War3Source_Engine_Weapon",
 "War3Source_Engine_Buff",
-"War3Source_Engine_DamageSystem"
+"War3Source_Engine_DamageSystem",
+"War3Source_Engine_CooldownMgr",
+"Engine_Hint"
 };
 
 

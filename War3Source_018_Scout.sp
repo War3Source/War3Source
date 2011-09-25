@@ -121,6 +121,16 @@ ClearAura(client){
 	W3SetAuraFromPlayer(client,auras[3],false);
 	W3SetAuraFromPlayer(client,auras[4],false);
 }
+public OnWar3EventSpawn(client){
+	if(bDisarmed[client]){
+		EndInvis2(INVALID_HANDLE,client);
+	}
+	if(InInvis[client]){
+		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0);
+		War3_SetBuff(client,fHPDecay,thisRaceID,0.0);
+		InInvis[client]=false;
+	}
+}
 public OnAbilityCommand(client,ability,bool:pressed)
 {
 	if(War3_GetRace(client)==thisRaceID &&  pressed && IsPlayerAlive(client))
