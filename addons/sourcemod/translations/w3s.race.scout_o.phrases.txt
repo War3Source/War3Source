@@ -3,7 +3,7 @@
 	//<shortname>_RaceName
 	"scout_o_RaceName"
 	{
-		"en"		"Scout [testing]"
+		"en"		"Scout"
 	}
 
 	//skills:
