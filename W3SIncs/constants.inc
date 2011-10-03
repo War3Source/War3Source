@@ -140,6 +140,7 @@ enum W3EVENT
 	DatabaseConnected,
 	
 	DoShowSHMenu,
+	DoShowItems2InfoMenu,//MOVE
 	
 }
 enum W3DENY{

@@ -148,6 +148,7 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==DoForwardClientLostItem2){
 		new itemid=W3GetVar(TheItemBoughtOrLost);
 		War3_SetOwnsItem2(client,itemid,false);
+		//DP("NO LONGER OWNS %d",itemid);
 	
 		Call_StartForward(g_OnItemLostHandle); 
 		Call_PushCell(client);

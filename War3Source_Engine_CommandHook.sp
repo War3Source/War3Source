@@ -149,6 +149,11 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(DoShowItemsInfoMenu,client);
 		return returnblocking;
 	}
+	else if(CommandCheck(arg1,"itemsinfo2"))
+	{
+		W3CreateEvent(DoShowItems2InfoMenu,client);
+		return returnblocking;
+	}
 	else if(CommandCheckStartsWith(arg1,"playerinfo"))
 	{
 		new Handle:array=CreateArray(300);

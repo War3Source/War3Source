@@ -50,9 +50,9 @@ public bool:InitNativesForwards()
 	
 	CreateNative("War3_GetItem2IdByShortname",NWar3_GetItemIdByShortname);
 	
-	CreateNative("W3GetItem2Name",NW3GetItemName);
-	CreateNative("W3GetItem2Shortname",NW3GetItemShortname);
-	CreateNative("W3GetItem2Description",NW3GetItemDescription);
+	//CreateNative("W3GetItem2Name",NW3GetItemName);
+	//CreateNative("W3GetItem2Shortname",NW3GetItemShortname);
+	//CreateNative("W3GetItem2Desc",NW3GetItemDesc);
 
 	//CreateNative("W3GetItems2Loaded",Native_GetItemsLoaded);
 	

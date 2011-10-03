@@ -323,7 +323,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3CreateShopItem2");
 	MarkNativeAsOptional("W3GetItem2Name");
 	MarkNativeAsOptional("W3GetItem2Shortname");
-	MarkNativeAsOptional("W3GetItem2Description");
+	MarkNativeAsOptional("W3GetItem2Desc");
 	MarkNativeAsOptional("W3GetItem2Cost");
 	MarkNativeAsOptional("W3GetItem2Order");
 	MarkNativeAsOptional("W3Item2HasFlag");
@@ -626,12 +626,12 @@ native War3_GetItem2IdByShortname(String:itemshortname[]) ;
 
 native W3GetItem2Name(itemid,String:ret[],maxlen);
 native W3GetItem2Shortname(itemid,String:ret[],maxlen);
-native W3GetItem2Description(itemid,String:ret[],maxlen);
+native W3GetItem2Desc(itemid,String:ret[],maxlen);
 
-native W3GetItem2Cost(itemid);
-native W3GetItem2Order(itemid);
-native W3Item2HasFlag(itemid,String:flagsearch[]);
-native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
+//native W3GetItem2Cost(itemid);
+//native W3GetItem2Order(itemid);
+//native W3Item2HasFlag(itemid,String:flagsearch[]);
+//native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
 native W3GetItems2LoadedEXT();
 stock W3GetItems2Loaded(){ //how many items are loaded?
 	return EXT()?W3GetItems2LoadedEXT():0;
@@ -1089,7 +1089,7 @@ native War3_HealToBuffHP(client,addhp);
 
 /** 
  * direcly decreases the player's hp by X amount (Not via damage)
- * //WILL NOT GO BELOW 1 (cs glitch)
+ * this health removal is "non lethal"
  */
 native War3_DecreaseHP(client,decrease);
 
@@ -1446,7 +1446,8 @@ stock War3_SetMaxHP(client,maxhp){
 	W3SetPlayerProp(client,iMaxHP,maxhp);
 }
 stock War3_GetMaxHP(client){
-	return W3GetPlayerProp(client,iMaxHP);
+//DP("add %d",W3GetBuffSumInt(client,iAdditionalMaxHealth));
+	return W3GetPlayerProp(client,iMaxHP)+ W3GetBuffSumInt(client,iAdditionalMaxHealth);
 }
 stock bool:W3IsPlayerXPLoaded(client){
 	return W3GetPlayerProp(client,xpLoaded);

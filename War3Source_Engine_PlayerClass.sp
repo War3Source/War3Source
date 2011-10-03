@@ -292,6 +292,12 @@ public OnWar3Event(W3EVENT:event,client){
 		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
 			W3SetPlayerProp(client,isDeveloper,true);
 		}
+		
+		//items 2 remembered in ext, on unload it won't be cleared
+		for(new i=0;i<MAXITEMS2;i++){
+			W3SetVar(TheItemBoughtOrLost,i);
+			W3CreateEvent(DoForwardClientLostItem2,client);
+		}
 	}
 	if(event==ClearPlayerVariables){
 		//set xp loaded first, to block saving xp after race change

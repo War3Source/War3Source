@@ -113,7 +113,9 @@ public OnItem2Purchase(client,item)
 		War3_SetBuffItem2(client,fHPRegen,ItemID[LIFETUBE],1.0);
 	}
 	if(item==ItemID[FORTIFIED_BRACER]){
+	
 		War3_SetBuffItem2(client,iAdditionalMaxHealth,ItemID[FORTIFIED_BRACER],10);
+		War3_HealToMaxHP(client,10);
 	}
 }
 
