@@ -40,6 +40,8 @@ new Handle:m_MinimumUltimateLevel;
 new bool:racecreationended=true;
 new String:creatingraceshortname[16];
 
+new raceCell[MAXRACES][ENUM_RaceObject]
+
 //END race instance variables
 
 
@@ -105,6 +107,9 @@ public bool:InitNativesForwards()
 	CreateNative("W3GetMinUltLevel",NW3GetMinUltLevel);
 	
 	CreateNative("W3IsRaceTranslated",NW3IsRaceTranslated);
+	
+	CreateNative("W3GetRaceCell",NW3GetRaceCell);
+	CreateNative("W3SetRaceCell",NW3SetRaceCell);
 	return true;
 }
 
@@ -414,7 +419,12 @@ public NW3GetMinUltLevel(Handle:plugin,numParams){
 public NW3IsRaceTranslated(Handle:plugin,numParams){
 	return raceTranslated[GetNativeCell(1)];
 }
-
+public NW3SetRaceCell(Handle:plugin,numParams){
+	return raceCell[GetNativeCell(1)][GetNativeCell(2)]=GetNativeCell(3);
+}
+public NW3GetRaceCell(Handle:plugin,numParams){
+	return raceCell[GetNativeCell(1)][GetNativeCell(2)];
+}
 
 
 
@@ -691,6 +701,11 @@ CreateRaceEnd(raceid){
 			RestrictLimitCvar[raceid][0]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 1 (RED/T)");
 			Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,2);
 			RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)");
+			
+			new temp;
+			Format(cvarstr,sizeof(cvarstr),"%s_resrictclass",shortname);
+			temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma, ie 'sniper,demoman'");
+			W3SetRaceCell(raceid,ClassRestrictionCvar,temp);
 			
 			// create war3sourceraces structure, shouldn't be harmful if already exists
 			if(hDB)

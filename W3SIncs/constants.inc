@@ -510,6 +510,10 @@ enum RaceString
 	RaceDescription,
 	RaceTechnical,
 }
+//simulates race object
+enum ENUM_RaceObject{ //CELLS ONLY, NO STRINGS
+	ClassRestrictionCvar, //for TF
+}
 
 enum SkillString
 {

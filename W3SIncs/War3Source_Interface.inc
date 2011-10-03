@@ -551,6 +551,11 @@ native W3GetRaceMaxLimitTeamCvar(raceid,team); //returns the internal cvar id (i
 native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
+native W3GetRaceCell(raceid,ENUM_RaceObject:property);
+native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
+
+
+
 /* END RACE CLASS */
 
 
@@ -1406,8 +1411,12 @@ native W3SetCvar(cvarid,String:cvarvalue[]);
 //returns -1 if not found, otherwise returns cvar id
 native W3FindCvar(String:cvar[]);
 native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values, names only. CLOSE THIS!!!
+
+//get cvar value when you have the key
 native W3GetCvarByString(String:cvarstr[],String:returnstr[],maxlen);
-native W3GetCvarActualString(cvarid,String:returnstr[],maxlen); //get actual cvar name: undead_blah
+
+//get actual cvar name: undead_blah (the KEY)
+native W3GetCvarActualString(cvarid,String:returnstr[],maxlen); 
 
 stock W3CreateCvarInt(String:cvarstr[],intval,String:cvardesc[]){
 	decl String:str[1024];
@@ -2512,6 +2521,25 @@ stock PrintPluginError(Handle:plugin){
 	W3LogError("%s",str);
 }
 
+///find a "string" in a war3cvar that is delimited by commas "rubbish,string" = true
+stock W3FindStringInCvar(cvarid,String:findme[]){
+	decl String:cvarstr[1000];
+	decl String:exploded[256][256];
+	
+	W3GetCvar(cvarid,cvarstr,sizeof(cvarstr));
+	
+	new num;
+	if(strlen(cvarstr)>0){
+		num=ExplodeString(cvarstr,",",exploded,256,256);
+		for(new i=0;i<num;i++){
+			//PrintToServer("'%s' compared to: '%s' num%d",exploded[i],itemShort,num);
+			if(StrEqual(exploded[i],itemShort,false)){
+				//PrintToServer("TRUE");
+				return true;
+			}
+		}
+	}
+}
 
 
 
