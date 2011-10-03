@@ -93,7 +93,7 @@ public OnRaceChanged(client,oldrace,newrace)
 	{
 		new level=War3_GetSkillLevel(client,thisRaceID,SKILL_TRUESIGHT);
 		if(level>0){
-			W3SetAuraFromPlayer(client,auras[level],true,level);
+			W3SetAuraFromPlayer(auras[level],client,true,level);
 		}
 	}
 	else if(oldrace==thisRaceID){
@@ -110,16 +110,16 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 		{
 			ClearAura(client);
 			if(newskilllevel>0){
-				W3SetAuraFromPlayer(client,auras[newskilllevel],true,newskilllevel);
+				W3SetAuraFromPlayer(auras[newskilllevel],client,true,newskilllevel);
 			}
 		}
 	}
 }
 ClearAura(client){
-	W3SetAuraFromPlayer(client,auras[1],false);
-	W3SetAuraFromPlayer(client,auras[2],false);
-	W3SetAuraFromPlayer(client,auras[3],false);
-	W3SetAuraFromPlayer(client,auras[4],false);
+	W3SetAuraFromPlayer(auras[1],client,false);
+	W3SetAuraFromPlayer(auras[2],client,false);
+	W3SetAuraFromPlayer(auras[3],client,false);
+	W3SetAuraFromPlayer(auras[4],client,false);
 }
 public OnWar3EventSpawn(client){
 	if(bDisarmed[client]){

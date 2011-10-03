@@ -170,7 +170,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 CheckAura(client){
 	new level=War3_GetSkillLevel(client,thisRaceID,SKILL_PRESENCE);
-	W3SetAuraFromPlayer(client,AuraID,level>0?true:false,level);
+	W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
 }
 public OnRaceChanged(client,oldrace,newrace)
 {
@@ -179,7 +179,7 @@ public OnRaceChanged(client,oldrace,newrace)
 		CheckAura(client);
 	}
 	else if(oldrace==thisRaceID){
-		W3SetAuraFromPlayer(client,AuraID,false);
+		W3SetAuraFromPlayer(AuraID,client,false);
 	}
 }
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
