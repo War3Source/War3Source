@@ -628,9 +628,9 @@ native W3GetItem2Name(itemid,String:ret[],maxlen);
 native W3GetItem2Shortname(itemid,String:ret[],maxlen);
 native W3GetItem2Desc(itemid,String:ret[],maxlen);
 
-//native W3GetItem2Cost(itemid);
+native W3GetItem2Cost(itemid);
 //native W3GetItem2Order(itemid);
-//native W3Item2HasFlag(itemid,String:flagsearch[]);
+native W3Item2HasFlag(itemid,String:flagsearch[]);
 //native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
 native W3GetItems2LoadedEXT();
 stock W3GetItems2Loaded(){ //how many items are loaded?
