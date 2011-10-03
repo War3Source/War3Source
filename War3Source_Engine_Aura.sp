@@ -81,8 +81,9 @@ public NW3SetAuraFromPlayer(Handle:plugin,numParams)
 }
 public NW3HasAura(Handle:plugin,numParams)
 {
-	new client=GetNativeCell(1);
-	new aura=GetNativeCell(2);
+	new aura=GetNativeCell(1);
+	new client=GetNativeCell(2);
+	
 	//new data=GetNativeCellRef(3); //we dont have to get
 	SetNativeCellRef(3, HasAuraLevel[client][aura]); 
 	return ValidPlayer(client,true)&&HasAura[client][aura];
