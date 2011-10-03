@@ -74,8 +74,8 @@ public NW3RegisterAura(Handle:plugin,numParams)
 }
 public NW3SetAuraFromPlayer(Handle:plugin,numParams)
 {
-	new client=GetNativeCell(1);
-	new aura=GetNativeCell(2);
+	new aura=GetNativeCell(1);
+	new client=GetNativeCell(2);
 	AuraOrigin[client][aura]=bool:GetNativeCell(3);
 	AuraOriginLevel[client][aura]=GetNativeCell(4);
 }
