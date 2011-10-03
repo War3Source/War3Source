@@ -2,10 +2,10 @@
 {
 	"posthaste_ItemName"
 	{
-		"en"		"Post Hasteut"
+		"en"		"Post Haste"
 	}
 	"posthaste_ItemDesc"
 	{
-		"en"		"+3% speedut."
+		"en"		"+3% speed."
 	}
 }
