@@ -9,6 +9,7 @@ FIXED a hint handle leak
 fix scout vanish leaking into next spawn
 fixed a swap argument in W3HasAura (facehoof)
 itemsinfo2
+playerinfo shows shop2 items
 
 B2
 
