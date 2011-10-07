@@ -10,6 +10,7 @@ fix scout vanish leaking into next spawn
 fixed a swap argument in W3HasAura (facehoof)
 itemsinfo2
 playerinfo shows shop2 items
+playerinfo <argument> automatically makes a menu with client's names that match the argument
 
 B2
 

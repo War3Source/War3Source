@@ -353,26 +353,54 @@ War3_PlayerInfoMenu(client,String:arg[]){
 		Format(arg2,sizeof(arg2),"%s",arg[11]);
 		//PrintToChatAll("%s",arg2);
 		
-		new target=0;
+		
 		new found=0;
+		new targetlist[MAXPLAYERSCUSTOM];
 		new String:name[32];
 		for(new i=1;i<=MaxClients;i++){
 			if(ValidPlayer(i)){
 				GetClientName(i,name,sizeof(name));
 				if(StrContains(name,arg2,false)>-1){
-					target=i;
-					found++;
+					targetlist[found++]=i;
 				}
 			}
 		}
-		if(target==0){
+		if(found==0){
 			War3_ChatMessage(client,"%T","playerinfo <optional name>: No target found",client);
 		}
 		else if(found>1){
-			 War3_ChatMessage(client,"%T","playerinfo <optional name>: More than one target found",client);
+			War3_ChatMessage(client,"%T","playerinfo <optional name>: More than one target found",client);
+			//redundant code..maybe we should optmize?
+			new Handle:hMenu=CreateMenu(War3_playerinfoSelected1);
+			SetMenuExitButton(hMenu,true);
+			SetMenuTitle(hMenu,"%T\n ","[War3Source] Select a player to view its information",client);
+			// Iteriate through the players and print them out
+			decl String:playername[32];
+			decl String:war3playerbuf[4];
+			decl String:racename[64];
+			decl String:menuitem[100] ;
+			for(new i=0;i<found;i++)
+			{
+				new clientindex=targetlist[i];
+				Format(war3playerbuf,sizeof(war3playerbuf),"%d",clientindex);  //target index
+				GetClientName(clientindex,playername,sizeof(playername));
+				War3_GetRaceName(War3_GetRace(clientindex),racename,sizeof(racename));
+				if(War3_GetRace(clientindex)>0)
+				{
+					Format(menuitem,sizeof(menuitem),"%T","{player} ({racename} LVL {amount})",GetTrans(),playername,racename,War3_GetLevel(clientindex,War3_GetRace(clientindex)));
+				}
+				else
+				{
+					Format(menuitem,sizeof(menuitem),"%T","{player} ({racename})",GetTrans(),playername,racename);
+				}
+				AddMenuItem(hMenu,war3playerbuf,menuitem);
+				
+			}
+			DisplayMenu(hMenu,client,MENU_TIME_FOREVER);
+			 
 		}
 		else {
-		    War3_playertargetMenu(client,target);
+		    War3_playertargetMenu(client,targetlist[0]);
 		}
 	}
 	else
