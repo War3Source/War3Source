@@ -1,0 +1,11 @@
+Source is now available on Subversion
+
+We encourage you to contribute to the code because 
+others have worked their asses off to make this mod available to you.
+
+For those of you that know Subversion:
+Checkout URL: http://ownageclan.com/svn/war3source
+
+For those of you that don't know Subversion:
+tutorial:
+http://www.ownageclan.com/wiki/index.php/Development:SVN
