@@ -1,6 +1,6 @@
 1.2.3
 
-B3
+B3 / Rev530
 shop2 items translated (THANKS)
 fixed shop2 non existant natives
 shop2 translations begin with w3s.item2. instead of w3s.item

@@ -2,6 +2,7 @@ Source is now available on Subversion
 
 We encourage you to contribute to the code because 
 others have worked their asses off to make this mod available to you.
+We wish you give something back in return.
 
 For those of you that know Subversion:
 Checkout URL: http://ownageclan.com/svn/war3source
@@ -9,3 +10,29 @@ Checkout URL: http://ownageclan.com/svn/war3source
 For those of you that don't know Subversion:
 tutorial:
 http://www.ownageclan.com/wiki/index.php/Development:SVN
+
+
+
+
+-----------------------
+CREDITS
+-----------------------
+FOUNDER
+Anthony Iacono (AKA "pimpinjuice") 
+
+LEAD DEVELOPER
+OwnageOwnz (Aka "DarkEnergy")
+
+TRANSLATIONS 
+[RUS] Schmarotzer
+[RUS] Frenzzy
+
+L4D compatibility
+Glider
+
+OTHER
+[RUS] Namolem
+
+AND ALL OTHERS CREDITS GIVEN WITHIN THE PLUGIN SOURCE FILE
+
+

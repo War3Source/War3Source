@@ -67,7 +67,8 @@
 #define VERSION_NUM "1.2.3.3"
 #define REVISION_NUM 12303 //increment every release
 
-
+//DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
+//you may add you own name to the END only
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
 //used for some special things in interface
