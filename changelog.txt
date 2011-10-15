@@ -1,5 +1,11 @@
 1.2.3
 
+B4
+
+skill registration no longer requires "false,4);" to specify the skill is NOT and ultimate and has 4 levels, these are now default parameters
+
+
+
 B3 / Rev530
 shop2 items translated (THANKS)
 fixed shop2 non existant natives

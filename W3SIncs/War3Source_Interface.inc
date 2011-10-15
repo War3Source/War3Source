@@ -499,7 +499,7 @@ native bool:War3_InFreezeTime();
 native War3_CreateNewRace(String:name[],String:shortname[]);
 
 //adds a skill or a ultimate
-native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult,maxskilllevel=DEF_MAX_SKILL_LEVEL);
+native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL);
 
 
 //translated
@@ -509,7 +509,7 @@ native War3_CreateNewRaceT(String:shortname[]);
 //translated
 //adds a skill or a ultimate
 //additional parameters replaces #1# #2# ... in the translation string (max 5)
-native War3_AddRaceSkillT(raceid,String:SkillNameIdentifier[],bool:isult,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
+native War3_AddRaceSkillT(raceid,String:SkillNameIdentifier[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
 
 //ends race creation!!! MUST CALL THIS!!!
 native War3_CreateRaceEnd(raceid);
@@ -753,6 +753,18 @@ stock War3_SetOwnsItem2(client,item,bool:ownsitem){
  * @param FilterFunction: Callback filter function, return false in this function to ignore entity.     
  */
 native War3_GetTargetInViewCone(client,Float:max_distance=0.0,bool:include_friendlys=false,Float:cone_angle=23.0,Function:FilterFunction=INVALID_FUNCTION);
+ 
+
+//generic immunity filter for ultimate
+public bool:UltFilter(client)
+{
+	return (!W3HasImmunity(client,Immunity_Ultimates));
+}
+//generic immunity filter for ultimate
+public bool:SkillFilter(client)
+{
+	return (!W3HasImmunity(client,Immunity_Skills));
+}
  
 ///traces from client to target and see if they are in view of each other (Line of Signt - LOS)
 native W3LOS(client,target);
