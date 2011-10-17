@@ -56,6 +56,7 @@ public OnPluginStart()
 	CreateTimer(1.0,SecondTick,_,TIMER_REPEAT);
 
 	RegConsoleCmd("w3e", OnCommand);
+	W3CreateCvar("w3helper","loaded","is the war3 helper loaded");
 }
 public OnMapStart(){
 	

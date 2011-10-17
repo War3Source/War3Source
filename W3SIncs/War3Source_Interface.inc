@@ -1415,6 +1415,7 @@ native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0
 //TKV = trie key value , a abstract data storage, emulates cvars for war3
 ///Creates internal war3 cvars. returns a id to your cvar, store it!
 //cvarid of 0 is null null (filled auto)
+//make sure native have binded (on plugin start is fine)
 native W3CreateCvar(String:cvarstr[],String:cvarvalue[],String:cvardesc[]);
 native W3GetCvar(cvarid,String:returnstr[],maxlen);
 native W3SetCvar(cvarid,String:cvarvalue[]);

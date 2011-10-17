@@ -19,7 +19,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	LoadTranslations("w3s.shopmenu2.phrases");
-	
+	W3CreateCvar("w3shop2menu","loaded","is the shop2 loaded");
 }
 
 public OnWar3Event(W3EVENT:event,client){
