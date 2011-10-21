@@ -7,7 +7,7 @@ public SHONLY(){}
 
 public Plugin:myinfo= 
 {
-	name="War3Source war3menu",
+	name="SH war3menu",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
 	version="1.0",
