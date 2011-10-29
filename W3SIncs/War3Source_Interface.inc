@@ -1464,12 +1464,13 @@ stock W3SetCvarFloat(cvarid,intval){
 }
 
 
-stock War3_SetMaxHP(client,maxhp){
+stock War3_SetMaxHP_INTERNAL(client,maxhp){
+//	DP("set to %d",maxhp);
 	W3SetPlayerProp(client,iMaxHP,maxhp);
 }
 stock War3_GetMaxHP(client){
 //DP("add %d",W3GetBuffSumInt(client,iAdditionalMaxHealth));
-	return W3GetPlayerProp(client,iMaxHP)+ W3GetBuffSumInt(client,iAdditionalMaxHealth);
+	return W3GetPlayerProp(client,iMaxHP);//+ W3GetBuffSumInt(client,iAdditionalMaxHealth);
 }
 stock bool:W3IsPlayerXPLoaded(client){
 	return W3GetPlayerProp(client,xpLoaded);

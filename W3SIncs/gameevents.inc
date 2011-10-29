@@ -67,7 +67,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 			
 			
 			//bIgnoreTrackGF[client]=false;
-			War3_SetMaxHP(client,GetClientHealth(client));
+			War3_SetMaxHP_INTERNAL(client,GetClientHealth(client));
 			//PrintToChatAll("%d",GetClientHealth(index)); 
 			
 			if(W3()){

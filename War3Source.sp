@@ -24,7 +24,52 @@
 * If you don't like it, read through the whole thing yourself and prove yourself wrong.
 */
 
+/*
+Line by line, coding it together
+Unit tests, cutting out the errors bit by bit
+Making sure to run it almost nightly
+It’s parsing and works in SIT
+Always gotta keep in mind when tracing
+Making sure the code correctly spacing
+I’m coding them together.
 
+-
+
+Class by class fussing on the details
+IE9, don’t you know a better browser saves you time?
+Making sure it works for the compiler
+Even though I’m coding while tired
+Gotta mind those intimate details
+Even though the test might fail
+It’s another new test
+
+-
+
+Programming’s easy, for my API’s don’t stink
+Pointers make me queasy
+Extend methods and functions
+Do you think it breaks easy?
+
+-
+
+System crash, perhaps site fetching
+Curse and sigh, this just makes me want to die
+Making sure it doesn’t deadlock the set
+Don’t forget the data in the test
+Even though my job relies on this task
+I won’t get it done fast
+I’m coding Unit tests
+
+-
+
+File by file, line by line
+Public void, is the shit
+Class by class, to impress
+Working hard, never stressed
+
+And that’s the art of the test!
+
+*/
 // 
 // Dear maintainer:
 // 

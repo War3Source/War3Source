@@ -141,7 +141,7 @@ enum W3EVENT
 	
 	DoShowSHMenu,
 	DoShowItems2InfoMenu,//MOVE
-	
+	OnBuffChanged, //a buff has changed
 }
 enum W3DENY{
 	DN_ShowChangeRace, //can show the menu

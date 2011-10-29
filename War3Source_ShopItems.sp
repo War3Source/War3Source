@@ -249,8 +249,10 @@ public OnItemPurchase(client,item)
 	}
 	if(War3_GetGame()!=Game_TF && item==shopItem[HEALTH] && IsPlayerAlive(client)) // health
 	{
-		SetEntityHealth(client,GetClientHealth(client)+50);
-		War3_SetMaxHP(client,War3_GetMaxHP(client)+50);
+		//SetEntityHealth(client,GetClientHealth(client)+50);
+		//War3_SetMaxHP(client,War3_GetMaxHP(client)+50);
+		War3_SetBuffItem(client,iAdditionalMaxHealth,shopItem[HEALTH],50);
+			
 		War3_ChatMessage(client,"%T","+50 HP",client);
 	}
 	if(item==shopItem[TOME]) // tome of xp
@@ -299,7 +301,9 @@ public OnItemLost(client,item){ //deactivate passives , client may have disconne
 	}
 	else if(item==shopItem[HEALTH]&&ValidPlayer(client,true))
 	{
-		War3_SetMaxHP(client,War3_GetMaxHP(client)-50);
+		War3_SetBuffItem(client,iAdditionalMaxHealth,shopItem[HEALTH],0);
+		
+		//War3_SetMaxHP(client,War3_GetMaxHP(client)-50);
 		if(GetClientHealth(client)>War3_GetMaxHP(client)){
 			SetEntityHealth(client,War3_GetMaxHP(client));
 		}
@@ -581,8 +585,9 @@ public OnWar3EventSpawn(client){
 	}
 	if(War3_GetOwnsItem(client,shopItem[HEALTH]))
 	{
-		SetEntityHealth(client,GetClientHealth(client)+50);
-		War3_SetMaxHP(client,War3_GetMaxHP(client)+50);
+		//SetEntityHealth(client,GetClientHealth(client)+50);
+		War3_SetBuffItem(client,iAdditionalMaxHealth,shopItem[HEALTH],50);
+		//War3_SetMaxHP(client,War3_GetMaxHP(client)+50);
 		War3_ChatMessage(client,"%T","+50 HP",client);
 	}
 	if(War3_GetOwnsItem(client,shopItem[SOCK]))

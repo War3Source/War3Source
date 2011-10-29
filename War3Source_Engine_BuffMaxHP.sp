@@ -28,26 +28,49 @@ public OnPluginStart()
 	
 	CreateTimer(0.1,TFHPBuff,_,TIMER_REPEAT);
 }
+new ORIGINALHP[MAXPLAYERSCUSTOM];
 public OnWar3EventSpawn(client){
+	ORIGINALHP[client]=GetClientHealth(client);
+ // DP("SPAWN %d",ORIGINALHP[client]);
 	
+//	if(W3GetPlayerProp(client,bStatefulSpawn)){
 	if(mytimer[client]!=INVALID_HANDLE){
 		CloseHandle(mytimer[client]);
 	}
 	mytimer[client]=CreateTimer(0.1,CheckHP,client);
-
+	//DP("TIMERCREATE");
+//	}
 }
 public Action:CheckHP(Handle:h,any:client){
+//DP("TIMERHIT");
 	mytimer[client]=INVALID_HANDLE;
 	if(ValidPlayer(client,true)){
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
 		//DP("additonal %d",hpadd);
 		SetEntityHealth(client,GetClientHealth(client)+hpadd);
-		War3_SetMaxHP(client,War3_GetMaxHP(client)+hpadd);
-		
+		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
+		//DP("was %d, set to %d",War3_GetMaxHP(client),War3_GetMaxHP(client)+hpadd);
 		LastDamageTime[client]=GetEngineTime()-100.0;
 	}
 }
 
+new Handle:mytimer2[MAXPLAYERSCUSTOM];
+public OnWar3Event(W3EVENT:event,client){
+	if(event==OnBuffChanged)
+	{
+		if(W3GetVar(EventArg1)==iAdditionalMaxHealth&&ValidPlayer(client,true)){
+			if(mytimer2[client]==INVALID_HANDLE){	
+				mytimer2[client]=CreateTimer(0.1,CheckHP2,client);
+			}
+		}
+	}
+	//DP("EVENT %d",event);
+}
+public Action:CheckHP2(Handle:h,any:client){
+	mytimer2[client]=INVALID_HANDLE;
+	new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
+	War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
+}
 public OnClientPutInServer(client)
 {
    //  SDKHook(client, SDKHook_PostThink, PostThinkHook);
@@ -65,6 +88,8 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 	LastDamageTime[victim]=GetEngineTime();
 }
 public Action:TFHPBuff(Handle:h,any:data){
+
+
 	if(War3_GetGame()==Game_TF){
 		new Float:now=GetEngineTime();
 		//only create timer of TF2

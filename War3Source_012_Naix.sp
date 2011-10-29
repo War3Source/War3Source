@@ -102,10 +102,19 @@ public OnWar3EventSpawn(client){
 	if(IsOurRace(client)){
 		new level = War3_GetSkillLevel(client, thisRaceID, SKILL_BLOODBATH);
 		if(level>=0){ //zeroth level passive
-			War3_SetMaxHP(client, War3_GetMaxHP(client) + HPIncrease[level]);
+			War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,HPIncrease[level]);
+			
+			//War3_SetMaxHP(client, War3_GetMaxHP(client) + );
 			War3_ChatMessage(client,"%T","Your Maximum HP Increased by {amount}",client,HPIncrease[level]);    
 		}
 	}
+}
+public OnRaceChanged(client,oldrace,newrace)
+{
+	if(oldrace==thisRaceID){
+		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
+	}
+
 }
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {

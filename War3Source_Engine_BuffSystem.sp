@@ -257,6 +257,10 @@ SetBuff(client,W3Buff:buffindex,itemraceindex,value)
 	if(buffindex==fMaxSpeed||buffindex==fSlow||buffindex==bStunned||buffindex==bBashed){
 		W3ReapplySpeed(client); 
 	}
+	W3SetVar(EventArg1,buffindex); //generic war3event arguments
+	W3SetVar(EventArg2,itemraceindex); 
+	W3SetVar(EventArg3,value); 
+	W3CreateEvent(W3EVENT:OnBuffChanged,client);
 	
 	DoCalculateBuffCache(client,buffindex);
 }
