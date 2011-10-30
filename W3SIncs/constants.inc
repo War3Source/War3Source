@@ -331,9 +331,12 @@ enum W3Buff
 	fHPRegenDeny, //set true to deny hp regen
 	iAdditionalMaxHealth,   ///increase / decrease in maxhp
 	
+	fDodgeChance, //Registers a chance to dodge
+	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
+	
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 
@@ -485,6 +488,12 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ iAdditionalMaxHealth ][DefaultValue]=0;
 	buffpropertiesarray[ iAdditionalMaxHealth ][BuffStackType]=iAbsolute;
+	
+	buffpropertiesarray[ fDodgeChance ][DefaultValue]=0.0;
+	buffpropertiesarray[ fDodgeChance ][BuffStackType]=fStacked;
+	
+	buffpropertiesarray[ bDodgeMode	  ][DefaultValue]=0;
+	buffpropertiesarray[ bDodgeMode   ][BuffStackType]=bHasOneTrue;
 	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)
