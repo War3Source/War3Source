@@ -48,8 +48,8 @@ new Float:VengenceTFHealHPPercent[]={0.0,0.25,0.5,0.75,1.0};
 
 new SKILL_FANOFKNIVES, SKILL_BLINK,SKILL_SHADOWSTRIKE,ULT_VENGENCE;
 
-new String:shadowstrikestr[]={"war3source/shadowstrikebirth.wav"};
-new String:ultimateSound[]={"war3source/MiniSpiritPissed1.wav"};
+new String:shadowstrikestr[]="war3source/shadowstrikebirth.wav";
+new String:ultimateSound[]="war3source/MiniSpiritPissed1.wav";
 new BeamSprite;
 new HaloSprite;
 
