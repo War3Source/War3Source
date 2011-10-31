@@ -10,6 +10,7 @@ new String:explosionSound1[]="war3source/particle_suck1.wav";
 new BeamSprite;
 new HaloSprite;
 new ExplosionModel;
+new SuicidedAsTeam[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {
@@ -38,6 +39,10 @@ public OnPluginStart()
 	
 	War3_PrecacheSound(explosionSound1);
 }
+public OnWar3EventSpawn(client)
+{
+	SuicidedAsTeam[client] = GetClientTeam(client);
+}
 
 public bool:InitNativesForwards()
 {
@@ -48,6 +53,8 @@ public bool:InitNativesForwards()
 public Native_War3_SuicideBomber(Handle:plugin,numParams)
 {
 	new client = GetNativeCell(1);
+	if(SuicidedAsTeam[client]!=GetClientTeam(client))
+		return;
 	new Float:radius = GetNativeCell(4);
 	new our_team = GetClientTeam(client);
 	decl Float:client_location[3];
