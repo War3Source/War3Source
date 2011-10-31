@@ -443,6 +443,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3ExtShowShop2");
 	// Skills
 	MarkNativeAsOptional("War3_SuicideBomber");
+	MarkNativeAsOptional("War3_Teleport");
 	// L4D
 	MarkNativeAsOptional("War3_L4D_IsHelpless");
 	
@@ -1521,7 +1522,7 @@ native W3LogNotError(const String:fmt[],any:...);
 //Skills
 native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, bool:effect=true);
 
-
+native bool:War3_Teleport(client, Float:distance);
 
 
 

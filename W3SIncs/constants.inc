@@ -336,6 +336,8 @@ enum W3Buff
 	
 	fVampirePercent,
 	
+	fBashChance,
+	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
 	
@@ -499,6 +501,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fVampirePercent][DefaultValue]=0.0;
 	buffpropertiesarray[ fVampirePercent][BuffStackType]=fAbsolute;
+	
+	buffpropertiesarray[ fBashChance ][DefaultValue]=1.0;
+	buffpropertiesarray[ fBashChance ][BuffStackType]=fStacked;
 	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)
