@@ -334,6 +334,8 @@ enum W3Buff
 	fDodgeChance, //Registers a chance to dodge
 	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
+	fVampirePercent,
+	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
 	
@@ -494,6 +496,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ bDodgeMode	  ][DefaultValue]=0;
 	buffpropertiesarray[ bDodgeMode   ][BuffStackType]=bHasOneTrue;
+	
+	buffpropertiesarray[ fVampirePercent][DefaultValue]=0.0;
+	buffpropertiesarray[ fVampirePercent][BuffStackType]=fAbsolute;
 	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)

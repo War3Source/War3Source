@@ -441,8 +441,11 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetOwnsItem2EXT");
 	MarkNativeAsOptional("War3_SetOwnsItem2EXT");
 	MarkNativeAsOptional("W3ExtShowShop2");
+	// Skills
+	MarkNativeAsOptional("War3_SuicideBomber");
 	// L4D
 	MarkNativeAsOptional("War3_L4D_IsHelpless");
+	
 
 }
 
@@ -1513,6 +1516,19 @@ native W3SaveXP(client,race);
 native W3Log(const String:fmt[],any:...);
 native W3LogError(const String:fmt[],any:...);
 native W3LogNotError(const String:fmt[],any:...);
+
+
+//Skills
+native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, bool:effect=true);
+
+
+
+
+
+
+
+
+
 
 /**
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
