@@ -24,10 +24,13 @@ public OnPluginStart()
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowShopMenu2){
+		
 		if(EXT()){
-	
-			SetTrans(client); //required
-			W3ExtShowShop2(client);
+			War3_ChatMessage(client,"Shop2 disabled until compatability with SM 1.4 is fixed");
+			if(!EXT()){ //redundant skip
+				SetTrans(client); //required
+				W3ExtShowShop2(client);
+				}
 			//ShowMenuShop(client);
 			
 			//W3ExtShowShop2(client);
