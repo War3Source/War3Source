@@ -331,12 +331,16 @@ enum W3Buff
 	fHPRegenDeny, //set true to deny hp regen
 	iAdditionalMaxHealth,   ///increase / decrease in maxhp
 	
-	fDodgeChance, //Registers a chance to dodge
+	fDodgeChance, //Registers a chance to dodge, (Note: 0.7 would equal a 30% chance to dodge)
 	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
-	fVampirePercent,
+	fVampirePercent, //Sets a % of damage done to give back as health
 	
-	fBashChance,
+	fBashChance, //Registers a chance to bash, (Note: 0.7 would equal a 30% chance to bash)
+	
+	fCritChance, //Registers a chance to crit, (Note: 0.7 would equal a 30% chance to crit)
+	iCritMode, //Default 0 (all damage qualifies for crit) 1 (bullet damage crit) 2 (grenade damage crit) 3 (melee damage crit) 4 (melee and bullet crit) 5 (melee and grenade crit) 6 (bullet and grenade crit)
+	fCritModifier, //Sets the critical strike modifer, default 1.0
 	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
@@ -504,6 +508,16 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fBashChance ][DefaultValue]=1.0;
 	buffpropertiesarray[ fBashChance ][BuffStackType]=fStacked;
+	
+	buffpropertiesarray[ fCritChance ][DefaultValue]=0.0;
+	buffpropertiesarray[ fCritChance ][BuffStackType]=fStacked;
+	
+	buffpropertiesarray[ iCritMode ][DefaultValue]=0;
+	buffpropertiesarray[ iCritMode ][BuffStackType]=iAbsolute;
+	
+	buffpropertiesarray[ fCritModifier ][DefaultValue]=1.0;
+	buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
+	
 	
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)
