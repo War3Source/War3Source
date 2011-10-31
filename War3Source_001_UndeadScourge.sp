@@ -1,7 +1,7 @@
 /**
 * File: War3Source_UndeadScourge.sp
 * Description: The Undead Scourge race for War3Source.
-* Author(s): Necavi 
+* Author(s): Anthony Iacono, Necavi 
 */
 
 #pragma semicolon 1
@@ -29,9 +29,9 @@ new SKILL_LEECH,SKILL_SPEED,SKILL_LOWGRAV,SKILL_SUICIDE;
 public Plugin:myinfo = 
 {
 	name = "Race - Undead Scourge",
-	author = "PimpinJuice",
+	author = "PimpinJuice, Necavi",
 	description = "The Undead Scourge race for War3Source.",
-	version = "1.0.0.0",
+	version = "1.0",
 	url = "http://war3source.com"
 };
 

@@ -13,7 +13,7 @@ new dummyresult;
 public Plugin:myinfo = 
 {
 	name = "WCX - Dodge Engine",
-	author = "necavi",
+	author = "necavi, Anthony Iacono",
 	description = "WCX - Dodge Engine",
 	version = "0.1",
 	url = "http://necavi.com"

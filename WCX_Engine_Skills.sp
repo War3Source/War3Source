@@ -14,7 +14,7 @@ new ExplosionModel;
 public Plugin:myinfo = 
 {
 	name = "WCX - Skills Engine",
-	author = "necavi",
+	author = "necavi, Anthony Iacono",
 	description = "Provides natives for use with War3 mod",
 	version = "0.1",
 	url = "http://0xf.org"

@@ -6,7 +6,7 @@
 public Plugin:myinfo = 
 {
 	name = "WCX - Vampire",
-	author = "necavi",
+	author = "necavi, Anthony Iacono",
 	description = "WCX - Vampire",
 	version = "0.1",
 	url = "http://necavi.com"
@@ -27,7 +27,6 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 		{
 			new Float:Vampire = 0.0;
 			Vampire = W3GetBuffSumFloat(attacker, fVampirePercent);
-			War3_ChatMessage(attacker,"%f",Vampire);
 			if(Vampire > 0.0)
 			{
 				
@@ -35,7 +34,6 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 				{	
 					new leechhealth=RoundToFloor(damage*Vampire);
 					if(leechhealth>40) leechhealth=40;
-					War3_ChatMessage(attacker,"%i",leechhealth);
 					
 					W3FlashScreen(attacker,RGBA_COLOR_GREEN);	
 					War3_HealToBuffHP(attacker,leechhealth);
