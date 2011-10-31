@@ -34,7 +34,6 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 	EvadeChance = W3GetBuffStackedFloat(victim,fDodgeChance);
 	if(EvadeChance<1.0)
 	{
-		War3_ChatMessage(0,"%f",EvadeChance);
 		if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 		{
 			new vteam=GetClientTeam(victim);
@@ -48,7 +47,6 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 				Call_PushCell(attacker);
 				Call_PushFloat(chance);
 				Call_Finish(dummyresult);
-				War3_ChatMessage(0,"%f:%f",EvadeChance,chance);
 				
 				if(!Hexed(victim,false) && chance>=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
 				{

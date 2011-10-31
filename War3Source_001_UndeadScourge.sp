@@ -121,9 +121,6 @@ public OnRaceChanged(client,oldrace,newrace)
 public OnWar3EventDeath(victim,attacker)
 {
 	new race=W3GetVar(DeathRace);
-	decl String:racename[16];
-	War3_GetRaceName(race,racename, sizeof(racename));
-	War3_ChatMessage(victim,"Old Race: %s",racename);
 	new skill=War3_GetSkillLevel(victim,thisRaceID,SKILL_SUICIDE);
 	if(race==thisRaceID && skill>0 && !Hexed(victim))
 	{
