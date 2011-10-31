@@ -26,6 +26,7 @@ public bool:InitNativesForwards()
 {
 	FHOnW3DodgePre=CreateGlobalForward("OnW3DodgePre",ET_Hook,Param_Cell,Param_Cell,Param_Float);
 	FHOnW3DodgePost=CreateGlobalForward("OnW3DodgePost",ET_Hook,Param_Cell,Param_Cell);
+	return true;
 }
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
