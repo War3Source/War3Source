@@ -12,451 +12,451 @@
 #include <sdktools>
 
 new String:g_EventList[][32] = {
-"intro_finish",
-"intro_nextcamera",
-"player_changeclass",
-"player_death",
-"object_removed",
-"object_destroyed",
-"tf_map_time_remaining",
-"tf_game_over",
-"ctf_flag_captured",
-"controlpoint_initialized",
-"controlpoint_updateimages",
-"controlpoint_updatelayout",
-"controlpoint_updatecapping",
-"controlpoint_updateowner",
-"controlpoint_starttouch",
-"controlpoint_endtouch",
-"controlpoint_pulse_element",
-"controlpoint_fake_capture",
-"controlpoint_fake_capture_mult",
-"teamplay_round_selected",
-"teamplay_round_start",
-"teamplay_round_active",
-"teamplay_waiting_begins",
-"teamplay_waiting_ends",
-"teamplay_waiting_abouttoend",
-"teamplay_restart_round",
-"teamplay_ready_restart",
-"teamplay_round_restart_seconds",
-"teamplay_team_ready",
-"teamplay_round_win",
-"teamplay_update_timer",
-"teamplay_round_stalemate",
-"teamplay_overtime_begin",
-"teamplay_overtime_end",
-"teamplay_suddendeath_begin",
-"teamplay_suddendeath_end",
-"teamplay_game_over",
-"teamplay_map_time_remaining",
-"teamplay_broadcast_audio",
-"teamplay_timer_flash",
-"teamplay_timer_time_added",
-"teamplay_point_startcapture",
-"teamplay_point_captured",
-"teamplay_point_locked",
-"teamplay_point_unlocked",
-"teamplay_capture_broken",
-"teamplay_capture_blocked",
-"teamplay_flag_event",
-"teamplay_win_panel",
-"teamplay_teambalanced_player",
-"teamplay_setup_finished",
-"show_freezepanel",
-"hide_freezepanel",
-"freezecam_started",
-"localplayer_changeteam",
-"localplayer_score_changed",
-"localplayer_changeclass",
-"localplayer_respawn",
-"building_info_changed",
-"localplayer_changedisguise",
-"player_account_changed",
-"spy_pda_reset",
-"flagstatus_update",
-"player_stats_updated",
-"playing_commentary",
-"player_chargedeployed",
-"player_builtobject",
-"player_upgradedobject",
-"achievement_earned",
-"spec_target_updated",
-"tournament_stateupdate",
-"player_calledformedic",
-"localplayer_becameobserver",
-"player_ignited_inv",
-"player_ignited",
-"player_extinguished",
-"player_teleported",
-"player_healedmediccall",
-"localplayer_chargeready",
-"localplayer_winddown",
-"player_invulned",
-"escort_speed",
-"escort_progress",
-"escort_recede",
-"client_loadout_changed",
-"gameui_activated",
-"gameui_hidden",
-"player_escort_score",
-"player_healonhit",
-"player_stealsandvich",
-"show_class_layout",
-"show_vs_panel",
-"player_damaged",
-"player_hurt",
-"arena_player_notification",
-"arena_match_maxstreak",
-"arena_round_start",
-"arena_win_panel",
-"inventory_updated",
-"air_dash",
-"landed",
-"player_damage_dodged",
-"player_stunned",
-"scout_grand_slam",
-"scout_slamdoll_landed",
-"arrow_impact",
-"player_jarated",
-"player_jarated_fade",
-"player_shield_blocked",
-"player_pinned",
-"player_healedbymedic",
-"player_spawn",
-"player_sapped_object",
-"item_found",
-"show_annotations",
-"hide_annotations",
-"post_inventory_application",
-"controlpoint_unlock_updated",
-"deploy_buff_banner",
-"player_buff",
-"medic_death",
-"overtime_nag",
-"teams_changed",
-"halloween_pumpkin_grab",
-"rocket_jump",
-"rocket_jump_landed",
-"sticky_jump",
-"sticky_jump_landed",
-"medic_defended",
-"localplayer_healed",
-"player_destroyed_pipebomb",
-"object_deflected",
-"player_mvp",
-"raid_spawn_mob",
-"raid_spawn_squad",
-"nav_blocked",
-"path_track_passed",
-"num_cappers_changed",
-"player_regenerate",
-"update_status_item",
-"cart_updated",
-"store_pricesheet_updated",
-"stats_resetround",
-"gc_connected",
-"item_schema_initialized",
-"achievement_earned_local",
-"player_healed",
-"item_pickup",
-"duel_status",
-"fish_notice",
-"pumpkin_lord_summoned",
-"pumpkin_lord_killed",
-"bomb_abortdefuse",
-"bomb_abortplant",
-"bomb_beep",
-"bomb_begindefuse",
-"bomb_beginplant",
-"bomb_defused",
-"bomb_dropped",
-"bomb_exploded",
-"bomb_pickup",
-"bomb_planted",
-"break_breakable",
-"break_prop",
-"bullet_impact",
-"door_moving",
-"flashbang_detonate",
-"game_end",
-"game_message",
-"game_start",
-"grenade_bounce",
-"hegrenade_detonate",
-"hostage_call_for_help",
-"hostage_follows",
-"hostage_hurt",
-"hostage_killed",
-"hostage_rescued",
-"hostage_rescued_all",
-"hostage_stops_following",
-"player_activate",
-"player_blind",
-"player_changename",
-"player_chat",
-"player_class",
-"player_connect",
-"player_disconnect",
-"player_falldamage",
-"player_footstep",
-"player_info",
-"player_jump",
-"player_radio",
-"player_say",
-"player_score",
-"player_shoot",
-"player_team",
-"player_use",
-"round_end",
-"round_freeze_end",
-"round_start",
-"server_addban",
-"server_cvar",
-"server_message",
-"server_removeban",
-"server_shutdown",
-"smokegrenade_detonate",
-"vip_escaped",
-"vip_killed",
-"weapon_fire",
-"weapon_fire_on_empty",
-"weapon_reload",
-"weapon_zoom",
-"nav_generate"
+	"intro_finish",
+	"intro_nextcamera",
+	"player_changeclass",
+	"player_death",
+	"object_removed",
+	"object_destroyed",
+	"tf_map_time_remaining",
+	"tf_game_over",
+	"ctf_flag_captured",
+	"controlpoint_initialized",
+	"controlpoint_updateimages",
+	"controlpoint_updatelayout",
+	"controlpoint_updatecapping",
+	"controlpoint_updateowner",
+	"controlpoint_starttouch",
+	"controlpoint_endtouch",
+	"controlpoint_pulse_element",
+	"controlpoint_fake_capture",
+	"controlpoint_fake_capture_mult",
+	"teamplay_round_selected",
+	"teamplay_round_start",
+	"teamplay_round_active",
+	"teamplay_waiting_begins",
+	"teamplay_waiting_ends",
+	"teamplay_waiting_abouttoend",
+	"teamplay_restart_round",
+	"teamplay_ready_restart",
+	"teamplay_round_restart_seconds",
+	"teamplay_team_ready",
+	"teamplay_round_win",
+	"teamplay_update_timer",
+	"teamplay_round_stalemate",
+	"teamplay_overtime_begin",
+	"teamplay_overtime_end",
+	"teamplay_suddendeath_begin",
+	"teamplay_suddendeath_end",
+	"teamplay_game_over",
+	"teamplay_map_time_remaining",
+	"teamplay_broadcast_audio",
+	"teamplay_timer_flash",
+	"teamplay_timer_time_added",
+	"teamplay_point_startcapture",
+	"teamplay_point_captured",
+	"teamplay_point_locked",
+	"teamplay_point_unlocked",
+	"teamplay_capture_broken",
+	"teamplay_capture_blocked",
+	"teamplay_flag_event",
+	"teamplay_win_panel",
+	"teamplay_teambalanced_player",
+	"teamplay_setup_finished",
+	"show_freezepanel",
+	"hide_freezepanel",
+	"freezecam_started",
+	"localplayer_changeteam",
+	"localplayer_score_changed",
+	"localplayer_changeclass",
+	"localplayer_respawn",
+	"building_info_changed",
+	"localplayer_changedisguise",
+	"player_account_changed",
+	"spy_pda_reset",
+	"flagstatus_update",
+	"player_stats_updated",
+	"playing_commentary",
+	"player_chargedeployed",
+	"player_builtobject",
+	"player_upgradedobject",
+	"achievement_earned",
+	"spec_target_updated",
+	"tournament_stateupdate",
+	"player_calledformedic",
+	"localplayer_becameobserver",
+	"player_ignited_inv",
+	"player_ignited",
+	"player_extinguished",
+	"player_teleported",
+	"player_healedmediccall",
+	"localplayer_chargeready",
+	"localplayer_winddown",
+	"player_invulned",
+	"escort_speed",
+	"escort_progress",
+	"escort_recede",
+	"client_loadout_changed",
+	"gameui_activated",
+	"gameui_hidden",
+	"player_escort_score",
+	"player_healonhit",
+	"player_stealsandvich",
+	"show_class_layout",
+	"show_vs_panel",
+	"player_damaged",
+	"player_hurt",
+	"arena_player_notification",
+	"arena_match_maxstreak",
+	"arena_round_start",
+	"arena_win_panel",
+	"inventory_updated",
+	"air_dash",
+	"landed",
+	"player_damage_dodged",
+	"player_stunned",
+	"scout_grand_slam",
+	"scout_slamdoll_landed",
+	"arrow_impact",
+	"player_jarated",
+	"player_jarated_fade",
+	"player_shield_blocked",
+	"player_pinned",
+	"player_healedbymedic",
+	"player_spawn",
+	"player_sapped_object",
+	"item_found",
+	"show_annotations",
+	"hide_annotations",
+	"post_inventory_application",
+	"controlpoint_unlock_updated",
+	"deploy_buff_banner",
+	"player_buff",
+	"medic_death",
+	"overtime_nag",
+	"teams_changed",
+	"halloween_pumpkin_grab",
+	"rocket_jump",
+	"rocket_jump_landed",
+	"sticky_jump",
+	"sticky_jump_landed",
+	"medic_defended",
+	"localplayer_healed",
+	"player_destroyed_pipebomb",
+	"object_deflected",
+	"player_mvp",
+	"raid_spawn_mob",
+	"raid_spawn_squad",
+	"nav_blocked",
+	"path_track_passed",
+	"num_cappers_changed",
+	"player_regenerate",
+	"update_status_item",
+	"cart_updated",
+	"store_pricesheet_updated",
+	"stats_resetround",
+	"gc_connected",
+	"item_schema_initialized",
+	"achievement_earned_local",
+	"player_healed",
+	"item_pickup",
+	"duel_status",
+	"fish_notice",
+	"pumpkin_lord_summoned",
+	"pumpkin_lord_killed",
+	"bomb_abortdefuse",
+	"bomb_abortplant",
+	"bomb_beep",
+	"bomb_begindefuse",
+	"bomb_beginplant",
+	"bomb_defused",
+	"bomb_dropped",
+	"bomb_exploded",
+	"bomb_pickup",
+	"bomb_planted",
+	"break_breakable",
+	"break_prop",
+	"bullet_impact",
+	"door_moving",
+	"flashbang_detonate",
+	"game_end",
+	"game_message",
+	"game_start",
+	"grenade_bounce",
+	"hegrenade_detonate",
+	"hostage_call_for_help",
+	"hostage_follows",
+	"hostage_hurt",
+	"hostage_killed",
+	"hostage_rescued",
+	"hostage_rescued_all",
+	"hostage_stops_following",
+	"player_activate",
+	"player_blind",
+	"player_changename",
+	"player_chat",
+	"player_class",
+	"player_connect",
+	"player_disconnect",
+	"player_falldamage",
+	"player_footstep",
+	"player_info",
+	"player_jump",
+	"player_radio",
+	"player_say",
+	"player_score",
+	"player_shoot",
+	"player_team",
+	"player_use",
+	"round_end",
+	"round_freeze_end",
+	"round_start",
+	"server_addban",
+	"server_cvar",
+	"server_message",
+	"server_removeban",
+	"server_shutdown",
+	"smokegrenade_detonate",
+	"vip_escaped",
+	"vip_killed",
+	"weapon_fire",
+	"weapon_fire_on_empty",
+	"weapon_reload",
+	"weapon_zoom",
+	"nav_generate"
 };
 
 new String:g_EventKeyList[][32] = {
-"userid",
-"attacker",
-"weapon",
-"headshot",
-"health",
-"armor",
-"dmg_health",
-"dmg_armor",
-"hitgroup",
-"site",
-"posx",
-"posy",
-"haskit",
-"hostage",
-"slot",
-"entindex",
-"item",
-"x",
-"y",
-"z",
-"damage",
-"area",
-"blocked",
-"teamid",
-"teamname",
-"score",
-"oldteam",
-"disconnect",
-"autoteam",
-"silent",
-"name",
-"class",
-"teamonly",
-"text",
-"kills",
-"deaths",
-"mode",
-"entity",
-"oldname",
-"newname",
-"mapname",
-"roundslimit",
-"timelimit",
-"fraglimit",
-"objective",
-"winner",
-"reason",
-"message",
-"target",
-"material",
-"entindex_killed",
-"entindex_attacker",
-"entindex_inflictor",
-"damagebits",
-"numadvanced",
-"numbronze",
-"numsilver",
-"numgold",
-"achievement_name",
-"cur_val",
-"max_val",
-"achievement_id",
-"hostname",
-"address",
-"port",
-"game",
-"maxplayers",
-"os",
-"dedicated",
-"password",
-"cvarname",
-"cvarvalue",
-"networkid",
-"ip",
-"duration",
-"by",
-"kicked",
-"bot",
-"player",
-"victim_entindex",
-"inflictor_entindex",
-"weaponid",
-"customkill",
-"assister",
-"weapon_logclassname",
-"stun_flags",
-"death_flags",
-"silent_kill",
-"dominated",
-"assister_dominated",
-"revenge",
-"assister_revenge",
-"first_blood",
-"feign_death",
-"objecttype",
-"index",
-"was_building",
-"seconds",
-"capping_team",
-"capping_team_score",
-"int_data",
-"full_reset",
-"winreason",
-"team",
-"flagcaplimit",
-"full_round",
-"round_time",
-"losing_team_num_caps",
-"was_sudden_death",
-"sound",
-"time_remaining",
-"timer",
-"seconds_added",
-"cp",
-"cpname",
-"capteam",
-"cappers",
-"captime",
-"blocker",
-"carrier",
-"eventtype",
-"panel_style",
-"winning_team",
-"blue_score",
-"red_score",
-"blue_score_prev",
-"red_score_prev",
-"round_complete",
-"rounds_remaining",
-"player_1",
-"player_1_points",
-"player_2",
-"player_2_points",
-"player_3",
-"player_3_points",
-"killer",
-"object_mode",
-"building_type",
-"remove",
-"disguised",
-"old_value",
-"new_value",
-"forceupload",
-"isbuilder",
-"achievement",
-"namechange",
-"readystate",
-"pyro_entindex",
-"medic_entindex",
-"dist",
-"medic_userid",
-"speed",
-"players",
-"progress",
-"reset",
-"recedetime",
-"points",
-"owner",
-"amount",
-"show",
-"damageamount",
-"crit",
-"minicrit",
-"allseecrit",
-"streak",
-"player_1_healing",
-"player_1_damage",
-"player_1_lifetime",
-"player_1_kills",
-"player_2_healing",
-"player_2_damage",
-"player_2_lifetime",
-"player_2_kills",
-"player_3_healing",
-"player_3_damage",
-"player_3_lifetime",
-"player_3_kills",
-"player_4_healing",
-"player_4_damage",
-"player_4_lifetime",
-"player_4_kills",
-"player_5_healing",
-"player_5_damage",
-"player_5_lifetime",
-"player_5_kills",
-"player5",
-"player_6_healing",
-"player_6_damage",
-"player_6_lifetime",
-"player_6_kills",
-"player6",
-"victim_capping",
-"stunner",
-"big_stun",
-"scout_id",
-"target_id",
-"attachedEntity",
-"shooter",
-"boneIndexAttached",
-"bonePositionX",
-"bonePositionY",
-"bonePositionZ",
-"boneAnglesX",
-"boneAnglesY",
-"boneAnglesZ",
-"thrower_entindex",
-"pinned",
-"sapperid",
-"quality",
-"method",
-"propername",
-"worldPosX",
-"worldPosY",
-"worldPosZ",
-"buff_type",
-"buff_owner",
-"healing",
-"charged",
-"count",
-"patient",
-"healer",
-"score_type",
-"initiator",
-"initiator_score",
-"target_score"
+	"userid",
+	"attacker",
+	"weapon",
+	"headshot",
+	"health",
+	"armor",
+	"dmg_health",
+	"dmg_armor",
+	"hitgroup",
+	"site",
+	"posx",
+	"posy",
+	"haskit",
+	"hostage",
+	"slot",
+	"entindex",
+	"item",
+	"x",
+	"y",
+	"z",
+	"damage",
+	"area",
+	"blocked",
+	"teamid",
+	"teamname",
+	"score",
+	"oldteam",
+	"disconnect",
+	"autoteam",
+	"silent",
+	"name",
+	"class",
+	"teamonly",
+	"text",
+	"kills",
+	"deaths",
+	"mode",
+	"entity",
+	"oldname",
+	"newname",
+	"mapname",
+	"roundslimit",
+	"timelimit",
+	"fraglimit",
+	"objective",
+	"winner",
+	"reason",
+	"message",
+	"target",
+	"material",
+	"entindex_killed",
+	"entindex_attacker",
+	"entindex_inflictor",
+	"damagebits",
+	"numadvanced",
+	"numbronze",
+	"numsilver",
+	"numgold",
+	"achievement_name",
+	"cur_val",
+	"max_val",
+	"achievement_id",
+	"hostname",
+	"address",
+	"port",
+	"game",
+	"maxplayers",
+	"os",
+	"dedicated",
+	"password",
+	"cvarname",
+	"cvarvalue",
+	"networkid",
+	"ip",
+	"duration",
+	"by",
+	"kicked",
+	"bot",
+	"player",
+	"victim_entindex",
+	"inflictor_entindex",
+	"weaponid",
+	"customkill",
+	"assister",
+	"weapon_logclassname",
+	"stun_flags",
+	"death_flags",
+	"silent_kill",
+	"dominated",
+	"assister_dominated",
+	"revenge",
+	"assister_revenge",
+	"first_blood",
+	"feign_death",
+	"objecttype",
+	"index",
+	"was_building",
+	"seconds",
+	"capping_team",
+	"capping_team_score",
+	"int_data",
+	"full_reset",
+	"winreason",
+	"team",
+	"flagcaplimit",
+	"full_round",
+	"round_time",
+	"losing_team_num_caps",
+	"was_sudden_death",
+	"sound",
+	"time_remaining",
+	"timer",
+	"seconds_added",
+	"cp",
+	"cpname",
+	"capteam",
+	"cappers",
+	"captime",
+	"blocker",
+	"carrier",
+	"eventtype",
+	"panel_style",
+	"winning_team",
+	"blue_score",
+	"red_score",
+	"blue_score_prev",
+	"red_score_prev",
+	"round_complete",
+	"rounds_remaining",
+	"player_1",
+	"player_1_points",
+	"player_2",
+	"player_2_points",
+	"player_3",
+	"player_3_points",
+	"killer",
+	"object_mode",
+	"building_type",
+	"remove",
+	"disguised",
+	"old_value",
+	"new_value",
+	"forceupload",
+	"isbuilder",
+	"achievement",
+	"namechange",
+	"readystate",
+	"pyro_entindex",
+	"medic_entindex",
+	"dist",
+	"medic_userid",
+	"speed",
+	"players",
+	"progress",
+	"reset",
+	"recedetime",
+	"points",
+	"owner",
+	"amount",
+	"show",
+	"damageamount",
+	"crit",
+	"minicrit",
+	"allseecrit",
+	"streak",
+	"player_1_healing",
+	"player_1_damage",
+	"player_1_lifetime",
+	"player_1_kills",
+	"player_2_healing",
+	"player_2_damage",
+	"player_2_lifetime",
+	"player_2_kills",
+	"player_3_healing",
+	"player_3_damage",
+	"player_3_lifetime",
+	"player_3_kills",
+	"player_4_healing",
+	"player_4_damage",
+	"player_4_lifetime",
+	"player_4_kills",
+	"player_5_healing",
+	"player_5_damage",
+	"player_5_lifetime",
+	"player_5_kills",
+	"player5",
+	"player_6_healing",
+	"player_6_damage",
+	"player_6_lifetime",
+	"player_6_kills",
+	"player6",
+	"victim_capping",
+	"stunner",
+	"big_stun",
+	"scout_id",
+	"target_id",
+	"attachedEntity",
+	"shooter",
+	"boneIndexAttached",
+	"bonePositionX",
+	"bonePositionY",
+	"bonePositionZ",
+	"boneAnglesX",
+	"boneAnglesY",
+	"boneAnglesZ",
+	"thrower_entindex",
+	"pinned",
+	"sapperid",
+	"quality",
+	"method",
+	"propername",
+	"worldPosX",
+	"worldPosY",
+	"worldPosZ",
+	"buff_type",
+	"buff_owner",
+	"healing",
+	"charged",
+	"count",
+	"patient",
+	"healer",
+	"score_type",
+	"initiator",
+	"initiator_score",
+	"target_score"
 };
 
 new Handle:hCurrentEventData = INVALID_HANDLE;
 new Handle:hWCSRaces = INVALID_HANDLE;
- 
+
 public Plugin:myinfo = 
 {
 	name = "War3 Engine ESCompatLayer",
@@ -842,26 +842,26 @@ War3_LoadWCSRaces()
 			new String:skillneeded[1024];
 			KvGetString(curRace, "_skillneeded", skillneeded, sizeof(skillneeded));
 			new raceID = WCS_StartCreateRace(raceName,
-								required,
-								maximum,
-								restrictmap,
-								restrictteam,
-								restrictitem,
-								author,
-								desc,
-								spawncmd,
-								deathcmd,
-								roundstartcmd,
-								roundendcmd,
-								preloadcmd,
-								allowonly,
-								onchange,
-								numberofskills,
-								numberoflevels,
-								skillnames,
-								skilldescr,
-								skillcfg,
-								skillneeded);
+			required,
+			maximum,
+			restrictmap,
+			restrictteam,
+			restrictitem,
+			author,
+			desc,
+			spawncmd,
+			deathcmd,
+			roundstartcmd,
+			roundendcmd,
+			preloadcmd,
+			allowonly,
+			onchange,
+			numberofskills,
+			numberoflevels,
+			skillnames,
+			skilldescr,
+			skillcfg,
+			skillneeded);
 			for(new y=1;y<=numberofskills;y++)
 			{
 				new String:tStr[128];
@@ -890,7 +890,7 @@ War3_LoadWCSRaces()
 				}
 			}
 			WCS_EndCreateRace(raceID);
-							
+			
 			CloseHandle(curRace); // Close key value.
 			CloseHandle(keysArray); // Close list of all key names.
 		}
@@ -931,30 +931,30 @@ WCSRacesClean()
 
 // For ..., there should be numberofskills * 3 params + optional race alias'es in multiples of two params (aliasname, value)
 /**
- * Not supported by War3: Source
- * - skillneeded  
- */ 
+* Not supported by War3: Source
+* - skillneeded  
+*/ 
 WCS_StartCreateRace(const String:raceName[],
-							required,
-							maximum,
-							const String:restrictmap[],
-							restrictteam,
-							String:restrictitem[],
-							const String:author[],
-							const String:desc[],
-							const String:spawncmd[],
-							const String:deathcmd[],
-							const String:roundstartcmd[],
-							const String:roundendcmd[],
-							const String:preloadcmd[],
-							const String:allowonly[],
-							const String:onchange[],
-							numberofskills,
-							numberoflevels,
-							const String:skillnames[],
-							const String:skilldescr[],
-							const String:skillcfg[],
-							const String:skillneeded[])
+required,
+maximum,
+const String:restrictmap[],
+restrictteam,
+String:restrictitem[],
+const String:author[],
+const String:desc[],
+const String:spawncmd[],
+const String:deathcmd[],
+const String:roundstartcmd[],
+const String:roundendcmd[],
+const String:preloadcmd[],
+const String:allowonly[],
+const String:onchange[],
+numberofskills,
+numberoflevels,
+const String:skillnames[],
+const String:skilldescr[],
+const String:skillcfg[],
+const String:skillneeded[])
 {
 	if(numberofskills<1)
 		return 0;
@@ -963,7 +963,7 @@ WCS_StartCreateRace(const String:raceName[],
 	new String:raceName2[64];
 	Format(raceName2, 64, "%s", raceName);
 	new raceID = War3_CreateNewRace(raceName2, shortName);
-
+	
 	// Array for hWCSRaces
 	new Handle:hWCSRace = CreateArray(4096);
 	PushArrayCell(hWCSRace, raceID); // 0 == raceID
@@ -1156,7 +1156,7 @@ public OnPluginStart()
 	{
 		if(EventExists(g_EventList[x]))
 		{
-		//	PrintToServer("Hooking event: %s", g_EventList[x]);
+			//	PrintToServer("Hooking event: %s", g_EventList[x]);
 			HookEvent(g_EventList[x], GlobalEventCB, EventHookMode_Pre);
 		}
 	}
@@ -1346,7 +1346,7 @@ SetInf(const String:varName[], const String:varValue[])
 		CreateConVar(varName, varValue);
 	}
 }	
-	
+
 public Action:War3If(arg_count, bool:expand)
 {
 	// syntax: war3_if ( value1 operator value2 ) then command
@@ -1642,17 +1642,17 @@ public Action:War3If(arg_count, bool:expand)
 	// First five characters must be:
 	new len2 = strlen(afterStart);
 	if(!((afterStart[0]=='t' || afterStart[0]=='T')
-		&& (afterStart[1]=='h' || afterStart[1]=='H')
- 		&& (afterStart[2]=='e' || afterStart[2]=='E')
- 		&& (afterStart[3]=='n' || afterStart[3]=='N')
- 		&& afterStart[4]==' ' && len2>5))
- 	{
+	&& (afterStart[1]=='h' || afterStart[1]=='H')
+	&& (afterStart[2]=='e' || afterStart[2]=='E')
+	&& (afterStart[3]=='n' || afterStart[3]=='N')
+	&& afterStart[4]==' ' && len2>5))
+	{
 		PrintToServer("TODO: Error with syntax");
 		return Plugin_Handled;
 	}
 	Format(afterStart, sizeof(afterStart), "%s", afterStart[5]);
 	TrimString(afterStart);
-		
+	
 	if(expand)
 	{
 		ExpandVars(value1, sizeof(value1));
@@ -2089,15 +2089,15 @@ GetArgCountCustom(const String:buffer[])
 
 public Action:War3Effect(arg_count, bool:expand)
 {
-
+	
 	new String:buffer[1024];
 	GetCmdArgString(buffer, sizeof(buffer));
-
+	
 	if(expand)
 	{
 		ExpandVars(buffer, sizeof(buffer));
 	}
-
+	
 	TrimString(buffer);	 	
 	arg_count = GetArgCountCustom(buffer);
 	if(arg_count<2)
@@ -2106,78 +2106,78 @@ public Action:War3Effect(arg_count, bool:expand)
 		return Plugin_Handled;
 	}
 	
-/*
-est_Effect 01 <player Filter> <delay> <model> <position X Y Z> <direction X Y Z>
-Creates a armour ricochet effect.
-est_Effect 02 <player Filter> <delay> <model> <start ent> <start position X Y Z> <end ent> <end position X Y Z> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
-Creates a beam ent point effect.
-est_Effect 03 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
-Creates a beam ents effect.
-est_Effect 04 <player Filter> <delay> <model> <Follow ent> <life> <start width> <end width> <fade distance> <Red> <Green> <Blue> <Alpha>
-Creates a beam ent follow effect
-est_Effect 05 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
-Creates a beam laser effect.
-est_Effect 06 <player Filter> <delay> <model> <start position X Y Z> <end position X Y Z> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
-Creates a Beam Points Effect.
-est_Effect 07 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <width> <spread> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
-Creates a beam Beam Ring Ent Effect.
-est_Effect 08 <player Filter> <delay> <model> <middle X Y Z> <Start Radius> <End Radius> <framerate> <life> <width> <spread> <amplitude> <Red> <Green> <Blue> <Alpha> <speed> <flags>
-Creates a Beam Ring Ent Effect.
-est_Effect 09 <player Filter> <delay> <model> <points> <rgPoints X Y Z>
-Creates a Beam Spline Effect.
-est_Effect 10 <player Filter> <delay> <model> <origin X Y Z> <direction X Y Z> <Red> <Green> <Blue> <Alpha> <Size>
-Creates a Blood Sprite Effect.
-est_Effect 11 <player Filter> <delay> <model> <origin X Y Z> <direction X Y Z> <Red> <Green> <Blue> <Alpha> <Amount>
-Creates a Blood Stream Effect.
-est_Effect 12 <player Filter> <delay> <model> <origin X Y Z> <angle Pitch Yaw Roll> <Size X Y Z> <Velocity X Y Z> <Randomization> <count> <time> <flags>
-Creates a Blood Stream Effect.
-est_Effect 13 <player Filter> <delay> <decal> <origin X Y Z> <target entity index>
-Creates a BSP Decal (permanently attach a sprite to an entity, use 0 for the world).
-est_Effect 14 <player Filter> <delay> <model> <Min X Y Z> <Max X Y Z> <height> <count> <speed>
-Creates a Bubbles Effect.
-est_Effect 15 <player Filter> <delay> <model> <Min X Y Z> <Max X Y Z> <heighth> <count> <speed>
-Creates a Bubble Trail Effect.
-est_Effect 16 <player Filter> <delay> <model> <Position X Y Z> <Start X Y Z> <entity index> <hitbox>
-Creates a Decal Effect.
-est_Effect 17 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <size> <speed>
-Creates a Dust Effect.
-est_Effect 18 <player Filter> <delay> <Position X Y Z> <Red> <Green> <Blue> <Alpha> <exponent> <radius> <time> <decay>
-Creates a Dynamic Light Effect.
-est_Effect 19 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <Explosive>
-Creates a Energy Splash Effect.
-est_Effect 20 <player Filter> <delay> <model> <Position X Y Z> <scale> <framerate> <flags> <radius> <magnitude> [Normal X Y Z] [Material Type]
-Creates a Energy Splash Effect .
-est_Effect 21 <player Filter> <delay> <model> <entity> <density> <current>
-Creates a Fizz Effect.
-est_Effect 22 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <type>
-Creates a Guass Explosion Effect.
-est_Effect 23 <player Filter> <delay> <model> <Position X Y Z> <life> <size> <brightness>
-Creates a Glow Sprite Effect.
-est_Effect 24 <player Filter> <delay> <model> <Position X Y Z> <reversed>
-Creates a Large Funnel Effect.
-est_Effect 25 <player Filter> <delay> <Position X Y Z> <Direction X Y Z>
-Creates a Metal Sparks Effect.
-est_Effect 26 <player Filter> <delay> <Position X Y Z> <Angle Pitch Yaw Roll> <scale> <type>
-Creates a Muzzle Flash Effect.
-est_Effect 27 <player Filter> <delay> <model> <subtype> <Position X Y Z> <Angle Pitch Yaw Roll> <Velocity X Y Z> <flags> <unknown>
-Creates a Physics Prop Effect.
-est_Effect 28 <player Filter> <delay> <Position X Y Z> <playerindex> <entity>
-Creates a Player Decal Effect.
-est_Effect 29 <player Filter> <delay> <decal> <Position X Y Z> <Angle Pitch Yaw Roll> <distance>
-Creates a Project Decal Effect.
-est_Effect 30 <player Filter> <delay> <Start X Y Z> <End X Y Z>
-Creates a Show Line Effect.
-est_Effect 31 <player Filter> <delay> <model> <Position X Y Z> <scale> <framerate>
-Creates a Smoke Effect.
-est_Effect 32 <Player Filter> <Delay> <Position X Y Z> <Magnitude> <Trail Length> <Direction X Y Z>
-Creates a Spark Effect.
-est_Effect 33 <Player Filter> <Delay> <model> <Position X Y Z> <size> <brightness>
-Creates a Sprite Effect.
-est_Effect 34 <Player Filter> <Delay> <model> <Position X Y Z> <Direction X Y Z> <speed> <noise> <count>
-Creates a Sprite Spray Effect.
-est_Effect 35 <Player Filter> <Delay> <Decal> <Position X Y Z>
-Creates a World Decal Effect. 
-*/
+	/*
+	est_Effect 01 <player Filter> <delay> <model> <position X Y Z> <direction X Y Z>
+	Creates a armour ricochet effect.
+	est_Effect 02 <player Filter> <delay> <model> <start ent> <start position X Y Z> <end ent> <end position X Y Z> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
+	Creates a beam ent point effect.
+	est_Effect 03 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
+	Creates a beam ents effect.
+	est_Effect 04 <player Filter> <delay> <model> <Follow ent> <life> <start width> <end width> <fade distance> <Red> <Green> <Blue> <Alpha>
+	Creates a beam ent follow effect
+	est_Effect 05 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
+	Creates a beam laser effect.
+	est_Effect 06 <player Filter> <delay> <model> <start position X Y Z> <end position X Y Z> <framerate> <life> <start width> <end width> <fade distance> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
+	Creates a Beam Points Effect.
+	est_Effect 07 <player Filter> <delay> <model> <start ent> <end ent> <framerate> <life> <width> <spread> <amplitude> <Red> <Green> <Blue> <Alpha> <speed>
+	Creates a beam Beam Ring Ent Effect.
+	est_Effect 08 <player Filter> <delay> <model> <middle X Y Z> <Start Radius> <End Radius> <framerate> <life> <width> <spread> <amplitude> <Red> <Green> <Blue> <Alpha> <speed> <flags>
+	Creates a Beam Ring Ent Effect.
+	est_Effect 09 <player Filter> <delay> <model> <points> <rgPoints X Y Z>
+	Creates a Beam Spline Effect.
+	est_Effect 10 <player Filter> <delay> <model> <origin X Y Z> <direction X Y Z> <Red> <Green> <Blue> <Alpha> <Size>
+	Creates a Blood Sprite Effect.
+	est_Effect 11 <player Filter> <delay> <model> <origin X Y Z> <direction X Y Z> <Red> <Green> <Blue> <Alpha> <Amount>
+	Creates a Blood Stream Effect.
+	est_Effect 12 <player Filter> <delay> <model> <origin X Y Z> <angle Pitch Yaw Roll> <Size X Y Z> <Velocity X Y Z> <Randomization> <count> <time> <flags>
+	Creates a Blood Stream Effect.
+	est_Effect 13 <player Filter> <delay> <decal> <origin X Y Z> <target entity index>
+	Creates a BSP Decal (permanently attach a sprite to an entity, use 0 for the world).
+	est_Effect 14 <player Filter> <delay> <model> <Min X Y Z> <Max X Y Z> <height> <count> <speed>
+	Creates a Bubbles Effect.
+	est_Effect 15 <player Filter> <delay> <model> <Min X Y Z> <Max X Y Z> <heighth> <count> <speed>
+	Creates a Bubble Trail Effect.
+	est_Effect 16 <player Filter> <delay> <model> <Position X Y Z> <Start X Y Z> <entity index> <hitbox>
+	Creates a Decal Effect.
+	est_Effect 17 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <size> <speed>
+	Creates a Dust Effect.
+	est_Effect 18 <player Filter> <delay> <Position X Y Z> <Red> <Green> <Blue> <Alpha> <exponent> <radius> <time> <decay>
+	Creates a Dynamic Light Effect.
+	est_Effect 19 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <Explosive>
+	Creates a Energy Splash Effect.
+	est_Effect 20 <player Filter> <delay> <model> <Position X Y Z> <scale> <framerate> <flags> <radius> <magnitude> [Normal X Y Z] [Material Type]
+	Creates a Energy Splash Effect .
+	est_Effect 21 <player Filter> <delay> <model> <entity> <density> <current>
+	Creates a Fizz Effect.
+	est_Effect 22 <player Filter> <delay> <Position X Y Z> <Direction X Y Z> <type>
+	Creates a Guass Explosion Effect.
+	est_Effect 23 <player Filter> <delay> <model> <Position X Y Z> <life> <size> <brightness>
+	Creates a Glow Sprite Effect.
+	est_Effect 24 <player Filter> <delay> <model> <Position X Y Z> <reversed>
+	Creates a Large Funnel Effect.
+	est_Effect 25 <player Filter> <delay> <Position X Y Z> <Direction X Y Z>
+	Creates a Metal Sparks Effect.
+	est_Effect 26 <player Filter> <delay> <Position X Y Z> <Angle Pitch Yaw Roll> <scale> <type>
+	Creates a Muzzle Flash Effect.
+	est_Effect 27 <player Filter> <delay> <model> <subtype> <Position X Y Z> <Angle Pitch Yaw Roll> <Velocity X Y Z> <flags> <unknown>
+	Creates a Physics Prop Effect.
+	est_Effect 28 <player Filter> <delay> <Position X Y Z> <playerindex> <entity>
+	Creates a Player Decal Effect.
+	est_Effect 29 <player Filter> <delay> <decal> <Position X Y Z> <Angle Pitch Yaw Roll> <distance>
+	Creates a Project Decal Effect.
+	est_Effect 30 <player Filter> <delay> <Start X Y Z> <End X Y Z>
+	Creates a Show Line Effect.
+	est_Effect 31 <player Filter> <delay> <model> <Position X Y Z> <scale> <framerate>
+	Creates a Smoke Effect.
+	est_Effect 32 <Player Filter> <Delay> <Position X Y Z> <Magnitude> <Trail Length> <Direction X Y Z>
+	Creates a Spark Effect.
+	est_Effect 33 <Player Filter> <Delay> <model> <Position X Y Z> <size> <brightness>
+	Creates a Sprite Effect.
+	est_Effect 34 <Player Filter> <Delay> <model> <Position X Y Z> <Direction X Y Z> <speed> <noise> <count>
+	Creates a Sprite Spray Effect.
+	est_Effect 35 <Player Filter> <Delay> <Decal> <Position X Y Z>
+	Creates a World Decal Effect. 
+	*/
 	
 	return Plugin_Handled;	
 }
@@ -2189,9 +2189,9 @@ public Action:War3GetPlayerLocation(arg_count, bool:expand)
 	{
 		ExpandVars(buffer, sizeof(buffer));
 	}
-
+	
 	TrimString(buffer);
-	 	
+	
 	arg_count = GetArgCountCustom(buffer);
 	if(arg_count<4)
 	{
@@ -2210,24 +2210,24 @@ public Action:War3GetPlayerLocation(arg_count, bool:expand)
 	new index = GetClientOfUserId(uid);
 	if(ValidPlayer(index))
 	{
- 		new Float:location[3];
- 		GetClientAbsOrigin(index, location);
- 		new String:x_val[64];
- 		new String:y_val[64];
- 		new String:z_val[64];
- 		Format(x_val, sizeof(x_val), "%f", location[0]);
- 		Format(y_val, sizeof(y_val), "%f", location[1]);
- 		Format(z_val, sizeof(z_val), "%f", location[2]);
+		new Float:location[3];
+		GetClientAbsOrigin(index, location);
+		new String:x_val[64];
+		new String:y_val[64];
+		new String:z_val[64];
+		Format(x_val, sizeof(x_val), "%f", location[0]);
+		Format(y_val, sizeof(y_val), "%f", location[1]);
+		Format(z_val, sizeof(z_val), "%f", location[2]);
 		SetInf(x_var, x_val);
 		SetInf(y_var, y_val);
-        SetInf(z_var, z_val);
+		SetInf(z_var, z_val);
 	}
 	else
 	{
 		PrintToServer("TODO: Bad userid (%s)", userid);
- 		SetInf(x_var, "0");
-        SetInf(y_var, "0");
-        SetInf(z_var, "0");
+		SetInf(x_var, "0");
+		SetInf(y_var, "0");
+		SetInf(z_var, "0");
 	}   
 	return Plugin_Handled; 	
 }
@@ -2281,3 +2281,7 @@ public Action:War3EngXEffect(arg_count)
 {
 	return War3Effect(arg_count, false);	
 }
+
+
+
+	

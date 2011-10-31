@@ -289,7 +289,7 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==InitPlayerVariables){
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
-		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false) ){
+		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false)||StrEqual(steamid,"STEAM_0:0:11672517",false) ){
 			W3SetPlayerProp(client,isDeveloper,true);
 		}
 		

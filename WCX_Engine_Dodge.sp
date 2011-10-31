@@ -5,6 +5,11 @@
 
 #pragma semicolon 1
 
+new Handle:FHOnW3DodgePre;
+new Handle:FHOnW3DodgePost;
+
+new dummyresult;
+
 public Plugin:myinfo = 
 {
 	name = "WCX - Dodge Engine",
@@ -16,7 +21,11 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	// Add your own code here...
+}
+public bool:InitNativesForwards()
+{
+	FHOnW3DodgePre=CreateGlobalForward("OnW3DodgePre",ET_Hook,Param_Cell,Param_Cell,Param_Float);
+	FHOnW3DodgePost=CreateGlobalForward("OnW3DodgePost",ET_Hook,Param_Cell,Param_Cell);
 }
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
@@ -31,16 +40,28 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 			new ateam=GetClientTeam(attacker);
 			if(vteam!=ateam)
 			{
-				new Float:Rand = GetRandomFloat(0.0,1.0);
-				War3_ChatMessage(victim,"%f",Rand);
-				if(!Hexed(victim,false) && Rand<=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
+				new Float:chance = GetRandomFloat(0.0,1.0);
+				
+				Call_StartForward(FHOnW3DodgePre);
+				Call_PushCell(victim);
+				Call_PushCell(attacker);
+				Call_PushFloat(chance);
+				Call_Finish(dummyresult);
+				
+				if(!Hexed(victim,false) && chance<=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
 				{
-					War3_ChatMessage(victim,"We're there!");
 					W3FlashScreen(victim,RGBA_COLOR_BLUE);
+					
 					
 					War3_DamageModPercent(0.0);
 					
 					W3MsgEvaded(victim,attacker);
+					
+					Call_StartForward(FHOnW3DodgePost);
+					Call_PushCell(victim);
+					Call_PushCell(attacker);
+					Call_Finish(dummyresult);
+					
 					if(War3_GetGame()==Game_TF)
 					{
 						decl Float:pos[3];

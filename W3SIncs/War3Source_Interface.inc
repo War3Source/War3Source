@@ -1752,6 +1752,11 @@ forward OnWar3EventDeath(victim,attacker);
 //very generic damage event
 forward OnWar3EventPostHurt(victim,attacker,dmgamount);
 
+//Fired after a player dodges, useful primarily for attaching effects
+forward OnW3DodgePost(victim,attacker);
+
+//Fired before a player dodges, you can edit the dodge chance here
+forward OnW3DodgePre(victim,attacker,Float:chance);
 
 
 
