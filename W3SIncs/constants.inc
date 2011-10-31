@@ -489,7 +489,7 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iAdditionalMaxHealth ][DefaultValue]=0;
 	buffpropertiesarray[ iAdditionalMaxHealth ][BuffStackType]=iAbsolute;
 	
-	buffpropertiesarray[ fDodgeChance ][DefaultValue]=0.0;
+	buffpropertiesarray[ fDodgeChance ][DefaultValue]=1.0;
 	buffpropertiesarray[ fDodgeChance ][BuffStackType]=fStacked;
 	
 	buffpropertiesarray[ bDodgeMode	  ][DefaultValue]=0;
