@@ -447,6 +447,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_SuicideBomber");
 	MarkNativeAsOptional("War3_Teleport");
 	MarkNativeAsOptional("War3_CreateWard");
+	MarkNativeAsOptional("War3_Progressbar");
 	
 
 }
@@ -1544,6 +1545,9 @@ native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float
  * @return True if the ward was removed. False otherwise
  */
 native bool:War3_RemoveWard(id);
+
+//Creates a bomb plant style progress bar of any integer duration between one and fifteen
+native War3_Progressbar(client,duration);
 
 
 

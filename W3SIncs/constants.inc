@@ -344,8 +344,8 @@ enum W3Buff
 	iCritMode, //Default 0 (all damage qualifies for crit) 1 (bullet damage crit) 2 (grenade damage crit) 3 (melee damage crit) 4 (melee and bullet crit) 5 (melee and grenade crit) 6 (bullet and grenade crit)
 	fCritModifier, //Sets the critical strike modifer, default 1.0
 	
-	iWards,
-	
+	iDamageBonus,
+	fDamageModifier,
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
 	
@@ -528,8 +528,11 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fCritModifier ][DefaultValue]=1.0;
 	buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
 	
-	buffpropertiesarray[ iWards ][DefaultValue]=0;
-	buffpropertiesarray[ iWards ][BuffStackType]=iAbsolute;
+	buffpropertiesarray[ iDamageBonus ][DefaultValue]=0;
+	buffpropertiesarray[ iDamageBonus ][BuffStackType]=iAbsolute;
+	
+	buffpropertiesarray[ fDamageModifier ][DefaultValue]=0;
+	buffpropertiesarray[ fDamageModifier ][BuffStackType]=fAbsolute;
 	
 	
 	//check that all indexes have been set

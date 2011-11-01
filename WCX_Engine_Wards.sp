@@ -3,6 +3,17 @@
 #include <sourcemod>
 #include "W3SIncs/
 
+
+new bool:wardtype[MAXPLAYERSCUSTOM];
+new CurrentWardCount[MAXPLAYERSCUSTOM];
+new WardStartingArr[]={0,1,2,3,4}; 
+new Float:WardLocation[MAXWARDS][3]; 
+new WardOwner[MAXWARDS];
+new WardRadius[MAXPLAYERSCUSTOM];
+new WardDamage[MAXPLAYERSCUSTOM];
+new Float:WardDuration[MAXPLAYERSCUSTOM];
+new Float:WardExpiration[MAXWARDS];
+
 public Plugin:myinfo = 
 {
 	name = "WCX - Wards",
