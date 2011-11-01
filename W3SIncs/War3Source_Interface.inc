@@ -1530,13 +1530,13 @@ native bool:War3_Teleport(client, Float:distance);
  * @param client: owner id
  * @param location: ward location
  * @param radius: ward effect radius
- * @param duration: ward duration
+ * @param duration: ward duration. If negative or zero, duration is infinite (until map change). Don't forget to remove the ward!
  * @param pulseInterval: time between effect triggerings
  * @param damage: amount of damage/healing done per interval
  * @param healing: whether or not this ward heals
  * @return ID for the ward created or -1 if the ward was not created
  */
-native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=true);
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=false);
 
 /**
  * Removes a ward given an id
