@@ -417,8 +417,6 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetXP");
 	MarkNativeAsOptional("War3_SetSkillLevel");
 	MarkNativeAsOptional("War3_GetSkillLevel");
-	MarkNativeAsOptional("War3_SetSkillLevelINTERNAL");
-	MarkNativeAsOptional("War3_GetSkillLevelINTERNAL");
 	MarkNativeAsOptional("W3SetPlayerProp");
 	MarkNativeAsOptional("W3GetPlayerProp");
 	MarkNativeAsOptional("W3GiveXPGold");
@@ -1407,11 +1405,8 @@ native W3SetLevelBank(client,newlevelbank);
 native War3_SetXP(client,race,newxp);
 native War3_GetXP(client,race);
 
-
-//native War3_SetSkillLevel(client,race,skill,newlevel); //removed
+native War3_SetSkillLevel(client,race,skill,newlevel);
 native War3_GetSkillLevel(client,race,skill);
-native War3_SetSkillLevelINTERNAL(client,race,skill,newlevel);
-native War3_GetSkillLevelINTERNAL(client,race,skill);
 
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
@@ -1530,7 +1525,25 @@ native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, 
 
 native bool:War3_Teleport(client, Float:distance);
 
-native bool:War3_CreateWard(client, Float:location[], radius, Float:duration, damage, bool:healing=true);
+/**
+ * Creates a ward.
+ * @param client: owner id
+ * @param location: ward location
+ * @param radius: ward effect radius
+ * @param duration: ward duration
+ * @param pulseInterval: time between effect triggerings
+ * @param damage: amount of damage/healing done per interval
+ * @param healing: whether or not this ward heals
+ * @return ID for the ward created or -1 if the ward was not created
+ */
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=true);
+
+/**
+ * Removes a ward given an id
+ * @param id: ward id
+ * @return True if the ward was removed. False otherwise
+ */
+native bool:War3_RemoveWard(id);
 
 
 
