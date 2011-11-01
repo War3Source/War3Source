@@ -92,52 +92,82 @@ public NWar3_SetRace(Handle:plugin,numParams){
 	if (client > 0 && client <= MaxClients)
 	{
 		new oldrace=p_properties[client][CurrentRace];
-		W3SetVar(OldRace,p_properties[client][CurrentRace]);
-		
-		if(oldrace>0&&ValidPlayer(client)){
-			W3SaveXP(client,oldrace);
+		if(oldrace==newrace){
+			//WTF ABORT
 		}
-		
-		
-		p_properties[client][CurrentRace]=newrace;
-		
-		
-		Call_StartForward(g_On_Race_Changed);
-		Call_PushCell(client);
-		Call_PushCell(oldrace);
-		Call_PushCell(newrace);
-		Call_Finish(dummy);
-		
-		//REMOVE DEPRECATED
-		Call_StartForward(g_On_Race_Selected);
-		Call_PushCell(client);
-		Call_PushCell(newrace);
-		Call_Finish(dummy);
-		
-		if(newrace>0) {
-			if(IsPlayerAlive(client)){
-				EmitSoundToAll(levelupSound,client);
-			}
-			else{
-				EmitSoundToClient(client,levelupSound);
+		else{
+			W3SetVar(OldRace,p_properties[client][CurrentRace]);
+			
+			if(oldrace>0&&ValidPlayer(client)){
+				W3SaveXP(client,oldrace);
 			}
 			
-			if(W3SaveEnabled()){ //save enabled
+			
+			p_properties[client][CurrentRace]=newrace;
+			
+			if(oldrace>0){
+				//we move all the old skill levels (apparrent ones)
+				for(new i=1;i<=War3_GetRaceSkillCount(oldrace);i++){
+					Call_StartForward(g_OnSkillLevelChangedHandle);
+					Call_PushCell(client);
+					Call_PushCell(oldrace);
+					Call_PushCell(i); //i is skillid
+					Call_PushCell(0); //force 0
+					Call_Finish(dummy);
+				}
 			}
-			else {//if(oldrace>0)
-				War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
-				War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
-				W3DoLevelCheck(client);
+			if(newrace>0){
+				for(new i=1;i<=War3_GetRaceSkillCount(newrace);i++){
+					Call_StartForward(g_OnSkillLevelChangedHandle);
+					Call_PushCell(client);
+					Call_PushCell(newrace);
+					Call_PushCell(i); //i is skillid
+					Call_PushCell(War3_GetSkillLevelINTERNAL(client,newrace,i)); //i is skillid
+					Call_Finish(dummy);
+				}
 			}
 			
-			decl String:buf[64];
-			War3_GetRaceName(newrace,buf,sizeof(buf));
-			War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
 			
-			if(oldrace==0){
-				War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
+			
+			
+			//announce race change
+			Call_StartForward(g_On_Race_Changed);
+			Call_PushCell(client);
+			Call_PushCell(oldrace);
+			Call_PushCell(newrace);
+			Call_Finish(dummy);
+			
+			//REMOVE DEPRECATED
+			Call_StartForward(g_On_Race_Selected);
+			Call_PushCell(client);
+			Call_PushCell(newrace);
+			Call_Finish(dummy);
+			
+			if(newrace>0) {
+				if(IsPlayerAlive(client)){
+					EmitSoundToAll(levelupSound,client);
+				}
+				else{
+					EmitSoundToClient(client,levelupSound);
+				}
+				
+				if(W3SaveEnabled()){ //save enabled
+				}
+				else {//if(oldrace>0)
+					War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
+					War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
+					W3DoLevelCheck(client);
+				}
+				
+				decl String:buf[64];
+				War3_GetRaceName(newrace,buf,sizeof(buf));
+				War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
+				
+				if(oldrace==0){
+					War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
+				}
+				W3CreateEvent(DoCheckRestrictedItems,client);
 			}
-			W3CreateEvent(DoCheckRestrictedItems,client);
 		}
 	}
 	
@@ -232,12 +262,14 @@ public NWar3_SetSkillLevelINTERNAL(Handle:plugin,numParams){
 	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
 	{
 		p_skilllevel[client][race][skill]=level;
-		Call_StartForward(g_OnSkillLevelChangedHandle);
-		Call_PushCell(client);
-		Call_PushCell(race);
-		Call_PushCell(skill);
-		Call_PushCell(level);
-		Call_Finish(dummy);
+		if(War3_GetRace(client)==race){
+			Call_StartForward(g_OnSkillLevelChangedHandle);
+			Call_PushCell(client);
+			Call_PushCell(race);
+			Call_PushCell(skill);
+			Call_PushCell(level);
+			Call_Finish(dummy);
+		}
 	}
 	
 }

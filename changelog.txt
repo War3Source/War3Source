@@ -9,7 +9,11 @@ this allows the programmer to skip War3_GetRace(client)==thisRaceid and directly
 War3_SetSkillLevel has been replaced with War3_GetSkillLevelINTERNAL (no race uses this anyway, this is internal stuff)
 War3_GetSkillLevelINTERNAL is the old style getting skill level (persistance level value thats stored with the database)
 
-
+forward OnSkillLevelChanged(client,race,skill,newskilllevel);
+will now forward on a skill change, with the old race having the newskilllevel of 0
+(zeros out the "apparrent" skill level of that race) 
+and the new race's skill level's come subsequently. 
+ 
 B4
 
 skill registration no longer requires "false,4);" to specify the skill is NOT and ultimate and has 4 levels, these are now default parameters
