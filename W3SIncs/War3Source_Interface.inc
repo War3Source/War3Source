@@ -417,6 +417,8 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetXP");
 	MarkNativeAsOptional("War3_SetSkillLevel");
 	MarkNativeAsOptional("War3_GetSkillLevel");
+	MarkNativeAsOptional("War3_SetSkillLevelINTERNAL");
+	MarkNativeAsOptional("War3_GetSkillLevelINTERNAL");
 	MarkNativeAsOptional("W3SetPlayerProp");
 	MarkNativeAsOptional("W3GetPlayerProp");
 	MarkNativeAsOptional("W3GiveXPGold");
@@ -1405,8 +1407,11 @@ native W3SetLevelBank(client,newlevelbank);
 native War3_SetXP(client,race,newxp);
 native War3_GetXP(client,race);
 
-native War3_SetSkillLevel(client,race,skill,newlevel);
+//native War3_SetSkillLevel(client,race,skill,newlevel);
 native War3_GetSkillLevel(client,race,skill);
+
+native War3_SetSkillLevelINTERNAL(client,race,skill,newlevel);
+native War3_GetSkillLevelINTERNAL(client,race,skill);
 
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
