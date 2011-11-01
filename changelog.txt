@@ -5,6 +5,7 @@ Begin expanding the Buff System
 
 War3_GetSkillLevel now automatically accounts for current race. 
 this allows the programmer to skip War3_GetRace(client)==thisRaceid and directly test for the skill level instead
+example http://goo.gl/S0g0O //note the commented out sections // and /* */ in the red and green areas
 
 War3_SetSkillLevel has been replaced with War3_GetSkillLevelINTERNAL (no race uses this anyway, this is internal stuff)
 War3_GetSkillLevelINTERNAL is the old style getting skill level (persistance level value thats stored with the database)
