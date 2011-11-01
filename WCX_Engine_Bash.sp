@@ -36,9 +36,13 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 					new race=War3_GetRace(victim);
 					PlayerRace[victim] = race;
 					War3_SetBuff(victim,bBashed,race,true);
+					new newdamage = W3GetBuffSumInt(attacker,iBashDamage);
+					if(newdamage>0)
+						War3_DealDamage(victim,newdamage,attacker,_,"weapon_bash");
 					
 					W3FlashScreen(victim,RGBA_COLOR_RED);
-					CreateTimer(0.25,UnfreezePlayer,victim);
+					new Float:duration = W3GetBuffSumFloat(attacker,iBashDuration);
+					CreateTimer(duration,UnfreezePlayer,victim);
 					
 					PrintHintText(victim,"%T","RcvdBash",victim);
 					PrintHintText(attacker,"%T","Bashed",attacker);

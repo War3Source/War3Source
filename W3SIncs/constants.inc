@@ -337,10 +337,14 @@ enum W3Buff
 	fVampirePercent, //Sets a % of damage done to give back as health
 	
 	fBashChance, //Registers a chance to bash, (Note: 0.7 would equal a 30% chance to bash)
+	iBashDamage, //Does a certain amount of damage when you bash an enemy (more similar to warcraft 3's bash, default 0)
+	iBashDuration, //Sets the duration of bash's stun
 	
 	fCritChance, //Registers a chance to crit, (Note: 0.7 would equal a 30% chance to crit)
 	iCritMode, //Default 0 (all damage qualifies for crit) 1 (bullet damage crit) 2 (grenade damage crit) 3 (melee damage crit) 4 (melee and bullet crit) 5 (melee and grenade crit) 6 (bullet and grenade crit)
 	fCritModifier, //Sets the critical strike modifer, default 1.0
+	
+	iWards,
 	
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
@@ -509,6 +513,12 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fBashChance ][DefaultValue]=1.0;
 	buffpropertiesarray[ fBashChance ][BuffStackType]=fStacked;
 	
+	buffpropertiesarray[ iBashDamage ][DefaultValue]=0;
+	buffpropertiesarray[ iBashDamage ][BuffStackType]=iAbsolute;
+	
+	buffpropertiesarray[ iBashDuration ][DefaultValue]=0.25;
+	buffpropertiesarray[ iBashDuration ][BuffStackType]=iAbsolute;
+	
 	buffpropertiesarray[ fCritChance ][DefaultValue]=0.0;
 	buffpropertiesarray[ fCritChance ][BuffStackType]=fStacked;
 	
@@ -517,6 +527,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ fCritModifier ][DefaultValue]=1.0;
 	buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
+	
+	buffpropertiesarray[ iWards ][DefaultValue]=0;
+	buffpropertiesarray[ iWards ][BuffStackType]=iAbsolute
 	
 	
 	//check that all indexes have been set

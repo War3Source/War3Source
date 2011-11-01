@@ -7,6 +7,11 @@
 
 new String:explosionSound1[]="war3source/particle_suck1.wav";
 
+
+#define MAXWARDS 64*4 //on map LOL
+#define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
+#define WARDABOVE 160.0
+
 new BeamSprite;
 new HaloSprite;
 new ExplosionModel;
@@ -17,6 +22,16 @@ new Float:emptypos[3];
 new Float:oldpos[MAXPLAYERSCUSTOM][3];
 new Float:teleportpos[MAXPLAYERSCUSTOM][3];
 new bool:inteleportcheck[MAXPLAYERSCUSTOM];
+
+new bool:wardtype[MAXPLAYERSCUSTOM];
+new CurrentWardCount[MAXPLAYERSCUSTOM];
+new WardStartingArr[]={0,1,2,3,4}; 
+new Float:WardLocation[MAXWARDS][3]; 
+new WardOwner[MAXWARDS];
+new WardRadius[MAXPLAYERSCUSTOM];
+new WardDamage[MAXPLAYERSCUSTOM];
+new Float:WardDuration[MAXPLAYERSCUSTOM];
+new Float:WardExpiration[MAXWARDS];
 
 new String:teleportSound[]="war3source/blinkarrival.wav";
 
@@ -58,8 +73,12 @@ public bool:InitNativesForwards()
 {
 	CreateNative("War3_SuicideBomber",Native_War3_SuicideBomber);
 	CreateNative("War3_Teleport",Native_War3_Teleport);
+	CreateNative("War3_CreateWard", Native_War3_CreateWard);
 	return true;
 }
+
+
+//Suicide Bomber
 
 public Native_War3_SuicideBomber(Handle:plugin,numParams)
 {
@@ -160,6 +179,15 @@ public Native_War3_SuicideBomber(Handle:plugin,numParams)
 		}
 	}
 }
+
+
+//Teleportation
+
+
+
+
+
+
 
 public Native_War3_Teleport(Handle:plugin,numParams)
 {
@@ -353,3 +381,145 @@ public bool:enemyImmunityInRange(client,Float:playerVec[3])
 	}
 	return false;
 }             
+
+
+
+
+
+
+//Wards! Healing and damaging
+
+public Native_War3_CreateWard(Handle:plugin,numParams)
+{
+	new client = GetNativeCell(1);
+	
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		if(WardOwner[i]==0)
+		{
+			WardOwner[i]=client;
+			GetNativeArray(2,WardLocation[i])
+			WardRadius[i] = GetNativeCell(3);
+			WardDuration[i] = Float:GetNativeCell(4)
+			WardDamage[i] = GetNativeCell(5);
+			WardType[i] = Bool:GetNativeCell(6);
+			break;
+		}
+	}
+}
+
+
+public RemoveWards(client)
+{
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		if(WardOwner[i]==client)
+		{
+			WardOwner[i]=0;
+		}
+	}
+	War3_SetBuff(client, iWards, ;
+}
+
+public Action:CalcWards(Handle:timer,any:userid)
+{
+	for(new i=0;i<=MaxClients;i++){
+		flashedscreen[i]=false;
+	}
+	new client;
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		
+		if(WardOwner[i]!=0)
+		{
+			client=WardOwner[i];
+			if(!ValidPlayer(client,true))
+			{
+				WardOwner[i]=0; //he's dead, so no more wards for him
+				new wards = W3GetBuffSumInt(client,iWards);
+				War3_setBuff(client, iWards, DeathRace[client], wards);
+			}
+			else
+			{
+				WardEffectAndDamage(client,i);
+			}
+		}
+	}
+}
+
+public OnWar3EventDeath(client,attacker)
+{
+	DeathRace[client] = W3GetVar(deathrace);
+}
+
+public OnWar3EventSpawn(client)
+{	
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		if(WardOwner[i]==client)
+		{
+			WardOwner[i]=0;
+		}
+	}
+	War3_SetBuff(client,iWards,War3_GetRace(client),0);
+}
+
+public WardEffectAndDamage(owner,wardindex)
+{
+	if(GetGameTime()<WardExpiration[wardindex])
+		WardExpiration[wardindex] = GetGameTime()+WardDuration[owner];
+	new beamcolor[]={0,255,0,150};
+	new Float:start_pos[3];
+	new Float:end_pos[3];
+	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
+	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
+	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
+	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
+	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
+	TE_SendToAll();
+	new Float:BeamXY[3];
+	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
+	new Float:BeamZ= BeamXY[2];
+	BeamXY[2]=0.0;
+	new Float:VictimPos[3];
+	new Float:tempZ;
+	
+	for(new i=1;i<=MaxClients;i++)
+	{
+		if(ValidPlayer(i,true))
+		{
+			GetClientAbsOrigin(i,VictimPos);
+			tempZ=VictimPos[2];
+			VictimPos[2]=0.0; //no Z
+			if(GetVectorDistance(BeamXY,VictimPos) < WARDRADIUS) ////ward RADIUS
+			{
+				// now compare z
+				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
+				{
+					//Heal!!
+					new DamageScreen[4];
+					DamageScreen[0]=beamcolor[0];
+					DamageScreen[1]=beamcolor[1];
+					DamageScreen[2]=beamcolor[2];
+					DamageScreen[3]=20; //alpha
+					new cur_hp=GetClientHealth(i);
+					new new_hp=cur_hp+WARDHEAL;
+					new max_hp=War3_GetMaxHP(i);
+					if(new_hp>max_hp)	new_hp=max_hp;
+					if(cur_hp<new_hp)
+					{
+						if(!flashedscreen[i]){
+							flashedscreen[i]=true;
+							W3FlashScreen(i,DamageScreen);
+						}
+						//SetEntityZHealth(i,new_hp);
+						War3_HealToMaxHP(i,WARDHEAL);
+						VictimPos[i]+=65.0;
+						War3_TF_ParticleToClient(0, GetClientTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
+					}
+				}
+			}
+		}
+	}
+}
+

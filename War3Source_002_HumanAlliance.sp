@@ -12,9 +12,6 @@ public W3ONLY(){} //unload this?
 new thisRaceID;
 
 new Handle:ultCooldownCvar;
-new bool:bIsBashed[MAXPLAYERSCUSTOM];
-
-
 
 // Chance/Info Arrays
 new Float:BashChance[5]={0.0,0.07,0.13,0.19,0.25};
@@ -48,8 +45,6 @@ public OnPluginStart()
 {
 	
 	ultCooldownCvar=CreateConVar("war3_human_teleport_cooldown","20.0","Cooldown between teleports");
-	
-	
 	
 	LoadTranslations("w3s.race.human.phrases");
 }
@@ -191,14 +186,4 @@ public OnWar3EventSpawn(client){
 		ActivateSkills(client);
 	}
 }
-
-
-public Action:UnfreezePlayer(Handle:timer,any:client)
-{
-	
-	War3_SetBuff(client,bBashed,thisRaceID,false);
-	bIsBashed[client]=false;
-	
-}
-	
 	
