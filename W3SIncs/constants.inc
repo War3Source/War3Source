@@ -608,6 +608,14 @@ enum War3SQLType
 	SQLType_SQLite,
 }
 
+// Ward targeting affinities
+enum War3WardAffinity
+{
+	ENEMIES,
+	ALLIES,
+	ALL,
+	SELF_ONLY
+}
 
 enum W3HintPriority{
 	HINT_NORMAL, //things that are attached from non hint engine hints

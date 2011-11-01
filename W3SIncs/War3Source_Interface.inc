@@ -447,7 +447,6 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_SuicideBomber");
 	MarkNativeAsOptional("War3_Teleport");
 	MarkNativeAsOptional("War3_CreateWard");
-	MarkNativeAsOptional("War3_Progressbar");
 	
 
 }
@@ -1528,6 +1527,11 @@ native bool:War3_Teleport(client, Float:distance);
 
 /**
  * Creates a ward.
+ * 
+ * Odd/special cases:
+ * If a ward is created with selfInflict=false, but affinity=SELF_ONLY, you get a ward that does nothing, essentially.
+ * If a ward is created with a negative/zero duration, it will last until map change or until it is removed manually.
+ * 
  * @param client: owner id
  * @param location: ward location
  * @param radius: ward effect radius
@@ -1535,9 +1539,11 @@ native bool:War3_Teleport(client, Float:distance);
  * @param pulseInterval: time between effect triggerings
  * @param damage: amount of damage/healing done per interval
  * @param healing: whether or not this ward heals
+ * @param selfInflict: whether or not this ward applies effects to its owner
+ * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
  * @return ID for the ward created or -1 if the ward was not created
  */
-native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=false);
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=false, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
 
 /**
  * Removes a ward given an id
@@ -1545,9 +1551,6 @@ native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float
  * @return True if the ward was removed. False otherwise
  */
 native bool:War3_RemoveWard(id);
-
-//Creates a bomb plant style progress bar of any integer duration between one and fifteen
-native War3_Progressbar(client,duration);
 
 
 
