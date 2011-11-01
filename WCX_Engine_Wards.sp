@@ -3,8 +3,11 @@
 #include <sourcemod>
 #include "W3SIncs/
 
+#define MAXWARDS 64*4 //on map LOL
+#define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
+#define WARDABOVE 160.0
 
-new bool:wardtype[MAXPLAYERSCUSTOM];
+new bool:WardType[MAXPLAYERSCUSTOM];
 new CurrentWardCount[MAXPLAYERSCUSTOM];
 new WardStartingArr[]={0,1,2,3,4}; 
 new Float:WardLocation[MAXWARDS][3]; 
@@ -13,6 +16,9 @@ new WardRadius[MAXPLAYERSCUSTOM];
 new WardDamage[MAXPLAYERSCUSTOM];
 new Float:WardDuration[MAXPLAYERSCUSTOM];
 new Float:WardExpiration[MAXWARDS];
+new Handle:WardTimer[MAXWARDS];
+new bool:WardSelfInflict[MAXWARDS];
+new bool:WardAffinity[MAXWARDS];
 
 public Plugin:myinfo = 
 {
@@ -30,10 +36,11 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	CreateNative("War3_CreateWard", Native_War3_CreateWard);
+	CreateNative("War3_RemoveWard", Native_War3_RemoveWard);
 	return true;
 }
 
-public Native_War3_CreateWard(Handle:plugin,numParams)
+public _:Native_War3_CreateWard(Handle:plugin,numParams)
 {
 	new client = GetNativeCell(1);
 	
@@ -42,14 +49,48 @@ public Native_War3_CreateWard(Handle:plugin,numParams)
 		if(WardOwner[i]==0)
 		{
 			WardOwner[i]=client;
-			GetNativeArray(2,WardLocation[i],3);
+			GetNativeArray(2,WardLocation[i]);
 			WardRadius[i] = GetNativeCell(3);
-			WardDuration[i] = Float:GetNativeCell(4)
-			WardDamage[i] = GetNativeCell(5);
-			WardType[i] = Bool:GetNativeCell(6);
-			break;
+			WardDuration[i] = Float:GetNativeCell(4);
+			WardInterval[i] = Float:GetNativeCell(5);
+			WardDamage[i] = GetNativeCell(6);
+			WardType[i] = bool:GetNativeCell(7);
+			WardSelfInflict[i] = bool:GetNativeCell(8);
+			WardAffinity[i] = War3WardAffinity:GetNativeCell(9);
+			WardTimer[i] = CreateTimer(GetNativeCell(5),wardPulse,i,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+			if (GetNativeCell(4) > 0) {
+				CreateTimer(GetNativeCell(4),timedRemoveWard,i);
+			}
+			CurrentWardCount[client]++;
+			return i;
 		}
 	}
+	return -1;
+}
+
+public bool:Native_War3_RemoveWard(Handle:plugin,numParams)
+{
+	return RemoveWard(GetNativeCell(1));
+}
+
+public timedRemoveWard(Handle:timer,any:id) {
+	RemoveWard(id);
+}
+
+public bool:RemoveWard(id)
+{
+	if (wardOwner[id] == 0)
+	{
+		return false;
+	}
+	
+	CurrentWardCount[wardOwner[i]]--;
+	WardOwner[i] = 0;
+	if (WardTimer[i] != INVALID_HANDLE)
+	{
+		WardTimer[i].CloseHandle();
+	}
+	return true;
 }
 
 
@@ -59,41 +100,9 @@ public RemoveWards(client)
 	{
 		if(WardOwner[i]==client)
 		{
-			WardOwner[i]=0;
+			RemoveWard(id);
 		}
 	}
-	War3_SetBuff(client, iWards, ;
-}
-
-public Action:CalcWards(Handle:timer,any:userid)
-{
-	for(new i=0;i<=MaxClients;i++){
-		flashedscreen[i]=false;
-	}
-	new client;
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		
-		if(WardOwner[i]!=0)
-		{
-			client=WardOwner[i];
-			if(!ValidPlayer(client,true))
-			{
-				WardOwner[i]=0; //he's dead, so no more wards for him
-				new wards = W3GetBuffSumInt(client,iWards);
-				War3_setBuff(client, iWards, DeathRace[client], wards);
-			}
-			else
-			{
-				WardEffectAndDamage(client,i);
-			}
-		}
-	}
-}
-
-public OnWar3EventDeath(client,attacker)
-{
-	DeathRace[client] = W3GetVar(deathrace);
 }
 
 public OnWar3EventSpawn(client)
@@ -102,16 +111,20 @@ public OnWar3EventSpawn(client)
 	{
 		if(WardOwner[i]==client)
 		{
-			WardOwner[i]=0;
+			RemoveWard(i);
 		}
 	}
-	War3_SetBuff(client,iWards,War3_GetRace(client),0);
 }
 
-public WardEffectAndDamage(owner,wardindex)
-{
-	if(GetGameTime()<WardExpiration[wardindex])
-		WardExpiration[wardindex] = GetGameTime()+WardDuration[owner];
+public wardPulse(Handle:timer,any:id) {
+	// Conditions can be added here to decide whether or not the pulse will occur.
+	// Right now I can't think of any such conditions.
+	WardEffect(id);
+}
+
+public WardEffect(wardindex) {
+	owner = WardOwner[wardindex];
+	
 	new beamcolor[]={0,255,0,150};
 	new Float:start_pos[3];
 	new Float:end_pos[3];
@@ -132,6 +145,20 @@ public WardEffectAndDamage(owner,wardindex)
 	{
 		if(ValidPlayer(i,true))
 		{
+			if (i == WardOwner[wardindex]) {
+				if (!WardSelfInflict[wardindex]) {
+					continue;
+				}
+			} else if (GetClientTeam(i) == GetClientTeam(WardOwner[wardindex])) {
+				if (WardAffinity[wardindex] == ENEMIES || WardAffinity[wardindex] == SELF_ONLY) {
+					continue;
+				}
+			} else {
+				if (WardAffinity[wardindex] == ALLIES || WardAffinity[wardindex] == SELF_ONLY) {
+					continue;
+				}
+			}
+			
 			GetClientAbsOrigin(i,VictimPos);
 			tempZ=VictimPos[2];
 			VictimPos[2]=0.0; //no Z
