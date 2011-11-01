@@ -25,7 +25,7 @@ new HaloSprite =-1;
 public Plugin:myinfo = 
 {
 	name = "WCX - Wards",
-	author = "necavi, PimpinJuice",
+	author = "Invalid, necavi, PimpinJuice",
 	description = "Ward Natives",
 	version = "0.1",
 	url = "http://necavi.com"
@@ -66,6 +66,7 @@ public _:Native_War3_CreateWard(Handle:plugin,numParams)
 				CreateTimer(WardDuration[i],timedRemoveWard,i);
 			}
 			CurrentWardCount[client]++;
+			WardEffect(i);
 			return i;
 		}
 	}

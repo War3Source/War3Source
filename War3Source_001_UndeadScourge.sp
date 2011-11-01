@@ -128,9 +128,9 @@ public OnWar3EventDeath(victim,attacker)
 		GetClientAbsOrigin(victim,location);
 		if(War3_GetGame()==Game_TF)
 		{
-			War3_SuicideBomber(victim, location, SuicideBomberDamageTF[SKILL_SUICIDE], SuicideBomberRadius[SKILL_SUICIDE]);
+			War3_SuicideBomber(victim, location, SuicideBomberDamageTF[SKILL_SUICIDE], SuicideBomberRadius[SKILL_SUICIDE],false);
 		} else {
-			War3_SuicideBomber(victim, location, SuicideBomberDamage[SKILL_SUICIDE], SuicideBomberRadius[SKILL_SUICIDE]);
+			War3_SuicideBomber(victim, location, SuicideBomberDamage[SKILL_SUICIDE], SuicideBomberRadius[SKILL_SUICIDE],false);
 		}
 		
 	} 
