@@ -118,7 +118,7 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
+	if(/*War3_GetRace(client)==thisRaceID &&*/ ability==0 && pressed && IsPlayerAlive(client))
 	{
 		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_TIDE);
 		if(skill_level>0)
@@ -220,11 +220,11 @@ public OnWar3EventSpawn(client){
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
-	if(race==thisRaceID && pressed && IsPlayerAlive(client))
+	if(/*race==thisRaceID &&*/ pressed && IsPlayerAlive(client))
 	{
 		//if(
 		
-		new skill=War3_GetSkillLevel(client,race,ULT_OVERLOAD);
+		new skill=War3_GetSkillLevel(client,thisRaceID,ULT_OVERLOAD);
 		if(skill>0)
 		{
 			if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_OVERLOAD,true))
@@ -383,8 +383,8 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		new attacker=GetClientOfUserId(attacker_userid);
 		if(victim>0&&attacker>0)
 		{
-			new race_attacker=War3_GetRace(attacker);
-			if(race_attacker==thisRaceID&&!W3HasImmunity(victim,Immunity_Skills)){
+			/*new race_attacker=War3_GetRace(attacker);*/
+			if(/*race_attacker==thisRaceID&&*/!W3HasImmunity(victim,Immunity_Skills)){
 				
 				new skill_level=War3_GetSkillLevel(attacker,thisRaceID,SKILL_CONDUIT);
 				
@@ -431,29 +431,29 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				}
 			}
 			
-			new race_victim=War3_GetRace(victim);
-			if(race_victim==thisRaceID){
-				new skill = War3_GetSkillLevel(victim,thisRaceID,SKILL_STATIC);
-				if(skill>0){
-					if(!Hexed(victim,false)&&GetRandomFloat(0.0,1.0)<0.5){
-						new heal=RoundFloat(StaticHealPercent[skill]*dmg);
-						new team=GetClientTeam(victim);
-						
-						new Float:pos[3];
-						GetClientAbsOrigin(victim,pos);
-						new Float:otherVec[3];
-						for(new i=1;i<=MaxClients;i++)
+			//new race_victim=War3_GetRace(victim);
+			//if(race_victim==thisRaceID){
+			new skill = War3_GetSkillLevel(victim,thisRaceID,SKILL_STATIC);
+			if(skill>0){
+				if(!Hexed(victim,false)&&GetRandomFloat(0.0,1.0)<0.5){
+					new heal=RoundFloat(StaticHealPercent[skill]*dmg);
+					new team=GetClientTeam(victim);
+					
+					new Float:pos[3];
+					GetClientAbsOrigin(victim,pos);
+					new Float:otherVec[3];
+					for(new i=1;i<=MaxClients;i++)
+					{
+						if(ValidPlayer(i,true)&&GetClientTeam(i)!=team)
 						{
-							if(ValidPlayer(i,true)&&GetClientTeam(i)!=team)
-							{
-								GetClientAbsOrigin(i,otherVec);
-								if(GetVectorDistance(pos,otherVec)<StaticHealRadius){
-									War3_HealToBuffHP(i,heal);
-								}
+							GetClientAbsOrigin(i,otherVec);
+							if(GetVectorDistance(pos,otherVec)<StaticHealRadius){
+								War3_HealToBuffHP(i,heal);
 							}
 						}
 					}
 				}
+			//}
 			}
 		}
 	}
