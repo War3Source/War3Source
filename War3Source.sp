@@ -109,7 +109,7 @@ And that’s the art of the test!
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.3.3"
+#define VERSION_NUM "1.2.3.4"
 #define REVISION_NUM 12303 //increment every release
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
@@ -389,7 +389,7 @@ public Action:FullSkilltest(client,args){
 	new race=War3_GetRace(client);
 	new SkillCount = War3_GetRaceSkillCount(race);
 	for(new i=1;i<=SkillCount;i++){
-		War3_SetSkillLevel(client,race,i,4);
+		War3_SetSkillLevelINTERNAL(client,race,i,4);
 	}
 }
 

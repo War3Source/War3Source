@@ -83,7 +83,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 							War3_SetRace(client,race);
 							War3_SetLevel(client,race,W3GetRaceMaxLevel(race));
 							for(new i=1;i<=War3_GetRaceSkillCount(race);i++){
-								War3_SetSkillLevel(client,race,i,W3GetRaceSkillMaxLevel(race,i));
+								War3_SetSkillLevelINTERNAL(client,race,i,W3GetRaceSkillMaxLevel(race,i));
 							}
 							W3DoLevelCheck(client);
 						}

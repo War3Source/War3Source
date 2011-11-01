@@ -658,7 +658,7 @@ LevelCheck(client){
 		new curlevel=War3_GetLevel(client,race);
 		new SkillCount = War3_GetRaceSkillCount(race);
 		for(new i=1;i<=SkillCount;i++){
-			skilllevel=War3_GetSkillLevel(client,race,i);
+			skilllevel=War3_GetSkillLevelINTERNAL(client,race,i);
 			if(!War3_IsSkillUltimate(race,i))
 			{
 				if(skilllevel*2>curlevel+1)
@@ -733,7 +733,7 @@ LevelCheck(client){
 ClearSkillLevels(client,race){
 	new SkillCount =War3_GetRaceSkillCount(race); 
 	for(new i=1;i<=SkillCount;i++){
-		War3_SetSkillLevel(client,race,i,0);
+		War3_SetSkillLevelINTERNAL(client,race,i,0);
 	}
 }
 

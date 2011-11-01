@@ -529,7 +529,7 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ iWards ][DefaultValue]=0;
-	buffpropertiesarray[ iWards ][BuffStackType]=iAbsolute
+	buffpropertiesarray[ iWards ][BuffStackType]=iAbsolute;
 	
 	
 	//check that all indexes have been set

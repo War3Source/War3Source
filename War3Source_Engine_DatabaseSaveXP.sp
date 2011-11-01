@@ -539,7 +539,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 					for(new skillid=1;skillid<=RacesSkillCount;skillid++){
 						Format(column,sizeof(column),"skill%d",skillid);
 						skilllevel=W3SQLPlayerInt(hndl,column);
-						War3_SetSkillLevel(client,raceid,skillid,skilllevel);
+						War3_SetSkillLevelINTERNAL(client,raceid,skillid,skilllevel);
 						
 						Format(printstr,sizeof(printstr),"%s skill%d=%d",printstr,skillid,skilllevel);
 					}
@@ -679,7 +679,7 @@ War3_SavePlayerRace(client,race)
 			
 			new SkillCount = War3_GetRaceSkillCount(race);
 			for(new skillid=1;skillid<=SkillCount;skillid++){
-				Format(longquery,sizeof(longquery),"%s, skill%d=%d ",longquery,skillid,War3_GetSkillLevel(client,race,skillid));
+				Format(longquery,sizeof(longquery),"%s, skill%d=%d ",longquery,skillid,War3_GetSkillLevelINTERNAL(client,race,skillid));
 			}
 			
 			new last_seen=GetTime();

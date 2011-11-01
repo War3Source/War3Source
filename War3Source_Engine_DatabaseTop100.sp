@@ -294,7 +294,7 @@ public War3Source_Stats_Player_Race(client,target,race_num)
 		for(new i=1;i<=SkillCount;i++){
 			new String:skillname[64];
 			W3GetRaceSkillName(race_num,i,skillname,sizeof(skillname));
-			new skilllevel=War3_GetSkillLevel(target,race_num,i);
+			new skilllevel=War3_GetSkillLevelINTERNAL(target,race_num,i);
 			Format(longbuf,sizeof(longbuf),"%s%T\n",longbuf,"{skillname} - Level {amount}",client,skillname,skilllevel);
 		}
 		

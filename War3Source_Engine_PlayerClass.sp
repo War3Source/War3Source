@@ -58,18 +58,22 @@ public bool:InitNativesForwards()
 	
 	
 	
-	CreateNative("War3_SetRace",NWar3_SetRace); //these have forwards to handle
+	CreateNative("War3_SetRace",NWar3_SetRace); 
 	CreateNative("War3_GetRace",NWar3_GetRace); 
 	
-	CreateNative("War3_SetLevel",NWar3_SetLevel); //these have forwards to handle
+	CreateNative("War3_SetLevel",NWar3_SetLevel); 
 	CreateNative("War3_GetLevel",NWar3_GetLevel); 
 	
-	CreateNative("War3_SetXP",NWar3_SetXP); //these have forwards to handle
+	CreateNative("War3_SetXP",NWar3_SetXP); 
 	CreateNative("War3_GetXP",NWar3_GetXP); 
 	
-	CreateNative("War3_SetSkillLevel",NWar3_SetSkillLevel); //these have forwards to handle
+	//these return false if the player is not this race
+	//CreateNative("War3_SetSkillLevel",NWar3_SetSkillLevel); 
 	CreateNative("War3_GetSkillLevel",NWar3_GetSkillLevel); 
 	
+	//these return the skill without accounting if there are the current race
+	CreateNative("War3_SetSkillLevelINTERNAL",NWar3_SetSkillLevelINTERNAL); 
+	CreateNative("War3_GetSkillLevelINTERNAL",NWar3_GetSkillLevelINTERNAL); 
 	
 	CreateNative("W3SetPlayerProp",NW3SetPlayerProp);
 	CreateNative("W3GetPlayerProp",NW3GetPlayerProp);
@@ -187,6 +191,9 @@ public NWar3_GetXP(Handle:plugin,numParams){
 	else
 		return 0;
 }
+
+///this non INTERNAL may be deprecated
+/*
 public NWar3_SetSkillLevel(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
@@ -203,8 +210,38 @@ public NWar3_SetSkillLevel(Handle:plugin,numParams){
 		Call_Finish(dummy);
 	}
 	
-}
+}*/
 public NWar3_GetSkillLevel(Handle:plugin,numParams){
+	new client=GetNativeCell(1);
+	new race=GetNativeCell(2);
+	new skill=GetNativeCell(3);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES && War3_GetRace(client)==race && skill >0 && skill < MAXSKILLCOUNT)
+	{
+		return p_skilllevel[client][race][skill];
+	}
+	else
+		return 0;
+}
+
+
+public NWar3_SetSkillLevelINTERNAL(Handle:plugin,numParams){
+	new client=GetNativeCell(1);
+	new race=GetNativeCell(2);
+	new skill=GetNativeCell(3);
+	new level=GetNativeCell(4);
+	if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+	{
+		p_skilllevel[client][race][skill]=level;
+		Call_StartForward(g_OnSkillLevelChangedHandle);
+		Call_PushCell(client);
+		Call_PushCell(race);
+		Call_PushCell(skill);
+		Call_PushCell(level);
+		Call_Finish(dummy);
+	}
+	
+}
+public NWar3_GetSkillLevelINTERNAL(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	new race=GetNativeCell(2);
 	new skill=GetNativeCell(3);
@@ -215,6 +252,8 @@ public NWar3_GetSkillLevel(Handle:plugin,numParams){
 	else
 		return 0;
 }
+
+
 public NW3GetPlayerProp(Handle:plugin,numParams){
 	new client=GetNativeCell(1);
 	if (client > 0 && client <= MaxClients)
@@ -251,7 +290,7 @@ public NW3ClearSkillLevels(Handle:plugin,numParams){
 		new race=GetNativeCell(2);
 		new raceSkillCount = War3_GetRaceSkillCount(race)
 		for(new i=1;i<=raceSkillCount;i++){
-			War3_SetSkillLevel(client,race,i,0);			
+			War3_SetSkillLevelINTERNAL(client,race,i,0);			
 		}
 	}
 }
@@ -263,7 +302,7 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
 	{
 		new raceSkillCount = War3_GetRaceSkillCount(race);
 		for(new i=1;i<=raceSkillCount;i++)
-			ret+=War3_GetSkillLevel(client,race,i);
+			ret+=War3_GetSkillLevelINTERNAL(client,race,i);
 	}
 	return ret;
 }
@@ -307,7 +346,7 @@ public OnWar3Event(W3EVENT:event,client){
 			War3_SetLevel(client,i,0);
 			War3_SetXP(client,i,0);
 			for(new x=1;x<MAXSKILLCOUNT;x++){
-				War3_SetSkillLevel(client,i,x,0);
+				War3_SetSkillLevelINTERNAL(client,i,x,0);
 			}
 		}
 		for(new i=0;i<MAXITEMS;i++){

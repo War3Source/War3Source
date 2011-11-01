@@ -63,7 +63,7 @@ War3Source_SkillMenu(client)
 			{
 				
 				
-				curskilllevel=War3_GetSkillLevel(client,race_num,x);
+				curskilllevel=War3_GetSkillLevelINTERNAL(client,race_num,x);
 				if(curskilllevel<W3GetRaceSkillMaxLevel(race_num,x)){
 				
 					W3GetRaceSkillName(race_num,x,skillname,sizeof(skillname));
@@ -119,10 +119,10 @@ public War3Source_SMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 					{
 						if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race))
 						{
-							War3_SetSkillLevel(client,race,skill,War3_GetSkillLevel(client,race,skill)+1);
+							War3_SetSkillLevelINTERNAL(client,race,skill,War3_GetSkillLevelINTERNAL(client,race,skill)+1);
 							decl String:skillname[64];
 							W3GetRaceSkillName(race,skill,skillname,sizeof(skillname));
-							War3_ChatMessage(client,"%T","{skillname} is now level {amount}",client,skillname,War3_GetSkillLevel(client,race,skill));
+							War3_ChatMessage(client,"%T","{skillname} is now level {amount}",client,skillname,War3_GetSkillLevelINTERNAL(client,race,skill));
 						}
 						else
 							War3_ChatMessage(client,"%T","You can not choose a skill without gaining another level",client);
@@ -137,10 +137,10 @@ public War3Source_SMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 					new race=War3_GetRace(client);
 					if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race))
 					{
-						War3_SetSkillLevel(client,race,skill,War3_GetSkillLevel(client,race,skill)+1);
+						War3_SetSkillLevelINTERNAL(client,race,skill,War3_GetSkillLevelINTERNAL(client,race,skill)+1);
 						decl String:skillname[64];
 						W3GetRaceSkillName(race,skill,skillname,sizeof(skillname));
-						War3_ChatMessage(client,"%T","{skillname} is now level {amount}",client,skillname,War3_GetSkillLevel(client,race,skill));
+						War3_ChatMessage(client,"%T","{skillname} is now level {amount}",client,skillname,War3_GetSkillLevelINTERNAL(client,race,skill));
 					}
 					else{
 						War3_ChatMessage(client,"%T","You can not choose a skill without gaining another level",client);
