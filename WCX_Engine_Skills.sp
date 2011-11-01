@@ -16,6 +16,10 @@ new BeamSprite;
 new HaloSprite;
 new ExplosionModel;
 new SuicidedAsTeam[MAXPLAYERSCUSTOM];
+new Float:SuicideLocation[MAXPLAYERSCUSTOM][3];
+new bool:SuicideEffects[MAXPLAYERSCUSTOM];
+new SuicideTeam[MAXPLAYERSCUSTOM];
+new Float:SuicideRadius[MAXPLAYERSCUSTOM];
 
 new ClientTracer;
 new Float:emptypos[3];
@@ -73,7 +77,7 @@ public bool:InitNativesForwards()
 {
 	CreateNative("War3_SuicideBomber",Native_War3_SuicideBomber);
 	CreateNative("War3_Teleport",Native_War3_Teleport);
-	CreateNative("War3_CreateWard", Native_War3_CreateWard);
+	//CreateNative("War3_CreateWard", Native_War3_CreateWard);
 	return true;
 }
 
@@ -85,101 +89,106 @@ public Native_War3_SuicideBomber(Handle:plugin,numParams)
 	new client = GetNativeCell(1);
 	if(SuicidedAsTeam[client]!=GetClientTeam(client))
 		return;
-	new Float:radius = GetNativeCell(4);
-	new our_team = GetClientTeam(client);
-	decl Float:client_location[3];
-	GetNativeArray(2,client_location,sizeof(client_location));
-	new bool:effects;
+	SuicideRadius[client] = Float:GetNativeCell(4);
+	SuicideTeam[client] = GetClientTeam(client);
+	GetNativeArray(2,SuicideLocation[client],3);
 	if(numParams==5)
 	{
-		effects = bool:GetNativeCell(5);
+		SuicideEffects[client] = bool:GetNativeCell(5);
 	} else {
-		effects = false;
+		SuicideEffects[client] = false;
 	}
-	
-	if(effects)
+	CreateTimer(0.15,SuicideAction,client);
+}
+
+public Action:SuicideAction(Handle:timer,any:client)
+{
+	if(ValidPlayer(client))
 	{
-		TE_SetupExplosion(client_location,ExplosionModel,10.0,1,0,RoundToFloor(radius),160);
-		TE_SendToAll();
-		
-		if(War3_GetGame()==Game_TF){
-			
-			
-			ThrowAwayParticle("ExplosionCore_buildings", client_location,  5.0);
-			ThrowAwayParticle("ExplosionCore_MidAir", client_location,  5.0);
-			ThrowAwayParticle("ExplosionCore_MidAir_underwater", client_location,  5.0);
-			ThrowAwayParticle("ExplosionCore_sapperdestroyed", client_location,  5.0);
-			ThrowAwayParticle("ExplosionCore_Wall", client_location,  5.0);
-			ThrowAwayParticle("ExplosionCore_Wall_underwater", client_location,  5.0);
-		}
-		else{
-			client_location[2]-=40.0;
-		}
-		
-		TE_SetupBeamRingPoint(client_location, 10.0, radius, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, {255,255,255,33}, 120, 0);
-		TE_SendToAll();
-		
-		new beamcolor[]={0,200,255,255}; //blue //secondary ring
-		if(our_team==2)
-		{ //TERRORISTS/RED in TF?
-			beamcolor[0]=255;
-			beamcolor[1]=0;
-			beamcolor[2]=0;
-			
-		} //secondary ring
-		TE_SetupBeamRingPoint(client_location, 20.0, radius+10.0, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, beamcolor, 120, 0);
-		TE_SendToAll();
-		
-		if(War3_GetGame()==Game_TF){
-			client_location[2]-=30.0;
-		}
-		else{
-			client_location[2]+=40.0;
-		}
-		
-		EmitSoundToAll(explosionSound1,client);
-		
-		if(War3_GetGame()==Game_TF){
-			EmitSoundToAll("weapons/explode1.wav",client);
-		}
-		else{
-			EmitSoundToAll("weapons/explode5.wav",client);
-		}
-	}
-	
-	new Float:location_check[3];
-	for(new x=1;x<=MaxClients;x++)
-	{
-		if(ValidPlayer(x,true)&&client!=x)
+		new Float:radius = SuicideRadius[client];
+		new our_team = SuicideTeam[client];
+		if(SuicideEffects[client])
 		{
-			new team=GetClientTeam(x);
-			if(team==our_team)
-				continue;
-			
-			GetClientAbsOrigin(x,location_check);
-			new Float:distance=GetVectorDistance(client_location,location_check);
-			if(distance>radius)
-				continue;
-			
-			if(!W3HasImmunity(x,Immunity_Ultimates))
-			{
-				new Float:factor=(radius-distance)/radius;
-				new damage;
-				new Float:rawdamage = Float:GetNativeCell(3);
-				damage=RoundFloat(rawdamage*factor);
-				War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);
-				War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
-				W3FlashScreen(x,RGBA_COLOR_RED);
+			TE_SetupExplosion(SuicideLocation[client],ExplosionModel,10.0,1,0,RoundToFloor(radius),160);
+			TE_SendToAll();
+			if(War3_GetGame()==Game_TF){
+				
+				
+				ThrowAwayParticle("ExplosionCore_buildings", SuicideLocation[client],  5.0);
+				ThrowAwayParticle("ExplosionCore_MidAir", SuicideLocation[client],  5.0);
+				ThrowAwayParticle("ExplosionCore_MidAir_underwater", SuicideLocation[client],  5.0);
+				ThrowAwayParticle("ExplosionCore_sapperdestroyed", SuicideLocation[client],  5.0);
+				ThrowAwayParticle("ExplosionCore_Wall", SuicideLocation[client],  5.0);
+				ThrowAwayParticle("ExplosionCore_Wall_underwater", SuicideLocation[client],  5.0);
 			}
-			else
-			{
-				PrintToConsole(client,"%T","Could not damage player {player} due to immunity",client,x);
+			else{
+				SuicideLocation[client][2]-=40.0;
 			}
 			
+			TE_SetupBeamRingPoint(SuicideLocation[client], 10.0, radius, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, {255,255,255,33}, 120, 0);
+			TE_SendToAll();
+			
+			new beamcolor[]={0,200,255,255}; //blue //secondary ring
+			if(our_team==2)
+			{ //TERRORISTS/RED in TF?
+				beamcolor[0]=255;
+				beamcolor[1]=0;
+				beamcolor[2]=0;
+				
+			} //secondary ring
+			TE_SetupBeamRingPoint(SuicideLocation[client], 20.0, radius+10.0, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, beamcolor, 120, 0);
+			TE_SendToAll();
+			
+			if(War3_GetGame()==Game_TF){
+				SuicideLocation[client][2]-=30.0;
+			}
+			else{
+				SuicideLocation[client][2]+=40.0;
+			}
+			
+			EmitSoundToAll(explosionSound1,client);
+			
+			if(War3_GetGame()==Game_TF){
+				EmitSoundToAll("weapons/explode1.wav",client);
+			}
+			else{
+				EmitSoundToAll("weapons/explode5.wav",client);
+			}
+		}
+		
+		new Float:location_check[3];
+		for(new x=1;x<=MaxClients;x++)
+		{
+			if(ValidPlayer(x,true)&&client!=x)
+			{
+				new team=GetClientTeam(x);
+				if(team==our_team)
+					continue;
+				
+				GetClientAbsOrigin(x,location_check);
+				new Float:distance=GetVectorDistance(SuicideLocation[client],location_check);
+				if(distance>radius)
+					continue;
+				
+				if(!W3HasImmunity(x,Immunity_Ultimates))
+				{
+					new Float:factor=(radius-distance)/radius;
+					new damage;
+					new Float:rawdamage = Float:GetNativeCell(3);
+					damage=RoundFloat(rawdamage*factor);
+					War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);
+					War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
+					W3FlashScreen(x,RGBA_COLOR_RED);
+				}
+				else
+				{
+					PrintToConsole(client,"%T","Could not damage player {player} due to immunity",client,x);
+				}
+				
+			}
 		}
 	}
 }
-
 
 //Teleportation
 
@@ -385,7 +394,7 @@ public bool:enemyImmunityInRange(client,Float:playerVec[3])
 
 
 
-
+/*
 
 //Wards! Healing and damaging
 
@@ -398,7 +407,7 @@ public Native_War3_CreateWard(Handle:plugin,numParams)
 		if(WardOwner[i]==0)
 		{
 			WardOwner[i]=client;
-			GetNativeArray(2,WardLocation[i])
+			GetNativeArray(2,WardLocation[i],3);
 			WardRadius[i] = GetNativeCell(3);
 			WardDuration[i] = Float:GetNativeCell(4)
 			WardDamage[i] = GetNativeCell(5);
@@ -522,4 +531,4 @@ public WardEffectAndDamage(owner,wardindex)
 		}
 	}
 }
-
+*/
