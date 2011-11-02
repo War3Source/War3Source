@@ -1,7 +1,80 @@
 1.2.3
 b5
 
-Begin expanding the Buff System
+//Necavi
+
+Note: not all of this is guaranteed to work on TF2, please contact me if you have any issues, and I'll fix them immediately.
+
+Began expanding the Buff System:
+
+fDodgeChance, //Registers a chance to dodge,
+	
+fVampirePercent, //Sets a % of damage done to give back as health
+	
+fBashChance, //Registers a chance to bash,
+iBashDamage, //Does a certain amount of damage when you bash an enemy (more similar to warcraft 3's bash, default 0)
+iBashDuration, //Sets the duration of bash's stun
+	
+fCritChance, //Registers a chance to crit,
+iCritMode, //Default -1 (Set above this to enable) 1 (all damage qualifies for crit) 2 (bullet damage crit) 3 (grenade damage crit) 4 (melee damage crit) 5 (melee and bullet crit) 6 (melee and grenade crit) 7 (bullet and grenade crit)
+fCritModifier, //Sets the critical strike modifer, default 1.0
+iDamageMode, //Default -1 (Set above this to enable) 1 (all damage qualifies for damage increase) 2 (bullet damage damage increase) 3 (grenade damage damage increase) 4 (melee damage damage increase) 5 (melee and bullet damage increase) 6 (melee and grenade damage increase) 7 (bullet and grenade damage increase)
+
+iDamageBonus, //Gives a direct increase to damage done
+fDamageModifier, //Gives a % increase to damage done
+	
+MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
+
+New Forwards: 
+//Fired after a player dodges, useful primarily for attaching effects
+forward OnW3DodgePost(victim,attacker);
+
+//Fired before a player dodges, you can edit the dodge chance here
+forward OnW3DodgePre(victim,attacker,Float:chance);
+
+New Natives:
+
+native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, bool:effect=true);
+
+native bool:War3_Teleport(client, Float:distance);
+
+Big thanks to Invalid for his help on this one!
+/**
+ * Creates a ward.
+ * 
+ * Odd/special cases:
+ * If a ward is created with selfInflict=false, but affinity=SELF_ONLY, you get a ward that does nothing, essentially.
+ * If a ward is created with a negative/zero duration, it will last until map change or until it is removed manually.
+ * 
+ * @param client: owner id
+ * @param location: ward location
+ * @param radius: ward effect radius
+ * @param duration: ward duration. If negative or zero, duration is infinite (until map change). Don't forget to remove the ward!
+ * @param pulseInterval: time between effect triggerings
+ * @param damage: amount of damage/healing done per interval
+ * @param healing: whether or not this ward heals
+ * @param selfInflict: whether or not this ward applies effects to its owner
+ * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
+ * @return ID for the ward created or -1 if the ward was not created
+ */
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=false, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
+
+/**
+ * Removes a ward given an id
+ * @param id: ward id
+ * @return True if the ward was removed. False otherwise
+ */
+native bool:War3_RemoveWard(id);
+
+
+Recoded Undead Scourge and Human Alliance to use these new natives, forwards, and buffs, reducing the code in each file by ~75%!
+More Buffs/Natives/Forwards are coming!
+
+
+
+
+//Ownz
+	
 
 War3_GetSkillLevel now automatically accounts for current race. 
 this allows the programmer to skip War3_GetRace(client)==thisRaceid and directly test for the skill level instead
