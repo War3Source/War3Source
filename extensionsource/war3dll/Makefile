@@ -31,8 +31,16 @@ USEMETA = true
 #all .cpp must be listed here
 OBJECTS = \
 sdk/smsdk_ext.cpp	\
+war3dll.cpp	\
+md5.cpp	\
+task_integrity.cpp \
+task_serverinfo.cpp \
+task_latestversion.cpp \
+task_minversion.cpp \
+downloadhelper.cpp \
+natives.cpp \
 zlib/*.c \
-$(wildcard *.cpp) \
+
 
 #additional include dirs
 
@@ -168,8 +176,9 @@ check:
 extension: check $(OBJ_LINUX)
 	$(CPP) $(INCLUDE) $(OBJ_LINUX) $(LINK) -o $(BIN_DIR)/$(BINARY) -ldl
 	#cp Release.orangebox/$(PROJECT).ext.so $(SRCDS)/cstrike/addons/sourcemod/extensions/$(PROJECT).ext.so
+	#below is a rename
 	mv Release.orangebox/$(PROJECT).ext.so Release.orangebox/$(PROJECT).so
-	cp Release.orangebox/$(PROJECT).so $(SRCDS)/cstrike/addons/sourcemod/extensions/$(PROJECT).so
+	cp Release.orangebox/$(PROJECT).so $(SRCDS_BASE)/css/cstrike/addons/sourcemod/extensions/$(PROJECT).so
 ##this dll /.so does not have .ext.
 
 
