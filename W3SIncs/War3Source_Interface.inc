@@ -450,7 +450,16 @@ stock GlobalOptionalNatives(){
 	// Skills
 	MarkNativeAsOptional("War3_SuicideBomber");
 	MarkNativeAsOptional("War3_Teleport");
+	// Ward stuff
+	MarkNativeAsOptional("War3_CreateWardBehavior");
+	MarkNativeAsOptional("War3_GetWardBehaviorsLoaded");
+	MarkNativeAsOptional("War3_GetWardBehaviorName");
+	MarkNativeAsOptional("War3_GetWardBehaviorShortname");
+	MarkNativeAsOptional("War3_GetWardBehaviorDesc");
+	MarkNativeAsOptional("War3_GetWardBehaviorByShortname");
 	MarkNativeAsOptional("War3_CreateWard");
+	MarkNativeAsOptional("War3_GetWardBehavior");
+	MarkNativeAsOptional("War3_RemoveWard");
 	
 
 }
@@ -1534,6 +1543,37 @@ native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, 
 native bool:War3_Teleport(client, Float:distance);
 
 /**
+ * Creates a new ward behavior. This will allow us to make ward effects modular, so people
+ * can make their own ward types! Currently I don't know what I'm going to do with the name
+ * and description fields, but there is definitely room for expansion of features with this
+ * model.
+ *
+ * @param shortname: short name for the behavior
+ * @param name: full name for the behavior (unused right now)
+ * @param desc: description of ward behavior (unused right now)
+ * @return ward behavior ID or 0 if ward behavior limit reached
+ */
+native _:War3_CreateWardBehavior(String:shortname[],String:name[],String:desc[]);
+
+/**
+ * Gets the number of ward behaviors loaded.
+ *
+ * @return number of ward behaviors loaded
+ */
+native _:War3_GetWardBehaviorsLoaded();
+native War3_GetWardBehaviorName(id,String:retstr[],maxlen);
+native War3_GetWardBehaviorShortname(id,String:retstr[],maxlen);
+native War3_GetWardBehaviorDesc(id,String:retstr[],maxlen);
+
+/**
+ * Gets the ID of the ward behavior given its shortname.
+ *
+ * @param shortname: short name for the behavior
+ * @return ward behavior ID or -1 if it does not exist
+ */
+native _:War3_GetWardBehaviorByShortname(String:shortname[]);
+
+/**
  * Creates a ward.
  * 
  * Odd/special cases:
@@ -1545,13 +1585,24 @@ native bool:War3_Teleport(client, Float:distance);
  * @param radius: ward effect radius
  * @param duration: ward duration. If negative or zero, duration is infinite (until map change). Don't forget to remove the ward!
  * @param pulseInterval: time between effect triggerings
- * @param damage: amount of damage/healing done per interval
- * @param healing: whether or not this ward heals
+ * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
+ * @param data: Array of data to pass to the ward. This is used by the ward behavior for things like damage per skill level.
  * @param selfInflict: whether or not this ward applies effects to its owner
  * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
  * @return ID for the ward created or -1 if the ward was not created
  */
-native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, damage, bool:healing=false, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], any:data[]={0}, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
+
+/**
+ * Gets a specific ward's behavior.
+ *
+ * Important: This refers to a specific instance of a ward. That is, if you know the index of a
+ * ward that has been placed inside the game, this will tell you what its behavior ID is.
+ *
+ * @param wardindex: ward ID
+ * @return Ward behavior ID or -1 if the ward does not exist
+ */
+native _:War3_GetWardBehavior(wardindex);
 
 /**
  * Removes a ward given an id
@@ -1811,8 +1862,17 @@ forward OnW3DodgePost(victim,attacker);
 //Fired before a player dodges, you can edit the dodge chance here
 forward OnW3DodgePre(victim,attacker,Float:chance);
 
+//Fired every time a ward is created
+forward OnWardCreated(wardindex);
 
+//Fired every time a ward "pulses"
+forward OnWardPulse(wardindex);
 
+//Fired every time a ward "pulses" when a valid target is in range
+forward OnWardTrigger(wardindex,victim,owner);
+
+//Fired every time a ward is removed
+forward OnWardExpire(wardindex,owner,behaviorID);
 
 
 
