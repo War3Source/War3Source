@@ -469,7 +469,11 @@ stock CalcBuffRecentValue(client,W3Buff:buffindex,race)
 	{
 		new value = buffdebuff[client][buffindex][race];
 		if(value!=-1)	
+		{
 			return value;
+		} else {
+			return BuffCached[client][buffindex];
+		}
 	}
 	LogError("invalid buff index");
 	return -1;
