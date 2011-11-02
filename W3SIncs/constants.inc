@@ -267,6 +267,7 @@ enum BuffStackCacheType
 	fMaximum,
 	fMinimum,
 	iMinimum,
+	iLastValue,
 	ERRUNDEFINED=-99,
 }
 
@@ -345,6 +346,7 @@ enum W3Buff
 	fCritModifier, //Sets the critical strike modifer, default 1.0
 	
 	iDamageMode, //Default 0 (all damage qualifies for damage increase) 1 (bullet damage damage increase) 2 (grenade damage damage increase) 3 (melee damage damage increase) 4 (melee and bullet damage increase) 5 (melee and grenade damage increase) 6 (bullet and grenade damage increase)
+
 	iDamageBonus, //Gives a direct increase to damage done
 	fDamageModifier, //Gives a % increase to damage done
 	
@@ -523,20 +525,20 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fCritChance ][DefaultValue]=0.0;
 	buffpropertiesarray[ fCritChance ][BuffStackType]=fAbsolute;
 	
-	buffpropertiesarray[ iCritMode ][DefaultValue]=0;
-	buffpropertiesarray[ iCritMode ][BuffStackType]=iAbsolute;
+	buffpropertiesarray[ iCritMode ][DefaultValue]=-1;
+	buffpropertiesarray[ iCritMode ][BuffStackType]=iLastValue;
 	
-	buffpropertiesarray[ fCritModifier ][DefaultValue]=1.0;
+	buffpropertiesarray[ fCritModifier ][DefaultValue]=0.0;
 	buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ iDamageBonus ][DefaultValue]=0;
 	buffpropertiesarray[ iDamageBonus ][BuffStackType]=iAbsolute;
 	
-	buffpropertiesarray[ fDamageModifier ][DefaultValue]=1.0;
+	buffpropertiesarray[ fDamageModifier ][DefaultValue]=0.0;
 	buffpropertiesarray[ fDamageModifier ][BuffStackType]=fAbsolute;
 	
-	buffpropertiesarray[ iDamageMode ][DefaultValue]=0;
-	buffpropertiesarray[ iDamageMode ][BuffStackType]=iAbsolute;
+	buffpropertiesarray[ iDamageMode ][DefaultValue]=-1;
+	buffpropertiesarray[ iDamageMode ][BuffStackType]=iLastValue;	
 	
 	
 	//check that all indexes have been set

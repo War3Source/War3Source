@@ -31,7 +31,7 @@ public bool:InitNativesForwards()
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
 	new Float:EvadeChance = 0.0;
-	EvadeChance = W3GetBuffSumFloat(victim,fDodgeChance);
+	EvadeChance += W3GetBuffSumFloat(victim,fDodgeChance);
 	if(EvadeChance>0.0)
 	{
 		if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)

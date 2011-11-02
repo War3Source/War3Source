@@ -391,6 +391,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetBuffSumFloat");
 	MarkNativeAsOptional("W3GetBuffMinFloat");
 	MarkNativeAsOptional("W3GetBuffMaxFloat");
+	MarkNativeAsOptional("W3GetBuffLastValue");
 	MarkNativeAsOptional("W3GetBuffMinInt");
 	MarkNativeAsOptional("War3_RegisterDelayTracker");
 	MarkNativeAsOptional("War3_TrackDelay");
@@ -1238,6 +1239,7 @@ native Float:W3GetBuffStackedFloat(client,W3Buff:buffindex); //get buff stacked 
 native Float:W3GetBuffSumFloat(client,W3Buff:buffindex);
 native Float:W3GetBuffMinFloat(client,W3Buff:buffindex);
 native Float:W3GetBuffMaxFloat(client,W3Buff:buffindex);
+native W3GetBuffLastValue(client,W3Buff:buffindex);
 native W3GetBuffMinInt(client,W3Buff:buffindex);
 
 //calculate player speed next frame

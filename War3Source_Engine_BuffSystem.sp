@@ -32,7 +32,7 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-
+	
 	InitiateBuffPropertiesArray(BuffProperties);
 	
 	
@@ -60,9 +60,10 @@ public bool:InitNativesForwards()
 	CreateNative("W3GetBuffSumFloat",NW3GetBuffSumFloat);
 	CreateNative("W3GetBuffMinFloat",NW3GetBuffMinFloat);
 	CreateNative("W3GetBuffMaxFloat",NW3GetBuffMaxFloat);
-
+	
 	CreateNative("W3GetBuffMinInt",NW3GetBuffMinInt);
-
+	CreateNative("W3GetBuffLastValue",NW3GetBuffLastValue);
+	
 	CreateNative("W3ResetAllBuffRace",NW3ResetAllBuffRace);
 	CreateNative("W3ResetBuffRace",NW3ResetBuffRace);
 	
@@ -86,9 +87,9 @@ public Native_War3_SetBuff(Handle:plugin,numParams)
 		new any:value=GetNativeCell(4);
 		SetBuff(client,buffindex,raceid+W3GetItemsLoaded(),value); //ofsetted
 		/*if(raceid==0){
-			new String:buf[64];
-			GetPluginFilename(plugin, buf, sizeof(buf));
-			ThrowError("warning, war3_setbuff passed zero raceid %s",buf);
+		new String:buf[64];
+		GetPluginFilename(plugin, buf, sizeof(buf));
+		ThrowError("warning, war3_setbuff passed zero raceid %s",buf);
 		}*/
 	}
 }
@@ -103,9 +104,9 @@ public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
 		SetBuff(client,buffindex,itemid,value); //not offseted
 		
 		/*if(itemid==0){
-			new String:buf[64];
-			GetPluginFilename(plugin, buf, sizeof(buf));
-			ThrowError("warning, war3_setbuffitem passed zero itemid %s",buf);
+		new String:buf[64];
+		GetPluginFilename(plugin, buf, sizeof(buf));
+		ThrowError("warning, war3_setbuffitem passed zero itemid %s",buf);
 		}*/
 	}
 }
@@ -120,9 +121,9 @@ public Native_War3_SetBuffItem2(Handle:plugin,numParams) //buff is from an item
 		SetBuff(client,buffindex,W3GetItemsLoaded()+War3_GetRacesLoaded()+itemid,value); //not offseted
 		
 		/*if(itemid==0){
-			new String:buf[64];
-			GetPluginFilename(plugin, buf, sizeof(buf));
-			LogError("warning, war3_setbuffitem2 passed zero itemid %s",buf);
+		new String:buf[64];
+		GetPluginFilename(plugin, buf, sizeof(buf));
+		LogError("warning, war3_setbuffitem2 passed zero itemid %s",buf);
 		}*/
 	}
 }
@@ -160,6 +161,9 @@ public NW3GetMagicArmorMulti(Handle:plugin,numParams) {
 	
 	return _:MagicArmorMulti(GetNativeCell(1));
 }
+public NW3GetBuffLastValue(Handle:plugins,numParams) {
+	return GetBuffLastValue(GetNativeCell(1),GetNativeCell(2));
+}
 public NW3GetBuffHasTrue(Handle:plugin,numParams) {
 	//all one true bools are cached
 	return _:GetBuffHasOneTrue(GetNativeCell(1),GetNativeCell(2)); //returns bool
@@ -173,13 +177,13 @@ public NW3GetBuffSumFloat(Handle:plugin,numParams) {
 	return _:GetBuffSumFloat(GetNativeCell(1),GetNativeCell(2)); 
 }
 public NW3GetBuffMinFloat(Handle:plugin,numParams) {
-   return _:GetBuffMinFloat(GetNativeCell(1),GetNativeCell(2)); 
+	return _:GetBuffMinFloat(GetNativeCell(1),GetNativeCell(2)); 
 }
 public NW3GetBuffMaxFloat(Handle:plugin,numParams) {
-   return _:GetBuffMaxFloat(GetNativeCell(1),GetNativeCell(2)); 
+	return _:GetBuffMaxFloat(GetNativeCell(1),GetNativeCell(2)); 
 }
 public NW3GetBuffMinInt(Handle:plugin,numParams) {
-   return GetBuffMinInt(GetNativeCell(1),GetNativeCell(2)); 
+	return GetBuffMinInt(GetNativeCell(1),GetNativeCell(2)); 
 }
 
 public NW3ResetAllBuffRace(Handle:plugin,numParams) {
@@ -210,7 +214,7 @@ public NW3GetBuffLoopLimit(Handle:plugin,numParams) {
 
 
 public Action:cmdbufflist(client,args){
-
+	
 	if(args==1){
 		new String:arg[32];
 		GetCmdArg(1,arg,sizeof(arg));
@@ -226,7 +230,7 @@ public Action:cmdbufflist(client,args){
 				War3_GetRaceShortname(i-ItemsLoaded,name,sizeof(name));
 			}
 			W3Log("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
-		
+			
 		}
 	}
 }
@@ -240,7 +244,7 @@ public OnClientPutInServer(client){
 		ResetBuff(client,W3Buff:buffindex);
 	}
 	
-
+	
 	//SDKHook(client, SDKHook_PreThink, OnPreThink);
 	//SDKHook(client, SDKHook_PostThinkPost, OnPreThink);
 	//SDKHook(client,SDKHook_PostThinkPost,SDK_Forwarded_PostThinkPost);
@@ -262,11 +266,11 @@ SetBuff(client,W3Buff:buffindex,itemraceindex,value)
 	W3SetVar(EventArg3,value); 
 	W3CreateEvent(W3EVENT:OnBuffChanged,client);
 	
-	DoCalculateBuffCache(client,buffindex);
+	DoCalculateBuffCache(client,buffindex,itemraceindex);
 }
 /*
 GetBuff(client,W3Buff:buffindex,itemraceindex){
-	return buffdebuff[client][buffindex][itemraceindex];
+return buffdebuff[client][buffindex][itemraceindex];
 }*/
 ///REMOVE SINGLE BUFF FROM ALL RACES
 ResetBuff(client,W3Buff:buffindex){
@@ -278,10 +282,10 @@ ResetBuff(client,W3Buff:buffindex){
 		{
 			buffdebuff[client][buffindex][i]=BuffDefault(buffindex);
 			
-			DoCalculateBuffCache(client,buffindex);
+			DoCalculateBuffCache(client,buffindex,i);
 		}
 		W3ReapplySpeed(client);
-
+		
 	}
 }
 //RESET SINGLE BUFF OF SINGLE RACE
@@ -290,12 +294,12 @@ ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,particularraceitemindex){
 	{
 		buffdebuff[client][buffindex][particularraceitemindex]=BuffDefault(buffindex);
 		
-		DoCalculateBuffCache(client,buffindex);
+		DoCalculateBuffCache(client,buffindex,particularraceitemindex);
 		W3ReapplySpeed(client);
 	}
 }
 
-DoCalculateBuffCache(client,W3Buff:buffindex){
+DoCalculateBuffCache(client,W3Buff:buffindex,particularraceitemindex){
 	///after we set it, we do an entire calculation to cache its value ( on selected buffs , mainly bools we test for HasTrue )
 	switch(BuffCacheType(buffindex)){
 		case DoNotCache: {}
@@ -306,6 +310,7 @@ DoCalculateBuffCache(client,W3Buff:buffindex){
 		case fMaximum: BuffCached[client][buffindex]=CalcBuffMax(client,buffindex);
 		case fMinimum: BuffCached[client][buffindex]=CalcBuffMin(client,buffindex);
 		case iMinimum: BuffCached[client][buffindex]=CalcBuffMinInt(client,buffindex);
+		case iLastValue: BuffCached[client][buffindex]=CalcBuffRecentValue(client,buffindex,particularraceitemindex);
 	}
 }
 
@@ -457,8 +462,34 @@ stock CalcBuffSumFloat(client,W3Buff:buffindex)
 	return -1;
 }
 
+//Returns the most recent value set by any race
+stock CalcBuffRecentValue(client,W3Buff:buffindex,race)
+{
+	if(ValidBuff(buffindex))
+	{
+		new value = buffdebuff[client][buffindex][race];
+		if(value!=-1)	
+			return value;
+	}
+	LogError("invalid buff index");
+	return -1;
+}
+
 
 ////////getting cached values!
+stock GetBuffLastValue(client,W3Buff:buffindex)
+{
+	if(ValidBuff(buffindex))
+	{	
+		if(BuffCacheType(buffindex)!=iLastValue){
+			ThrowError("Tried to get cached value when buff index (%d) should not cache this type (%d)",buffindex,BuffCacheType(buffindex));
+		}
+		return BuffCached[client][buffindex];
+		
+	}
+	LogError("invalid buff index");
+	return false;
+}
 stock bool:GetBuffHasOneTrue(client,W3Buff:buffindex)
 {
 	if(ValidBuff(buffindex))
@@ -572,7 +603,7 @@ Float:PhysicalArmorMulti(client){
 	return (1.0-(armor*0.06)/(1.0+armor*0.06));
 }
 Float:MagicArmorMulti(client){
-
+	
 	new Float:armor=Float:GetBuffSumFloat(client,fArmorMagic);
 	//PrintToServer("armor=%f",armor);
 	if(armor<0.0){
@@ -643,7 +674,7 @@ stock ValidBuff(W3Buff:buffindex){
 	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit){
 		return true;
 		
-	
+		
 	}
 	ThrowError("invalid buff index (%d)",buffindex);
 	return false;
