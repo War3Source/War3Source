@@ -135,12 +135,8 @@ public OnWar3EventPostHurt(victim, attacker, damage)
 		}
 		DamageMultiplier = DamageMultiplier + 1.0;
 		new newdamage = RoundToFloor(DamageMultiplier * damage);
-		War3_ChatMessage(attacker,"%i",newdamage);
-		War3_ChatMessage(attacker,"%i",DamageIncrease);
 		newdamage = newdamage + DamageIncrease;
 		War3_DealDamage(victim,newdamage,attacker,_,"weapon_crit");
-		
-		War3_ChatMessage(attacker,"Your damage was increased from %i to %i",damage,newdamage);
 	}
 	
 }
