@@ -14,6 +14,21 @@ forward OnSkillLevelChanged(client,race,skill,newskilllevel);
 will now forward on a skill change, with the old race having the newskilllevel of 0
 (zeros out the "apparrent" skill level of that race) 
 and the new race's skill level's come subsequently. 
+
+shopmenu2 workaround:
+<dvander> DarkEnergy, the problem is that there are two memory management systems competing, Handles and explicit C++, and at the intersection there is a bug in the menu code
+<dvander> that is rather complicated
+<dvander> so you get a double-free
+<dvander> DarkEnergy, you could work around this by cheating a little
+<dvander> DarkEnergy: HandleSecurity sec(myself, myself);
+<dvander> handlesys->FreeHandle(menu->GetHandle(), &sec);
+<dvander> to totally prevent leaks, you'll want something a little more accurate:
+<dvander> if (menu->GetHandle() == BAD_HANDLE) {
+<dvander>     menu->Destroy();
+<dvander> } else {
+<dvander>     handlesys->FreeHandle(menu->GetHandle(), &sec);
+<dvander> }
+<dvander> to make sure i got the security line right, youll want to make sure that handlesys actually returns a non-error value
  
 B4
 
