@@ -92,13 +92,13 @@ cell_t W3ExtShowShop2(IPluginContext *pCtx, const cell_t *params)
 }
 
 
-/*
+
 void Shopmenu2Handler::OnMenuSelect2(IBaseMenu *menu,
 	int client,
 	unsigned int menuitem,
 	unsigned int item_on_page)
 { 
-	if(false){
+	
 	static bool once=true;
 	ItemDrawInfo info;
 	const char* info2=menu->GetItemInfo(menuitem,&info);
@@ -214,16 +214,37 @@ void Shopmenu2Handler::OnMenuSelect2(IBaseMenu *menu,
 		//W3SaveItem2ExpireTime(client,item);
 	}
 	once=false;
-	}
+	
 }
-*/
+
 
 void Shopmenu2Handler::OnMenuEnd(IBaseMenu *menu, MenuEndReason reason)
 {
-	DP("destroy menu OnMenuEnd");
-	menu->Destroy();
-	DP("destroy menu OnMenuEnd OK");
+	static bool once=true;
+	if(once) ERR("destroy menu OnMenuEnd");
+	
+	HandleSecurity sec(NULL, myself->GetIdentity());
+	//if its a handle, we free it. if its not a handle, we destroy it (WTF are u talking about?)
+	if (menu->GetHandle() == BAD_HANDLE) { //make sure this handle doesnt exist
+		ERR("menu->GetHandle() == BAD_HANDLE 222");
+		menu->Destroy();
+		 
+	 } else {
+		 ERR("handlesys->FreeHandle 222");
+	     g->handlesys->FreeHandle(menu->GetHandle(), &sec);
+	 }
+	//menu->Destroy();
+	//menu->Destroy();
+	if(once) ERR("destroy menu OnMenuEnd OK");
+	once=false;
 }
+ void Shopmenu2Handler::OnMenuDestroy(IBaseMenu *menu)
+{
+	static bool once=true;
+	if(once) ERR("OnMenuDestroy called");
+	once=false;
+}
+
 
 
 #ifdef failed
