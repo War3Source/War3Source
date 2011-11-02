@@ -166,8 +166,8 @@ check:
 
 extension: check $(OBJ_LINUX)
 	$(CPP) $(INCLUDE) $(OBJ_LINUX) $(LINK) -o $(BIN_DIR)/$(BINARY) -ldl
-	cp Release.orangebox/$(PROJECT).ext.so $(SRCDS)/cstrike/addons/sourcemod/extensions/$(PROJECT).ext.so
-
+	#cp Release.orangebox/$(PROJECT).ext.so $(SRCDS)/cstrike/addons/sourcemod/extensions/$(PROJECT).ext.so
+	cp Release.orangebox/$(PROJECT).so $(SRCDS_BASE)/css/cstrike/addons/sourcemod/extensions/$(PROJECT).so
 debug:
 	$(MAKE) -f Makefile all DEBUG=true
 
