@@ -64,6 +64,7 @@ struct myglobalstruct
 	vector<string> filepath;
 
 	IPluginManager *pluginmanager;
+	IHandleSys *handlesys;
 };
 extern myglobalstruct *g;
 

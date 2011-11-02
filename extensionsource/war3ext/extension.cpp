@@ -120,7 +120,7 @@ bool War3Ext::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	m_OurTestForward=forwards->CreateForward("W3ExtTestForward",ET_Ignore,2,NULL,Param_Any, Param_String);
 
 	g->sharesys=sharesys;
-
+	g->handlesys=handlesys;
 
 
 	g_pSM->BuildPath(Path_SM, path, sizeof(path), "extensions");
