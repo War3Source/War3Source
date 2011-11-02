@@ -31,8 +31,8 @@ public bool:InitNativesForwards()
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
 	new Float:EvadeChance = 0.0;
-	EvadeChance = W3GetBuffStackedFloat(victim,fDodgeChance);
-	if(EvadeChance<1.0)
+	EvadeChance = W3GetBuffSumFloat(victim,fDodgeChance);
+	if(EvadeChance>0.0)
 	{
 		if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 		{
@@ -48,7 +48,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 				Call_PushFloat(chance);
 				Call_Finish(dummyresult);
 				
-				if(!Hexed(victim,false) && chance>=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
+				if(!Hexed(victim,false) && chance<=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
 				{
 					W3FlashScreen(victim,RGBA_COLOR_BLUE);
 					

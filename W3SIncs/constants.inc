@@ -344,8 +344,9 @@ enum W3Buff
 	iCritMode, //Default 0 (all damage qualifies for crit) 1 (bullet damage crit) 2 (grenade damage crit) 3 (melee damage crit) 4 (melee and bullet crit) 5 (melee and grenade crit) 6 (bullet and grenade crit)
 	fCritModifier, //Sets the critical strike modifer, default 1.0
 	
-	iDamageBonus,
-	fDamageModifier,
+	iDamageMode, //Default 0 (all damage qualifies for damage increase) 1 (bullet damage damage increase) 2 (grenade damage damage increase) 3 (melee damage damage increase) 4 (melee and bullet damage increase) 5 (melee and grenade damage increase) 6 (bullet and grenade damage increase)
+	iDamageBonus, //Gives a direct increase to damage done
+	fDamageModifier, //Gives a % increase to damage done
 	
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
 	
@@ -501,8 +502,8 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iAdditionalMaxHealth ][DefaultValue]=0;
 	buffpropertiesarray[ iAdditionalMaxHealth ][BuffStackType]=iAbsolute;
 	
-	buffpropertiesarray[ fDodgeChance ][DefaultValue]=1.0;
-	buffpropertiesarray[ fDodgeChance ][BuffStackType]=fStacked;
+	buffpropertiesarray[ fDodgeChance ][DefaultValue]=0.0;
+	buffpropertiesarray[ fDodgeChance ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ bDodgeMode	  ][DefaultValue]=0;
 	buffpropertiesarray[ bDodgeMode   ][BuffStackType]=bHasOneTrue;
@@ -510,8 +511,8 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fVampirePercent][DefaultValue]=0.0;
 	buffpropertiesarray[ fVampirePercent][BuffStackType]=fAbsolute;
 	
-	buffpropertiesarray[ fBashChance ][DefaultValue]=1.0;
-	buffpropertiesarray[ fBashChance ][BuffStackType]=fStacked;
+	buffpropertiesarray[ fBashChance ][DefaultValue]=0.0;
+	buffpropertiesarray[ fBashChance ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ iBashDamage ][DefaultValue]=0;
 	buffpropertiesarray[ iBashDamage ][BuffStackType]=iAbsolute;
@@ -520,7 +521,7 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iBashDuration ][BuffStackType]=iAbsolute;
 	
 	buffpropertiesarray[ fCritChance ][DefaultValue]=0.0;
-	buffpropertiesarray[ fCritChance ][BuffStackType]=fStacked;
+	buffpropertiesarray[ fCritChance ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ iCritMode ][DefaultValue]=0;
 	buffpropertiesarray[ iCritMode ][BuffStackType]=iAbsolute;
@@ -531,8 +532,11 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iDamageBonus ][DefaultValue]=0;
 	buffpropertiesarray[ iDamageBonus ][BuffStackType]=iAbsolute;
 	
-	buffpropertiesarray[ fDamageModifier ][DefaultValue]=0;
+	buffpropertiesarray[ fDamageModifier ][DefaultValue]=1.0;
 	buffpropertiesarray[ fDamageModifier ][BuffStackType]=fAbsolute;
+	
+	buffpropertiesarray[ iDamageMode ][DefaultValue]=0;
+	buffpropertiesarray[ iDamageMode ][BuffStackType]=iAbsolute;
 	
 	
 	//check that all indexes have been set

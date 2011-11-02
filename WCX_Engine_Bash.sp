@@ -27,11 +27,11 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 		new ateam=GetClientTeam(attacker);
 		if(vteam!=ateam)
 		{
-			new Float:percent = W3GetBuffStackedFloat(attacker,fBashChance);
-			if((percent < 1.0) && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills))
+			new Float:percent = W3GetBuffSumFloat(attacker,fBashChance);
+			if((percent > 0.0) && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills))
 			{
 				// Bash
-				if(GetRandomFloat(0.0,1.0)>=percent && !W3GetBuffHasTrue(victim,bBashed) && IsPlayerAlive(attacker))
+				if(GetRandomFloat(0.0,1.0)<=percent && !W3GetBuffHasTrue(victim,bBashed) && IsPlayerAlive(attacker))
 				{
 					new race=War3_GetRace(victim);
 					PlayerRace[victim] = race;

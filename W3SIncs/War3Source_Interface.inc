@@ -228,6 +228,7 @@ stock GameL4DAny(){
 /**********************
  * CALL THIS IN ASKPLUGINLOAD if you are using any of these or have native errors
  */ 
+ 
 stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("SHHasHero"); 
 	MarkNativeAsOptional("SHGetHeroesClientCanHave"); 

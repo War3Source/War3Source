@@ -14,6 +14,7 @@ new String:explosionSound1[]="war3source/particle_suck1.wav";
 
 new BeamSprite;
 new HaloSprite;
+
 new ExplosionModel;
 new SuicidedAsTeam[MAXPLAYERSCUSTOM];
 new Float:SuicideLocation[MAXPLAYERSCUSTOM][3];
@@ -40,7 +41,7 @@ public Plugin:myinfo =
 	url = "http://0xf.org"
 }
 
-public OnPluginStart()
+public OnMapStart()
 {
 	if(War3_GetGame()==Game_TF)
 	{
