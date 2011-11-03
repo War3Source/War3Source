@@ -226,11 +226,11 @@ void Shopmenu2Handler::OnMenuEnd(IBaseMenu *menu, MenuEndReason reason)
 	HandleSecurity sec(NULL, myself->GetIdentity());
 	//if its a handle, we free it. if its not a handle, we destroy it (WTF are u talking about?)
 	if (menu->GetHandle() == BAD_HANDLE) { //make sure this handle doesnt exist
-		ERR("menu->GetHandle() == BAD_HANDLE 222");
+		 if(once) ERR("menu->GetHandle() == BAD_HANDLE 222");
 		menu->Destroy();
 		 
 	 } else {
-		 ERR("handlesys->FreeHandle 222");
+		if(once) ERR("handlesys->FreeHandle 222");
 	     g->handlesys->FreeHandle(menu->GetHandle(), &sec);
 	 }
 	//menu->Destroy();
