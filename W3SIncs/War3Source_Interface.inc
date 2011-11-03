@@ -459,6 +459,11 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetWardBehaviorByShortname");
 	MarkNativeAsOptional("War3_CreateWard");
 	MarkNativeAsOptional("War3_GetWardBehavior");
+	MarkNativeAsOptional("War3_GetWardLocation");
+	MarkNativeAsOptional("War3_GetWardInterval");
+	MarkNativeAsOptional("War3_GetWardRadius");
+	MarkNativeAsOptional("War3_GetWardOwner");
+	MarkNativeAsOptional("War3_GetWardData");
 	MarkNativeAsOptional("War3_RemoveWard");
 	
 
@@ -1603,13 +1608,18 @@ native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float
  * @return Ward behavior ID or -1 if the ward does not exist
  */
 native _:War3_GetWardBehavior(wardindex);
+native War3_GetWardLocation(wardindex, Float:location[]);
+native Float:War3_GetWardInterval(wardindex);
+native _:War3_GetWardRadius(wardindex);
+native _:War3_GetWardOwner(wardindex);
+native War3_GetWardData(wardindex, any:data[]);
 
 /**
  * Removes a ward given an id
- * @param id: ward id
+ * @param wardindex: ward id
  * @return True if the ward was removed. False otherwise
  */
-native bool:War3_RemoveWard(id);
+native bool:War3_RemoveWard(wardindex);
 
 
 

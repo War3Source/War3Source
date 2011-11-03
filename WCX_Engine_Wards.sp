@@ -78,6 +78,11 @@ public bool:InitNativesForwards()
 	
 	CreateNative("War3_CreateWard", Native_War3_CreateWard);
 	CreateNative("War3_GetWardBehavior", Native_War3_GetWardBehavior);
+	CreateNative("War3_GetWardLocation", Native_War3_GetWardLocation);
+	CreateNative("War3_GetWardInterval", Native_War3_GetWardInterval);
+	CreateNative("War3_GetWardRadius", Native_War3_GetWardRadius);
+	CreateNative("War3_GetWardOwner", Native_War3_GetWardOwner);
+	CreateNative("War3_GetWardData", Native_War3_GetWardData);
 	CreateNative("War3_RemoveWard", Native_War3_RemoveWard);
 	return true;
 }
@@ -180,7 +185,38 @@ public _:Native_War3_GetWardBehavior(Handle:plugin,numParams)
 	return WardBehavior[id];
 }
 
-public bool:Native_War3_RemoveWard(Handle:plugin,numParams)
+public Native_War3_GetWardLocation(Handle:plugin,numParams)
+{
+	new id = GetNativeCell(1);
+	SetNativeArray(2,WardLocation[id],3);
+}
+
+public Native_War3_GetWardInterval(Handle:plugin,numParams)
+{
+	new id = GetNativeCell(1);
+	return WardInterval[id];
+}
+
+public _:Native_War3_GetWardRadius(Handle:plugin,numParams)
+{
+	new id = GetNativeCell(1);
+	return WardRadius[id];
+}
+
+public _:Native_War3_GetWardOwner(Handle:plugin,numParams)
+{
+	new id = GetNativeCell(1);
+	return WardOwner[id];
+}
+
+public Native_War3_GetWardData(Handle:plugin,numParams)
+{
+	new id = GetNativeCell(1);
+	
+	SetNativeArray(2,WardData[id],MAXWARDDATA);
+}
+
+public Native_War3_RemoveWard(Handle:plugin,numParams)
 {
 	return bool:RemoveWard(GetNativeCell(1));
 }
@@ -324,11 +360,8 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	Call_Finish();
 	
 	new Float:start_pos[3];
-	new Float:end_pos[3];
 	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
-	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
 	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
-	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
 	new Float:BeamXY[3];
 	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
 	new Float:BeamZ= BeamXY[2];
