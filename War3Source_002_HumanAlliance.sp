@@ -92,9 +92,11 @@ public OnRaceChanged(client,oldrace,newrace)
 		
 	}
 }
+
+	
+}
 public ActivateSkills(client)
 {
-
 	new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);
 	if(skill_devo)
 	{
@@ -117,7 +119,6 @@ public ActivateSkills(client)
 		TE_SendToAll();
 		
 		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
-		
 	}
 	
 	new skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);
@@ -129,8 +130,6 @@ public ActivateSkills(client)
 	new Float:bash=BashChance[skill_bash];
 	
 	War3_SetBuff(client,fBashChance,thisRaceID,bash);
-	
-
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
@@ -165,7 +164,8 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
 	if(race==thisRaceID)
 	{
-		new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[newskilllevel]:InvisibilityAlphaTF[newskilllevel];
+		ActivateSkills(client); //on a race change, this is called 4 times, but that performance hit is insignificant
+	/*	new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[newskilllevel]:InvisibilityAlphaTF[newskilllevel];
 		if(newskilllevel>0 && IsPlayerAlive(client))// dont tell them if they are dead
 		{
 			War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
@@ -173,13 +173,12 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 			new Float:bash=BashChance[skill_bash];
 			
 			War3_SetBuff(client,fBashChance,thisRaceID,bash);
-		}
+		}*/
 	}
 }
 
 public OnWar3EventSpawn(client){
-	new race=War3_GetRace(client);
-	if(race==thisRaceID)
+	if(War3_GetRace(client)==thisRaceID)
 	{
 		ActivateSkills(client);
 	}
