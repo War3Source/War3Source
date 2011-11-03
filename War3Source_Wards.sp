@@ -50,12 +50,12 @@ public OnWardPulse(wardindex) {
 
 	if (wardindex==WardIndex[DAMAGE]) {
 		beamcolor={255,0,0,160};
+		doVisualEffect(wardindex,beamcolor);
 	}
 	else if (wardindex==WardIndex[HEAL]) {
 		beamcolor={0,255,0,160};
+		doVisualEffect(wardindex,beamcolor);
 	}
-	
-	doVisualEffect(wardindex,beamcolor);
 }
 
 doVisualEffect(wardindex,beamcolor[4]) {
