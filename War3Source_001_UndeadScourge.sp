@@ -71,6 +71,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 		}
 		else 
 		{
+		//DP("undad ");
 			W3MsgUltNotLeveled(client);
 		}
 	}

@@ -192,7 +192,7 @@ public Action:SuicideAction(Handle:timer,any:client)
 
 public Native_War3_Teleport(Handle:plugin,numParams)
 {
-	new client = GetNativeCell(client);
+	new client = GetNativeCell(1);
 	if(client>0)
 	{
 		if(IsPlayerAlive(client)&&!inteleportcheck[client])

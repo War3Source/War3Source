@@ -94,7 +94,6 @@ public OnRaceChanged(client,oldrace,newrace)
 }
 
 	
-}
 public ActivateSkills(client)
 {
 	new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);

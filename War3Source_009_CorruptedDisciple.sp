@@ -220,7 +220,7 @@ public OnWar3EventSpawn(client){
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
-	if(/*race==thisRaceID &&*/ pressed && IsPlayerAlive(client))
+	if(race==thisRaceID && pressed && IsPlayerAlive(client))
 	{
 		//if(
 		
