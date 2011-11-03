@@ -62,19 +62,16 @@ public OnMapStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
-	if(pressed)
+	if(pressed && War3_GetRace(client)==thisRaceID && IsPlayerAlive(client) && !Silenced(client))
 	{
-		if(race==thisRaceID&&IsPlayerAlive(client)&&!Silenced(client))
+		new ult_level=War3_GetSkillLevel(client,race,SKILL_SUICIDE);
+		if(ult_level>0)
 		{
-			new ult_level=War3_GetSkillLevel(client,race,SKILL_SUICIDE);
-			if(ult_level>0)
-			{
-				ForcePlayerSuicide(client);
-			}
-			else
-			{
-				W3MsgUltNotLeveled(client);
-			}
+			ForcePlayerSuicide(client);
+		}
+		else 
+		{
+			W3MsgUltNotLeveled(client);
 		}
 	}
 }

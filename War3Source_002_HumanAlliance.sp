@@ -94,45 +94,43 @@ public OnRaceChanged(client,oldrace,newrace)
 }
 public ActivateSkills(client)
 {
-	if(War3_GetRace(client)==thisRaceID)
+
+	new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);
+	if(skill_devo)
 	{
-		
-		new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);
-		if(skill_devo)
+		// Devotion Aura
+		new hpadd=DevotionHealth[skill_devo];
+		new Float:vec[3];
+		GetClientAbsOrigin(client,vec);
+		vec[2]+=20.0;
+		new ringColor[4]={0,0,0,0};
+		new team=GetClientTeam(client);
+		if(team==2)
 		{
-			// Devotion Aura
-			new hpadd=DevotionHealth[skill_devo];
-			new Float:vec[3];
-			GetClientAbsOrigin(client,vec);
-			vec[2]+=20.0;
-			new ringColor[4]={0,0,0,0};
-			new team=GetClientTeam(client);
-			if(team==2)
-			{
-				ringColor={255,0,0,255};
-			}
-			else if(team==3)
-			{
-				ringColor={0,0,255,255};
-			}
-			TE_SetupBeamRingPoint(vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
-			TE_SendToAll();
-			
-			War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
-			
+			ringColor={255,0,0,255};
 		}
+		else if(team==3)
+		{
+			ringColor={0,0,255,255};
+		}
+		TE_SetupBeamRingPoint(vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
+		TE_SendToAll();
 		
-		new skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);
-		new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[skilllevel]:InvisibilityAlphaTF[skilllevel];
-		
-		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
-		
-		new skill_bash=War3_GetSkillLevel(client,thisRaceID,SKILL_BASH);
-		new Float:bash=BashChance[skill_bash];
-		
-		War3_SetBuff(client,fBashChance,thisRaceID,bash);
+		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
 		
 	}
+	
+	new skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);
+	new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[skilllevel]:InvisibilityAlphaTF[skilllevel];
+	
+	War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
+	
+	new skill_bash=War3_GetSkillLevel(client,thisRaceID,SKILL_BASH);
+	new Float:bash=BashChance[skill_bash];
+	
+	War3_SetBuff(client,fBashChance,thisRaceID,bash);
+	
+
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
