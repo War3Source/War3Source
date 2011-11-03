@@ -39,8 +39,8 @@ new Handle:g_OnWardPulseHandle;
 new Handle:g_OnWardTriggerHandle;
 new Handle:g_OnWardExpireHandle;
 
-new BeamSprite =-1;
-new HaloSprite =-1;
+//new BeamSprite =-1;
+//new HaloSprite =-1;
 
 public Plugin:myinfo = 
 {
@@ -53,13 +53,13 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	//BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
+	//HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 	
 	/* Default Ward Behavior (0) */
-	skillName[0] = "None";
-	skillShortname[0] = "none";
-	skillDescription[0] = "Default behavior";
+	behaviorName[0] = "None";
+	behaviorShortname[0] = "none";
+	behaviorDescription[0] = "Default behavior";
 }
 
 public bool:InitNativesForwards()
@@ -72,7 +72,7 @@ public bool:InitNativesForwards()
 	CreateNative("War3_CreateWardBehavior", Native_War3_CreateWardBehavior);
 	CreateNative("War3_GetWardBehaviorsLoaded", Native_War3_GetWardBehaviorsLoaded);
 	CreateNative("War3_GetWardBehaviorName", Native_War3_GetWardBehaviorName);
-	CreateNative("War3_GetWardBehaviorShortname", Native_War3_GetWardBehaviorshortname);
+	CreateNative("War3_GetWardBehaviorShortname", Native_War3_GetWardBehaviorShortname);
 	CreateNative("War3_GetWardBehaviorDesc", Native_War3_GetWardBehaviorDesc);
 	CreateNative("War3_GetWardBehaviorByShortname", Native_War3_GetWardBehaviorByShortname);
 	
@@ -151,7 +151,7 @@ public _:Native_War3_CreateWard(Handle:plugin,numParams)
 			GetNativeString(6,behavior,sizeof(behavior));
 			WardBehavior[i] = GetWardBehaviorByShortname(behavior);
 			
-			GetNativeArray(7,WardData[i],sizeof(WardData[i]));
+			GetNativeArray(7,WardData[i],MAXWARDDATA);
 			
 			WardSelfInflict[i] = bool:GetNativeCell(8);
 			WardAffinity[i] = GetNativeCell(9);
@@ -182,7 +182,7 @@ public _:Native_War3_GetWardBehavior(Handle:plugin,numParams)
 
 public bool:Native_War3_RemoveWard(Handle:plugin,numParams)
 {
-	return RemoveWard(GetNativeCell(1));
+	return bool:RemoveWard(GetNativeCell(1));
 }
 
 public Action:timedRemoveWard(Handle:timer,any:id) {
@@ -206,7 +206,7 @@ GetBehaviorName(id,String:retstr[],maxlen){
 }
 
 GetBehaviorDesc(id,String:retstr[],maxlen){
-	new num=strcopy(retstr, maxlen, behaviorDesc[id]);
+	new num=strcopy(retstr, maxlen, behaviorDescription[id]);
 	return num;
 }
 
@@ -226,7 +226,7 @@ bool:BehaviorExistsByShortname(String:shortname[]) {
 CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 {
 	if(BehaviorExistsByShortname(shortname)){
-		new oldid=GetBehaviorIDByShortname(shortname);
+		new oldid=GetWardBehaviorByShortname(shortname);
 		PrintToServer("Ward Behavior already exists: %s, returning old behavior id %d",shortname,oldid);
 		return oldid;
 	}
@@ -243,7 +243,7 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 	if (strlen(name) > WARDNAMELEN) {
 		LogError("[War3] Ward Behavior (%s) name exceeds max length; truncated to %d characters",name,WARDNAMELEN);
 	}
-	if (strlen(tskillshortname) > WARDSNAMELEN) {
+	if (strlen(shortname) > WARDSNAMELEN) {
 		LogError("[War3] Ward Behavior (%s) shortname exceeds max length; truncated to %d characters",shortname,WARDSNAMELEN);
 	}
 	if (strlen(desc) > WARDDESCLEN) {
@@ -316,11 +316,11 @@ public OnWar3EventSpawn(client)
 	}
 }
 
-public Action:wardPulse(Handle:timer,any:id) {
+public Action:wardPulse(Handle:timer,any:wardindex) {
 	new owner = WardOwner[wardindex];
 	
 	Call_StartForward(g_OnWardPulseHandle);
-	Call_PushCell(id);
+	Call_PushCell(wardindex);
 	Call_Finish();
 	
 	new Float:start_pos[3];
@@ -363,7 +363,7 @@ public Action:wardPulse(Handle:timer,any:id) {
 				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
 				{
 					Call_StartForward(g_OnWardTriggerHandle);
-					Call_PushCell(id);
+					Call_PushCell(wardindex);
 					Call_PushCell(i);
 					Call_PushCell(owner);
 					Call_Finish();
