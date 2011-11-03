@@ -1873,13 +1873,13 @@ forward OnW3DodgePost(victim,attacker);
 forward OnW3DodgePre(victim,attacker,Float:chance);
 
 //Fired every time a ward is created
-forward OnWardCreated(wardindex);
+forward OnWardCreated(wardindex,behaviorID);
 
 //Fired every time a ward "pulses"
-forward OnWardPulse(wardindex);
+forward OnWardPulse(wardindex,behaviorID);
 
 //Fired every time a ward "pulses" when a valid target is in range
-forward OnWardTrigger(wardindex,victim,owner);
+forward OnWardTrigger(wardindex,victim,owner,behaviorID);
 
 //Fired every time a ward is removed
 forward OnWardExpire(wardindex,owner,behaviorID);

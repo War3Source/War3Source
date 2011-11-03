@@ -64,9 +64,9 @@ public OnPluginStart()
 
 public bool:InitNativesForwards()
 {
-	g_OnWardCreatedHandle=CreateGlobalForward("OnWardCreated",ET_Ignore,Param_Cell);
-	g_OnWardPulseHandle=CreateGlobalForward("OnWardPulse",ET_Ignore,Param_Cell);
-	g_OnWardTriggerHandle=CreateGlobalForward("OnWardTrigger",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+	g_OnWardCreatedHandle=CreateGlobalForward("OnWardCreated",ET_Ignore,Param_Cell,Param_Cell);
+	g_OnWardPulseHandle=CreateGlobalForward("OnWardPulse",ET_Ignore,Param_Cell,Param_Cell);
+	g_OnWardTriggerHandle=CreateGlobalForward("OnWardTrigger",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 	g_OnWardExpireHandle=CreateGlobalForward("OnWardExpire",ET_Ignore,Param_Cell);
 
 	CreateNative("War3_CreateWardBehavior", Native_War3_CreateWardBehavior);
@@ -168,6 +168,7 @@ public _:Native_War3_CreateWard(Handle:plugin,numParams)
 			
 			Call_StartForward(g_OnWardCreatedHandle);
 			Call_PushCell(i);
+			Call_PushCell(WardBehavior[i]);
 			Call_Finish();
 			return i;
 		}
@@ -357,6 +358,7 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	
 	Call_StartForward(g_OnWardPulseHandle);
 	Call_PushCell(wardindex);
+	Call_PushCell(WardBehavior[i]);
 	Call_Finish();
 	
 	new Float:start_pos[3];
@@ -399,6 +401,7 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 					Call_PushCell(wardindex);
 					Call_PushCell(i);
 					Call_PushCell(owner);
+					Call_PushCell(WardBehavior[i]);
 					Call_Finish();
 				}
 			}

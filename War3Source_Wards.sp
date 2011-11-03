@@ -45,14 +45,14 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 	}
 }
 
-public OnWardPulse(wardindex) {
+public OnWardPulse(wardindex,behaviorID) {
 	new beamcolor[4];
 
-	if (wardindex==WardIndex[DAMAGE]) {
+	if (behaviorID==WardIndex[DAMAGE]) {
 		beamcolor={255,0,0,160};
 		doVisualEffect(wardindex,beamcolor);
 	}
-	else if (wardindex==WardIndex[HEAL]) {
+	else if (behaviorID==WardIndex[HEAL]) {
 		beamcolor={0,255,0,160};
 		doVisualEffect(wardindex,beamcolor);
 	}
@@ -80,21 +80,21 @@ doVisualEffect(wardindex,beamcolor[4]) {
 	TE_SendToAll();
 }
 
-public OnWardTrigger(wardindex,victim,owner) {
+public OnWardTrigger(wardindex,victim,owner,behaviorID) {
 	decl data[MAXWARDDATA];
 	decl Float:VictimPos[3];
 	
 	War3_GetWardData(wardindex,data);
 	GetClientAbsOrigin(victim,VictimPos);
 
-	if (wardindex==WardIndex[DAMAGE]) {
+	if (behaviorID==WardIndex[DAMAGE]) {
 		new damage = data[0];
 		
 		War3_DealDamage(victim,damage,owner,_,"weapon_wards");
 		VictimPos[2]+=65.0;
 		War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
 	}
-	else if (wardindex==WardIndex[HEAL]) {
+	else if (behaviorID==WardIndex[HEAL]) {
 		new healamt = data[0];
 		
 		new cur_hp=GetClientHealth(victim);
