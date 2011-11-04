@@ -466,6 +466,9 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetWardData");
 	MarkNativeAsOptional("War3_RemoveWard");
 	
+	//String Math
+	MarkNativeAsOptional("War3_StringMath");
+	
 
 }
 
@@ -1623,6 +1626,7 @@ native bool:War3_RemoveWard(wardindex);
 
 
 
+native War3_StringMath(String:equation[]);
 
 
 

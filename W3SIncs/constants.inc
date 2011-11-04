@@ -332,6 +332,7 @@ enum W3Buff
 	fHPRegenDeny, //set true to deny hp regen
 	iAdditionalMaxHealth,   ///increase / decrease in maxhp
 	
+	//44
 	fDodgeChance, //Registers a chance to dodge, (Note: 0.7 would equal a 30% chance to dodge)
 	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
@@ -339,7 +340,7 @@ enum W3Buff
 	
 	fBashChance, //Registers a chance to bash, (Note: 0.7 would equal a 30% chance to bash)
 	iBashDamage, //Does a certain amount of damage when you bash an enemy (more similar to warcraft 3's bash, default 0)
-	iBashDuration, //Sets the duration of bash's stun
+	fBashDuration, //Sets the duration of bash's stun
 	
 	fCritChance, //Registers a chance to crit, (Note: 0.7 would equal a 30% chance to crit)
 	iCritMode, //Default 0 (all damage qualifies for crit) 1 (bullet damage crit) 2 (grenade damage crit) 3 (melee damage crit) 4 (melee and bullet crit) 5 (melee and grenade crit) 6 (bullet and grenade crit)
@@ -519,8 +520,8 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iBashDamage ][DefaultValue]=0;
 	buffpropertiesarray[ iBashDamage ][BuffStackType]=iAbsolute;
 	
-	buffpropertiesarray[ iBashDuration ][DefaultValue]=0.25;
-	buffpropertiesarray[ iBashDuration ][BuffStackType]=iAbsolute;
+	buffpropertiesarray[ fBashDuration ][DefaultValue]=0.0;
+	buffpropertiesarray[ fBashDuration ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ fCritChance ][DefaultValue]=0.0;
 	buffpropertiesarray[ fCritChance ][BuffStackType]=fAbsolute;

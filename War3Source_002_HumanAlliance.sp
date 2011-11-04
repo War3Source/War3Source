@@ -83,7 +83,7 @@ public OnRaceChanged(client,oldrace,newrace)
 	{
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0); // if we aren't their race anymore we shouldn't be controlling their alpha
 		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
-		War3_SetBuff(client,fBashChance,thisRaceID,1.0);
+		War3_SetBuff(client,fBashChance,thisRaceID,0.0);
 		
 	}
 	else
@@ -164,15 +164,6 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 	if(race==thisRaceID)
 	{
 		ActivateSkills(client); //on a race change, this is called 4 times, but that performance hit is insignificant
-	/*	new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[newskilllevel]:InvisibilityAlphaTF[newskilllevel];
-		if(newskilllevel>0 && IsPlayerAlive(client))// dont tell them if they are dead
-		{
-			War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
-			new skill_bash=War3_GetSkillLevel(client,thisRaceID,SKILL_BASH);
-			new Float:bash=BashChance[skill_bash];
-			
-			War3_SetBuff(client,fBashChance,thisRaceID,bash);
-		}*/
 	}
 }
 
