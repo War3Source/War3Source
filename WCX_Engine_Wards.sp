@@ -358,7 +358,7 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	
 	Call_StartForward(g_OnWardPulseHandle);
 	Call_PushCell(wardindex);
-	Call_PushCell(WardBehavior[i]);
+	Call_PushCell(WardBehavior[wardindex]);
 	Call_Finish();
 	
 	new Float:start_pos[3];
