@@ -41,6 +41,11 @@ public Plugin:myinfo =
 	url = "http://0xf.org"
 }
 
+public OnPluginStart()
+{
+	LoadTranslations("w3s.race.human.phrases");
+}
+
 public OnMapStart()
 {
 	if(War3_GetGame()==Game_TF)
