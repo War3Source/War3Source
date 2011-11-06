@@ -33,6 +33,8 @@ new g_iBetTeamCT;
 
 new Handle:g_hSmBet = INVALID_HANDLE;
 new Handle:g_hMaximumBet = INVALID_HANDLE;
+new Handle:g_hMinimumBet = INVALID_HANDLE;
+new Handle:g_hBetRatio = INVALID_HANDLE;
 
 public OnPluginStart()
 {
@@ -42,6 +44,8 @@ public OnPluginStart()
 	
 	g_hSmBet = CreateConVar("sm_goldbet_enable","1","Enables or disables the goldbet War3Source plugin",_,true,0.0,true,0.0);
 	g_hMaximumBet = CreateConVar("sm_goldbets_maximum","40","Maximum bet value");
+	g_hMinimumBet = CreateConVar("sm_goldbets_minimum","5","Minimum bet value");
+	g_hBetRatio = CreateConVar("sm_goldbets_betratio","5","Defines the amount you can win per gold you bet");
 	HookConVarChange(g_hSmBet, ConVarChange_SmBet);
 	
 	RegConsoleCmd("say", Command_Say);
@@ -79,6 +83,11 @@ public Action:Command_Say(client, args)
 	if (!g_bEnabled)
 		return Plugin_Continue;
 	
+	if(g_bPlayerBet[client])
+	{
+		PrintToChat(client, "\x04[Goldbets]\x01 %t", "Already Bet");
+		return Plugin_Handled;
+	}
 	new String:szText[192];
 	GetCmdArgString(szText, sizeof(szText));
 	
@@ -149,6 +158,14 @@ public Action:Command_Say(client, args)
 				PrintToChat(client, "\x04[GoldBets]\x01 %t","Above_Max_Bet",iMaxBet);
 			}
 			
+			new iMinBet = GetConVarInt(g_hMinimumBet);
+			
+			if(iAmount < iMinBet)
+			{
+				PrintToChat(client, "\x04[GoldBets]\x01 %t","Below_Min_Bet",iMinBet);
+				return Plugin_Handled;
+			}
+			
 			if (iAmount < 1)
 			{
 				PrintToChat(client, "\x04[GoldBets]\x01 %t", "Invalid_Bet_Amount");
@@ -216,7 +233,6 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 	} else {
 		WinAmount = g_iBetTeamCT;
 	}
-	new bool:bPotTaken = false;
 	for (new i = 1; i <= iMaxClients; i++)
 	{
 		if (IsClientInGame(i) && g_bPlayerBet[i])
@@ -225,9 +241,14 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 			{
 				//Please ignore.
 				new AmountWon = RoundToFloor(float(g_iTotalPot) * (float(g_iPlayerBetData[i][BET_AMOUNT]) / float(WinAmount)));
+				new BetRatio = GetConVarInt(g_hBetRatio);
+				if(AmountWon > (BetRatio * g_iPlayerBetData[i][BET_AMOUNT]))
+				{
+					AmountWon = BetRatio * g_iPlayerBetData[i][BET_AMOUNT];
+				}
+				g_iTotalPot -= AmountWon;
 				SetMoney(i,GetMoney(i) + AmountWon);
 				PrintToChat(i, "\x04[GoldBets]\x01 %t", "Bet_Won", AmountWon, g_iPlayerBetData[i][BET_AMOUNT],g_iTotalPot);
-				bPotTaken = true;
 			}
 			else
 			{
@@ -236,11 +257,6 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 		}
 		
 		g_bPlayerBet[i] = false;		
-	}
-	if(bPotTaken)
-	{
-		bPotTaken = false;
-		g_iTotalPot = 0;
 	}
 	
 	g_iBetTeamT = 0;
