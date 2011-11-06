@@ -213,6 +213,7 @@ public Action:Slowfall2Timer(Handle:timer,any:client)
 			else
 			{
 				War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);
+				//DP("nograv2");
 				//previousvec[2]=vec[2];
 			}
 		}
@@ -222,9 +223,10 @@ public Action:Slowfall2Timer(Handle:timer,any:client)
 
 public OnRaceChanged(client,oldrace,newrace)
 {
-	if(oldrace!=thisRaceID)
+	if(oldrace==thisRaceID)
 	{
 		War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);
+		//DP("nograv");
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0);
 		W3ResetPlayerColor(client,thisRaceID);
 		IsInTribunal[client]=false;
