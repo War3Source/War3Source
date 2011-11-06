@@ -204,6 +204,7 @@ public Action:Slowfall2Timer(Handle:timer,any:client)
 			{
 				new skilllevel_levi=War3_GetSkillLevel(client,thisRaceID,SKILL_SLOWFALL);
 				new Float:gravity=SlowfallGravity[skilllevel_levi];
+				//DP("set %f",gravity);
 				War3_SetBuff(client,fLowGravitySkill,thisRaceID,gravity);
 				if(!IsInvis(client)){
 					AttachThrowAwayParticle(client, GetApparentTeam(client)==TEAM_RED?"teleporter_red_entrance":"teleporter_blue_entrance", darkvec, "", 1.0);

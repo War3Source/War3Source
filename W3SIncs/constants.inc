@@ -288,6 +288,7 @@ enum W3Buff
 	bDoNotInvisWeapon,
 	bInvisWeaponOverride, //set true to use override amount, ONLY 1 RACE SHALL USE THIS AT A TIME PER CLIENT
 	iInvisWeaponOverrideAmount, ///amolunt of 0-255 , do not have to set back to 255, just set bInvisWeaponOverride to false
+	///11
 	
 	fMaxSpeed, //for increasing speeds only! MUST BE MORE THAN 1.0
 	fMaxSpeed2, //for increasing speeds only!, added onto fMaxSpeed buff, MUST BE MORE THAN 1.0
