@@ -8,11 +8,11 @@
 public SHONLY(){}
 
 // War3Source stuff
-new Float:teleportpos[66][3];
+//new Float:teleportpos[66][3];
 new thisRaceID;
-new BeamSprite,HaloSprite;
+//new BeamSprite,HaloSprite;
 //new String:Rasengang[]="SH/Rasengang.wav";
-new Raattacker[66];
+//new Raattacker[66];
 public Plugin:myinfo = 
 {
 	name = "SH Hero Naruto",
@@ -28,8 +28,8 @@ public OnPluginStart()
 }
 public OnMapStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	//BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
+	//HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 	//War3_PrecacheSound(Rasengang);
 }
 
@@ -50,12 +50,12 @@ public OnSHLoadHeroOrItemOrdered(num)
 }
 
 new Float:oldpos[66][3];
-new Float:dirRasen[3];
-new Float:endpos[3];
-new Float:startpos[3];
-new ClientTracer;
-new Float:distanceRasen=500.0;
-new Float:angleRasen[3];
+//new Float:dirRasen[3];
+//new Float:endpos[3];
+//new Float:startpos[3];
+//new ClientTracer;
+//new Float:distanceRasen=500.0;
+//new Float:angleRasen[3];
 public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
 	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
