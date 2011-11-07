@@ -1838,14 +1838,20 @@ native W3CreateEvent(W3EVENT:event,client);
 
 //simple system for stopping actions, send a specific event with optinal player, those hooking can use W3Deny() to deny
 forward OnW3Denyable(W3DENY:event,client);
-native W3Denied(W3DENY:event,client); //returns FALSE if NOT DENIED
+native bool:W3Denied(W3DENY:event,client); //returns FALSE if NOT DENIED
+stock bool:W3Denyable(W3DENY:event,client){
+	return !W3Denied(event,client);
+}
 native W3Deny();
 
 stock bool:CanSelectRace(client,race){
 	W3SetVar(EventArg1,race);
-	new bool:value=!W3Denied(DN_CanSelectRace,client);
+	new bool:value=W3Denyable(DN_CanSelectRace,client);
+	//DP("dp %d",value);
 	if(value==false && W3IsDeveloper(client)){
+		//DP("dp2 %d",value);
 		War3_ChatMessage(client,"You are normally not allowed to select this race, but since you are developer we will allow you to select this race");
+		
 		return true;
 	}
 	return value;
@@ -2668,23 +2674,24 @@ stock PrintPluginError(Handle:plugin){
 }
 
 ///find a "string" in a war3cvar that is delimited by commas "rubbish,string" = true
-stock W3FindStringInCvar(cvarid,String:findme[]){
-	decl String:cvarstr[1000];
-	decl String:exploded[256][256];
+stock bool:W3FindStringInCvar(cvarid,String:findme[],max=9999){
+	decl String:cvarstr[100];
+	decl String:exploded[32][32];
 	
 	W3GetCvar(cvarid,cvarstr,sizeof(cvarstr));
 	
 	new num;
 	if(strlen(cvarstr)>0){
 		num=ExplodeString(cvarstr,",",exploded,256,256);
-		for(new i=0;i<num;i++){
+		for(new i=0;i<num && i<max;i++){
 			//PrintToServer("'%s' compared to: '%s' num%d",exploded[i],itemShort,num);
-			if(StrEqual(exploded[i],itemShort,false)){
+			if(StrEqual(exploded[i],findme,false)){
 				//PrintToServer("TRUE");
 				return true;
 			}
 		}
 	}
+	return false;
 }
 
 

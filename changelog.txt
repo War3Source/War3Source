@@ -5,6 +5,15 @@
 
 
 B5
+//ownz
+dark elf gravity leak
+
+class restrictions. MAXIMUM OF 2 classes. 
+IF YOU DONT LIKE THIS LIMIT, SUGGEST CHANGES TO THE RACE, 
+or i will come to your house and blow your greedy brains out.
+war3 undead_restrictclass "spy"
+
+race restrict checking moved from changerace to race restrictions engine
 
 //Necavi
 

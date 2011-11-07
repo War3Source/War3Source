@@ -1,5 +1,6 @@
 
 #include <sourcemod>
+#include <tf2>
 #include "W3SIncs/War3Source_Interface"
 
 
@@ -32,7 +33,7 @@ public OnW3Denyable(W3DENY:event,client){
 		new min_level=W3GetRaceMinLevelRequired(race_selected);
 		if(min_level<0) min_level=0;
 		
-		if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
+		if(min_level!=0&&min_level>total_level)
 		{
 			War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
 			return W3Deny();
@@ -44,7 +45,7 @@ public OnW3Denyable(W3DENY:event,client){
 		new String:requiredflagstr[32];
 		W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
 		
-		if(!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
+		if(!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)){
 			
 			new AdminId:admin = GetUserAdmin(client);
 			if(admin == INVALID_ADMIN_ID) //flag is required and this client is not admin
@@ -72,8 +73,63 @@ public OnW3Denyable(W3DENY:event,client){
 				}
 			}
 		}
+		
+		///MAX PER TEAM CHECK
+		if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
+			if(GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
+				//if(!W3IsDeveloper(client)){   
+				War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)));
+				
+				new cvar=W3GetRaceMaxLimitTeamCvar(race_selected,GetClientTeam(client));
+				new String:cvarstr[64];
+				if(cvar>-1){
+					W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
+				}
+				cvar=W3FindCvar(cvarstr);
+				new String:cvarvalue[64];
+				if(cvar>-1){
+					W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
+				}
+				
+				//W3Log("race %d blocked on client %d due to restrictions limit %d  %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
+				return W3Deny();
+				//}
+				
+			}
+		}
+		
+		/*
+		enum TFClassType
+{
+	TFClass_Unknown = 0,
+	TFClass_Scout,
+	TFClass_Sniper,
+	TFClass_Soldier,
+	TFClass_DemoMan,
+	TFClass_Medic,
+	TFClass_Heavy,
+	TFClass_Pyro,
+	TFClass_Spy,
+	TFClass_Engineer
+};*/
+		
+		////TF CLASS CHECK
+		if(GameTF()){
+			new String:classlist[][32]={"unknown","scout","sniper","soldier","demoman","medic","heavy","pyro","spy","engineer"};
+			new class=_:TF2_GetPlayerClass(client);
+			new String:classstring[32];
+			strcopy(classstring,sizeof(classstring),classlist[class]);
+			
+			new cvarid=W3GetRaceCell(race_selected,ClassRestrictionCvar);
+			//DP("cvar %d %s",cvarid,cvarstring);
+			if(W3FindStringInCvar(cvarid,classstring,2)){
+				//DP("deny");
+				return W3Deny();
+			}
+		}
+		
 		//DP("passed");
 	
 	}
-	return 0;
+	return false;
 }

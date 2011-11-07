@@ -703,8 +703,8 @@ CreateRaceEnd(raceid){
 			RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)");
 			
 			new temp;
-			Format(cvarstr,sizeof(cvarstr),"%s_resrictclass",shortname);
-			temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma, ie 'sniper,demoman'");
+			Format(cvarstr,sizeof(cvarstr),"%s_restrictclass",shortname);
+			temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma. MAXIMUM OF 2!! list: scout,sniper,soldier,demoman,medic,heavy,pyro,spy,engineer");
 			W3SetRaceCell(raceid,ClassRestrictionCvar,temp);
 			
 			// create war3sourceraces structure, shouldn't be harmful if already exists

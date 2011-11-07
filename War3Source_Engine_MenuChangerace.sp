@@ -215,7 +215,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
 			
-			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected);
+			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
 			
 			if(allowChooseRace==false){
 				War3Source_ChangeRaceMenu(client);//derpy hooves
@@ -302,31 +302,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 				allowChooseRace=false;
 				
 			}
-			if(allowChooseRace&&GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
-				if(GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
-					if(!W3IsDeveloper(client)){   
-						War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)));
-						
-						new cvar=W3GetRaceMaxLimitTeamCvar(race_selected,GetClientTeam(client));
-						new String:cvarstr[64];
-						if(cvar>-1){
-							W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
-						}
-						cvar=W3FindCvar(cvarstr);
-						new String:cvarvalue[64];
-						if(cvar>-1){
-							W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
-						}
-						
-						W3Log("race %d blocked on client %d due to restrictions limit %d (select changeracemenu) %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
-			
-						War3Source_ChangeRaceMenu(client);
-						allowChooseRace=false;
-						
-					}
-				}
-			}
-				
+		
 				
 				
 				
