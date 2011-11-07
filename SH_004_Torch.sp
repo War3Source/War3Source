@@ -15,7 +15,7 @@ public SHONLY(){}
 
 // War3Source stuff
 new thisRaceID;
-new BurnSprite,HaloSprite;
+new BurnSprite; //,HaloSprite;
 new shots[66];
 
 public Plugin:myinfo = 
@@ -35,7 +35,7 @@ public OnPluginStart()
 public OnMapStart()
 {
 	BurnSprite=PrecacheModel("materials/sprites/fire1.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	//HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 }
 
 public OnSHLoadHeroOrItemOrdered(num)
@@ -80,7 +80,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 				GetClientAbsOrigin(target,targpos);
 				TE_SetupBeamPoints(pos, targpos, BurnSprite, BurnSprite, 0, 8, 0.5, 10.0, 10.0, 10, 10.0, {255,255,255,255}, 70); 
 				TE_SendToAll();
-				IgniteEntity(target,3);
+				IgniteEntity(target,3.0);
 				targpos[2]+=50;
 				TE_SetupGlowSprite(targpos,BurnSprite,1.0,1.9,255);
 				TE_SendToAll();
