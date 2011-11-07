@@ -1152,7 +1152,7 @@
 	}
 	"touching a hostage"
 	{
-		"ru"		"ранение заложника"
+		"ru"		"попытку спасения заложника"
 	}
 	"killing a hostage"
 	{
