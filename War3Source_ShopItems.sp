@@ -299,7 +299,7 @@ public OnItemLost(client,item){ //deactivate passives , client may have disconne
 	{
 		War3_SetBuffItem(client,fLowGravityItem,shopItem[SOCK],1.0);
 	}
-	else if(item==shopItem[HEALTH]&&ValidPlayer(client,true))
+	else if(item==shopItem[HEALTH]&&ValidPlayer(client))
 	{
 		War3_SetBuffItem(client,iAdditionalMaxHealth,shopItem[HEALTH],0);
 		
