@@ -93,8 +93,7 @@ public bool:InitNativesForwards()
 	FHOnW3TakeDmgBullet=CreateGlobalForward("OnW3TakeDmgBullet",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 
 	
-	g_OnWar3EventPostHurtFH=CreateGlobalForward("OnWar3EventPostHurt",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
-	g_OnW3EventPostHurtFH=CreateGlobalForward("OnW3EventPostHurt",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+	g_OnWar3EventPostHurtFH=CreateGlobalForward("OnWar3EventPostHurt",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 
 	return true;
 }
@@ -320,15 +319,10 @@ public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
 	Call_PushCell(victim);
 	Call_PushCell(attacker);
 	Call_PushCell(damage);
-	Call_Finish(dummyresult);
-	
-	//new forward
-	Call_StartForward(g_OnW3EventPostHurtFH);
-	Call_PushCell(victim);
-	Call_PushCell(attacker);
-	Call_PushCell(damage);
 	Call_PushCell(g_CurDamageIsWarcraft);
 	Call_Finish(dummyresult);
+	
+
 	
 	W3SetVar(SmEvent,oldevent); //restore on stack , if any
 	g_CanDealDamage=old_CanDealDamage;

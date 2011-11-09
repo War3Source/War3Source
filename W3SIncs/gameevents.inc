@@ -146,6 +146,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 	
 	if (War3_IsL4DEngine() && War3_IsCommonInfected(uid_entity))
 	{
+		W3VarArr[DeathRace]=War3_GetRace(victimIndex);
 		new Handle:oldevent=W3GetVar(SmEvent);
 		W3SetVar(SmEvent,event); //stacking on stack 
 		
@@ -153,7 +154,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		//W3CreateEvent(OnDeathPre, uid_entity);
 		
 		//post death event actual forward
-		DoForward_OnWar3EventDeath(uid_entity, attackerIndex);
+		DoForward_OnWar3EventDeath(uid_entity, attackerIndex,W3VarArr[DeathRace]);
 		
 		W3SetVar(SmEvent,oldevent); //restore on stack , if any
 		return;
@@ -200,7 +201,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		W3CreateEvent(OnDeathPre,victimIndex);
 		
 		//post death event actual forward
-		DoForward_OnWar3EventDeath(victimIndex,attackerIndex);
+		DoForward_OnWar3EventDeath(victimIndex,attackerIndex,W3VarArr[DeathRace]);
 		
 		W3SetVar(SmEvent,oldevent); //restore on stack , if any
 		//DP("restore event %d",event);

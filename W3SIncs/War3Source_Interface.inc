@@ -851,7 +851,7 @@ native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,Str
 native War3_GetWar3DamageDealt();
 
 
-///is last damage a bullet first triggered damage? works on posthurt and dmgall
+///is last damage a bullet first triggered damage? works on posthurt and sdkhookdmgall
 native W3GetDamageIsBullet();
 
 native W3ForceDamageIsBullet();
@@ -1871,16 +1871,11 @@ stock W3DoLevelCheck(client){
 forward OnWar3EventSpawn(client);
 
 //when player dies, fires only in war3 mode
-forward OnWar3EventDeath(victim,attacker);
+forward OnWar3EventDeath(victim,attacker,deathrace);
 
-//New forward that replaces OnWar3EventDeath to add showing the deathrace
-forward OnW3EventDeath(victim,attacker,deathrace);
 
 //very generic damage event
-forward OnWar3EventPostHurt(victim,attacker,dmgamount);
-
-//Adds War3 damage bool, preventing the need for constant W3IsDamageWarcraft() lookups
-forward OnW3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft);
+forward OnWar3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft);
 
 //Fired after a player dodges, useful primarily for attaching effects
 forward OnW3DodgePost(victim,attacker);
