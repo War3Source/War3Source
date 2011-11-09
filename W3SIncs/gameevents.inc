@@ -285,6 +285,10 @@ CheckPendingRace(client){
 			War3_SetRace(client,pendingrace); 
 		}
 	}
+	///wasnt pending
+	else if(War3_GetRace(client)==0){
+		W3CreateEvent(DoShowChangeRaceMenu,client);
+	}
 }
 
 

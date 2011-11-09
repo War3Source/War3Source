@@ -1,5 +1,5 @@
 
-#include "../DO NOT COMPILE"
+#include "../DO NOT COMPILE, use the one from latest release"
 /**********************
  * DO NOT COMPILE THIS FILE BY YOURSELF, use the .smx provided in the compiled folder.
  * This file is required for war3 extensions, and must be not be tampered with.

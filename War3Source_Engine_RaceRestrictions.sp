@@ -1,6 +1,7 @@
 
 #include <sourcemod>
-#include <tf2>
+
+
 #include "W3SIncs/War3Source_Interface"
 
 

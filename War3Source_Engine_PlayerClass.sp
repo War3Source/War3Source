@@ -89,6 +89,10 @@ public NWar3_SetRace(Handle:plugin,numParams){
 	//set old race
 	new client=GetNativeCell(1);
 	new newrace=GetNativeCell(2);
+	if(newrace<0||newrace>War3_GetRacesLoaded()){
+		W3LogError("WARNING SET INVALID RACE for client %d to race %d",client,newrace);
+		return;
+	}
 	if (client > 0 && client <= MaxClients)
 	{
 		new oldrace=p_properties[client][CurrentRace];
@@ -171,7 +175,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
 		}
 	}
 	
-	
+	return;
 }
 public NWar3_GetRace(Handle:plugin,numParams){
 	if(W3()){
