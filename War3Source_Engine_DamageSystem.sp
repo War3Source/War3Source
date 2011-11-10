@@ -21,8 +21,6 @@ new Handle:FHOnW3TakeDmgAll;
 new Handle:FHOnW3TakeDmgBullet;
 
 new Handle:g_OnWar3EventPostHurtFH;
-new Handle:g_OnW3EventPostHurtFH;
-
 
 new g_CurDamageType=-99;
 new g_CurInflictor=-99; //variables from sdkhooks, natives retrieve them if needed

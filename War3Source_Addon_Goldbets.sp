@@ -56,6 +56,8 @@ public OnPluginStart()
 	CreateTimer(5.0, Timer_DelayedHooks);
 	
 	AutoExecConfig(true, "teambets");
+	
+	CreateTimer(60.0,Timer_Advertise,_,TIMER_REPEAT);
 }
 
 public ConVarChange_SmBet(Handle:convar, const String:oldValue[], const String:newValue[])
@@ -73,10 +75,7 @@ public Action:Timer_DelayedHooks(Handle:timer)
 	}
 }
 
-public OnMapStart()
-{
-	CreateTimer(15.0,Timer_Advertise,_,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
-}
+
 
 public Action:Command_Say(client, args)
 {

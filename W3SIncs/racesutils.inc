@@ -13,7 +13,7 @@ CheckRaceTeamLimit(raceid,team){
 	for(new i=1;i<=MaxClients;i++){
 	    if(ValidPlayer(i))
 		{
-			if(War3_GetRace(i)==raceid)
+			if(War3_GetRace(i)==raceid&&!W3IsDeveloper(i))
 			{
 				if(GetClientTeam(i)==team)
 				{
