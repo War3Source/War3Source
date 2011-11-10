@@ -272,22 +272,29 @@ CheckPendingRace(client){
 	{
 		W3SetPendingRace(client,-1);
 		
-		if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&
-		GetRacesOnTeam(pendingrace,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client))
-		&&!W3IsDeveloper(client))
-		{   //already at limit
-			War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client)));
-			W3Log("race %d blocked on client %d due to restrictions limit (CheckPendingRace)",pendingrace,client);
-			W3CreateEvent(DoShowChangeRaceMenu,client);
-		}
-		else{
-			
+		
+		/*GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&
+		GetRacesOnTeam(pendingrace,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client))*/
+		if(	CanSelectRace(client,pendingrace)||W3IsDeveloper(client)){
 			War3_SetRace(client,pendingrace); 
 		}
+		else
+		{   //already at limit
+			//War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client)));
+			//W3Log("race %d blocked on client %d due to restrictions limit (CheckPendingRace)",pendingrace,client);
+			W3CreateEvent(DoShowChangeRaceMenu,client);
+		}
+		
 	}
 	///wasnt pending
 	else if(War3_GetRace(client)==0){
 		W3CreateEvent(DoShowChangeRaceMenu,client);
+	}
+	else if(War3_GetRace(client)>0){
+		if(!CanSelectRace(client,War3_GetRace(client))){
+			War3_SetRace(client,0);
+			
+		}
 	}
 }
 

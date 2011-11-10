@@ -596,8 +596,16 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 		DoForwardOnWar3PlayerAuthed(client);
 		
 		if(War3_GetRace(client)<=0 && desiredRaceOnJoin[client]>0){
+		
+			if(CanSelectRace(client,desiredRaceOnJoin[client])){
+				W3SetPlayerProp(client,RaceSetByAdmin,false);
+				War3_SetRace(client,desiredRaceOnJoin[client]);
+			}
+			else{
+				W3CreateEvent(DoShowChangeRaceMenu,client);
+			}
 		//PrintToServer("shoudl set race? %d client %d",raceDesiredOnJoin,client);
-			new bool:doset=true;
+		/*	new bool:doset=true;
 			if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
 				if(!CanSelectRace(client,desiredRaceOnJoin[client])){
 					doset=false;
@@ -615,10 +623,10 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 			if(doset){ ///player race was set on join, 
 				W3SetPlayerProp(client,RaceSetByAdmin,false);
 				War3_SetRace(client,desiredRaceOnJoin[client]);
-			}
-			else{  ///player race NOT was set on join, show menu
-				W3CreateEvent(DoShowChangeRaceMenu,client);
-			}
+			}*/
+			//else{  ///player race NOT was set on join, show menu
+			//	W3CreateEvent(DoShowChangeRaceMenu,client);
+			//}
 		}
 	}
 }
