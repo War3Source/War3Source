@@ -1,12 +1,9 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
 new m_OffsetActiveWeapon;
 new m_OffsetNextPrimaryAttack;
-new Handle:hSDKWeaponDrop;
 
 new String:weaponsAllowed[MAXPLAYERSCUSTOM][MAXRACES][300];
 new restrictionPriority[MAXPLAYERSCUSTOM][MAXRACES];
@@ -18,8 +15,6 @@ new bool:hasAnyRestriction[MAXPLAYERSCUSTOM]; //if any of the races said client 
 
 new g_iWeaponRateQueue[MAXPLAYERSCUSTOM][2]; //ent, client
 new g_iWeaponRateQueueLength;
-
-new bool:zdebug[66];
 
 new timerskip;
 
@@ -48,49 +43,23 @@ public OnPluginStart()
 	{
 		LogError("[War3Source] Error finding active weapon offset.");
 	}
-	
-	if(War3_GetGame()==CS){
-		new Handle:hGameConf = LoadGameConfigFile("plugin.war3source");
-		if(hGameConf == INVALID_HANDLE)
-		{
-			SetFailState("gamedata/plugin.war3source.txt load failed");
-		}
-		
-		StartPrepSDKCall(SDKCall_Player);
-		PrepSDKCall_SetFromConf(hGameConf, SDKConf_Signature, "CSWeaponDrop");
-		PrepSDKCall_AddParameter(SDKType_CBaseEntity, SDKPass_Pointer);
-		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
-		PrepSDKCall_AddParameter(SDKType_Bool, SDKPass_Plain);
-		hSDKWeaponDrop = EndPrepSDKCall();
-		if(hSDKWeaponDrop == INVALID_HANDLE){
-			SetFailState("Unable to find WeaponDrop Signature");
-		}
-		
-		
-		HookEvent("weapon_fire",WeaponFireEvent, EventHookMode_Pre); //CS
-	}
-	if(War3_GetGame()==L4D2){
+	if(War3_GetGame()==CS || War3_GetGame()==L4D2){
 		HookEvent("weapon_fire",WeaponFireEvent, EventHookMode_Pre);
 	}
-	
-	RegConsoleCmd("weapontest",weapontest);
 	RegConsoleCmd("w3dropweapon",cmddroptest);
 }
 
-public Action:weapontest(client,args){
-	zdebug[client]=true;
-}
 public Action:cmddroptest(client,args){
 	if(W3IsDeveloper(client)){
 		War3_WeaponRestrictTo(client, War3_GetRace(client),"weapon_knife",1);
 	}
+	return Plugin_Handled;
 }
-
-
 
 public bool:InitNativesForwards()
 {
 	CreateNative("War3_WeaponRestrictTo",NWar3_WeaponRestrictTo);
+	CreateNative("War3_GetWeaponRestriction",NWar3_GetWeaponRestrict);
 	CreateNative("W3GetCurrentWeaponEnt",NW3GetCurrentWeaponEnt);
 	CreateNative("W3DropWeapon",NW3DropWeapon);
 	
@@ -110,9 +79,8 @@ public NW3DropWeapon(Handle:plugin,numParams)
 	new client = GetNativeCell(1)
 	new wpent = GetNativeCell(2);
 	if (ValidPlayer(client,true) && IsValidEdict(wpent))
-		SDKCall(hSDKWeaponDrop, client, wpent, false, false);
+		SDKHooks_DropWeapon(client, wpent);
 }
-
 
 public NWar3_WeaponRestrictTo(Handle:plugin,numParams)
 {
@@ -130,6 +98,15 @@ public NWar3_WeaponRestrictTo(Handle:plugin,numParams)
 	//PrintIfDebug(client,"%s NEW RESTRICTION: %s",pluginname,restrictedto);
 	strcopy(weaponsAllowed[client][raceid],200,restrictedto);
 	CalculateWeaponRestCache(client);
+}
+
+public NWar3_GetWeaponRestrict(Handle:plugin,numParams)
+{
+	new client=GetNativeCell(1);
+	new raceid=GetNativeCell(2);
+	new String:restrictedto[300];
+	new maxsize=GetNativeCell(4);
+	if(maxsize>0) SetNativeString(3, weaponsAllowed[client][raceid], maxsize, false);
 }
 CalculateWeaponRestCache(client){
 	new num=0;
@@ -154,12 +131,6 @@ CalculateWeaponRestCache(client){
 	timerskip=0; //force next timer to check weapons
 }
 
-
-
-
-
-
-
 public OnClientPutInServer(client){
 	//War3_WeaponRestrictTo(client,0,""); //REMOVE RESTICTIONS ON JOIN
 	new limit=War3_GetRacesLoaded();
@@ -173,11 +144,7 @@ public OnClientPutInServer(client){
 }
 public OnClientDisconnect(client){
 	SDKUnhook(client,SDKHook_WeaponCanUse,OnWeaponCanUse); 
-	zdebug[client]=false;
 }
-
-
-
 
 bool:CheckCanUseWeapon(client,weaponent){
 	decl String:WeaponName[32];
@@ -198,7 +165,6 @@ bool:CheckCanUseWeapon(client,weaponent){
 	return true; //allow
 }
 
-
 public Action:OnWeaponCanUse(client, weaponent)
 {
 	if(hasAnyRestriction[client]){
@@ -211,6 +177,7 @@ public Action:OnWeaponCanUse(client, weaponent)
 	
 	return Plugin_Continue;
 }
+
 public Action:DeciSecondTimer(Handle:h,any:a){
 	timerskip--;
 	if(timerskip<1){
@@ -224,7 +191,6 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 			}
 			
 			}*/
-			
 			if(hasAnyRestriction[client]&&ValidPlayer(client,true)){
 				
 				new String:name[32];
@@ -254,7 +220,7 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 						//PrintIfDebug(client,"            drop");
 						
 						
-						SDKCall(hSDKWeaponDrop, client, wpnent, false, false);
+						SDKHooks_DropWeapon(client, wpnent);
 						AcceptEntityInput(wpnent, "Kill");
 						//UTIL_Remove(wpnent);
 						
@@ -270,18 +236,6 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 		}
 	}
 }
-stock PrintIfDebug(client,String:fmt[],any:...){
-	if(zdebug[client]){
-		
-		
-		decl String:str_out[1024];
-		VFormat(str_out,sizeof(str_out),fmt,3);
-		
-		PrintToConsole(client,str_out);
-	}
-}
-
-
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
@@ -307,9 +261,6 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 	}
 	return Plugin_Continue;
 }
-
-
-
 
 public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
 { 
@@ -338,7 +289,6 @@ public WeaponFireEvent(Handle:event,const String:name[],bool:dontBroadcast)
 	W3SetVar(SmEvent,oldevent);
 }
 
-
 public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &bool:result)
 {
 	// new client = GetClientOfUserId(GetEventInt(event,"userid"));
@@ -361,7 +311,6 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
 }
 
 public OnGameFrame(){
-	
 	if(g_iWeaponRateQueueLength>0)       //see events
 	{
 		decl ent, client, Float:time;
@@ -381,8 +330,3 @@ public OnGameFrame(){
 		g_iWeaponRateQueueLength = 0; 
 	}
 }
-
-
-
-
-

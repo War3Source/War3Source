@@ -399,6 +399,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetAimEndPoint");
 	MarkNativeAsOptional("War3_GetAimTraceMaxLen");
 	MarkNativeAsOptional("War3_WeaponRestrictTo");
+	MarkNativeAsOptional("War3_GetWeaponRestriction");
 	MarkNativeAsOptional("W3GetPhysicalArmorMulti");
 	MarkNativeAsOptional("W3GetMagicArmorMulti");
 	MarkNativeAsOptional("W3GetCurrentWeaponEnt");
@@ -1313,7 +1314,8 @@ native War3_GetAimTraceMaxLen(client,Float:endpos[3],Float:maxdistance);
 //use 1 priorty for ur base race restrictions, USE AT OWN RISK!
 native War3_WeaponRestrictTo(client,raceid,String:onlyallowedweaponsnames[],priority=1);
 
-
+//get weaponlist
+native War3_GetWeaponRestriction(client,raceid,String:buffer[],maxlength);
 
 native Float:W3GetPhysicalArmorMulti(client); //damage multipler for client by accounting for physical armor (warcraft physical armor, not cs armor)
 native Float:W3GetMagicArmorMulti(client); //damage multipler for client by accounting for magic armor
