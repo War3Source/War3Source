@@ -530,7 +530,7 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 		damagestack++;
 		#endif
 		
-		decl String:dmg_str[16];
+		/*decl String:dmg_str[16];
 		IntToString(damage,dmg_str,sizeof(dmg_str));
 		decl String:dmg_type_str[32];
 		IntToString(dmg_type,dmg_type_str,sizeof(dmg_type_str));
@@ -556,7 +556,8 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
 			DispatchKeyValue(victim,"targetname","war3_donthurtme"); //unset the victim as target for damage
 			RemoveEdict(pointHurt);
 			//	PrintToChatAll("%d %d %d",victim,damage,g_CurActualDamageDealt);
-		}
+		}*/
+		SDKHooks_TakeDamage(victim, attacker, attacker, float(damage), dmg_type);
 		//damage has been dealt BY NOW
 		
 		if((WAR3_DMGTYPE==W3DMGTYPE_TRUEDMG||WAR3_DMGTYPE==W3DMGTYPE_MAGIC)&&War3_GetGame()==CS){
