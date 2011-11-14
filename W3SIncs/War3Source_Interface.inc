@@ -1548,7 +1548,7 @@ native W3LogNotError(const String:fmt[],any:...);
 
 
 //Skills
-native War3_SuicideBomber(client, Float:location[], Float:damage, Float:radius, bool:effect=true);
+native War3_SuicideBomber(client, Float:location[], Float:damage, race_skillid, Float:radius, bool:effect=true);
 
 native bool:War3_Teleport(client, Float:distance);
 

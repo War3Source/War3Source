@@ -15,6 +15,9 @@ or i will come to your house and blow your greedy brains out.
 war3 undead_restrictclass "spy"
 
 race restrict checking moved from changerace to race restrictions engine
+checks on join and spawn
+
+checks for race on spawn and will give changerace menu if they dont have a race
 
 forward changes:
 forward OnWar3EventPostHurt(victim,attacker,dmgamount,[[[[[[[bool:isWarcraft]]]]]]]);

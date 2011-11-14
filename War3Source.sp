@@ -109,8 +109,8 @@ And that’s the art of the test!
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.3.4"
-#define REVISION_NUM 12303 //increment every release
+#define VERSION_NUM "1.2.3.5"
+#define REVISION_NUM 12305 //increment every release
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
 //you may add you own name to the END only

@@ -388,7 +388,7 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 				
 				new skill_level=War3_GetSkillLevel(attacker,thisRaceID,SKILL_CONDUIT);
 				
-				if(skill_level>0&&!Hexed(attacker,false)){
+				if(W3GetDamageIsBullet()&&skill_level>0&&!Hexed(attacker,false)){
 					
 					if(ConduitUntilTime[victim]>1.0&&W3Chance(W3ChanceModifier(attacker))){
 						//do nothing, already on conduit

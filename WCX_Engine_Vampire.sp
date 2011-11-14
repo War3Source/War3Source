@@ -14,12 +14,12 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	
+	LoadTranslations("w3s.race.undead.phrases");
 }
 
 public OnWar3EventPostHurt(victim,attacker,damage)
 {
-	if(ValidPlayer(victim)&&ValidPlayer(attacker,true)&&attacker!=victim)
+	if(W3GetDamageIsBullet()&&ValidPlayer(victim)&&ValidPlayer(attacker,true)&&attacker!=victim)
 	{
 		new vteam=GetClientTeam(victim);
 		new ateam=GetClientTeam(attacker);
@@ -35,8 +35,11 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 					new leechhealth=RoundToFloor(damage*Vampire);
 					if(leechhealth>40) leechhealth=40;
 					
-					W3FlashScreen(attacker,RGBA_COLOR_GREEN);	
+					W3FlashScreen(attacker,RGBA_COLOR_GREEN);
+						
 					War3_HealToBuffHP(attacker,leechhealth);
+					PrintToConsole(attacker,"%T","Leeched +{amount} HP",attacker,leechhealth);
+
 				}
 			}
 		}

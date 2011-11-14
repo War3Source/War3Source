@@ -21,6 +21,7 @@ new Float:SuicideLocation[MAXPLAYERSCUSTOM][3];
 new bool:SuicideEffects[MAXPLAYERSCUSTOM];
 new SuicideTeam[MAXPLAYERSCUSTOM];
 new Float:SuicideRadius[MAXPLAYERSCUSTOM];
+new SuicideSkillID[MAXPLAYERSCUSTOM];
 new Float:SuicideDamage[MAXPLAYERSCUSTOM];
 
 new ClientTracer;
@@ -44,6 +45,7 @@ public Plugin:myinfo =
 public OnPluginStart()
 {
 	LoadTranslations("w3s.race.human.phrases");
+	LoadTranslations("w3s.race.undead.phrases");
 }
 
 public OnMapStart()
@@ -86,17 +88,15 @@ public Native_War3_SuicideBomber(Handle:plugin,numParams)
 	new client = GetNativeCell(1);
 	if(SuicidedAsTeam[client]!=GetClientTeam(client))
 		return;
-	SuicideRadius[client] = Float:GetNativeCell(4);
+	
 	SuicideTeam[client] = GetClientTeam(client);
 	GetNativeArray(2,SuicideLocation[client],3);
 	SuicideDamage[client] = Float:GetNativeCell(3);
-	if(numParams==5)
-	{
-		SuicideEffects[client] = bool:GetNativeCell(5);
-	} else {
-		SuicideEffects[client] = false;
-	}
-	CreateTimer(0.15,SuicideAction,client);
+	SuicideSkillID[client] = GetNativeCell(4);
+	SuicideRadius[client] = Float:GetNativeCell(5);
+	SuicideEffects[client] = bool:GetNativeCell(6);
+	
+	CreateTimer(0.10,SuicideAction,client);
 }
 
 public Action:SuicideAction(Handle:timer,any:client)
@@ -173,7 +173,9 @@ public Action:SuicideAction(Handle:timer,any:client)
 					new Float:factor=(radius-distance)/radius;
 					new damage;
 					damage=RoundFloat(SuicideDamage[client]*factor);
-					War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);
+					War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);	
+					W3PrintSkillDmgConsole(x,client,War3_GetWar3DamageDealt(),SuicideSkillID[client]);
+				
 					War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
 					W3FlashScreen(x,RGBA_COLOR_RED);
 				}
