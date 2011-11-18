@@ -612,6 +612,9 @@ public OnUltimateCommand(client,race,bool:pressed)
 				}
 			}
 		}
+		else{
+			W3MsgUltNotLeveled(client);
+		}
 	}
 }
 

@@ -62,7 +62,7 @@ public OnPluginStart()
 }
 public OnWar3EventSpawn(client){
 	//delay then refresh their hints
-	W3Hint(client,_,0.2,"-"); //this is a hackish way of doing it, since it will not refresh if hint string is equal
+	W3Hint(client,_,0.1,"Www.War3Source.Com"); //this is a hackish way of doing it, since it will not refresh if hint string is equal
 }
 public OnWar3Event(W3EVENT:event,client){
 
