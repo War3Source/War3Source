@@ -328,7 +328,7 @@ bool:War3Source_InitNatives()
 
 	CreateNative("W3GetVar",NW3GetVar);
 	CreateNative("W3SetVar",NW3SetVar);
-	
+	CreateNative("W3HasDiedThisFrame",NW3HasDiedThisFrame);
 
 	return true;
 }
@@ -355,4 +355,7 @@ public GetStatsVersion(){
 	//return W3GetStatsVersion();
 }
 
-
+public NW3HasDiedThisFrame(Handle:plugin,numParams){
+	new client=GetNativeCell(1);
+	return ValidPlayer(client)&&bHasDiedThisFrame[client];
+}

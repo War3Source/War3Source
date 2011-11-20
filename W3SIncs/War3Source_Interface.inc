@@ -887,11 +887,14 @@ native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0
 native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);     
 
 
-stock bool:ValidPlayer(client,bool:check_alive=false){
+stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=false){
 	if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client))
 	{
 		if(check_alive && !IsPlayerAlive(client))
 		{
+			return false;
+		}
+		if(alivecheckbyhealth&&GetClientHealth(client)<1){
 			return false;
 		}
 		return true;
@@ -1630,6 +1633,7 @@ native bool:War3_RemoveWard(wardindex);
 
 native War3_StringMath(String:equation[]);
 
+native W3HasDiedThisFrame(client);
 
 
 
@@ -2292,14 +2296,22 @@ public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], a
 	SQLCheckForErrors(hndl,error,"SQLWar3GeneralCallback");
 }
 
-stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]=""){
+//pass me a trie with key "query" = your query into originalqueryTrie
+stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]="",Handle:originalqueryTrie=Handle:0){
+	new String:orignalquerystr[512];
+	if(originalqueryTrie){
+		GetTrieString(originalqueryTrie,"query",orignalquerystr,sizeof(originalqueryTrie));
+		CloseHandle(originalqueryTrie);
+		//DP("closed");
+	}
+	
 	if(!StrEqual("", originalerror))
-		LogError("SQL error: [%s] %s", prependstr, originalerror);
+		LogError("SQL error: [%s] %s QUERY:%s", prependstr, originalerror,orignalquerystr);
 	else if(hndl == INVALID_HANDLE)
 	{
 		decl String:err[512];
 		SQL_GetError(hndl, err, sizeof(err));
-		LogError("SQLCheckForErrors: [%s] %s", prependstr, err);
+		LogError("SQLCheckForErrors: [%s] %s QUERY:%s", prependstr, err,orignalquerystr);
 	}
 }
 

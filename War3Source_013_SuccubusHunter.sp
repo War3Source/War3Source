@@ -22,12 +22,12 @@ new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
 new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 
-new bool:hurt_flag = true;
+//new bool:hurt_flag = true;
 new bool:m_IsULT_TRANSFORMformed[MAXPLAYERSCUSTOM];
 new skulls[MAXPLAYERSCUSTOM];
 new ValveGameEnum:g_GameType;
 //Effects
-new BeamSprite;
+//new BeamSprite;
 new Laser;
 
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
@@ -48,7 +48,7 @@ public OnMapStart()
 {
 	PrecacheSound("npc/fast_zombie/claw_strike1.wav");
 	PrecacheModel("models/gibs/hgibs.mdl", true);
-	BeamSprite=PrecacheModel("materials/sprites/purpleglow1.vmt");
+	//BeamSprite=PrecacheModel("materials/sprites/purpleglow1.vmt");
 	Laser=PrecacheModel("materials/sprites/laserbeam.vmt");
 }
 
@@ -58,7 +58,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	{
 		thisRaceID=War3_CreateNewRaceT("succubus");
 		
-		SKILL_HEADHUNTER = War3_AddRaceSkillT(thisRaceID, "HeadHunter", false);	
+		SKILL_HEADHUNTER = War3_AddRaceSkillT(thisRaceID, "HeadHunter", false,_,"0-20%");	
 		SKILL_TOTEM = War3_AddRaceSkillT(thisRaceID, "TIncantation", false);	
 		SKILL_ASSAULT = War3_AddRaceSkillT(thisRaceID, "ATackle", false);
 		ULT_TRANSFORM = War3_AddRaceSkillT(thisRaceID, "DTransformation", true);
@@ -71,8 +71,8 @@ public OnPluginStart()
 {
 	m_vecVelocity_0 = FindSendPropOffs("CBasePlayer","m_vecVelocity[0]");
 	
-	HookEvent("player_hurt",PlayerHurtEvent);
-	HookEvent("player_death",PlayerDeathEvent);
+	//HookEvent("player_hurt",PlayerHurtEvent);
+	//HookEvent("player_death",PlayerDeathEvent);
 	
 	g_GameType = War3_GetGame();
 	switch (g_GameType)
@@ -201,7 +201,23 @@ public OnWar3EventSpawn(client)
 		}
 	}
 }
-
+public OnWar3EventPostHurt(victim,attacker,damage){
+	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true,true)&&ValidPlayer(attacker,true)&&victim!=attacker){
+		//DP("bullet succ vic alive %d",ValidPlayer(victim,true));
+		new skilllevelheadhunter = War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEADHUNTER);
+		if (skilllevelheadhunter > 0 && !W3HasImmunity(victim,Immunity_Skills)&&!Hexed(attacker))
+		{
+			//DP("health %d",GetClientHealth(victim));
+			new xdamage= RoundFloat(0.2*float(damage) * skulls[attacker]/20 *W3ChanceModifier(attacker));
+			War3_DealDamage(victim,xdamage,attacker,_,"headhunter",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL);
+			
+			W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_HEADHUNTER);
+			//DP("deal %d",xdamage);
+		}
+		
+	}
+}
+/*
 public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	if (hurt_flag == false)
@@ -214,6 +230,7 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 	new attacker = GetClientOfUserId(GetEventInt(event,"attacker"));
 	if (victim && attacker && victim!=attacker) // &&hurt_flag==true)
 	{
+	
 		new race=War3_GetRace(attacker);
 		if (race==thisRaceID)
 		{
@@ -294,9 +311,29 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		}
 	}
 }
-
+*/
+public OnWar3EventDeath(victim,attacker){
+	new skilllevelheadhunter=War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEADHUNTER);
+	if (skilllevelheadhunter &&!Hexed(attacker)&&victim!=attacker)
+	{
+		if (skulls[attacker]<(5*skilllevelheadhunter))
+		{
+			skulls[attacker]++;
+			War3_ChatMessage(attacker,"%T","You gained a SKULL [{amount}/{amount}]",attacker,skulls[attacker],(5*skilllevelheadhunter));
+		}							
+		decl Float:Origin[3], Float:Direction[3];
+		GetClientAbsOrigin(victim, Origin);
+		Direction[0] = GetRandomFloat(-100.0, 100.0);
+		Direction[1] = GetRandomFloat(-100.0, 100.0);
+		Direction[2] = 300.0;
+		Gib(Origin, Direction, "models/gibs/hgibs.mdl");
+	}
+}
+/*
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+DP("death");
+//W3GetVar(SmEvent)
 	#define DF_FEIGNDEATH   32
 	#define DMG_CRITS       1048576    //crits = DAMAGE_ACID
 	
@@ -317,7 +354,7 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		new client = GetClientOfUserId(GetEventInt(event,"attacker"));
 		if (client > 0 && client != victim)
 		{
-			if (War3_GetRace(client) == thisRaceID)
+			if (War3_GetRace(client) == thisRaceID )
 			{
 				new bool:headshot;
 				switch (g_GameType)
@@ -394,7 +431,7 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		}
 	}
 }
-
+*/
 public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	new client=GetClientOfUserId(GetEventInt(event,"userid"));

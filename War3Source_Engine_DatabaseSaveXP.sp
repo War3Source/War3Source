@@ -462,7 +462,9 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				new String:longquery[4000];
 				// Main table query
 				Format(longquery,sizeof(longquery),"INSERT INTO war3source (steamid,name,currentrace,total_level,total_xp) VALUES ('%s','%s','%s','%d','%d')",steamid,name,short_name,total_level,total_xp);
-				SQL_TQuery(hDB,T_CallbackInsertPDataMain,longquery,client);
+				new Handle:querytrie=CreateTrie();
+				SetTrieString(querytrie,"query",longquery);
+				SQL_TQuery(hDB,T_CallbackInsertPDataMain,longquery,querytrie);
 			}
 			
 		}
@@ -478,9 +480,9 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 
 
 //we just tried inserting main data
-public T_CallbackInsertPDataMain(Handle:owner,Handle:query,const String:error[],any:client)
+public T_CallbackInsertPDataMain(Handle:owner,Handle:query,const String:error[],any:querytrie)
 {
-	SQLCheckForErrors(query,error,"T_CallbackInsertPDataMain");
+	SQLCheckForErrors(query,error,"T_CallbackInsertPDataMain",querytrie);
 }
 
 
@@ -703,16 +705,17 @@ War3_SavePlayerRace(client,race)
 			//		Format(longquery,sizeof(longquery),"%s AND level<='%d'",query_buffer,templevel); //only level restrict if not max, iif max or over do not restrict
 			//	}
 			
-			
-			SQL_TQuery(hDB,T_CallbackSavePlayerRace,longquery,client);
+			new Handle:querytrie=CreateTrie();
+			SetTrieString(querytrie,"query",longquery);
+			SQL_TQuery(hDB,T_CallbackSavePlayerRace,longquery,querytrie);
 			//DP("%s",longquery);
 			//ThrowError("END SAVE");
 		}
 	}
 }
-public T_CallbackSavePlayerRace(Handle:owner,Handle:hndl,const String:error[],any:client)
+public T_CallbackSavePlayerRace(Handle:owner,Handle:hndl,const String:error[],any:trie)
 {
-	SQLCheckForErrors(hndl,error,"T_CallbackSavePlayerRace");
+	SQLCheckForErrors(hndl,error,"T_CallbackSavePlayerRace",trie);
 }
 
 
@@ -742,16 +745,17 @@ War3_SavePlayerMainData(client){
 			new String:short[16];
 			War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
 			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",name,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
-			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,client);
-			
+			new Handle:querytrie=CreateTrie();
+			SetTrieString(querytrie,"query",longquery);
+			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,querytrie);
 		}
 	}
 }
 
 //we just tried inserting main data
-public T_CallbackUpdatePDataMain(Handle:owner,Handle:query,const String:error[],any:client)
+public T_CallbackUpdatePDataMain(Handle:owner,Handle:query,const String:error[],any:trie)
 {
-	SQLCheckForErrors(query,error,"T_CallbackUpdatePDataMain");
+	SQLCheckForErrors(query,error,"T_CallbackUpdatePDataMain",trie);
 }
 
 DoForwardOnWar3PlayerAuthed(client){

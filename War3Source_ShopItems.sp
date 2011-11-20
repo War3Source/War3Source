@@ -75,7 +75,7 @@ public OnPluginStart()
 	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	BootsSpeedCvar=CreateConVar("war3_shop_boots_speed","1.2","Boots speed, 1.2 is default");
-	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage",GameTF()?"10":"6","Claws of attack additional damage per bullet (CS) per second (TF)");
+	ClawsAttackCvar=CreateConVar("war3_shop_claws_damage",GameTF()?"10":"6","Claws of attack additional damage per bullet (CS) or per second (TF)");
 	MaskDeathCvar=CreateConVar("war3_shop_mask_percent","0.30","Percent of damage rewarded for Mask of Death, from 0.0 - 1.0");
 	OrbFrostCvar=CreateConVar("war3_shop_orb_speed","0.6","Orb of Frost speed, 1.0 is normal speed, 0.6 default for orb.");
 	TomeCvar=CreateConVar("war3_shop_tome_xp","100","Experience awarded for Tome of Experience.");
@@ -628,13 +628,13 @@ public Action:NoLongerSpawnedViaScroll(Handle:t,any:client){
 public OnWar3EventPostHurt(victim,attacker,damage){
 	if(W3GetDamageIsBullet()&&ValidPlayer(victim)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
-	
+		//DP("bullet 1 claw %d vic alive%d",War3_GetOwnsItem(attacker,shopItem[CLAW]),ValidPlayer(victim,true,true));
 		//new vteam=GetClientTeam(victim);
 		//new ateam=GetClientTeam(attacker);
 		
 		if(!W3HasImmunity(victim,Immunity_Items)&&!Perplexed(attacker))
 		{
-			if(War3_GetOwnsItem(attacker,shopItem[CLAW])) // claws of attack
+			if(War3_GetOwnsItem(attacker,shopItem[CLAW])&&ValidPlayer(victim,true,true)) // claws of attack
 			{
 				new Float:dmg=GetConVarFloat(ClawsAttackCvar);
 				if(dmg<0.0) 	dmg=0.0;

@@ -131,7 +131,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 }
 
 
-public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
+public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	new uid_victim = GetEventInt(event, "userid");
 	new uid_attacker = GetEventInt(event, "attacker");
@@ -157,7 +157,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		DoForward_OnWar3EventDeath(uid_entity, attackerIndex,W3VarArr[DeathRace]);
 		
 		W3SetVar(SmEvent,oldevent); //restore on stack , if any
-		return;
+		return Plugin_Continue;
 	}
 	else
 	{
@@ -184,10 +184,13 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		}
 	}
 	
-	
+	if(bHasDiedThisFrame[victimIndex]>0){
+		return Plugin_Handled;
+	}
+	bHasDiedThisFrame[victimIndex]++;
 	//lastly
 	//DP("died? %d",bHasDiedThisFrame[victimIndex]);
-	if(victimIndex&&!deadringereath&&bHasDiedThisFrame[victimIndex]++==0) //forward to all other plugins last
+	if(victimIndex&&!deadringereath) //forward to all other plugins last
 	{
 
 		W3VarArr[DeathRace]=War3_GetRace(victimIndex);
@@ -210,6 +213,7 @@ public War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBro
 		CheckPendingRace(victimIndex);
 		
 	}
+	return Plugin_Continue;
 }
 public OnGameFrame(){
 	for(new i=1;i<MAXPLAYERSCUSTOM;i++){

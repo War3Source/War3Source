@@ -15,7 +15,7 @@
 	}
 	"succubus_skill_HeadHunter_desc"
 	{
-		"en"		"Chance to do extra damage proportional\nto the number of skulls you have.\nYou gain your victim's SKULLs on kill"
+		"en"		"Deal extra #1# damage, proportional\nto the number of skulls you have. \nYou gain your victim's SKULLs on kill"
 	}
 
 	"succubus_skill_TIncantation"
