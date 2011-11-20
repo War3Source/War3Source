@@ -1,0 +1,27 @@
+"Phrases"
+{
+	"shield_ItemName"
+	{
+		"de"		"Göttliches Schild"
+	}
+	"shield_ItemDesc"
+	{
+		"de"		"Ein von Gott gesegnetes Schild, das den Anwender vor feindlichen Abilities schützt!"
+	}
+
+	"shield_ItemName"
+	{
+		"en"		"Holy Shield"
+	}
+	"shield_ItemDesc"
+	{
+		"en"		"You will be immune to enemy abilities."
+	}
+	"shield_ItemName"
+	{
+		"ru"		"Святой Щит"
+	}
+	"shield_ItemDesc"
+	{
+		"ru"		"Шит дает иммунитет от\nспособностей Противника(Ability)."
+	}
