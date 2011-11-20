@@ -208,7 +208,7 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 		if (skilllevelheadhunter > 0 && !W3HasImmunity(victim,Immunity_Skills)&&!Hexed(attacker))
 		{
 			//DP("health %d",GetClientHealth(victim));
-			new xdamage= RoundFloat(0.2*float(damage) * skulls[attacker]/20 *W3ChanceModifier(attacker));
+			new xdamage= RoundFloat(0.2*float(damage) * skulls[attacker]/20 );
 			War3_DealDamage(victim,xdamage,attacker,_,"headhunter",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL);
 			
 			W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_HEADHUNTER);

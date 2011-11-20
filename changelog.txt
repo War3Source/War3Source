@@ -1,7 +1,15 @@
 1.2.3
 
 
+B6
 
+death message blocking in the same frame. (SM will attempt to block the second message)
+optimized succubus hunter
+succubus headhunter changed to 100% chance to deal 0-20% damage (0-20 skulls). same applies to melee.
+(succb translations changed, please re-translate for headhunter)
+
+ValidPlayer(client,true,true) for checking alive via health also, useful for DamagePostHurt. this avoids double player score
+claws and succubus now use this new method to check for "alive" to avoid double kill message. (DONT DEAL DAMAGE IF THEY ARE ALREADY DEAD)
 
 
 B5
