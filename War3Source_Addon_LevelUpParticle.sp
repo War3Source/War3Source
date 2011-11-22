@@ -20,6 +20,11 @@ public Plugin:myinfo =
 	version = "1.2",
 };
 
+public OnPluginStart()
+{
+	LoadTranslations("w3s.addon.levelupparticle.phrases");	
+}
+
 public OnMapStart()
 {
 	PrecacheModel("effects/combinemuzzle2.vmt");
@@ -62,7 +67,7 @@ public OnWar3Event(W3EVENT:event, client)
 			if(ValidPlayer(i)){
 				SetTrans(i);
 				War3_GetRaceName(race, racename, sizeof(racename));
-				War3_ChatMessage(i, "%s has leveled {lightgreen}%s{default} to {lightgreen}%d", name, racename, level);
+				War3_ChatMessage(i, "%T", "{player} has leveled {racename} to {amount}", i, name, racename, level);
 			}
 		}
 		
