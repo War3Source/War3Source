@@ -227,7 +227,7 @@ enum W3PlayerProp
 	CurrentRace,
 	PendingRace,
 	PlayerGold,
-	DERPPRERPER,//PlayerDiamonds, //DRPECE
+	DERPPRERPER,//REMOVE PlayerDiamonds, //DRPECE
 	iMaxHP,
 	bIsDucking,
 	
@@ -241,7 +241,15 @@ enum W3PlayerProp
 	Float:LastChangeTeamTime,
 	bool:bStatefulSpawn, //set true if spawn is a non repeated spawn. set to true on join and death, set false after spawn forward is finished.
 }
-
+enum W3SkillProp
+{
+	bool:ActivateOnEnemy,
+	
+	///TO BE IMPLEMENTED
+	MaxLevel,
+	bool:IsUltimate,
+	SkillName[32],
+}
 //EXCLUSIVE: buffs that do not stack with itself: gravity, invisblity, however to make them stack use a second property ie gravity2, invisibilty2
 //////////////////Generally races use "buffvar" and items that wish to stack uses "varbuff2" and the final value is calculated: best of "buffvar" stacked with best of "buffvar2"
 //STACKING: buffs that stack with itself

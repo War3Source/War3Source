@@ -26,7 +26,7 @@ new String:raceSkillString[MAXRACES][MAXSKILLCOUNT][SkillString][512];
 
 new bool:skillIsUltimate[MAXRACES][MAXSKILLCOUNT];
 new skillMaxLevel[MAXRACES][MAXSKILLCOUNT];
-
+new skillProp[MAXRACES][MAXSKILLCOUNT][W3SkillProp];
 
 new MinLevelCvar[MAXRACES];
 new AccessFlagCvar[MAXRACES];

@@ -68,8 +68,18 @@ public OnWar3Event(W3EVENT:event,client){
 }
 public Action:CheckHP2(Handle:h,any:client){
 	mytimer2[client]=INVALID_HANDLE;
+	new oldmaxhp=War3_GetMaxHP(client);
 	new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
+	new newmaxhp=ORIGINALHP[client]+hpadd;
+	
 	War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
+	
+	new newhp=GetClientHealth(client)+newmaxhp-oldmaxhp;
+	if(newhp<1){
+		newhp=1;
+	}
+	SetEntityHealth(client,newhp);
+	
 }
 public OnClientPutInServer(client)
 {
@@ -100,7 +110,7 @@ public Action:TFHPBuff(Handle:h,any:data){
 						// Devotion Aura
 						new curhp =GetClientHealth(i);
 						new hpadd=W3GetBuffSumInt(i,iAdditionalMaxHealth);
-						new maxhp =War3_GetMaxHP(i)-hpadd;
+						new maxhp =War3_GetMaxHP(i)-hpadd; //nomal player hp
 						
 						if(curhp>=maxhp&&curhp<maxhp+hpadd){ ///we should add
 							new newhp=curhp+2;
