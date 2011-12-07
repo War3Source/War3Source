@@ -28,7 +28,7 @@ public Plugin:myinfo = {
 
 
 public OnPluginStart() {
-	hShowSocketError=CreateConVar("war3_show_sockets_error","0","show socket errors");
+	hShowSocketError=CreateConVar("w3_show_sockets_error","0","show socket errors");
 //	CreateTimer(0.1,DeciTimer,_,TIMER_REPEAT);
 	socketQueue=CreateArray();
 }
@@ -83,7 +83,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 		SetTrieValue(trie,"plugin", plugin);
 		SetTrieString(trie,"response", "RESPONSE:");
 		SetTrieValue(trie,"type", type);
-		SetTrieString(trie,"TEST","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+	/*	SetTrieString(trie,"TEST","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		SetTrieString(trie,"TEST1","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		SetTrieString(trie,"TEST2","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
@@ -92,7 +92,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
 		SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		SetTrieString(trie,"TEST111","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
 		SetTrieString(trie,"TEST112","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-		
+	*/	
 		if(socketCount<MAXSOCKETS&&backoffcounter==0)
 		{
 			InitiateSocket(trie);
@@ -115,7 +115,7 @@ InitiateSocket(Handle:trie){
 	if(socket!=INVALID_HANDLE){
 		socketCount++;	
 		SocketSetArg(socket,trie);
-		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "mysql.ownageclan.com", 80);
+		SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "ownageclan.com", 80);
 	}
 	else{
 		W3LogError("Create Socket Failed");
