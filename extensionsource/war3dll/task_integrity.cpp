@@ -16,12 +16,12 @@ void task_integrity(){
 	IWebForm *httpform=((IWebternet*)g->sminterfaceIWebternet)->CreateForm();
 	DownloadHelper *helper=new DownloadHelper();
 
-	static int countdown=100;
+	//static int countdown=100;
 	//countdown--;
-	if(countdown==0){ //we tried 100 times....
+	//if(countdown==0){ //we tried 100 times....
 		//
-		goto end;
-	}
+	//	goto end;
+	//}
 	if(g->helperplugin==NULL){
 		goto redotask;
 	}

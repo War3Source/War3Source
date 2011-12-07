@@ -340,7 +340,7 @@ ResultType 	CWar3DLL::OnTimer(ITimer *pTimer, void *pData){
     //ERR("tick2");
 	if(g->helpergetfunc==NULL){
 		for(int i=0;i<100;i++){
-			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED");
+			g_pSM->LogError(myself,"ERROR, HELPER FUNCTION FROM EXTENSION HELPER PLUGIN NOT REGISTERED. War3Source_Extension_Helper.smx REQUIRED");
 
 		}
 		exit(0);
