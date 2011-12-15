@@ -67,19 +67,20 @@ public OnWar3Event(W3EVENT:event,client){
 	//DP("EVENT %d",event);
 }
 public Action:CheckHP2(Handle:h,any:client){
-	mytimer2[client]=INVALID_HANDLE;
-	new oldmaxhp=War3_GetMaxHP(client);
-	new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-	new newmaxhp=ORIGINALHP[client]+hpadd;
-	
-	War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
-	
-	new newhp=GetClientHealth(client)+newmaxhp-oldmaxhp;
-	if(newhp<1){
-		newhp=1;
+	if(ValidPlayer(client,true)){
+		mytimer2[client]=INVALID_HANDLE;
+		new oldmaxhp=War3_GetMaxHP(client);
+		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
+		new newmaxhp=ORIGINALHP[client]+hpadd;
+		
+		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
+		
+		new newhp=GetClientHealth(client)+newmaxhp-oldmaxhp;
+		if(newhp<1){
+			newhp=1;
+		}
+		SetEntityHealth(client,newhp);
 	}
-	SetEntityHealth(client,newhp);
-	
 }
 public OnClientPutInServer(client)
 {
