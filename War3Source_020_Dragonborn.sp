@@ -49,7 +49,7 @@ Cool things learned this race:
 new Float:RoarRadius=400.0;
 new Float:RoarDuration[5]={0.0,0.4,0.6,0.8,1.0};
 new Float:RoarCooldownTime=25.0;
-new Float:ScalesPhysical[5]={0.0,1.0,2.0,3.0,4.0};
+new Float:ScalesPhysical[5]={0.0,1.0,1.66,2.33,3.0};
 new Float:ImmunityChance=0.15;
 new Float:dragvec[3]={0.0,0.0,0.0};
 new Float:victimvec[3]={0.0,0.0,0.0};
@@ -76,7 +76,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		////USE #1# IN TRANSLATIONS
 		thisRaceID=War3_CreateNewRace("Dragonborn","dragonborn_o");
 		SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 400 radius in a fear state for 0.4-1.0 second. +Ability",false,4);
-		SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","1-4 physical armor",false,4);
+		SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","1-3 physical armor",false,4);
 		SKILL_DRAGONBORN=War3_AddRaceSkill(thisRaceID,"Dragonborn","Being dragonborn gives immunitys to certain magics.\n15% chance of immunity to wards/slows/skills/ultimates ",false,4);
 		ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Applies jarate effect. 400-700 range.",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
