@@ -343,7 +343,7 @@ CheckCooldownsForExpired(bool:expirespawn,clientthatspawned=0)
 				new race=Cooldown[i][crace];
 				new skill=Cooldown[i][cskill];
 				new timeremaining=RoundToCeil(Cooldown[i][cexpiretime]-GetEngineTime());
-				if(War3_GetRace(client)==Cooldown[i][crace] && War3_GetSkillLevel(client,race,skill)>0&& timeremaining<=5 ){ //is this race, and has this skill
+				if(War3_GetRace(client)==Cooldown[i][crace] && War3_GetSkillLevel(client,race,skill)>0&& timeremaining<=5 && Cooldown[i][cprintmsgonexpire]==true){ //is this race, and has this skill
 					
 					if(arraylist[client]==INVALID_HANDLE){
 						arraylist[client]=CreateArray(ByteCountToCells(128));

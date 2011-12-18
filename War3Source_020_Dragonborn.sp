@@ -185,7 +185,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 						GetClientAbsOrigin(i,VictimPos);
 						if(GetVectorDistance(AttackerPos,VictimPos)<RoarRadius)
 						{
-							if(GetClientTeam(i)!=AttackerTeam&&!W3HasImmunity(client,Immunity_Ultimates))
+							if(GetClientTeam(i)!=AttackerTeam&&!W3HasImmunity(client,Immunity_Skills))
 							{
 								//TF2_StunPlayer(client, Float:duration, Float:slowdown=0.0, stunflags, attacker=0);
 								EmitSoundToAll(roarsound,client);

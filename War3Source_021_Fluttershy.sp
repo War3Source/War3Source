@@ -71,7 +71,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					CreateTimer(NotBadDuration[ult_level],EndNotBad,target);
 					PrintHintText(client,"You be gentle!");
 					PrintHintText(target,"You be gentle!\nCannot deal bullet damage");
-					War3_SkillNotInCooldown(client,thisRaceID,ULTIMATE_YOUBEGENTLE,true);
+					War3_CooldownMGR(client,20.0,thisRaceID,ULTIMATE_YOUBEGENTLE);
 				}
 				else{
 					W3MsgNoTargetFound(client,breathrange);
@@ -114,7 +114,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					PrintHintText(target,"You are being stared at.\nDon't look at her in the eye!!!");
 					StareEndTimer[client]=CreateTimer(StareDuration[skilllvl],EndStare,client);
 					StareVictim[client]=target;
-					War3_SkillNotInCooldown(client,thisRaceID,SKILL_STARE,true);
+					War3_CooldownMGR(client,15.0,thisRaceID,SKILL_STARE);
 				}
 				else{	
 					W3MsgNoTargetFound(client,starerange);
@@ -133,6 +133,7 @@ public Action:EndStare(Handle:t,any:client){
 public OnWar3EventDeath(client){ //end stare if fluttershy dies
 	if(StareEndTimer[client]){
 		TriggerTimer(StareEndTimer[client]);
+		StareEndTimer[client]=INVALID_HANDLE;
 	}
 }
 

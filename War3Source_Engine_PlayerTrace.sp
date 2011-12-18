@@ -224,19 +224,20 @@ public Native_War3_GetTargetInViewCone(Handle:plugin,numParams)
 	}
 	return 0;
 }
-
+new los_target;
 public NW3LOS(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);
 	new target=GetNativeCell(2);
+	los_target=target
 	if(ValidPlayer(client,true)&&ValidPlayer(target,true))
 	{
 		new Float:PlayerEyePos[3];
 		new Float:OtherPlayerPos[3];
-		GetClientEyePosition(client,PlayerEyePos);
-		GetClientAbsOrigin(target,OtherPlayerPos);
+		GetClientEyePosition(client,PlayerEyePos); //GetClientEyePosition(
+		GetClientEyePosition(target,OtherPlayerPos); //GetClientAbsPosition
 		ignoreClient=client;
-		TR_TraceRayFilter(PlayerEyePos,OtherPlayerPos,MASK_ALL,RayType_EndPoint,AimTargetFilter);
+		TR_TraceRayFilter(PlayerEyePos,OtherPlayerPos,MASK_ALL,RayType_EndPoint,LOSFilter);
 		if(TR_DidHit())
 		{
 			new entity=TR_GetEntityIndex();
@@ -248,7 +249,10 @@ public NW3LOS(Handle:plugin,numParams)
 	}
 	return false;
 }
-
+public bool:LOSFilter(entity,mask)
+{
+	return !(entity==ignoreClient || (ValidPlayer(entity,true)&&entity!=los_target));
+}
 
 
 
