@@ -73,28 +73,10 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 		if(bSmittened[attacker]){
 			War3_DamageModPercent(SmittendMultiplier[victim]);
 		}
-		if(War3_GetRace(attacker)==thisRaceID ){
-			new lvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_SMITTEN);
-			if(lvl > 0)
-			{
-				if(!IsSkillImmune(victim)){
-					if(!Hexed(attacker)&&War3_SkillNotInCooldown(attacker,thisRaceID,SKILL_SMITTEN,false))
-					{
-						bSmittened[victim]=true;
-						SmittendMultiplier[victim]=smittenMultiplier[lvl];
-						
-						CreateTimer(smittenDuration,UnSmitten,victim);
-						War3_CooldownMGR(attacker,smittenCooldown,thisRaceID,SKILL_SMITTEN);
-						W3Hint(victim,_,_,"You have been Smittened, you do less damage");
-						W3Hint(attacker,_,_,"Activated Smitten");
-					}
-					
-				}
-			}
-		}
+		
 	}
 	
-	///need to do sleep transfer
+	///need to do sleep transfer, beware of sleep trie which you  need to close
 }
 
 public Action:UnSmitten(Handle:timer,any:client)
@@ -118,20 +100,25 @@ public OnWar3EventPostHurt(victim,attacker,dmgamount){
 				PrintToConsole(attacker,"Heartache +%d HP",dmgamount);
 			}
 		}
+		
+		lvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_SMITTEN);
+		if(lvl > 0)
+		{
+			if(!IsSkillImmune(victim)){
+				if(!Hexed(attacker)&&War3_SkillNotInCooldown(attacker,thisRaceID,SKILL_SMITTEN,false))
+				{
+					bSmittened[victim]=true;
+					SmittendMultiplier[victim]=smittenMultiplier[lvl];
+					
+					CreateTimer(smittenDuration,UnSmitten,victim);
+					War3_CooldownMGR(attacker,smittenCooldown,thisRaceID,SKILL_SMITTEN);
+					W3Hint(victim,_,_,"You have been Smittened, you do less damage");
+					W3Hint(attacker,_,_,"Activated Smitten");
+				}
+			}
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -188,6 +175,7 @@ Sleep(client){
 public Action:EndSleep(Handle:t,any:sleepTrie){
 	new client;
 	GetTrieValue(sleepTrie,"victim",client);
+	CloseHandle(sleepTrie);
 	UnSleep(client);
 }
 UnSleep(client){
