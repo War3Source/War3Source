@@ -29,6 +29,9 @@ new Float:sleepCooldown=15.0;
 new Float:sleepDuration[]={0.0,3.0,3.5,4.0,4.5};
 new Float:sleepDistance=400.0;
 
+new Handle:SleepHandle[MAXPLAYERSCUSTOM]; //the trie
+new Handle:SleepTimer[MAXPLAYERSCUSTOM]; //the timer that ends the sleep
+
 new Float:heartacheChance[]={0.0,0.06,0.9,0.12,0.15};
 
 
@@ -68,12 +71,28 @@ public OnWar3EventSpawn(client){
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
-	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&attacker!=victim &&GetClientTeam(victim)!=GetClientTeam(attacker))
+	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&attacker!=victim )
 	{
-		if(bSmittened[attacker]){
-			War3_DamageModPercent(SmittendMultiplier[victim]);
+		if(GetClientTeam(victim)!=GetClientTeam(attacker))
+		{
+			if(bSmittened[attacker]){
+				War3_DamageModPercent(SmittendMultiplier[victim]);
+			}
+			
 		}
-		
+		if(SleepHandle[victim]){
+			KillTimer(SleepTimer[victim]);
+			SleepTimer[victim]=INVALID_HANDLE;
+			SleepHandle[attacker]=SleepHandle[victim];
+			SleepHandle[victim]=INVALID_HANDLE;
+			
+			UnSleep(victim);
+			new Float:duration;
+			GetTrieValue(SleepHandle[attacker],"originalduration",duration);
+			SleepTimer[attacker]=CreateTimer(duration,EndSleep,attacker);
+			Sleep(attacker);
+			
+		}
 	}
 	
 	///need to do sleep transfer, beware of sleep trie which you  need to close
@@ -128,6 +147,7 @@ public bool:AbilityFilter(client)
 	return (!IsSkillImmune(client));
 }
 
+
 public OnAbilityCommand(client,ability,bool:pressed)
 {
 	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
@@ -144,11 +164,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				if(target>0)
 				{	
 					new Float:duration=sleepDuration[lvl];
-					new Handle:sleepTrie=CreateTrie();
-					new Handle:timer=CreateTimer(duration,EndSleep,sleepTrie);
-					SetTrieValue(sleepTrie,"timer",timer);
-					SetTrieValue(sleepTrie,"victim",target);
-					SetTrieValue(sleepTrie,"originalduration",duration);
+					SleepHandle[target]=CreateTrie();
+					SleepTimer[target]=CreateTimer(duration,EndSleep,target);
+					//SetTrieValue(sleepTrie,"timer",timer);
+					//SetTrieValue(sleepTrie,"victim",target);
+					SetTrieValue(SleepHandle[target],"originalduration",duration);
 					//SetTrieValue(sleepTrie,"remainingduration",duration);
 					Sleep(target);
 					
@@ -172,10 +192,12 @@ Sleep(client){
 	}
 }
 
-public Action:EndSleep(Handle:t,any:sleepTrie){
-	new client;
-	GetTrieValue(sleepTrie,"victim",client);
-	CloseHandle(sleepTrie);
+public Action:EndSleep(Handle:t,any:client){
+
+	SleepTimer[client]=INVALID_HANDLE;
+	CloseHandle(SleepHandle[client]);
+	SleepHandle[client]=INVALID_HANDLE;
+	
 	UnSleep(client);
 }
 UnSleep(client){
@@ -244,8 +266,22 @@ public Action:EndHold(Handle:t,any:client){
 	holdingTimer[client]=INVALID_HANDLE;
 }
 public OnWar3EventDeath(client){
+	CleanUP(client);
+}
+public OnClientDisconnect(client){
+	CleanUP(client);
+}
+CleanUP(client){
 	if(holdingvictim[client]){
 		TriggerTimer(holdingTimer[client]);
 		holdingTimer[client]=INVALID_HANDLE;
+	}
+	if(SleepTimer[client]){
+		UnSleep(client);
+		KillTimer(SleepTimer[client]);
+		SleepTimer[client]=INVALID_HANDLE;
+		CloseHandle(SleepHandle[client]);
+		SleepHandle[client]=INVALID_HANDLE;
+		
 	}
 }
