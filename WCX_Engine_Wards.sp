@@ -195,7 +195,7 @@ public Native_War3_GetWardLocation(Handle:plugin,numParams)
 public Native_War3_GetWardInterval(Handle:plugin,numParams)
 {
 	new id = GetNativeCell(1);
-	return WardInterval[id];
+	return _:WardInterval[id];
 }
 
 public _:Native_War3_GetWardRadius(Handle:plugin,numParams)
