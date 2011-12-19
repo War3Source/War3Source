@@ -220,6 +220,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 					holdingTimer[client]=CreateTimer(duration,EndHold,client);
 					War3_SetBuff(client,bStunned,thisRaceID,true);
 					War3_SetBuff(target,bStunned,thisRaceID,true);
+					
+					War3_CooldownMGR(client,20.0,thisRaceID,ULTIMATE);
+				}
+				else{
+					W3MsgNoTargetFound(client,ultDistance);
 				}
 			}
 		}	
