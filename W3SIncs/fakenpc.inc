@@ -11,9 +11,11 @@ enum NPCSpeed
 	MoveSpeed=0,
 	AttackSpeed
 };
-// Speed Definitions
-#define NPCMaxSpeed 0
-#define NPCAttackSpeed 1
+enum NPCRange
+{
+	EyeRange=0,
+	AttackRange
+};
 // Sequence Definitions
 #define SEQUENCE_IDLE 0
 #define SEQUENCE_ATTACK 1
@@ -41,11 +43,11 @@ native War3_GetNPCStrength(entity,NPCDamage:value);
 //Set's the NPC's Animation Sequence (Look at SEQUENCE_ definitions)
 native War3_SetNPCAnimation(entity,iSequence,Float:fAnimDuration,String:AnimationName[32]);
 
-//Set's the NPC melee attack range
-native War3_SetNPCMaxRange(entity,Float:fRange);
+//Set's a specific NPC range
+native War3_SetNPCRange(entity,NPCRange:variable,Float:fRange);
 
-//Returns the NPC ma-range
-native Float:War3_GetNPCMaxRange(entity);
+//Returns the specific NPC range
+native Float:War3_GetNPCRange(entity,NPCRange:variable);
 
 //Mods specific NPC Speed(stepsize!)
 native War3_SetNPCSpeed(entity,NPCSpeed:value,Float:fSpeedValue);
@@ -62,7 +64,7 @@ forward OnNPCMove(entity,Float:fStepSize,Float:fStartPos[3],Float:fEndPos[3]);
 //Called when the NPC hurts someone
 forward OnNPCHitTarget(entity,victim,owner,damage,Float:fAtkSpeed);
 
-//Called when the NPC attempts to focus someone(can be blocked with plugin_Handled etc.)
+//Called when the NPC attempts to focus someone
 forward Action:OnNPCFocusTarget(entity,target);
 
 //Called when the NPC is damaged
@@ -70,4 +72,13 @@ forward OnNPCHurt(entity,attacker,&Float:damage);
 
 //Called when a NPC got killed
 forward OnNPCDied(entity,attacker);
+
+stock bool:IsNPCSourceOfRace(raceID,entity,owner=0) {
+	if(owner==0) {
+		War3_GetOwner(entity);
+	}
+	if(War3_GetRace(owner)==raceID)
+		return true;
+	return false;
+}
 
