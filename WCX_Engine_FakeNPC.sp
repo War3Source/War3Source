@@ -129,7 +129,7 @@ public OnPluginStop() {
 	}
 }
 /// #############################################
-/// <##########  NPC Natives ###################>
+/// #########  NPC Natives ##################
 /// ##############################################
 public W3Native_CreateNPC(Handle:plugin,numParams) {
 	decl Float:fPos[3],iHealth,iTeam,String:sName[32],String:sAnim[32],String:sModel[32],bool:bTeamcolor;
@@ -628,14 +628,8 @@ public bool:NPCVars_SetMaxRange(iIndex, const Float:fMaxRange) {
 	return false;
 }
 public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String:strName[32],const String:strIdleAnim[32],const String:strModel[32],bool:bTeamColored) {
-	//Declare Variable
-	decl npc_ent;
 	//Create a simple prop, that we gonna use as a npc (..later)
-	if(iNPCNum>=MAXNPC)
-	npc_ent = CreateEntityByName("prop_dynamic_override");
-	else
-	LogError("Blocking CreateNPC because there are already %i/%i active Fake NPCs!",iNPCNum,MAXNPC);
-
+	new npc_ent = CreateEntityByName("prop_dynamic_override");
 	if (npc_ent > 0 && IsValidEdict(npc_ent)) //valid?
 	{
 		decl String:entname[16];
