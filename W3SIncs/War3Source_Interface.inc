@@ -549,6 +549,13 @@ native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
 #pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
 
+
+native War3_CreateGenericSkill(String:gskillname[]);
+//genericSkillData is an array or trie that modifies behavior of that generic skill
+//if NEW HANDLE is passed, OLD one will be closed (i e during create race call after race has been created like on a map change)
+//this means you CAN recreate new handles and pass them, the old one will be closed
+native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,String:yourskillname[],String:untranslatedSkillDescription[]="ERR: No Skill Description Entered.",bool:translated=false,bool:isUltimate=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
+
 native War3_GetRacesLoaded();
 native W3GetRaceMaxLevel(race);
 
@@ -1438,6 +1445,7 @@ native War3_GetSkillLevel(client,race,skill);
 native War3_SetSkillLevelINTERNAL(client,race,skill,newlevel);
 native War3_GetSkillLevelINTERNAL(client,race,skill);
 
+native W3_GenericSkillLevel(client,gskill,&Handle:genericSkillData);
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
 
@@ -2664,8 +2672,8 @@ stock DP(const String:szMessage[], any:...)
 	decl String:szBuffer[1000];
 
 	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
-	PrintToServer("[Debug Print] %s", szBuffer);
-	PrintToChatAll("[Debug Print] %s", szBuffer);
+	PrintToServer("[DebugP %d] %s",RoundFloat(GetGameTime())%100, szBuffer);
+	PrintToChatAll("[DebugP %d] %s",RoundFloat(GetGameTime())%100, szBuffer);
 
 }
 //prring plugin

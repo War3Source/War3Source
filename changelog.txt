@@ -2,7 +2,9 @@
 
 
 
-
+B7
+GENERIC SKILLS
+Individual skill translations now possible (one skill is translated while others arn't)
 
 B6
 
@@ -19,9 +21,11 @@ NEW RACE: FLUTTERSHY
 NEW RACE: RARITY
 Dragonborn scales armor reduced to 3
 fixed dragonborn roar immunity check to skills (was on ultimate)
-NEW RACE: LUNA (ponified name pending)
+NEW RACE: LUNA (ponified name pending) MADE BY REVAN
 
 Cooldown engine will no longer print X seconds remaining if do not print on expire flag is set
+War3_DealDamage reverted to entity type to allow custom weapon name for death message
+
 
 B5
 //ownz

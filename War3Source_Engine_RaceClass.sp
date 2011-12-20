@@ -13,16 +13,23 @@ new String:raceShortname[MAXRACES][16];
 new bool:raceTranslated[MAXRACES];
 new bool:ignoreRaceEnd; ///dont do anything on CreateRaceEnd cuz this its already done once
 
-//zeroth skill is used
+//zeroth skill is NOT  used
 new raceSkillCount[MAXRACES];
 new String:raceSkillName[MAXRACES][MAXSKILLCOUNT][32];
 new String:raceSkillDescription[MAXRACES][MAXSKILLCOUNT][512];
 new raceSkillDescReplaceNum[MAXRACES][MAXSKILLCOUNT];
 new String:raceSkillDescReplace[MAXRACES][MAXSKILLCOUNT][5][64]; ///MAX 5 params for replacement //64 string length
+new bool:skillTranslated[MAXRACES][MAXSKILLCOUNT];
 
 new String:raceString[MAXRACES][RaceString][512];
 new String:raceSkillString[MAXRACES][MAXSKILLCOUNT][SkillString][512];
 
+enum SkillRedirect
+{
+	genericskillid,
+}
+new bool:SkillRedirected[MAXRACES][MAXSKILLCOUNT];
+new SkillRedirectedToSkill[MAXRACES][MAXSKILLCOUNT];
 
 new bool:skillIsUltimate[MAXRACES][MAXSKILLCOUNT];
 new skillMaxLevel[MAXRACES][MAXSKILLCOUNT];
@@ -57,7 +64,8 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-	
+//silence error
+	skillProp[0][0][0]=0;
 	m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
 	PrintToServer("SH %d",SH());
 	PrintToServer("W3 %d",W3());
@@ -72,6 +80,10 @@ public bool:InitNativesForwards()
 	
 	CreateNative("War3_CreateNewRaceT",NWar3_CreateNewRaceT);
 	CreateNative("War3_AddRaceSkillT",NWar3_AddRaceSkillT);
+	
+	CreateNative("War3_CreateGenericSkill",NWar3_CreateGenericSkill);
+	CreateNative("War3_UseGenericSkill",NWar3_UseGenericSkill);
+	CreateNative("W3_GenericSkillLevel",NW3_GenericSkillLevel);
 	
 	CreateNative("War3_CreateRaceEnd",NWar3_CreateRaceEnd);
 	
@@ -179,12 +191,13 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 		new bool:isult=GetNativeCell(3);
 		new tmaxskilllevel=GetNativeCell(4);
 		
+	
 		//W3Log("add skill T %d %s",raceid,skillname);
 			
 		new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
+		skillTranslated[raceid][newskillnum]=true;
 		
-		
-		if(ignoreRaceEnd==false&&numParams>4){
+		if(ignoreRaceEnd==false){
 			for(new arg=5;arg<=numParams;arg++){
 				
 				GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
@@ -434,6 +447,151 @@ public NW3GetRaceCell(Handle:plugin,numParams){
 
 
 
+new genericskillcount=0;
+enum GenericSkillClass
+{
+	String:cskillname[32], 
+	redirectedfromrace[32], //theset start from 0!!!!
+	redirectedfromskill[32],
+	redirectedcount,
+	Handle:raceskilldatahandle[32], //handle the customer races passed us
+}
+//55 generic skills
+new GenericSkill[55][GenericSkillClass];
+public NWar3_CreateGenericSkill(Handle:plugin,numParams){
+	new String:tempgenskillname[32];
+	GetNativeString(1,tempgenskillname,32);
+	
+	//find existing
+	for(new i=1;i<=genericskillcount;i++){
+		
+		if(StrEqual(tempgenskillname,GenericSkill[i][cskillname])){
+			return i;
+		}
+	}
+	
+	//no existing found, add 
+	genericskillcount++;
+	GetNativeString(1,GenericSkill[genericskillcount][cskillname],32);
+	return genericskillcount;
+}
+public NWar3_UseGenericSkill(Handle:plugin,numParams){
+	new raceid=GetNativeCell(1);
+	new String:genskillname[32];
+	GetNativeString(2,genskillname,sizeof(genskillname));
+	new Handle:genericSkillData=Handle:GetNativeCell(3);
+	//start from 1
+	for(new i=1;i<=genericskillcount;i++){
+		DP("1 %s %s ]",genskillname,GenericSkill[i][cskillname]);
+		if(StrEqual(genskillname,GenericSkill[i][cskillname])){
+			DP("2");
+			if(raceid>0){
+			
+				
+			
+				DP("3");
+				new String:raceskillname[2001];
+				new String:raceskilldesc[2001];
+				GetNativeString(4,raceskillname,sizeof(raceskillname));
+				GetNativeString(5,raceskilldesc,sizeof(raceskilldesc));
+				
+				new bool:istranaslated=GetNativeCell(6);
+				
+				//native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,String:yourskillname[],String:untranslatedSkillDescription[],bool:translated=false,bool:isUltimate=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
+
+				new bool:isult=GetNativeCell(7);
+				new tmaxskilllevel=GetNativeCell(8);
+				
+				//W3Log("add skill %s %s",skillname,skilldesc);
+				
+				new newskillnum;
+				newskillnum	= AddRaceSkill(raceid,raceskillname,raceskilldesc,isult,tmaxskilllevel);
+				if(istranaslated){
+					skillTranslated[raceid][newskillnum]=true;	
+				}
+				
+				//check that the data handle isnt leaking
+				new genericcustomernumber=GenericSkill[i][redirectedcount];
+				for(new j=0;j<genericcustomernumber;j++){
+					if(
+					GenericSkill[i][redirectedfromrace][j]==raceid
+					&&
+					GenericSkill[i][redirectedfromskill][j]==newskillnum
+					){
+						if(GenericSkill[i][raceskilldatahandle][j]!=INVALID_HANDLE && GenericSkill[i][raceskilldatahandle][j] !=genericSkillData){
+							//DP("ERROR POSSIBLE HANDLE LEAK, NEW GENERIC SKILL DATA HANDLE PASSED, CLOSING OLD GENERIC DATA HANDLE");
+							CloseHandle(GenericSkill[i][raceskilldatahandle][j]);
+							GenericSkill[i][raceskilldatahandle][j]=genericSkillData;
+						}	
+					}
+					
+				}
+				
+				
+				//first time creating the race
+				if(ignoreRaceEnd==false)
+				{
+					//variable args start at 8
+					for(new arg=9;arg<=numParams;arg++){
+					
+						GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
+						raceSkillDescReplaceNum[raceid][newskillnum]++;
+					}
+					
+					SkillRedirected[raceid][newskillnum]=true;
+					SkillRedirectedToSkill[raceid][newskillnum]=i;
+					
+					
+					GenericSkill[i][raceskilldatahandle][genericcustomernumber]=genericSkillData;
+					GenericSkill[i][redirectedfromrace][GenericSkill[i][redirectedcount]]=raceid;
+					
+					GenericSkill[i][redirectedfromskill][GenericSkill[i][redirectedcount]]=newskillnum;
+					GenericSkill[i][redirectedcount]++;
+					//DP("FOUND GENERIC SKILL %d, real skill id for race %d",i,newskillnum);
+				}
+				
+				return newskillnum;
+					
+			}
+		}
+	}
+	W3LogError("NO GENREIC SKILL FOUND");
+	return 0;
+}
+public NW3_GenericSkillLevel(Handle:plugin,numParams){
+
+	new client=GetNativeCell(1);
+	new genericskill=GetNativeCell(2);
+	new count=GenericSkill[genericskill][redirectedcount];
+	new found=0;
+	new level=0;
+	new reallevel=0;
+	new customernumber=0;
+	//DP("customer count %d genericskill %d",count,genericskill);
+	for(new i=0;i<count;i++){
+		level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]) 
+		//DP("real skill %d %d %d",GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i],level);
+		if(level){ 
+			found++;
+			reallevel=level;
+			customernumber=i;
+		}
+		
+	}
+	if(found>1){
+		W3LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
+		return 0;
+	}
+	SetNativeCellRef(3,GenericSkill[genericskill][raceskilldatahandle][customernumber]);
+	return reallevel;
+	
+}
+
+
+
+
+
+
 
 
 
@@ -543,8 +701,7 @@ GetRaceShortname(raceid,String:retstr[],maxlen){
 }
 
 GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen){
-
-	if(raceTranslated[raceid]){
+	if(skillTranslated[raceid][skillindex]){
 		new String:buf[64];
 		new String:longbuf[512];
 	
@@ -558,7 +715,7 @@ GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen){
 }
 
 GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen){
-	if(raceTranslated[raceid]){
+	if(skillTranslated[raceid][skillindex]){
 		new String:buf[64];
 		new String:longbuf[512]; 
 		Format(buf,sizeof(buf),"%s_skill_%s_desc",raceShortname[raceid],raceSkillName[raceid][skillindex]);
