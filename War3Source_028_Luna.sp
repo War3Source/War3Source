@@ -73,7 +73,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_MOONBEAM=War3_AddRaceSkill(thisRaceID,"Lucent Beam","Luna concentrates on the moon`s energy and channels it forcefully to the surface, 6-10dmg. Autocast. 3s cooldown.",false,4);
 		SKILL_BOUNCE=War3_AddRaceSkill(thisRaceID,"Moon Glaive","Allows Luna to attack extra enemies with each Glaive attack.",false,4);
 		SKILL_AURA=War3_AddRaceSkill(thisRaceID,"Lunar Blessing","Nearby ranged units gain the power of the moon. +1-4 damage",false,4);
-		ULT=War3_AddRaceSkill(thisRaceID,"Eclipse","Calls to the moon`s magic, summoning a concentrated burst of Lucent Beams to damage targets around Luna. 4-10 beams.",false,4);
+		ULT=War3_AddRaceSkill(thisRaceID,"Eclipse","Calls to the moon`s magic, summoning a concentrated burst of Lucent Beams to damage targets around Luna. 4-10 beams.",true,4);
 		War3_CreateRaceEnd(thisRaceID);
 		AuraID=W3RegisterAura("luna_blessing",BlessingRadius);
 	}

@@ -6,6 +6,8 @@ B7
 GENERIC SKILLS
 Individual skill translations now possible (one skill is translated while others arn't)
 
+Luna ult was not labled as an ult
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)
