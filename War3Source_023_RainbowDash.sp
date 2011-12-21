@@ -108,7 +108,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					inSpeed[client]=true;
 					if(GameTF()){
 						TF2_AddCondition(client,TFCond_SpeedBuffAlly,6.0);
-						War3_SetBuff(client,fMaxSpeed,thisRaceID,abilityspeed[skill_level]/1.35);
+						War3_SetBuff(client,fMaxSpeed,thisRaceID,abilityspeed[skill_level]);
+						War3_SetBuff(client,fSlow,thisRaceID,0.740740741); //slow down by the factor of the SpeedBuffAlly (1.35)
 					}
 					else{
 						War3_SetBuff(client,fMaxSpeed,thisRaceID,abilityspeed[skill_level]);
@@ -126,6 +127,7 @@ public Action:EndSpeed(Handle:t,any:client){
 		TF2_RemoveCondition(client,TFCond_SpeedBuffAlly);
 	}
 	War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
+	War3_SetBuff(client,fSlow,thisRaceID,1.0);
 	speedendtimer[client]=INVALID_HANDLE;
 	inSpeed[client]=false;
 }

@@ -172,7 +172,12 @@ public Action:War3Source_SayCommand(client,args)
 	else if(CommandCheck(arg1,"speed")){
 
 		new Float:currentmaxspeed=GetEntDataFloat(client,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
-		War3_ChatMessage(client,"%T","Your max speed is {amount}",client,currentmaxspeed);
+		if(GameTF()){
+			War3_ChatMessage(client,"%T (%.2fx)","Your max speed is {amount}",client,currentmaxspeed,W3GetSpeedMulti(client));
+		}
+		else{
+			War3_ChatMessage(client,"%T","Your max speed is {amount}",client,currentmaxspeed);
+		}
 	}
 	else if(CommandCheck(arg1,"maxhp"))
 	{

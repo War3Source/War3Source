@@ -1272,7 +1272,7 @@ native W3GetBuffMinInt(client,W3Buff:buffindex);
 
 //calculate player speed next frame
 native W3ReapplySpeed(client);
-
+native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 //DELAY TRACKER
 //DELAY TRACKER
 //DELAY TRACKER

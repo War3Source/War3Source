@@ -8,6 +8,9 @@ Individual skill translations now possible (one skill is translated while others
 
 Luna ult was not labled as an ult
 
+Some Undead Balance
+say speed in TF2 will print multiplier too
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)

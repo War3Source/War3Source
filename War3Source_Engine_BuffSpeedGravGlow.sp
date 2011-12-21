@@ -19,6 +19,11 @@ new reapplyspeed[MAXPLAYERSCUSTOM];
 new bool:invisWeaponAttachments[MAXPLAYERSCUSTOM];
 new bool:bDeniedInvis[MAXPLAYERSCUSTOM];
 
+new Float:gspeedmulti[MAXPLAYERSCUSTOM];
+
+new Float:speedBefore[MAXPLAYERSCUSTOM];
+new Float:speedWeSet[MAXPLAYERSCUSTOM];
+
 public Plugin:myinfo= 
 {
 	name="War3Source Buff Speed",
@@ -57,7 +62,7 @@ public bool:InitNativesForwards()
 	}
 	
 	CreateNative("W3IsBuffInvised",NW3IsBuffInvised);
-	
+	CreateNative("W3GetSpeedMulti",NW3GetSpeedMulti);
 	return true;
 }
 
@@ -72,10 +77,20 @@ public NW3IsBuffInvised(Handle:plugin,numParams)
 	new client=GetNativeCell(1);
 	return GetEntityAlpha(client)<50;
 }
+public NW3GetSpeedMulti(Handle:plugin,numParams)
+{	
+	new client=GetNativeCell(1);
+	if(ValidPlayer(client,true)){
+		new Float:multi=1.0;
+		if(TF2_IsPlayerInCondition(client,TFCond_SpeedBuffAlly)){
+			multi=1.35;
+		}
+		return  _:(gspeedmulti[client]*multi +0.001); //rounding error
+	}
+	return _:1.0;
+}
 
 
-new Float:speedBefore[MAXPLAYERSCUSTOM];
-new Float:speedWeSet[MAXPLAYERSCUSTOM];
 
 public Action:DeciSecondTimer(Handle:timer)
 {
@@ -335,6 +350,7 @@ public OnGameFrame()
 								speedmulti=FloatMul(speedmulti,W3GetBuffStackedFloat(client,fSlow2)); 
 							}
 							//PrintToConsole(client,"speedmulti should be 1.0 %f %f",speedmulti,speedadd);
+							gspeedmulti[client]=speedmulti;
 							new Float:newmaxspeed=FloatMul(speedBefore[client],speedmulti);
 							if(newmaxspeed<0.1){
 								newmaxspeed=0.1;
