@@ -256,9 +256,9 @@ static cell_t W3ExtCommandListener(IPluginContext *pCtx, const cell_t *params)
 		PRINT("%s|",exploded[i].c_str());
 	}
 	PRINT("\n");
-	if(size>0){
+	if(size>0){ //size is number of split
 		if(strequal(exploded[0].c_str(),"W3e")){
-			if(size>1&&strequal(exploded[1].c_str(),"integrity")){
+			if(size>1&&strequal(exploded[1].c_str(),"integrity",false)){
 				if(size==4){
 					string file=exploded[2];
 					string pass=exploded[3];
@@ -279,6 +279,15 @@ static cell_t W3ExtCommandListener(IPluginContext *pCtx, const cell_t *params)
 					ERR("invalid number of parameters");
 				}
 			}
+			if(size>2&&strequal(exploded[1].c_str(),"update",false)){
+				string helperpluginpath=string(g->helperplugin->GetFilename());
+				char path[PLATFORM_MAX_PATH*2];
+				g_pSM->BuildPath(Path_SM, path, sizeof(path), "plugins\\");
+				helperpluginpath = replacestr(string(path)+helperpluginpath,string("War3Source_Extension_Helper.smx"),string(""));
+				new Updater(exploded[2],helperpluginpath);
+			}
+
+
 		}
 	}
 

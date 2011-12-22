@@ -89,6 +89,7 @@ private:
 };
 
 std::string md5(const std::string str);
+std::string md5file(const char* filepath);
 
 #endif
 

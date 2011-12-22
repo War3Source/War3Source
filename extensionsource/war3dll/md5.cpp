@@ -32,6 +32,7 @@ documentation and/or software.
 
 /* interface header */
 #include "md5.h"
+#include "war3dll.h"
 
 /* system implementation headers */
 #include <stdio.h>
@@ -365,5 +366,42 @@ std::string md5(const std::string str)
 
     return md5.hexdigest();
 }
+std::string md5file(const char* file)
+{
+    
+	FILE *pFile =fopen ( file, "rb" );
+		
+	if (pFile!=NULL)
+	{
+		fseek (pFile , 0 , SEEK_END);
+			int lSize = ftell (pFile);
+			rewind (pFile);
+
+			MD5 mymd5class;
+			unsigned char buffer[1024];
+			int len;
+			int totallen=0;
+
+			while ((len=fread(buffer, 1, 1024, pFile))){
+				
+			mymd5class.update(buffer, len);
+			totallen+=len;
+			}
+			mymd5class.finalize();
+
+			fclose (pFile);
+
+			// mymd5class->update(pFile);
+			//string hashed22=md5(out22);
+			return mymd5class.hexdigest();
+				
+	}
+	else{
+		ERR("COULD NOT OPEN FILE %s for MD5 hashing",file);
+	}
+
+    return "";
+}
+
 
 

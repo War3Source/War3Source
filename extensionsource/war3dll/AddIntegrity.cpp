@@ -15,19 +15,12 @@ void AddIntegrity::RunThread 	( 	IThreadHandle *  	pHandle 	 ) {
 
 		
 
-		string out,line;
-		ifstream inFile;
-
-		inFile.open(file.c_str(),ios::binary);
-		if (!inFile.is_open()) {
+		string hashed=md5file(file.c_str());
+		if(hashed.length()==0){
 			ERR("could not open %s",file.c_str());
 			break;
 		}
-		while (inFile >> line) {
-			out +=line;
-		}
-		inFile.close();
-		string hashed=md5(out);
+		
 
 		httpform->AddString("hash",hashed.c_str());
 

@@ -130,6 +130,18 @@ public:
 	void OnTerminate( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
 
 };
+class Updater: public IThread
+{
+	string path;
+	string pluginpath;
+	public:	
+	Updater(string path,string pluginpath);
+	void DownloadFile(string localfile,string remoteurl,string hashed);
+	//ithread
+	void RunThread( 	IThreadHandle *  	pHandle 	 ) ;
+	void OnTerminate( 	IThreadHandle *  	pHandle,		bool  	cancel	 	) ;
+
+};
 #include "shopitem2.h"
 #include "shopmenu2hdlr.h"
 #include "itemownership.h"

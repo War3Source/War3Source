@@ -27,11 +27,67 @@ void task_integrity(){
 	}
 	else{
 		char path[PLATFORM_MAX_PATH*2];
+		
+
+		////////////////////
+		//g_pSM->BuildPath(Path_SM, path, sizeof(path), "plugins\\");
+		//const char* filename22=g->helperplugin->GetFilename(); //"w3s\\a.txt";
+		//strcat(path,filename22);
+
+		/*string out22,line22;
+		ifstream inFile22;
+
+		FILE *pFile =fopen ( path, "rb" );
+		ERR("%s",filename22);
+		if (pFile!=NULL)
+		{
+			fseek (pFile , 0 , SEEK_END);
+  int lSize = ftell (pFile);
+  rewind (pFile);
+
+			  MD5 *mymd5class=new MD5();
+			  unsigned char buffer[1024];
+			  int len;
+			  int totallen=0;
+
+			  while ((len=fread(buffer, 1, 1024, pFile))){
+					ERR("len %d",len);
+				mymd5class->update(buffer, len);
+				totallen+=len;
+			  }
+			  mymd5class->finalize();
+
+			  fclose (pFile);
+
+			 // mymd5class->update(pFile);
+			   //string hashed22=md5(out22);
+				ERR("%d %d %s",totallen,lSize,mymd5class->hexdigest().c_str());
+				delete mymd5class;
+		}
+		else{
+			ERR("COULD NOT OPEN FILE");
+		}
+		/*inFile22.open(path,ios::binary);
+		if (!inFile22.is_open()) {
+			ERR("could not open %s",path);
+			goto filereadfailed;
+		}
+		while (inFile22 >> line22) {
+			out22 +=line22;
+		}
+		inFile22.close();
+		ERR("file len = %d",out22.length());
+		string hashed22=md5(out22);
+		ERR("%s",hashed22.c_str());
+		*/
+
+		///////////
+
 		g_pSM->BuildPath(Path_SM, path, sizeof(path), "plugins\\");
 		const char* filename=g->helperplugin->GetFilename();
 		strcat(path,filename);
 
-		string out,line;
+		/*string out,line;
 		ifstream inFile;
 
 		inFile.open(path,ios::binary);
@@ -43,9 +99,14 @@ void task_integrity(){
 			out +=line;
 		}
 		inFile.close();
-		string hashed=md5(out);
-		ERR("%s",hashed.c_str());
+		ERR("file len = %d",out.length());*/
+		string hashed=md5file(path);
+		ERR("Your helper hash: %s",hashed.c_str());
 
+		if(hashed.length()==0){
+			ERR("[PIC] ERR Zero length hash");
+			goto redotask;
+		}
 
 
 
