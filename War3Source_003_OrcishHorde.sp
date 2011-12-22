@@ -194,8 +194,8 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 		new Float:target_pos[3];
 		GetClientAbsOrigin(target,target_pos);
 		target_pos[2]+=30.0;
-		TE_SetupBeamPoints(start_pos,target_pos,BeamSprite,HaloSprite,0,35,1.0,40.0,40.0,0,40.0,{255,100,255,255},40);
-		TE_SendToAll();
+		W3SetupBeamPoints(thisRaceID,start_pos,target_pos,BeamSprite,HaloSprite,0,35,1.0,40.0,40.0,0,40.0,{255,100,255,255},40);
+		W3SendToAll();
 		EmitSoundToAll( lightningSound , target,_,SNDLEVEL_TRAIN);
 		new new_dmg=RoundFloat(float(dmg)*0.66);
 		
@@ -587,8 +587,9 @@ public WardEffectAndHeal(owner,wardindex)
 	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
 	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
 	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
-	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
-	TE_SendToAll();
+	W3SetupBeamPoints(thisRaceID,start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
+	W3SendToAll();
+	
 	new Float:BeamXY[3];
 	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
 	new Float:BeamZ= BeamXY[2];

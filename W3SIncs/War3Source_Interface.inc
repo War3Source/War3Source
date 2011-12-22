@@ -470,7 +470,15 @@ stock GlobalOptionalNatives(){
 	//String Math
 	MarkNativeAsOptional("War3_StringMath");
 	
-
+	//Visual Effects
+	MarkNativeAsOptional("W3RaceCanDrawEffects");
+	MarkNativeAsOptional("W3ClientCanSeeEffect");
+	MarkNativeAsOptional("W3GetEffectRace");
+	MarkNativeAsOptional("W3CreateEffect");
+	MarkNativeAsOptional("W3SendToArea");
+	MarkNativeAsOptional("W3SendToTeam");
+	MarkNativeAsOptional("W3SendToAll");
+	MarkNativeAsOptional("W3SendToClient");
 }
 
 //Warcraft required executions, does common tasks, such as loading translations.

@@ -1752,4 +1752,32 @@
 		"#format"	"{1:s}"
 		"en"		"Vengence blocked ({1})"
 	}
+	"Visual Effects Settings"
+	{
+		"en"		"Visual Effects Settings"
+	}
+	"Choose a option"
+	{
+		"en"		"Choose a option"
+	}
+	"Enable"
+	{
+		"en"		"Enable"
+	}
+	"Disable"
+	{
+		"en"		"Disable"
+	}
+	"Sorry, but the Server decided to take control of this option"
+	{
+		"en"		"Sorry, but the Server decided to take control of this option"
+	}
+	"Effects are now enabled!"
+	{
+		"en"		"Effects are now enabled!"
+	}
+	"Effects are now disabled!"
+	{
+		"en"		"Effects are now disabled!"
+	}
 }
