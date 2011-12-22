@@ -185,11 +185,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				new AttackerTeam = GetClientTeam(client);
 				new Float:VictimPos[3];
 				
-				TE_SetupBeamRingPoint(AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
-				TE_SendToAll();
+				W3SetupBeamRingPoint(thisRaceID, AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
+				W3SendToAll();
 				AttackerPos[2]+=10.0;
-				TE_SetupBeamRingPoint(AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
-				TE_SendToAll();
+				W3SetupBeamRingPoint(thisRaceID, AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
+				W3SendToAll();
 				
 				EmitSoundToAll(hammerboltsound,client);
 				EmitSoundToAll(hammerboltsound,client);

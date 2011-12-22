@@ -13,7 +13,7 @@ new String:beamsnd[] = "war3source/moonqueen/beam.mp3";
 new String:lunasnd2[] = "weapons/flashbang/flashbang_explode2.wav";
 
 //skill is auto cast via chance
-new Float:LucentChance[5] = {0.00,0.05,0.11,0.22,0.30};
+//new Float:LucentChance[5] = {0.00,0.05,0.11,0.22,0.30};
 new LucentBeamMin = 6;
 new LucentBeamMax = 10;
 
@@ -29,7 +29,7 @@ new EclipseAmount[5]={0,4,6,8,10};
 
 new SKILL_MOONBEAM,SKILL_BOUNCE,SKILL_AURA,ULT;
 new LightModel;
-new XBeamSprite,BlueSprite,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
+new XBeamSprite/*,BlueSprite*/,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
 new Handle:ultCooldownCvar = INVALID_HANDLE;
 new AuraID;
 public Plugin:myinfo = 
@@ -58,7 +58,7 @@ public OnMapStart()
 	BeamSprite = PrecacheModel( "materials/sprites/lgtning.vmt" );
 	CoreSprite = PrecacheModel( "materials/sprites/physcannon_blueflare1.vmt" );
 	MoonSprite = PrecacheModel( "materials/sprites/physcannon_bluecore1b.vmt");
-	BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
+	//BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
 	XBeamSprite = PrecacheModel( "materials/sprites/XBeam2.vmt" );
 	LightModel = PrecacheModel( "models/effects/vol_light.mdl" );
 	PrecacheModel("particle/fire.vmt");
@@ -115,18 +115,9 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 		if(inAura==true&&IsPlayerAlive(client)) {
 			decl Float:client_pos[3];
 			GetClientAbsOrigin(client,client_pos);
-			TE_SetupGlowSprite(client_pos, LightModel, 2.0, 1.0, 255);
-			TE_SendToAll();
+			W3SetupGlowSprite(thisRaceID, client_pos, LightModel, 2.0, 1.0, 255);
+			W3SendToAll();
 		}
-	}
-}
-
-public OnWar3EventSpawn(client)
-{
-	if(War3_GetRace(client)==thisRaceID) {
-		//new skill_level = War3_GetSkillLevel( client, thisRaceID, SKILL_AURA );
-		//if(skill_level>0)
-		//CreateTimer( 0.1, Timer_LunaFX, client);
 	}
 }
 
@@ -175,10 +166,10 @@ public OnW3TakeDmgBullet( victim, attacker, Float:damage )
 					new Float:sparkdir[3] = {0.0,0.0,90.0};
 					new Float:maxdist = GlaiveRadius[skill_level2];
 					decl Float:start_pos[3];
-					decl Float:end_pos2[3];
+					//decl Float:end_pos2[3];
 					GetClientAbsOrigin(victim,start_pos);
-					GetClientAbsOrigin(victim,end_pos2);
-					end_pos2[2]+=1000.0;
+					//GetClientAbsOrigin(victim,end_pos2);
+					//end_pos2[2]+=1000.0;
 					//TE_SetupBeamPoints(start_pos,end_pos2,XBeamSprite, HaloSprite, 0, 1, Float:2.0,  Float:3.0, 3.0, 1, 0.0, {255,255,255,255}, 0);
 					//TE_SendToAll(0.0);
 					//TE_SetupBeamRingPoint(start_pos, 20.0, maxdist+10.0, XBeamSprite, HaloSprite, 0, 1, 1.0, 90.0, 0.0, {128,0,255,255}, 10, 0);
@@ -188,8 +179,8 @@ public OnW3TakeDmgBullet( victim, attacker, Float:damage )
 							decl Float:TargetPos[3];
 							GetClientAbsOrigin(i, TargetPos);
 							if (GetVectorDistance(start_pos, TargetPos) <= maxdist) {
-								TE_SetupSparks(TargetPos, sparkdir, 90, 90);
-								TE_SendToAll();
+								W3SetupSparks(thisRaceID, TargetPos, sparkdir, 90, 90);
+								W3SendToAll();
 								War3_DealDamage( i, lunadmg, attacker, DMG_FALL, "moonglaive" );
 								W3PrintSkillDmgConsole(i,attacker, War3_GetWar3DamageDealt(),SKILL_BOUNCE);
 								PrintHintText(i,"You've been hit by a Moon Glaive!");
@@ -225,8 +216,8 @@ public OnUltimateCommand( client, race, bool:pressed )
 				decl Float:StartPos[3];
 				GetClientAbsOrigin(client, StartPos);
 				StartPos[2]+=400.0;
-				TE_SetupGlowSprite(StartPos, MoonSprite, 5.0, 3.0, 255);
-				TE_SendToAll();
+				W3SetupGlowSprite(thisRaceID, StartPos, MoonSprite, 5.0, 3.0, 255);
+				W3SendToAll();
 				
 				
 				/*
@@ -239,14 +230,14 @@ public OnUltimateCommand( client, race, bool:pressed )
 				
 				est_Effect_08 <player Filter> <delay> <model> <center 'X Y Z'> <Start Radius> <End Radius> <framerate> <life> <width> <spread> <amplitude> <R> <G> <B> <A> <speed> <flags>
 				*/								
-				TE_SetupBeamRingPoint(StartPos, 1000.0, 40.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
-				TE_SendToAll();
-				TE_SetupBeamRingPoint(StartPos, 40.0, 1000.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
-				TE_SendToAll();
-				TE_SetupBeamRingPoint(StartPos, 400.0, 500.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
-				TE_SendToAll();
-				TE_SetupBeamRingPoint(StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 3.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
-				TE_SendToAll(3.0);
+				W3SetupBeamRingPoint(thisRaceID, StartPos, 1000.0, 40.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
+				W3SendToAll();
+				W3SetupBeamRingPoint(thisRaceID, StartPos, 40.0, 1000.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
+				W3SendToAll();
+				W3SetupBeamRingPoint(thisRaceID, StartPos, 400.0, 500.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
+				W3SendToAll();
+				W3SetupBeamRingPoint(thisRaceID, StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 3.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
+				W3SendToAll(_,3.0);
 				
 				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT,true,true);
 			}
@@ -307,8 +298,8 @@ public Action:Timer_LunaFX( Handle:timer, any:client )
 	decl Float:client_pos[3];
 	GetClientAbsOrigin(client,client_pos);
 	client_pos[2]+=35.0;
-	TE_SetupBeamRingPoint(client_pos,80.0,300.0,BeamSprite,HaloSprite,0,20,5.0,80.0,1.0,{128,0,255,255},10,0);
-	TE_SendToAll();
+	W3SetupBeamRingPoint(thisRaceID, client_pos,80.0,300.0,BeamSprite,HaloSprite,0,20,5.0,80.0,1.0,{128,0,255,255},10,0);
+	W3SendToAll();
 }
 
 public Action:Timer_EclipseLoop( Handle:timer, any:attacker )
@@ -360,12 +351,12 @@ MoonBeamDamageAndEffect(victim,attacker){
 	GetClientAbsOrigin(victim,end_pos2);
 	end_pos2[2]+=10000.0;
 	//TE_SetupBeamPoints(const Float:start[3], const Float:end[3], ModelIndex, HaloIndex, StartFrame, FrameRate, Float:Life, Float:Width, Float:EndWidth, FadeLength, Float:Amplitude, const Color[4], Speed)
-	TE_SetupBeamPoints(start_pos,end_pos2,							XBeamSprite, HaloSprite, 0,			 30,		 Float:1.0,  Float:20.0, 		20.0, 		0, 			0.0,  	{255,255,255,255}, 	300);
-	TE_SendToAll(0.0);
+	W3SetupBeamPoints(thisRaceID, start_pos,end_pos2,							XBeamSprite, HaloSprite, 0,			 30,		 Float:1.0,  Float:20.0, 		20.0, 		0, 			0.0,  	{255,255,255,255}, 	300);
+	W3SendToAll();
 	
 	//TE_SetupBeamRingPoint(const Float:center[3], Float:Start_Radius, Float:End_Radius, ModelIndex, HaloIndex, StartFrame, FrameRate, Float:Life, Float:Width, Float:Amplitude, const Color[4], Speed, Flags)
-	TE_SetupBeamRingPoint(start_pos,                 20.0,            99.0,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255,255,255,255}, 10, 	0);
-	TE_SendToAll(0.3);
+	W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            99.0,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255,255,255,255}, 10, 	0);
+	W3SendToAll(_,0.3);
 	
 	War3_DealDamage(victim,GetRandomInt(LucentBeamMin,LucentBeamMax),attacker,DMG_FALL,"lucentbeam");
 	W3PrintSkillDmgHintConsole(victim,attacker, War3_GetWar3DamageDealt(),SKILL_MOONBEAM);
