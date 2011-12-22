@@ -14,7 +14,7 @@
  *  please note again that war3 extensions will not work properly if you are not using the provided .smx 
  */ 
 
-
+  
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -56,9 +56,10 @@ public OnPluginStart()
 	CreateTimer(1.0,SecondTick,_,TIMER_REPEAT);
 
 	RegConsoleCmd("w3e", OnCommand);
-	W3CreateCvar("w3helper","loaded","is the war3 helper loaded");
+	
 }
 public OnMapStart(){
+	W3CreateCvar("w3helper","loaded","is the war3 helper loaded");
 	
 	new iIp = GetConVarInt(FindConVar("hostip"));
 	Format(serverip, sizeof(serverip), "%i.%i.%i.%i", (iIp >> 24) & 0x000000FF,
