@@ -713,8 +713,8 @@ public Callback_OnNPCKilled(const String:output[], caller, activator, Float:dela
 					DispatchSpawn(Ragdoll); 
 					Position[2]+=35;
 					//using the explosion as some sort of "smoke" because it looks realy shitty when spawning just a ragdoll..
-					TE_SetupExplosion(Position, ExplosionSprite, 1.0, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_NODLIGHTS, 0 , 0);
-					TE_SendToAll();
+					W3SetupExplosion(thisRaceID, Position, ExplosionSprite, 1.0, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_NODLIGHTS, 0 , 0);
+					W3SendToAll();
 					TeleportEntity(Ragdoll, Position, Angles, NULL_VECTOR);
 				}
 			}

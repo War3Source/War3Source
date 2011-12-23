@@ -19,7 +19,7 @@ new LucentBeamMax = 10;
 
 new Float:GlaiveRadius[5] = {0.0,250.0,300.0,350.0,400.0};
 new Float:GlaiveChance = 0.22;
-new GlaiveDamage[5] = {0,5,8,12};
+new GlaiveDamage[5] = {0,4,6,8,12};
 
 new Float:BlessingRadius = 280.0;
 new BlessingIncrease[5] = {0,1,2,2,3};
@@ -36,7 +36,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source Race - Luna Moonfang",
 	author = "Jareth&DonRevan",
-	description = "Luna Moonfang (portet from es to w3s)",
+	description = "Luna Moonfang",
 	version = "1.0",
 	url = "www.wcs-lagerhaus.de"
 };

@@ -193,7 +193,7 @@ native bool:W3RaceCanDrawEffects(raceid);
 native bool:W3ClientCanSeeEffect(client);
 //returns the raceid of the last create w3effect
 native W3GetEffectRace();
-//War3Source TE_Send methods - use them instead of the 'old' ones!:
+//War3Source TE_ methods - use them instead of the 'old' ones!:
 native bool:W3CreateEffect(const String:te_name[],raceid); //actually init. the effect(register's it to a race)
 native W3SendToArea(Float:fPos[3],Float:fMaxDistance,bool:aliveOnly=false,Float:fDelay=0.0);
 native W3SendToTeam(iTeam,bool:aliveOnly=false,Float:fDelay=0.0);
@@ -300,3 +300,21 @@ stock W3SetupBeamFollow(raceid, EntIndex, ModelIndex, HaloIndex, Float:Life, Flo
 	TE_WriteNum("b", Color[2]);
 	TE_WriteNum("a", Color[3]);
 }
+stock W3SetupBloodSprite(raceid, const Float:pos[3], const Float:dir[3], const color[4], Size, SprayModel, BloodDropModel)
+{
+	W3CreateEffect("Blood Sprite",raceid);
+	TE_WriteVector("m_vecOrigin", pos);
+	TE_WriteVector("m_vecDirection", dir);
+	TE_WriteNum("r", color[0]);
+	TE_WriteNum("g", color[1]);
+	TE_WriteNum("b", color[2]);
+	TE_WriteNum("a", color[3]);
+	TE_WriteNum("m_nSize", Size);
+	TE_WriteNum("m_nSprayModel", SprayModel);
+	TE_WriteNum("m_nDropModel", BloodDropModel);
+}
+//////Engine_Particles.sp
+//Purpose: precaches a particle system(not a def. file!)
+native PrecacheParticleSystem(const String:strParticleSystem[]);
+//Purpose: reads a particle def. file
+native bool:ReadParticleConfigFile(const String:strParticleFile[],bool:bPrecache,bool:bDecommitTempMemory=true);
