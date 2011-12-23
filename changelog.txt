@@ -10,6 +10,9 @@ Luna ult was not labled as an ult
 
 Some Undead Balance
 say speed in TF2 will print multiplier too
+RACE: Rainbow dash
+
+gamedata removed and CS drop weapon now uses SM native
 
 B6
 

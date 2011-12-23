@@ -58,8 +58,13 @@ public OnPluginStart()
 	RegConsoleCmd("w3e", OnCommand);
 	
 }
+new bool:done=false;
 public OnMapStart(){
-	W3CreateCvar("w3helper","loaded","is the war3 helper loaded");
+	 ///do it here so it doesnt failed on pluginstart and plugin stays alive
+	if(done==false){
+		W3CreateCvar("w3helper","loaded","is the war3 helper loaded");
+		done=true;
+	}
 	
 	new iIp = GetConVarInt(FindConVar("hostip"));
 	Format(serverip, sizeof(serverip), "%i.%i.%i.%i", (iIp >> 24) & 0x000000FF,

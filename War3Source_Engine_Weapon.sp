@@ -1,6 +1,8 @@
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
+#include <cstrike>
+
 
 new m_OffsetActiveWeapon;
 new m_OffsetNextPrimaryAttack;
@@ -78,8 +80,10 @@ public NW3DropWeapon(Handle:plugin,numParams)
 {
 	new client = GetNativeCell(1)
 	new wpent = GetNativeCell(2);
-	if (ValidPlayer(client,true) && IsValidEdict(wpent))
-		SDKHooks_DropWeapon(client, wpent);
+	if (ValidPlayer(client,true) && IsValidEdict(wpent)){
+		CS_DropWeapon(client,wpent,true);
+		//SDKHooks_DropWeapon(client, wpent);
+	}
 }
 
 public NWar3_WeaponRestrictTo(Handle:plugin,numParams)
@@ -104,7 +108,7 @@ public NWar3_GetWeaponRestrict(Handle:plugin,numParams)
 {
 	new client=GetNativeCell(1);
 	new raceid=GetNativeCell(2);
-	new String:restrictedto[300];
+	//new String:restrictedto[300];
 	new maxsize=GetNativeCell(4);
 	if(maxsize>0) SetNativeString(3, weaponsAllowed[client][raceid], maxsize, false);
 }
@@ -219,9 +223,9 @@ public Action:DeciSecondTimer(Handle:h,any:a){
 						
 						//PrintIfDebug(client,"            drop");
 						
-						
-						SDKHooks_DropWeapon(client, wpnent);
-						AcceptEntityInput(wpnent, "Kill");
+						CS_DropWeapon(client,wpnent,true);
+						//SDKHooks_DropWeapon(client, wpnent);
+						//AcceptEntityInput(wpnent, "Kill");
 						//UTIL_Remove(wpnent);
 						
 					}
