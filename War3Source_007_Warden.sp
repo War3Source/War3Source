@@ -192,8 +192,8 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 						GetClientAbsOrigin(victim,playerVec);
 						
 						playerVec[2]+=20;
-						W3SetupBeamRingPoint(thisRaceID,playerVec, 10.0, KnivesTFRadius, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, {255,255,255,155}, 100, 0);
-						W3SendToAll();
+						TE_SetupBeamRingPoint(playerVec, 10.0, KnivesTFRadius, BeamSprite, HaloSprite, 0, 15, 0.5, 10.0, 10.0, {255,255,255,155}, 100, 0);
+						TE_SendToAll();
 						playerVec[2]-=20;
 						
 						new Float:otherVec[3];

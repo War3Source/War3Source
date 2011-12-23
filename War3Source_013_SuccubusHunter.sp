@@ -478,7 +478,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 						//PrintToChatAll("%s %s",wpn, comparestr);
 						if(StrEqual(wpnstr,comparestr,false)){
 							
-							TE_SetupKillPlayerAttachments(wpn); //can safetly used without war3source fx methods since it doesn't creates an effect
+							TE_SetupKillPlayerAttachments(wpn);
 							TE_SendToAll();
 							
 							new color[4]={0,25,255,200};
@@ -486,8 +486,8 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 								color[0]=255;
 								color[2]=0;
 							}
-							W3SetupBeamFollow(thisRaceID,wpn,Laser,0,0.5,2.0,7.0,1,color);
-							W3SendToAll();
+							TE_SetupBeamFollow(wpn,Laser,0,0.5,2.0,7.0,1,color);
+							TE_SendToAll();
 							break;
 						}
 					}
@@ -592,8 +592,8 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 										color[0]=255;
 										color[2]=0;
 									}
-									W3SetupBeamFollow(thisRaceID,wpn,Laser,0,0.5,2.0,7.0,1,color);
-									W3SendToAll();
+									TE_SetupBeamFollow(wpn,Laser,0,0.5,2.0,7.0,1,color);
+									TE_SendToAll();
 									break;
 								}
 							}

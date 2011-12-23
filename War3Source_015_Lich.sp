@@ -119,8 +119,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 						HitOnForwardTide[i][client]=false;
 					}
 					
-					W3SetupBeamRingPoint(thisRaceID, FrostNovaOrigin[client], 1.0, 650.0, BeamSprite, HaloSprite, 0, 5, 1.0, 50.0, 1.0, {0,0,255,255}, 50, 0);
-					W3SendToAll();
+					TE_SetupBeamRingPoint(FrostNovaOrigin[client], 1.0, 650.0, BeamSprite, HaloSprite, 0, 5, 1.0, 50.0, 1.0, {0,0,255,255}, 50, 0);
+					TE_SendToAll();
 					
 					CreateTimer(0.1,BurnLoop,client); //damage
 					CreateTimer(0.13,BurnLoop,client); //damage

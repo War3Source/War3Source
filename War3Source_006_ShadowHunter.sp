@@ -385,8 +385,8 @@ public WardEffectAndDamage(owner,wardindex)
 	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
 	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
  
-	W3SetupBeamPoints(thisRaceID,start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),0.17,float(WARDRADIUS),float(WARDRADIUS),0,0.0,beamcolor,10);
-	W3SendToAll();
+	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),0.17,float(WARDRADIUS),float(WARDRADIUS),0,0.0,beamcolor,10);
+	TE_SendToAll();
 	
 	new Float:BeamXY[3];
 	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy

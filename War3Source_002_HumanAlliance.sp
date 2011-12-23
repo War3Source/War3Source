@@ -114,8 +114,8 @@ public ActivateSkills(client)
 		{
 			ringColor={0,0,255,255};
 		}
-		W3SetupBeamRingPoint(thisRaceID,vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
-		W3SendToAll();
+		TE_SetupBeamRingPoint(vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
+		TE_SendToAll();
 		
 		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
 	}

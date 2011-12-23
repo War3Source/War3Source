@@ -134,8 +134,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					HitOnForwardTide[i][client]=false;
 				}
 				//50 IS THE CLOSE CHECK
-				W3SetupBeamRingPoint(thisRaceID,ElectricTideOrigin[client], 20.0, ElectricTideRadius+50, BeamSprite, HaloSprite, 0, 5, 0.5, 10.0, 1.0, {255,0,255,133}, 60, 0);
-				W3SendToAll();
+				TE_SetupBeamRingPoint(ElectricTideOrigin[client], 20.0, ElectricTideRadius+50, BeamSprite, HaloSprite, 0, 5, 0.5, 10.0, 1.0, {255,0,255,133}, 60, 0);
+				TE_SendToAll();
 				
 				CreateTimer(0.1,BurnLoop,GetClientUserId(client)); //damage
 				CreateTimer(0.13,BurnLoop,GetClientUserId(client)); //damage
@@ -157,8 +157,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 public Action:SecondRing(Handle:timer,any:userid)
 {
 	new client=GetClientOfUserId(userid);
-	W3SetupBeamRingPoint(thisRaceID,ElectricTideOrigin[client], ElectricTideRadius+50,20.0, BeamSprite, HaloSprite, 0, 5, 0.5, 10.0, 1.0, {255,0,255,133}, 60, 0);
-	W3SendToAll();
+	TE_SetupBeamRingPoint(ElectricTideOrigin[client], ElectricTideRadius+50,20.0, BeamSprite, HaloSprite, 0, 5, 0.5, 10.0, 1.0, {255,0,255,133}, 60, 0);
+	TE_SendToAll();
 }
 public Action:BurnLoop(Handle:timer,any:userid)
 {
@@ -303,8 +303,8 @@ public Action:UltimateLoop(Handle:timer,any:userid)
 			
 			GetClientEyePosition(besttarget,otherpos); 
 			otherpos[2]-=20.0; //THIS IS EYE NOW, NOT ABS
-			W3SetupBeamPoints(thisRaceID, pos,otherpos,BeamSprite,HaloSprite,0,35,0.15,6.0,5.0,0,1.0,{255,000,255,255},20);
-			W3SendToAll();
+			TE_SetupBeamPoints(pos,otherpos,BeamSprite,HaloSprite,0,35,0.15,6.0,5.0,0,1.0,{255,000,255,255},20);
+			TE_SendToAll();
 			War3_DealDamage(besttarget,OverloadDamagePerHit[War3_GetSkillLevel(attacker,thisRaceID,ULT_OVERLOAD)],attacker,_,"overload");
 			PlayerDamageIncrease[attacker]*=OverloadDamageIncrease[War3_GetSkillLevel(attacker,thisRaceID,ULT_OVERLOAD)];
 			

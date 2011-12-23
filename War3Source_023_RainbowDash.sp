@@ -168,20 +168,20 @@ public OnUltimateCommand(client,race,bool:pressed)
 					GetClientAbsOrigin(client,start_pos);
 					
 					//TE_SetupBeamRingPoint(const Float:center[3], Float:Start_Radius, Float:End_Radius, ModelIndex, HaloIndex, StartFrame, FrameRate, Float:Life, Float:Width, Float:Amplitude, const Color[4], Speed, Flags)
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255,0,0,255}, 10, 	0);
-					W3SendToAll(_,0.0);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255, 127, 0,255}, 10, 	0);
-					W3SendToAll(_,0.05);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255, 255, 0,255}, 10, 	0);
-					W3SendToAll(_,0.09);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0, 255, 0,255}, 10, 	0);
-					W3SendToAll(_,0.11);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0, 127, 255,255}, 10, 	0);
-					W3SendToAll(_,0.13);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0,0,255,255}, 10, 	0);
-					W3SendToAll(_,0.15);
-					W3SetupBeamRingPoint(thisRaceID, start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{143, 0, 255,255}, 10, 	0);
-					W3SendToAll(_,0.17);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255,0,0,255}, 10, 	0);
+					TE_SendToAll(0.0);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255, 127, 0,255}, 10, 	0);
+					TE_SendToAll(0.05);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{255, 255, 0,255}, 10, 	0);
+					TE_SendToAll(0.09);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0, 255, 0,255}, 10, 	0);
+					TE_SendToAll(0.11);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0, 127, 255,255}, 10, 	0);
+					TE_SendToAll(0.13);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{0,0,255,255}, 10, 	0);
+					TE_SendToAll(0.15);
+					TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,			 XBeamSprite, HaloSprite,	 0, 		1, 				0.5, 	30.0, 		0.0, 			{143, 0, 255,255}, 10, 	0);
+					TE_SendToAll(0.17);
 					//DP("%f %f",rainboomradius[skill],rainboomradius[skill]*2);
 				
 					decl Float:TargetPos[3];

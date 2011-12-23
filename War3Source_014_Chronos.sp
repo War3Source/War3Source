@@ -267,8 +267,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 					origin[0]=endpos[0];
 					origin[1]=endpos[1];
 					origin[2]=endpos[2]+heightoffset;
-					W3SetupBeamRingPoint(thisRaceID, origin, tempdiameter-0.1, tempdiameter, BeamSprite, HaloSprite, 0, 0, life, 2.0, 0.0, {80,200,255,122}, 10, 0);
-					W3SendToAll();
+					TE_SetupBeamRingPoint(origin, tempdiameter-0.1, tempdiameter, BeamSprite, HaloSprite, 0, 0, life, 2.0, 0.0, {80,200,255,122}, 10, 0);
+					TE_SendToAll();
 				}
 				
 				
@@ -278,8 +278,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 				
 				CreateTimer(life,sphereend,client);
 				
-				W3SetupGlowSprite(thisRaceID, endpos,glowsprite,life,3.57,255);
-				W3SendToAll();
+				TE_SetupGlowSprite(endpos,glowsprite,life,3.57,255);
+				TE_SendToAll();
 				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_SPHERE,_,_);
 			}
 		}
