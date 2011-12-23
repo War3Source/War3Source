@@ -31,7 +31,9 @@ public OnPluginStart()
 new ORIGINALHP[MAXPLAYERSCUSTOM];
 public OnWar3EventSpawn(client){
 	ORIGINALHP[client]=GetClientHealth(client);
- // DP("SPAWN %d",ORIGINALHP[client]);
+	//if(!IsFakeClient(client))
+  	//	DP("SPAWN set oroginal %d",ORIGINALHP[client]);
+ 
 	
 //	if(W3GetPlayerProp(client,bStatefulSpawn)){
 	if(mytimer[client]!=INVALID_HANDLE){
@@ -46,10 +48,13 @@ public Action:CheckHP(Handle:h,any:client){
 	mytimer[client]=INVALID_HANDLE;
 	if(ValidPlayer(client,true)){
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-		//DP("additonal %d",hpadd);
-		SetEntityHealth(client,GetClientHealth(client)+hpadd);
+		//if(!IsFakeClient(client))
+		//DP("oroginal %d, additonal %d",ORIGINALHP[client],hpadd);
+		new curhp=GetClientHealth(client);
+		SetEntityHealth(client,curhp+hpadd);
 		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
-		//DP("was %d, set to %d",War3_GetMaxHP(client),War3_GetMaxHP(client)+hpadd);
+		//if(!IsFakeClient(client))
+		//DP("was curhp %d, set to %d",curhp,GetClientHealth(client));
 		LastDamageTime[client]=GetEngineTime()-100.0;
 	}
 }
@@ -60,13 +65,13 @@ public OnWar3Event(W3EVENT:event,client){
 	{
 		if(W3GetVar(EventArg1)==iAdditionalMaxHealth&&ValidPlayer(client,true)){
 			if(mytimer2[client]==INVALID_HANDLE){	
-				mytimer2[client]=CreateTimer(0.1,CheckHP2,client);
+				mytimer2[client]=CreateTimer(0.1,CheckHPBuffChange,client);
 			}
 		}
 	}
 	//DP("EVENT %d",event);
 }
-public Action:CheckHP2(Handle:h,any:client){
+public Action:CheckHPBuffChange(Handle:h,any:client){
 	if(ValidPlayer(client,true)){
 		mytimer2[client]=INVALID_HANDLE;
 		new oldmaxhp=War3_GetMaxHP(client);
@@ -80,20 +85,9 @@ public Action:CheckHP2(Handle:h,any:client){
 			newhp=1;
 		}
 		SetEntityHealth(client,newhp);
+		
 	}
 }
-public OnClientPutInServer(client)
-{
-   //  SDKHook(client, SDKHook_PostThink, PostThinkHook);
-}
- 
-public PostThinkHook(client)
-{
-    //if(GameTF()){
-    //      TF2_SetPlayerResourceData(client, TFResource_MaxHealth, War3_GetMaxHP(client));
-    //}
-    
-}  
 
 public OnWar3EventPostHurt(victim,attacker,damage){
 	LastDamageTime[victim]=GetEngineTime();
