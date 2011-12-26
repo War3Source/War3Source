@@ -450,8 +450,8 @@ public Action:ExecOnceTimer(Handle:h){
 	decl String:longquery[16000];
 
 		
-	decl String:racename[100];
-	decl String:raceshort[100];
+	new String:racename[100];
+	new  String:raceshort[100];
 	new RacesLoaded = War3_GetRacesLoaded();
 	for(new raceid=1;raceid<=RacesLoaded;raceid++)
 	{
@@ -506,6 +506,8 @@ public Action:ExecOnceTimer(Handle:h){
 			CloseHandle(keyValue);
 		}
 
+		URLEncode(racename,sizeof(racename));
+		URLEncode(raceshort,sizeof(raceshort));
 		//no english? or no translations? send nothing as racename
 		Format(longquery,sizeof(longquery),"w3stat/raceinsertV2.php?racename=%s&raceshort=%s",racename,raceshort);
 
@@ -724,7 +726,7 @@ stock URLEncode(String:str[],len)
 		ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
 	}
 	if(strlen(str)>len-1){
-		War3Failed("statistics encode url exceeded length");
+		War3Failed("statistics encode url exceeded length"); //this should never happen as ReplaceString was fixed not to overwrite its length
 	}
 }
 stock bool:ShowError(){

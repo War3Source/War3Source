@@ -68,7 +68,7 @@ public OnPluginStart()
 public War3Source_PointCapturedEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	new team=GetEventInt(event,"team");
-	if(team>-1)
+	if(team>1)
 	{
 		for(new i=1;i<=MaxClients;i++)
 		{
