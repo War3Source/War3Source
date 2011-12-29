@@ -118,3 +118,19 @@ stock War3_PrecacheParticle( const String:p_strEffectName[] )
 		s_numStringTable = FindStringTable( "ParticleEffectNames" );
 	AddToStringTable( s_numStringTable, p_strEffectName );
 }
+
+//probably usefull since it allready gots a getbyshortname brother
+stock War3_GetRaceIDByName(const String:racename[64]) {
+	new RacesLoaded = War3_GetRacesLoaded();
+	decl String:buffer[64],id;
+	id=-1;//so.. -1 means invalid/not found
+	for(new x=1;x<=RacesLoaded;x++)
+	{
+		War3_GetRaceName(x,buffer,sizeof(buffer));
+		if(StrEqual(buffer,racename)) {
+			id=x;
+			break;
+		}
+	}
+	return id;
+}
