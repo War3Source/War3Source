@@ -626,8 +626,8 @@ public WardEffectAndHeal(owner,wardindex)
 						}
 						//SetEntityZHealth(i,new_hp);
 						War3_HealToMaxHP(i,WARDHEAL);
-						VictimPos[i]+=65.0;
-						War3_TF_ParticleToClient(0, GetClientTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
+						VictimPos[2]+=65.0;
+						War3_TF_ParticleToClient(0, GetApparentTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
 					}
 				}
 			}
