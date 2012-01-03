@@ -174,7 +174,7 @@ public Action:SuicideAction(Handle:timer,any:client)
 					new damage;
 					damage=RoundFloat(SuicideDamage[client]*factor);
 					War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);	
-					W3PrintSkillDmgConsole(x,client,War3_GetWar3DamageDealt(),SuicideSkillID[client]);
+					//W3PrintSkillDmgConsole(x,client,War3_GetWar3DamageDealt(),SuicideSkillID[client]);
 				
 					War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
 					W3FlashScreen(x,RGBA_COLOR_RED);

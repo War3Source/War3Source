@@ -116,7 +116,7 @@ public OnRaceChanged(client,oldrace,newrace)
 	}
 }
 
-public OnWar3EventDeath(victim,attacker)
+public OnWar3EventDeath(victim, attacker)
 {
 	new race=W3GetVar(DeathRace);
 	new skill=War3_GetSkillLevel(victim,thisRaceID,SKILL_SUICIDE);
@@ -126,9 +126,9 @@ public OnWar3EventDeath(victim,attacker)
 		GetClientAbsOrigin(victim,location);
 		if(War3_GetGame()==Game_TF)
 		{
-			War3_SuicideBomber(victim, location, SuicideBomberDamageTF[SKILL_SUICIDE], SKILL_SUICIDE,SuicideBomberRadius[SKILL_SUICIDE]);
+			War3_SuicideBomber(victim, location, SuicideBomberDamageTF[skill], SKILL_SUICIDE, SuicideBomberRadius[skill]);
 		} else {
-			War3_SuicideBomber(victim, location, SuicideBomberDamage[SKILL_SUICIDE], SKILL_SUICIDE,SuicideBomberRadius[SKILL_SUICIDE]);
+			War3_SuicideBomber(victim, location, SuicideBomberDamage[skill], SKILL_SUICIDE, SuicideBomberRadius[skill]);
 		}
 		
 	} 
