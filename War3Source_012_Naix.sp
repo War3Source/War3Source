@@ -124,7 +124,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 }
 //new Float:teleportTo[66][3];
 public OnWar3EventDeath(victim,attacker){
-	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)&&bDucking[attacker]){
+	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)){
 		new iSkillLevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_INFEST);
 		if (iSkillLevel>0)
 		{
@@ -144,17 +144,18 @@ public OnWar3EventDeath(victim,attacker){
 			else{
 				
 				
-
-				decl Float:location[3];
-				GetClientAbsOrigin(victim,location);
-				//.PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
-				War3_CachedPosition(victim,location);
-				//PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
-				
-				
-				//CreateTimer(0.1,setlocation,attacker);
-				
-				TeleportEntity(attacker, location, NULL_VECTOR, NULL_VECTOR);
+				if(bDucking[attacker]){
+					decl Float:location[3];
+					GetClientAbsOrigin(victim,location);
+					//.PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
+					War3_CachedPosition(victim,location);
+					//PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
+					
+					
+					//CreateTimer(0.1,setlocation,attacker);
+					
+					TeleportEntity(attacker, location, NULL_VECTOR, NULL_VECTOR);
+				}
 				
 				new addHealth = RoundFloat(FloatMul(float(War3_GetMaxHP(victim)),HPPercentHealPerKill[iSkillLevel]));
 				

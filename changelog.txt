@@ -14,6 +14,8 @@ RACE: Rainbow dash
 
 gamedata removed and CS drop weapon now uses SM native
 
+fixed NAIX not leeching on kill when not in ducking mode.
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)
