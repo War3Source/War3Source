@@ -20,7 +20,7 @@ public W3ONLY(){} //unload this?
 
 //Skills Settings
  
-new Float:HPPercentHealPerKill[5] = { 0.0,0.5,  0.10,  0.15,  0.20 }; //SKILL_INFEST settings
+new Float:HPPercentHealPerKill[5] = { 0.0,0.05,  0.10,  0.15,  0.20 }; //SKILL_INFEST settings
 //Skill 1_1 really has 5 settings, so it's not a mistake
 new HPIncrease[5]       = { 0, 10, 20, 30, 40 };     //Increases Maximum health
 
