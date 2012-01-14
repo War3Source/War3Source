@@ -1510,7 +1510,7 @@
 	}
 	"You Banished"
 	{
-		"ru"		"Вы ослеплены"
+		"ru"		"Вы ослепили противника"
 	}
 	"Enemy stole {dollars} dollars from you"
 	{
