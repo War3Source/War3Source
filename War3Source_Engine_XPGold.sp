@@ -555,7 +555,7 @@ TryToGiveXPGold(client,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprin
 			newgold=maxgold;
 			addgold=newgold-oldgold;
 		}
-		War3_SetGold(client,newgold);
+		War3_SetGold(client,oldgold+addgold);
 		if(addxp>0&&addgold>0)
 			War3_ChatMessage(client,"%T","You have gained {amount} XP and {amount} gold for {award}",client,addxp,addgold,awardedprintstring);
 		else if(addxp>0)
