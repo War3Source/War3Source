@@ -864,6 +864,9 @@ CreateRaceEnd(raceid){
 			temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma. MAXIMUM OF 2!! list: scout,sniper,soldier,demoman,medic,heavy,pyro,spy,engineer");
 			W3SetRaceCell(raceid,ClassRestrictionCvar,temp);
 			
+			Format(cvarstr,sizeof(cvarstr),"%s_category",shortname);
+			W3SetRaceCell(raceid,RaceCategorieCvar,W3CreateCvar(cvarstr,"default","Determines in which Category the race should be displayed(if cats are active)"));
+			
 			// create war3sourceraces structure, shouldn't be harmful if already exists
 			if(hDB)
 			{

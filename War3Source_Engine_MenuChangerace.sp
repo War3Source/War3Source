@@ -9,7 +9,10 @@ new Handle:g_hGameMode;
 new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
 
-
+//race cat defs
+new Handle:hUseCategories;
+new String:strCategories[MAXCATS][64];
+new CatCount;
 
 public Plugin:myinfo= 
 {
@@ -22,8 +25,8 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-	 if(War3_IsL4DEngine())
-	 {
+	if(War3_IsL4DEngine())
+	{
 		g_hGameMode = FindConVar("mp_gamemode");
 		if(!HookEventEx("survival_round_start", War3Source_SurvivalStartEvent))
 		{
@@ -49,7 +52,15 @@ public OnPluginStart()
 		{
 			PrintToServer("[War3Source] Could not hook the player_left_start_area event.");
 		}
-	 }
+	}
+	hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
+	RegServerCmd("war3_reloadcats", Command_ReloadCats);
+}
+
+public Action:Command_ReloadCats(args) {
+	PrintToServer("[WAR3] forcing race categories to be refreshed..");
+	refreshCategories();
+	return Plugin_Handled;
 }
 
 public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
@@ -101,92 +112,172 @@ public OnWar3Event(W3EVENT:event,client){
 		}
 	}
 }
+
+//Checks if a category exist
+stock bool:W3IsCategory(const String:cat_name[],max_size=64) {
+	for(new i=0;i<CatCount;i++) {
+		if(strcmp(strCategories[i], cat_name, false)==0) {
+			return true //cat exist
+		}
+	}
+	return false;//no cat founded that is named X
+}
+//Removes all categories
+stock W3ClearCategory() {
+	for(new i=0;i<CatCount;i++) {
+		strcopy(strCategories[i],64,"");
+	}
+	CatCount = 0;
+}
+//Adds a new Category and returns true on success
+stock bool:W3AddCategory(const String:cat_name[]) {
+	if(CatCount<MAXCATS) {
+		strcopy(strCategories[CatCount],64,cat_name);
+		CatCount++;
+		return true;
+	}
+	W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
+	return false;
+}
+//Returns a Category Name thing
+stock W3GetCategory(iIndex,String:cat_name[],max_size) {
+	strcopy(cat_name,max_size,strCategories[iIndex]);
+}
+//Refreshes Categories
+refreshCategories() {
+	W3ClearCategory();
+	//zeroth cat will not be drawn = perfect hidden cat ;D
+	W3AddCategory("hidden");
+	decl String:rcvar[64];
+	decl racelist[MAXRACES];
+	//Loop tru all _avaible_ races
+	new racedisplay=W3GetRaceList(racelist);
+	for(new i=0;i<racedisplay;i++)
+	{
+		new x=racelist[i];
+		W3GetCvar(W3GetRaceCell(x,RaceCategorieCvar),rcvar,sizeof(rcvar));
+		//To avoid multiple-same-named-categories we need to check if the category allready exist
+		if(!W3IsCategory(rcvar,sizeof(rcvar))) {
+			//Add a new category
+			W3AddCategory(rcvar);
+		}
+	}
+}
+
+public OnMapStart() refreshCategories();
+
 new String:dbErrorMsg[100];
 public OnWar3GlobalError(String:err[]){
-	 strcopy(dbErrorMsg,sizeof(dbErrorMsg),err);
+	strcopy(dbErrorMsg,sizeof(dbErrorMsg),err);
 }
 War3Source_ChangeRaceMenu(client)
 {
 	if(W3IsPlayerXPLoaded(client))
 	{
 		SetTrans(client);
-		new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
-		SetMenuExitButton(crMenu,true);
-		
-		new String:title[400];
-		if(strlen(dbErrorMsg)){
-			Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
-		}
-		Format(title,sizeof(title),"%s%T",title,"[War3Source] Select your desired race",GetTrans()) ;
-		if(W3GetLevelBank(client)>0){
-			Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
-		}
-		SetMenuTitle(crMenu,"%s\n \n",title);
-		
-		// Iteriate through the races and print them out
-		
-		decl String:rbuf[4];
-		decl String:rname[64];
-		decl String:rdisp[128];
-		
-		
-		new racelist[MAXRACES];
-		new racedisplay=W3GetRaceList(racelist);
-		//if(GetConVarInt(W3GetVar(hSortByMinLevelCvar))<1){
-		//	for(new x=0;x<War3_GetRacesLoaded();x++){//notice this starts at zero!
-		//		racelist[x]=x+1;
-		//	}
-		//}
-		
-		for(new i=0;i<racedisplay;i++) //notice this starts at zero!
-		{
-			new	x=racelist[i];
+		decl Handle:crMenu;
+		if(GetConVarBool(hUseCategories)) {
+			//Revan: the long requested changerace categorie feature
+			//TODO:
+			//- translation support
+			//- possibility to disable categories for a certein player
+			crMenu=CreateMenu(War3Source_CRMenu_SelCat);
+			SetMenuExitButton(crMenu,true);
 			
-			Format(rbuf,sizeof(rbuf),"%d",x); //DATA FOR MENU!
+			new String:title[400];
+			if(strlen(dbErrorMsg)){
+				Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
+			}
+			Format(title,sizeof(title),"%s%T",title,"[War3Source] Select a category",GetTrans()) ;
+			if(W3GetLevelBank(client)>0){
+				Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
+			}
+			SetMenuTitle(crMenu,"%s\n \n",title);
+			decl String:strCat[64];
+			//At first we gonna add the categories
+			for(new i=1;i<CatCount;i++) {
+				W3GetCategory(i,strCat,sizeof(strCat));
+				if(strlen(strCat)>0) {
+					AddMenuItem(crMenu,strCat,strCat);
+				}
+			}
+		}
+		else {
+			crMenu=CreateMenu(War3Source_CRMenu_Selected);
+			SetMenuExitButton(crMenu,true);
 			
-			War3_GetRaceName(x,rname,sizeof(rname));
-			new yourteam,otherteam;
-			for(new y=1;y<=MaxClients;y++)
+			decl String:title[400], String:rbuf[4];
+			if(strlen(dbErrorMsg)){
+				Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
+			}
+			Format(title,sizeof(title),"%s%T",title,"[War3Source] Select your desired race",GetTrans()) ;
+			if(W3GetLevelBank(client)>0){
+				Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
+			}
+			SetMenuTitle(crMenu,"%s\n \n",title);
+			// Iteriate through the races and print them out
+			decl String:rname[64];
+			decl String:rdisp[128];
+			
+			
+			new racelist[MAXRACES];
+			new racedisplay=W3GetRaceList(racelist);
+			//if(GetConVarInt(W3GetVar(hSortByMinLevelCvar))<1){
+			//	for(new x=0;x<War3_GetRacesLoaded();x++){//notice this starts at zero!
+			//		racelist[x]=x+1;
+			//	}
+			//}
+			
+			for(new i=0;i<racedisplay;i++) //notice this starts at zero!
 			{
+				new	x=racelist[i];
 				
-				if(ValidPlayer(y,false))
+				Format(rbuf,sizeof(rbuf),"%d",x); //DATA FOR MENU!
+				
+				War3_GetRaceName(x,rname,sizeof(rname));
+				new yourteam,otherteam;
+				for(new y=1;y<=MaxClients;y++)
 				{
-					if(War3_GetRace(y)==x)
+					
+					if(ValidPlayer(y,false))
 					{
-						if(GetClientTeam(client)==GetClientTeam(y))
+						if(War3_GetRace(y)==x)
 						{
-							++yourteam;
-						}
-						else
-						{
-							++otherteam;
+							if(GetClientTeam(client)==GetClientTeam(y))
+							{
+								++yourteam;
+							}
+							else
+							{
+								++otherteam;
+							}
 						}
 					}
 				}
-			}
-			new String:extra[3];
-			if(War3_GetRace(client)==x)
-			{
-				Format(extra,sizeof(extra),">");
+				new String:extra[3];
+				if(War3_GetRace(client)==x)
+				{
+					Format(extra,sizeof(extra),">");
+					
+				}
+				else if(W3GetPendingRace(client)==x){
+					Format(extra,sizeof(extra),"<");
+					
+				}
+				Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+				new minlevel=W3GetRaceMinLevelRequired(x);
+				if(minlevel<0) minlevel=0;
+				if(minlevel)
+				{
+					Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
+				}
+				//if(!HasRaceAccess(client,race)){ //show that it is restricted?
+				//	Format(rdisp,sizeof(rdisp),"%s\nRestricted",rdisp);
+				//}
 				
-			}
-			else if(W3GetPendingRace(client)==x){
-				Format(extra,sizeof(extra),"<");
 				
+				AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
 			}
-			Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
-			new minlevel=W3GetRaceMinLevelRequired(x);
-			if(minlevel<0) minlevel=0;
-			if(minlevel)
-			{
-				Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
-			}
-			//if(!HasRaceAccess(client,race)){ //show that it is restricted?
-			//	Format(rdisp,sizeof(rdisp),"%s\nRestricted",rdisp);
-			//}
-			
-			
-			AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
 		}
 		DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
 	}
@@ -194,6 +285,77 @@ War3Source_ChangeRaceMenu(client)
 		War3_ChatMessage(client,"%T","Your XP Has not been fully loaded yet",GetTrans());
 	}
 	
+}
+
+public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
+{
+	switch(action) {
+	case MenuAction_Select:
+		{
+			if(ValidPlayer(client))
+			{
+				SetTrans(client);
+				decl String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
+				GetMenuItem(menu, selection, sItem, sizeof(sItem));
+				new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
+				SetMenuExitButton(crMenu,true);
+				Format(title,sizeof(title),"%T","[War3Source] Select your desired race",GetTrans());
+				SetMenuTitle(crMenu,"%s\nCategory: %s\n",title,sItem);
+				// Iteriate through the races and print them out				
+				new racelist[MAXRACES];
+				new racedisplay=W3GetRaceList(racelist);
+				for(new i=0;i<racedisplay;i++)
+				{
+					new	x=racelist[i],String:rcvar[64];
+					W3GetCvar(W3GetRaceCell(x,RaceCategorieCvar),rcvar,sizeof(rcvar));
+					if(strcmp(sItem, rcvar, false)==0) {
+						IntToString(x,rbuf,sizeof(rbuf)); //menudata as string
+						War3_GetRaceName(x,rname,sizeof(rname));
+						decl String:extra[3],yourteam,otherteam;
+						for(new y=1;y<=MaxClients;y++)
+						{
+							
+							if(ValidPlayer(y,false))
+							{
+								if(War3_GetRace(y)==x)
+								{
+									if(GetClientTeam(client)==GetClientTeam(y))
+									{
+										++yourteam;
+									}
+									else
+									{
+										++otherteam;
+									}
+								}
+							}
+						}
+						strcopy(extra, sizeof(extra), "");
+						if(War3_GetRace(client)==x)
+						{
+							Format(extra,sizeof(extra),">");
+						}
+						else if(W3GetPendingRace(client)==x){
+							Format(extra,sizeof(extra),"<");
+						}
+						Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+						new minlevel=W3GetRaceMinLevelRequired(x);
+						if(minlevel<0) minlevel=0;
+						if(minlevel)
+						{
+							Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
+						}
+						AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+					}
+				}
+				DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
+			}
+		}
+	case MenuAction_End:
+		{
+			CloseHandle(menu);
+		}
+	}
 }
 
 public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection)
@@ -209,12 +371,9 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			decl String:SelectionInfo[4];
 			decl String:SelectionDispText[256];
 			
-			
-			
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
-			
 			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
 			
 			if(allowChooseRace==false){
@@ -359,8 +518,6 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 					
 					W3DoLevelCheck(client);
 				}
-				
-					
 			}
 		}
 //	}
