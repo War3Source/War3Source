@@ -15,6 +15,8 @@ RACE: Rainbow dash
 gamedata removed and CS drop weapon now uses SM native
 
 fixed NAIX not leeching on kill when not in ducking mode.
+fixed NAIX level 1 leech at 50% instead of 5%
+fixed gold exceeding maxgold on kill
 
 B6
 
