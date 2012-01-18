@@ -1592,32 +1592,8 @@
 	{
 		"ru"		"Возмездие блокировано ({1})"
 	}
-	"Visual Effects Settings"
+	"[War3Source] Select a category"
 	{
-		"ru"		"Настройки визуальных эффектов"
-	}
-	"Choose a option"
-	{
-		"ru"		"Выберите опцию"
-	}
-	"Enable"
-	{
-		"ru"		"Включить"
-	}
-	"Disable"
-	{
-		"ru"		"Отключить"
-	}
-	"Sorry, but the Server decided to take control of this option"
-	{
-		"ru"		"Извините, но сервер решил взять под контроль эту опцию"
-	}
-	"Effects are now enabled!"
-	{
-		"ru"		"Эффекты теперь включены!"
-	}
-	"Effects are now disabled!"
-	{
-		"ru"		"Эффекты теперь отключены!"
+		"ru"		"[КАТЕГОРИИ РАС]\nВыберите категорию"
 	}
 }
