@@ -572,8 +572,8 @@ TryToGiveXPGold(client,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprin
 			War3_ChatMessage(client,"%T","You have lost {amount} gold for {award}",client,addgold,awardedprintstring);
 		}
 		
-		if(War3_GetLevel(client,race)!=W3GetRaceMaxLevel(race))
-			W3DoLevelCheck(client);
+		//if(War3_GetLevel(client,race)!=W3GetRaceMaxLevel(race))
+		W3DoLevelCheck(client); //in case they didnt level any skills
 		
 		W3CreateEvent(OnPostGiveXPGold,client);	
 	}
