@@ -2306,7 +2306,7 @@ public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], a
 stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]="",Handle:originalqueryTrie=Handle:0){
 	new String:orignalquerystr[512];
 	if(originalqueryTrie){
-		if(!GetTrieString(originalqueryTrie,"query",orignalquerystr,sizeof(originalqueryTrie))){
+		if(!GetTrieString(originalqueryTrie,"query",orignalquerystr,sizeof(orignalquerystr))){
 			LogError("SQLCheckForErrors: originalqueryTrie is not null but key 'query' not set from trie");
 		}
 		CloseHandle(originalqueryTrie);
