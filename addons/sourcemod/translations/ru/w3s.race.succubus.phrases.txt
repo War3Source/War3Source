@@ -34,7 +34,7 @@
 	}
 	"succubus_skill_DTransformation_desc"
 	{
-		"ru"		"Меньше гравитации, больше скорости\nи больше здоовья - действие временное\nЦена: 1/2/3/4 черепка"
+		"ru"		"Меньше гравитации, больше скорости\nи больше здоровья - действие временное\nЦена: 1/2/3/4 черепка"
 	}
 	"[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP"
 	{
