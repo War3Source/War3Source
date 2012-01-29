@@ -206,7 +206,7 @@ War3Source_ChangeRaceMenu(client)
 			crMenu=CreateMenu(War3Source_CRMenu_Selected);
 			SetMenuExitButton(crMenu,true);
 			
-			decl String:title[400], String:rbuf[4];
+			new String:title[400], String:rbuf[4];
 			if(strlen(dbErrorMsg)){
 				Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
 			}
