@@ -5,6 +5,9 @@
 #define NPC_THINKSPEED 0.1 //each x seconds npc will search for enemyes
 #define MAXENTITY 2048//source engine definition
 
+//If this boolean is true then every creation will be blocked
+new bool:bBlockCreation;
+
 enum AnimationPriority
 {
 	Disabled=0, //currently no animation
@@ -15,9 +18,10 @@ enum AnimationPriority
 new NPCDamageBuffer[MAXNPC][2]; //holds mindamage and maxdamage
 new Float:FNPCLastValidLoc[MAXNPC][3];
 new Float:fNPCSpeedBuffer[MAXNPC][2]; //holds attackspeed and movement speed
-new Float:fNPCRange[MAXNPC]; //holds melee range
+new Float:fNPCRange[MAXNPC][2]; //holds melee range
 new Float:fNPCAnimDuration[MAXNPC][3]; //holds duration for attack,move,pain
 new String:NPCAnimations[MAXNPC][4][64]; //holds idle,attack,move,pain
+new iNPCMovement[MAXNPC];
 
 new AnimationPriority:NPCAnimation[MAXNPC];
 //new bool:InAnimation[MAXNPC];
@@ -39,10 +43,7 @@ new Handle:hOnNPCHitTarget;
 new Handle:hOnNPCFocus;
 new Handle:hOnNPCHurt;
 new Handle:hOnNPCDied;
-new Handle:hSpawnRagdoll;
-new Handle:hLOSLength;
-
-new Float:fNPCLoSLength=1000.0;
+new Handle:hNPCFX;
 
 // Temp. Entities
 new ExplosionSprite,BloodSpray,BloodDrop;
@@ -93,14 +94,16 @@ public bool:InitNativesForwards()
 	hOnNPCHurt=CreateGlobalForward("OnNPCHurt",ET_Hook,Param_Cell,Param_Cell,Param_FloatByRef);
 	hOnNPCDied=CreateGlobalForward("OnNPCDied",ET_Hook,Param_Cell,Param_Cell);
 	CreateNative("War3_CreateFakeNPC",W3Native_CreateNPC);
+	CreateNative("War3_SetNPCMovement",W3Native_SetMovement);
+	CreateNative("War3_GetNPCMovement",W3Native_GetMovement);
 	CreateNative("War3_GetNPCIndex",W3Native_GetNPCIDFromIndex);
 	CreateNative("War3_SetOwner",W3Native_SetNPCOwner);
 	CreateNative("War3_GetOwner",W3Native_GetNPCOwner);
 	CreateNative("War3_SetNPCStrength",W3Native_SetNPCDMG);
 	CreateNative("War3_GetNPCStrength",W3Native_GetNPCDMG);
 	CreateNative("War3_SetNPCAnimation",W3Native_SetNPCSequence);
-	CreateNative("War3_SetNPCMaxRange",W3Native_SetNPCRange);
-	CreateNative("War3_GetNPCMaxRange",W3Native_GetNPCRange);
+	CreateNative("War3_SetNPCRange",W3Native_SetNPCRange);
+	CreateNative("War3_GetNPCRange",W3Native_GetNPCRange);
 	CreateNative("War3_SetNPCSpeed",W3Native_SetNPCSpeed);
 	CreateNative("War3_GetNPCSpeed",W3Native_GetNPCSpeed);	
 	return true;
@@ -111,25 +114,23 @@ public OnMapStart()
 	ExplosionSprite = PrecacheModel("sprites/floorfire4_.vmt");
 	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
 	BloodDrop = PrecacheModel("sprites/blood.vmt");
+	iNPCNum++;//skip zero
 }
 
 public OnPluginStart() {
-	hSpawnRagdoll=CreateConVar("war3_npcragdoll","1","If non-zero there will be corpses once a NPC is killed.");
-	hLOSLength=CreateConVar("war3_npclos","1000.0","Determines how far the NPC can \"look\" for enemyes.");
+	hNPCFX=CreateConVar("war3_npcfx","1","Determines which effects the FakeNPC Engine should draw (0=no effects/1=blood and ragdoll/2=ragdoll only/3=blood only)");
 	hNPCVariables=CreateArray(); //array position == npc index
 	HookEvent("round_start",OnRoundStart);
-	HookConVarChange(hLOSLength, OnLOSMaxChanged);
 }
 
 public OnPluginStop() {
 	UnhookEvent("round_start",OnRoundStart);
-	UnhookConVarChange(hLOSLength, OnLOSMaxChanged);
 	if(hNPCVariables!=INVALID_HANDLE) {
 		CloseHandle(hNPCVariables);
 	}
 }
 /// #############################################
-/// #########  NPC Natives ##################
+/// ############  NPC Natives ###################
 /// ##############################################
 public W3Native_CreateNPC(Handle:plugin,numParams) {
 	decl Float:fPos[3],iHealth,iTeam,String:sName[32],String:sAnim[32],String:sModel[32],bool:bTeamcolor;
@@ -146,15 +147,33 @@ public W3Native_CreateNPC(Handle:plugin,numParams) {
 				if(strlen(sModel)>0) {
 					new entity = CreateNPC(iHealth,iTeam,fPos,sName,sAnim,sModel,bTeamcolor);
 					if(entity>0) return entity;
-					else return ThrowNativeError(1,"Could not create a NPC!");
+					else return ThrowNativeError(SP_ERROR_NATIVE,"Could not create a NPC!");
 				}
-				else return ThrowNativeError(1,"Invalid model was given!");
+				else return ThrowNativeError(SP_ERROR_NATIVE,"Invalid model was given!");
 			}
-			else return ThrowNativeError(1,"You must pass a valid NPC name!");
+			else return ThrowNativeError(SP_ERROR_NATIVE,"You must pass a valid NPC name!");
 		}
-		else return ThrowNativeError(1,"Passed origin is outside of the world!");
+		else return ThrowNativeError(SP_ERROR_NATIVE,"Passed origin is outside of the world!");
 	}
-	else return ThrowNativeError(1,"Health must be greater than zero!");
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Health must be greater than zero!");
+}
+
+public W3Native_SetMovement(Handle:plugin,numParams) {
+	decl npc_entity;
+	npc_entity = GetNativeCell(1);
+	if(IsValidNPC(npc_entity)) {
+		iNPCMovement[npc_entity] = GetNativeCell(2);
+		return 1;
+	}
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_entity);	
+}
+public _:W3Native_GetMovement(Handle:plugin,numParams) {
+	decl npc_entity;
+	npc_entity = GetNativeCell(1);
+	if(IsValidNPC(npc_entity)) {
+		return iNPCMovement[npc_entity];
+	}
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_entity);	
 }
 
 public W3Native_GetNPCIDFromIndex(Handle:plugin,numParams) {
@@ -163,28 +182,28 @@ public W3Native_GetNPCIDFromIndex(Handle:plugin,numParams) {
 	if(IsValidNPC(npc_ent)) {
 		return NPCVars_GetNum(npc_ent);
 	}
-	else return ThrowNativeError(1,"Entity(%i) is not a Fake NPC",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Entity(%i) is not a Fake NPC",npc_ent);
 }
 
 public W3Native_SetNPCOwner(Handle:plugin,numParams) {
 	new npc_ent = GetNativeCell(1);
 	new iOwner = GetNativeCell(2);
-	if(IsValidNPC(npc_ent)) { //since this value is automatic set false if it get's destroyed this can be used as a validation
+	if(IsValidEntity(npc_ent)) { //since this value is automatic set false if it get's destroyed this can be used as a validation
 		if(ValidPlayer(iOwner,false)) {
 			SetOwner(npc_ent,iOwner);
 			return 1;
 		}
-		else return ThrowNativeError(1,"Passed Player Index(%i) is not a valid Player!",iOwner);
+		else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Player Index(%i) is not a valid Player!",iOwner);
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid Entity!",npc_ent);
 }
 
 public W3Native_GetNPCOwner(Handle:plugin,numParams) {
 	new npc_ent = GetNativeCell(1);
-	if(IsValidNPC(npc_ent)) {
+	if(IsValidEntity(npc_ent)) {
 		return GetOwner(npc_ent);
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid Entity!",npc_ent);
 }
 
 public W3Native_SetNPCDMG(Handle:plugin,numParams) {
@@ -198,9 +217,9 @@ public W3Native_SetNPCDMG(Handle:plugin,numParams) {
 			NPCVars_SetDamageArray(NPCVars_GetNum(npc_ent), DamageArray);
 			return 1;
 		}
-		else return ThrowNativeError(1,"MaxDamage(%i) must be greater than MinDamage(%i)",iMaxDamage,iMinDamage);
+		else return ThrowNativeError(SP_ERROR_NATIVE,"MaxDamage(%i) must be greater than MinDamage(%i)",iMaxDamage,iMinDamage);
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 public W3Native_GetNPCDMG(Handle:plugin,numParams) {
@@ -212,7 +231,7 @@ public W3Native_GetNPCDMG(Handle:plugin,numParams) {
 		NPCVars_GetDamageArray(NPCVars_GetNum(npc_ent), DamageArray);
 		return DamageArray[num];
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 public W3Native_SetNPCSpeed(Handle:plugin,numParams) {
@@ -227,7 +246,7 @@ public W3Native_SetNPCSpeed(Handle:plugin,numParams) {
 		NPCVars_SetSpeedArray(NPCIndex, fSpeedArray);
 		return 1;
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 public W3Native_GetNPCSpeed(Handle:plugin,numParams) {
@@ -238,26 +257,28 @@ public W3Native_GetNPCSpeed(Handle:plugin,numParams) {
 		NPCVars_GetSpeedArray(NPCVars_GetNum(npc_ent), fSpeedArray);
 		return _:fSpeedArray[num];//return float
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 
 public W3Native_SetNPCRange(Handle:plugin,numParams) {
 	new npc_ent = GetNativeCell(1);
-	new Float:fRange = GetNativeCell(2);
+	new NPCRange:var = GetNativeCell(2);
+	new Float:fRange = GetNativeCell(3);
 	if(IsValidNPC(npc_ent)) { //since this value is automatic set false if it get's destroyed this can be used as a validation
-		NPCVars_SetMaxRange(NPCVars_GetNum(npc_ent),fRange);
+		NPCVars_SetMaxRange(NPCVars_GetNum(npc_ent),var,fRange);
 		return 1;
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 public W3Native_GetNPCRange(Handle:plugin,numParams) {
 	new npc_ent = GetNativeCell(1);
+	new NPCRange:var = GetNativeCell(2);
 	if(IsValidNPC(npc_ent)) { //since this value is automatic set false if it get's destroyed this can be used as a validation{
-		return _:NPCVars_GetMaxRange(NPCVars_GetNum(npc_ent));//returns a float pointing value
+		return _:NPCVars_GetMaxRange(NPCVars_GetNum(npc_ent),var);//returns a float pointing value
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 public W3Native_SetNPCSequence(Handle:plugin,numParams) {
@@ -277,18 +298,18 @@ public W3Native_SetNPCSequence(Handle:plugin,numParams) {
 				NPCVars_SetDurationArray(varindex, DurationArray, iSequence-1);
 				return 1;
 			}
-			else return ThrowNativeError(1,"Given animation string is invalid!");
+			else return ThrowNativeError(SP_ERROR_NATIVE,"Given animation string is invalid!");
 		}
-		else return ThrowNativeError(1,"Sequence Index(%i) is not valid!",iSequence);
+		else return ThrowNativeError(SP_ERROR_NATIVE,"Sequence Index(%i) is not valid!",iSequence);
 	}
-	else return ThrowNativeError(1,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
+	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
 
 /// #############################################
 /// <#########  NPC Functions ##################>
 /// ##############################################
 stock bool:IsValidNPC(const iEntityIndex) {
-	if(iEntityIndex>=0 && iNPCIndex[iEntityIndex]>=0) {
+	if(iEntityIndex>=0 && iNPCIndex[iEntityIndex]>0) {
 		return true;
 	}
 	return false;
@@ -347,7 +368,7 @@ public bool:NPCAttack(iEntityIndex,iVictim,iOwner,iMinDamage,iMaxDamage,Float:fN
 	if(iEntityIndex>0) {
 		if(fLastHit[iVictim]<GetGameTime()-fNPCAttackSpeed)
 		{
-			decl String:classname[32],String:buffer[32],NPCIndex, iEnt, damage, Float:fAnimDuration[3];
+			decl String:classname[32],String:buffer[32],NPCIndex, damage, npcfx, Float:fAnimDuration[3];
 			damage = GetRandomInt(iMinDamage,iMaxDamage);
 			Call_StartForward(hOnNPCHitTarget);
 			Call_PushCell(iEntityIndex);
@@ -364,14 +385,18 @@ public bool:NPCAttack(iEntityIndex,iVictim,iOwner,iMinDamage,iMaxDamage,Float:fN
 			W3FlashScreen( iVictim,RGBA_COLOR_RED,0.8,_,FFADE_IN);			
 			SetEntityAimToClient(iEntityIndex, iVictim);			
 			fLastHit[iVictim]=GetGameTime();
-			iEnt = CreateEntityByName("env_blood");
-			if(DispatchSpawn(iEnt)) {
-				DispatchKeyValue(iEnt, "spawnflags", "29");
-				DispatchKeyValue(iEnt, "amount", "850");
-				DispatchKeyValue(iEnt, "spraydir", "-90");
-				DispatchKeyValue(iEnt, "color", "0");
-				AcceptEntityInput(iEnt, "EmitBlood", iVictim);
-				AcceptEntityInput(iEnt, "Kill");
+			npcfx = GetConVarInt(hNPCFX);
+			if(npcfx==1 || npcfx==3) {
+				decl iEnt;
+				iEnt = CreateEntityByName("env_blood");
+				if(DispatchSpawn(iEnt)) {
+					DispatchKeyValue(iEnt, "spawnflags", "29");
+					DispatchKeyValue(iEnt, "amount", "850");
+					DispatchKeyValue(iEnt, "spraydir", "-90");
+					DispatchKeyValue(iEnt, "color", "0");
+					AcceptEntityInput(iEnt, "EmitBlood", iVictim);
+					AcceptEntityInput(iEnt, "Kill");
+				}
 			}
 			return War3_DealDamage(iVictim, damage, iOwner, DMG_BULLET, classname, _, W3DMGTYPE_PHYSICAL);
 		}
@@ -472,8 +497,14 @@ public bool:CanFocus(iEntityIndex,iTarget) {
 stock NPCVars_GetNum(const iEntityIndexIndex) {
 	return iNPCIndex[iEntityIndexIndex];
 }
+// Speed Definitions
+#define NPCMaxSpeed 0
+#define NPCAttackSpeed 1
+// Range Definitions
+#define NPCEyeRange 0
+#define NPCAttackRange 1
 //Adds a entry to the FakeNPC Data Storage
-stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const String:strAttackAnim[32]="", const String:strPainAnim[32]="", const String:strMoveAnim[32]="", const iDamageArray[2]={20,40}, const Float:fDurationArray[3]={0.0,0.0,0.0}, const Float:fRange=100.0, const Float:fSpeed=10.0, const Float:fNPCAttackSpeed=2.0) {
+stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const String:strAttackAnim[32]="", const String:strPainAnim[32]="", const String:strMoveAnim[32]="", const iDamageArray[2]={20,40}, const Float:fDurationArray[3]={0.0,0.0,0.0}, const Float:fRange=100.0, const Float:fLOSRange=950.0, const Float:fSpeed=10.0, const Float:fNPCAttackSpeed=2.0) {
 	if(hNPCVariables!=INVALID_HANDLE) {
 		decl num;
 		num = PushArrayCell(hNPCVariables, iIndex); //stores the entity index in that array
@@ -481,11 +512,13 @@ stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const St
 		NPCDamageBuffer[num][NPCDamage:MaxDamage]=iDamageArray[NPCDamage:MaxDamage];
 		fNPCSpeedBuffer[num][NPCMaxSpeed]=fSpeed;
 		fNPCSpeedBuffer[num][NPCAttackSpeed]=fNPCAttackSpeed;
-		fNPCRange[num]=fRange;
+		fNPCRange[num][NPCEyeRange]=fLOSRange;
+		fNPCRange[num][NPCAttackRange]=fRange;
 		NPCAnimations[num][SEQUENCE_IDLE]=strIdleAnim;
 		NPCAnimations[num][SEQUENCE_ATTACK]=strAttackAnim;
 		NPCAnimations[num][SEQUENCE_PAIN]=strPainAnim;
 		NPCAnimations[num][SEQUENCE_MOVE]=strMoveAnim;
+		iNPCMovement[num]=0;
 		return num; //returns npc index
 	}
 	else
@@ -493,13 +526,14 @@ stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const St
 }
 //Removes a NPC by npc index
 public bool:NPCVars_RemoveNPC(iIndex) {
+	NPCAnimation[iIndex]=AnimationPriority:Disabled;
 	if(hNPCVariables!=INVALID_HANDLE && iIndex>0) {
-		NPCAnimation[iIndex]=AnimationPriority:Disabled;
 		new iEntityIndex = GetArrayCell(hNPCVariables, iIndex);
 		if(iEntityIndex>0) {
 			iNPCIndex[iEntityIndex]=-1;
 			iNPCNum--; //reduce our counter by one
-			RemoveFromArray(hNPCVariables, iIndex);		
+			//RemoveFromArray(hNPCVariables, iIndex); <- lol don't use this(errors will occur since array is shiftet down)
+			SetArrayCell(hNPCVariables, iIndex, -1);
 		}
 		return false;
 	}
@@ -612,17 +646,17 @@ public bool:NPCVars_SetDurationArray(iIndex, Float:DurationArray[3], iDimension)
 	}
 	return false;
 }
-public Float:NPCVars_GetMaxRange(iIndex) {
+public Float:NPCVars_GetMaxRange(iIndex,NPCRange:variable) {
 	new iEntityIndex = GetArrayCell(hNPCVariables, iIndex);
 	if(iEntityIndex > 0) {
-		return fNPCRange[iIndex];
+		return fNPCRange[iIndex][variable];
 	}
 	return 0.0;
 }
-public bool:NPCVars_SetMaxRange(iIndex, const Float:fMaxRange) {
+public bool:NPCVars_SetMaxRange(iIndex, NPCRange:variable,const Float:fMaxRange) {
 	new iEntityIndex = GetArrayCell(hNPCVariables, iIndex);
 	if(iEntityIndex > 0) {
-		fNPCRange[iIndex]=fMaxRange;
+		fNPCRange[iIndex][variable]=fMaxRange;
 		return true;
 	}
 	return false;
@@ -630,7 +664,7 @@ public bool:NPCVars_SetMaxRange(iIndex, const Float:fMaxRange) {
 public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String:strName[32],const String:strIdleAnim[32],const String:strModel[32],bool:bTeamColored) {
 	//Create a simple prop, that we gonna use as a npc (..later)
 	new npc_ent = CreateEntityByName("prop_dynamic_override");
-	if (npc_ent > 0 && IsValidEdict(npc_ent)) //valid?
+	if (!bBlockCreation && npc_ent > 0 && IsValidEdict(npc_ent)) //valid?
 	{
 		decl String:entname[16];
 		Format(entname, sizeof(entname), "npc_%i",npc_ent);
@@ -695,7 +729,8 @@ public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String
 public Callback_OnNPCKilled(const String:output[], caller, activator, Float:delay)
 {
 	if(IsValidNPC(caller)) {
-		if(GetConVarBool(hSpawnRagdoll)) {
+		new npcfx = GetConVarInt(hNPCFX);
+		if(npcfx==1 || npcfx==2) {
 			//Spawn a corpse :o
 			new Ragdoll = CreateEntityByName("prop_ragdoll"); 
 			if(IsValidEntity(Ragdoll))
@@ -713,8 +748,8 @@ public Callback_OnNPCKilled(const String:output[], caller, activator, Float:dela
 					DispatchSpawn(Ragdoll); 
 					Position[2]+=35;
 					//using the explosion as some sort of "smoke" because it looks realy shitty when spawning just a ragdoll..
-					W3SetupExplosion(thisRaceID, Position, ExplosionSprite, 1.0, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_NODLIGHTS, 0 , 0);
-					W3SendToAll();
+					TE_SetupExplosion(Position, ExplosionSprite, 1.0, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_NODLIGHTS, 0 , 0);
+					TE_SendToAll();
 					TeleportEntity(Ragdoll, Position, Angles, NULL_VECTOR);
 				}
 			}
@@ -736,13 +771,16 @@ public Action:Callback_OnNPCDamaged(entity, &attacker, &inflictor, &Float:damage
 		Call_PushFloatRef(damage);
 		Call_Finish();
 		//if (value != Plugin_Stop && value!=Plugin_Handled) {
-		decl Float:Position[3],Float:Angles[3];
-		GetEntityOrigin(entity,Position);
-		GetEntityAngles(entity,Angles);
-		//some you-hit-npc effects
-		Position[2]+=40;
-		TE_SetupBloodSprite(Position, Angles, {200, 20, 20, 255}, 24, BloodSpray, BloodDrop);
-		TE_SendToAll();
+		new npcfx = GetConVarInt(hNPCFX);
+		if(npcfx==1 || npcfx==3) {
+			decl Float:Position[3],Float:Angles[3];
+			GetEntityOrigin(entity,Position);
+			GetEntityAngles(entity,Angles);
+			//some you-hit-npc effects
+			Position[2]+=40;
+			TE_SetupBloodSprite(Position, Angles, {200, 20, 20, 255}, 24, BloodSpray, BloodDrop);
+			TE_SendToAll();
+		}
 		decl NPCIndex,String:buffer[32],Float:fAnimDuration[3];
 		NPCIndex=NPCVars_GetNum(entity);
 		NPCVars_GetAnimBySequence(NPCIndex, SEQUENCE_PAIN, buffer, sizeof(buffer));
@@ -768,14 +806,15 @@ public Action:Timer_OnNPCThink(Handle:hTimer, any:iEntityIndex) {
 		new client = GetOwner(iEntityIndex);
 		//Get the absolute NPC Position
 		GetEntityOrigin(iEntityIndex,fPos);
-		//Find NPC's MaxRange in the npc data storage!
-		fClosestDistance=fNPCLoSLength;
-		if(client>0) { //Override the team index is a client is given!
+		if(ValidPlayer(client,false)) { //Override the team index is a client is given!
 			iTeam=GetClientTeam(client);
 		}
 		else //Get NPC team instead..
 			iTeam=GetTeam(iEntityIndex);
 		NPCIndex=NPCVars_GetNum(iEntityIndex);
+		//Find NPC's MaxRange in the npc data storage!
+		fClosestDistance=NPCVars_GetMaxRange(NPCVars_GetNum(iEntityIndex),NPCRange:EyeRange);
+		//Get recent speed variables
 		NPCVars_GetSpeedArray(NPCIndex,fSpeedArray);
 		//At first we need to find the nearest player..
 		for (new i = 1; i <= MaxClients; i++) {
@@ -800,9 +839,9 @@ public Action:Timer_OnNPCThink(Handle:hTimer, any:iEntityIndex) {
 				}
 			}
 		}
-		if(ValidPlayer(ClosestTarget,true)) { //Is there any valid target?
+		if(ClosestTarget!=client && ValidPlayer(ClosestTarget,true)) { //Is there any valid target?
 			decl Float:fFinalDistance,Float:fMaxRange,Float:fPos2[3];
-			fMaxRange=NPCVars_GetMaxRange(NPCVars_GetNum(iEntityIndex));
+			fMaxRange=NPCVars_GetMaxRange(NPCVars_GetNum(iEntityIndex),NPCRange:AttackRange);
 			GetClientAbsOrigin(ClosestTarget, fPos2);
 			SetEntityAimToClient(iEntityIndex, ClosestTarget);
 			fFinalDistance=GetVectorDistance(fPos, fPos2);
@@ -812,7 +851,7 @@ public Action:Timer_OnNPCThink(Handle:hTimer, any:iEntityIndex) {
 				NPCAttack(iEntityIndex,ClosestTarget,client,DamageConfig[0],DamageConfig[1],fSpeedArray[1]);
 				
 			}
-			else {
+			else if(iNPCMovement[NPCIndex]!=1) {
 				decl Float:fAnimDuration[3],String:buffer[32];
 				NPCTraceRoute(iEntityIndex, fSpeedArray[0] ,fPos, fPos2, true);
 				NPCVars_GetAnimBySequence(NPCIndex, SEQUENCE_MOVE, buffer, sizeof(buffer));
@@ -820,7 +859,7 @@ public Action:Timer_OnNPCThink(Handle:hTimer, any:iEntityIndex) {
 				NPCAnimate(iEntityIndex,buffer,AnimationPriority:Normal,fAnimDuration[2]);
 			}
 		}
-	}	
+	}
 	else {
 		return Plugin_Stop;
 	}
@@ -853,22 +892,21 @@ public OnEntityDestroyed(entity) {
 	}
 }
 
-//ConVarChangeHook: Do this - so we do not need to obtain a new cvar value every time
-public OnLOSMaxChanged(Handle:cvar, const String:oldValue[], const String:newValue[]) 
-{ 
-	new Float:value = StringToFloat(newValue);
-	if(value>0.0)
-	fNPCLoSLength=value;
-}
-
 //Since entities get's removed on round_start.. also clear that npc var array
 public OnRoundStart(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	if(hNPCVariables!=INVALID_HANDLE)
-	ClearArray(hNPCVariables);
+	bBlockCreation=true;
+	CreateTimer(0.5, Timer_ClearArray, hNPCVariables);
 	iNPCNum=0;
 }
 
+//Delayed removal since OnEntityDestroyed needs hNPCVariables
+public Action:Timer_ClearArray(Handle:timer, any:hHandle)
+{
+	bBlockCreation=false;
+	if(hHandle!=INVALID_HANDLE)
+	ClearArray(hHandle);
+}
 stock NPCAnimate(entity,const String:animation[],AnimationPriority:Priority,Float:duration=0.0)
 {
 	if(IsValidNPC(entity)&&Priority!=AnimationPriority:Disabled)

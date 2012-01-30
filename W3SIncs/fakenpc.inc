@@ -1,6 +1,6 @@
 #define FAKENPC_VERSION "0.5"
 #define MAXNPC 16//max npc per time
-// damage enumeration
+// enumerations
 enum NPCDamage
 {
 	MinDamage=0,
@@ -16,13 +16,18 @@ enum NPCRange
 	EyeRange=0,
 	AttackRange
 };
+enum NPCMovement
+{
+	Normal=0, //normal npc walking-like behavior
+	Static //static
+};
 // Sequence Definitions
 #define SEQUENCE_IDLE 0
 #define SEQUENCE_ATTACK 1
 #define SEQUENCE_PAIN 2
 #define SEQUENCE_MOVE 3
 
-//Used to spawn a Fake NPC
+//Used to spawn a normal Fake NPC
 native War3_CreateFakeNPC(health,team,Float:fPos[3],String:NPCName[32],String:IdleAnimation[32],String:ModelPath[32],bool:bTeamColored=true);
 
 //Returns the internal NPC index by entity index
@@ -55,6 +60,12 @@ native War3_SetNPCSpeed(entity,NPCSpeed:value,Float:fSpeedValue);
 //Returns specific NPC Speed
 native Float:War3_GetNPCSpeed(entity,NPCSpeed:value);
 
+//Set's the movement type of the target entity/fakenpc(good for some static npc like turrents)
+native War3_SetNPCMovement(entity,NPCMovement:value);
+
+//Returns the current movement type of the NPC
+native NPCMovement:War3_GetNPCMovement(entity);
+
 //Called when a NPC starts thinking
 forward OnNPCThink(entity);
 
@@ -81,4 +92,3 @@ stock bool:IsNPCSourceOfRace(raceID,entity,owner=0) {
 		return true;
 	return false;
 }
-
