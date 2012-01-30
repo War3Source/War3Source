@@ -15,11 +15,15 @@
 		"en"			"You must be dead to place a bet."
 	}
 	
-	"Invalid_Team_for_Bet"
+	"Invalid_Team_for_Bet_CSS"
 	{
 		"en"			"Invalid team, please use 'ct' or 't'."
 	}
-	
+	"Invalid_Team_for_Bet_TF2"
+	{
+		"en"			"Invalid team, please use 'blu' or 'red'."
+	}
+		
 	"Above_Max_Bet"
 	{
 		"#format"		"{1:d}"

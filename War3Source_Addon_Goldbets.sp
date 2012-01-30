@@ -28,8 +28,8 @@ new g_iPlayerBetData[MAXPLAYERS + 1][3];
 new bool:g_bPlayerBet[MAXPLAYERS + 1] = {false, ...};
 
 new g_iTotalPot = 0;
-new g_iBetTeamT;
-new g_iBetTeamCT;
+new g_iBetTeam2;
+new g_iBetTeam3;
 
 new Handle:g_hSmBet = INVALID_HANDLE;
 new Handle:g_hMaximumBet = INVALID_HANDLE;
@@ -120,13 +120,18 @@ public Action:Command_Say(client, args)
 			return Plugin_Handled;
 		}
 		
-		if (strcmp(szParts[1],"ct",false) != 0 && strcmp(szParts[1],"t", false) != 0)
+		if (strcmp(szParts[1],"ct",false) != 0 && strcmp(szParts[1],"t", false) != 0 && strcmp(szParts[1],"blu",false) != 0 && strcmp(szParts[1],"red", false))
 		{
-			PrintToChat(client, "\x04[GoldBets]\x01 %t", "Invalid_Team_for_Bet");
+			if(War3_GetGame()==Game_CS){
+				PrintToChat(client, "\x04[GoldBets]\x01 %t", "Invalid_Team_for_Bet_CSS");
+			}
+			else if(War3_GetGame()==Game_TF){
+				PrintToChat(client, "\x04[GoldBets]\x01 %t", "Invalid_Team_for_Bet_TF2");
+			}
 			return Plugin_Handled;
 		}
 		
-		if (strcmp(szParts[1],"ct",false) == 0 || strcmp(szParts[1],"t", false) == 0)
+		if (strcmp(szParts[1],"ct",false) == 0 || strcmp(szParts[1],"t", false) == 0 || strcmp(szParts[1],"blu",false) != 0 || strcmp(szParts[1],"red", false))
 		{
 			
 			new iAmount = 0;
@@ -140,11 +145,11 @@ public Action:Command_Say(client, args)
 			{
 				iAmount = iBank;
 			}
-			if (strcmp(szParts[2],"half", false) == 0)
+			else if (strcmp(szParts[2],"half", false) == 0)
 			{
 				iAmount = (iBank / 2) + 1;
 			}
-			if (strcmp(szParts[2],"third", false) == 0)
+			else if (strcmp(szParts[2],"third", false) == 0)
 			{
 				iAmount = (iBank / 3) + 1;
 			}
@@ -182,15 +187,21 @@ public Action:Command_Say(client, args)
 			
 			g_iPlayerBetData[client][BET_AMOUNT] = iAmount;
 			g_iTotalPot += iAmount;
-			g_iPlayerBetData[client][BET_TEAM] = (strcmp(szParts[1],"t",false) == 0 ? 2 : 3); // 2 = t, 3 = ct
+			new team;
+			if(strcmp(szParts[1],"t",false) == 0 || strcmp(szParts[1],"red",false) == 0){
+				team = 2;
+			} else {
+				team = 3;
+			}
+			g_iPlayerBetData[client][BET_TEAM] = team;
 			
 			if (g_iPlayerBetData[client][BET_TEAM] == 2) // 2 = t, 3 = ct
 			{
-				g_iBetTeamT += iAmount;
+				g_iBetTeam2 += iAmount;
 			}
 			else
 			{
-				g_iBetTeamCT += iAmount;
+				g_iBetTeam3 += iAmount;
 			}
 			PrintToChat(client,"\x04[GoldBets]\x01 %t","Bet_Made",g_iTotalPot);
 			
@@ -228,9 +239,9 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 	new WinAmount;
 	if(iWinner == 2)
 	{
-		WinAmount = g_iBetTeamT;
+		WinAmount = g_iBetTeam2;
 	} else {
-		WinAmount = g_iBetTeamCT;
+		WinAmount = g_iBetTeam3;
 	}
 	for (new i = 1; i <= iMaxClients; i++)
 	{
@@ -258,8 +269,8 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 		g_bPlayerBet[i] = false;		
 	}
 	
-	g_iBetTeamT = 0;
-	g_iBetTeamCT = 0;
+	g_iBetTeam2 = 0;
+	g_iBetTeam3 = 0;
 }
 
 public Action:Timer_Advertise(Handle:timer, any:data)
