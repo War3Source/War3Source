@@ -90,7 +90,9 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 }
 
 public OnWar3EventPostHurt(victim,attacker,damage){
-	LastDamageTime[victim]=GetEngineTime();
+	if (ValidPlayer(victim)) {
+		LastDamageTime[victim]=GetEngineTime();
+	}
 }
 public Action:TFHPBuff(Handle:h,any:data){
 

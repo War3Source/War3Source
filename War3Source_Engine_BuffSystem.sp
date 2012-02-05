@@ -542,7 +542,12 @@ stock Float:GetBuffSumFloat(client,W3Buff:buffindex)
 		if(BuffCacheType(buffindex)!=fAbsolute){
 			ThrowError("Tried to get cached value when buff index (%d) should not cache this type (%d)",buffindex,BuffCacheType(buffindex));
 		}
-		return Float:BuffCached[client][buffindex];
+		if (ValidPlayer(client)) {
+			return Float:BuffCached[client][buffindex];
+		}
+		else {
+			return 0.0;
+		}
 		
 	}
 	LogError("invalid buff index");

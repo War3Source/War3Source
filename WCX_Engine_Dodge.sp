@@ -30,44 +30,46 @@ public bool:InitNativesForwards()
 }
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
-	new Float:EvadeChance = 0.0;
-	EvadeChance += W3GetBuffSumFloat(victim,fDodgeChance);
-	if(EvadeChance>0.0)
-	{
-		if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
+	if (ValidPlayer(victim)) {
+		new Float:EvadeChance = 0.0;
+		EvadeChance += W3GetBuffSumFloat(victim,fDodgeChance);
+		if(EvadeChance>0.0)
 		{
-			new vteam=GetClientTeam(victim);
-			new ateam=GetClientTeam(attacker);
-			if(vteam!=ateam)
+			if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
 			{
-				new Float:chance = GetRandomFloat(0.0,1.0);
-				
-				Call_StartForward(FHOnW3DodgePre);
-				Call_PushCell(victim);
-				Call_PushCell(attacker);
-				Call_PushFloat(chance);
-				Call_Finish(dummyresult);
-				
-				if(!Hexed(victim,false) && chance<=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
+				new vteam=GetClientTeam(victim);
+				new ateam=GetClientTeam(attacker);
+				if(vteam!=ateam)
 				{
-					W3FlashScreen(victim,RGBA_COLOR_BLUE);
+					new Float:chance = GetRandomFloat(0.0,1.0);
 					
-					
-					War3_DamageModPercent(0.0);
-					
-					W3MsgEvaded(victim,attacker);
-					
-					Call_StartForward(FHOnW3DodgePost);
+					Call_StartForward(FHOnW3DodgePre);
 					Call_PushCell(victim);
 					Call_PushCell(attacker);
+					Call_PushFloat(chance);
 					Call_Finish(dummyresult);
 					
-					if(War3_GetGame()==Game_TF)
+					if(!Hexed(victim,false) && chance<=EvadeChance && !W3HasImmunity(attacker,Immunity_Skills))
 					{
-						decl Float:pos[3];
-						GetClientEyePosition(victim, pos);
-						pos[2] += 4.0;
-						War3_TF_ParticleToClient(0, "miss_text", pos); //to the attacker at the enemy pos
+						W3FlashScreen(victim,RGBA_COLOR_BLUE);
+						
+						
+						War3_DamageModPercent(0.0);
+						
+						W3MsgEvaded(victim,attacker);
+						
+						Call_StartForward(FHOnW3DodgePost);
+						Call_PushCell(victim);
+						Call_PushCell(attacker);
+						Call_Finish(dummyresult);
+						
+						if(War3_GetGame()==Game_TF)
+						{
+							decl Float:pos[3];
+							GetClientEyePosition(victim, pos);
+							pos[2] += 4.0;
+							War3_TF_ParticleToClient(0, "miss_text", pos); //to the attacker at the enemy pos
+						}
 					}
 				}
 			}
