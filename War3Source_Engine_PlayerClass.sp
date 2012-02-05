@@ -44,6 +44,10 @@ public OnPluginStart()
 		{
 			PrintToServer("[War3Source] Could not hook the player_entered_checkpoint event.");
 		}
+		if(!HookEventEx("player_first_spawn", War3Source_FirstSpawnEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the player_first_spawn event.");
+		}		
 	}
 }
 public OnMapStart(){
@@ -385,9 +389,13 @@ public OnWar3Event(W3EVENT:event,client){
 				War3_SetSkillLevelINTERNAL(client,i,x,0);
 			}
 		}
-		for(new i=0;i<MAXITEMS;i++){
-			W3SetVar(TheItemBoughtOrLost,i);
-			W3CreateEvent(DoForwardClientLostItem,client);
+		
+		if (!War3_IsL4DEngine())
+		{
+			for(new i=0;i<MAXITEMS;i++){
+				W3SetVar(TheItemBoughtOrLost,i);
+				W3CreateEvent(DoForwardClientLostItem,client);
+			}
 		}
 		for(new i=0;i<MAXITEMS2;i++){
 			W3SetVar(TheItemBoughtOrLost,i);
@@ -468,6 +476,21 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
 		if (ValidPlayer(client, true))
 		{
 			ResetSkillsAndSetVar(client);
+		}
+	}
+}
+
+public War3Source_FirstSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+	if(GetEventInt(event,"userid")>0)
+	{
+		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		if (ValidPlayer(client))
+		{
+			for(new i=0;i<MAXITEMS;i++){
+				W3SetVar(TheItemBoughtOrLost,i);
+				W3CreateEvent(DoForwardClientLostItem,client);
+			}
 		}
 	}
 }
