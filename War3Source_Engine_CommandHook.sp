@@ -186,7 +186,7 @@ public Action:War3Source_SayCommand(client,args)
 	}
 	if(War3_GetRace(client)>0)
 	{
-		if(CommandCheck(arg1,"skillsinfo"))
+		if(CommandCheck(arg1,"skillsinfo")||CommandCheck(arg1,"skl"))
 		{
 			W3ShowSkillsInfo(client);
 			return returnblocking;
@@ -205,17 +205,17 @@ public Action:War3Source_SayCommand(client,args)
 				War3_ChatMessage(client,"%T","You do not have any skill points to spend, if you want to reset your skills use resetskills",client);
 			return returnblocking;
 		}
-		else if(CommandCheck(arg1,"shopmenu"))
+		else if(CommandCheck(arg1,"shopmenu")||CommandCheck(arg1,"sh1"))
 		{
 			W3CreateEvent(DoShowShopMenu,client);
 			return returnblocking;
 		}
-		else if(CommandCheck(arg1,"shopmenu2"))
+		else if(CommandCheck(arg1,"shopmenu2")||CommandCheck(arg1,"sh2"))
 		{
 			W3CreateEvent(DoShowShopMenu2,client);
 			return returnblocking;
 		}
-		else if(CommandCheck(arg1,"war3menu"))
+		else if(CommandCheck(arg1,"war3menu")||CommandCheck(arg1,"w3s"))
 		{
 			W3CreateEvent(DoShowWar3Menu,client);
 			return returnblocking;
@@ -303,11 +303,14 @@ public Action:War3Source_SayCommand(client,args)
 	else
 	{
 		if(CommandCheck(arg1,"skillsinfo") ||
+			CommandCheck(arg1,"skl") ||
 			CommandCheck(arg1,"resetskills") ||
 			CommandCheck(arg1,"spendskills") ||
 			CommandCheck(arg1,"showskills") ||
 			CommandCheck(arg1,"shopmenu") ||
+			CommandCheck(arg1,"sh1") ||
 			CommandCheck(arg1,"war3menu") ||
+			CommandCheck(arg1,"w3s") ||
 			CommandCheck(arg1,"war3rank") ||
 			CommandCheck(arg1,"war3stats") ||
 			CommandCheck(arg1,"levelbank")||
