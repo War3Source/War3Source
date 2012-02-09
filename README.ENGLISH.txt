@@ -20,7 +20,7 @@ W3S and WCS are similar such as they can feature the same races and they bring f
 but they are two completely different projects.
 
 War3Source offers unbeatable performance and quality under SourcePawn and involves much more interaction between races.
-Procedural programming language easily allows for complex data interactions and psudo-object oriented approach.
+Procedural programming language easily allows for complex data interactions and pseudo-object oriented approach.
 Many subsystems are available to the coder that EventScripts does not offer, such as:
 A Cooldown System which simplifies skills and ultimate cooldowns
 A buff/debuff system where races are expected to respect other race's buffs and debuffs, resolves conflicts between races.
