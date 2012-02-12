@@ -136,7 +136,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
 			}
 		}
 	}
-	new newdamage = RoundToFloor(DamageMultiplier * damage);
+	new newdamage = RoundToFloor(PercentIncrease * damage);
 	newdamage = newdamage + DamageIncrease;
 	if(newdamage > 0)
 		War3_DealDamage(victim,newdamage,attacker,_,"weapon_crit");
