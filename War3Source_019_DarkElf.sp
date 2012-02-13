@@ -59,9 +59,12 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-	War3_PrecacheParticle("teleporter_blue_entrance");
-	War3_PrecacheParticle("ghost_smoke");
-
+	//Only precache them on TF2
+	if(War3_GetGame()==Game_TF)
+	{
+		War3_PrecacheParticle("teleporter_blue_entrance");
+		War3_PrecacheParticle("ghost_smoke");
+	}
 	//War3_PrecacheSound(tribunal);
 	//War3_PrecacheSound(darkorb);
 }
@@ -86,7 +89,9 @@ public OnUltimateCommand(client,race,bool:pressed)
 					W3FlashScreen(target,{0,0,0,255},duration,0.5,FFADE_OUT);
 					//EmitSoundToAll(darkorb,target);
 					//EmitSoundToAll(darkorb,target);
-					AttachThrowAwayParticle(target, "ghost_smoke", victimvec, "", duration);
+					if(War3_GetGame()==Game_TF) {
+						AttachThrowAwayParticle(target, "ghost_smoke", victimvec, "", duration);
+					}
 					War3_CooldownMGR(client,DarkorbCooldownTime,thisRaceID,ULTIMATE_DARKORB,_,_);
 					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"%T","You've been blinded by a Dark Elf!",target);
 					W3Hint(client,HINT_COOLDOWN_NOTREADY,5.0,"%T","DarkOrb blinded Successfully",client);
@@ -206,7 +211,7 @@ public Action:Slowfall2Timer(Handle:timer,any:client)
 				new Float:gravity=SlowfallGravity[skilllevel_levi];
 				//DP("set %f",gravity);
 				War3_SetBuff(client,fLowGravitySkill,thisRaceID,gravity);
-				if(!IsInvis(client)){
+				if(!IsInvis(client)&&War3_GetGame()==Game_TF){
 					AttachThrowAwayParticle(client, GetApparentTeam(client)==TEAM_RED?"teleporter_red_entrance":"teleporter_blue_entrance", darkvec, "", 1.0);
 				}
 			}
