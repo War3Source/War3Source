@@ -53,6 +53,34 @@ enum L4D2GlowType
  */
 native bool:War3_L4D_IsHelpless(client);  
 
+// TODO: Remove identifier? Clients can only have one progressbar at a time
+//		 anyway... 
+
+/**
+ * Activates a progressbar on the client that stays up there for x seconds.
+ * 
+ * The progressbar tries to behave like other use events in Left4Dead, stopping
+ * when the client shoots or stops pressing the +use key etc.
+ * Obviously before starting this you should check the clients buttons for 
+ * IN_USE or else it will break off instantly
+ * 
+ * returns a identifier to clearly identify client - progressbar. 
+ * -1 if there was an error
+ */
+native War3_L4D_ActivateProgressBar(client, Float:time);
+/**
+ * Cancels the current Progressbar on the given client
+ */
+native War3_L4D_CancelProgressBar(client);
+
+/**
+ * Forwards for the progress bar. 
+ */
+forward HasFinishedProgress(client, progress_id);
+forward HasAbortedProgress(client, progress_id);
+
+//  * type == 0: Fire
+//  * type != 0: Explosion
 native War3_L4D_Explode(attacker, Float:pos[3], type);
 
 stock bool:War3_IsL4DEngine() {
@@ -73,6 +101,7 @@ stock bool:War3_IsL4DZombieEntity(iEntity) {
 	return false;
 }
 
+// Finds all zombies, common and uncommon
 stock bool:War3_IsCommonInfected(iEntity)
 {
 	if(iEntity > 0 && IsValidEntity(iEntity) && IsValidEdict(iEntity))
@@ -85,6 +114,7 @@ stock bool:War3_IsCommonInfected(iEntity)
 	return false;
 }  
 
+// Check if a infected is a uncommon one
 stock bool:War3_IsUncommonInfected(iEntity)
 {
 	if(iEntity > 0 && IsValidEntity(iEntity) && IsValidEdict(iEntity))

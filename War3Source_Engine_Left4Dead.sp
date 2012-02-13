@@ -16,7 +16,15 @@ public Plugin:myinfo=
 };
 
 new bool:g_bIsHelpless[MAXPLAYERS+1];
+
+new Handle:g_hTimerHandleProgress[MAXPLAYERS+1];
+new bool:g_bIsMakingProgress[MAXPLAYERS+1];
+new ProgressID = 0;
+new g_ClientProgressID[MAXPLAYERS+1];
+
 new Handle:g_hArrayOfKaboom = INVALID_HANDLE;
+new Handle:g_L4DHasFinishedProgressFH;
+new Handle:g_L4DHasAbortedProgressFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
 {
@@ -26,9 +34,13 @@ public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_ma
 }
 public bool:InitNativesForwards()
 {
-	///LIST ALL THESE NATIVES IN INTERFACE
 	CreateNative("War3_L4D_IsHelpless", Native_War3_L4D_IsHelpless);
 	CreateNative("War3_L4D_Explode", Native_L4D_CauseExplosion);
+	CreateNative("War3_L4D_ActivateProgressBar", Native_ActivateProgressBar);
+	CreateNative("War3_L4D_CancelProgressBar", Native_CancelProgressBar);
+	
+	g_L4DHasFinishedProgressFH = CreateGlobalForward("HasFinishedProgress", ET_Ignore, Param_Cell, Param_Cell);
+	g_L4DHasAbortedProgressFH = CreateGlobalForward("HasAbortedProgress", ET_Ignore, Param_Cell, Param_Cell);
 	return true;
 }
 
@@ -75,10 +87,90 @@ public OnMapStart()
 	PrecacheModel(MODEL_PROPANE, true);
 }
 
+// TODO: Add a check so this can't overwrite another progress bar
+public Native_ActivateProgressBar(Handle:plugin, numParams) //client, Float:time
+{
+	new client = GetNativeCell(1);
+	new Float:time = GetNativeCell(2);
+	new client_ref = EntIndexToEntRef(client);
+	
+	if (!g_bIsMakingProgress[client]) {
+		new progress_id = ProgressID++;
+		g_bIsMakingProgress[client] = true;
+		g_ClientProgressID[client] = progress_id;
+		
+		CreateProgressBar(client, time);
+		// should probaly not send the client through here
+		g_hTimerHandleProgress[client] = CreateTimer(time, TimerProgressBarSuccess, client_ref, TIMER_FLAG_NO_MAPCHANGE);
+		
+		return progress_id;
+	}
+	else {
+		return -1;
+	}
+}
+
+public Native_CancelProgressBar(Handle:plugin, numParams) // client
+{
+	new client = GetNativeCell(1);
+	CancelProgressBar(client);
+}
+
+CancelProgressBar(client) 
+{
+	new res;
+	g_bIsMakingProgress[client] = false;
+	KillProgressBar(client);
+
+	// push the forward
+	Call_StartForward(g_L4DHasAbortedProgressFH);
+	Call_PushCell(client);
+	Call_PushCell(g_ClientProgressID[client]);	
+	Call_Finish(res);
+	
+	KillTimer(g_hTimerHandleProgress[client]);
+	g_hTimerHandleProgress[client] = INVALID_HANDLE;
+}
+
+
+public Action:TimerProgressBarSuccess(Handle:timer, any:client_ref)
+{
+	new res;
+	new client = EntRefToEntIndex(client_ref);
+	if (ValidPlayer(client, true) && g_bIsMakingProgress[client] == true) {
+		KillProgressBar(client);
+		
+		// push the forward
+		Call_StartForward(g_L4DHasFinishedProgressFH);
+		Call_PushCell(client);
+		Call_PushCell( g_ClientProgressID[client]);	
+		Call_Finish(res);
+	}
+	
+	g_bIsMakingProgress[client] = false;
+}
+
+public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
+{
+	if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && g_bIsMakingProgress[client])
+	{
+		if (buttons & IN_JUMP || buttons & IN_FORWARD || buttons & IN_BACK || 
+			buttons & IN_LEFT || buttons & IN_RIGHT || buttons & IN_MOVELEFT || 
+			buttons & IN_MOVERIGHT || buttons & IN_ATTACK || buttons ^ IN_USE) 
+		{
+			CancelProgressBar(client);	
+		}
+	}
+
+	return Plugin_Continue;	
+}
+
+
 public Event_IsHelpless (Handle:event, const String:name[], bool:dontBroadcast)
 {
 	new victim = GetClientOfUserId(GetEventInt(event, "victim"));
 	if (!victim) return;
+	
 	g_bIsHelpless[victim] = true;
 }
 
@@ -86,6 +178,7 @@ public Event_IsNoLongerHelpless (Handle:event, const String:name[], bool:dontBro
 {
 	new victim = GetClientOfUserId(GetEventInt(event, "victim"));
 	if (!victim) return;
+	
 	g_bIsHelpless[victim] = false;
 }
 
@@ -101,12 +194,14 @@ public Event_ResetHelplessUserID (Handle:event, const String:name[], bool:dontBr
 {
 	new client = GetClientOfUserId(GetEventInt(event, "userid"));
 	if (!client) return;
+	
 	g_bIsHelpless[client] = false;
 }
 
 public Native_War3_L4D_IsHelpless(Handle:plugin, numParams)
 {
 	new client = GetNativeCell(1);
+	
 	return g_bIsHelpless[client];
 }
 
