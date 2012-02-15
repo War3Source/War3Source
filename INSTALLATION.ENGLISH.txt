@@ -43,15 +43,27 @@ If you have a fast download mirror, put 'sound' into the appropriate location on
 
 All other folders/files not mentioned are for developers only and should not be uploaded to the server.
 ----------------------------------
+DATABASE SETUP:
 
-ALWAYS check your ERROR LOGS if war3source/SH does not load correctly! Go to the forums for further help.
+see: http://www.ownageclan.com/wiki/index.php/War3Source:Configuration
+Go to section "Saving XP MySQL" section and "Saving XP SQLITE" section
 
-(Advanced users only:) If you wish to add custom races or content or learn to program SM and W3S, put "*.sp" files and "W3SIncs" in scripting/War3SourceP (make that folder)
+----------------------------------
+ALWAYS check your ERROR LOGS if war3source/SH does not load correctly! Go to the forums for further help. 
+
+(Advanced users only:) 
+If you wish to add custom races or content or learn to program SM and W3S, 
+put "*.sp" files and "W3SIncs" in scripting/War3SourceP (make that folder). 
+DO NOT UPLOAD THE ABOVE TO THE SERVER, WRITING RACES AND COMPILING IS DONE LOCALLY!!!
+ 
+If you dont understand this, you probably don't understand writing races and compiling either, 
+so don't bother with this step, its not require dfor "running" a server.
 
 ----------------------------------
 CONFIGURATION:
 
 /cfg/war3source.cfg is executed after war3source is loaded 
+See http://www.ownageclan.com/wiki/index.php/War3Source:Configuration for more info on different types of Cvars
 
 SH_....smx is not required for war3source to run.
 War3Source_.....smx is REQUIRED for SH to run.
