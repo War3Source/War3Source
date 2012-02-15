@@ -41,6 +41,7 @@ Put stuff in 'sound' beings in your 'sound' folder (always overwrite all on this
 
 If you have a fast download mirror, put 'sound' into the appropriate location on your fast download mirror
 
+All other folders/files not mentioned are for developers only and should not be uploaded to the server.
 ----------------------------------
 
 ALWAYS check your ERROR LOGS if war3source/SH does not load correctly! Go to the forums for further help.
