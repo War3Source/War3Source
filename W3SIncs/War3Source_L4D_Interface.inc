@@ -74,6 +74,11 @@ native War3_L4D_ActivateProgressBar(client, Float:time);
 native War3_L4D_CancelProgressBar(client);
 
 /**
+ * Check if the client is currently in progress bar mode
+ */
+native bool:War3_L4D_HasProgressBar(client);
+
+/**
  * Forwards for the progress bar. 
  */
 forward HasFinishedProgress(client, progress_id);

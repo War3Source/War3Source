@@ -38,6 +38,7 @@ public bool:InitNativesForwards()
 	CreateNative("War3_L4D_Explode", Native_L4D_CauseExplosion);
 	CreateNative("War3_L4D_ActivateProgressBar", Native_ActivateProgressBar);
 	CreateNative("War3_L4D_CancelProgressBar", Native_CancelProgressBar);
+	CreateNative("War3_L4D_HasProgressBar", Native_HasProgressBar);
 	
 	g_L4DHasFinishedProgressFH = CreateGlobalForward("HasFinishedProgress", ET_Ignore, Param_Cell, Param_Cell);
 	g_L4DHasAbortedProgressFH = CreateGlobalForward("HasAbortedProgress", ET_Ignore, Param_Cell, Param_Cell);
@@ -110,6 +111,13 @@ public Native_ActivateProgressBar(Handle:plugin, numParams) //client, Float:time
 	}
 }
 
+public Native_HasProgressBar(Handle:plugin, numParams) //client, Float:time
+{
+	new client = GetNativeCell(1);
+	
+	return g_bIsMakingProgress[client];
+}
+
 public Native_CancelProgressBar(Handle:plugin, numParams) // client
 {
 	new client = GetNativeCell(1);
@@ -149,7 +157,7 @@ public Action:TimerProgressBarSuccess(Handle:timer, any:client_ref)
 	
 	g_bIsMakingProgress[client] = false;
 }
-
+ 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
 	if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && g_bIsMakingProgress[client])
