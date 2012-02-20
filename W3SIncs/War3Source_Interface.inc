@@ -1694,19 +1694,23 @@ native W3HasDiedThisFrame(client);
 
 
 
-//create an error displayed in various places at runtime
+/*create an error displayed in various places at runtime*/
 native CreateWar3GlobalError(String:str[]);
 
 //forwarded when someone calls CreateWar3GlobalError, store that string for yourself
 forward OnWar3GlobalError(String:str[]);
 
 forward War3FailedSignal(String:str[]);
+
+/* interface side implementation, do not use */
 public War3FailedSignal(String:str[]){
 	LogError(str); //must be a non dependent native log error
 	SetFailState(str);
 }
 
 forward CheckWar3Compatability(String:w3mainInterfVersion[]);
+
+/* interface side implementation, do not use */
 public CheckWar3Compatability(String:w3mainInterfVersion[]){
 	if(!StrEqual(interfaceVersion,w3mainInterfVersion)){
 		W3LogError("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
