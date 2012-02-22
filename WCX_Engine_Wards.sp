@@ -373,7 +373,7 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	
 	for(new i=1;i<=MaxClients;i++)
 	{
-		if(ValidPlayer(i,true))
+		if(ValidPlayer(i,true)&&ValidPlayer(WardOwner[wardindex]))
 		{
 			if (i == WardOwner[wardindex]) {
 				if (!WardSelfInflict[wardindex]) {
