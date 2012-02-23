@@ -129,6 +129,7 @@ public Action:EndStare(Handle:t,any:client){
 	War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
 	War3_SetBuff(StareVictim[client],bDisarm,thisRaceID,false);
 	StareVictim[client]=0;
+	StareEndTimer[client]=INVALID_HANDLE;
 }
 public OnWar3EventDeath(client){ //end stare if fluttershy dies
 	if(StareEndTimer[client]){
