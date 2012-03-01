@@ -1133,6 +1133,18 @@ native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]
 native War3_HealToMaxHP(client,addhp);  
 
 /**
+ * heals with the limit of your specified HP
+ * @noreturn
+ */  
+stock War3HealToHP(client,addhp,maximumHP){
+	new currenthp=GetClientHealth(client);
+	new newhp=currenthp+addhp;
+	if(newhp>maximumHP){
+		newhp=maximumHP;
+	}
+	SetEntityHealth(client,newhp)
+}
+/**
  * heals to max hp * 1.5 buff in tf2
  * no extra hp in other games 
  * @noreturn

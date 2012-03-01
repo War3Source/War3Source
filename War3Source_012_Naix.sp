@@ -92,7 +92,9 @@ public OnWar3EventPostHurt(victim,attacker,amount){
 			if(!W3HasImmunity(victim,Immunity_Skills)){	
 				new targetHp = GetClientHealth(victim)+amount;
 				new restore = RoundToNearest( float(targetHp) * feastPercent[level] );
-				War3_HealToMaxHP(attacker,restore);
+
+				War3HealToHP(attacker,restore,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
+			
 				PrintToConsole(attacker,"%T","Feast +{amount} HP",attacker,restore);
 			}
 		}
@@ -102,20 +104,21 @@ public OnWar3EventSpawn(client){
 	if(IsOurRace(client)){
 		new level = War3_GetSkillLevel(client, thisRaceID, SKILL_BLOODBATH);
 		if(level>=0){ //zeroth level passive
-			War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,HPIncrease[level]);
+			//War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,HPIncrease[level]);
 			
 			//War3_SetMaxHP(client, War3_GetMaxHP(client) + );
 			War3_ChatMessage(client,"%T","Your Maximum HP Increased by {amount}",client,HPIncrease[level]);    
 		}
 	}
 }
+/*
 public OnRaceChanged(client,oldrace,newrace)
 {
 	if(oldrace==thisRaceID){
 		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
 	}
 
-}
+}*/
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
 	
@@ -159,7 +162,7 @@ public OnWar3EventDeath(victim,attacker){
 				
 				new addHealth = RoundFloat(FloatMul(float(War3_GetMaxHP(victim)),HPPercentHealPerKill[iSkillLevel]));
 				
-				War3_HealToMaxHP(attacker,addHealth);
+				War3HealToHP(attacker,addHealth,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
 				//Effects?
 				//EmitAmbientSound("npc/zombie/zombie_pain2.wav",location);
 				EmitSoundToAll(skill1snd,attacker);
