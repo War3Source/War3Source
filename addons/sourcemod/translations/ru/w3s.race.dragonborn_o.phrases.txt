@@ -1,0 +1,58 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"dragonborn_o_RaceName"
+	{
+		"ru"		"Новорожденный Дракон"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"dragonborn_o_skill_Roar"
+	{
+		"ru"		"Рев дракона"
+	}
+	"dragonborn_o_skill_Roar_desc"
+	{
+		"ru"		"Повергает в состояние страха всех вокруг Вас в радиусе 400 единиц на 0.4-1.0 секунд. +Ability"
+	}
+
+	"dragonborn_o_skill_Scales"
+	{
+		"ru"		"Чешуя"
+	}
+	"dragonborn_o_skill_Scales_desc"
+	{
+		"ru"		"Добавляет 1-3 единицы физической брони"
+	}
+
+	"dragonborn_o_skill_Dragonborn"
+	{
+		"ru"		"Новорожденный"
+	}
+	"dragonborn_o_skill_Dragonborn_desc"
+	{
+		"ru"		"Дает 15%% шанс защиты от некоторых видов магии.\n Защищает от wards/slows/skills/ultimates"
+	}
+
+	"dragonborn_o_skill_DragonsBreath"
+	{
+		"ru"		"Дыхание дракона"
+	}
+	
+	"dragonborn_o_skill_DragonsBreath_desc"
+	{
+		"ru"		"Эффект дыхания дракона в радиусе 400-700 единиц."
+	}
+
+	"A dragon weakend you with dragon breath"
+	{
+		"ru"		"Вы попали под влияние дыхания дракона"
+	}
+	
+	"OH GOD A DRAGON"
+	{
+		"ru"		"О, БОЖЕ ДРАКОН"
+	}
+}

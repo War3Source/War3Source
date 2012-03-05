@@ -66,19 +66,12 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==200)
 	{
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		////USE #1# IN TRANSLATIONS
-		thisRaceID=War3_CreateNewRace("Dragonborn","dragonborn_o");
-		SKILL_ROAR=War3_AddRaceSkill(thisRaceID,"Roar","Puts all those around you in a 400 radius in a fear state for 0.4-1.0 second. +Ability",false,4);
-		SKILL_SCALES=War3_AddRaceSkill(thisRaceID,"Scales","1-3 physical armor",false,4);
-		SKILL_DRAGONBORN=War3_AddRaceSkill(thisRaceID,"Dragonborn","Being dragonborn gives immunitys to certain magics.\n15% chance of immunity to wards/slows/skills/ultimates ",false,4);
-		ULTIMATE_DRAGONBREATH=War3_AddRaceSkill(thisRaceID,"Dragons Breath","Applies jarate effect. 400-700 range.",true,4); 
+		
+		thisRaceID=War3_CreateNewRaceT("dragonborn_o");
+		SKILL_ROAR=War3_AddRaceSkillT(thisRaceID,"Roar",false,4);
+		SKILL_SCALES=War3_AddRaceSkillT(thisRaceID,"Scales",false,4);
+		SKILL_DRAGONBORN=War3_AddRaceSkillT(thisRaceID,"Dragonborn",false,4);
+		ULTIMATE_DRAGONBREATH=War3_AddRaceSkillT(thisRaceID,"DragonsBreath",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 	}
 }
@@ -125,7 +118,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 					TF2_AddCondition(target, TFCond_Jarated, 5.0);
 					AttachThrowAwayParticle(target, "waterfall_bottomwaves", victimvec, "", 2.0);
 					War3_CooldownMGR(client,25.0,thisRaceID,ULTIMATE_DRAGONBREATH,_,_);
-					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"A dragon weakend you with dragon breath");
+					W3Hint(target,HINT_COOLDOWN_NOTREADY,5.0,"%T","A dragon weakend you with dragon breath",target);					
 				}
 				else{
 					W3MsgNoTargetFound(client,breathrange);
@@ -197,12 +190,12 @@ public OnAbilityCommand(client,ability,bool:pressed)
 								if(GetClientTeam(client) == TEAM_RED)
 								{
 									AttachThrowAwayParticle(client, "particle_nemesis_burst_red", dragvec, "", 1.5);
-									W3Hint(i,HINT_COOLDOWN_NOTREADY,1.5,"OH GOD A DRAGON");
+									W3Hint(i,HINT_COOLDOWN_NOTREADY,1.5,"%T","OH GOD A DRAGON",i);
 								}
 								if(GetClientTeam(client) == TEAM_BLUE)
 								{
 									AttachThrowAwayParticle(client, "particle_nemesis_burst_blue", dragvec, "", 1.5);
-									W3Hint(i,HINT_COOLDOWN_NOTREADY,1.5,"OH GOD A DRAGON");
+									W3Hint(i,HINT_COOLDOWN_NOTREADY,1.5,"%T","OH GOD A DRAGON",i);
 								}
 							}
 						}
