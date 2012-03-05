@@ -1,0 +1,64 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"fluttershy_RaceName"
+	{
+		"en"		"[MLP:FIM] Fluttershy"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"fluttershy_skill_StareMaster"
+	{
+		"en"		"Stare Master"
+	}
+	"fluttershy_skill_StareMaster_desc"
+	{
+		"en"		"Stare at target, 300 range, disarms and immobilizes you and target for 1.5-3 seconds"
+	}
+
+	"fluttershy_skill_Tolerate"
+	{
+		"en"		"Tolerate"
+	}
+	"fluttershy_skill_Tolerate_desc"
+	{
+		"en"		"To 2 physical armor"
+	}
+
+	"fluttershy_skill_Kindness"
+	{
+		"en"		"Kindness"
+	}
+	"fluttershy_skill_Kindness_desc"
+	{
+		"en"		"Global heal up to 2 hp /s"
+	}
+
+	"fluttershy_skill_BeGentle"
+	{
+		"en"		"Be Gentle"
+	}
+	"fluttershy_skill_BeGentle_desc"
+	{
+		"en"		"Target cannot deal damage for 1-1.8 seconds"
+	}
+
+	"You be gentle!"
+	{
+		"en"		"You be gentle!"
+	}
+	"You be gentle!Cannot deal bullet damage"
+	{
+		"en"		"You be gentle!\nCannot deal bullet damage"
+	}
+	"STOP AND STARE"
+	{
+		"en"		"STOP AND STARE"
+	}
+	"You are being stared at.Don't look at her in the eye!!!"
+	{
+		"en"		"You are being stared at.\nDon't look at her in the eye!!!"
+	}
+}

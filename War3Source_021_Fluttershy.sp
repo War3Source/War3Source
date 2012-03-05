@@ -35,12 +35,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==210)
 	{
-		/////DO NOT TRANSLATE
-		thisRaceID=War3_CreateNewRace("[MLP:FIM] Fluttershy","fluttershy");
-		SKILL_STARE=War3_AddRaceSkill(thisRaceID,"Stare Master","stare at target, 300 range, disarms and immobilizes you and target for 1.5-3 seconds");
-		SKILL_TOLERATE=War3_AddRaceSkill(thisRaceID,"Tolerate","To 2 physical armor"); 
-		SKILL_KINDNESS=War3_AddRaceSkill(thisRaceID,"Kindness","Global heal up to 2 hp /s"); 
-		ULTIMATE_YOUBEGENTLE=War3_AddRaceSkill(thisRaceID,"Be Gentle","target cannot deal damage for 1-1.8 seconds",true); 
+		thisRaceID=War3_CreateNewRaceT("fluttershy");
+		SKILL_STARE=War3_AddRaceSkillT(thisRaceID,"StareMaster",false,4);
+		SKILL_TOLERATE=War3_AddRaceSkillT(thisRaceID,"Tolerate",false,4); 
+		SKILL_KINDNESS=War3_AddRaceSkillT(thisRaceID,"Kindness",false,4); 
+		ULTIMATE_YOUBEGENTLE=War3_AddRaceSkillT(thisRaceID,"BeGentle",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 		
 		AuraID=W3RegisterAura("fluttershy_healwave",999999.9);
@@ -49,7 +48,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnPluginStart()
 {
-	
+	LoadTranslations("w3s.race.fluttershy.phrases");
 }
 
 public OnUltimateCommand(client,race,bool:pressed)
@@ -69,8 +68,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 				{
 					bNoDamage[target]=true;
 					CreateTimer(NotBadDuration[ult_level],EndNotBad,target);
-					PrintHintText(client,"You be gentle!");
-					PrintHintText(target,"You be gentle!\nCannot deal bullet damage");
+					PrintHintText(client,"%t","You be gentle!",client);
+					PrintHintText(target,"%t","You be gentle!Cannot deal bullet damage",client);
 					War3_CooldownMGR(client,20.0,thisRaceID,ULTIMATE_YOUBEGENTLE);
 				}
 				else{
@@ -110,8 +109,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					War3_SetBuff(client,bDisarm,thisRaceID,true);
 					War3_SetBuff(target,bBashed,thisRaceID,true);
 					War3_SetBuff(target,bDisarm,thisRaceID,true);
-					PrintHintText(client,"STOP AND STARE");
-					PrintHintText(target,"You are being stared at.\nDon't look at her in the eye!!!");
+					PrintHintText(client,"%t","STOP AND STARE",client);
+					PrintHintText(target,"%t","You are being stared at.Don't look at her in the eye!!!",client);
 					StareEndTimer[client]=CreateTimer(StareDuration[skilllvl],EndStare,client);
 					StareVictim[client]=target;
 					War3_CooldownMGR(client,15.0,thisRaceID,SKILL_STARE);

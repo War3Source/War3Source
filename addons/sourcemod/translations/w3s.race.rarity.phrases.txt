@@ -1,0 +1,64 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"rarity_RaceName"
+	{
+		"en"		"[MLP:FIM] Rarity"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"rarity_skill_Smitten"
+	{
+		"en"		"Smitten"
+	}
+	"rarity_skill_Smitten_desc"
+	{
+		"en"		"Reduces enemy damage by up to 70%%"
+	}
+
+	"rarity_skill_Heartache"
+	{
+		"en"		"Heartache"
+	}
+	"rarity_skill_Heartache_desc"
+	{
+		"en"		"Up to 15%% chance of dealing 20 true damage and healing self for the same amount"
+	}
+
+	"rarity_skill_Mesmerize"
+	{
+		"en"		"Mesmerize"
+	}
+	"rarity_skill_Mesmerize_desc"
+	{
+		"en"		"Puts enemy to sleep, if that enemy is attacked, the sleep will transfer to the attacker"
+	}
+
+	"rarity_skill_Hold"
+	{
+		"en"		"Hold"
+	}
+	"rarity_skill_Hold_desc"
+	{
+		"en"		"Hold and blinds player up to 2.3 seconds"
+	}
+
+	"You have been Smittened you do less damage"
+	{
+		"en"		"You have been Smittened, you do less damage"
+	}
+	"Activated Smitten"
+	{
+		"en"		"Activated Smitten"
+	}
+	"You are Mesmerized"
+	{
+		"en"		"You are Mesmerized"
+	}
+	"No Longer Mesmerized"
+	{
+		"en"		"No Longer Mesmerized"
+	}
+}

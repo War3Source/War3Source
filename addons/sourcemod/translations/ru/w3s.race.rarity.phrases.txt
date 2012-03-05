@@ -1,0 +1,64 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"rarity_RaceName"
+	{
+		"ru"		"[MLP:FIM] Редкость"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"rarity_skill_Smitten"
+	{
+		"ru"		"Повреждение"
+	}
+	"rarity_skill_Smitten_desc"
+	{
+		"ru"		"Уменьшает вражеское повреждение на 70 %%"
+	}
+
+	"rarity_skill_Heartache"
+	{
+		"ru"		"Страдание"
+	}
+	"rarity_skill_Heartache_desc"
+	{
+		"ru"		"У вас есть 15%%-ый шанс нанести 20 реальных повреждений и исцелить себя на эту же величину"
+	}
+
+	"rarity_skill_Mesmerize"
+	{
+		"ru"		"Гипнотизировать"
+	}
+	"rarity_skill_Mesmerize_desc"
+	{
+		"ru"		"Усыпляет врага, если тот враг подвергнется нападению, то усыпляет и нападавшего"
+	}
+
+	"rarity_skill_Hold"
+	{
+		"ru"		"Захват"
+	}
+	"rarity_skill_Hold_desc"
+	{
+		"ru"		"Захватываете и ослепляете игрока до 2.3 секунд"
+	}
+
+	"You have been Smittened you do less damage"
+	{
+		"ru"		"У противника защита от повреждений, Вы наносите меньше ущерба"
+	}
+	"Activated Smitten"
+	{
+		"ru"		"Защита от повреждений Включена!"
+	}
+	"You are Mesmerized"
+	{
+		"ru"		"Вы Загипнотизированы!"
+	}
+	"No Longer Mesmerized"
+	{
+		"ru"		"Вы вышли из Гипноза!"
+	}
+}

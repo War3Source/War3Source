@@ -45,18 +45,18 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
 	if(num==220)
 	{
-		thisRaceID=War3_CreateNewRace("[MLP:FIM] Rarity","rarity");
-		SKILL_SMITTEN=War3_AddRaceSkill(thisRaceID,"Smitten","Reduces enemy damage by up to 70%");
-		SKILL_HEARTACHE=War3_AddRaceSkill(thisRaceID,"Heartache","up to 15% chance of dealing 20 true damage and healing self for the same amount");
-		SKILL_SLEEP=War3_AddRaceSkill(thisRaceID,"Mesmerize","puts enemy to sleep, if that enemy is attacked, the sleep will transfer to the attacker");
-		ULTIMATE=War3_AddRaceSkill(thisRaceID,"Hold","Hold and blinds player up to 2.3 seconds",true); 
+		thisRaceID=War3_CreateNewRaceT("rarity");
+		SKILL_SMITTEN=War3_AddRaceSkillT(thisRaceID,"Smitten",false,4);
+		SKILL_HEARTACHE=War3_AddRaceSkillT(thisRaceID,"Heartache",false,4);
+		SKILL_SLEEP=War3_AddRaceSkillT(thisRaceID,"Mesmerize",false,4);
+		ULTIMATE=War3_AddRaceSkillT(thisRaceID,"Hold",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 	}
 }
 
 public OnPluginStart()
 {
-
+	LoadTranslations("w3s.race.rarity.phrases");
 }
 
 public OnMapStart()
@@ -131,8 +131,8 @@ public OnWar3EventPostHurt(victim,attacker,dmgamount){
 					
 					CreateTimer(smittenDuration,UnSmitten,victim);
 					War3_CooldownMGR(attacker,smittenCooldown,thisRaceID,SKILL_SMITTEN);
-					W3Hint(victim,_,_,"You have been Smittened, you do less damage");
-					W3Hint(attacker,_,_,"Activated Smitten");
+					W3Hint(victim,_,_,"%T","You have been Smittened you do less damage",victim);
+					W3Hint(attacker,_,_,"%T","Activated Smitten",attacker);
 				}
 			}
 		}
@@ -186,7 +186,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 }
 Sleep(client){
 	War3_SetBuff(client,bStunned,thisRaceID,true);
-	PrintHintText(client,"You are Mesmerized");
+	PrintHintText(client,"%T","You are Mesmerized",client);
 	if(GameTF()){
 		
 	}
@@ -202,7 +202,7 @@ public Action:EndSleep(Handle:t,any:client){
 }
 UnSleep(client){
 	War3_SetBuff(client,bStunned,thisRaceID,false);
-	PrintHintText(client,"No Longer Mesmerized");
+	PrintHintText(client,"%T","No Longer Mesmerized",client);
 }
 
 
