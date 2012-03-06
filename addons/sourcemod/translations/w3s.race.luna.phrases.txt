@@ -1,0 +1,52 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"luna_RaceName"
+	{
+		"ru"		"Лунный Наездник"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"luna_skill_LucentBeam"
+	{
+		"ru"		"Прозрачный Луч"
+	}
+	"luna_skill_LucentBeam_desc"
+	{
+		"ru"		"Луна концентрирует свою энергию и направляет ее силу на поверхность, 6-10 повреждений. Автовыброс. 3с откат."
+	}
+
+	"luna_skill_MoonGlaive"
+	{
+		"ru"		"Лунное копье"
+	}
+	"luna_skill_MoonGlaive_desc"
+	{
+		"ru"		"Позволяет нанести дополнительный урон врагам."
+	}
+
+	"luna_skill_LunarBlessing"
+	{
+		"ru"		"Лунное Благословение"
+	}
+	"luna_skill_LunarBlessing_desc"
+	{
+		"ru"		"Поблизости расположенные противники получают урон от власти луны. +1-4 повреждения"
+	}
+
+	"luna_skill_Eclipse"
+	{
+		"ru"		"Затмение"
+	}
+	"luna_skill_Eclipse_desc"
+	{
+		"ru"		"Вызов лунной магии, вызывает падение Прозрачных Лучей и наносит дополнительные повреждения находящимся рядом противникам. 4-10 лучей."
+	}
+
+	"You have been hit by a Moon Glaive!"
+	{
+		"ru"		"Вы получили повреждение от Лунного копья!"
+	}
+}

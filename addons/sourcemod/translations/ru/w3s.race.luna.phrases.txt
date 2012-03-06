@@ -1,0 +1,72 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"luna_RaceName"
+	{
+		"en"		"Luna Moonfang - The Moon Rider"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"luna_skill_LucentBeam"
+	{
+		"en"		"Lucent Beam"
+	}
+	"luna_skill_LucentBeam_desc"
+	{
+		"en"		"Luna concentrates on the moon`s energy and channels it forcefully to the surface, 6-10dmg. Autocast. 3s cooldown."
+	}
+
+	"luna_skill_MoonGlaive"
+	{
+		"en"		"Moon Glaive"
+	}
+	"luna_skill_MoonGlaive_desc"
+	{
+		"en"		"Allows Luna to attack extra enemies with each Glaive attack."
+	}
+
+	"luna_skill_LunarBlessing"
+	{
+		"en"		"Lunar Blessing"
+	}
+	"luna_skill_LunarBlessing_desc"
+	{
+		"en"		"Nearby ranged units gain the power of the moon. +1-4 damage"
+	}
+
+	"luna_skill_Eclipse"
+	{
+		"en"		"Eclipse"
+	}
+	"luna_skill_Eclipse_desc"
+	{
+		"en"		"Calls to the moon`s magic, summoning a concentrated burst of Lucent Beams to damage targets around Luna. 4-10 beams."
+	}
+
+	"You have been hit by a Moon Glaive!"
+	{
+		"en"		"You've been hit by a Moon Glaive!"
+	}
+	"Player {player} has immunity (protecting buildings)"
+	{
+		"#format"	"{1:d}"
+		"en"		"[W3S] Player {1} has immunity (protecting buildings)"
+	}
+	"Suicide bomber damage: {amount} to {amount} at distance {amount}"
+	{
+		"#format"	"{1:d},{2:d},{3:f}"
+		"en"		"[W3S] Suicide bomber damage: {1} to {2} at distance {3}"
+	}
+	"Could not damage player {player} due to immunity"
+	{
+		"#format"	"{1:d}"
+		"en"		"[W3S] Could not damage player {1} due to immunity"
+	}
+	"Leeched +{amount} HP"
+	{
+		"#format"	"{1:d}"
+		"en"		"[W3S] Leeched +{1} HP"
+	}
+}
