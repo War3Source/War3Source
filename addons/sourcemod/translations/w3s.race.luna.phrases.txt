@@ -3,7 +3,7 @@
 	//<shortname>_RaceName
 	"luna_RaceName"
 	{
-		"ru"		"Лунный Наездник"
+		"en"		"Luna Moonfang - The Moon Rider"
 	}
 
 	//skills:
@@ -11,42 +11,42 @@
 	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
 	"luna_skill_LucentBeam"
 	{
-		"ru"		"Прозрачный Луч"
+		"en"		"Lucent Beam"
 	}
 	"luna_skill_LucentBeam_desc"
 	{
-		"ru"		"Луна концентрирует свою энергию и направляет ее силу на поверхность, 6-10 повреждений. Автовыброс. 3с откат."
+		"en"		"Luna concentrates on the moon`s energy and channels it forcefully to the surface, 6-10dmg. Autocast. 3s cooldown."
 	}
 
 	"luna_skill_MoonGlaive"
 	{
-		"ru"		"Лунное копье"
+		"en"		"Moon Glaive"
 	}
 	"luna_skill_MoonGlaive_desc"
 	{
-		"ru"		"Позволяет нанести дополнительный урон врагам."
+		"en"		"Allows Luna to attack extra enemies with each Glaive attack."
 	}
 
 	"luna_skill_LunarBlessing"
 	{
-		"ru"		"Лунное Благословение"
+		"en"		"Lunar Blessing"
 	}
 	"luna_skill_LunarBlessing_desc"
 	{
-		"ru"		"Поблизости расположенные противники получают урон от власти луны. +1-4 повреждения"
+		"en"		"Nearby ranged units gain the power of the moon. +1-4 damage"
 	}
 
 	"luna_skill_Eclipse"
 	{
-		"ru"		"Затмение"
+		"en"		"Eclipse"
 	}
 	"luna_skill_Eclipse_desc"
 	{
-		"ru"		"Вызов лунной магии, вызывает падение Прозрачных Лучей и наносит дополнительные повреждения находящимся рядом противникам. 4-10 лучей."
+		"en"		"Calls to the moon`s magic, summoning a concentrated burst of Lucent Beams to damage targets around Luna. 4-10 beams."
 	}
 
 	"You have been hit by a Moon Glaive!"
 	{
-		"ru"		"Вы получили повреждение от Лунного копья!"
+		"en"		"You've been hit by a Moon Glaive!"
 	}
 }
