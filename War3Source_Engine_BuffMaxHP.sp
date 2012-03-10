@@ -11,7 +11,7 @@ public Plugin:myinfo=
 	name="War3Source Buff MAXHP",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
-	version="1.0",
+	version="1.1",
 	url="http://war3source.com/"
 };
 
@@ -29,6 +29,7 @@ public OnPluginStart()
 	CreateTimer(0.1,TFHPBuff,_,TIMER_REPEAT);
 }
 new ORIGINALHP[MAXPLAYERSCUSTOM];
+new bool:bHealthAddedThisSpawn[MAXPLAYERSCUSTOM];
 public OnWar3EventSpawn(client){
 	ORIGINALHP[client]=GetClientHealth(client);
 	//if(!IsFakeClient(client))
@@ -43,10 +44,15 @@ public OnWar3EventSpawn(client){
 	//DP("TIMERCREATE");
 //	}
 }
+
+public OnWar3EventDeath(client){
+	bHealthAddedThisSpawn[client]=false;
+}
+
 public Action:CheckHP(Handle:h,any:client){
 //DP("TIMERHIT");
 	mytimer[client]=INVALID_HANDLE;
-	if(ValidPlayer(client,true)){
+	if(ValidPlayer(client,true) && !bHealthAddedThisSpawn[client]){
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
 		//if(!IsFakeClient(client))
 		//DP("oroginal %d, additonal %d",ORIGINALHP[client],hpadd);
@@ -76,16 +82,18 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 		mytimer2[client]=INVALID_HANDLE;
 		new oldmaxhp=War3_GetMaxHP(client);
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-		new newmaxhp=ORIGINALHP[client]+hpadd;
-		
-		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
-		
-		new newhp=GetClientHealth(client)+newmaxhp-oldmaxhp;
-		if(newhp<1){
-			newhp=1;
+		if(hpadd>0) {
+			new newmaxhp=ORIGINALHP[client]+hpadd;
+			
+			War3_SetMaxHP_INTERNAL(client,newmaxhp);
+			
+			new newhp=GetClientHealth(client)+newmaxhp-oldmaxhp;
+			if(newhp<1){
+				newhp=1;
+			}
+			SetEntityHealth(client,newhp);
+			bHealthAddedThisSpawn[client]=true;
 		}
-		SetEntityHealth(client,newhp);
-		
 	}
 }
 
