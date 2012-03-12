@@ -1,3 +1,7 @@
+//////////////////////////////////////
+// 			CSS   O N L Y          //
+//////////////////////////////////////
+
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 #include <sourcemod>
 #include "W3SIncs/cssclantags"
@@ -14,7 +18,9 @@ public Plugin:myinfo=
 	description="War3Source Addon Plugin",
 	version="1.0.0.1",
 };
-
+public LoadCheck(){
+	return GameCS();
+}
 public OnPluginStart()
 {
    g_hClanVar = CreateConVar("war3_bonusclan_name","*СМЕРШ*","Player who are wearing this clantag will gain bonus XP");
