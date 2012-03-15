@@ -153,14 +153,14 @@ public Action:SuicideAction(Handle:timer,any:client)
 				EmitSoundToAll("weapons/explode5.wav",client);
 			}
 		}
-		
+		new bool:friendlyfire = GetConVarBool(FindConVar("mp_friendlyfire"));
 		new Float:location_check[3];
 		for(new x=1;x<=MaxClients;x++)
 		{
 			if(ValidPlayer(x,true)&&client!=x)
 			{
 				new team=GetClientTeam(x);
-				if(team==our_team)
+				if(team==our_team&&!friendlyfire)
 					continue;
 				
 				GetClientAbsOrigin(x,location_check);
@@ -174,7 +174,6 @@ public Action:SuicideAction(Handle:timer,any:client)
 					new damage;
 					damage=RoundFloat(SuicideDamage[client]*factor);
 					War3_DealDamage(x,damage,client,_,"suicidebomber",W3DMGORIGIN_ULTIMATE,W3DMGTYPE_PHYSICAL);	
-					//W3PrintSkillDmgConsole(x,client,War3_GetWar3DamageDealt(),SuicideSkillID[client]);
 				
 					War3_ShakeScreen(x,3.0*factor,250.0*factor,30.0);
 					W3FlashScreen(x,RGBA_COLOR_RED);
