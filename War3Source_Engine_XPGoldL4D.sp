@@ -46,8 +46,8 @@ public OnPluginStart()
 	{
 		HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
 		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
-		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","50","XP awarded to a player helping somebody get up");
-		HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","100","XP awarded to a player helping another get up");
+		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing somebody from a closet");
+		HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","50","XP awarded to a player helping somebody get up");
 		SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
 		ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");
 		DeployUpgradeXPCvar=CreateConVar("war3_l4d_upgradeexp","100","XP awarded to a player deploying a upgrade pack");
@@ -400,7 +400,7 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && !War3_IsPlayerIncapped(client) && (!solo || (client != killer)))
 				{
 					Format(killaward,sizeof(killaward),"%T","surviving a Tank", client);
-					W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
+					W3GiveXPGold(client, XPAwardByKill, addxp, 0, killaward);
 					/*if (ValidPlayer(victim) && IsFakeClient(victim))
 						W3GiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
 					else
@@ -445,7 +445,7 @@ public War3Source_PlayerBoomedEvent(Handle:event,const String:name[],bool:dontBr
 		
 		//new String:rescueaward[64];
 		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
-		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"puking on a enemy");
+		W3GiveXPGold(attacker,XPAwardByGeneric,addxp,0,"puking on a enemy");
 	}
 }
 
@@ -460,7 +460,7 @@ public War3Source_PlayerFBoomedEvent(Handle:event,const String:name[],bool:dontB
 		
 		//new String:rescueaward[64];
 		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
-		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"helping to incap a survivor");
+		W3GiveXPGold(attacker,XPAwardByKill,addxp,0,"helping to incap a survivor");
 	}
 }
 
@@ -475,7 +475,7 @@ public War3Source_PlayerIncappedEvent(Handle:event,const String:name[],bool:dont
 		
 		//new String:rescueaward[64];
 		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
-		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"incapping a survivor");
+		W3GiveXPGold(attacker,XPAwardByKill,addxp,0,"incapping a survivor");
 	}
 }
 
@@ -487,6 +487,6 @@ public OnWar3EventDeath(victim, attacker)
 		
 		//new String:rescueaward[64];
 		//Format(rescueaward,sizeof(rescueaward),"%T","protecting a player",client);
-		W3GiveXPGold(attacker,XPAwardByRescueing,addxp,0,"killing a survivor");
+		W3GiveXPGold(attacker,XPAwardByKill,addxp,0,"killing a survivor");
 	}
 }

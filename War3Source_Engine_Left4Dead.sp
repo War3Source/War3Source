@@ -100,6 +100,8 @@ public Native_ActivateProgressBar(Handle:plugin, numParams) //client, Float:time
 		g_bIsMakingProgress[client] = true;
 		g_ClientProgressID[client] = progress_id;
 		
+		// TODO: Add a param to make this customizable
+		SetEntProp(client, Prop_Send, "m_iCurrentUseAction", L4D2UseAction_Button);
 		CreateProgressBar(client, time);
 		// should probaly not send the client through here
 		g_hTimerHandleProgress[client] = CreateTimer(time, TimerProgressBarSuccess, client_ref, TIMER_FLAG_NO_MAPCHANGE);
@@ -266,7 +268,7 @@ public Action:Hook_SetTransmit(temp_explosive, client)
  */
 public OnGameFrame()
 {
-	while(GetArraySize(g_hArrayOfKaboom))
+	while(GetArraySize(g_hArrayOfKaboom) > 0)
 	{
 		new item = GetArrayCell(g_hArrayOfKaboom, 0);
 		if(IsValidEntity(item))

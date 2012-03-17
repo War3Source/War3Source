@@ -228,7 +228,7 @@ stock GetMaxMagSize(const String:weapon[])
 stock GetCurrentBackupAmmo(client)
 {
 	decl String:weapon[64];
-	new iWeapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+	new iWeapon = GetPlayerWeaponSlot(client, 0);
 	GetEdictClassname(iWeapon, weapon, sizeof(weapon));
 	
 	new iAmmoOffset = FindDataMapOffs(client, "m_iAmmo");
@@ -305,6 +305,44 @@ stock GetMaxBackupAmmo(const String:weapon[])
 	}
 	
 	return 0;
+}
+
+stock SetBackupAmmo(client, ammo)
+{
+	decl String:weapon[64];
+	new iWeapon = GetPlayerWeaponSlot(client, 0);
+	GetEdictClassname(iWeapon, weapon, sizeof(weapon));
+	
+	new iAmmoOffset = FindDataMapOffs(client, "m_iAmmo");
+
+	if (StrEqual(weapon, "weapon_rifle", false) || StrEqual(weapon, "weapon_rifle_ak47", false) || StrEqual(weapon, "weapon_rifle_desert", false) || StrEqual(weapon, "weapon_rifle_sg552", false))
+	{
+		SetEntData(client, iAmmoOffset + ASSAULT_RIFLE_OFFSET_IAMMO, ammo);
+	}
+	else if (StrEqual(weapon, "weapon_smg", false) || StrEqual(weapon, "weapon_smg_silenced", false) || StrEqual(weapon, "weapon_smg_mp5", false))
+	{
+		SetEntData(client, iAmmoOffset + SMG_OFFSET_IAMMO, ammo);
+	}		
+	else if (StrEqual(weapon, "weapon_pumpshotgun", false) || StrEqual(weapon, "weapon_shotgun_chrome", false))
+	{
+		SetEntData(client, iAmmoOffset + PUMPSHOTGUN_OFFSET_IAMMO, ammo);
+	}
+	else if (StrEqual(weapon, "weapon_autoshotgun", false) || StrEqual(weapon, "weapon_shotgun_spas", false))
+	{
+		SetEntData(client, iAmmoOffset + AUTO_SHOTGUN_OFFSET_IAMMO, ammo);
+	}
+	else if (StrEqual(weapon, "weapon_hunting_rifle", false))
+	{
+		SetEntData(client, iAmmoOffset + HUNTING_RIFLE_OFFSET_IAMMO, ammo);
+	}
+	else if (StrEqual(weapon, "weapon_sniper_military", false) || StrEqual(weapon, "weapon_sniper_awp", false) || StrEqual(weapon, "weapon_sniper_scout", false))
+	{
+		SetEntData(client, iAmmoOffset + MILITARY_SNIPER_OFFSET_IAMMO, ammo);
+	}
+	else if (StrEqual(weapon, "weapon_grenade_launcher"))
+	{
+		SetEntData(client, iAmmoOffset + GRENADE_LAUNCHER_OFFSET_IAMMO, ammo);
+	}
 }
 
 // Client is rendered invisible!
@@ -387,6 +425,8 @@ stock CreateProgressBar(client, Float:fTimeDur)
 
 stock KillProgressBar(client)
 {
+	SetEntProp(client, Prop_Send, "m_iCurrentUseAction", L4D2UseAction_None);
+	
 	SetEntPropFloat(client, Prop_Send, "m_flProgressBarDuration", 0.0);
 	SetEntPropFloat(client, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
 }
