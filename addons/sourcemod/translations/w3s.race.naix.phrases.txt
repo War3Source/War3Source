@@ -24,7 +24,7 @@
 	}
 	"naix_skill_BloodBath_desc"
 	{
-		"en"		"Increases maximum health of the Naix by #1#,\nmaking all his other skills worthy"
+		"en"		"Increases leechable health of the Naix by #1#,\nmaking all his other skills worthy"
 	}
 
 	"naix_skill_Feast"
