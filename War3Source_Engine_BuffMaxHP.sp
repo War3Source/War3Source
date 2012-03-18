@@ -80,7 +80,9 @@ public OnWar3Event(W3EVENT:event,client){
 public Action:CheckHPBuffChange(Handle:h,any:client){
 	if(ValidPlayer(client,true)){
 		mytimer2[client]=INVALID_HANDLE;
-		new oldmaxhp=War3_GetMaxHP(client);
+		//oldmethod
+		
+		/*new oldmaxhp=War3_GetMaxHP(client);
 		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
 		if(hpadd>0) {
 			new newmaxhp=ORIGINALHP[client]+hpadd;
@@ -93,7 +95,21 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 			}
 			SetEntityHealth(client,newhp);
 			bHealthAddedThisSpawn[client]=true;
+		}*/
+		
+		
+		///method 2
+		new oldbuff=War3_GetMaxHP(client)-ORIGINALHP[client];
+		new newbuff=W3GetBuffSumInt(client,iAdditionalMaxHealth);
+		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+newbuff); //set max hp
+		
+		new newhp=GetClientHealth(client)+newbuff-oldbuff; //difference
+		if(newhp<1){
+			newhp=1;
 		}
+		//add or decrease health
+		SetEntityHealth(client,newhp);
+			
 	}
 }
 
