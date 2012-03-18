@@ -40,7 +40,7 @@ public OnWar3EventSpawn(client){
 	if(mytimer[client]!=INVALID_HANDLE){
 		CloseHandle(mytimer[client]);
 	}
-	mytimer[client]=CreateTimer(0.1,CheckHP,client);
+	mytimer[client]=CreateTimer(0.01,CheckHP,client);
 	//DP("TIMERCREATE");
 //	}
 }
