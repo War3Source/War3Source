@@ -297,7 +297,7 @@ CheckPendingRace(client){
 	else if(War3_GetRace(client)>0){
 		if(!CanSelectRace(client,War3_GetRace(client))){
 			War3_SetRace(client,0);
-			
+			PrintToConsole(client,"Your race is set to zero via gameevents.inc");
 		}
 	}
 }

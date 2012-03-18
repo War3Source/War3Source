@@ -77,8 +77,10 @@ public OnW3Denyable(W3DENY:event,client){
 		
 		///MAX PER TEAM CHECK
 		if(GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0){
-			if(GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
+		//if player is already this race, this is not what it does and its up to gameevents to kick the player
+			if(War3_GetRace(client)!=race_selected&&GetRacesOnTeam(race_selected,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client))){ //already at limit
 				//if(!W3IsDeveloper(client)){   
+			//	DP("racerestricitons.sp");
 				War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)));
 				
 				new cvar=W3GetRaceMaxLimitTeamCvar(race_selected,GetClientTeam(client));

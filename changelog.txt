@@ -18,6 +18,10 @@ fixed NAIX not leeching on kill when not in ducking mode.
 fixed NAIX level 1 leech at 50% instead of 5%
 fixed gold exceeding maxgold on kill
 
+Buff HP fix
+Race restrictions bug, setting limit to 1 resetted all players when limit is reached
+
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)

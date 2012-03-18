@@ -8,6 +8,7 @@
 
 ///check race limit and force re-choose race
 CheckRaceTeamLimit(raceid,team){
+
 	new Float:youngest=-1.0;
 	new target=0;
 	for(new i=1;i<=MaxClients;i++){
@@ -30,7 +31,7 @@ CheckRaceTeamLimit(raceid,team){
 		new String:racename[64];
 		War3_GetRaceName(raceid,racename,sizeof(racename));
 		War3_ChatMessage(target,"%T","{race} race team limit has reached (MAX {amount}), please select a different race",target,racename,W3GetRaceMaxLimitTeam(raceid,team));
-		
+		PrintToConsole(target,"Your race has been set via raceutils.inc");
 		new cvar=W3GetRaceMaxLimitTeamCvar(raceid,team);
 		new String:cvarstr[64];
 		if(cvar>-1){
@@ -42,8 +43,8 @@ CheckRaceTeamLimit(raceid,team){
 			W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
 		}
 		
-		
 		W3Log("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
+		
 		W3CreateEvent(DoShowChangeRaceMenu,target);
 	}
 	

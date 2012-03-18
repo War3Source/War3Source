@@ -733,3 +733,4 @@ stock URLEncode(String:str[],len)
 stock bool:ShowError(){
 	return GetConVarInt(hShowSocketError)>0?true:false;
 }
+
