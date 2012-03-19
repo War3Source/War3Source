@@ -46,8 +46,8 @@ Cool things learned this race:
 **new const SkillColor[4] = {255, 255, 255, 155} changing skill colors via array, neato.
 **That max health in tf2 is stupid.
 */
-new Float:RoarRadius=400.0;
-new Float:RoarDuration[5]={0.0,0.4,0.6,0.8,1.0};
+new Float:RoarRadius=300.0;
+new Float:RoarDuration[5]={0.0,0.2,0.4,0.6,0.7};
 new Float:RoarCooldownTime=25.0;
 new Float:ScalesPhysical[5]={0.0,1.0,1.66,2.33,3.0};
 new Float:ImmunityChance=0.15;
