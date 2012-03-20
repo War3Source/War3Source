@@ -60,7 +60,7 @@ public Action:CheckHP(Handle:h,any:client){
 		SetEntityHealth(client,curhp+hpadd);
 		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
 		//if(!IsFakeClient(client))
-		//DP("was curhp %d, set to %d",curhp,GetClientHealth(client));
+		//DP("CheckHP was curhp %d, set to %d",curhp,GetClientHealth(client));
 		LastDamageTime[client]=GetEngineTime()-100.0;
 	}
 }
@@ -74,12 +74,14 @@ public OnWar3Event(W3EVENT:event,client){
 				mytimer2[client]=CreateTimer(0.1,CheckHPBuffChange,client);
 			}
 		}
+		//DP("EVENT OnBuffChanged",event);
 	}
 	//DP("EVENT %d",event);
 }
 public Action:CheckHPBuffChange(Handle:h,any:client){
+	mytimer2[client]=INVALID_HANDLE;
 	if(ValidPlayer(client,true)){
-		mytimer2[client]=INVALID_HANDLE;
+	
 		//oldmethod
 		
 		/*new oldmaxhp=War3_GetMaxHP(client);
@@ -109,7 +111,7 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 		}
 		//add or decrease health
 		SetEntityHealth(client,newhp);
-			
+		//DP("CheckHP2 old %d new %d",oldbuff,newbuff );
 	}
 }
 
