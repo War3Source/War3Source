@@ -1654,6 +1654,14 @@ native War3_StringMath(String:equation[]);
 native W3HasDiedThisFrame(client);
 
 
+// BOT THINGS!!
+
+/**
+ * Force a fake client to distribute his skillpoints
+ *
+ * @param client: client index
+ */
+native bool:War3_bots_distribute_sp(client);  
 
 
 /**
