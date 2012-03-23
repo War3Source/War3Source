@@ -24,7 +24,7 @@ new Handle:botBuysItems;
 new Handle:botBuysRandom;
 new Handle:botBuysRandomChance;
 new Handle:botBuysRandomMultipleChance;
-new PlayerSlots;
+
 public OnPluginStart()
 {
 	//SetFailState("BROKEN");
@@ -57,7 +57,7 @@ public OnPluginStart()
 	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance","0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
 	
 	LoadTranslations ("w3s.addon.botcontrol.phrases");
-	PlayerSlots = GetMaxClients();
+	
 }
 
 public bool:InitNativesForwards()
@@ -140,7 +140,7 @@ ScrambleBots()
 	if(GetConVarBool(botAnnounce))
 		//PrintToChatAll("\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",LANG_SERVER);
 			
-		for(new players = 1; players <= PlayerSlots; ++players){
+		for(new players = 1; players <= MaxClients; ++players){
 		if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
 		{
 		PrintToChat(players,"\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",players);
