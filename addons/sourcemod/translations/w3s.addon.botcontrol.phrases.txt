@@ -1,0 +1,43 @@
+//cvarlist:
+//war3_bots_invisibility_gives_evasion =>"Should invisibility give evasion against bots?"
+// Default: "1.0"
+// Minimum: "0.0"
+// Maximum: "1.0"
+
+//war3_bots_scramble_on_round => "Scramble bots each round?"
+// Default: "1.0"
+// Minimum: "0.0"
+// Maximum: "1.0"
+
+//war3_bots_scramble_announce => "Announce the scrambling?"
+// Default: "1.0"
+// Minimum: "0.0"
+// Maximum: "1.0"
+
+//war3_bots_buy_items" => "Can bots buy items?"
+// Default: "1.0"
+// Minimum: "0.0"
+// Maximum: "1.0"
+
+//war3_bots_buy_random" => "Bots buy random items when they spawn (Loadout Mode currently disabled!)"
+// Default: "1.0"
+// Minimum: "0.0"
+// Maximum: "1.0"
+
+//war3_bots_buy_random_chance" =>"Chance a bot will buy an item on spawn."
+// Default: "70.0"
+// Minimum: "0.0"
+// Maximum: "100.0"
+
+//war3_bots_buy_random_multiple_chance" => "Chance modifier that is applied each time a bot buys a item."
+// Default: "0.8"
+// Minimum: "0.0"
+// Maximum: "100.0"
+
+"Phrases"
+{
+	"The bots races and levels have been scrambled."
+	{
+		"en"	"The bots races and levels have been scrambled."
+	}
+}

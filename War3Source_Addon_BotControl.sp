@@ -24,7 +24,7 @@ new Handle:botBuysItems;
 new Handle:botBuysRandom;
 new Handle:botBuysRandomChance;
 new Handle:botBuysRandomMultipleChance;
-
+new PlayerSlots;
 public OnPluginStart()
 {
 	//SetFailState("BROKEN");
@@ -55,6 +55,9 @@ public OnPluginStart()
 	botBuysRandom = CreateConVar("war3_bots_buy_random","1","Bots buy random items when they spawn (Loadout Mode currently disabled!)", FCVAR_PLUGIN, true, 1.0, true, 1.0);
 	botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance","70","Chance a bot will buy an item on spawn.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
 	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance","0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
+	
+	LoadTranslations ("w3s.addon.botcontrol.phrases");
+	PlayerSlots = GetMaxClients();
 }
 
 public bool:InitNativesForwards()
@@ -66,7 +69,7 @@ public bool:InitNativesForwards()
 
 // ########################## BOT EVASION ################################
 // Invisibility = Evasion
-public OnW3TakeDmgBullet(victim,attacker, Float:damage)
+public PreOnW3TakeDmgBullet(victim,attacker, Float:damage)
 {
 	if(ValidPlayer(victim, true) && ValidPlayer(attacker) && IsFakeClient(attacker) && 
 	   GetConVarBool(botEvasionCvar) && GetClientTeam(victim) != GetClientTeam(attacker) && 
@@ -135,7 +138,14 @@ ScrambleBots()
 	new race;
 	
 	if(GetConVarBool(botAnnounce))
-		PrintToChatAll("The bots races and levels have been scrambled.");
+		//PrintToChatAll("\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",LANG_SERVER);
+			
+		for(new players = 1; players <= PlayerSlots; ++players){
+		if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
+		{
+		PrintToChat(players,"\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",players);
+		}
+	}
 	
 	for(new client=1; client <= MaxClients; client++)
 	{
