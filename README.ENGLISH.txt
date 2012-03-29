@@ -59,10 +59,16 @@ Anthony Iacono (AKA "pimpinjuice")
 LEAD DEVELOPER
 OwnageOwnz (Aka "DarkEnergy")
 
+CONTRIBUTORS
+Revan
+Glider
+
+
 TRANSLATIONS + RUSSIAN SUPPORT
 [RUS] Schmarotzer
 [RUS] Frenzzy
 [RUS] Namolem
+[RUS] Arturius
 
 L4D compatibility
 Glider

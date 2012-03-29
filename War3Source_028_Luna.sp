@@ -13,7 +13,7 @@ new String:beamsnd[] = "war3source/moonqueen/beam.mp3";
 new String:lunasnd2[] = "weapons/flashbang/flashbang_explode2.wav";
 
 //skill is auto cast via chance
-new Float:LucentChance[5] = {0.00,0.05,0.11,0.22,0.30};
+//new Float:LucentChance[5] = {0.00,0.05,0.11,0.22,0.30};
 new LucentBeamMin = 6;
 new LucentBeamMax = 10;
 
@@ -29,7 +29,8 @@ new EclipseAmount[5]={0,4,6,8,10};
 
 new SKILL_MOONBEAM,SKILL_BOUNCE,SKILL_AURA,ULT;
 new LightModel;
-new XBeamSprite,BlueSprite,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
+new XBeamSprite,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
+//new BlueSprite;
 new Handle:ultCooldownCvar = INVALID_HANDLE;
 new AuraID;
 public Plugin:myinfo = 
@@ -59,7 +60,7 @@ public OnMapStart()
 	BeamSprite = PrecacheModel( "materials/sprites/lgtning.vmt" );
 	CoreSprite = PrecacheModel( "materials/sprites/physcannon_blueflare1.vmt" );
 	MoonSprite = PrecacheModel( "materials/sprites/physcannon_bluecore1b.vmt");
-	BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
+//	BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
 	XBeamSprite = PrecacheModel( "materials/sprites/XBeam2.vmt" );
 	LightModel = PrecacheModel( "models/effects/vol_light.mdl" );
 	PrecacheModel("particle/fire.vmt");

@@ -736,7 +736,7 @@ bool:WCSValidKeyName(const String:kName[])
 	return true;
 }
 
-TestRecurse(Handle:kv)
+public TestRecurse(Handle:kv)
 {
 	new index = 1;
 	new String:keyName[256];

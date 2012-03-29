@@ -21,7 +21,9 @@ public OnPluginStart()
 	g_hCvarEnable = CreateConVar("War3_RightTextDisp","1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
 	RegConsoleCmd("sm_display",SetHint,"Sets the hintstring");
 }
-
+public ignorewarnings(){
+	GetConVarInt(g_hCvarEnable);
+}
 public OnMapStart()
 {
 	CreateTimer(1.0,Print_Level,_,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);

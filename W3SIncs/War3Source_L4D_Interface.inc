@@ -550,9 +550,9 @@ stock L4D2_GetWeaponUpgradeAmmoCount(weapon)
  * @noreturn
  * @error				Invalid entity index.
  */
-stock L4D2_SetWeaponUpgradeAmmoCount(weapon, count)
+stock L4D2_SetWeaponUpgradeAmmoCount(weapon, ttcount)
 {
-	SetEntProp(weapon, Prop_Send, "m_nUpgradedPrimaryAmmoLoaded", count);
+	SetEntProp(weapon, Prop_Send, "m_nUpgradedPrimaryAmmoLoaded", ttcount);
 }
 
 /**

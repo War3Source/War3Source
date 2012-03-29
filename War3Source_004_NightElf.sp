@@ -68,7 +68,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	{
 		thisRaceID=War3_CreateNewRaceT("nightelf");
 		//SKILL_EVADE=War3_UseGenericSkill(thisRaceID,"Evasion");//War3_AddRaceSkillT(thisRaceID,"Evasion",false,4);
-		new evasiondata=CreateArray(5,1);
+		new Handle:evasiondata=CreateArray(5,1);
 		SetArrayArray(evasiondata,0,EvadeChance,sizeof(EvadeChance));
 		SKILL_EVADE=War3_UseGenericSkill(thisRaceID,"g_evasion",evasiondata,"Evasion",_,true,_,_);
 
