@@ -23,6 +23,7 @@ fixed NAIX automatically gaining additional hp from skill,
 Buff HP fix
 Race restrictions bug, setting limit to 1 resetted all players when limit is reached
 
+Minor warnings fixes
 
 B6
 
