@@ -577,6 +577,9 @@ TryToGiveXPGold(client,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprin
 		
 		W3CreateEvent(OnPostGiveXPGold,client);	
 	}
+	else{
+		ShowChangeRaceMenu(client);
+	}
 	return;
 }
 
