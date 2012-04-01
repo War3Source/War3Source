@@ -365,7 +365,7 @@ public War3Source_WitchKilledEvent(Handle:event,const String:name[],bool:dontBro
 				for(new client=1; client <= MaxClients; client++)
 					if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && !War3_IsPlayerIncapped(client))
 					{
-						W3GiveXPGold(client,  XPAwardByKill, addxp, 0, killaward);
+						W3GiveXPGold(client,  XPAwardByGeneric, addxp, 0, killaward);
 					}
 			}
 		}
@@ -400,7 +400,7 @@ public War3Source_TankKilledEvent(Handle:event,const String:name[],bool:dontBroa
 				if(ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS && !War3_IsPlayerIncapped(client) && (!solo || (client != killer)))
 				{
 					Format(killaward,sizeof(killaward),"%T","surviving a Tank", client);
-					W3GiveXPGold(client, XPAwardByKill, addxp, 0, killaward);
+					W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, killaward);
 					/*if (ValidPlayer(victim) && IsFakeClient(victim))
 						W3GiveXPGold(client, War3_GetRace(client), XPAwardByKill, addxp, 0, killaward);
 					else

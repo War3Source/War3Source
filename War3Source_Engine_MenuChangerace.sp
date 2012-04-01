@@ -68,14 +68,18 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
 	if(GetEventInt(event,"userid")>0)
 	{
 		new client = GetClientOfUserId(GetEventInt(event,"userid"));
-		if (ValidPlayer(client, true))
+		if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
 		{
-			W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here!");
 			bStartingArea[client] = true;
 			
 			if (W3GetPendingRace(client) > 0 && W3GetPendingRace(client) != War3_GetRace(client))
+			{
 				War3_SetRace(client, W3GetPendingRace(client));
-			
+			}
+			else 
+			{
+				W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here by typing \"changerace\"");
+			}
 		}
 	}
 }
@@ -85,9 +89,9 @@ public War3Source_LeaveCheckEvent(Handle:event,const String:name[],bool:dontBroa
 	if(GetEventInt(event,"userid")>0)
 	{
 		new client = GetClientOfUserId(GetEventInt(event,"userid"));
-		if (ValidPlayer(client, true))
+		if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
 		{
-			W3Hint(client, HINT_LOWEST, 1.0, "You can no longer change your race!");
+			W3Hint(client, HINT_LOWEST, 1.0, "You will not be able to change races during the map.");
 			bStartingArea[client] = false;
 		}
 	}
@@ -477,26 +481,35 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 				{
 					if(War3_IsL4DEngine())
 					{
-						decl String:sGameMode[16];
-						
-						GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
-						if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
-						{
-							W3SetPendingRace(client,-1);
-							War3_SetRace(client,race_selected);
-							W3DoLevelCheck(client);
+						if (GetClientTeam(client) == TEAM_INFECTED) {
+							if (IsPlayerGhost(client)) {
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client, race_selected);
+								W3DoLevelCheck(client);
+							}
 						}
-						else if (bStartingArea[client])
-						{
-							W3SetPendingRace(client,-1);
-							War3_SetRace(client,race_selected);
-							W3DoLevelCheck(client);
-						}
-						else
-						{
-							W3SetPendingRace(client,race_selected);
+						else {
+							decl String:sGameMode[16];
 							
-							War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else if (bStartingArea[client])
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else
+							{
+								W3SetPendingRace(client,race_selected);
+								
+								War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+							}
 						}
 					}
 					else
