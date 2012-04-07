@@ -69,11 +69,11 @@ public bool:InitNativesForwards()
 
 // ########################## BOT EVASION ################################
 // Invisibility = Evasion
-public PreOnW3TakeDmgBullet(victim,attacker, Float:damage)
+public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
 {
 	if(ValidPlayer(victim, true) && ValidPlayer(attacker) && IsFakeClient(attacker) && 
 	   GetConVarBool(botEvasionCvar) && GetClientTeam(victim) != GetClientTeam(attacker) && 
-	   !W3GetBuffHasTrue(victim, bInvisibilityDenyAll))
+	   !W3GetBuffHasTrue(victim, bInvisibilityDenyAll) && !IsFakeClient(victim))
 	{
 		// Get the actual values
 		new Float: fSkillVisibility = W3GetBuffMinFloat(victim, W3Buff:fInvisibilitySkill);
