@@ -5,6 +5,8 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+//Uncomment this to enable(only users with this flag can use shopmenu2)
+//#define SHOPMENU2_FLAG ADMFLAG_ROOT
 
 public Plugin:myinfo= 
 {
@@ -28,7 +30,14 @@ public OnWar3Event(W3EVENT:event,client){
 		if(EXT()){
 			
 			SetTrans(client); //required
+#if defined SHOPMENU2_FLAG
+			if(HasSMAccess(client,SHOPMENU2_FLAG))
+				W3ExtShowShop2(client);
+			else
+				War3_ChatMessage(client,"You don't have access to this command!");
+#else
 			W3ExtShowShop2(client);
+#endif
 
 		}
 		else{
@@ -126,9 +135,13 @@ InternalTriedToBuyItem2(client,item,bool:reshowmenu=true){
 			War3_ChatMessage(client,"%T","{itemname} is disabled",GetTrans(),itemname);
 			canbuy=false;
 		}
-		
-		
-		
+
+#if defined SHOPMENU2_FLAG
+		else if(!HasSMAccess(client,SHOPMENU2_FLAG)){
+			War3_ChatMessage(client,"You don't have access to this command!");
+			canbuy=false;
+		}
+#endif
 		else if(W3IsItem2DisabledForRace(race,item)){
 			
 			new String:racename[64];
