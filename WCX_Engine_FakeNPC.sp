@@ -133,7 +133,7 @@ public OnPluginStop() {
 /// ############  NPC Natives ###################
 /// ##############################################
 public W3Native_CreateNPC(Handle:plugin,numParams) {
-	decl Float:fPos[3],iHealth,iTeam,String:sName[32],String:sAnim[32],String:sModel[32],bool:bTeamcolor;
+	decl Float:fPos[3],iHealth,iTeam,String:sName[32],String:sAnim[32],String:sModel[64],bool:bTeamcolor;
 	iHealth = GetNativeCell(1);
 	iTeam = GetNativeCell(2);
 	GetNativeArray(3, fPos, 3);
@@ -661,7 +661,7 @@ public bool:NPCVars_SetMaxRange(iIndex, NPCRange:variable,const Float:fMaxRange)
 	}
 	return false;
 }
-public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String:strName[32],const String:strIdleAnim[32],const String:strModel[32],bool:bTeamColored) {
+public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String:strName[32],const String:strIdleAnim[32],const String:strModel[64],bool:bTeamColored) {
 	//Create a simple prop, that we gonna use as a npc (..later)
 	new npc_ent = CreateEntityByName("prop_dynamic_override");
 	if (!bBlockCreation && npc_ent > 0 && IsValidEdict(npc_ent)) //valid?

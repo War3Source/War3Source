@@ -34,6 +34,8 @@
 
 #define MAXCATS 20 //max race categories
 
+#define MAXFACTIONS 20 //max amount of factions w3 can hold
+#define FACTION_LENGTH 32 //max length of a faction name
 // The enum W3Var is used with function W3SetVar and W3GetVar.
 // It is the first parameter, eg: new deathRace = W3GetVar(DeathRace)
 enum W3Var
@@ -580,6 +582,7 @@ enum RaceString
 enum ENUM_RaceObject{ //CELLS ONLY, NO STRINGS
 	ClassRestrictionCvar, //for TF
 	RaceCategorieCvar,
+	RaceExtends,
 }
 
 enum SkillString
@@ -633,6 +636,13 @@ enum War3WardAffinity
 	ALLIES,
 	ALL,
 	SELF_ONLY
+}
+
+enum FactionBehavior{
+	ReturnValue=-1, //pass this to return the settings
+	Neutral=0, //zero=default
+	Friend,
+	Enemy
 }
 
 enum W3HintPriority{

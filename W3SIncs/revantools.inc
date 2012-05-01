@@ -8,23 +8,10 @@ Version : 1.0
 //constants:
 #define MAX_BEAM_SCROLLSPEED 100
 
-public Action:PushClientToVector( victim, Float:pos1[3], Float:power )
-{
-	new Float:pos2[3], Float:main_origin[3], Float:velo1[3], Float:velo2[3];
-	GetClientAbsOrigin( victim, pos2 );
+//PushClientToVector is deprecated use PushEntToVector instead
+#define PushClientToVector PushEntToVector
 
-	main_origin[0] = pos1[0] - pos2[0], main_origin[1] = pos1[1] - pos2[1], main_origin[2] = pos1[2] - pos2[2];
-	velo1[0] += 0, velo1[1] += 0, velo1[2] += 300;
-	
-	velo2[0] = main_origin[0] * ( 100 * power );
-	velo2[1] = main_origin[1] * ( 100 * power );
-	velo2[2] = main_origin[2] * ( 100 * power );
-
-	TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velo1);
-	TeleportEntity(victim, NULL_VECTOR, NULL_VECTOR, velo2);
-}
-
-public Action:PushEntToVector( edict, Float:pos1[3], Float:power )
+stock PushEntToVector( edict, Float:pos1[3], Float:power )
 {
 	new Float:pos2[3], Float:main_origin[3], Float:velo1[3], Float:velo2[3];
 	GetEntPropVector(edict, Prop_Send, "m_vecOrigin", pos2);
@@ -40,7 +27,7 @@ public Action:PushEntToVector( edict, Float:pos1[3], Float:power )
 	TeleportEntity( edict, NULL_VECTOR, NULL_VECTOR, velo2 );
 }
 
-public CreateParticles(const client,bool:parentent,Float:fLifetime,Float:fAng[3],Float:BaseSpread,Float:StartSize,Float:EndSize,Float:Twist,String:material[],String:renderclr[],String:SpreadSpeed[],String:JetLength[],String:Speed[],String:Rate[]){
+stock CreateParticles(const client,bool:parentent,Float:fLifetime,Float:fAng[3],Float:BaseSpread,Float:StartSize,Float:EndSize,Float:Twist,String:material[],String:renderclr[],String:SpreadSpeed[],String:JetLength[],String:Speed[],String:Rate[]){
 	new particle = CreateEntityByName("env_smokestack");
 	if(IsValidEdict(particle) && IsClientInGame(client))
 	{
@@ -85,7 +72,7 @@ public CreateParticles(const client,bool:parentent,Float:fLifetime,Float:fAng[3]
 	return -1;
 }
 
-public CreateFire(const client,String:firesize[],String:health[],String:fireattack[],String:firetype[],String:flags[],Float:damagescale,Float:fLifetime){
+stock CreateFire(const client,String:firesize[],String:health[],String:fireattack[],String:firetype[],String:flags[],Float:damagescale,Float:fLifetime){
 	new fire = CreateEntityByName("env_fire");
 	if(IsValidEdict(fire) && IsClientInGame(client))
 	{
@@ -115,7 +102,7 @@ public CreateFire(const client,String:firesize[],String:health[],String:fireatta
 }
 
 
-public CreateTesla(const client,Float:flifetime_min,Float:flifetime_max,Float:thick_min,Float:thick_max,Float:interval_min,Float:interval_max,Float:radiustesla,String:beamcount_min[],String:beamcount_max[],String:ColorTesla[],String:sound[],String:beammodel[],bool:spark){
+stock CreateTesla(const client,Float:flifetime_min,Float:flifetime_max,Float:thick_min,Float:thick_max,Float:interval_min,Float:interval_max,Float:radiustesla,String:beamcount_min[],String:beamcount_max[],String:ColorTesla[],String:sound[],String:beammodel[],bool:spark){
 	new point_tesla = CreateEntityByName("point_tesla");
 	if(IsValidEdict(point_tesla) && IsClientInGame(client))
 	{
@@ -154,6 +141,18 @@ public CreateTesla(const client,Float:flifetime_min,Float:flifetime_max,Float:th
 	return -1;
 }
 
+stock CreateExplosion(Float:VectorPos[3], owner, String:classname[], String:magnitude[]))
+{
+	new g_ent = CreateEntityByName("env_explosion");
+	SetEntPropEnt(g_ent, Prop_Send, "m_hOwnerEntity", owner);
+	DispatchKeyValue(g_ent, "classname", classname);
+	DispatchKeyValue(g_ent, "iMagnitude", magnitude);
+	DispatchSpawn(g_ent);
+	TeleportEntity(g_ent, VectorPos, NULL_VECTOR, NULL_VECTOR);
+	AcceptEntityInput(g_ent, "Explode");
+	RemoveEdict(g_ent);
+}
+
 public Action:INCTimer_RemoveEntity(Handle:timer, any:edict)
 {
 	if(IsValidEdict(edict))
@@ -162,7 +161,7 @@ public Action:INCTimer_RemoveEntity(Handle:timer, any:edict)
 	}
 }
 
-public SetEntityAimToClient( edict, target)
+stock SetEntityAimToClient( edict, target)
 {
 	new Float:spos[3],  Float:epos[3], Float:vecles[3], Float:angles[3];
 	GetEntPropVector(edict, Prop_Send, "m_vecOrigin", spos);

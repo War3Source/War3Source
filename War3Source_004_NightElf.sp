@@ -32,7 +32,7 @@ new Float:EntangleDuration[5]={0.0,1.25,1.5,1.75,2.0};
 new String:entangleSound[]="war3source/entanglingrootsdecay1.wav";
 
 // Effects
-new BeamSprite,HaloSprite;
+new TeleBeam,BeamSprite,HaloSprite;
  
 public Plugin:myinfo = 
 {
@@ -56,6 +56,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
+	TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
 	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
 	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 	
@@ -77,6 +78,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_TRUESHOT=War3_AddRaceSkillT(thisRaceID,"TrueshotAura",false,4);
 		ULT_ENTANGLE=War3_AddRaceSkillT(thisRaceID,"EntanglingRoots",true,4); //TEST
 		War3_CreateRaceEnd(thisRaceID);
+		W3Faction(thisRaceID,"Elves",true);
 	}
 }
 
@@ -144,6 +146,9 @@ public OnUltimateCommand(client,race,bool:pressed)
 					TE_SendToAll();
 					effect_vec[2]+=15.0;
 					TE_SetupBeamRingPoint(effect_vec,45.0,44.0,BeamSprite,HaloSprite,0,15,entangle_time,5.0,0.0,{0,255,0,255},10,0);
+					TE_SendToAll();
+					our_pos[2]+=25.0;
+					TE_SetupBeamPoints(our_pos,effect_vec,BeamSprite,HaloSprite,0,50,4.0,6.0,25.0,0,12.0,{80,255,90,255},40);
 					TE_SendToAll();
 					new String:name[64];
 					GetClientName(target,name,64);
@@ -277,7 +282,22 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 						if(damage_i>40) damage_i=40; // lets not be too unfair ;]
 						
 						if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL)){
-							W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_THORNS);	
+						
+							decl Float:iVec[3];
+							decl Float:iVec2[3]
+							GetClientAbsOrigin(attacker, iVec); 
+							GetClientAbsOrigin(victim, iVec2);
+							iVec[2]+=35.0, iVec2[2]+=40.0;
+							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 1.0, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
+							TE_SendToAll();
+							
+							decl Float:iVec[3],Float:iVec2[3];
+							GetClientAbsOrigin(victim, iVec);
+							iVec2[0]=iVec[0];
+							iVec2[1]=iVec[1];
+							iVec2[2]=80+iVec[2];
+							TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,count,8.0);
+							TE_SendToAll();
 						}
 					}
 				}
@@ -287,3 +307,13 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 
 }
 
+stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIndex,const Float:heightF,count,const Float:speedF)
+{
+	TE_Start("Bubbles");
+	TE_WriteVector("m_vecMins", vecOrigin);
+	TE_WriteVector("m_vecMaxs", vecFinish);
+	TE_WriteFloat("m_fHeight", heightF);
+	TE_WriteNum("m_nModelIndex", modelIndex);
+	TE_WriteNum("m_nCount", count);
+	TE_WriteFloat("m_fSpeed", speedF);
+}

@@ -58,8 +58,8 @@ new MyWeaponsOffset,AmmoOffset;
 //Clip1Offset,; //cs stuff?
 
 new String:reviveSound[]="war3source/reincarnation.wav";
-//new BashedSprite;
-//new FireSprite;
+new BeamSprite,HaloSprite,FireSprite;
+new BloodSpray,BloodDrop;
 
 // CS specific money offset
 new MoneyOffsetCS;
@@ -85,8 +85,7 @@ public OnPluginStart()
 //	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	
-	HookEvent("player_death",PlayerDeathEvent); 
-	RegConsoleCmd("testhull",testhullcmd);
+	HookEvent("player_death",PlayerDeathEvent);
 	
 	LoadTranslations("w3s.race.mage.phrases");
 }
@@ -107,8 +106,12 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	//BashedSprite =PrecacheModel("materials/sprites/lgtning.vmt"); ////////////////////DONT KNOW WHICH SPRITE YET
-	//FireSprite	 =PrecacheModel("materials/sprites/lgtning.vmt"); ////////////////////DONT KNOW WHICH SPRITE YET
+	BeamSprite =PrecacheModel("materials/sprites/lgtning.vmt");
+	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	FireSprite	 =PrecacheModel("materials/sprites/fireburst.vmt");
+	//we gonna use theese bloodsprite as "money blood"(change color)
+	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
+	BloodDrop = PrecacheModel("sprites/blood.vmt");
 	
 	War3_PrecacheSound(reviveSound);
 }
@@ -136,7 +139,7 @@ public OnRaceChanged(client,oldrace,newrace)
 		}
 	}
 }
-
+new FireEntityEffect[MAXPLAYERSCUSTOM];
 public OnUltimateCommand(client,race,bool:pressed)
 {
 	new userid=GetClientUserId(client);
@@ -164,6 +167,16 @@ public OnUltimateCommand(client,race,bool:pressed)
 					PrintHintText(client,"%T","Flame Strike!",client);
 					PrintHintText(target,"%T","You have been struck with Flame Strike!",target);
 					W3SetPlayerColor(target,thisRaceID,255,128,0,_,GLOW_ULTIMATE);
+					new Float:effect_vec[3];
+					GetClientAbsOrigin(target,effect_vec);
+					effect_vec[2]+=150.0;
+					TE_SetupGlowSprite(effect_vec, FireSprite, 2.0, 4.0, 255);
+					TE_SendToAll();
+					if(War3_GetGame()==Game_CS) {
+						//I'm unsure about how it works in other games than cs:source
+						new ent = AttachParticle(target, "env_fire_medium_smoke", effect_vec, "rfoot");
+						FireEntityEffect[target]=ent;
+					}
 				}
 				else
 				{
@@ -196,6 +209,11 @@ public Action:BurnLoop(Handle:timer,any:userid)
 		if(BurnsRemaining[victim]<=0)
 		{
 			W3ResetPlayerColor(victim,thisRaceID);
+			if (IsValidEdict(FireEntityEffect[victim]))
+			{
+				AcceptEntityInput(FireEntityEffect[victim], "Kill");
+				FireEntityEffect[victim]=-1;
+			}
 		} 
 	}
 }
@@ -268,6 +286,18 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 								W3MsgBanished(victim,attacker);
 								W3FlashScreen(victim,{0,0,0,255},0.4,_,FFADE_STAYOUT);
 								CreateTimer(0.2,Unbanish,GetClientUserId(victim));
+								
+								new Float:effect_vec[3];
+								GetClientAbsOrigin(attacker,effect_vec);
+								new Float:effect_vec2[3];
+								GetClientAbsOrigin(victim,effect_vec2);
+								effect_vec[2]+=40;
+								effect_vec2[2]+=40;
+								TE_SetupBeamPoints(effect_vec,effect_vec2,BeamSprite,BeamSprite,0,50,1.0,30.0,10.0,0,12.0,{140,150,255,255},40);
+								TE_SendToAll();
+								effect_vec2[2]+=18;
+								TE_SetupBeamPoints(effect_vec,effect_vec2,BeamSprite,BeamSprite,0,50,1.0,30.0,10.0,0,12.0,{140,150,255,255},40);
+								TE_SendToAll();
 							}
 						}
 					}
@@ -295,6 +325,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 									{
 										W3FlashScreen(attacker,{0,0,128,80});
 										W3MsgStoleMoney(victim,attacker,stolen);
+										siphonsfx(victim);
 									}
 								}
 							}
@@ -320,6 +351,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 										War3_SetGold(victim,War3_GetGold(victim)-stolen);
 										W3MsgStoleGold(victim,attacker,stolen);
 										W3FlashScreen(attacker,RGBA_COLOR_BLUE);
+										siphonsfx(victim);
 									}
 								}
 							}
@@ -331,7 +363,29 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 	}
 }
 
+stock siphonsfx(victim) {
+	decl Float:vecAngles[3];
+	GetClientEyeAngles(victim,vecAngles);
+	decl Float:target_pos[3];
+	GetClientAbsOrigin(victim,target_pos);
+	target_pos[2]+=45;
+	TE_SetupBloodSprite(target_pos, vecAngles, {250, 250, 28, 255}, 35, BloodSpray, BloodDrop);
+	TE_SendToAll();
+}
 
+stock respawnsfx(target) {
+	new Float:effect_vec[3];
+	GetClientAbsOrigin(target,effect_vec);
+	effect_vec[2]+=15.0;
+	TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
+	TE_SendToAll();
+	effect_vec[2]+=15.0;
+	TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
+	TE_SendToAll();
+	effect_vec[2]+=15.0;
+	TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
+	TE_SendToAll();
+}
 
 // Events
 public PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
@@ -488,6 +542,11 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 		new victimTeam = GetClientTeam(victim);
 		new skillevel;
 		
+		if (IsValidEdict(FireEntityEffect[victim]))
+		{
+			AcceptEntityInput(FireEntityEffect[victim], "TurnOff");
+			FireEntityEffect[victim]=-1;
+		}
 		
 		new deathFlags = GetEventInt(event, "death_flags");
 		
@@ -547,12 +606,6 @@ public Action:Unbanish(Handle:timer,any:userid)
 	}
 }
 
-
-
-
-public Action:testhullcmd(client,args){
-	testhull(client);
-}
 new absincarray[]={0,4,-4,8,-8,12,-12,18,-18,22,-22,25,-25,27,-27,30,-30};//,33,-33,40,-40};
 
 public bool:testhull(client){

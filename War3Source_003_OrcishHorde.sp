@@ -57,7 +57,7 @@ new String:lightningSound[]="war3source/lightningbolt.wav";
 
 new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_RECARN_WARD,ULT_LIGHTNING;
 // Effects
-new BeamSprite,HaloSprite; 
+new BeamSprite,HaloSprite,BloodSpray,BloodDrop; 
 
 new bool:flashedscreen[MAXPLAYERSCUSTOM];
 
@@ -98,8 +98,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		new String:skill2_name[64]="Reincarnation";
 		if(War3_GetGame()==Game_TF)
 		{
-			strcopy(skill1_name,64,"WindWalker");
-			strcopy(skill2_name,64,"HealingWard");
+			strcopy(skill1_name,sizeof(skill1_name),"WindWalker");
+			strcopy(skill2_name,sizeof(skill2_name),"HealingWard");
 		}
 		
 
@@ -128,12 +128,15 @@ public OnMapStart()
 	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
 	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
 	
+	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
+	BloodDrop = PrecacheModel("sprites/blood.vmt");
+	
 	War3_PrecacheSound(lightningSound);
 }
 
 public OnRaceChanged(client,oldrace,newrace)
 {
-	if(newrace!=thisRaceID && War3_GetGame()==Game_TF)
+	if(oldrace==thisRaceID && War3_GetGame()==Game_TF)
 	{
 		War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0); // for tf2, remove alpha
 		War3_SetBuff(client,bInvisibilityDenySkill,thisRaceID,false);
@@ -191,10 +194,13 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 		War3_DealDamage(target,dmg,client,DMG_ENERGYBEAM,"chainlightning");
 		PrintHintText(target,"%T","Hit by Chain Lightning -{amount} HP",target,War3_GetWar3DamageDealt());
 		start_pos[2]+=30.0; // offset for effect
-		new Float:target_pos[3];
+		decl Float:target_pos[3],Float:vecAngles[3];
 		GetClientAbsOrigin(target,target_pos);
 		target_pos[2]+=30.0;
-		TE_SetupBeamPoints(start_pos,target_pos,BeamSprite,HaloSprite,0,35,1.0,40.0,40.0,0,40.0,{255,100,255,255},40);
+		TE_SetupBeamPoints(start_pos,target_pos,BeamSprite,HaloSprite,0,35,1.0,25.0,25.0,0,10.0,{255,100,255,255},40);
+		TE_SendToAll();
+		GetClientEyeAngles(target,vecAngles);
+		TE_SetupBloodSprite(target_pos, vecAngles, {200, 20, 20, 255}, 28, BloodSpray, BloodDrop);
 		TE_SendToAll();
 		EmitSoundToAll( lightningSound , target,_,SNDLEVEL_TRAIN);
 		new new_dmg=RoundFloat(float(dmg)*0.66);
@@ -412,7 +418,16 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 							W3FlashScreen(victim,RGBA_COLOR_RED);
 							if(onehp){
 								SetEntityHealth(victim,1); 
-							}  
+							}
+							decl Float:fPos[3];
+							GetClientAbsOrigin(client,fPos);
+							new Float:fx_delay = 0.35;
+							for(new i=0;i<4;i++)
+							{
+								TE_SetupExplosion(fPos, Particle, 4.5, 1, 4, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_ROTATE);
+								TE_SendToAll(fx_delay);
+								fx_delay += GetRandomFloat(0.30,0.50);
+							}
 						}
 						
 					}

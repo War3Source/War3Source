@@ -28,7 +28,7 @@ enum NPCMovement
 #define SEQUENCE_MOVE 3
 
 //Used to spawn a normal Fake NPC
-native War3_CreateFakeNPC(health,team,Float:fPos[3],String:NPCName[32],String:IdleAnimation[32],String:ModelPath[32],bool:bTeamColored=true);
+native War3_CreateFakeNPC(health,team,Float:fPos[3],String:NPCName[32],String:IdleAnimation[32],String:ModelPath[64],bool:bTeamColored=true);
 
 //Returns the internal NPC index by entity index
 native War3_GetNPCIndex(entity);

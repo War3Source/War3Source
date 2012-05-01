@@ -10,8 +10,9 @@ new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
 
 //race cat defs
-new Handle:hUseCategories;
+new Handle:hUseCategories,Handle:hCanDrawCat;
 new String:strCategories[MAXCATS][64];
+new iCategories[MAXCATS]; //holds w3cvars
 new CatCount;
 
 public Plugin:myinfo= 
@@ -55,6 +56,12 @@ public OnPluginStart()
 	}
 	hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
 	RegServerCmd("war3_reloadcats", Command_ReloadCats);
+}
+
+public bool:InitNativesForwards()
+{
+	hCanDrawCat=CreateGlobalForward("OnW3DrawCategory",ET_Hook,Param_Cell,Param_Cell);
+	return true;
 }
 
 public Action:Command_ReloadCats(args) {
@@ -117,55 +124,33 @@ public OnWar3Event(W3EVENT:event,client){
 	}
 }
 
-//Checks if a category exist
-stock bool:W3IsCategory(const String:cat_name[],max_size=64) {
-	for(new i=0;i<CatCount;i++) {
-		if(strcmp(strCategories[i], cat_name, false)==0) {
-			return true //cat exist
+public bool:HasCategoryAccess(client,i) {
+	decl String:buffer[32];
+	W3GetAccessFlag(i,buffer,sizeof(buffer));
+	if(!StrEqual(buffer, "0", false) || StrEqual(buffer, "", false)) {
+		return false;
+	}
+	else {
+		new AdminId:admin = GetUserAdmin(client);
+		if(admin != INVALID_ADMIN_ID) {
+			new AdminFlag:flag;
+			if (!FindFlagByChar(buffer[0], flag))
+			{
+				War3_ChatMessage(client,"%T","ERROR on admin flag check {flag}",client,buffer);
+				return false;
+			}
+			else
+			{
+				if (!GetAdminFlag(admin, flag)){
+					return false;
+				}
+			}
 		}
 	}
-	return false;//no cat founded that is named X
-}
-//Removes all categories
-stock W3ClearCategory() {
-	for(new i=0;i<CatCount;i++) {
-		strcopy(strCategories[i],64,"");
-	}
-	CatCount = 0;
-}
-//Adds a new Category and returns true on success
-stock bool:W3AddCategory(const String:cat_name[]) {
-	if(CatCount<MAXCATS) {
-		strcopy(strCategories[CatCount],64,cat_name);
-		CatCount++;
+	if(CanDrawCategory(iClient,i)) {
 		return true;
 	}
-	W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
 	return false;
-}
-//Returns a Category Name thing
-stock W3GetCategory(iIndex,String:cat_name[],max_size) {
-	strcopy(cat_name,max_size,strCategories[iIndex]);
-}
-//Refreshes Categories
-refreshCategories() {
-	W3ClearCategory();
-	//zeroth cat will not be drawn = perfect hidden cat ;D
-	W3AddCategory("hidden");
-	decl String:rcvar[64];
-	decl racelist[MAXRACES];
-	//Loop tru all _avaible_ races
-	new racedisplay=W3GetRaceList(racelist);
-	for(new i=0;i<racedisplay;i++)
-	{
-		new x=racelist[i];
-		W3GetCvar(W3GetRaceCell(x,RaceCategorieCvar),rcvar,sizeof(rcvar));
-		//To avoid multiple-same-named-categories we need to check if the category allready exist
-		if(!W3IsCategory(rcvar,sizeof(rcvar))) {
-			//Add a new category
-			W3AddCategory(rcvar);
-		}
-	}
 }
 
 public OnMapStart() refreshCategories();
@@ -180,11 +165,10 @@ War3Source_ChangeRaceMenu(client)
 	{
 		SetTrans(client);
 		decl Handle:crMenu;
-		if(GetConVarBool(hUseCategories)) {
+		if(IsCategorized()) {
 			//Revan: the long requested changerace categorie feature
 			//TODO:
 			//- translation support
-			//- possibility to disable categories for a certein player
 			crMenu=CreateMenu(War3Source_CRMenu_SelCat);
 			SetMenuExitButton(crMenu,true);
 			
@@ -202,7 +186,8 @@ War3Source_ChangeRaceMenu(client)
 			for(new i=1;i<CatCount;i++) {
 				W3GetCategory(i,strCat,sizeof(strCat));
 				if(strlen(strCat)>0) {
-					AddMenuItem(crMenu,strCat,strCat);
+					if(HasCategoryAccess(client,i))
+						AddMenuItem(crMenu,strCat,strCat);
 				}
 			}
 		}
@@ -210,7 +195,7 @@ War3Source_ChangeRaceMenu(client)
 			crMenu=CreateMenu(War3Source_CRMenu_Selected);
 			SetMenuExitButton(crMenu,true);
 			
-			new String:title[400], String:rbuf[4];
+			decl String:title[400], String:rbuf[4];
 			if(strlen(dbErrorMsg)){
 				Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
 			}
@@ -350,6 +335,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 							Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
 						}
 						AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+						AddMenuItem(crMenu,"-1","Back");
 					}
 				}
 				DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
@@ -378,118 +364,152 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
-			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
-			
-			if(allowChooseRace==false){
-				War3Source_ChangeRaceMenu(client);//derpy hooves
+			if(race_selected==-1) {
+				War3Source_ChangeRaceMenu(client);
 			}
-			
-			
-		/* MOVED TO RESTRICT ENGINE
-			if(allowChooseRace){
-				// Minimum level?
+			else {
+				new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
 				
-				new total_level=0;
-				new RacesLoaded = War3_GetRacesLoaded();
-				for(new x=1;x<=RacesLoaded;x++)
-				{
-					total_level+=War3_GetLevel(client,x);
+				if(allowChooseRace==false){
+					War3Source_ChangeRaceMenu(client);//derpy hooves
 				}
-				new min_level=W3GetRaceMinLevelRequired(race_selected);
-				if(min_level<0) min_level=0;
 				
-				if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
-				{
-					War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
-					War3Source_ChangeRaceMenu(client);
-					allowChooseRace=false;
-				}
-			}
-				*/
 				
-			// GetUserFlagBits(client)&ADMFLAG_ROOT??
-			
-			
-			
-			
-			///MOVED TO RESTRICT ENGINE
-			/*
-			new String:requiredflagstr[32];
-			
-			W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
-			
-			if(allowChooseRace&&!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
-				
-				new AdminId:admin = GetUserAdmin(client);
-				if(admin == INVALID_ADMIN_ID) //flag is required and this client is not admin
-				{
-					allowChooseRace=false;
-					War3_ChatMessage(client,"%T","Restricted Race. Ask an admin on how to unlock",GetTrans());
-					PrintToConsole(client,"%T","No Admin ID found",client);
-					War3Source_ChangeRaceMenu(client);
+			/* MOVED TO RESTRICT ENGINE
+				if(allowChooseRace){
+					// Minimum level?
 					
-				}
-				else{
-					decl AdminFlag:flag;
-					if (!FindFlagByChar(requiredflagstr[0], flag)) //this gets the flag class from the string
+					new total_level=0;
+					new RacesLoaded = War3_GetRacesLoaded();
+					for(new x=1;x<=RacesLoaded;x++)
 					{
-						War3_ChatMessage(client,"%T","ERROR on admin flag check {flag}",client,requiredflagstr);
+						total_level+=War3_GetLevel(client,x);
+					}
+					new min_level=W3GetRaceMinLevelRequired(race_selected);
+					if(min_level<0) min_level=0;
+					
+					if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
+					{
+						War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
+						War3Source_ChangeRaceMenu(client);
 						allowChooseRace=false;
 					}
-					else
+				}
+					*/
+					
+				// GetUserFlagBits(client)&ADMFLAG_ROOT??
+				
+				
+				
+				
+				///MOVED TO RESTRICT ENGINE
+				/*
+				new String:requiredflagstr[32];
+				
+				W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
+				
+				if(allowChooseRace&&!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
+					
+					new AdminId:admin = GetUserAdmin(client);
+					if(admin == INVALID_ADMIN_ID) //flag is required and this client is not admin
 					{
-						if (!GetAdminFlag(admin, flag)){
+						allowChooseRace=false;
+						War3_ChatMessage(client,"%T","Restricted Race. Ask an admin on how to unlock",GetTrans());
+						PrintToConsole(client,"%T","No Admin ID found",client);
+						War3Source_ChangeRaceMenu(client);
+						
+					}
+					else{
+						decl AdminFlag:flag;
+						if (!FindFlagByChar(requiredflagstr[0], flag)) //this gets the flag class from the string
+						{
+							War3_ChatMessage(client,"%T","ERROR on admin flag check {flag}",client,requiredflagstr);
 							allowChooseRace=false;
-							War3_ChatMessage(client,"%T","Restricted race, ask an admin on how to unlock",GetTrans());
-							PrintToConsole(client,"%T","Admin ID found, but no required flag",client);
-							War3Source_ChangeRaceMenu(client);
+						}
+						else
+						{
+							if (!GetAdminFlag(admin, flag)){
+								allowChooseRace=false;
+								War3_ChatMessage(client,"%T","Restricted race, ask an admin on how to unlock",GetTrans());
+								PrintToConsole(client,"%T","Admin ID found, but no required flag",client);
+								War3Source_ChangeRaceMenu(client);
+							}
 						}
 					}
 				}
-			}
-			
-			*/
-			
-		
-			
-				//PrintToChatAll("1");
-			decl String:buf[192];
-			War3_GetRaceName(race_selected,buf,sizeof(buf));
-			if(allowChooseRace&&race_selected==War3_GetRace(client)/*&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    ) */){ //has no other pending race, cuz user might wana switch back
 				
-				War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
-				//if(W3GetPendingRace(client)){
-				W3SetPendingRace(client,-1);
+				*/
+				
+			
+				
+					//PrintToChatAll("1");
+				decl String:buf[192];
+				War3_GetRaceName(race_selected,buf,sizeof(buf));
+				if(allowChooseRace&&race_selected==War3_GetRace(client)/*&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    ) */){ //has no other pending race, cuz user might wana switch back
 					
-				//}
-				allowChooseRace=false;
-				
-			}
-		
-				
-				
-				
-				
+					War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
+					//if(W3GetPendingRace(client)){
+					W3SetPendingRace(client,-1);
+						
+					//}
+					allowChooseRace=false;
+					
+				}
 			
-			if(allowChooseRace)
-			{
-				W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
-				W3SetPlayerProp(client,RaceSetByAdmin,false);
-			
-				//has race, set pending, 
-				if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+					
+					
+					
+					
+				
+				if(allowChooseRace)
 				{
-					if(War3_IsL4DEngine())
+					W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
+					W3SetPlayerProp(client,RaceSetByAdmin,false);
+				
+					//has race, set pending, 
+					if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
 					{
+<<<<<<< .mine
+						if(War3_IsL4DEngine())
+						{
+							decl String:sGameMode[16];
+							
+							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else if (bStartingArea[client])
+							{
+								W3SetPendingRace(client,-1);
+								War3_SetRace(client,race_selected);
+								W3DoLevelCheck(client);
+							}
+							else
+							{
+								W3SetPendingRace(client,race_selected);
+								
+								War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+							}
+=======
 						if (GetClientTeam(client) == TEAM_INFECTED) {
 							if (IsPlayerGhost(client)) {
 								W3SetPendingRace(client,-1);
 								War3_SetRace(client, race_selected);
 								W3DoLevelCheck(client);
 							}
+>>>>>>> .r707
 						}
+<<<<<<< .mine
+						else
+						{
+							W3SetPendingRace(client,race_selected);
+=======
 						else {
 							decl String:sGameMode[16];
+>>>>>>> .r707
 							
 							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
 							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
@@ -512,24 +532,18 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 							}
 						}
 					}
-					else
+					//HAS NO RACE, CHANGE NOW
+					else //schedule the race change
 					{
-						W3SetPendingRace(client,race_selected);
+						W3SetPendingRace(client,-1);
+						War3_SetRace(client,race_selected);
 						
-						War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
+						//PrintToChatAll("2");
+						//print is in setrace
+						//War3_ChatMessage(client,"You are now %s",buf);
+						
+						W3DoLevelCheck(client);
 					}
-				}
-				//HAS NO RACE, CHANGE NOW
-				else //schedule the race change
-				{
-					W3SetPendingRace(client,-1);
-					War3_SetRace(client,race_selected);
-					
-					//PrintToChatAll("2");
-					//print is in setrace
-					//War3_ChatMessage(client,"You are now %s",buf);
-					
-					W3DoLevelCheck(client);
 				}
 			}
 		}
@@ -539,6 +553,91 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 	{
 		CloseHandle(menu);
 	}
+}
+
+//category stocks
+//Checks if a category exist
+stock bool:W3IsCategory(const String:cat_name[]) {
+	for(new i=0;i<CatCount;i++) {
+		if(strcmp(strCategories[i], cat_name, false)==0) {
+			return true //cat exist
+		}
+	}
+	return false;//no cat founded that is named X
+}
+//Removes all categories
+stock W3ClearCategory() {
+	for(new i=0;i<CatCount;i++) {
+		strcopy(strCategories[i],64,"");
+	}
+	CatCount = 0;
+}
+
+//Adds a new Category and returns true on success
+stock bool:W3AddCategory(const String:cat_name[],bool:bCreateW3Cvar=true) {
+	if(CatCount<MAXCATS) {
+		strcopy(strCategories[CatCount],64,cat_name);
+		if(bCreateW3Cvar) {
+			//Add a w3cvar for this cat
+			decl String:buffer[FACTION_LENGTH],w3cvar;
+			strcopy(buffer,sizeof(buffer),cat_name);
+			ReplaceString(buffer,sizeof(buffer), " ", "_", false);
+			Format(buffer,sizeof(buffer),"\"accessflag_%s\"",buffer);
+			w3cvar = W3FindCvar(buffer);
+			if(w3cvar==-1)
+				w3cvar = W3CreateCvar(buffer,"0","Admin flag required to access this category");
+			}
+			iCategories[CatCount]=w3cvar;
+		}
+		CatCount++;
+		return true;
+	}
+	W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
+	return false;
+}
+stock W3GetAccessFlag(iIndex,String:return_buff[],max_size) {
+	IntToString(iCategories[iIndex],return_buff,max_size);
+}
+//Returns a Category Name thing
+stock W3GetCategory(iIndex,String:cat_name[],max_size) {
+	decl String:buffer[FACTION_LENGTH];
+	strcopy(buffer,sizeof(buffer),strCategories[iIndex]);
+	ReplaceString(buffer,sizeof(buffer), "_", " ", false);
+	strcopy(cat_name,max_size,buffer);
+}
+//Refreshes Categories
+refreshCategories() {
+	W3ClearCategory();
+	//zeroth cat will not be drawn = perfect hidden cat ;D
+	W3AddCategory("hidden");
+	decl String:rcvar[64];
+	decl racelist[MAXRACES];
+	//Loop tru all _avaible_ races
+	new racedisplay=W3GetRaceList(racelist);
+	for(new i=0;i<racedisplay;i++)
+	{
+		new x=racelist[i];
+		W3GetCvar(W3GetRaceCell(x,RaceCategorieCvar),rcvar,sizeof(rcvar));
+		//To avoid multiple-same-named-categories we need to check if the category allready exist
+		if(!W3IsCategory(rcvar)) {
+			//Add a new category
+			W3AddCategory(rcvar);
+		}
+	}
+}
+bool:IsCategorized() {
+	return GetConVarBool(hUseCategories);
+}
+//Calls the forward
+bool:CanDrawCategory(iClient,iCategoryIndex) {
+	decl value;
+	Call_StartForward(hCanDrawCat);
+	Call_PushCell(iClient);
+	Call_PushCell(iCategoryIndex);
+	Call_Finish(value);
+	if (value == 3 || value == 4)
+		return false;
+	return true;
 }
 
 
