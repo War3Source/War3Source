@@ -32,12 +32,6 @@ new bool:SkillRedirected[MAXRACES][MAXSKILLCOUNT];
 new SkillRedirectedToSkill[MAXRACES][MAXSKILLCOUNT];
 
 new bool:skillIsUltimate[MAXRACES][MAXSKILLCOUNT];
-//Skill dependency (tree) needed variables.
-new bool:skillIsTree[MAXRACES][MAXSKILLCOUNT];
-//new String:skillTreeDependsName[MAXRACES][MAXSKILLCOUNT][32]
-new skillTreeDependsID[MAXRACES][MAXSKILLCOUNT];
-new skillTreeDependsLevel[MAXRACES][MAXSKILLCOUNT];
-
 new skillMaxLevel[MAXRACES][MAXSKILLCOUNT];
 new skillProp[MAXRACES][MAXSKILLCOUNT][W3SkillProp];
 
@@ -128,13 +122,6 @@ public bool:InitNativesForwards()
 	
 	CreateNative("W3GetRaceCell",NW3GetRaceCell);
 	CreateNative("W3SetRaceCell",NW3SetRaceCell);
-	
-	//skill dependency
-	CreateNative("War3_IsSkillPartOfTree", NWar3_IsSkillPartOfTree);
-	CreateNative("War3_GetSkillTreeDependencyName", NWar3_GetSkillTreeDependencyName);
-	CreateNative("War3_SkillTreeDependencyLevel", NWar3_SkillTreeDependencyLevel);
-	CreateNative("War3_GetSkillTreeDependencyID", NWar3_GetSkillTreeDependencyID);
-	
 	return true;
 }
 
@@ -166,11 +153,6 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 		new bool:isult=GetNativeCell(4);
 		new tmaxskilllevel=GetNativeCell(5);
 		
-		new bool:needsotherskill=GetNativeCell(6); //does it need other skills?
-		// DEPRECATED: using ID now //new String:otherskillname[32];
-		new otherskillid = GetNativeCell(7); //which ID does the other skill have? (needed to loop through)
-		GetNativeString(7,otherskillname,sizeof(otherskillname)); //gets the skill name the new one depends on
-		new otherskilllevel = GetNativeCell(8); //what min. level should other one have?
 		//W3Log("add skill %s %s",skillname,skilldesc);
 		
 		return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
@@ -606,58 +588,20 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
 }
 
 
-//Skill-tree
-public NWar3_IsSkillPartOfTree(Handle:plugin,numParams)
-{
-	return IsSkillPartOfTree(GetNativeCell(1),GetNativeCell(2));
-}
-
-IsSkillPartOfTree(raceid, skill)
-{
-	return skillIsTree[raceid][skill];
-}
-
-public NWar3_SkillTreeDependencyLevel(Handle:plugin, numParams)
-{
-	return SkillLevelOtherTree(GetNativeCell(1), GetNativeCell(2));
-}
-
-public NWar3_GetSkillTreeDependencyID(Handle:plugin, numParams)
-{
-	return SkillidOtherTree(GetNativeCell(1), GetNativeCell(2));
-}
-
-SkillidOtherTree(raceid, id)
-{
-	return skillTreeDependsID[raceid][id];
-}
-
-SkillLevelOtherTree(raceid, skill)
-{
-	return skillTreeDependsLevel[raceid][skill];
-}
 
 
 
 
-public NWar3_GetSkillTreeDependencyName(Handle:plugin, numParams)
-{
-	new race = GetNativeCell(1);
-	new skill= GetNativeCell(2);
-	new maxlen = GetNativeCell(4);
-	 
-	5
-	if(race<1||race>War3_GetRacesLoaded()){
-		ThrowNativeError(1,"bad race %d",race);
-	}
-	if(skill<1||skill>War3_GetRaceSkillCount(race)){
-		ThrowNativeError(1,"bad skillid %d",skill);
-	}
-	new String:buf[32];
-	GetDependingRaceName(race,skill,buf,sizeof(buf))
-	SetNativeString(3,buf,maxlen);
-	
-}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -839,7 +783,7 @@ GetRaceMaxLevel(raceid){
 
 
 ////we add skill or ultimate here, but we have to define if its a skill or ultimate we are adding
-AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate,tmaxskilllevel, bool:needsotherskill, otherskillid, otherskilllevel){
+AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate,tmaxskilllevel){
 	if(raceid>0){
 		//ok is it an existing skill?
 		//new String:existingskillname[64];
@@ -871,16 +815,6 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		
 		skillMaxLevel[raceid][raceSkillCount[raceid]]=tmaxskilllevel;
 		
-		//skill depdency
-		skillIsTree[raceid][raceSkillCount[raceid]]=needsotherskill;
-		
-		if( needsotherskill ) //dont check if it is false
-		{
-			//DEPRECATED: strcopy(skillTreeDependsName[raceid][raceSkillCount[raceid]], 32, otherskillname); //what skill does he depend on?
-			skillTreeDependsLevel[raceid][raceSkillCount[raceid]]=otherskilllevel; //what level does the other skill have to be?
-			skillTreeDependsID[raceid][raceSkillCount[raceid]]=otherskillid; //what is the ID of the skill he depends on?
-			
-		}
 		
 		
 		return raceSkillCount[raceid]; //return their actual skill number
@@ -932,9 +866,6 @@ CreateRaceEnd(raceid){
 			
 			Format(cvarstr,sizeof(cvarstr),"%s_category",shortname);
 			W3SetRaceCell(raceid,RaceCategorieCvar,W3CreateCvar(cvarstr,"default","Determines in which Category the race should be displayed(if cats are active)"));
-			
-			Format(cvarstr,sizeof(cvarstr),"%s_extends",shortname);
-			W3SetRaceCell(raceid,RaceExtends,W3CreateCvar(cvarstr,"","Race will only be shown if all of the given races are maxed(Separate by comma. MAXIMUM OF 4!!)"));
 			
 			// create war3sourceraces structure, shouldn't be harmful if already exists
 			if(hDB)
