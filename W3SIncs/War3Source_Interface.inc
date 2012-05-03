@@ -476,6 +476,11 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3FactionBehaviorByName");
 	MarkNativeAsOptional("W3FactionCompare");
 	MarkNativeAsOptional("W3GetRaceFaction");
+	
+	// Dependency Engine
+	MarkNativeAsOptional("War3_SetDependency");
+	MarkNativeAsOptional("War3_RemoveDependency");
+	MarkNativeAsOptional("War3_GetDependency");
 }
 
 //Called for each category if the user opens the catted cr menu
@@ -1688,6 +1693,42 @@ native War3_StringMath(String:equation[]);
 
 native W3HasDiedThisFrame(client);
 
+
+/**
+ * Adds a dependency on a skill
+ *
+ * @param iRaceID		 Race ID
+ * @param iSkill		 Skill on which the dependency should be added onto
+ * @param iRequiredSkill Required Skill ID
+ * @param iRequiredLevel Required Level Num
+ * @return				 true on success, otherwhise false!
+ * @error				 Thrown on invalid param num/race
+ */
+native bool:War3_SetDependency(iRaceID, iSkill, iRequiredSkill, iRequiredLevel);
+
+/**
+ * Removes any known dependency from a skill(if any)
+ * NOTE: you should be able to call this safetly without having to bother about anything,
+ * since no error will be thrown if there currently aren't any active dependencys on this
+ *
+ * @param iRaceID		 Race ID
+ * @param iSkill		 Skill on which the dependency should be removed from
+ * @noreturn
+ * @error				 Thrown on invalid param num/race
+ */
+native War3_RemoveDependency(iRaceID, iSkill);
+
+/**
+ * Retrieves various informations about a depending skill
+ * NOTE: This can be called to check if there is any dependency or not
+ *
+ * @param iRaceID		 Race ID
+ * @param iSkill		 Target skill to get informations from
+ * @param eInfo			 Type of information to retrieve
+ * @return				 Retrieved information about the dependency
+ * @error				 Thrown on invalid param num/race
+ */
+native War3_GetDependency(iRaceID, iSkill, SkillDependency:eInfo=ID);
 
 // BOT THINGS!!
 

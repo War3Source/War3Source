@@ -141,7 +141,7 @@ stock CreateTesla(const client,Float:flifetime_min,Float:flifetime_max,Float:thi
 	return -1;
 }
 
-stock CreateExplosion(Float:VectorPos[3], owner, String:classname[], String:magnitude[]))
+stock CreateExplosion(Float:VectorPos[3], owner, String:classname[], String:magnitude[])
 {
 	new g_ent = CreateEntityByName("env_explosion");
 	SetEntPropEnt(g_ent, Prop_Send, "m_hOwnerEntity", owner);

@@ -815,7 +815,8 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
 		
 		skillMaxLevel[raceid][raceSkillCount[raceid]]=tmaxskilllevel;
 		
-		
+		//We remove all dependencys(atm there aren't any but we need to call this to apply our default value)
+		War3_RemoveDependency(raceid,raceSkillCount[raceid]);
 		
 		return raceSkillCount[raceid]; //return their actual skill number
 		

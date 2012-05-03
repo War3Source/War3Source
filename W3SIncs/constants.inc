@@ -36,6 +36,9 @@
 
 #define MAXFACTIONS 20 //max amount of factions w3 can hold
 #define FACTION_LENGTH 32 //max length of a faction name
+
+#define INVALID_DEPENDENCY -1 //describes the default/invalid value of a skill dependency
+
 // The enum W3Var is used with function W3SetVar and W3GetVar.
 // It is the first parameter, eg: new deathRace = W3GetVar(DeathRace)
 enum W3Var
@@ -638,6 +641,11 @@ enum War3WardAffinity
 	SELF_ONLY
 }
 
+enum SkillDependency {
+	ID=0, //on which other skill does this depends on?
+	LVL //what level i must be to be able to level this?
+}
+
 enum FactionBehavior{
 	ReturnValue=-1, //pass this to return the settings
 	Neutral=0, //zero=default
@@ -711,3 +719,8 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 #define  TEAM_BLUE 3
 #define  TEAM_SURVIVORS 2
 #define  TEAM_INFECTED 3
+
+// Modeltypes used by the Model Engine
+#define MDLTYPE_VIEWMODEL 0
+#define MDLTYPE_WORLDMODEL 1
+#define MDLTYPE_GRENADE 2 //thrown grenades

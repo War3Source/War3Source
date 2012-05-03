@@ -420,11 +420,11 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 								SetEntityHealth(victim,1); 
 							}
 							decl Float:fPos[3];
-							GetClientAbsOrigin(client,fPos);
+							GetClientAbsOrigin(victim,fPos);
 							new Float:fx_delay = 0.35;
 							for(new i=0;i<4;i++)
 							{
-								TE_SetupExplosion(fPos, Particle, 4.5, 1, 4, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_ROTATE);
+								TE_SetupExplosion(fPos, BeamSprite, 4.5, 1, 4, 0, TE_EXPLFLAG_NOSOUND|TE_EXPLFLAG_ROTATE);
 								TE_SendToAll(fx_delay);
 								fx_delay += GetRandomFloat(0.30,0.50);
 							}
