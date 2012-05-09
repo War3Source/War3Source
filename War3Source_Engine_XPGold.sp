@@ -1,4 +1,5 @@
-
+#pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
+#pragma tabsize 0     // doesn't mess with how you format your lines
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -16,10 +17,10 @@ new String:levelupSound[]="war3source/levelupcaster.mp3";
 
 
 ///MAXLEVELXPDEFINED is in constants
-new XPLongTermREQXP[MAXLEVELXPDEFINED+1] //one extra for even if u reached max level
-new XPLongTermKillXP[MAXLEVELXPDEFINED+1]
-new XPShortTermREQXP[MAXLEVELXPDEFINED+1]
-new XPShortTermKillXP[MAXLEVELXPDEFINED+1]
+new XPLongTermREQXP[MAXLEVELXPDEFINED+1]; //one extra for even if u reached max level
+new XPLongTermKillXP[MAXLEVELXPDEFINED+1];
+new XPShortTermREQXP[MAXLEVELXPDEFINED+1];
+new XPShortTermKillXP[MAXLEVELXPDEFINED+1];
 
 
 // not game specific
@@ -30,6 +31,7 @@ new Handle:AssistKillXPCvar;
 new Handle:BotIgnoreXPCvar;
 new Handle:hLevelDifferenceBounus;
 new Handle:minplayersXP;
+new Handle:NoSpendSkillsLimitCvar;
 
 // l4d
 new Handle:KillSmokerXPCvar;
@@ -111,7 +113,7 @@ public bool:InitNativesForwards()
 		CreateNative("W3GetReqXP" ,NW3GetReqXP);
 		CreateNative("War3_ShowXP",Native_War3_ShowXP);
 	}
-	CreateNative("W3GetKillXP",NW3GetKillXP)
+	CreateNative("W3GetKillXP",NW3GetKillXP);
 
 	CreateNative("W3GetMaxGold",NW3GetMaxGold);
 	CreateNative("W3GetKillGold",NW3GetKillGold);
@@ -125,7 +127,7 @@ public NW3GetReqXP(Handle:plugin,numParams)
 	new level=GetNativeCell(1);
 	if(level>MAXLEVELXPDEFINED)
 		level=MAXLEVELXPDEFINED;
-	return IsShortTerm()?XPShortTermREQXP[level] :XPLongTermREQXP[level]
+	return IsShortTerm()?XPShortTermREQXP[level] :XPLongTermREQXP[level];
 }
 public NW3GetKillXP(Handle:plugin,numParams)
 {
@@ -202,7 +204,7 @@ ParseXPSettingsFile(){
 	{
 		// store it
 		StrToken(read,x,temp_iter,15);
-		XPLongTermREQXP[x-1]=StringToInt(temp_iter)
+		XPLongTermREQXP[x-1]=StringToInt(temp_iter);
 	}
 	
 	
@@ -664,15 +666,23 @@ LevelCheck(client){
 			skilllevel=War3_GetSkillLevelINTERNAL(client,race,i);
 			if(!War3_IsSkillUltimate(race,i))
 			{
-				if(skilllevel*2>curlevel+1)
-				{
-					ClearSkillLevels(client,race);
-					War3_ChatMessage(client,"%T","A skill is over the maximum level allowed for your current level, please reselect your skills",client);
-					W3CreateEvent(DoShowSpendskillsMenu,client);
-				}
+            // El Diablo: I want to be able to allow skills to reach maximum skill level via skill points.
+            //            I do not want to put a limit on skill points because of the
+            //            direction I'm going with my branch of the war3source.
+                NoSpendSkillsLimitCvar=FindConVar("war3_no_spendskills_limit");
+                if (!GetConVarBool(NoSpendSkillsLimitCvar))
+                {
+				    if(skilllevel*2>curlevel+1)
+                    {
+				     ClearSkillLevels(client,race);
+				     War3_ChatMessage(client,"%T","A skill is over the maximum level allowed for your current level, please reselect your skills",client);
+				     W3CreateEvent(DoShowSpendskillsMenu,client);
+				    }
+                }
 			}
 			else
 			{
+            // El Diablo: Currently keeping the limit on the ultimates
 				if(skilllevel>0&&skilllevel*2+ultminlevel-1>curlevel+1){
 					ClearSkillLevels(client,race);
 					War3_ChatMessage(client,"%T","A ultimate is over the maximum level allowed for your current level, please reselect your skills",client);

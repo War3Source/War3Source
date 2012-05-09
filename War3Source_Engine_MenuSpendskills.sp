@@ -20,12 +20,17 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
+new Handle:NoSpendSkillsLimitCvar;
 
 
 
 public OnPluginStart()
 {
-
+	if(W3())
+    {
+     // No Spendskill level restrictions on non-ultimates (Requires mapchange)
+     NoSpendSkillsLimitCvar=CreateConVar("war3_no_spendskills_limit","0","Set to 1 to require no limit on non-ultimate spendskills (Requires mapchange)");
+    }
 }
 
 public OnWar3Event(W3EVENT:event,client){
@@ -105,7 +110,15 @@ War3Source_SkillMenu(client)
 						if(failed)
 							AddMenuItem(sMenu,sbuf,buf,ITEMDRAW_DISABLED);
 						else
-							AddMenuItem(sMenu,sbuf,buf,(level>=curskilllevel*2+1)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+                           {
+                            // No Spending skills limit
+                            if(GetConVarBool(NoSpendSkillsLimitCvar))
+                              {
+                               AddMenuItem(sMenu,sbuf,buf,ITEMDRAW_DEFAULT);
+                              }
+                             else
+  							   AddMenuItem(sMenu,sbuf,buf,(level>=curskilllevel*2+1)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+                           }
 						//}
 					}
 					else {
@@ -119,7 +132,7 @@ War3Source_SkillMenu(client)
 						if(failed)
 							AddMenuItem(sMenu,sbuf,buf,ITEMDRAW_DISABLED);
 						else
-							AddMenuItem(sMenu,sbuf,buf,(level>=curskilllevel*2+1+W3GetMinUltLevel()-1)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+                            AddMenuItem(sMenu,sbuf,buf,(level>=curskilllevel*2+1+W3GetMinUltLevel()-1)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
 					}
 					
 					/*if(War3_IsSkillPartOfTree(race_num, x)) //the skill depends on something
