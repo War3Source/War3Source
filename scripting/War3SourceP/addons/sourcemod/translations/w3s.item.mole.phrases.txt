@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"mole_ItemName"
+	{
+		"en"		"Mole"
+	}
+	"mole_ItemDesc"
+	{
+		"en"		"Tunnel to the enemies spawn\nat the beginning of the round\nand disguise as the enemy to\nget a quick couple of kills."
+	}
+}

@@ -1,0 +1,43 @@
+"Phrases"
+{
+	"hunter_RaceName"
+	{
+		"ru"		"Теневой Охотник"
+	}
+	"hunter_skill_HealingWave"
+	{
+		"ru"		"Лекарь"
+	}
+	"hunter_skill_HealingWave_desc"
+	{
+		"ru"		"Лечит союзников вокруг вас"
+	}
+	"hunter_skill_Hex"
+	{
+		"ru"		"Порча"
+	}
+	"hunter_skill_Hex_desc"
+	{
+		"ru"		"Шанс сопротивления навыкам атаки врагов"
+	}
+	"hunter_skill_SerpentWards"
+	{
+		"ru"		"Змеиные Ловушки"
+	}
+	"hunter_skill_SerpentWards_desc"
+	{
+		"ru"		"Создает ловушки, наносящие врагам урон\nАктивируется +ability"
+	}
+	"hunter_skill_BigBadVoodoo"
+	{
+		"ru"		"Вуду"
+	}
+	"hunter_skill_BigBadVoodoo_desc"
+	{
+		"ru"		"Вы становитесь невосприимчивы к физическому\nурону на некоторое время"
+	}
+	"Ultimate not ready, {amount} seconds remaining"
+	{
+		"ru"		"Навык ultimate будет готов через {1} секунд"
+	}
+}

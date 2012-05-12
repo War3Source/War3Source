@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"tome_ItemName"
+	{
+		"ru"		"Книга Опыта"
+	}
+	"tome_ItemDesc"
+	{
+		"ru"		"Добавляет вам 100 очков опыта\n "
+	}
+}

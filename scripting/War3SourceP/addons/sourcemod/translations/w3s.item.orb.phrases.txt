@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"orb_ItemName"
+	{
+		"en"		"Orb of Frost"
+	}
+	"orb_ItemDesc"
+	{
+		"en"		"Slows your enemy down when you hit him."
+	}
+}

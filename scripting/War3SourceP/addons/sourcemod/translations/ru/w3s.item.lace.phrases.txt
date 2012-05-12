@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"lace_ItemName"
+	{
+		"ru"		"Ожерелье Иммунитета"
+	}
+	"lace_ItemDesc"
+	{
+		"ru"		"Получение иммунитета к\nвражеским ultimate\n "
+	}
+}

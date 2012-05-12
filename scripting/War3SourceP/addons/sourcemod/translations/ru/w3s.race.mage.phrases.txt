@@ -1,0 +1,47 @@
+"Phrases"
+{
+	"mage_RaceName"
+	{
+		"ru"		"Кровавый Маг"
+	}
+	"mage_skill_Phoenix"
+	{
+		"ru"		"Феникс"
+	}
+	"mage_skill_Phoenix_desc"
+	{
+		"ru"		"#1# шанс возродить погибшего союзника.\nКаждый раз после возрождения, шанс уменьшается вдвое,\nно не менее #2#"
+	}
+	"mage_skill_Banish"
+	{
+		"ru"		"Ослепление"
+	}
+	"mage_skill_Banish_desc"
+	{
+		"ru"		"#1# шанс ослепить и дезориентировать врага\nна #2# секунды"
+	}
+	"mage_skill_SiphonMana"
+	{
+		"ru"		"Кража"
+	}
+	"mage_skill_SiphonMana_desc"
+	{
+		"ru"		"#1# шанс украсть #2# денег врага (CS)\nили #3# золота (TF) при атаке"
+	}
+	"mage_skill_FlameStrike"
+	{
+		"ru"		"Пламенный Удар"
+	}
+	"mage_skill_FlameStrike_desc"
+	{
+		"ru"		"Поджечь врага постепенно нанося #1# урона #2# раз.\n#3# диапозон."
+	}
+	"Flame Strike!"
+	{
+		"ru"		"Пламенный Удар!"
+	}
+	"You have been struck with Flame Strike!"
+	{
+		"ru"		"Вас поразили пламенным ударом!"
+	}
+}

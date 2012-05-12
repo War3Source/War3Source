@@ -1,0 +1,74 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"warden_RaceName"
+	{
+		"en"		"Warden"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"warden_skill_FanOfKnivesCS"
+	{
+		"en"		"Fan of Knives"
+	}
+	"warden_skill_FanOfKnivesCS_desc"
+	{
+		"en"		"A chance of being a mole"
+	}
+
+	"warden_skill_FanOfKnivesTF"
+	{
+		"en"		"Fan of Knives"
+	}
+	"warden_skill_FanOfKnivesTF_desc"
+	{
+		"en"		"A chance of damaging people around you when attacked"
+	}
+
+	"warden_skill_Immunity"
+	{
+		"en"		"Immunity"
+	}
+	"warden_skill_Immunity_desc"
+	{
+		"en"		"Immunity from ultimates"
+	}
+
+	"warden_skill_ShadowStrike"
+	{
+		"en"		"Shadow Strike"
+	}
+	"warden_skill_ShadowStrike_desc"
+	{
+		"en"		"A chance of poisoning your enemy"
+	}
+
+	"warden_skill_VengenceCS"
+	{
+		"en"		"Vengence"
+	}
+	"warden_skill_VengenceCS_desc"
+	{
+		"en"		"Respawning when you die"
+	}
+
+	"warden_skill_VengenceTF"
+	{
+		"en"		"Vengence"
+	}
+	"warden_skill_VengenceTF_desc"
+	{
+		"en"		"Recharge a percent of your health"
+	}
+
+	"No suitable location found, can not mole!"
+	{
+		"en"		"No suitable location found, can't mole!"
+	}
+	"Revived by Vengence"
+	{
+		"en"		"Revived by Vengence"
+	}
+}

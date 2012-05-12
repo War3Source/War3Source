@@ -1,0 +1,64 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"sacredw_RaceName"
+	{
+		"en"		"Sacred Warrior"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"sacredw_skill_InnerVitality"
+	{
+		"en"		"Inner Vitality"
+	}
+	"sacredw_skill_InnerVitality_desc"
+	{
+		"en"		"Passively recover #1#HP.\nWhen below 40%% you heal twice as fast."
+	}
+
+	"sacredw_skill_BurningSpear"
+	{
+		"en"		"Burning Spear"
+	}
+	"sacredw_skill_BurningSpear_desc"
+	{
+		"en"		"Passively lose 5%% maxHP, but set enemies ablaze.\nDeals #1# DPS for next #2# seconds.\nStacks #3# times."
+	}
+
+	"sacredw_skill_BerserkersBlood"
+	{
+		"en"		"Berserkers Blood"
+	}
+	"sacredw_skill_BerserkersBlood_desc"
+	{
+		"en"		"Gain #1# percent attack speed for each #2# percent of your health missing"
+	}
+
+	"sacredw_skill_LifeBreak"
+	{
+		"en"		"Life Break"
+	}
+	"sacredw_skill_LifeBreak_desc"
+	{
+		"en"		"Damage yourself (#1#%% of maxHP) to deal\na great amount of damage (#2#%% of victim's maxHP)"
+	}
+
+	"You do not have enough HP to cast that..."
+	{
+		"en"		"You do not have enough HP to cast that..."
+	}
+	"Activated Burning Spear"
+	{
+		"en"		"Activated Burning Spear"
+	}
+	"Deactivated Burning Spear"
+	{
+		"en"		"Deactivated Burning Spear"
+	}
+	"Life Break"
+	{
+		"en"		"Life Break"
+	}
+}

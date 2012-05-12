@@ -1,0 +1,61 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"cd_RaceName"
+	{
+		"en"		"Corrupted Disciple"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"cd_skill_ElectricTide"
+	{
+		"en"		"Electric Tide"
+	}
+	"cd_skill_ElectricTide_desc"
+	{
+		"en"		"Expands electric rings around you, deals the most damage at the edge. Activate by '+ability'"
+	}
+
+	"cd_skill_CorruptedConduit"
+	{
+		"en"		"Corrupted Conduit"
+	}
+	"cd_skill_CorruptedConduit_desc"
+	{
+		"en"		"Your victim will lose damage per attack for a duration. Auto activate when not on cooldown"
+	}
+
+	"cd_skill_StaticDischarge"
+	{
+		"en"		"Static Discharge"
+	}
+	"cd_skill_StaticDischarge_desc"
+	{
+		"en"		"Chance to heal you and your teammates around you when you are damaged"
+	}
+
+	"cd_skill_Overload"
+	{
+		"en"		"Overload"
+	}
+	"cd_skill_Overload_desc"
+	{
+		"en"		"Shocks the lowest hp enemy around you per second while you gain damage per hit"
+	}
+
+	"Feel the burn!"
+	{
+		"en"		"Feel the burn!"
+	}
+
+	"Conduit activated on you!"
+	{
+		"en"		"Conduit activated on you!"
+	}
+	"Activated Conduit!"
+	{
+		"en"		"Activated Conduit!"
+	}
+}

@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"shield_ItemName"
+	{
+		"ru"		"Святой Щит"
+	}
+	"shield_ItemDesc"
+	{
+		"ru"		"Шит дает иммунитет от способностей\nпротивника (ability)"
+	}
+}

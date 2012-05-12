@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"lifetube_ItemName"
+	{
+		"ru"		"Колба Жизни"
+	}
+	"lifetube_ItemDesc"
+	{
+		"ru"		"+1 регенерации HP."
+	}
+}

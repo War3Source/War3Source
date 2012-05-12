@@ -1,0 +1,65 @@
+"Phrases"
+{
+	
+	//War3Source_Engine_MenuShopmenu2.sp
+	"[War3Source] Select an item to buy. You have {amount}/{amount} items"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"[War3Source] Select an item to buy. You have {1}/{2} items"
+	}
+	"You have {amount} Diamonds"
+	{
+		"#format"	"{1:d}"
+		"en"		"You have {1} Diamonds" ///THIS IS MENU DO NOT ADD COLOR
+	}
+	">{itemname} - ${amount}"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		">{1} - ${2}"
+	}
+	">{itemname} - {amount} Diamonds"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		">{1} - {2} Diamonds"
+	}
+	"{itemname} - ${amount}"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} - ${2}"
+	}
+	"{itemname} - {amount} Diamonds"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} - {2} Diamonds"
+	}
+	"{itemname} is disabled"
+	{
+		"#format"	"{1:s}"
+		"en"		"{1} is disabled"
+	}
+	"You may not purchase {itemname} when you are {racename}"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"You may not purchase {1} when you are {2}."
+	}
+	"You already own {itemname}"
+	{
+		"#format"	"{1:s}"
+		"en"		"You already own {green}{1}{default}."
+	}
+	"You cannot afford {itemname}"
+	{
+		"#format"	"{1:s}"
+		"en"		"You cannot afford {1}."
+	}
+	"You have successfully purchased {itemname}"
+	{
+		"#format"	"{1:s}"
+		"en"		"You have successfully purchased {green}{1}{default}."
+	}
+	"[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get Diamonds back"
+	{
+		"#format"	"{1:d},{2:s}"
+		"en"		"[War3Source] You already have a max of {1} items.\nChoose an item to replace with {2}.\nYou will not get Diamonds back."
+	}
+}

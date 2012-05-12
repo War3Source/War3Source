@@ -1,0 +1,7 @@
+"Phrases"
+{
+	"No suiciding on SPY"
+	{
+		"en" "No suiciding on SPY"
+	}
+}

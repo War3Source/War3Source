@@ -1,0 +1,47 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"nightelf_RaceName"
+	{
+		"en"		"Night Elf"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"nightelf_skill_Evasion"
+	{
+		"en"		"Evasion"
+	}
+	"nightelf_skill_Evasion_desc"
+	{
+		"en"		"5/10/15/20 percent chance of evading a shot"
+	}
+
+	"nightelf_skill_ThornsAura"
+	{
+		"en"		"Thorns Aura"
+	}
+	"nightelf_skill_ThornsAura_desc"
+	{
+		"en"		"You deal 5/10/15/20 percent of damage recieved to your attacker"
+	}
+
+	"nightelf_skill_TrueshotAura"
+	{
+		"en"		"Trueshot Aura"
+	}
+	"nightelf_skill_TrueshotAura_desc"
+	{
+		"en"		"Your attacks deal 5/10/15/20 percent more damage"
+	}
+
+	"nightelf_skill_EntanglingRoots"
+	{
+		"en"		"Entangling Roots"
+	}
+	"nightelf_skill_EntanglingRoots_desc"
+	{
+		"en"		"Bind enemies to the ground, rendering them immobile for 1.25/1.5/1.75/2 seconds"
+	}
+}

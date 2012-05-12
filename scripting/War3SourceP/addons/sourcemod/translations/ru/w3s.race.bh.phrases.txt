@@ -1,0 +1,51 @@
+"Phrases"
+{
+	"bh_RaceName"
+	{
+		"ru"		"Кровавый Охотник"
+	}
+	"bh_skill_BloodCrazy"
+	{
+		"ru"		"Кровопотеря"
+	}
+	"bh_skill_BloodCrazy_desc"
+	{
+		"ru"		"Раненные вами враги 4-10 секунд будут\nтерять по 2%% здоровья в секунду"
+	}
+	"bh_skill_Feast"
+	{
+		"ru"		"Пиршество"
+	}
+	"bh_skill_Feast_desc"
+	{
+		"ru"		"Дает 5-20%% от максимального здоровья\nврага после того как он погибнет"
+	}
+	"bh_skill_BloodSense"
+	{
+		"ru"		"Чувство Крови"
+	}
+	"bh_skill_BloodSense_desc"
+	{
+		"ru"		"Враги с 5-20%% жизней получают критический урон"
+	}
+	"bh_skill_Hemorrhage"
+	{
+		"ru"		"Капкан"
+	}
+	"bh_skill_Hemorrhage_desc"
+	{
+		"ru"		"Цель будет получать урон, если будет двигаться"
+	}
+	"You have been ruptured! You take damage if you move!"
+	{
+		"ru"		"Вас поймали в капкан! Вы теряете здоровье при движении!"
+	}
+	"Rupture!"
+	{
+		"ru"		"Вы поймали в капкан!"
+	}
+	"Double Damage against low HP enemies!"
+	{
+		"ru"		"[W3S] Двойной урон для врагов с маленьким здоровьем!"
+	}
+}

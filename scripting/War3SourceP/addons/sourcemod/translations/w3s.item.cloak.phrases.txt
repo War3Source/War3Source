@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"cloak_ItemName"
+	{
+		"en"		"Cloak of Shadows"
+	}
+	"cloak_ItemDesc"
+	{
+		"en"		"Makes you partially invisible, invisibility is increased when holding the knife (CS)."
+	}
+}

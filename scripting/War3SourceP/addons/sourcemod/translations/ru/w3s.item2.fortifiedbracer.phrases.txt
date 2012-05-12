@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"fortifiedbracer_ItemName"
+	{
+		"ru"		"Наручи"
+	}
+	"fortifiedbracer_ItemDesc"
+	{
+		"ru"		"+10 максимального HP."
+	}
+}
