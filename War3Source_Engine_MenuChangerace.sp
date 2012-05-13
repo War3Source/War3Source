@@ -1,5 +1,6 @@
-#pragma semicolon 1
-#pragma tabsize 0     // doesn't mess with how you format your lines
+
+
+
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -217,13 +218,11 @@ War3Source_ChangeRaceMenu(client)
 			crMenu=CreateMenu(War3Source_CRMenu_Selected);
 			SetMenuExitButton(crMenu,true);
 			
-			decl String:title[512], String:rbuf[4];
-            //decl String:title[400], String:rbuf[4];
-            // (the title on line 310 is 512, so I boosted this one up.)
+			new String:title[400], String:rbuf[4];
 			if(strlen(dbErrorMsg)){
 				Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
 			}
-			Format(title,sizeof(title),"%T","[War3Source] Select your desired race",GetTrans());
+			Format(title,sizeof(title),"%s%T",title,"[War3Source] Select your desired race",GetTrans()) ;
 			if(W3GetLevelBank(client)>0){
 				Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
 			}
@@ -277,7 +276,7 @@ War3Source_ChangeRaceMenu(client)
 					Format(extra,sizeof(extra),"<");
 					
 				}
-				Format(rdisp,sizeof(rdisp),"%s %T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+				Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
 				new minlevel=W3GetRaceMinLevelRequired(x);
 				if(minlevel<0) minlevel=0;
 				if(minlevel)
@@ -308,7 +307,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 			if(ValidPlayer(client))
 			{
 				SetTrans(client);
-				decl String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
+				new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
 				GetMenuItem(menu, selection, sItem, sizeof(sItem));
 				new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
 				SetMenuExitButton(crMenu,true);
@@ -351,7 +350,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 						else if(W3GetPendingRace(client)==x){
 							Format(extra,sizeof(extra),"<");
 						}
-						Format(rdisp,sizeof(rdisp),"%s %T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+						Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
 						new minlevel=W3GetRaceMinLevelRequired(x);
 						if(minlevel<0) minlevel=0;
 						if(minlevel)
@@ -560,7 +559,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 stock bool:W3IsCategory(const String:cat_name[]) {
 	for(new i=0;i<CatCount;i++) {
 		if(strcmp(strCategories[i], cat_name, false)==0) {
-			return true; //cat exist
+			return true //cat exist
 		}
 	}
 	return false;//no cat founded that is named X
