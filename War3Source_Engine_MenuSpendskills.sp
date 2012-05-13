@@ -183,9 +183,7 @@ public War3Source_SMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 			{
 				// OPTIMZE THIS
 				decl String:SelectionInfo[4];
-				decl String:SelectionDispText[256];
-				new SelectionStyle;
-				GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
+				GetMenuItem(menu, selection, SelectionInfo, sizeof(SelectionInfo));
 				new skill=StringToInt(SelectionInfo);
 				
 				
@@ -211,7 +209,7 @@ public War3Source_SMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 					}
 					
 				}
-				if(!War3_IsSkillUltimate(raceid, selection))
+				else
 				{
 					new race=War3_GetRace(client);
 					if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race))

@@ -67,7 +67,7 @@ public bool:InitNativesForwards()
 	g_OnWardCreatedHandle=CreateGlobalForward("OnWardCreated",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnWardPulseHandle=CreateGlobalForward("OnWardPulse",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnWardTriggerHandle=CreateGlobalForward("OnWardTrigger",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
-	g_OnWardExpireHandle=CreateGlobalForward("OnWardExpire",ET_Ignore,Param_Cell,Param_Cell);
+	g_OnWardExpireHandle=CreateGlobalForward("OnWardExpire",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 
 	CreateNative("War3_CreateWardBehavior", Native_War3_CreateWardBehavior);
 	CreateNative("War3_GetWardBehaviorsLoaded", Native_War3_GetWardBehaviorsLoaded);
