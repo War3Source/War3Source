@@ -16,7 +16,7 @@ enum {
 	HEAL
 }
 
-new WardIndex[3];
+new BehaviorIndex[3];
 
 new BeamSprite =-1;
 new HaloSprite =-1;
@@ -40,19 +40,19 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 {
 	if (num==0)
 	{
-		WardIndex[DAMAGE]=War3_CreateWardBehavior("damage","Damage ward","Deals damage to targets");
-		WardIndex[HEAL]=War3_CreateWardBehavior("heal","Healing ward","Heals targets");
+		BehaviorIndex[DAMAGE]=War3_CreateWardBehavior("damage","Damage ward","Deals damage to targets");
+		BehaviorIndex[HEAL]=War3_CreateWardBehavior("heal","Healing ward","Heals targets");
 	}
 }
 
-public OnWardPulse(wardindex,behaviorID) {
+public OnWardPulse(wardindex, behavior) {
 	new beamcolor[4];
 
-	if (behaviorID==WardIndex[DAMAGE]) {
+	if (behavior==BehaviorIndex[DAMAGE]) {
 		beamcolor={255,0,0,160};
 		doVisualEffect(wardindex,beamcolor);
 	}
-	else if (behaviorID==WardIndex[HEAL]) {
+	else if (behavior==BehaviorIndex[HEAL]) {
 		beamcolor={0,255,0,160};
 		doVisualEffect(wardindex,beamcolor);
 	}
@@ -80,21 +80,21 @@ doVisualEffect(wardindex,beamcolor[4]) {
 	TE_SendToAll();
 }
 
-public OnWardTrigger(wardindex,victim,owner,behaviorID) {
+public OnWardTrigger(wardindex,victim,owner,behavior) {
 	decl data[MAXWARDDATA];
 	decl Float:VictimPos[3];
 	
 	War3_GetWardData(wardindex,data);
 	GetClientAbsOrigin(victim,VictimPos);
 
-	if (behaviorID==WardIndex[DAMAGE]) {
+	if (behavior==BehaviorIndex[DAMAGE]) {
 		new damage = data[0];
 		
 		War3_DealDamage(victim,damage,owner,_,"weapon_wards");
 		VictimPos[2]+=65.0;
 		War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
 	}
-	else if (behaviorID==WardIndex[HEAL]) {
+	else if (behavior==BehvaiorIndex[HEAL]) {
 		new healamt = data[0];
 		
 		new cur_hp=GetClientHealth(victim);
