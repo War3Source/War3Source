@@ -25,6 +25,8 @@ Race restrictions bug, setting limit to 1 resetted all players when limit is rea
 
 Minor warnings fixes
 
+Check race on xp/gold give, show changerace if they dont have a race
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)
