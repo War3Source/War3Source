@@ -1,0 +1,57 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"dragonborn_o_RaceName"
+	{
+		"en"		"Dragonborn"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"dragonborn_o_skill_Roar"
+	{
+		"en"		"Roar"
+	}
+	"dragonborn_o_skill_Roar_desc"
+	{
+		"en"		"Puts all those around you in a 400 radius in a fear state for 0.4-1.0 second. +Ability"
+	}
+
+	"dragonborn_o_skill_Scales"
+	{
+		"en"		"Scales"
+	}
+	"dragonborn_o_skill_Scales_desc"
+	{
+		"en"		"1-3 physical armor"
+	}
+
+	"dragonborn_o_skill_Dragonborn"
+	{
+		"en"		"Dragonborn"
+	}
+	"dragonborn_o_skill_Dragonborn_desc"
+	{
+		"en"		"Being dragonborn gives immunitys to certain magics.\n15%% chance of immunity to wards/slows/skills/ultimates "
+	}
+
+	"dragonborn_o_skill_DragonsBreath"
+	{
+		"en"		"Dragons Breath"
+	}
+	"dragonborn_o_skill_DragonsBreath_desc"
+	{
+		"en"		"Applies jarate effect. 400-700 range."
+	}
+
+	"A dragon weakend you with dragon breath"
+	{
+		"en"		"A dragon weakend you with dragon breath"
+	}
+		
+	"OH GOD A DRAGON"
+	{
+		"en"		"OH GOD A DRAGON"
+	}
+}

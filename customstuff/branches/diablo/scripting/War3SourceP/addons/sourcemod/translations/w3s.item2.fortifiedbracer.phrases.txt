@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"fortifiedbracer_ItemName"
+	{
+		"en"		"Fortified Bracer"
+	}
+	"fortifiedbracer_ItemDesc"
+	{
+		"en"		"+10 max HP."
+	}
+}

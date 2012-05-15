@@ -1,0 +1,63 @@
+"Phrases"
+{
+	"warden_RaceName"
+	{
+		"ru"		"Хранитель"
+	}
+	"warden_skill_FanOfKnivesCS"
+	{
+		"ru"		"Шпион"
+	}
+	"warden_skill_FanOfKnivesCS_desc"
+	{
+		"ru"		"Шанс стать шпионом\n(оказаться на базе противников)"
+	}
+	"warden_skill_FanOfKnivesTF"
+	{
+		"ru"		"Веер Клинков"
+	}
+	"warden_skill_FanOfKnivesTF_desc"
+	{
+		"ru"		"Шанс нанести урон окружающим\nкогда вас атакуют"
+	}
+	"warden_skill_Immunity"
+	{
+		"ru"		"Иммунитет"
+	}
+	"warden_skill_Immunity_desc"
+	{
+		"ru"		"Иммунитет от вражеских ultimate"
+	}
+	"warden_skill_ShadowStrike"
+	{
+		"ru"		"Теневой Удар"
+	}
+	"warden_skill_ShadowStrike_desc"
+	{
+		"ru"		"Шанс отравить врага"
+	}
+	"warden_skill_VengenceCS"
+	{
+		"ru"		"Возмездие"
+	}
+	"warden_skill_VengenceCS_desc"
+	{
+		"ru"		"Возродит вас после смерти"
+	}
+	"warden_skill_VengenceTF"
+	{
+		"ru"		"Возмездие"
+	}
+	"warden_skill_VengenceTF_desc"
+	{
+		"ru"		"Восстановит ваше здоровье"
+	}
+	"No suitable location found, can not mole!"
+	{
+		"ru"		"Не найдено подходящего места, невозможно стать шпионом!"
+	}
+	"Revived by Vengence"
+	{
+		"ru"		"Вас оживил навык возмездия"
+	}
+}

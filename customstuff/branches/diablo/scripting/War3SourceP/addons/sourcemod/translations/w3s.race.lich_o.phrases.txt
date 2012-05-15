@@ -1,0 +1,69 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"lich_o_RaceName"
+	{
+		"en"		"Lich"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"lich_o_skill_FrostNova"
+	{
+		"en"		"Frost Nova"
+	}
+	"lich_o_skill_FrostNova_desc"
+	{
+		"en"		"Reduces your enemies' movespeed and attack speed (+ability)\nSlows by 5-25%% and reduces attack speed by 5-25%%.\n500 range"
+	}
+
+	"lich_o_skill_FrostArmor"
+	{
+		"en"		"Frost Armor"
+	}
+	"lich_o_skill_FrostArmor_desc"
+	{
+		"en"		"Increases your physical and magic armor by 1/2/3/4"
+	}
+
+	"lich_o_skill_DarkRitual"
+	{
+		"en"		"Dark Ritual"
+	}
+	"lich_o_skill_DarkRitual_desc"
+	{
+		"en"		"You gain 1/2/3/4 heath from the sacrifice of teammates"
+	}
+
+	"lich_o_skill_DeathAndDecay"
+	{
+		"en"		"Death and Decay"
+	}
+	"lich_o_skill_DeathAndDecay_desc"
+	{
+		"en"		"Deals 2/4/6/8 magic damage to all enemies on map"
+	}
+
+	"Frost Nova!"
+	{
+		"en"		"Frost Nova!"
+	}
+	"You were slowed by frost nova!"
+	{
+		"en"		"You were slowed by frost nova!"
+	}
+	"Dark Ritual heals you"
+	{
+		"en"		"Dark Ritual heals you"
+	}
+	"Attacked by Death and Decay"
+	{
+		"en"		"Attacked by Death and Decay"
+	}
+	"Death and Decay attacked for {amount} total damage!"
+	{
+		"#format"	"{1:d}"
+		"en"		"Death and Decay attacked for {1} total damage!"
+	}
+}

@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"boot_ItemName"
+	{
+		"en"		"Boots of Speed"
+	}
+	"boot_ItemDesc"
+	{
+		"en"		"Allows you to move faster (Does not stack)."
+	}
+}

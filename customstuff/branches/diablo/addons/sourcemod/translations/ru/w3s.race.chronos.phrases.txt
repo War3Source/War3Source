@@ -1,0 +1,59 @@
+﻿"Phrases"
+{
+	"chronos_RaceName"
+	{
+		"ru"		"Хронос"
+	}
+	"chronos_skill_TimeLeap"
+	{
+		"ru"		"Скачок Времени"
+	}
+	"chronos_skill_TimeLeap_desc"
+	{
+		"ru"		"Скачок по направлению вашего\nперемещения (автовключение)"
+	}
+	"chronos_skill_Rewind"
+	{
+		"ru"		"Перемотка"
+	}
+	"chronos_skill_Rewind_desc"
+	{
+		"ru"		"Шанс получить здоровье обратно,\nкоторое у вас отняли"
+	}
+	"chronos_skill_TimeLock"
+	{
+		"ru"		"Пауза"
+	}
+	"chronos_skill_TimeLock_desc"
+	{
+		"ru"		"Шанс оглушить врага"
+	}
+	"chronos_skill_Chronosphere"
+	{
+		"ru"		"Хроносфера"
+	}
+	"chronos_skill_Chronosphere_desc"
+	{
+		"ru"		"Создает сферу, которая захватывает врагов\nОни не могут двигаться, но могут биться ножом\nСфера защищает Хроноса от внешних атак"
+	}
+	"You have been trapped by a Chronosphere! You can only receive Melee damage"
+	{
+		"ru"		"Вы захвачены в Хроносферу!\nВы можете наносить урон только с ножа"
+	}
+	"You can only damage with knife"
+	{
+		"ru"		"Вы можете атаковать только ножом"
+	}
+	"Rewind +{amount} HP!"
+	{
+		"ru"		"Перемотка! Возвращено +{1} урона!"
+	}
+	"You got Time Locked"
+	{
+		"ru"		"Вас остановил Хронос"
+	}
+	"Time Lock!"
+	{
+		"ru"		"Пауза!"
+	}
+}

@@ -1,0 +1,27 @@
+"Phrases"
+{
+	"Welcome"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"Welcome {1}! Our clan name is {2}"
+	}
+	"Welcome_XP_GO"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"Player who are wearing this clantag will gain {1} percent of bonus XP AND {2} percent of bonus Gold"
+	}
+	"Welcome_XP"
+	{
+		"#format"	"{1:s}"
+		"en"		"Player who are wearing this clantag will gain {1} percent of bonus XP"
+	}
+	"Welcome_GO"
+	{
+		"#format"	"{1:s}"
+		"en"		"Player who are wearing this clantag will gain {1} percent of bonus Gold"
+	}
+	"Welcome_No_Bonus"
+	{
+		"en"		"Bonus for Player who are wearing this clantag don't set"
+	}
+}

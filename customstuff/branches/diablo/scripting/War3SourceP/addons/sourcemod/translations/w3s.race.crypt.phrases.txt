@@ -1,0 +1,91 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"crypt_RaceName"
+	{
+		"en"		"Crypt Lord"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"crypt_skill_Impale"
+	{
+		"en"		"Impale"
+	}
+	"crypt_skill_Impale_desc"
+	{
+		"en"		"Shake the enemy crosshair"
+	}
+
+	"crypt_skill_SpikedCarapaceCS"
+	{
+		"en"		"Spiked Carapace"
+	}
+	"crypt_skill_SpikedCarapaceCS_desc"
+	{
+		"en"		"Reduce incoming damage,\nhurts your attacker,\nyou gain armor"
+	}
+
+	"crypt_skill_SpikedCarapaceTF"
+	{
+		"en"		"Spiked Carapace"
+	}
+	"crypt_skill_SpikedCarapaceTF_desc"
+	{
+		"en"		"Reduce incoming damage,\nreflects some damage to your attacker"
+	}
+
+	"crypt_skill_CarrionBeetles"
+	{
+		"en"		"Carrion Beetles"
+	}
+	"crypt_skill_CarrionBeetles_desc"
+	{
+		"en"		"Chance of dealing extra damage"
+	}
+
+	"crypt_skill_LocustSwarm"
+	{
+		"en"		"Locust Swarm"
+	}
+	"crypt_skill_LocustSwarm_desc"
+	{
+		"en"		"Releases locust and attacks enemy"
+	}
+
+	"Returned {amount} damage to {player}"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"[W3S] Returned {1} damage to {2}"
+	}
+	"Received {amount} damage from Spiked Carapace from {player}"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"[W3S] Received {1} damage from Spiked Carapace from {2}"
+	}
+	"Blocked Impale"
+	{
+		"en"		"Blocked Impale"
+	}
+	"Enemy Blocked Impale"
+	{
+		"en"		"Enemy Blocked Impale"
+	}
+	"Impaled enemy"
+	{
+		"en"		"Impaled enemy"
+	}
+	"You got impaled by enemy"
+	{
+		"en"		"You got impaled by enemy"
+	}
+	"You blocked beetles attack"
+	{
+		"en"		"You blocked beetles attack"
+	}
+	"Beetles attack was blocked"
+	{
+		"en"		"Beetles attack was blocked"
+	}
+}

@@ -1,0 +1,57 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"scout_o_RaceName"
+	{
+		"ru"		"Бойскаут"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"scout_o_skill_Vanish"
+	{
+		"ru"		"Укрытие"
+	}
+	"scout_o_skill_Vanish_desc"
+	{
+		"ru"		"+ability: Включите невидимость за #1# здоорвья/сек на #2# сек.\nИз укрытия нельзя стрелять, а также после в течение 1 сек.\nМожете покинуть укрытие раньше времени"
+	}
+
+	"scout_o_skill_TrueSight"
+	{
+		"ru"		"Зоркость"
+	}
+	"scout_o_skill_TrueSight_desc"
+	{
+		"ru"		"Враги не могут быть невидимыми или частично невидимыми вокруг вас.\n#1# юнитов.\nНе действует на Шпионский Плащ (TF)"
+	}
+
+	"scout_o_skill_Disarm"
+	{
+		"ru"		"Обезоруживание"
+	}
+	"scout_o_skill_Disarm_desc"
+	{
+		"ru"		"#1# шанс обезоружить врага при выстреле"
+	}
+
+	"scout_o_skill_Marksman"
+	{
+		"ru"		"Меткий Выстрел"
+	}
+	"scout_o_skill_Marksman_desc"
+	{
+		"ru"		"Остановиться на 1 секунду, и нанести выстрелом #1#x критического урона.\nЧем дальше цель, тем больше урона"
+	}
+	
+	
+	"You sacrificed part of yourself for invis"
+	{
+		"ru"		"Вы пожертвовали частичкой себя, ради невидимости"
+	}
+	"No Longer Invis! Cannot shoot for 1 sec!"
+	{
+		"ru"		"Невидимость отключена! Нельзя стрелять в течение 1 секунды!"
+	}
+}

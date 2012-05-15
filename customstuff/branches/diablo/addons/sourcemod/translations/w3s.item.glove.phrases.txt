@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"glove_ItemName"
+	{
+		"en"		"Flaming Gloves of Warmth"
+	}
+	"glove_ItemDesc"
+	{
+		"en"		"You will be given an hegrenade every 10 seconds."
+	}
+}

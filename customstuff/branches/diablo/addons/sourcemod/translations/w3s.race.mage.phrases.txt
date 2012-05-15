@@ -1,0 +1,57 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"mage_RaceName"
+	{
+		"en"		"Blood Mage"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"mage_skill_Phoenix"
+	{
+		"en"		"Phoenix"
+	}
+	"mage_skill_Phoenix_desc"
+	{
+		"en"		"#1# chance to revive your teammates that die.\nEach time you revive, chance is reduced by half\nto a minimum of #2#"
+	}
+
+	"mage_skill_Banish"
+	{
+		"en"		"Banish"
+	}
+	"mage_skill_Banish_desc"
+	{
+		"en"		"#1# of making enemy blind and disoriented for #2# seconds"
+	}
+
+	"mage_skill_SiphonMana"
+	{
+		"en"		"Siphon Mana"
+	}
+	"mage_skill_SiphonMana_desc"
+	{
+		"en"		"#1# chance of steal #2# enemy's money (CS)\nor #3# gold (TF) on damage"
+	}
+
+	"mage_skill_FlameStrike"
+	{
+		"en"		"Flame Strike"
+	}
+	"mage_skill_FlameStrike_desc"
+	{
+		"en"		"Burn the enemy over time for #1# damage #1# times.\n#3# range"
+	}
+
+	"Flame Strike!"
+	{
+		"en"		"Flame Strike!"
+	}
+	"You have been struck with Flame Strike!"
+	{
+		"en"		"You've been struck with Flame Strike!"
+	}
+	
+}

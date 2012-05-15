@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"mask_ItemName"
+	{
+		"en"		"Mask of Death"
+	}
+	"mask_ItemDesc"
+	{
+		"en"		"You will receive health for every hit on the enemy."
+	}
+}

@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"health_ItemName"
+	{
+		"en"		"Periapt of Health"
+	}
+	"health_ItemDesc"
+	{
+		"en"		"Increase max health."
+	}
+}

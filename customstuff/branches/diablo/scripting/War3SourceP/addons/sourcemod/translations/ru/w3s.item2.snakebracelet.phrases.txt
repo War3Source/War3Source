@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"snakebracelet_ItemName"
+	{
+		"ru"		"Змеинный Браслет"
+	}
+	"snakebracelet_ItemDesc"
+	{
+		"ru"		"5% улонения."
+	}
+}

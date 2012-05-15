@@ -1,0 +1,61 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"darkelf_o_RaceName"
+	{
+		"en"		"Dark Elf"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"darkelf_o_skill_Fade"
+	{
+		"en"		"Fade"
+	}
+	"darkelf_o_skill_Fade_desc"
+	{
+		"en"		"You fade out of sight on hit, 5-20% Chance"
+	}
+
+	"darkelf_o_skill_SlowFall"
+	{
+		"en"		"SlowFall"
+	}
+	"darkelf_o_skill_SlowFall_desc"
+	{
+		"en"		"You fall a lot slower, 0.85-0.6 Gravity"
+	}
+
+	"darkelf_o_skill_Tribunal"
+	{
+		"en"		"Tribunal"
+	}
+	"darkelf_o_skill_Tribunal_desc"
+	{
+		"en"		"At the cost 4-7 hp/sec, you speed up 10-40%. +ability"
+	}
+
+	"darkelf_o_skill_DarkOrb"
+	{
+		"en"		"DarkOrb"
+	}
+	"darkelf_o_skill_DarkOrb_desc"
+	{
+		"en"		"Blind a player. 0.5-2 second duration & 1000 Range"
+	}
+
+	
+	"You've been blinded by a Dark Elf!"
+	{
+		"en"		"You've been blinded by a Dark Elf!"
+	}
+	"DarkOrb blinded Successfully"
+	{
+		"en"		"DarkOrb blinded Successfully"
+	}
+	"You sacrificed for speed."
+	{
+		"en"		"You sacrificed for speed."
+	}
+}

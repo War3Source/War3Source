@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"lace_ItemName"
+	{
+		"en"		"Necklace of Immunity"
+	}
+	"lace_ItemDesc"
+	{
+		"en"		"You will be immune to enemy ultimates."
+	}
+}

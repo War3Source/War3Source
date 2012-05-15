@@ -1,0 +1,31 @@
+"Phrases"
+{
+	"You have {amount} levels in your levelbank"
+	{
+		"ru"		"[БАНК УРОВНЕЙ]\n \nВ вашем банке {1} уровней\n "
+	}
+	"Add a level to current race from bank:"
+	{
+		"ru"		"Потратить уровень на расу:"
+	}
+	"You do not have any levels in the level bank"
+	{
+		"ru"		"У вас нет уровней в банке"
+	}
+	"You do not have a valid race"
+	{
+		"ru"		"У вас нет расы"
+	}
+	"Your race is already maxed"
+	{
+		"ru"		"Ваша раса уже имеет максимальный уровень"
+	}
+	"Successfully added a level to race"
+	{
+		"ru"		"Уровень успешно добавлен к расе"
+	}
+	"You have {amount} levels in your levelbank, say levelbank to use them"
+	{
+		"ru"		"Ваш банк уровней: {1}, напишите levelbank для использования"
+	}
+}

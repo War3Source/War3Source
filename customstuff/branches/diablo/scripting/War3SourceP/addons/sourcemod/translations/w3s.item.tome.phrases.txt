@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"tome_ItemName"
+	{
+		"en"		"Tome of Experience"
+	}
+	"tome_ItemDesc"
+	{
+		"en"		"Automatically gain experience, this item is used on purchase."
+	}
+}

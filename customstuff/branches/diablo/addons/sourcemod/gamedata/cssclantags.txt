@@ -1,0 +1,39 @@
+"Games"
+{
+	"cstrike"
+	{
+		"Keys"
+		{
+			/* 
+			 * Starting place to lookup clan tag var.
+			 * Less chance of breakage by starting partway through
+			 * instead of at start of player
+			 */
+			 
+			"ClanTagStart"	"m_bInBuyZone"
+		}
+		
+		"Offsets"
+		{
+			/* Offset from ClanTagStart netprop */
+			
+			"ClanTagStartOffset"
+			{
+				"windows"	"63"
+				"linux"		"63"
+				"mac"		"63"
+			}
+		}
+		
+		"Signatures"
+		{
+			"SetClanTag"
+			{
+				"library"	"server"
+				"windows"	"\x55\x8B\xEC\x51\x89\x2A\x2A\x83\x2A\x2A\x2A\x74\x2A\x6A\x2A\x8B\x2A\x2A\x50"
+				"linux"		"@_ZN9CCSPlayer10SetClanTagEPKc"
+				"mac"		"@_ZN9CCSPlayer10SetClanTagEPKc"
+			}
+		}
+	}
+}

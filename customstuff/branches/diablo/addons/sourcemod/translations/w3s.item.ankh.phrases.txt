@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"ankh_ItemName"
+	{
+		"en"		"Ankh of Reincarnation"
+	}
+	"ankh_ItemDesc"
+	{
+		"en"		"If you die you will retrieve your weapons the following spawn."
+	}
+}

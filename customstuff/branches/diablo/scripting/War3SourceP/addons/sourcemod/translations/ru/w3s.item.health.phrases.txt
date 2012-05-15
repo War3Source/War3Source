@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"health_ItemName"
+	{
+		"ru"		"Амулет Здоровья"
+	}
+	"health_ItemDesc"
+	{
+		"ru"		"Дает дополнительное здоровье\n "
+	}
+}

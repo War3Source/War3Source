@@ -1,0 +1,53 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"hunter_RaceName"
+	{
+		"en"		"Shadow Hunter"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"hunter_skill_HealingWave"
+	{
+		"en"		"Healing Wave"
+	}
+	"hunter_skill_HealingWave_desc"
+	{
+		"en"		"Heal teammates around you"
+	}
+
+	"hunter_skill_Hex"
+	{
+		"en"		"Hex"
+	}
+	"hunter_skill_Hex_desc"
+	{
+		"en"		"Chance of resisting other enemy's skill attacks"
+	}
+
+	"hunter_skill_SerpentWards"
+	{
+		"en"		"Serpent Wards"
+	}
+	"hunter_skill_SerpentWards_desc"
+	{
+		"en"		"Wards that damage enemies if they touch. Activate by '+ability'"
+	}
+
+	"hunter_skill_BigBadVoodoo"
+	{
+		"en"		"Big Bad Voodoo"
+	}
+	"hunter_skill_BigBadVoodoo_desc"
+	{
+		"en"		"You are invulnerable from physical attacks for a duration"
+	}
+
+	"Ultimate not ready, {amount} seconds remaining"
+	{
+		"#format"	"{1:d}"
+		"en"		"Ultimate not ready, {1} seconds remaining"
+	}
+}

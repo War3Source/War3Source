@@ -1,0 +1,55 @@
+"Phrases"
+{
+	"sacredw_RaceName"
+	{
+		"ru"		"Святой Воин"
+	}
+	"sacredw_skill_InnerVitality"
+	{
+		"ru"		"Живучесть"
+	}
+	"sacredw_skill_InnerVitality_desc"
+	{
+		"ru"		"Пассивное восстановление #1#HP.\nЕсли здоровье ниже 40%% регенерация\nпроходит в два раза быстрее"
+	}
+	"sacredw_skill_BurningSpear"
+	{
+		"ru"		"Жгучее Копьё"
+	}
+	"sacredw_skill_BurningSpear_desc"
+	{
+		"ru"		"Пассивная потеря 5%% maxHP, но враги\nначинают гореть. Наносит #1# урона/с\nв течение следующих #2# сек.\nНакапливается #3# раза"
+	}
+	"sacredw_skill_BerserkersBlood"
+	{
+		"ru"		"Кровь Берсерка"
+	}
+	"sacredw_skill_BerserkersBlood_desc"
+	{
+		"ru"		"Получаете #1# %% скорости атаки\nза каждые #2# %% потери здоровья"
+	}
+	"sacredw_skill_LifeBreak"
+	{
+		"ru"		"Разрыв Жизни"
+	}
+	"sacredw_skill_LifeBreak_desc"
+	{
+		"ru"		"Нанесите себе урон (#1#%%\nот maxHP), чтобы нанести больше урона\n(#2#%% от maxHP жертвы)"
+	}
+	"You do not have enough HP to cast that..."
+	{
+		"ru"		"У вас не хватает здоровья..."
+	}
+	"Activated Burning Spear"
+	{
+		"ru"		"Жгучее Копьё активировано"
+	}
+	"Deactivated Burning Spear"
+	{
+		"ru"		"Жгучее Копьё завершено"
+	}
+	"Life Break"
+	{
+		"ru"		"Разрыв Жизни"
+	}
+}

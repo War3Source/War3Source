@@ -1,0 +1,60 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"hammerstorm_RaceName"
+	{
+		"en"		"Hammerstorm"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"hammerstorm_skill_StormBolt"
+	{
+		"en"		"Storm Bolt (Ability)"
+	}
+	"hammerstorm_skill_StormBolt_desc"
+	{
+		"en"		"Stuns enemies in #1# radius\nfor 0.3 seconds, deals #2# damage"
+	}
+
+	"hammerstorm_skill_GreatCleave"
+	{
+		"en"		"Great Cleave"
+	}
+	"hammerstorm_skill_GreatCleave_desc"
+	{
+		"en"		"Your attacks splash #1# percent\ndamage to enemys within #2# units"
+	}
+
+	"hammerstorm_skill_Warcry"
+	{
+		"en"		"Warcry"
+	}
+	"hammerstorm_skill_Warcry_desc"
+	{
+		"en"		"Gain #1# physical armor,\nincreases your speed by #2# percent"
+	}
+
+	"hammerstorm_skill_GodsStrength"
+	{
+		"en"		"Gods Strength"
+	}
+	"hammerstorm_skill_GodsStrength_desc"
+	{
+		"en"		"Greatly enhance your damage\nby #1# percent for a short\namount of time."
+	}
+
+	"You were stunned by Storm Bolt"
+	{
+		"en"		"You were stunned by Storm Bolt"
+	}
+	"The gods lend you their strength"
+	{
+		"en"		"The gods lend you their strength"
+	}
+	"You feel less powerful"
+	{
+		"en"		"You feel less powerful"
+	}
+}

@@ -1,0 +1,8 @@
+"Phrases"
+{
+	"{player} has leveled {racename} to {amount}"
+	{
+		"#format"	"{1:s},{2:s},{3:d}"
+		"en"		"{1} has leveled {lightgreen}{2}{default} to {lightgreen}{3}"
+	}
+}

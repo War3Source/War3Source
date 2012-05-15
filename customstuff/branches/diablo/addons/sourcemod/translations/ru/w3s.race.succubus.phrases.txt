@@ -1,0 +1,87 @@
+"Phrases"
+{
+	"succubus_RaceName"
+	{
+		"ru"		"Суккуб-Охотник"
+	}
+	"succubus_skill_HeadHunter"
+	{
+		"ru"		"Головорез"
+	}
+	"succubus_skill_HeadHunter_desc"
+	{
+		"ru"		"Наносит #1# дополнительного урона,\nрассчитанного от количества черепов\nполученных при убийстве врагов"
+	}
+	"succubus_skill_TIncantation"
+	{
+		"ru"		"Магия Тотема"
+	}
+	"succubus_skill_TIncantation_desc"
+	{
+		"ru"		"Вы получаете 1-2%% здоровья,\n25-50 долларов или золота и 1-5 опыта\nза каждый имеющийся у вас черепок"
+	}
+	"succubus_skill_ATackle"
+	{
+		"ru"		"Штурм"
+	}
+	"succubus_skill_ATackle_desc"
+	{
+		"ru"		"Дает вам ускорение когда вы прыгаете"
+	}
+	"succubus_skill_DTransformation"
+	{
+		"ru"		"Трансформация"
+	}
+	"succubus_skill_DTransformation_desc"
+	{
+		"ru"		"Меньше гравитации, больше скорости\nи больше здоровья - действие временное\nЦена: 1/2/3/4 черепка"
+	}
+	"[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP"
+	{
+		"ru"		"{1}[Магия Тотема] {2}Вы получили {3} здоровья, {4} долларов и {5} опыта"
+	}
+	"[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP"
+	{
+		"ru"		"{1}[Магия Тотема] {2}Вы получили {3} здоровья, {4} золотых и {5} опыта"
+	}
+	"[Daemonic Knife] You inflicted +{amount} Damage"
+	{
+		"ru"		"{1}[Демонический Нож] {2}Вы нанесли +{3} урона"
+	}
+	"[Head Hunter] You inflicted +{amount} Damage"
+	{
+		"ru"		"{1}[Головорез] {2}Вы нанесли +{3} урона"
+	}
+	"You gained a SKULL [{amount}/{amount}]"
+	{
+		"ru"		"Вы получили ЧЕРЕПок [{1}/{2}]"
+	}
+	"[Daemonic transformation] You do not have enough skulls: {amount} more required"
+	{
+		"ru"		"{1}[Трансформация] {2}У вас нет черепков: {3} необходимо"
+	}
+	"[Daemonic transformation] Your daemonic powers boost your strength"
+	{
+		"ru"		"{1}[Трансформация] {2}Ваша демоническая сущность ускорила ваши возможности"
+	}
+	"[Daemonic transformation] You transformed back to normal"
+	{
+		"ru"		"{1}[Трансформация] {2}Вы вновь стали нормальным"
+	}
+	"You have ({amount}/{amount}) SKULLs"
+	{
+		"ru"		"У вас ({1}/{2}) {3}ЧЕРЕП{4}ков"
+	}
+	"You have {amount} SKULLs"
+	{
+		"ru"		"У вас {1} {2}ЧЕРЕП{3}ков"
+	}
+	"Entity limit is nearly reached: {amount}/{amount} ({amount}):{message}"
+	{
+		"ru"		"[W3S] Предел объектов почти достигнут: {1}/{2} ({3}): {4}"
+	}
+	"Entity count is getting high: {amount}/{amount} ({amount}):{message}"
+	{
+		"ru"		"[W3S] Число объектов слишком большое: {1}/{2} ({3}): {4}"
+	}
+}

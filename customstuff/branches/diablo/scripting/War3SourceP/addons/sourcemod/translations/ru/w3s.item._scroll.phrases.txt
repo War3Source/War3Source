@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"scroll_ItemName"
+	{
+		"ru"		"Свиток Возрождения"
+	}
+	"scroll_ItemDesc"
+	{
+		"ru"		"Оживляет вас после смерти\n "
+	}
+}

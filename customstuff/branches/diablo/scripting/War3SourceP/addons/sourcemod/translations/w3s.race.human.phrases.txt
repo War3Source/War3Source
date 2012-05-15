@@ -1,0 +1,72 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"human_RaceName"
+	{
+		"en"		"Human Alliance"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"human_skill_Invisibility"
+	{
+		"en"		"Invisibility"
+	}
+	"human_skill_Invisibility_desc"
+	{
+		"en"		"Makes you partially invisible\nReduces visibility to #1#."
+	}
+
+	"human_skill_DevotionAura"
+	{
+		"en"		"Devotion Aura"
+	}
+	"human_skill_DevotionAura_desc"
+	{
+		"en"		"Gives you additional #1# health."
+	}
+
+	"human_skill_Bash"
+	{
+		"en"		"Bash"
+	}
+	"human_skill_Bash_desc"
+	{
+		"en"		"#1# chance to bash the enemy.\nRenders the enemy immobile for #2# seconds."
+	}
+
+	"human_skill_Teleport"
+	{
+		"en"		"Teleport"
+	}
+	"human_skill_Teleport_desc"
+	{
+		"en"		"Teleport toward where you aim.\n#1# range. Ultimate Immunity has 350 blocking radius."
+	}
+
+	"Teleported"
+	{
+		"en"		"Teleported!"
+	}
+	"CantTeleportHere"
+	{
+		"en"		"Cannot teleport there"
+	}
+	"NoEmptyLocation"
+	{		
+		"en"		"No empty location found"
+	}
+	"RcvdBash"
+	{		
+		"en"		"You got bashed"
+	}
+	"Bashed"
+	{
+		"en"		"Bashed enemy"
+	}
+	"Distance too short."
+	{
+		"en"		"Distance too short."
+	}
+}

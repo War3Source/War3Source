@@ -1,0 +1,60 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"hammerstorm_RaceName"
+	{
+		"ru"		"Хаммерсторм"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"hammerstorm_skill_StormBolt"
+	{
+		"ru"		"Буря (Ability)"
+	}
+	"hammerstorm_skill_StormBolt_desc"
+	{
+		"ru"		"Оглушает противников в радиусе\n#1# юнитов на 0.3 сек,\nнанося #2# урона"
+	}
+
+	"hammerstorm_skill_GreatCleave"
+	{
+		"ru"		"Всплеск"
+	}
+	"hammerstorm_skill_GreatCleave_desc"
+	{
+		"ru"		"Вы наносите #1# процентов\nурона врагам, находящимся на\nрасстоянии  #2# юнитов от атакуемого\nвами противника"
+	}
+
+	"hammerstorm_skill_Warcry"
+	{
+		"ru"		"Боевой Клич"
+	}
+	"hammerstorm_skill_Warcry_desc"
+	{
+		"ru"		"Получаете #1# физической брони,\nскорость повышается на #2#\nпроцента"
+	}
+
+	"hammerstorm_skill_GodsStrength"
+	{
+		"ru"		"Сила Богов"
+	}
+	"hammerstorm_skill_GodsStrength_desc"
+	{
+		"ru"		"Значительно повышает ваш урон\nна #1# процентов на\nкороткий период времени"
+	}
+
+	"You were stunned by Storm Bolt"
+	{
+		"ru"		"Вы были оглушены навыком Буря"
+	}
+	"The gods lend you their strength"
+	{
+		"ru"		"Боги поделились с вами своей силой"
+	}
+	"You feel less powerful"
+	{
+		"ru"		"Вы чувствуете себя слабее"
+	}
+}

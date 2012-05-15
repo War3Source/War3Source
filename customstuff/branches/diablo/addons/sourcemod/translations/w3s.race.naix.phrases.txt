@@ -1,0 +1,79 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"naix_RaceName"
+	{
+		"en"		"Naix - Lifestealer"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"naix_skill_Infest"
+	{
+		"en"		"Infest"
+	}
+	"naix_skill_Infest_desc"
+	{
+		"en"		"Regains #1# health upon killing an enemy.\nYou teleport to victim location if you are ducking"
+	}
+
+	"naix_skill_BloodBath"
+	{
+		"en"		"Blood Bath"
+	}
+	"naix_skill_BloodBath_desc"
+	{
+		"en"		"Increases leechable health of the Naix by #1#,\nmaking all his other skills worthy"
+	}
+
+	"naix_skill_Feast"
+	{
+		"en"		"Feast"
+	}
+	"naix_skill_Feast_desc"
+	{
+		"en"		"Regenerates #1# percent of enemy's current HP on hit."
+	}
+
+	"naix_skill_Rage"
+	{
+		"en"		"Rage"
+	}
+	"naix_skill_Rage_desc"
+	{
+		"en"		"Naix goes into a maddened Rage, gaining #1# attack speed for #2# seconds"
+	}
+	"Feast +{amount} HP"
+	{
+		"#format"	"{1:d}"
+		"en"		"Feast +{1} HP"
+	}
+
+	"Your Maximum HP Increased by {amount}"
+	{
+		"#format"	"{1:d}"
+		"en"		"Your Maximum HP Increased by {1}"
+	}
+	"Could not infest, you are hexed"
+	{
+		"en"		"Could not infest, you are hexed"
+	}
+	"Could not infest, enemy immunity"
+	{
+		"en"		"Could not infest, enemy immunity"
+	}
+	"You rage for {amount} seconds, {amount} percent attack speed"
+	{
+		"#format"	"{1:c},{2:.1f},{3:c},{4:c},{5:.0f},{6:c}"
+		"en"		"You rage for {1}{2}{3} seconds, {4}+{5}{6} percent attack speed"
+	}
+	"No Ultimate Leveled"
+	{
+		"en"		"No Ultimate Leveled"
+	}
+	"You are no longer in rage mode"
+	{
+		"en"		"You are no longer in rage mode"
+	}
+}

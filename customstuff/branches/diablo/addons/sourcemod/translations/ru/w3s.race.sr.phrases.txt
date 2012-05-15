@@ -1,0 +1,49 @@
+"Phrases"
+{
+	"sr_RaceName"
+	{
+		"ru"		"Душегуб"
+	}
+	"sr_skill_Judgement"
+	{
+		"ru"		"Кара"
+	}
+	"sr_skill_Judgement_desc"
+	{
+		"ru"		"Лечит союзников и причиняет\nурон врагам вокруг вас\nАктивируется +ability"
+	}
+	"sr_skill_WitheringPresence"
+	{
+		"ru"		"Увядание"
+	}
+	"sr_skill_WitheringPresence_desc"
+	{
+		"ru"		"Враги получают урон просто будучи рядом с вами"
+	}
+	"sr_skill_InhumanNature"
+	{
+		"ru"		"Нечеловечность"
+	}
+	"sr_skill_InhumanNature_desc"
+	{
+		"ru"		"Вы лечитесь когда кто-то умирает рядом с вами"
+	}
+	"sr_skill_DemonicExecution"
+	{
+		"ru"		"Уничтожение"
+	}
+	"sr_skill_DemonicExecution_desc"
+	{
+		"ru"		"Наносит много урона в зависимости\nот потерянного здоровья врага"
+	}
+	"+/- {amount} HP"
+	{
+		"ru"		"+/- {1}%% здоровья"
+	}
+	"Executed for {amount} damage"
+	{
+		"ru"		"[W3S] Нанесено {1} урона"
+	}
+
+
+}

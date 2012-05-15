@@ -1,0 +1,67 @@
+"Phrases"
+{
+	"naix_RaceName"
+	{
+		"ru"		"Накс Расхититель"
+	}
+	"naix_skill_Infest"
+	{
+		"ru"		"Паразит"
+	}
+	"naix_skill_Infest_desc"
+	{
+		"ru"		"Возвращает #1# здоровья после убийства врага\nи телепортирует на место жертвы (если присесть)"
+	}
+	"naix_skill_BloodBath"
+	{
+		"ru"		"Кровавая резня"
+	}
+	"naix_skill_BloodBath_desc"
+	{
+		"ru"		"Увеличивает максимальное здоровье Накса на  #1#,\nделая тем самым остальные навыки эффективными"
+	}
+	"naix_skill_Feast"
+	{
+		"ru"		"Пиршество"
+	}
+	"naix_skill_Feast_desc"
+	{
+		"ru"		"Регенерирует вам #1# процентов текущего здоровья врага"
+	}
+	"naix_skill_Rage"
+	{
+		"ru"		"Ярость"
+	}
+	"naix_skill_Rage_desc"
+	{
+		"ru"		"Накс приходит в ярость, получая #1# скорость атаки\nна  #2# секунд"
+	}
+	"Feast +{amount} HP"
+	{
+		"ru"		"Пиршество +{1} HP"
+	}
+	"Your Maximum HP Increased by {amount}"
+	{
+		"ru"		"Ваше максимальное здоровье увеличено на {1}"
+	}
+	"Could not infest, you are hexed"
+	{
+		"ru"		"Нельзя спаразитировать, на вас порча"
+	}
+	"Could not infest, enemy immunity"
+	{
+		"ru"		"Нельзя спаразитировать, у врага иммунитет"
+	}
+	"You rage for {amount} seconds, {amount} percent attack speed"
+	{
+		"ru"		"Вы в ярости на {1}{2}{3} секунд, {4}+{5}{6} процентов скорости атаки"
+	}
+	"No Ultimate Leveled"
+	{
+		"ru"		"Сначала повысьте уровень ultimate"
+	}
+	"You are no longer in rage mode"
+	{
+		"ru"		"Ваша ярость иссякла"
+	}
+}

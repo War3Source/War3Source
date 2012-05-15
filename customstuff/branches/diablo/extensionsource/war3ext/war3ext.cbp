@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="war3ext" />
+		<Option makefile_is_custom="1" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title=" ">
+				<Option output="bin/Debug/war3ext" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Makefile" />
+		<Unit filename="extension.cpp" />
+		<Unit filename="extension.h" />
+		<Unit filename="mythread.cpp" />
+		<Unit filename="mytimer.h" />
+		<Unit filename="os_calls.cpp" />
+		<Unit filename="os_calls.h" />
+		<Unit filename="ownageheader.h" />
+		<Unit filename="shared.h" />
+		<Unit filename="update.cpp" />
+		<Unit filename="updatefile.cpp" />
+		<Unit filename="util.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

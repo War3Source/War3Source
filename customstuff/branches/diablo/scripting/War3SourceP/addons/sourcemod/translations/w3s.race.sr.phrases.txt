@@ -1,0 +1,60 @@
+"Phrases"
+{
+	//<shortname>_RaceName
+	"sr_RaceName"
+	{
+		"en"		"Soul Reaper"
+	}
+
+	//skills:
+	//<shortname>_skill_<SkillNameIdentifier> for the skill name
+	//<shortname>_skill_<SkillNameIdentifier>_desc for the skill description
+	"sr_skill_Judgement"
+	{
+		"en"		"Judgement"
+	}
+	"sr_skill_Judgement_desc"
+	{
+		"en"		"[+ability] Heals teammates around you, damages enemies around you"
+	}
+
+	"sr_skill_WitheringPresence"
+	{
+		"en"		"Withering Presence"
+	}
+	"sr_skill_WitheringPresence_desc"
+	{
+		"en"		"Enemies take damage just by being near you"
+	}
+
+	"sr_skill_InhumanNature"
+	{
+		"en"		"Inhuman Nature"
+	}
+	"sr_skill_InhumanNature_desc"
+	{
+		"en"		"You heal when anyone around you dies"
+	}
+
+	"sr_skill_DemonicExecution"
+	{
+		"en"		"Demonic Execution"
+	}
+	"sr_skill_DemonicExecution_desc"
+	{
+		"en"		"Deals a large amount of damage based on how much of the enemy's health is missing"
+	}
+
+	"+/- {amount} HP"
+	{
+		"#format"	"{1:d}"
+		"en"		"+/- {1} HP"
+	}
+	"Executed for {amount} damage"
+	{
+		"#format"	"{1:d}"
+		"en"		"[W3S] Executed for {1} damage"
+	}
+
+
+}

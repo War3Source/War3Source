@@ -1,0 +1,59 @@
+"Phrases"
+{
+	"undead_RaceName"
+	{
+		"ru"		"Нежить"
+	}
+	"undead_skill_VampiricAura"
+	{
+		"ru"		"Вампиризм"
+	}
+	"undead_skill_VampiricAura_desc"
+	{
+		"ru"		"Ворует здоровье\nВы получаете 7-25%% здоровья\nот нанесенного урона"
+	}
+	"undead_skill_UnholyAura"
+	{
+		"ru"		"Грешная Аура"
+	}
+	"undead_skill_UnholyAura_desc"
+	{
+		"ru"		"Вы бегаете на 5-23%% быстрее"
+	}
+	"undead_skill_Levitation"
+	{
+		"ru"		"Левитация"
+	}
+	"undead_skill_Levitation_desc"
+	{
+		"ru"		"Вы прыгаете выше\nНа 15-50%% меньше гравитации"
+	}
+	"undead_skill_SuicideBomber"
+	{
+		"ru"		"Камикадзе"
+	}
+	"undead_skill_SuicideBomber_desc"
+	{
+		"ru"		"Вы взрываетесь во время смерти\nМожно активировать вручную\nРадиус поражения 20-33 футов\nМаксимальный урон 266"
+	}
+	"Suicide bomber BUILDING damage: {amount} at distance {amount}"
+	{
+		"ru"		"[W3S] Камикадзе нанес {1} урона на дистанции {2}"
+	}
+	"Player {player} has immunity (protecting buildings)"
+	{
+		"ru"		"[W3S] Игрок {1} с иммунитетом"
+	}
+	"Suicide bomber damage: {amount} to {amount} at distance {amount}"
+	{
+		"ru"		"[W3S] Урон камикадзе: {1} к {2} на расстояни {3}"
+	}
+	"Could not damage player {player} due to immunity"
+	{
+		"ru"		"[W3S] Не удалось нанести урон игроку {1} из-за иммунитета"
+	}
+	"Leeched +{amount} HP"
+	{
+		"ru"		"[W3S] Выкрали +{1} HP"
+	}
+}

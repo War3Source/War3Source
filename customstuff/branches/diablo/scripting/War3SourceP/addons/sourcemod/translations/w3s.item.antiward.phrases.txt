@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"antiward_ItemName"
+	{
+		"en"		"Antiwards"
+	}
+	"antiward_ItemDesc"
+	{
+		"en"		"Protects you from Wards"
+	}
+}
