@@ -94,7 +94,7 @@ public OnWardTrigger(wardindex,victim,owner,behavior) {
 		VictimPos[2]+=65.0;
 		War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
 	}
-	else if (behavior==BehvaiorIndex[HEAL]) {
+	else if (behavior==BehaviorIndex[HEAL]) {
 		new healamt = data[0];
 		
 		new cur_hp=GetClientHealth(victim);
