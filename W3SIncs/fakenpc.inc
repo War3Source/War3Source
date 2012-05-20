@@ -66,6 +66,9 @@ native War3_SetNPCMovement(entity,NPCMovement:value);
 //Returns the current movement type of the NPC
 native NPCMovement:War3_GetNPCMovement(entity);
 
+//Returns true if entity is a valid npc
+native bool:War3_IsValidNPC(entity);
+
 //Called when a NPC starts thinking
 forward OnNPCThink(entity);
 

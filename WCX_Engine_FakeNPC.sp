@@ -105,7 +105,8 @@ public bool:InitNativesForwards()
 	CreateNative("War3_SetNPCRange",W3Native_SetNPCRange);
 	CreateNative("War3_GetNPCRange",W3Native_GetNPCRange);
 	CreateNative("War3_SetNPCSpeed",W3Native_SetNPCSpeed);
-	CreateNative("War3_GetNPCSpeed",W3Native_GetNPCSpeed);	
+	CreateNative("War3_GetNPCSpeed",W3Native_GetNPCSpeed);
+	CreateNative("War3_IsValidNPC",W3Native_IsValidNPC)
 	return true;
 }
 
@@ -304,7 +305,9 @@ public W3Native_SetNPCSequence(Handle:plugin,numParams) {
 	}
 	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
-
+public W3Native_IsValidNPC(Handle:plugin,numParams) {
+	return IsValidNPC(GetNativeCell(1));
+}
 /// #############################################
 /// <#########  NPC Functions ##################>
 /// ##############################################
