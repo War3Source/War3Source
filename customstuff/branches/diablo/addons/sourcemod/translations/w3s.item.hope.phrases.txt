@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"hope_ItemName"
+	{
+		"en"		"Barrier of Hope"
+	}
+	"hope_ItemDesc"
+	{
+		"en"		"Immunity from items."
+	}
+}
