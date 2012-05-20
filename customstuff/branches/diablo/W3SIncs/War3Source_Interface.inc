@@ -2161,6 +2161,9 @@ stock HasSMAccess(client,flag)
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 
 	//add magic immunity etc later
+	if(immunityindex==Immunity_Items){
+		return W3GetBuffHasTrue(client,bImmunity_Items);
+    }
 	if(immunityindex==Immunity_Skills){
 		return W3GetBuffHasTrue(client,bImmunitySkills);
 	}

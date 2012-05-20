@@ -1,6 +1,3 @@
-
-
-
 #pragma dynamic 10000
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"

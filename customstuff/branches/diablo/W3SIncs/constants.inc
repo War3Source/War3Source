@@ -310,6 +310,8 @@ enum W3Buff
 	fSlow, //for decreeasing speeds only! MUST BE LESS THAN 1.0
 	fSlow2, //for decreeasing speeds only! MUST BE LESS THAN 1.0. allows a race to have stacking slows
 	bSlowImmunity, //immune to slow?
+
+    bImmunity_Items, // is immune to items
 	
 	bImmunitySkills, //is immune to skills
 	bImmunityUltimates, // is immune to ultimates	
@@ -438,6 +440,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 //	buffpropertiesarray[ fIncomingDamage ][DefaultValue]=1.0;
 //	buffpropertiesarray[ fIncomingDamage ][BuffStackType]=fStacked;
 	
+	buffpropertiesarray[ bImmunity_Items ][DefaultValue]=false;
+	buffpropertiesarray[ bImmunity_Items ][BuffStackType]=bHasOneTrue;
+
 	buffpropertiesarray[ bImmunitySkills ][DefaultValue]=false;
 	buffpropertiesarray[ bImmunitySkills ][BuffStackType]=bHasOneTrue;	
 	
