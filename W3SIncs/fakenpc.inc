@@ -33,6 +33,9 @@ native War3_CreateFakeNPC(health,team,Float:fPos[3],String:NPCName[32],String:Id
 //Returns the internal NPC index by entity index
 native War3_GetNPCIndex(entity);
 
+//Retrieves the entity index by NPC index
+native War3_GetNPCEntity(npc_id);
+
 //Changes the owner of the Entity/NPC
 native War3_SetOwner(entity, owner);
 
@@ -95,3 +98,6 @@ stock bool:IsNPCSourceOfRace(raceID,entity,owner=0) {
 		return true;
 	return false;
 }
+
+//amount of currently spawned npcs
+public iNPCNum;

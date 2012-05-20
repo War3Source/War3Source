@@ -60,6 +60,7 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	hCanDrawCat=CreateGlobalForward("OnW3DrawCategory",ET_Hook,Param_Cell,Param_Cell);
+	CreateNative("W3GetCategoryName",Native_GetCategoryName);
 	return true;
 }
 
@@ -634,4 +635,8 @@ bool:CanDrawCategory(iClient,iCategoryIndex) {
 	if (value == 3 || value == 4)
 		return false;
 	return true;
+}
+public _:Native_GetCategoryName(Handle:plugin,numParams)
+{
+	SetNativeString(2, strCategories[GetNativeCell(1)], GetNativeCell(3), false);
 }
