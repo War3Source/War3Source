@@ -209,8 +209,7 @@ War3Source_ChangeRaceMenu(client)
 							decl String:buffer[64];
 							Format(buffer,sizeof(buffer),"%s (%i new races)",strCat,amount);
 						}
-						else
-							AddMenuItem(crMenu,strCat,strCat);
+						AddMenuItem(crMenu,strCat,strCat);
 					}
 				}
 			}
@@ -359,9 +358,9 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 							Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
 						}
 						AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
-						AddMenuItem(crMenu,"-1","Back");
 					}
 				}
+				AddMenuItem(crMenu,"-1","Back");
 				DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
 			}
 		}
@@ -393,6 +392,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			
 			if(race_selected==-1) {
 				War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
+				return;
 			}			
 			else if(allowChooseRace==false){
 				War3Source_ChangeRaceMenu(client);//derpy hooves
