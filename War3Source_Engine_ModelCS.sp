@@ -12,16 +12,16 @@
 new String:custom_weapons[MAXPLAYERSCUSTOM][CS_WEAPONCOUNT][2][64];
 new CustomModels[MAXPLAYERSCUSTOM][CS_WEAPONCOUNT][2];
 new CurPos[MAXPLAYERSCUSTOM][2];
-new OldWeapon[MAXPLAYERSCUSTOM];
 new bool:SpawnCheck[MAXPLAYERSCUSTOM];
 new ClientVM[MAXPLAYERSCUSTOM][2];
+new bool:IsCustom[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo= 
 {
 	name="W3S Engine Model CS",
 	author="berni, DonRevan",
 	description="War3Source Core Plugins",
-	version="1.0",
+	version="1.2",
 	url="https://forums.alliedmods.net/showthread.php?t=181558"
 };
 
@@ -32,6 +32,11 @@ public bool:InitNativesForwards()
 	//native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
 	CreateNative("War3_RemoveCustomModel",NWar3_DelModel);
 	return true;
+}
+
+// Silent Failure if non CS:S
+public LoadCheck(){
+	return GameCS();
 }
 
 public _:NWar3_SetModel(Handle:plugin,numParams)
@@ -88,11 +93,24 @@ public HasCustomReplacement(client,String:weapon[],arraypos)
 		if(strcmp(custom_weapons[client][i][arraypos], weapon, false)==0) {
 			modelIndex = CustomModels[client][i][arraypos];
 			if(modelIndex>=0)
-				break;
+			break;
 		}
 	}
 	return modelIndex;
 }
+
+/*public bool:IsCustom(client,arraypos)
+{
+	new bool:ret = false;
+	for(new i=0;i<CS_WEAPONCOUNT;i++)
+	{
+		if(CustomModels[client][i][arraypos] != -1) {
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}*/
 
 RestoreDefault(client,i=-1,arraypos=MDLTYPE_VIEWMODEL)
 {
@@ -117,11 +135,6 @@ RestoreDefault(client,i=-1,arraypos=MDLTYPE_VIEWMODEL)
 new bool:is_hooked[MAXPLAYERSCUSTOM];
 public OnPluginStart()
 {
-	if(War3_GetGame()!=CS) {
-		SetFailState("Game is not supported");
-	}
-	HookEvent("player_death", Event_PlayerDeath);
-	HookEvent("player_spawn", Event_PlayerSpawn);
 	//support late loading
 	for (new client = 1; client <= MaxClients; client++) 
 	{ 
@@ -203,17 +216,61 @@ public Action:WeaponHook(client, weapon)
 }
 
 public OnPostThinkPost(client)
-{    
-	if (!IsPlayerAlive(client) || CurPos[client][MDLTYPE_VIEWMODEL]==-1)
-	{
+{
+	if(!IsClientInGame(client)) {
 		return;
 	}
+	if (!IsPlayerAlive(client) || CurPos[client][MDLTYPE_VIEWMODEL]==-1) {
+		return;
+	}
+	
+	static OldWeapon[MAXPLAYERSCUSTOM];
+	static OldSequence[MAXPLAYERSCUSTOM];
+	static Float:OldCycle[MAXPLAYERSCUSTOM];
 	
 	//new WeaponIndex = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 	new WeaponIndex = W3GetCurrentWeaponEnt(client);
 	if (WeaponIndex == -1)
 	{
 		OldWeapon[client] = WeaponIndex;
+		return;
+	}
+	
+	new Sequence = GetEntProp(ClientVM[client][0], Prop_Send, "m_nSequence");
+	new Float:Cycle = GetEntPropFloat(ClientVM[client][0], Prop_Data, "m_flCycle");
+	
+	//handle spectators
+	if (!IsPlayerAlive(client))
+	{
+		new spec = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
+		if (spec != -1)
+		{
+			WeaponIndex = GetEntPropEnt(spec, Prop_Send, "m_hActiveWeapon");
+			decl String:ClassName[32];
+			GetEdictClassname(WeaponIndex, ClassName, sizeof(ClassName));
+			new modelIndex = HasCustomReplacement(client,ClassName,MDLTYPE_VIEWMODEL);
+			if(modelIndex!=-1)
+			{
+				SetEntProp(ClientVM[client][1], Prop_Send, "m_nModelIndex", modelIndex);
+			}
+		}
+		
+		return;
+	}
+	
+	//handle invalid weapon indizes
+	if (WeaponIndex <= 0)
+	{
+		new EntEffects = GetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects");
+		EntEffects |= EF_NODRAW;
+		SetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects", EntEffects);
+		
+		IsCustom[client] = false;
+		
+		OldWeapon[client] = WeaponIndex;
+		OldSequence[client] = Sequence;
+		OldCycle[client] = Cycle;
+		
 		return;
 	}
 	
@@ -238,6 +295,9 @@ public OnPostThinkPost(client)
 			
 			SetEntProp(ClientVM[client][1], Prop_Send, "m_nSequence", GetEntProp(ClientVM[client][0], Prop_Send, "m_nSequence"));
 			SetEntPropFloat(ClientVM[client][1], Prop_Send, "m_flPlaybackRate", GetEntPropFloat(ClientVM[client][0], Prop_Send, "m_flPlaybackRate"));
+			
+			//mark client to be recognized as a user with a custom viewmodel
+			IsCustom[client] = true;
 		}
 		else
 		{
@@ -245,62 +305,67 @@ public OnPostThinkPost(client)
 			new EntEffects = GetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects");
 			EntEffects |= EF_NODRAW;
 			SetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects", EntEffects);
+			
+			IsCustom[client] = false;
 		}
 	}
 	else
 	{
-		decl String:ClassName[30];
-		GetEdictClassname(WeaponIndex, ClassName, sizeof(ClassName));
-		new modelIndex = HasCustomReplacement(client,ClassName,MDLTYPE_VIEWMODEL);
-		if(modelIndex!=-1)
+		if (IsCustom[client])
 		{
-			SetEntProp(ClientVM[client][1], Prop_Send, "m_nSequence", GetEntProp(ClientVM[client][0], Prop_Send, "m_nSequence"));
-			SetEntPropFloat(ClientVM[client][1], Prop_Send, "m_flPlaybackRate", GetEntPropFloat(ClientVM[client][0], Prop_Send, "m_flPlaybackRate"));
+			decl String:ClassName[30];
+			GetEdictClassname(WeaponIndex, ClassName, sizeof(ClassName));
+			new modelIndex = HasCustomReplacement(client,ClassName,MDLTYPE_VIEWMODEL);
+			if(modelIndex!=-1)
+			{
+				SetEntProp(ClientVM[client][1], Prop_Send, "m_nSequence", GetEntProp(ClientVM[client][0], Prop_Send, "m_nSequence"));
+				SetEntPropFloat(ClientVM[client][1], Prop_Send, "m_flPlaybackRate", GetEntPropFloat(ClientVM[client][0], Prop_Send, "m_flPlaybackRate"));
+			}
+			
+			if ((Cycle < OldCycle[client]) && (Sequence == OldSequence[client]))
+			{
+				SetEntProp(ClientVM[client][1], Prop_Send, "m_nSequence", 0);
+			}
 		}
 	}
 	//hide viewmodel a frame after spawning
 	if (SpawnCheck[client])
 	{
 		SpawnCheck[client] = false;
-		decl String:ClassName[30];
-		GetEdictClassname(WeaponIndex, ClassName, sizeof(ClassName));
-		new modelIndex = HasCustomReplacement(client,ClassName,MDLTYPE_VIEWMODEL);
-		if(modelIndex!=-1)
+		if (IsCustom[client])
 		{
-			AcceptEntityInput(WeaponIndex, "hideweapon");
+			new EntEffects = GetEntProp(ClientVM[client][0], Prop_Send, "m_fEffects");
+			EntEffects |= EF_NODRAW;
+			SetEntProp(ClientVM[client][0], Prop_Send, "m_fEffects", EntEffects);
 		}
 	}
 	OldWeapon[client] = WeaponIndex;
+	OldSequence[client] = Sequence;
+	OldCycle[client] = Cycle;
 }
 
 //hide viewmodel on death
-public Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
+public OnWar3EventDeath(client,attacker,deathrace)
 {
-	new UserId = GetEventInt(event, "userid");
-	new client = GetClientOfUserId(UserId);
-	
 	new EntEffects = GetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects");
 	EntEffects |= EF_NODRAW;
 	SetEntProp(ClientVM[client][1], Prop_Send, "m_fEffects", EntEffects);
 }
 
 //when a player respawns at round start after surviving previous round the viewmodel is unhidden
-public Event_PlayerSpawn(Handle:event, const String:name[], bool:dontBroadcast)
+public OnWar3EventSpawn(client)
 {
-	new UserId = GetEventInt(event, "userid");
-	new client = GetClientOfUserId(UserId);
-	
 	//use to delay hiding viewmodel a frame or it won't work
 	SpawnCheck[client] = true;
 	
 	//check worldmodel
 	if(CurPos[client][MDLTYPE_WORLDMODEL]!=-1)
-		CreateTimer(0.1, Timer_CheckWorldModel, client);
+	CreateTimer(0.1, Timer_CheckWorldModel, client);
 }
 
 public Action:Timer_CheckWorldModel(Handle:Timer, any:client)
 {
-	if(IsPlayerAlive(client)) {
+	if(IsClientInGame(client) && IsPlayerAlive(client)) {
 		new ActiveWeapon = W3GetCurrentWeaponEnt(client);
 		if(ActiveWeapon == -1) {
 			//abort if active weapon is invalid
