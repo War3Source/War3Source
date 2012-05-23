@@ -24,7 +24,7 @@
 	}
 	"succubus_skill_TIncantation_desc"
 	{
-		"en"		"You gain 1-2%% HP, 25-50$ or credits and 1-5XP on spawn for each skull you collected"
+		"en"		"You gain 1-2%% HP, 25-50$ or some credits and 1-5XP on spawn for each skull you collected"
 	}
 
 	"succubus_skill_ATackle"

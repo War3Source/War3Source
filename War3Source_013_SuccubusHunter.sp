@@ -177,15 +177,16 @@ public OnWar3EventSpawn(client)
 			}
 			else
 			{
-				new max=100;
+				new max=1000;
 				
 				new old_credits=War3_GetGold(client);
-				
-				dollar /= max;
+				//PrintToChat(client,"dollar %d",dollar);
+				dollar /= (max/6);
+				//PrintToChat(client,"dollar %d",dollar);
 				new new_credits = old_credits + dollar;
 				if (new_credits > max)
-					new_credits = max;
-				
+				new_credits = max;
+				//PrintToChat(client,"new_credits %d",new_credits);
 				if(W3GetPlayerProp(client,bStatefulSpawn)){
 					War3_SetGold(client,new_credits);
 				}
