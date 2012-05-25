@@ -165,7 +165,7 @@ stock GetNewRacesInCat(client,String:category[]) {
 	new amount=0;
 	new racelist[MAXRACES];
 	new racedisplay=W3GetRaceList(racelist);
-	for(new i=0;i<racedisplay;i++)
+	for(new i=1;i<racedisplay;i++)
 	{
 		new String:rcvar[64];
 		W3GetCvar(W3GetRaceCell(i,RaceCategorieCvar),rcvar,sizeof(rcvar));
