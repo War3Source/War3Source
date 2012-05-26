@@ -1,5 +1,5 @@
-
-
+#pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
+#pragma tabsize 0     // doesn't mess with how you format your lines
 
 #pragma dynamic 10000
 #include <sourcemod>
@@ -53,8 +53,9 @@ public OnPluginStart()
 			PrintToServer("[War3Source] Could not hook the player_left_start_area event.");
 		}
 	}
-	hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
+	hUseCategories = CreateConVar("war3_racecats","1","If non-zero race categories will be enabled");
 	RegServerCmd("war3_reloadcats", Command_ReloadCats);
+
 }
 
 public bool:InitNativesForwards()
@@ -153,7 +154,16 @@ public bool:HasCategoryAccess(client,i) {
 	return false;
 }
 
-public OnMapStart() refreshCategories();
+public OnMapStart(){
+    CreateTimer(5.0,refresh_cats,_);
+}
+
+/* ****************************** Action:refresh_cats ************************** */
+
+public Action:refresh_cats(Handle:timer)
+{
+    refreshCategories();
+}
 
 new String:dbErrorMsg[100];
 public OnWar3GlobalError(String:err[]){
@@ -388,13 +398,13 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
-			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
-			
 			if(race_selected==-1) {
 				War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
 				return;
-			}			
-			else if(allowChooseRace==false){
+			}
+			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
+
+			if(allowChooseRace==false){
 				War3Source_ChangeRaceMenu(client);//derpy hooves
 			}
 			
@@ -560,7 +570,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 stock bool:W3IsCategory(const String:cat_name[]) {
 	for(new i=0;i<CatCount;i++) {
 		if(strcmp(strCategories[i], cat_name, false)==0) {
-			return true //cat exist
+			return true; //cat exist
 		}
 	}
 	return false;//no cat founded that is named X
