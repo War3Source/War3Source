@@ -1,3 +1,6 @@
+
+
+
 #pragma dynamic 10000
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -57,6 +60,7 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	hCanDrawCat=CreateGlobalForward("OnW3DrawCategory",ET_Hook,Param_Cell,Param_Cell);
+	CreateNative("W3GetCategoryName",Native_GetCategoryName);
 	return true;
 }
 
@@ -161,7 +165,7 @@ stock GetNewRacesInCat(client,String:category[]) {
 	new amount=0;
 	new racelist[MAXRACES];
 	new racedisplay=W3GetRaceList(racelist);
-	for(new i=0;i<racedisplay;i++)
+	for(new i=1;i<racedisplay;i++)
 	{
 		new String:rcvar[64];
 		W3GetCvar(W3GetRaceCell(i,RaceCategorieCvar),rcvar,sizeof(rcvar));
@@ -205,8 +209,7 @@ War3Source_ChangeRaceMenu(client)
 							decl String:buffer[64];
 							Format(buffer,sizeof(buffer),"%s (%i new races)",strCat,amount);
 						}
-						else
-							AddMenuItem(crMenu,strCat,strCat);
+						AddMenuItem(crMenu,strCat,strCat);
 					}
 				}
 			}
@@ -355,9 +358,9 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 							Format(rdisp,sizeof(rdisp),"%s %T",rdisp,"reqlvl {amount}",GetTrans(),minlevel);
 						}
 						AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
-						AddMenuItem(crMenu,"-1","Back");
 					}
 				}
+				AddMenuItem(crMenu,"-1","Back");
 				DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
 			}
 		}
@@ -389,6 +392,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			
 			if(race_selected==-1) {
 				War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
+				return;
 			}			
 			else if(allowChooseRace==false){
 				War3Source_ChangeRaceMenu(client);//derpy hooves
@@ -631,4 +635,8 @@ bool:CanDrawCategory(iClient,iCategoryIndex) {
 	if (value == 3 || value == 4)
 		return false;
 	return true;
+}
+public _:Native_GetCategoryName(Handle:plugin,numParams)
+{
+	SetNativeString(2, strCategories[GetNativeCell(1)], GetNativeCell(3), false);
 }
