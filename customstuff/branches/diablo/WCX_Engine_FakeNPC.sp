@@ -33,7 +33,7 @@ new AnimationPriority:NPCAnimation[MAXNPC];
 //-probably add simple sound system?
 //These huge arrays are quite a good way to kill nasty ressources :s
 new iNPCIndex[MAXENTITY]=-1;
-new iNPCNum=0;
+//new iNPCNum=0;
 
 // Handles
 new Handle:hNPCVariables;
@@ -105,7 +105,9 @@ public bool:InitNativesForwards()
 	CreateNative("War3_SetNPCRange",W3Native_SetNPCRange);
 	CreateNative("War3_GetNPCRange",W3Native_GetNPCRange);
 	CreateNative("War3_SetNPCSpeed",W3Native_SetNPCSpeed);
-	CreateNative("War3_GetNPCSpeed",W3Native_GetNPCSpeed);	
+	CreateNative("War3_GetNPCSpeed",W3Native_GetNPCSpeed);
+	CreateNative("War3_IsValidNPC",W3Native_IsValidNPC);
+	CreateNative("War3_GetNPCEntity",W3Native_GetNPCByID);
 	return true;
 }
 
@@ -121,6 +123,7 @@ public OnPluginStart() {
 	hNPCFX=CreateConVar("war3_npcfx","1","Determines which effects the FakeNPC Engine should draw (0=no effects/1=blood and ragdoll/2=ragdoll only/3=blood only)");
 	hNPCVariables=CreateArray(); //array position == npc index
 	HookEvent("round_start",OnRoundStart);
+	iNPCNum=0;
 }
 
 public OnPluginStop() {
@@ -304,7 +307,12 @@ public W3Native_SetNPCSequence(Handle:plugin,numParams) {
 	}
 	else return ThrowNativeError(SP_ERROR_NATIVE,"Passed Entity Index(%i) is not a valid NPC!",npc_ent);
 }
-
+public W3Native_IsValidNPC(Handle:plugin,numParams) {
+	return IsValidNPC(GetNativeCell(1));
+}
+public W3Native_GetNPCByID(Handle:plugin,numParams) {
+	return NPCVars_GetEntityID(GetNativeCell(1));
+}
 /// #############################################
 /// <#########  NPC Functions ##################>
 /// ##############################################
@@ -660,6 +668,9 @@ public bool:NPCVars_SetMaxRange(iIndex, NPCRange:variable,const Float:fMaxRange)
 		return true;
 	}
 	return false;
+}
+public NPCVars_GetEntityID(iIndex) {
+	return GetArrayCell(hNPCVariables, iIndex);
 }
 public CreateNPC(const iHealth,const iTeam,const Float:vecOrigin[3],const String:strName[32],const String:strIdleAnim[32],const String:strModel[64],bool:bTeamColored) {
 	//Create a simple prop, that we gonna use as a npc (..later)
