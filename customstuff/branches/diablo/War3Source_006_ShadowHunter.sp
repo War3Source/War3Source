@@ -5,6 +5,7 @@
  */
  
 #pragma semicolon 1
+#pragma tabsize 0
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -21,8 +22,10 @@ public W3ONLY(){} //unload this?
 
 
 new thisRaceID;
+new AuraID;
 
-new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
+new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_RECARN_WARD, ULT_VOODOO;
+
 
 //skill 1
 new Float:HealingWaveAmountArr[]={0.0,1.0,2.0,3.0,4.0};
@@ -33,37 +36,36 @@ new ParticleEffect[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // ParticleEffect[Source
 new Float:HexChanceArr[]={0.00,0.02,0.050,0.075,0.100};
 
 //skill 3
+// Healing Ward Specific
 #define MAXWARDS 64*4 //on map LOL
-#define WARDRADIUS 60
-#define WARDDAMAGE 3
+#define WARDRADIUS 70
+// WARDHEAL WAS 4
+#define WARDHEAL 10
 #define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
 #define WARDABOVE 160.0
-
 new CurrentWardCount[MAXPLAYERSCUSTOM];
-new WardStartingArr[]={0,1,2,3,4}; 
-new Float:WardLocation[MAXWARDS][3]; 
+new WardStartingArr[]={0,1,2,3,4};
+new Float:WardLocation[MAXWARDS][3];
 new WardOwner[MAXWARDS];
 
-new Float:LastThunderClap[MAXPLAYERSCUSTOM];
 
 //ultimate
 new Handle:ultCooldownCvar;
 
 new Float:UltimateDuration[]={0.0,0.66,1.0,1.33,1.66}; ///big bad voodoo duration
 
-
+new bool:flashedscreen[MAXPLAYERSCUSTOM];
 
 new bool:bVoodoo[65];
 
 new String:ultimateSound[]="war3source/divineshield.wav";
 new String:wardDamageSound[]="war3source/thunder_clap.wav";
 
-
 new bool:particled[MAXPLAYERSCUSTOM]; //heal particle
 
 
 new BeamSprite,HaloSprite; //wards
-new AuraID;
+//new AuraID;
 public Plugin:myinfo = 
 {
 	name = "Race - Shadow Hunter",
@@ -77,7 +79,7 @@ public OnPluginStart()
 {
 
 	ultCooldownCvar=CreateConVar("war3_hunter_voodoo_cooldown","20","Cooldown between Big Bad Voodoo (ultimate)");
-	CreateTimer(0.14,CalcWards,_,TIMER_REPEAT);
+    CreateTimer(1.0,CalcWards,_,TIMER_REPEAT);
 	CreateTimer(1.0,CalcHexHealWaves,_,TIMER_REPEAT);
 	
 	LoadTranslations("w3s.race.hunter.phrases");
@@ -92,14 +94,32 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		thisRaceID=War3_CreateNewRaceT("hunter");
 		SKILL_HEALINGWAVE=War3_AddRaceSkillT(thisRaceID,"HealingWave",false,4);
 		SKILL_HEX=War3_AddRaceSkillT(thisRaceID,"Hex",false,4);
-		SKILL_WARD=War3_AddRaceSkillT(thisRaceID,"SerpentWards",false,4);
+		SKILL_RECARN_WARD=War3_AddRaceSkillT(thisRaceID,"HealingWard",false,4);
 		ULT_VOODOO=War3_AddRaceSkillT(thisRaceID,"BigBadVoodoo",true,4); 
 		War3_CreateRaceEnd(thisRaceID);
 		AuraID=W3RegisterAura("hunter_healwave",HealingWaveDistance);
-		
+
 	}
 
 }
+
+// Events
+public OnWar3EventSpawn(client){
+	bVoodoo[client]=false;
+	RemoveWards(client);
+	StopParticleEffect(client, true);
+}
+
+public OnClientDisconnect(client)
+{
+	StopParticleEffect(client, true);
+}
+
+public OnWar3EventDeath(victim, attacker)
+{
+	StopParticleEffect(victim, false);
+}
+
 
 public OnMapStart()
 {
@@ -113,7 +133,6 @@ public OnMapStart()
 public OnWar3PlayerAuthed(client)
 {
 	bVoodoo[client]=false;
-	LastThunderClap[client]=0.0;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
@@ -129,6 +148,15 @@ public OnRaceChanged(client,oldrace,newrace)
 		War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
 		W3SetAuraFromPlayer(AuraID,client,false);
 		RemoveWards(client);
+	}
+}
+
+public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
+{
+	if(aura==AuraID)
+	{
+		War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealingWaveAmountArr[level]:0.0);
+		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
 	}
 }
 
@@ -185,61 +213,87 @@ public Action:EndVoodoo(Handle:timer,any:client)
 	}
 }
 
-public OnAbilityCommand(client,ability,bool:pressed)
+public Action:CalcHexHealWaves(Handle:timer,any:userid)
 {
-	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
+	if(thisRaceID>0)
 	{
-		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_WARD);
-		if(skill_level>0)
+		for(new i=1;i<=MaxClients;i++)
 		{
-			if(!Silenced(client)&&CurrentWardCount[client]<WardStartingArr[skill_level])
+			particled[i]=false;
+			if(ValidPlayer(i,true))
 			{
-				new iTeam=GetClientTeam(client);
-				new bool:conf_found=false;
-				if(War3_GetGame()==Game_TF)
+				if(War3_GetRace(i)==thisRaceID)
 				{
-					new Handle:hCheckEntities=War3_NearBuilding(client);
-					new size_arr=0;
-					if(hCheckEntities!=INVALID_HANDLE)
-						size_arr=GetArraySize(hCheckEntities);
-					for(new x=0;x<size_arr;x++)
-					{
-						new ent=GetArrayCell(hCheckEntities,x);
-						if(!IsValidEdict(ent)) continue;
-						new builder=GetEntPropEnt(ent,Prop_Send,"m_hBuilder");
-						if(builder>0 && ValidPlayer(builder) && GetClientTeam(builder)!=iTeam)
-						{
-							conf_found=true;
-							break;
-						}
-					}
-					if(size_arr>0)
-						CloseHandle(hCheckEntities);
-				}
-				if(conf_found)
-				{
-					W3MsgWardLocationDeny(client);
-				}
-				else
-				{
-					if(War3_IsCloaked(client))
-					{
-						W3MsgNoWardWhenInvis(client);
-						return;
-					}
-					CreateWard(client);
-					CurrentWardCount[client]++;
-					W3MsgCreatedWard(client,CurrentWardCount[client],WardStartingArr[skill_level]);
+					new bool:value=(GetRandomFloat(0.0,1.0)<=HexChanceArr[War3_GetSkillLevel(i,thisRaceID,SKILL_HEX)]&&!Hexed(i,false));
+					War3_SetBuff(i,bImmunitySkills,thisRaceID,value);
 				}
 			}
-			else
-			{
-				W3MsgNoWardsLeft(client);
-			}	
 		}
 	}
 }
 
+
+StopParticleEffect(client, bKill)
+{
+	if(War3_GetGame() == Game_TF)
+	{
+		for(new i=1; i <= MaxClients; i++)
+		{
+			decl String:className[64];
+			decl String:className2[64];
+
+			if(IsValidEdict(ParticleEffect[client][i]))
+				GetEdictClassname(ParticleEffect[client][i], className, sizeof(className));
+			if(IsValidEdict(ParticleEffect[i][client]))
+			GetEdictClassname(ParticleEffect[i][client], className2, sizeof(className2));
+
+			if(StrEqual(className, "info_particle_system"))
+			{
+				AcceptEntityInput(ParticleEffect[client][i], "stop");
+				if(bKill)
+				{
+					AcceptEntityInput(ParticleEffect[client][i], "kill");
+					ParticleEffect[client][i] = 0;
+				}
+			}
+
+			if(StrEqual(className2, "info_particle_system"))
+			{
+				AcceptEntityInput(ParticleEffect[i][client], "stop");
+				if(bKill)
+				{
+					AcceptEntityInput(ParticleEffect[i][client], "kill");
+					ParticleEffect[i][client] = 0;
+				}
+			}
+		}
+	}
+}
+
+
+/* ORC SWAP ABILITY BELOW */
+
+public OnAbilityCommand(client,ability,bool:pressed)
+{
+	if(War3_GetGame()==Game_TF && War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
+	{
+		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_RECARN_WARD);
+		if(skill_level>0&&!Silenced(client))
+		{
+			if(CurrentWardCount[client]<WardStartingArr[skill_level])
+			{
+				CreateWard(client);
+				CurrentWardCount[client]++;
+
+				W3MsgCreatedWard(client,CurrentWardCount[client],WardStartingArr[skill_level]);
+			}
+			else
+			{
+				W3MsgNoWardsLeft(client);
+			}
+		}
+	}
+}
 
 
 
@@ -281,171 +335,6 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 	return;
 }
 
-// Events
-public OnWar3EventSpawn(client){
-	bVoodoo[client]=false;
-	RemoveWards(client);
-	StopParticleEffect(client, true);
-}
-
-public OnClientDisconnect(client)
-{
-	StopParticleEffect(client, true);
-}
-
-public OnWar3EventDeath(victim, attacker)
-{
-	StopParticleEffect(victim, false);
-}
-
-
-CreateWard(client)
-{
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		if(WardOwner[i]==0)
-		{
-			WardOwner[i]=client;
-			GetClientAbsOrigin(client,WardLocation[i]);
-			break;
-			////CHECK BOMB HOSTAGES TO BE IMPLEMENTED
-		}
-	}
-}
-
-RemoveWards(client)
-{
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		if(WardOwner[i]==client)
-		{
-			WardOwner[i]=0;
-		}
-	}
-	CurrentWardCount[client]=0;
-}
-public Action:CalcHexHealWaves(Handle:timer,any:userid)
-{
-	if(thisRaceID>0)
-	{
-		for(new i=1;i<=MaxClients;i++)
-		{
-			particled[i]=false;
-			if(ValidPlayer(i,true))
-			{
-				if(War3_GetRace(i)==thisRaceID)
-				{
-					new bool:value=(GetRandomFloat(0.0,1.0)<=HexChanceArr[War3_GetSkillLevel(i,thisRaceID,SKILL_HEX)]&&!Hexed(i,false));
-					War3_SetBuff(i,bImmunitySkills,thisRaceID,value);
-				}
-			}
-		}
-	}
-}
-
-public Action:CalcWards(Handle:timer,any:userid)
-{
-	new client;
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		if(WardOwner[i]!=0)
-		{
-			client=WardOwner[i];
-			if(!ValidPlayer(client,true))
-			{
-				WardOwner[i]=0; //he's dead, so no more wards for him
-				--CurrentWardCount[client];
-			}
-			else
-			{
-				WardEffectAndDamage(client,i);
-			}
-		}
-	}
-}
-public WardEffectAndDamage(owner,wardindex)
-{
-	new ownerteam=GetClientTeam(owner);
-	new beamcolor[]={0,0,200,255};
-	if(ownerteam==2)
-	{ //TERRORISTS/RED in TF?
-		beamcolor[0]=255;
-		beamcolor[1]=0;
-		beamcolor[2]=0;
-		
-		beamcolor[3]=155; //red blocks more than blue, so less alpha
-	}
-	
-	
-	new Float:start_pos[3];
-	new Float:end_pos[3];
-	
-	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
-	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
-	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
-	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
- 
-	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),0.17,float(WARDRADIUS),float(WARDRADIUS),0,0.0,beamcolor,10);
-	TE_SendToAll();
-	
-	new Float:BeamXY[3];
-	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
-	new Float:BeamZ= BeamXY[2];
-	BeamXY[2]=0.0;
-	
-	
-	new Float:VictimPos[3];
-	new Float:tempZ;
-	for(new i=1;i<=MaxClients;i++)
-	{
-		if(ValidPlayer(i,true)&& GetClientTeam(i)!=ownerteam )
-		{
-			GetClientAbsOrigin(i,VictimPos);
-			tempZ=VictimPos[2];
-			VictimPos[2]=0.0; //no Z
-			      
-			if(GetVectorDistance(BeamXY,VictimPos) < WARDRADIUS) ////ward RADIUS
-			{
-				// now compare z
-				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
-				{
-					if(W3HasImmunity(i,Immunity_Wards))
-					{
-						W3MsgSkillBlocked(i,_,"Wards");
-					}
-					else
-					{
-						//Boom!
-						new DamageScreen[4];
-						DamageScreen[0]=beamcolor[0];
-						DamageScreen[1]=beamcolor[1];
-						DamageScreen[2]=beamcolor[2];
-						DamageScreen[3]=50; //alpha
-						W3FlashScreen(i,DamageScreen);
-						if(War3_DealDamage(i,WARDDAMAGE,owner,DMG_ENERGYBEAM,"wards",_,W3DMGTYPE_MAGIC))
-						{
-							if(LastThunderClap[i]<GetGameTime()-2)
-							{
-								EmitSoundToAll(wardDamageSound,i,SNDCHAN_WEAPON);
-								LastThunderClap[i]=GetGameTime();
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-}
-
-public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
-{
-	if(aura==AuraID)
-	{
-		War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealingWaveAmountArr[level]:0.0);
-		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
-	}
-}
 /*public HealWave(client)
 {
 	//assuming client exists and has this race
@@ -544,42 +433,6 @@ AttachParticle(ent, String:particleType[], controlpoint)
 	}
 }
 */
-StopParticleEffect(client, bKill)
-{
-	if(War3_GetGame() == Game_TF)
-	{
-		for(new i=1; i <= MaxClients; i++)
-		{
-			decl String:className[64];
-			decl String:className2[64];
-				
-			if(IsValidEdict(ParticleEffect[client][i]))
-				GetEdictClassname(ParticleEffect[client][i], className, sizeof(className));
-			if(IsValidEdict(ParticleEffect[i][client]))
-			GetEdictClassname(ParticleEffect[i][client], className2, sizeof(className2));
-			
-			if(StrEqual(className, "info_particle_system"))
-			{
-				AcceptEntityInput(ParticleEffect[client][i], "stop");
-				if(bKill)
-				{
-					AcceptEntityInput(ParticleEffect[client][i], "kill");
-					ParticleEffect[client][i] = 0;
-				}
-			}
-			
-			if(StrEqual(className2, "info_particle_system"))
-			{
-				AcceptEntityInput(ParticleEffect[i][client], "stop");
-				if(bKill)
-				{
-					AcceptEntityInput(ParticleEffect[i][client], "kill");
-					ParticleEffect[i][client] = 0;
-				}
-			}
-		}
-	}
-}
 
 //not used
 /*
@@ -632,3 +485,113 @@ public Action:HealingWaveParticleTimer(Handle:timer, any:userid)
 				}
 }
 */
+
+
+/* ******************** ORC HEALING ****************************** */
+// Wards
+public CreateWard(client)
+{
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		if(WardOwner[i]==0)
+		{
+			WardOwner[i]=client;
+			GetClientAbsOrigin(client,WardLocation[i]);
+			break;
+		}
+	}
+}
+
+public RemoveWards(client)
+{
+	for(new i=0;i<MAXWARDS;i++)
+	{
+		if(WardOwner[i]==client)
+		{
+			WardOwner[i]=0;
+		}
+	}
+	CurrentWardCount[client]=0;
+}
+
+public Action:CalcWards(Handle:timer,any:userid)
+{
+	for(new i=0;i<=MaxClients;i++){
+		flashedscreen[i]=false;
+	}
+	new client;
+	for(new i=0;i<MAXWARDS;i++)
+	{
+
+		if(WardOwner[i]!=0)
+		{
+			client=WardOwner[i];
+			if(!ValidPlayer(client,true))
+			{
+				WardOwner[i]=0; //he's dead, so no more wards for him
+				--CurrentWardCount[client];
+			}
+			else
+			{
+				WardEffectAndHeal(client,i);
+			}
+		}
+	}
+}
+//healing wards
+public WardEffectAndHeal(owner,wardindex)
+{
+	new beamcolor[]={0,255,0,150};
+	new Float:start_pos[3];
+	new Float:end_pos[3];
+	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
+	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
+	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
+	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
+	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
+	TE_SendToAll();
+	new Float:BeamXY[3];
+	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
+	new Float:BeamZ= BeamXY[2];
+	BeamXY[2]=0.0;
+	new Float:VictimPos[3];
+	new Float:tempZ;
+
+	for(new i=1;i<=MaxClients;i++)
+	{
+		if(ValidPlayer(i,true))
+		{
+			GetClientAbsOrigin(i,VictimPos);
+			tempZ=VictimPos[2];
+			VictimPos[2]=0.0; //no Z
+			if(GetVectorDistance(BeamXY,VictimPos) < WARDRADIUS) ////ward RADIUS
+			{
+				// now compare z
+				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
+				{
+					//Heal!!
+					new DamageScreen[4];
+					DamageScreen[0]=beamcolor[0];
+					DamageScreen[1]=beamcolor[1];
+					DamageScreen[2]=beamcolor[2];
+					DamageScreen[3]=20; //alpha
+					new cur_hp=GetClientHealth(i);
+					new new_hp=cur_hp+WARDHEAL;
+					new max_hp=War3_GetMaxHP(i);
+					if(new_hp>max_hp)	new_hp=max_hp;
+					if(cur_hp<new_hp)
+					{
+						if(!flashedscreen[i]){
+							flashedscreen[i]=true;
+							W3FlashScreen(i,DamageScreen);
+						}
+						//SetEntityZHealth(i,new_hp);
+						War3_HealToMaxHP(i,WARDHEAL);
+						VictimPos[2]+=65.0;
+						War3_TF_ParticleToClient(0, GetApparentTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
+					}
+				}
+			}
+		}
+	}
+}

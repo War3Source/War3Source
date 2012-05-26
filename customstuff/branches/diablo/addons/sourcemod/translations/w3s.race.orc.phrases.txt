@@ -45,13 +45,13 @@
 		"en"		"Partial invisibility unless you\nare attacking an enemy."
 	}
 
-	"orc_skill_HealingWard"
+	"orc_skill_SerpentWards"
 	{
-		"en"		"Healing Ward"
+		"en"		"Serpent Wards"
 	}
-	"orc_skill_HealingWard_desc"
+	"orc_skill_SerpentWards_desc"
 	{
-		"en"		"Use +ability to make healing wards!\nBe strategic, ward heals both teams!"
+		"en"		"Wards that damage enemies if they touch. Activate by '+ability'"
 	}
 
 	"orc_skill_ChainLightning"

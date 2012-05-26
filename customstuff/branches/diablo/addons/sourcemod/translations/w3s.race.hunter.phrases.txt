@@ -27,13 +27,13 @@
 		"en"		"Chance of resisting other enemy's skill attacks"
 	}
 
-	"hunter_skill_SerpentWards"
+	"hunter_skill_HealingWard"
 	{
-		"en"		"Serpent Wards"
+		"en"		"Healing Ward"
 	}
-	"hunter_skill_SerpentWards_desc"
+	"hunter_skill_HealingWard_desc"
 	{
-		"en"		"Wards that damage enemies if they touch. Activate by '+ability'"
+		"en"		"Use +ability to make healing wards!\nBe strategic, ward heals both teams!"
 	}
 
 	"hunter_skill_BigBadVoodoo"

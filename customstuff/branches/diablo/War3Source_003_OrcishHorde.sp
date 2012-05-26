@@ -5,6 +5,7 @@
  */
  
 #pragma semicolon 1
+#pragma tabsize 0
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -21,7 +22,10 @@ new bool:bHasRespawned[MAXPLAYERSCUSTOM]; //cs
 new Handle:RespawnDelayCvar;
 new Handle:ultCooldownCvar;
 
+new Float:LastThunderClap[MAXPLAYERSCUSTOM];
+
 new bool:bBeenHit[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // [caster][victim] been hit this chain lightning?
+
 
 
 new MyWeaponsOffset,AmmoOffset;
@@ -42,26 +46,28 @@ new Float:WindWalkReinvisTime[MAXPLAYERSCUSTOM]; //when can he invis again?
 
 new Handle:hCvarDisableCritWithGloves;
 
-// Healing Ward Specific
+// WARDS
 #define MAXWARDS 64*4 //on map LOL
-#define WARDRADIUS 70
-#define WARDHEAL 4
+#define WARDRADIUS 60
+#define WARDDAMAGE 3
 #define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
 #define WARDABOVE 160.0
+
 new CurrentWardCount[MAXPLAYERSCUSTOM];
-new WardStartingArr[]={0,1,2,3,4}; 
-new Float:WardLocation[MAXWARDS][3]; 
+new WardStartingArr[]={0,1,2,3,4};
+new Float:WardLocation[MAXWARDS][3];
 new WardOwner[MAXWARDS];
 
 new String:lightningSound[]="war3source/lightningbolt.wav";
+new String:wardDamageSound[]="war3source/thunder_clap.wav";
 
-new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_RECARN_WARD,ULT_LIGHTNING;
+
+new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_WARD,ULT_LIGHTNING;
 // Effects
+
 new BeamSprite,HaloSprite,BloodSpray,BloodDrop; 
 
-new bool:flashedscreen[MAXPLAYERSCUSTOM];
-
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
 	name = "Race - Orcish Horde",
 	author = "PimpinJuice",
@@ -82,7 +88,7 @@ public OnPluginStart()
 	MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
 //	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
-	CreateTimer(1.0,CalcWards,_,TIMER_REPEAT);
+	CreateTimer(0.14,CalcWards,_,TIMER_REPEAT);
 	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 	
 	LoadTranslations("w3s.race.orc.phrases");
@@ -99,7 +105,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		if(War3_GetGame()==Game_TF)
 		{
 			strcopy(skill1_name,sizeof(skill1_name),"WindWalker");
-			strcopy(skill2_name,sizeof(skill2_name),"HealingWard");
+			strcopy(skill2_name,sizeof(skill2_name),"SerpentWards");
 		}
 		
 
@@ -113,13 +119,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		thisRaceID=War3_CreateNewRaceT("orc");
 		SKILL_CRIT=War3_AddRaceSkillT(thisRaceID,"CriticalStrike",false,4);
 		SKILL_NADE_INVIS=War3_AddRaceSkillT(thisRaceID,skill1_name,false,4);
-		SKILL_RECARN_WARD=War3_AddRaceSkillT(thisRaceID,skill2_name,false,4);
+		SKILL_WARD=War3_AddRaceSkillT(thisRaceID,skill2_name,false,4);
 		ULT_LIGHTNING=War3_AddRaceSkillT(thisRaceID,"ChainLightning",true,4); //TEST
 		
 		
 		W3SkillCooldownOnSpawn(thisRaceID,ULT_LIGHTNING,10.0,_); //translated doesnt use this "Chain Lightning"?
 		War3_CreateRaceEnd(thisRaceID);
-	
+
 	}
 }
 
@@ -132,6 +138,13 @@ public OnMapStart()
 	BloodDrop = PrecacheModel("sprites/blood.vmt");
 	
 	War3_PrecacheSound(lightningSound);
+	War3_PrecacheSound(wardDamageSound);
+
+}
+
+public OnWar3PlayerAuthed(client)
+{
+	LastThunderClap[client]=0.0;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
@@ -235,25 +248,59 @@ public OnUltimateCommand(client,race,bool:pressed)
 	}
 }
 
+/* SHADOW HUNTER SWAP ABILITY BELOW */
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-	if(War3_GetGame()==Game_TF && War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
+	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
 	{
-		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_RECARN_WARD);
-		if(skill_level>0&&!Silenced(client))
+		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_WARD);
+		if(skill_level>0)
 		{
-			if(CurrentWardCount[client]<WardStartingArr[skill_level])
+			if(!Silenced(client)&&CurrentWardCount[client]<WardStartingArr[skill_level])
 			{
-				CreateWard(client);
-				CurrentWardCount[client]++;
-				
-				W3MsgCreatedWard(client,CurrentWardCount[client],WardStartingArr[skill_level]);
+				new iTeam=GetClientTeam(client);
+				new bool:conf_found=false;
+				if(War3_GetGame()==Game_TF)
+				{
+					new Handle:hCheckEntities=War3_NearBuilding(client);
+					new size_arr=0;
+					if(hCheckEntities!=INVALID_HANDLE)
+						size_arr=GetArraySize(hCheckEntities);
+					for(new x=0;x<size_arr;x++)
+					{
+						new ent=GetArrayCell(hCheckEntities,x);
+						if(!IsValidEdict(ent)) continue;
+						new builder=GetEntPropEnt(ent,Prop_Send,"m_hBuilder");
+						if(builder>0 && ValidPlayer(builder) && GetClientTeam(builder)!=iTeam)
+						{
+							conf_found=true;
+							break;
+						}
+					}
+					if(size_arr>0)
+						CloseHandle(hCheckEntities);
+				}
+				if(conf_found)
+				{
+					W3MsgWardLocationDeny(client);
+				}
+				else
+				{
+					if(War3_IsCloaked(client))
+					{
+						W3MsgNoWardWhenInvis(client);
+						return;
+					}
+					CreateWard(client);
+					CurrentWardCount[client]++;
+					W3MsgCreatedWard(client,CurrentWardCount[client],WardStartingArr[skill_level]);
+				}
 			}
 			else
 			{
 				W3MsgNoWardsLeft(client);
-			}	
+			}
 		}
 	}
 }
@@ -325,7 +372,8 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 				new skill_cs_attacker=War3_GetSkillLevel(attacker,race_attacker,SKILL_CRIT);
 				if(skill_cs_attacker>0&&!Hexed(attacker,false))
 				{
-					new Float:chance=0.15*chance_mod;
+					//new Float:chance=0.15*chance_mod;
+                    new Float:chance=0.30*chance_mod;
 					if( GetRandomFloat(0.0,1.0)<=chance && !W3HasImmunity(victim,Immunity_Skills))
 					{
 						damagestackcritmatch=W3GetDamageStack();
@@ -439,12 +487,12 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
 
 
 public OnWar3EventDeath(index,attacker)
-{	
+{
 	if(ValidPlayer(index)){
 		new race=W3GetVar(DeathRace); //get  immediate variable, which indicates the race of the player when he died
 		if(race==thisRaceID&&!bHasRespawned[index]&&War3_GetGame()!=Game_TF)
 		{
-			new skill=War3_GetSkillLevel(index,race,SKILL_RECARN_WARD);
+			new skill=War3_GetSkillLevel(index,race,SKILL_WARD);
 			if(skill) //let them revive even if hexed
 			{
 				new Float:percent=ReincarnationChance[skill];
@@ -542,8 +590,9 @@ public Action:DeciSecondTimer(Handle:h)
 	}
 }
 
-// Wards
-public CreateWard(client)
+/* *********************** SHADOW HUNTER SWAP ************************* */
+
+CreateWard(client)
 {
 	for(new i=0;i<MAXWARDS;i++)
 	{
@@ -552,11 +601,12 @@ public CreateWard(client)
 			WardOwner[i]=client;
 			GetClientAbsOrigin(client,WardLocation[i]);
 			break;
+			////CHECK BOMB HOSTAGES TO BE IMPLEMENTED
 		}
 	}
 }
 
-public RemoveWards(client)
+RemoveWards(client)
 {
 	for(new i=0;i<MAXWARDS;i++)
 	{
@@ -570,13 +620,9 @@ public RemoveWards(client)
 
 public Action:CalcWards(Handle:timer,any:userid)
 {
-	for(new i=0;i<=MaxClients;i++){
-		flashedscreen[i]=false;
-	}
 	new client;
 	for(new i=0;i<MAXWARDS;i++)
 	{
-		
 		if(WardOwner[i]!=0)
 		{
 			client=WardOwner[i];
@@ -587,65 +633,82 @@ public Action:CalcWards(Handle:timer,any:userid)
 			}
 			else
 			{
-				WardEffectAndHeal(client,i);
+				WardEffectAndDamage(client,i);
 			}
 		}
 	}
 }
-//healing wards
-public WardEffectAndHeal(owner,wardindex)
+public WardEffectAndDamage(owner,wardindex)
 {
-	new beamcolor[]={0,255,0,150};
+	new ownerteam=GetClientTeam(owner);
+	new beamcolor[]={0,0,200,255};
+	if(ownerteam==2)
+	{ //TERRORISTS/RED in TF?
+		beamcolor[0]=255;
+		beamcolor[1]=0;
+		beamcolor[2]=0;
+
+		beamcolor[3]=155; //red blocks more than blue, so less alpha
+	}
+
+
 	new Float:start_pos[3];
 	new Float:end_pos[3];
+
 	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
 	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
 	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
 	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
-	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
+
+	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),0.17,float(WARDRADIUS),float(WARDRADIUS),0,0.0,beamcolor,10);
 	TE_SendToAll();
+
 	new Float:BeamXY[3];
 	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
 	new Float:BeamZ= BeamXY[2];
 	BeamXY[2]=0.0;
+
+
 	new Float:VictimPos[3];
 	new Float:tempZ;
-
 	for(new i=1;i<=MaxClients;i++)
 	{
-		if(ValidPlayer(i,true))
+		if(ValidPlayer(i,true)&& GetClientTeam(i)!=ownerteam )
 		{
 			GetClientAbsOrigin(i,VictimPos);
 			tempZ=VictimPos[2];
 			VictimPos[2]=0.0; //no Z
+
 			if(GetVectorDistance(BeamXY,VictimPos) < WARDRADIUS) ////ward RADIUS
 			{
 				// now compare z
 				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
 				{
-					//Heal!!
-					new DamageScreen[4];
-					DamageScreen[0]=beamcolor[0];
-					DamageScreen[1]=beamcolor[1];
-					DamageScreen[2]=beamcolor[2];
-					DamageScreen[3]=20; //alpha
-					new cur_hp=GetClientHealth(i);
-					new new_hp=cur_hp+WARDHEAL;
-					new max_hp=War3_GetMaxHP(i);
-					if(new_hp>max_hp)	new_hp=max_hp;
-					if(cur_hp<new_hp)
+					if(W3HasImmunity(i,Immunity_Wards))
 					{
-						if(!flashedscreen[i]){
-							flashedscreen[i]=true;
-							W3FlashScreen(i,DamageScreen);
+						W3MsgSkillBlocked(i,_,"Wards");
+					}
+					else
+					{
+						//Boom!
+						new DamageScreen[4];
+						DamageScreen[0]=beamcolor[0];
+						DamageScreen[1]=beamcolor[1];
+						DamageScreen[2]=beamcolor[2];
+						DamageScreen[3]=50; //alpha
+						W3FlashScreen(i,DamageScreen);
+						if(War3_DealDamage(i,WARDDAMAGE,owner,DMG_ENERGYBEAM,"wards",_,W3DMGTYPE_MAGIC))
+						{
+							if(LastThunderClap[i]<GetGameTime()-2)
+							{
+								EmitSoundToAll(wardDamageSound,i,SNDCHAN_WEAPON);
+								LastThunderClap[i]=GetGameTime();
+							}
 						}
-						//SetEntityZHealth(i,new_hp);
-						War3_HealToMaxHP(i,WARDHEAL);
-						VictimPos[2]+=65.0;
-						War3_TF_ParticleToClient(0, GetApparentTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
 					}
 				}
 			}
 		}
 	}
+
 }
