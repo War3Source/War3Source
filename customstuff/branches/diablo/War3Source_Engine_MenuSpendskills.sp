@@ -1,15 +1,7 @@
-
-
-
+#pragma tabsize 0
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-
-
-
-
-
-
 
 public Plugin:myinfo= 
 {
@@ -44,14 +36,17 @@ public OnWar3Event(W3EVENT:event,client){
 stock bool:HasDependency(client,race,skill,String:buffer[],maxlen,bool:is_ult)
 {
 	//Check if our skill has a dependency
-	decl dependencyID;
-	if( (dependencyID = War3_GetDependency(race, skill, SkillDependency:ID) != INVALID_DEPENDENCY) ) {
+	new dependencyID = War3_GetDependency(race, skill, SkillDependency:ID);
+	if( dependencyID != INVALID_DEPENDENCY ) {
+    PrintToChat(client,"dependencyID %i",dependencyID);
 		//If so, append our stuff if the skill minlevel is below our current level(otherwhise do just NOTHING)
 		//but wait.. is our depending required level valid?
 		new requiredLVL = War3_GetDependency(race, skill, SkillDependency:LVL);
+        PrintToChat(client,"requiredlvl %i",requiredLVL);
 		if(requiredLVL > 0) {
 			//oh it is.. okay do the stuff i want to do before lol...
 			new currentLVL = War3_GetSkillLevelINTERNAL(client,race,dependencyID);
+            PrintToChat(client,"currentLVL %i",currentLVL);
 			if(currentLVL < requiredLVL) {
 				//Gotcha! now we just need to overwrite that buffer
 				decl String:skillname[64]; //original skill
