@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"courage_ItemName"
+	{
+		"en"		"Armor of Courage"
+	}
+	"courage_ItemDesc"
+	{
+		"en"		"30% resistance against all physcial damage\n(does not block magical)"
+	}
+}

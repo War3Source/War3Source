@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"uberme_ItemName"
+	{
+		"en"		"Insta Uber (Medics Only)"
+	}
+	"uberme_ItemDesc"
+	{
+		"en"		"Instantly get 100% Uber!"
+	}
+}

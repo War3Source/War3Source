@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"fireorb_ItemName"
+	{
+		"en"		"Orb of Fire"
+	}
+	"fireorb_ItemDesc"
+	{
+		"en"		"Ignites enemies with fire for 10 seconds."
+	}
+}
