@@ -36,7 +36,7 @@ public OnWar3Event(W3EVENT:event, client)
         if(item==thisItem && TF2_GetPlayerClass(client)!=TFClass_Medic)
             {
                 W3SetVar(EventArg2, 0);
-                War3_ChatMessage(client, "Only Medics can buy this item!");
+                War3_ChatMessage(client, "%T","Only Medics can buy this item!",client);
                 //War3_SetGold(client,100);
                 //War3_SetOwnsItem(client,item,false);
                 //PrintToChat(client,"Store refunded your gold.");

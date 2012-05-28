@@ -42,7 +42,7 @@ public OnPluginStart()
 	
 	CreateConVar("sm_goldbets_version", PLUGIN_VERSION, "GoldBets Version", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	
-	g_hSmBet = CreateConVar("sm_goldbet_enable","1","Enables or disables the goldbet War3Source plugin",_,true,0.0,true,0.0);
+	g_hSmBet = CreateConVar("sm_goldbet_enable","1","Enables or disables the goldbet War3Source plugin",_,true,0.0,true,1.0);
 	g_hMaximumBet = CreateConVar("sm_goldbets_maximum","40","Maximum bet value");
 	g_hMinimumBet = CreateConVar("sm_goldbets_minimum","5","Minimum bet value");
 	g_hBetRatio = CreateConVar("sm_goldbets_betratio","5","Defines the amount you can win per gold you bet");

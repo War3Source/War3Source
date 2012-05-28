@@ -8,4 +8,8 @@
 	{
 		"en"		"Instantly get 100% Uber!"
 	}
+	"Only Medics can buy this item!"
+	{
+		"en"		"Only Medics can buy this item!"
+	}
 }

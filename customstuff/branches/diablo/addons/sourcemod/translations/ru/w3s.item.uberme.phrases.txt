@@ -1,0 +1,15 @@
+"Phrases"
+{
+	"uberme_ItemName"
+	{
+		"ru"		"Мгновенный Uber (для Медика)"
+	}
+	"uberme_ItemDesc"
+	{
+		"ru"		"Получение 100% Uber-заряда!"
+	}
+	"Only Medics can buy this item!"
+	{
+		"ru"		"Только Доктор может это купить!"
+	}
+}
