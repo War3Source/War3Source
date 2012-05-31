@@ -69,7 +69,14 @@ public Action:Timer_DelayedHooks(Handle:timer)
 {
 	if (g_bEnabled)
 	{
-		HookEvent("round_end", Event_RoundEnd, EventHookMode_Post);
+		if(War3_GetGame()==Game_TF)
+		{
+			HookEvent("teamplay_round_win", Event_RoundEnd,EventHookMode_Post);
+		}
+		else
+		{
+			HookEvent("round_end", Event_RoundEnd, EventHookMode_Post);
+		}
 		
 		PrintToServer("[GoldBets] - Loaded");
 	}
@@ -84,7 +91,7 @@ public Action:Command_Say(client, args)
 	
 	if(g_bPlayerBet[client])
 	{
-		PrintToChat(client, "\x04[Goldbets]\x01 %t", "Already Bet");
+		PrintToChat(client, "\x04[Goldbets]\x01 %t", "Already_Bet");
 		return Plugin_Handled;
 	}
 	new String:szText[192];
@@ -189,8 +196,9 @@ public Action:Command_Say(client, args)
 			g_iTotalPot += iAmount;
 			new team;
 			if(strcmp(szParts[1],"t",false) == 0 || strcmp(szParts[1],"red",false) == 0){
-				team = 2;
-			} else {
+				team = 2;				
+			} 
+			else {
 				team = 3;
 			}
 			g_iPlayerBetData[client][BET_TEAM] = team;
@@ -235,7 +243,16 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 		return;		
 	
 	new iMaxClients = GetMaxClients();
-	new iWinner = GetEventInt(event, "winner");
+	new iWinner;
+	if(War3_GetGame()==Game_TF)
+	{
+		iWinner=GetEventInt(event,"team");
+	}
+	else
+	{
+		iWinner=GetEventInt(event,"winner");
+	}
+	
 	new WinAmount;
 	if(iWinner == 2)
 	{
