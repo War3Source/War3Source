@@ -481,6 +481,10 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_SetDependency");
 	MarkNativeAsOptional("War3_RemoveDependency");
 	MarkNativeAsOptional("War3_GetDependency");
+	
+	//Custom Models (CS:S only)
+	MarkNativeAsOptional("War3_AddCustomModel");
+	MarkNativeAsOptional("War3_RemoveCustomModel");
 }
 
 //Called for each category if the user opens the catted cr menu
@@ -533,7 +537,9 @@ public War3InterfaceExec(){
  * Natives and misc stocks
  * Natives and misc stocks
 */ 
-
+*/
+native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
+native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
 
 native W3GetW3Version(String:retstr[],maxlen);//str
 native W3GetW3Revision();//int
