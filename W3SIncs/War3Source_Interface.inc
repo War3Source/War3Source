@@ -537,7 +537,7 @@ public War3InterfaceExec(){
  * Natives and misc stocks
  * Natives and misc stocks
 */ 
-*/
+
 native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
 native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
 
