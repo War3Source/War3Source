@@ -5,6 +5,8 @@
  */
  
 #pragma semicolon 1
+#pragma tabsize 0
+
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -231,11 +233,17 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&victim!=attacker&&GetClientTeam(victim)!=GetClientTeam(attacker)){
 		if(War3_GetRace(attacker)==thisRaceID&&!Hexed(attacker,false)){
 			new skilllevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_CRAZY);
-			if(skilllevel>0){
+			if(skilllevel>0&&!TF2_IsPlayerInCondition(victim,TFCond_OnFire)){
 				bCrazyDot[victim]=true;
 				CrazyBy[victim]=attacker;
 				CrazyUntil[victim]=GetGameTime()+CrazyDuration[skilllevel];
 			}
+            else
+            {
+				bCrazyDot[victim]=false;
+				CrazyBy[victim]=attacker;
+				CrazyUntil[victim]=0.0;
+            }
 			skilllevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_SENSE);
 			if(skilllevel>0){
 				if(FloatDiv(float(GetClientHealth(victim)),float(War3_GetMaxHP(victim)))<BloodSense[skilllevel]){
