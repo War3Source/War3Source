@@ -13,7 +13,7 @@ public Plugin:myinfo=
 };
 
 public LoadCheck(){
-	return GameCS();
+	return (GameCS() || GameCSGO());
 }
 
 // cs

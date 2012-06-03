@@ -5,8 +5,7 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-//Uncomment this to enable(only users with this flag can use shopmenu2)
-//#define SHOPMENU2_FLAG ADMFLAG_ROOT
+new Handle:hShopMenu2RequiredFlag;
 
 public Plugin:myinfo= 
 {
@@ -22,6 +21,20 @@ public OnPluginStart()
 {
 	LoadTranslations("w3s.shopmenu2.phrases");
 	W3CreateCvar("w3shop2menu","loaded","is the shop2 loaded");
+	hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2");
+}
+
+stock bool:HasRequiredFlag(client) {
+	decl String:buffer[4];
+	GetConVarString(hShopMenu2RequiredFlag,buffer,sizeof(buffer));
+	new AdminFlag:flag;
+	if(FindFlagByName(buffer, flag)) {
+		if(HasSMAccess(client,FlagToBit(flag))) {
+			return true;
+		}
+		return false;
+	}
+	return true;
 }
 
 public OnWar3Event(W3EVENT:event,client){
@@ -30,15 +43,12 @@ public OnWar3Event(W3EVENT:event,client){
 		if(EXT()){
 			
 			SetTrans(client); //required
-#if defined SHOPMENU2_FLAG
-			if(HasSMAccess(client,SHOPMENU2_FLAG))
+			if(HasRequiredFlag(client)) {
 				W3ExtShowShop2(client);
-			else
+			}
+			else {
 				War3_ChatMessage(client,"You don't have access to this command!");
-#else
-			W3ExtShowShop2(client);
-#endif
-
+			}
 		}
 		else{
 		//DO NOT TRANSLATE
@@ -135,13 +145,6 @@ InternalTriedToBuyItem2(client,item,bool:reshowmenu=true){
 			War3_ChatMessage(client,"%T","{itemname} is disabled",GetTrans(),itemname);
 			canbuy=false;
 		}
-
-#if defined SHOPMENU2_FLAG
-		else if(!HasSMAccess(client,SHOPMENU2_FLAG)){
-			War3_ChatMessage(client,"You don't have access to this command!");
-			canbuy=false;
-		}
-#endif
 		else if(W3IsItem2DisabledForRace(race,item)){
 			
 			new String:racename[64];

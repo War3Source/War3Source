@@ -42,7 +42,7 @@ public OnPluginStart()
 	
 	switch(War3_GetGame())
 	{
-		case Game_DOD, Game_CS:
+		case Game_DOD, Game_CS, Game_CSGO:
 			HookEvent("round_start", Event_ScrambleNow);
 		case Game_TF:
 			HookEvent("teamplay_round_win", Event_ScrambleNow);

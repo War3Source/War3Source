@@ -18,7 +18,7 @@ public bool:War3Source_InitOffset()
 	new Handle:hGameConf=INVALID_HANDLE;
 	if(War3_GetGame()==Game_TF)
 		hGameConf=LoadGameConfigFile("sm-tf2.games");
-	else if(War3_GetGame()==Game_CS)
+	else if(War3_GetGame()==Game_CS || War3_GetGame()==Game_CSGO)
 		hGameConf=LoadGameConfigFile("sm-cstrike.games");
 	else if(War3_IsL4DEngine())
 		return true; // don't need fancy offsets... yet
@@ -29,7 +29,7 @@ public bool:War3Source_InitOffset()
 		hSpawnPlayer=EndPrepSDKCall();
 		CloseHandle(hGameConf);
 	}
-	else if(hGameConf && War3_GetGame()==Game_CS)
+	else if(hGameConf && (War3_GetGame()==Game_CS || War3_GetGame()==Game_CSGO))
 	{
 		StartPrepSDKCall(SDKCall_Entity);
 		PrepSDKCall_SetFromConf(hGameConf,SDKConf_Signature,"RoundRespawn");

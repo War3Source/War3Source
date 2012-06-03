@@ -46,7 +46,9 @@ public OnWar3Event(W3EVENT:event, client)
 		
 		new level = War3_GetLevel(client, race);
 		
-		if (War3_GetGame() == Game_TF)
+		new ValveGameEnum:war3Game = War3_GetGame();
+		
+		if (war3Game == Game_TF)
 		{
 			AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "partyhat", 5.0);
 			AttachThrowAwayParticle(client, "bday_1balloon", NULL_VECTOR, "partyhat", 5.0);
@@ -54,7 +56,7 @@ public OnWar3Event(W3EVENT:event, client)
 			AttachThrowAwayParticle(client, "bday_balloon02", NULL_VECTOR, "partyhat", 5.0);
 		
 		}
-		else if (War3_GetGame() == Game_CS)
+		else if (war3Game == Game_CS || war3Game == Game_CSGO)
 		{
 			CSParticle(client, level);
 		}

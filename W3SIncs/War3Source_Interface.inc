@@ -7,7 +7,6 @@
  * LISTS NATIVES AND FORWARDS, BUT NOT ACTUALLY DEFINES THE CODE
  */
 
-
 #undef REQUIRE_EXTENSIONS
 #include <sdktools>
 #include <tf2>
@@ -200,6 +199,13 @@ stock DetermineGameMode(){
 		#endif
 		tValveGame=_:Game_L4D;
 	}
+	else if(StrContains(gameDir,"csgo",false)==0)
+	{
+		#if defined WAR3MAIN
+		PrintToServer("[War3Source] Game set: Counter Strike Source Global Offensive");
+		#endif
+		tValveGame=_:Game_CSGO;
+	}
 	else
 	{
 		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error. (folder name: %s)", gameDir);
@@ -223,6 +229,10 @@ stock GameL4D2(){
 
 stock GameL4DAny(){
 	return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
+}
+
+stock GameCSGO(){
+	return War3_GetGame() == Game_CSGO;
 }
 //We mark some natives optional so different plugins can still startup
 /**********************

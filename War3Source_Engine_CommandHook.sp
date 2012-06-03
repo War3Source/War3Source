@@ -215,7 +215,7 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowShopMenu2,client);
 			return returnblocking;
 		}
-		else if(CommandCheck(arg1,"war3menu")||CommandCheck(arg1,"w3s"))
+		else if(CommandCheck(arg1,"war3menu")||CommandCheck(arg1,"w3s")||CommandCheck(arg1,"wcs"))
 		{
 			W3CreateEvent(DoShowWar3Menu,client);
 			return returnblocking;

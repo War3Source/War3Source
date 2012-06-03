@@ -51,7 +51,11 @@ public bool:InitNativesForwards(){
 }
 public OnPluginStart()
 {
-	CreateTimer(0.2,Time,_,TIMER_REPEAT);
+	// Revan: as of looking weird in csgo this is currently deactivated
+	if(GameCSGO()) {
+		enabled = 0;
+	}
+	//CreateTimer(0.2,Time,_,TIMER_REPEAT);
 	
 	umHintText = GetUserMessageId("HintText");
 	
@@ -134,12 +138,16 @@ public NW3Hint(Handle:plugin,numParams)
 		
 		updatenextframe[client]=true;
 	}
+	else if(GameCSGO()) {
+		//Revan: we wan't to keep w3hint working
+		PrintHintText(client,output);
+	}
 	return 1;
 }
-public Action:Time(Handle:t){
+/*public Action:Time(Handle:t){
 	//PrintHintTextToAll("01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n01234567890123456789012345678901234567890123456789\n");
 	
-}
+}*/
 
 public OnGameFrame(){
 

@@ -29,7 +29,7 @@ public OnPluginStart()
 	if(W3())
     {
      // No Spendskill level restrictions on non-ultimates (Requires mapchange)
-     NoSpendSkillsLimitCvar=CreateConVar("war3_no_spendskills_limit","0","Set to 1 to require no limit on non-ultimate spendskills (Requires mapchange)");
+     NoSpendSkillsLimitCvar=CreateConVar("war3_no_spendskills_limit","0","Set to 1 to require no limit on non-ultimate spendskills");
     }
 }
 
@@ -44,7 +44,7 @@ public OnWar3Event(W3EVENT:event,client){
 stock bool:HasDependency(client,race,skill,String:buffer[],maxlen,bool:is_ult)
 {
 	//Check if our skill has a dependency
-	decl dependencyID;
+	new dependencyID = INVALID_DEPENDENCY;
 	if( (dependencyID = War3_GetDependency(race, skill, SkillDependency:ID) != INVALID_DEPENDENCY) ) {
 		//If so, append our stuff if the skill minlevel is below our current level(otherwhise do just NOTHING)
 		//but wait.. is our depending required level valid?
