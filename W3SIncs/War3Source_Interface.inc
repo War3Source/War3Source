@@ -2208,7 +2208,9 @@ stock bool:W3Chance(Float:chancepercent=1.0) {
 
 //sets armor, but does not give any helm
 stock War3_SetCSArmor(client,amount){
-	if(War3_GetGame()==Game_CS){
+	// Revan: thoose armor properities for CS:GO are the same as in CS:Source
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO){
 		if(amount>125){
 			amount=125;
 		}
@@ -2216,7 +2218,8 @@ stock War3_SetCSArmor(client,amount){
 	}
 }
 stock War3_GetCSArmor(client){
-	if(War3_GetGame()==Game_CS){
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO){
 		return GetEntProp(client,Prop_Send,"m_ArmorValue");
 	}
 	return 0;
@@ -2228,13 +2231,13 @@ stock War3_SetCSArmorHasHelmet(client,bool:hashelmet){
 	return SetEntProp(client, Prop_Send, "m_bHasHelmet",hashelmet? 1:0, 1);
 }
 stock GetCSMoney(client){
-	if(War3_GetGame()!=CS){
-		return 0;
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO) {
+		return GetEntProp(client, Prop_Send, "m_iAccount");
 	}
-	return GetEntProp(client, Prop_Send, "m_iAccount");
+	return 0;	
 }
 stock SetCSMoney(client,newamount){
-
 	SetEntProp(client, Prop_Send, "m_iAccount",newamount);
 }
 
@@ -2272,7 +2275,7 @@ stock PlayersOnTeam(team)
 
 
 stock GetShortTeamName(team,String:retstr[],maxlen){
-	if(War3_GetGame()==CS){
+	if(War3_GetGame()==CS || War3_GetGame()==CSGO){
 		if(team==1){
 			Format(retstr,maxlen,"%t","CS Spec");
 			return;
@@ -2385,6 +2388,11 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		case Game_L4D2:
 		{
 			return StrEqual(weapon, "weapon_melee");
+		}
+		case Game_CSGO:
+		{
+			// Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
+			return (StrContains(weapon,"knife"));
 		}
 	}
 	return false;

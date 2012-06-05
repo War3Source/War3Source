@@ -11,7 +11,7 @@ new UserMsg:umHintText
 #define MAXKEYCOUNT 30
 #define MAXKEYLEN 2
 
-new enabled = 1; //cvar value
+new bool:enabled = true; //cvar value
 new String:key[MAXKEYCOUNT][MAXKEYLEN]; // "1\0" = 2 bytes
 //need these fake keys for tries
 /*
@@ -51,18 +51,22 @@ public bool:InitNativesForwards(){
 }
 public OnPluginStart()
 {
-	// Revan: as of looking weird in csgo this is currently deactivated
+	// Revan: as of looking weird in csgo this is engine currently deactivated
+	// NOTE: PrintHintText can still be used and W3Hint will refer to PrintHintText instead
+	// just that multiline and duration stuff won't work
 	if(GameCSGO()) {
-		enabled = 0;
+		enabled = false;
 	}
-	//CreateTimer(0.2,Time,_,TIMER_REPEAT);
-	
-	umHintText = GetUserMessageId("HintText");
-	
-	if (umHintText == INVALID_MESSAGE_ID)
-		SetFailState("This game doesn't support HintText???");
-	
-	HookUserMessage(umHintText, MsgHook_HintText,true);
+	else {
+		//CreateTimer(0.2,Time,_,TIMER_REPEAT);
+		
+		umHintText = GetUserMessageId("HintText");
+		
+		if (umHintText == INVALID_MESSAGE_ID)
+			SetFailState("This game doesn't support HintText???");
+		
+		HookUserMessage(umHintText, MsgHook_HintText,true);
+	}
 }
 public OnWar3EventSpawn(client){
 	//delay then refresh their hints
@@ -99,7 +103,6 @@ public NW3Hint(Handle:plugin,numParams)
 {
 	if(enabled){
 		new client= GetNativeCell(1);
-		
 		if(!ValidPlayer(client)) return 0;
 		
 		new priority=GetNativeCell(2);
@@ -139,8 +142,25 @@ public NW3Hint(Handle:plugin,numParams)
 		updatenextframe[client]=true;
 	}
 	else if(GameCSGO()) {
-		//Revan: we wan't to keep w3hint working
-		PrintHintText(client,output);
+		new client = GetNativeCell(1);
+		if(ValidPlayer(client,false)) {
+			//Revan: we wan't to keep w3hint working
+			new String:format[128];
+			GetNativeString(4,format,sizeof(format));
+			new String:output[128];
+			FormatNativeString(0, 
+								  4, 
+								  5, 
+								  sizeof(output),
+								  dummy,
+								  output
+								  );
+			new len=strlen(output);		 
+			if(len>0&&output[len-1]!='\n'){
+				StrCat(output, sizeof(output), "\n");
+			}
+			PrintHintText(GetNativeCell(1),output);
+		}
 	}
 	return 1;
 }
@@ -209,7 +229,7 @@ public OnGameFrame(){
 							}
 						}
 					}
-					if(strlen(output)>1){
+					if(strlen(output)>1 && (!strcmp(output," ") || !strcmp(output,"  "))){
 						
 						StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
 						//if(output[strlen(output)-1]=='\n')
@@ -230,6 +250,7 @@ public OnGameFrame(){
 							len-=1; //keep eating the last returns
 						}
 						if(!StrEqual(lastoutput[client],output)){
+							PrintToServer("[W3Hint] printing \"%s\"",output);
 							PrintHintText(client," %s",output); //NEED SPACE
 							//if(!IsFakeClient(client)){
 							//	DP("%s %d",output,GetGameTime());
@@ -336,7 +357,7 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 	if(enabled){
 		new String:str[128];
 		BfReadString(Handle:bf, str, sizeof(str), false);
-		//PrintToServer("%s",str);
+		PrintToServer("[W3Hint] recieved \"%s\"",str);
 		
 		
 		if(str[0]!=' '&&str[0]!='#'){
