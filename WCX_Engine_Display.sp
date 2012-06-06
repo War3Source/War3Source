@@ -18,12 +18,14 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	g_hCvarEnable = CreateConVar("War3_RightTextDisp","1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
+	// Revan: keyhinttext works with CS:S but weird symbols will be displayed.. probably because that message string(not a cs:go issue)
+	g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame()==Game_CSGO)?"0":"1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
+	if(g_hCvarEnable == INVALID_HANDLE) {
+		SetFailState("could not create convar");
+	}
 	RegConsoleCmd("sm_display",SetHint,"Sets the hintstring");
 }
-public ignorewarnings(){
-	GetConVarInt(g_hCvarEnable);
-}
+
 public OnMapStart()
 {
 	CreateTimer(1.0,Print_Level,_,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
@@ -31,17 +33,25 @@ public OnMapStart()
 
 public Action:Print_Level(Handle:timer, any:data)
 {
+	if(GetConVarBool(g_hCvarEnable) == false) {
+		// destroy timer
+		return Plugin_Handled;
+	}
 	for(new i;i<MAXPLAYERS;i++)
 	{
 		if(ValidPlayer(i,true))
 		{
 			Client_PrintKeyHintText(i,"%s",hintstring);
 		}
-	}	
+	}
+	return Plugin_Continue;
 }
 
 public Action:SetHint(client,args)
 {
+	if(GetConVarBool(g_hCvarEnable) == false) {
+		return Plugin_Continue;
+	}
 	new String:buffer[64];
 	new String:buffer2[4096];
 	for(new i = 1;i<=args;i++)
@@ -50,6 +60,7 @@ public Action:SetHint(client,args)
 		Format(buffer2,sizeof(buffer2),"%s \n %s",buffer2,buffer);
 	}
 	strcopy(hintstring,sizeof(hintstring),buffer2);
+	return Plugin_Handled;
 }
 
 /*
