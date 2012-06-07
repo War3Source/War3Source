@@ -51,22 +51,15 @@ public bool:InitNativesForwards(){
 }
 public OnPluginStart()
 {
-	// Revan: as of looking weird in csgo this is engine currently deactivated
-	// NOTE: PrintHintText can still be used and W3Hint will refer to PrintHintText instead
-	// just that multiline and duration stuff won't work
-	if(GameCSGO()) {
-		enabled = false;
-	}
-	else {
-		//CreateTimer(0.2,Time,_,TIMER_REPEAT);
-		
-		umHintText = GetUserMessageId("HintText");
-		
-		if (umHintText == INVALID_MESSAGE_ID)
-			SetFailState("This game doesn't support HintText???");
-		
-		HookUserMessage(umHintText, MsgHook_HintText,true);
-	}
+	// NOTICE: file a bug report if you wan't this to be disabled for cs:go
+	//CreateTimer(0.2,Time,_,TIMER_REPEAT);
+	
+	umHintText = GetUserMessageId("HintText");
+	
+	if (umHintText == INVALID_MESSAGE_ID)
+		SetFailState("This game doesn't support HintText???");
+	
+	HookUserMessage(umHintText, MsgHook_HintText,true);
 }
 public OnWar3EventSpawn(client){
 	//delay then refresh their hints
@@ -140,27 +133,6 @@ public NW3Hint(Handle:plugin,numParams)
 		}
 		
 		updatenextframe[client]=true;
-	}
-	else if(GameCSGO()) {
-		new client = GetNativeCell(1);
-		if(ValidPlayer(client,false)) {
-			//Revan: we wan't to keep w3hint working
-			new String:format[128];
-			GetNativeString(4,format,sizeof(format));
-			new String:output[128];
-			FormatNativeString(0, 
-								  4, 
-								  5, 
-								  sizeof(output),
-								  dummy,
-								  output
-								  );
-			new len=strlen(output);		 
-			if(len>0&&output[len-1]!='\n'){
-				StrCat(output, sizeof(output), "\n");
-			}
-			PrintHintText(GetNativeCell(1),output);
-		}
 	}
 	return 1;
 }
@@ -357,7 +329,7 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 	if(enabled){
 		new String:str[128];
 		BfReadString(Handle:bf, str, sizeof(str), false);
-		PrintToServer("[W3Hint] recieved \"%s\"",str);
+		//PrintToServer("[W3Hint] recieved \"%s\"",str);
 		
 		
 		if(str[0]!=' '&&str[0]!='#'){
