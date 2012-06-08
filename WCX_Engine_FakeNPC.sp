@@ -113,9 +113,13 @@ public bool:InitNativesForwards()
 
 public OnMapStart() 
 {
-	ExplosionSprite = PrecacheModel("sprites/floorfire4_.vmt");
-	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
-	BloodDrop = PrecacheModel("sprites/blood.vmt");
+	ExplosionSprite = War3_PrecacheBeamSprite(); //even beamsprites should still do the job
+	if(War3_GetGame() == Game_CSGO) {
+		BloodDrop = PrecacheModel("decals/blood1.vmt");
+	}
+	else {
+		BloodDrop = PrecacheModel("sprites/blood.vmt");
+	}
 	iNPCNum++;//skip zero
 }
 
@@ -492,7 +496,7 @@ public bool:NPCTraceRoute(const iEntityIndex,Float:fNPCMaxSpeed,Float:StartPos[3
 }
 //Calls the global forward and returns the result...usefull for some npc immunity
 public bool:CanFocus(iEntityIndex,iTarget) {
-	decl value;
+	new value=1;
 	Call_StartForward(hOnNPCFocus);
 	Call_PushCell(iEntityIndex);
 	Call_PushCell(iTarget);
@@ -514,7 +518,7 @@ stock NPCVars_GetNum(const iEntityIndexIndex) {
 //Adds a entry to the FakeNPC Data Storage
 stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const String:strAttackAnim[32]="", const String:strPainAnim[32]="", const String:strMoveAnim[32]="", const iDamageArray[2]={20,40}, const Float:fDurationArray[3]={0.0,0.0,0.0}, const Float:fRange=100.0, const Float:fLOSRange=950.0, const Float:fSpeed=10.0, const Float:fNPCAttackSpeed=2.0) {
 	if(hNPCVariables!=INVALID_HANDLE) {
-		decl num;
+		new num;
 		num = PushArrayCell(hNPCVariables, iIndex); //stores the entity index in that array
 		NPCDamageBuffer[num][NPCDamage:MinDamage]=iDamageArray[NPCDamage:MinDamage];
 		NPCDamageBuffer[num][NPCDamage:MaxDamage]=iDamageArray[NPCDamage:MaxDamage];

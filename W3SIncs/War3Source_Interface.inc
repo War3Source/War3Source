@@ -202,7 +202,7 @@ stock DetermineGameMode(){
 	else if(StrContains(gameDir,"csgo",false)==0)
 	{
 		#if defined WAR3MAIN
-		PrintToServer("[War3Source] Game set: Counter Strike Source Global Offensive");
+		PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
 		#endif
 		tValveGame=_:Game_CSGO;
 	}
@@ -233,6 +233,15 @@ stock GameL4DAny(){
 
 stock GameCSGO(){
 	return War3_GetGame() == Game_CSGO;
+}
+
+// This checks if the current game is CS:S or CS:GO
+stock bool:War3_IsCounterStrike(){
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO) {
+		return true;
+	}
+	return false;
 }
 //We mark some natives optional so different plugins can still startup
 /**********************
@@ -2392,7 +2401,7 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		case Game_CSGO:
 		{
 			// Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
-			return (StrContains(weapon,"knife"));
+			return (StrContains(weapon,"knife",false)!=-1);
 		}
 	}
 	return false;
