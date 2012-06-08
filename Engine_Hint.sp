@@ -46,7 +46,7 @@ public OnPluginStart()
 public OnWar3EventSpawn(client)
 {
 	//delay then refresh their hints
-	//W3Hint(client,_,0.1,"Www.JigglysFunHouse.Net"); //this is a hackish way of doing it, since it will not refresh if hint string is equal
+	//W3Hint(client,_,0.1,"Www.War3Source.Com"); //this is a hackish way of doing it, since it will not refresh if hint string is equal
 	lastoutput[client][0] = '\0';
 }
 
