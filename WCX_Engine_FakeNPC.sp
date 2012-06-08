@@ -33,7 +33,7 @@ new AnimationPriority:NPCAnimation[MAXNPC];
 //-probably add simple sound system?
 //These huge arrays are quite a good way to kill nasty ressources :s
 new iNPCIndex[MAXENTITY]=-1;
-//new iNPCNum=0;
+//new iNPCNum=0; <- moved to include ->
 
 // Handles
 new Handle:hNPCVariables;
@@ -518,8 +518,7 @@ stock NPCVars_GetNum(const iEntityIndexIndex) {
 //Adds a entry to the FakeNPC Data Storage
 stock NPCVars_AddNPC(const iIndex, const String:strIdleAnim[32]="Idle", const String:strAttackAnim[32]="", const String:strPainAnim[32]="", const String:strMoveAnim[32]="", const iDamageArray[2]={20,40}, const Float:fDurationArray[3]={0.0,0.0,0.0}, const Float:fRange=100.0, const Float:fLOSRange=950.0, const Float:fSpeed=10.0, const Float:fNPCAttackSpeed=2.0) {
 	if(hNPCVariables!=INVALID_HANDLE) {
-		new num;
-		num = PushArrayCell(hNPCVariables, iIndex); //stores the entity index in that array
+		new num = PushArrayCell(hNPCVariables, iIndex); //stores the entity index in that array
 		NPCDamageBuffer[num][NPCDamage:MinDamage]=iDamageArray[NPCDamage:MinDamage];
 		NPCDamageBuffer[num][NPCDamage:MaxDamage]=iDamageArray[NPCDamage:MaxDamage];
 		fNPCSpeedBuffer[num][NPCMaxSpeed]=fSpeed;
