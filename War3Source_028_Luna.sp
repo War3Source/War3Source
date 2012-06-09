@@ -56,14 +56,22 @@ public OnMapStart()
 		
 		War3_PrecacheSound( lunasnd2 );
 	}
-	HaloSprite = PrecacheModel( "materials/sprites/halo01.vmt" );   
-	BeamSprite = PrecacheModel( "materials/sprites/lgtning.vmt" );
-	CoreSprite = PrecacheModel( "materials/sprites/physcannon_blueflare1.vmt" );
-	MoonSprite = PrecacheModel( "materials/sprites/physcannon_bluecore1b.vmt");
-//	BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
-	XBeamSprite = PrecacheModel( "materials/sprites/XBeam2.vmt" );
-	LightModel = PrecacheModel( "models/effects/vol_light.mdl" );
-	PrecacheModel("particle/fire.vmt");
+	//BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
+	if(War3_GetGame() == Game_CSGO) {
+		CoreSprite = PrecacheModel( "effects/combinemuzzle1.vmt" );
+		MoonSprite = PrecacheModel( "particle/particle_glow_01" );
+		XBeamSprite = PrecacheModel( "materials/sprites/physbeam.vmt" );
+		//PrecacheModel("particle/particle_flares/particle_flare_004");
+	}
+	else {
+		CoreSprite = PrecacheModel( "materials/sprites/physcannon_blueflare1.vmt" );
+		MoonSprite = PrecacheModel( "materials/sprites/physcannon_bluecore1b.vmt");
+		//BlueSprite = PrecacheModel( "materials/sprites/physcannon_bluelight1.vmt" );
+		XBeamSprite = PrecacheModel( "materials/sprites/XBeam2.vmt" );
+		LightModel = PrecacheModel( "models/effects/vol_light.mdl" );
+		//PrecacheModel("particle/fire.vmt");
+	}
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)
@@ -114,11 +122,13 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 	{
 		//Yes, to let mod our damage done
 		War3_SetBuff(client,iDamageBonus,thisRaceID,inAura?BlessingIncrease[level]:0);
-		if(inAura==true&&IsPlayerAlive(client)) {
-			decl Float:client_pos[3];
-			GetClientAbsOrigin(client,client_pos);
-			TE_SetupGlowSprite(client_pos, LightModel, 2.0, 1.0, 255);
-			TE_SendToAll();
+		if(War3_GetGame() != Game_CSGO) {
+			if(inAura==true&&IsPlayerAlive(client)) {
+				decl Float:client_pos[3];
+				GetClientAbsOrigin(client,client_pos);
+				TE_SetupGlowSprite(client_pos, LightModel, 2.0, 1.0, 255);
+				TE_SendToAll();
+			}
 		}
 	}
 }

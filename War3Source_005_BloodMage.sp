@@ -106,12 +106,21 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	BeamSprite =PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
-	FireSprite	 =PrecacheModel("materials/sprites/fireburst.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 	//we gonna use theese bloodsprite as "money blood"(change color)
 	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
-	BloodDrop = PrecacheModel("sprites/blood.vmt");
+	if(War3_GetGame() == Game_CSGO) {
+		BloodDrop = PrecacheModel("decals/blood1.vmt");
+		FireSprite	 = PrecacheModel("materials/sprites/glow07.vmt");
+		War3_PrecacheParticle("weapon_molotov_thrown_glow");
+		War3_PrecacheParticle("burning_character");
+	}
+	else {
+		BloodDrop = PrecacheModel("sprites/blood.vmt");
+		FireSprite	 = PrecacheModel("materials/sprites/fireburst.vmt");
+	}
+	
 	
 	War3_PrecacheSound(reviveSound);
 }
@@ -172,8 +181,19 @@ public OnUltimateCommand(client,race,bool:pressed)
 					effect_vec[2]+=150.0;
 					TE_SetupGlowSprite(effect_vec, FireSprite, 2.0, 4.0, 255);
 					TE_SendToAll();
+					if(War3_GetGame()!=Game_CSGO) {
+						TE_SetupGlowSprite(effect_vec, FireSprite, 4.0, 3.0, 255);
+						TE_SendToAll();
+					}
+					else {
+						effect_vec[2]-=180;
+						ThrowAwayParticle("weapon_molotov_thrown_glow", effect_vec, 3.5);
+						AttachParticle(target, "burning_character", effect_vec, "rfoot");
+						effect_vec[2]+=180;
+					}
 					if(War3_GetGame()==Game_CS) {
 						//I'm unsure about how it works in other games than cs:source
+						effect_vec[2]-180;
 						new ent = AttachParticle(target, "env_fire_medium_smoke", effect_vec, "rfoot");
 						FireEntityEffect[target]=ent;
 					}
@@ -442,7 +462,7 @@ public Action:DoRevival(Handle:timer,any:client)
 				//PrintToChatAll("omfg remove true");
 				//SetEntityMoveType(client, MOVETYPE_NOCLIP);
 				War3_SpawnPlayer(client);
-				EmitSoundToAll(reviveSound,client);
+				W3EmitSoundToAll(reviveSound,client);
 				
 				W3MsgRevivedBM(client,savior);
 					

@@ -122,7 +122,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 							W3PrintSkillDmgHintConsole(bestTarget,client,War3_GetWar3DamageDealt(),ULT_LOCUST);
 							W3FlashScreen(bestTarget,RGBA_COLOR_RED);
 							
-							EmitSoundToAll(ultimateSound,client);
+							W3EmitSoundToAll(ultimateSound,client);
 							War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_LOCUST,false,true);
 						}
 					}

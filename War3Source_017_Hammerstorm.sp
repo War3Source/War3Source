@@ -73,8 +73,8 @@ public OnPluginStart()
 public OnMapStart()
 {
 	// Precache the stuff for the beacon ring
-	g_BeamSprite = PrecacheModel("materials/sprites/laser.vmt");
-	g_HaloSprite = PrecacheModel("materials/sprites/halo01.vmt");   
+	g_BeamSprite = War3_PrecacheBeamSprite();
+	g_HaloSprite = War3_PrecacheHaloSprite(); 
 	//Sounds
 	War3_PrecacheSound(hammerboltsound);
 	War3_PrecacheSound(ultsnd);
@@ -191,8 +191,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				TE_SetupBeamRingPoint(AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
 				TE_SendToAll();
 				
-				EmitSoundToAll(hammerboltsound,client);
-				EmitSoundToAll(hammerboltsound,client);
+				W3EmitSoundToAll(hammerboltsound,client);
+				W3EmitSoundToAll(hammerboltsound,client);
 				
 				for(new i=1;i<=MaxClients;i++)
 				{
@@ -239,8 +239,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 		{	
 			if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_STRENGTH,true ))
 			{
-				EmitSoundToAll(ultsnd,client);
-				EmitSoundToAll(ultsnd,client);
+				W3EmitSoundToAll(ultsnd,client);
+				W3EmitSoundToAll(ultsnd,client);
 				PrintHintText(client,"%T","The gods lend you their strength",client);
 				bStrengthActivated[client] = true;
 				CreateTimer(5.0,stopUltimate,client);

@@ -57,8 +57,8 @@ public OnPluginStart()
 public OnMapStart()
 {
 	TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 	
 	War3_PrecacheSound(entangleSound);
 }
@@ -153,8 +153,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 					new String:name[64];
 					GetClientName(target,name,64);
 					//War3_ChatMessage(target,"You have been entangled");//%s!")//,(War3_GetGame()==Game_TF)?", your weapons are POWERLESS until you are released":"");
-					EmitSoundToAll(entangleSound,target);
-					EmitSoundToAll(entangleSound,target);
+					W3EmitSoundToAll(entangleSound,target);
+					W3EmitSoundToAll(entangleSound,target);
 					
 					W3MsgEntangle(target,client);
 				
@@ -288,7 +288,7 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 							GetClientAbsOrigin(attacker, iVec); 
 							GetClientAbsOrigin(victim, iVec2);
 							iVec[2]+=35.0, iVec2[2]+=40.0;
-							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 1.0, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
+							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
 							TE_SendToAll();
 							iVec2[0]=iVec[0];
 							iVec2[1]=iVec[1];

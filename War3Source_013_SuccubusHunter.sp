@@ -46,7 +46,7 @@ public Plugin:myinfo =
 
 public OnMapStart()
 {
-	PrecacheSound("npc/fast_zombie/claw_strike1.wav");
+	//PrecacheSound("npc/fast_zombie/claw_strike1.wav");
 	PrecacheModel("models/gibs/hgibs.mdl", true);
 	//BeamSprite=PrecacheModel("materials/sprites/purpleglow1.vmt");
 	Laser=PrecacheModel("materials/sprites/laserbeam.vmt");

@@ -165,7 +165,7 @@ public OnWar3EventDeath(victim,attacker){
 				War3HealToHP(attacker,addHealth,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
 				//Effects?
 				//EmitAmbientSound("npc/zombie/zombie_pain2.wav",location);
-				EmitSoundToAll(skill1snd,attacker);
+				W3EmitSoundToAll(skill1snd,attacker);
 			}
 		}
 	}
@@ -197,8 +197,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 				War3_SetBuff(client,fAttackSpeed,thisRaceID,RageAttackSpeed[ultLevel]);
 				
 				CreateTimer(RageDuration[ultLevel],stopRage,client);
-				EmitSoundToAll(ultsnd,client);
-				EmitSoundToAll(ultsnd,client);
+				W3EmitSoundToAll(ultsnd,client);
+				W3EmitSoundToAll(ultsnd,client);
 				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RAGE,_,_);
 				
 			}

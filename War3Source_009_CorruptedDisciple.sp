@@ -104,8 +104,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 	
 	War3_PrecacheSound(taunt1);
 	War3_PrecacheSound(taunt2);
@@ -144,9 +144,9 @@ public OnAbilityCommand(client,ability,bool:pressed)
 				CreateTimer(0.5,SecondRing,GetClientUserId(client));
 				
 				War3_CooldownMGR(client,AbilityCooldownTime,thisRaceID,SKILL_TIDE,_,_);
-				EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
-				EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
-				EmitSoundToAll(taunt2,client);
+				W3EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
+				W3EmitSoundToAll(taunt1,client);//,_,SNDLEVEL_TRAIN);
+				W3EmitSoundToAll(taunt2,client);
 				
 				PrintHintText(client,"%T","Feel the burn!",client);
 			}
@@ -236,10 +236,10 @@ public OnUltimateCommand(client,race,bool:pressed)
 				
 				CreateTimer(0.25,UltimateLoop,GetClientUserId(client)); //damage
 				
-				EmitSoundToAll(overload1,client);
-				EmitSoundToAll(overload1,client);
+				W3EmitSoundToAll(overload1,client);
+				W3EmitSoundToAll(overload1,client);
 				
-				EmitSoundToAll(overloadstate,client);
+				W3EmitSoundToAll(overloadstate,client);
 				CreateTimer(3.7,UltStateSound,client);
 			}
 			
@@ -308,10 +308,10 @@ public Action:UltimateLoop(Handle:timer,any:userid)
 			War3_DealDamage(besttarget,OverloadDamagePerHit[War3_GetSkillLevel(attacker,thisRaceID,ULT_OVERLOAD)],attacker,_,"overload");
 			PlayerDamageIncrease[attacker]*=OverloadDamageIncrease[War3_GetSkillLevel(attacker,thisRaceID,ULT_OVERLOAD)];
 			
-			EmitSoundToAll(overloadzap,attacker);
-			EmitSoundToAll(overloadzap,attacker);
-			EmitSoundToAll(overloadzap,besttarget);
-			EmitSoundToAll(overloadzap,besttarget);
+			W3EmitSoundToAll(overloadzap,attacker);
+			W3EmitSoundToAll(overloadzap,attacker);
+			W3EmitSoundToAll(overloadzap,besttarget);
+			W3EmitSoundToAll(overloadzap,besttarget);
 			
 		}
 		CreateTimer(0.25,UltimateLoop,GetClientUserId(attacker)); //damage
@@ -323,7 +323,7 @@ public Action:UltimateLoop(Handle:timer,any:userid)
 }
 public Action:UltStateSound(Handle:t,any:attacker){
 	if(ValidPlayer(attacker,true)&&UltimateZapsRemaining[attacker]>0){
-		EmitSoundToAll(overloadstate,attacker);
+		W3EmitSoundToAll(overloadstate,attacker);
 		CreateTimer(3.7,UltStateSound,attacker);
 	}
 }

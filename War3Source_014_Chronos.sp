@@ -89,8 +89,8 @@ public OnMapStart()
 	War3_PrecacheSound(spheresnd);
 	glowsprite=PrecacheModel("sprites/strider_blackball.spr");
 	
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)
@@ -130,8 +130,8 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 					
 					//PrintToChatAll("post vec %f %f %f",velocity[0],velocity[1],velocity[2]);
 					SetEntDataVector(client,m_vecBaseVelocity,velocity,true);
-					EmitSoundToAll(leapsnd,client);
-					EmitSoundToAll(leapsnd,client);
+					W3EmitSoundToAll(leapsnd,client);
+					W3EmitSoundToAll(leapsnd,client);
 					War3_CooldownMGR(client,10.0,thisRaceID,SKILL_LEAP,_,_);
 				}
 			}
@@ -200,8 +200,8 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 					}
 					
 					
-					EmitSoundToAll(leapsnd,client);
-					EmitSoundToAll(leapsnd,client);
+					W3EmitSoundToAll(leapsnd,client);
+					W3EmitSoundToAll(leapsnd,client);
 					
 					
 					//new Float:amt = 1.0 + (float(skill_SKILL_ASSAULT)*0.2);
@@ -239,9 +239,9 @@ public OnUltimateCommand(client,race,bool:pressed)
 				TR_TraceRay(endpos,down,MASK_ALL,RayType_EndPoint);
 				TR_GetEndPosition(endpos);
 				
-				EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
-				EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
-				EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
+				W3EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
+				W3EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
+				W3EmitSoundToAll(spheresnd,0,_,_,_,_,_,_,endpos);
 				
 				new Float:life=SphereTime[skill_level];
 				

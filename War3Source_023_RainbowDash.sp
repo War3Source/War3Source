@@ -63,8 +63,8 @@ public OnPluginStart()
 new HaloSprite,XBeamSprite;
 public OnMapStart()
 {
-	HaloSprite = PrecacheModel( "materials/sprites/halo01.vmt" );   
-	XBeamSprite = PrecacheModel( "materials/sprites/lgtning.vmt" );
+	HaloSprite = War3_PrecacheHaloSprite();
+	XBeamSprite = War3_PrecacheBeamSprite();
 }
 public Action:CalcWards(Handle:t){
 	for(new i=1;i<66;i++){

@@ -103,8 +103,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 	
 	War3_PrecacheSound(ultimateSound);
 	War3_PrecacheSound(wardDamageSound);
@@ -161,8 +161,8 @@ public OnUltimateCommand(client,race,bool:pressed)
 				new Float:cooldown=	GetConVarFloat(ultCooldownCvar);
 				War3_CooldownMGR(client,cooldown,thisRaceID,ULT_VOODOO,_,_);
 				W3MsgUsingVoodoo(client);
-				EmitSoundToAll(ultimateSound,client);
-				EmitSoundToAll(ultimateSound,client);
+				W3EmitSoundToAll(ultimateSound,client);
+				W3EmitSoundToAll(ultimateSound,client);
 			}
 
 		}
@@ -426,7 +426,7 @@ public WardEffectAndDamage(owner,wardindex)
 						{
 							if(LastThunderClap[i]<GetGameTime()-2)
 							{
-								EmitSoundToAll(wardDamageSound,i,SNDCHAN_WEAPON);
+								W3EmitSoundToAll(wardDamageSound,i,SNDCHAN_WEAPON);
 								LastThunderClap[i]=GetGameTime();
 							}
 						}

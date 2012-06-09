@@ -62,6 +62,7 @@ public OnMapStart()
 	//Only precache them on TF2
 	if(War3_GetGame()==Game_TF)
 	{
+		War3_PrecacheParticle("teleporter_red_entrance");
 		War3_PrecacheParticle("teleporter_blue_entrance");
 		War3_PrecacheParticle("ghost_smoke");
 	}

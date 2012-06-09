@@ -16,10 +16,10 @@ stock IntMax(one,two){
 stock War3_PrecacheBeamSprite() {
 	new w3_spriteindex = -1;
 	if(War3_GetGame() == Game_CSGO) {
-		w3_spriteindex=PrecacheModel("materials/sprites/lgtning.vmt");
+		w3_spriteindex=PrecacheModel("materials/sprites/laserbeam.vmt");
 	}
 	else {
-		w3_spriteindex=PrecacheModel("materials/sprites/laserbeam.vmt");
+		w3_spriteindex=PrecacheModel("materials/sprites/lgtning.vmt");
 	}
 	if(w3_spriteindex == -1) {
 		LogError("Failed to precache BeamSprite material!");
@@ -30,10 +30,10 @@ stock War3_PrecacheBeamSprite() {
 stock War3_PrecacheHaloSprite() {
 	new w3_spriteindex = -1;
 	if(War3_GetGame() == Game_CSGO) {
-		w3_spriteindex=PrecacheModel("materials/sprites/halo.vmt");
+		w3_spriteindex=PrecacheModel("materials/sprites/halo01.vmt");
 	}
 	else {
-		w3_spriteindex=PrecacheModel("materials/sprites/halo01.vmt");
+		w3_spriteindex=PrecacheModel("materials/sprites/halo.vmt");
 	}
 	if(w3_spriteindex == -1) {
 		LogError("Failed to precache HaloSprite material!");

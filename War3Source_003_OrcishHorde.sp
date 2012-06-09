@@ -125,11 +125,16 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 	
 	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
-	BloodDrop = PrecacheModel("sprites/blood.vmt");
+	if(War3_GetGame() == Game_CSGO) {
+		BloodDrop = PrecacheModel("decals/blood1.vmt");
+	}
+	else {
+		BloodDrop = PrecacheModel("sprites/blood.vmt");
+	}
 	
 	War3_PrecacheSound(lightningSound);
 }
@@ -202,7 +207,7 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 		GetClientEyeAngles(target,vecAngles);
 		TE_SetupBloodSprite(target_pos, vecAngles, {200, 20, 20, 255}, 28, BloodSpray, BloodDrop);
 		TE_SendToAll();
-		EmitSoundToAll( lightningSound , target,_,SNDLEVEL_TRAIN);
+		W3EmitSoundToAll( lightningSound , target,_,SNDLEVEL_TRAIN);
 		new new_dmg=RoundFloat(float(dmg)*0.66);
 		
 		DoChain(client,distance,new_dmg,false,target);

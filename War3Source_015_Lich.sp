@@ -76,8 +76,8 @@ public OnMapStart()
 {	
 	War3_PrecacheSound(ultsnd);
 	War3_PrecacheSound(novasnd);
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 }
 
 public OnRaceChanged(client,oldrace,newrace){
@@ -110,7 +110,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 			if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_FROSTNOVA,true))
 				{
 			
-					EmitSoundToAll(novasnd,client);
+					W3EmitSoundToAll(novasnd,client);
 					GetClientAbsOrigin(client,FrostNovaOrigin[client]);
 					FrostNovaOrigin[client][2]+=15.0;
 					FrostNovaLoopCountdown[client]=20;
@@ -303,7 +303,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 						}
 						PrintHintText(client,"%T","Death and Decay attacked for {amount} total damage!",client,damage*targetsfound);
 						War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_DEATHDECAY,_,_);
-						EmitSoundToAll(ultsnd,client);
+						W3EmitSoundToAll(ultsnd,client);
 					}
 				}
 				

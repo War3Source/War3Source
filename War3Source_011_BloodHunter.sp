@@ -109,10 +109,10 @@ public OnUltimateCommand(client,race,bool:pressed)
 					
 					War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RUPTURE,true,true);
 				
-					EmitSoundToAll(ultsnd,client);
+					W3EmitSoundToAll(ultsnd,client);
 					
-					EmitSoundToAll(ultsnd,target);
-					EmitSoundToAll(ultsnd,target);
+					W3EmitSoundToAll(ultsnd,target);
+					W3EmitSoundToAll(ultsnd,target);
 					PrintHintText(target,"%T","You have been ruptured! You take damage if you move!",target);
 					PrintHintText(client,"%T","Rupture!",client);
 				}
