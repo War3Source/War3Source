@@ -212,6 +212,13 @@ stock DetermineGameMode(){
 	}
 	//bGameModeDetermined=true;
 }
+#define CS GameCS()
+#define TF GameTF()
+#define L4D1 GameL4D1()
+#define L4D2 GameL4D2()
+#define L4DAny GameL4DAny()
+#define CSGO GameCSGO()
+
 stock GameCS(){
 	return War3_GetGame()==Game_CS;
 }

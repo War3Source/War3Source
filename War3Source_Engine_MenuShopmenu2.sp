@@ -24,6 +24,7 @@ public OnPluginStart()
 	hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2");
 }
 
+//flag to access shop 2
 stock bool:HasRequiredFlag(client) {
 	decl String:buffer[4];
 	GetConVarString(hShopMenu2RequiredFlag,buffer,sizeof(buffer));
@@ -47,7 +48,7 @@ public OnWar3Event(W3EVENT:event,client){
 				W3ExtShowShop2(client);
 			}
 			else {
-				War3_ChatMessage(client,"You don't have access to this command!");
+				War3_ChatMessage(client,"You don't have access to shopmenu2. Ask an Admin");
 			}
 		}
 		else{

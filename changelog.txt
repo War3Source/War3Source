@@ -27,6 +27,28 @@ Minor warnings fixes
 
 Check race on xp/gold give, show changerace if they dont have a race
 
+Shop2 access flag
+CSGO compatability
+
+Naris: Changed hint engine to a more simple object model instead of using tries (may or may not reach handle limit)
+
+Glider: Award XP on TF2 for destroying buildings, also don't let engis get xp for using their own teleporter and change the hardcoded 1k distance for teleporters to reward xp to a cvar
+
+Revan: cs:go compatibility of races has been improved(sounds and sfx fixed) + made warden uses Mole skill on CS:GO
+
+Blood Hunter Fire loop on victims fixed (no blood crazy if player is on fire??)
+
+Addon: Goldbets
+
+Quick defines
+so you can if(CS){ }
+#define CS GameCS()
+#define TF GameTF()
+#define L4D1 GameL4D1()
+#define L4D2 GameL4D2()
+#define L4DAny GameL4DAny()
+#define CSGO GameCSGO()
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)

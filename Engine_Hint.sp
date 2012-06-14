@@ -142,7 +142,7 @@ public OnGameFrame()
 					updatenextframe[client]=false;
 					lastshow[client]=time;
 					new String:output[128];
-					for (new W3HintPriority:priority=HINT_NORMAL; priority < W3HintPriority; priority++)
+					for (new W3HintPriority:priority=HINT_NORMAL; priority < HINT_SIZE; priority++)
 					{
 						new Handle:arr=objarray[client][priority];
 						if (arr != INVALID_HANDLE)
@@ -233,7 +233,7 @@ public OnGameFrame()
 DeleteObject(client)
 {
 	//if ur object holds handles, close them!!
-	for(new W3HintPriority:i=HINT_NORMAL; i < W3HintPriority; i++)
+	for(new W3HintPriority:i=HINT_NORMAL; i < HINT_SIZE; i++)
 	{
 		new Handle:arr=objarray[client][i];
 		if (arr)
