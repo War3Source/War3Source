@@ -623,9 +623,9 @@ stock L4D_GetPlayerReviveCount(client)
  * @noreturn
  * @error				Invalid client index.
  */
-stock L4D_SetPlayerReviveCount(client, count)
+stock L4D_SetPlayerReviveCount(client, zzcount)
 {
-	SetEntProp(client, Prop_Send, "m_currentReviveCount", count);
+	SetEntProp(client, Prop_Send, "m_currentReviveCount", zzcount);
 }
 
 /**

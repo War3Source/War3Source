@@ -212,33 +212,33 @@ stock DetermineGameMode(){
 	}
 	//bGameModeDetermined=true;
 }
-#define CS GameCS()
-#define TF GameTF()
-#define L4D1 GameL4D1()
-#define L4D2 GameL4D2()
-#define L4DAny GameL4DAny()
-#define CSGO GameCSGO()
+#define GAMECS GameCS()
+#define GAMETF GameTF()
+#define GAMEL4D1 GameL4D1()
+#define GAMEL4D2 GameL4D2()
+#define GAMEL4DAny GameL4DAny()
+#define GAMECSGO GameCSGO()
 
-stock GameCS(){
+stock bool:GameCS(){
 	return War3_GetGame()==Game_CS;
 }
-stock GameTF(){
+stock bool:GameTF(){
 	return War3_GetGame()==Game_TF;
 }
 
-stock GameL4D1(){
+stock bool:GameL4D1(){
 	return (War3_GetGame() == Game_L4D);
 }
 
-stock GameL4D2(){
+stock bool:GameL4D2(){
 	return ( War3_GetGame() == Game_L4D2);
 }
 
-stock GameL4DAny(){
+stock bool:GameL4DAny(){
 	return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
 }
 
-stock GameCSGO(){
+stock bool:GameCSGO(){
 	return War3_GetGame() == Game_CSGO;
 }
 
@@ -2883,7 +2883,7 @@ stock W3EmitSoundToAll(const String:sample[],
 //hard coded value to avoid spammed sounds
 #define EMITSOUND_MAXDISTANCE 280
 
-	if(CSGO) {
+	if(GAMECSGO) {
 		if((entity > SOUND_FROM_WORLD) && (VectorEquals(origin,NULL_VECTOR))) {
 			if(IsClientInGame(entity)) {
 				GetClientEyePosition(entity,origin);

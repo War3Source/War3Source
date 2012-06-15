@@ -24,7 +24,7 @@ new XPShortTermKillXP[MAXLEVELXPDEFINED+1];
 
 
 // not game specific
-new Handle:HeadshotXPCvar;
+new Handle:HeadshotXPCvar; 
 new Handle:MeleeXPCvar;
 new Handle:RoundWinXPCvar;
 new Handle:AssistKillXPCvar;

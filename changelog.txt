@@ -41,13 +41,13 @@ Blood Hunter Fire loop on victims fixed (no blood crazy if player is on fire??)
 Addon: Goldbets
 
 Quick defines
-so you can if(CS){ }
-#define CS GameCS()
-#define TF GameTF()
-#define L4D1 GameL4D1()
-#define L4D2 GameL4D2()
-#define L4DAny GameL4DAny()
-#define CSGO GameCSGO()
+so you can if(GAMECS){ }
+#define GAMECS GameCS()
+#define GAMETF GameTF()
+#define GAMEL4D1 GameL4D1()
+#define GAMEL4D2 GameL4D2()
+#define GAMEL4DAny GameL4DAny()
+#define GAMECSGO GameCSGO()
 
 B6
 
