@@ -130,7 +130,13 @@ public OnMapStart()
 	
 	
 	BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
-	BloodDrop = PrecacheModel("sprites/blood.vmt"); 
+	if(GAMECSGO) {
+		BloodDrop = PrecacheModel("decals/blood1.vmt");
+	}
+	else {
+		BloodDrop = PrecacheModel("sprites/blood.vmt");
+	}
+
 	War3_PrecacheSound(lightningSound);
 }
 
