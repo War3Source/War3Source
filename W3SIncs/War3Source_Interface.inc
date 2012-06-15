@@ -2883,7 +2883,7 @@ stock W3EmitSoundToAll(const String:sample[],
 //hard coded value to avoid spammed sounds
 #define EMITSOUND_MAXDISTANCE 280
 
-	if(War3_GetGame() == Game_CSGO) {
+	if(CSGO) {
 		if((entity > SOUND_FROM_WORLD) && (VectorEquals(origin,NULL_VECTOR))) {
 			if(IsClientInGame(entity)) {
 				GetClientEyePosition(entity,origin);

@@ -21,7 +21,7 @@ public Plugin:myinfo=
 
 new Handle:objarray[MAXPLAYERSCUSTOM][W3HintPriority];
 new bool:updatenextframe[MAXPLAYERSCUSTOM];
-new String:lastoutput[MAXPLAYERSCUSTOM][128];
+new String:lastoutput[MAXPLAYERSCUSTOM][129];
 
 public bool:InitNativesForwards()
 {
@@ -131,7 +131,7 @@ public OnGameFrame()
 	#endif
 		for (new client = 1; client <= MaxClients; client++)
 		{
-			if (ValidPlayer(client,true))
+			if (ValidPlayer(client,true)&&!IsFakeClient(client))
 			{
 				//this 0.3 resolution only affects expiry, does not delay new messages as that is signaled by updatenextframe
 				static Float:lastshow[MAXPLAYERSCUSTOM];
@@ -141,13 +141,16 @@ public OnGameFrame()
 					//PrintToServer("%f < %f, bool %d", lastshow[client],time-0.5,updatenextframe[client]);
 					updatenextframe[client]=false;
 					lastshow[client]=time;
-					new String:output[128];
+					decl String:output[128];
+					output[0]=0;
 					for (new W3HintPriority:priority=HINT_NORMAL; priority < HINT_SIZE; priority++)
 					{
 						new Handle:arr=objarray[client][priority];
 						if (arr != INVALID_HANDLE)
 						{
 							new size=GetArraySize(arr);
+							
+							//DP("%d size %d",priority,size);
 							if (size)
 							{
 								for (new arrindex=0;arrindex<size;arrindex+=2)
@@ -182,9 +185,11 @@ public OnGameFrame()
 							}
 						}
 					}
+					//DP("0000 %s %d %d %d",output ,strlen(output), strcmp(output," "),strcmp(output,"  "));
 
-					if(strlen(output)>1 && (!strcmp(output," ") || !strcmp(output,"  ")))
+					if(strlen(output)>1 /*&& strcmp(output," ")==-1 && strcmp(output,"  ")==-1*/)
 					{
+					//DP("-1");
 						StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
 						//if(output[strlen(output)-1]=='\n')
 						//{ 
@@ -208,7 +213,8 @@ public OnGameFrame()
 
 						if (!StrEqual(lastoutput[client],output))
 						{
-							PrintToServer("[W3Hint] printing \"%s\"",output);
+						//DP("1");
+							//PrintToServer("[W3Hint] printing \"%s\"",output);
 							PrintHintText(client," %s",output); //NEED SPACE
 							//if(!IsFakeClient(client)){
 							//	DP("%s %d",output,GetGameTime());
@@ -216,6 +222,7 @@ public OnGameFrame()
 
 							//PrintToChat(client,"%s %f",output,lastshow[client]);
 						}
+						//DP("2");
 					}
 					strcopy(lastoutput[client],sizeof(output),output);
 				}
@@ -247,7 +254,14 @@ DeleteObject(client)
 
 public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playersNum, bool:reliable, bool:init)
 {
+//do NOT print to chat here
+//do NOT print to chat here
+//do NOT print to chat here
+//do NOT print to chat here
+//do NOT print to chat here
+
 	new bool:intercept=false;
+	
 	if(enabled)
 	{
 		new String:str[128];
@@ -270,7 +284,8 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 					//urgent update
 					updatenextframe[players[i]]=true;
 					//Update(players[i]);
-					//PrintToServer("captured");
+					//PrintToServer("captured %s",str);
+					
 				}
 			}
 		}
