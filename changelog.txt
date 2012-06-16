@@ -49,6 +49,8 @@ so you can if(GAMECS){ }
 #define GAMEL4DAny GameL4DAny()
 #define GAMECSGO GameCSGO()
 
+night elf evasion reduced to 15% max
+
 B6
 
 death message blocking in the same frame. (SM will attempt to block the second message)
