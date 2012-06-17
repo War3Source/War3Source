@@ -42,3 +42,29 @@ public OnWar3EventDeath(victim){
 		War3_SetBuffItem(victim,fArmorPhysical,thisItem,0.0);
 	}
 }
+
+/*public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
+{
+    new Oil_item = War3_GetItemIdByShortname("oil");
+    new Owns_item = War3_GetOwnsItem(attacker,Oil_item);
+
+	if(Owns_item==1)
+    {
+
+    }
+
+
+if(War3_GetRace(attacker)==thisRaceID)
+    {
+        if(ARMOR_ENABLED[attacker])
+        {
+        //W3FlashScreen(attacker,RGBA_COLOR_YELLOW);
+        War3_DamageModPercent(1.50);
+        }
+        else
+        {
+        War3_DamageModPercent(0.50);
+        }
+    }
+
+}*/

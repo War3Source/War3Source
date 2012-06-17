@@ -33,13 +33,13 @@ public OnItemPurchase(client,item)
 	if(item==thisItem&&ValidPlayer(client))
 	{
 		War3_SetOwnsItem(client,item,true);
-		//War3_SetBuffItem(client,bImmunity_Items,item,true);
+		War3_SetBuffItem(client,bImmunity_Items,item,true);
 	}
 }
 
 public OnWar3EventDeath(victim){
 	if(War3_GetOwnsItem(victim,thisItem)){
 		War3_SetOwnsItem(victim,thisItem,false);
-        //War3_SetBuffItem(victim,bImmunity_Items,thisItem,false);
+        War3_SetBuffItem(victim,bImmunity_Items,thisItem,false);
 	}
 }

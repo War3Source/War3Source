@@ -23,6 +23,8 @@ new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
 
+new Handle:ShowPlayerTotalLevelsOnConnect;
+
 // l4d
 new Handle:g_hGameMode;
 new bool:bSurvivalStarted;
@@ -40,6 +42,8 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
+	ShowPlayerTotalLevelsOnConnect=CreateConVar("war3_show_total_levels_on_connect","0","0 is diabled, 1 is to all, 2 is to player only [default 0]");
+
 	RegConsoleCmd("war3notdev",cmdwar3notdev);
 	HookEvent("player_team", Event_PlayerTeam);
 
@@ -198,6 +202,13 @@ public NWar3_SetRace(Handle:plugin,numParams){
 				War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
 				
 				if(oldrace==0){
+					new String:ClientName[64];
+					GetClientName(client, ClientName, 64);
+					// To Do: Detect Admin flags and have an option not to show admin total levels.
+					if(GetConVarInt(ShowPlayerTotalLevelsOnConnect)==1)
+						War3_ChatMessage(0,"{default}%s connected %i total levels.",ClientName,W3GetTotalLevels(client));
+					if(GetConVarInt(ShowPlayerTotalLevelsOnConnect)==2)
+						War3_ChatMessage(client,"{default}%s connected %i total levels.",ClientName,W3GetTotalLevels(client));
 					War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
 				}
 				W3CreateEvent(DoCheckRestrictedItems,client);

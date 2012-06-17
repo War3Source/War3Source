@@ -4,6 +4,7 @@
 
 
 #pragma semicolon 1
+#pragma tabsize 0     // doesn't mess with how you format your lines
 
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
@@ -50,7 +51,18 @@ public OnClientDisconnect(client){
 
 public Action:SDK_Forwarded_TraceAttack(victim, &attacker, &inflictor, &Float:damage, &damagetype, &ammotype, hitbox, hitgroup)
 {
-	if(hitgroup==1&&War3_GetOwnsItem(victim,thisItem)&&!Perplexed(victim)){
+    new Oil_item = War3_GetItemIdByShortname("oil");
+    new Owns_item = War3_GetOwnsItem(attacker,Oil_item);
+    //PrintToChatAll("attacker: %i",attacker);
+    //PrintToChatAll("Oil_item: %i",Oil_item);
+    //PrintToChatAll("Owns_item: %i",Owns_item);
+    if(Owns_item!=1)
+    {
+        damage=damage+(damage*0.10);
+    }
+
+
+	if((Owns_item!=1)&&hitgroup==1&&War3_GetOwnsItem(victim,thisItem)&&!Perplexed(victim)){
 		damage=0.0;
 		new random = GetRandomInt(0,3);
 		if(random==0){
@@ -63,6 +75,7 @@ public Action:SDK_Forwarded_TraceAttack(victim, &attacker, &inflictor, &Float:da
 			EmitSoundToAll(helmSound3,victim);
 		}
 		if(War3_GetGame()==TF){
+            W3FlashScreen(victim,RGBA_COLOR_BLACK);
 			decl Float:pos[3];
 			GetClientEyePosition(victim, pos);
 			pos[2] += 4.0;

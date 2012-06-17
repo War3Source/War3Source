@@ -1,4 +1,5 @@
 
+#pragma tabsize 0     // doesn't mess with how you format your lines
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
@@ -252,6 +253,20 @@ public Action:War3Source_SayCommand(client,args)
 		{
 			W3SetVar(EventArg1,client);
 			W3CreateEvent(DoShowPlayerInfoTarget,client);
+			return returnblocking;
+		}
+		else if(CommandCheck(arg1,"buyprevious"))
+		{
+        	if(War3_GetGame()==Game_TF)
+            	War3_RestoreItemsFromDeath(client,true,false);
+        	else if(War3_GetGame()==Game_CS)
+            	War3_RestoreItemsFromDeath(client,true,true);
+			return returnblocking;
+		}
+		else if(CommandCheck(arg1,"myitems"))
+		{
+			W3SetVar(EventArg1,client);
+			W3CreateEvent(DoShowPlayerItemsOwnTarget,client);
 			return returnblocking;
 		}
 		else if((top_num=CommandCheckEx(arg1,"war3top"))>0)

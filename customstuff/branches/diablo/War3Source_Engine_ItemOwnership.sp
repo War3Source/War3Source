@@ -1,10 +1,11 @@
 
-
+#pragma tabsize 0
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
 
 new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
+new bool:RestoreItemsFromDeath_playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS+1];
 new Handle:g_OnItemPurchaseHandle;
 new Handle:g_OnItemLostHandle;
 
@@ -28,6 +29,7 @@ public OnPluginStart()
 {
 	hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
 	hCvarMaxShopitems=CreateConVar("war3_max_shopitems","2");
+//    RegConsoleCmd("say", Command_Say);
 }
 
 public bool:InitNativesForwards()
@@ -35,7 +37,9 @@ public bool:InitNativesForwards()
 	g_OnItemPurchaseHandle=CreateGlobalForward("OnItemPurchase",ET_Ignore,Param_Cell,Param_Cell);
 	g_OnItemLostHandle=CreateGlobalForward("OnItemLost",ET_Ignore,Param_Cell,Param_Cell);
 
-	CreateNative("War3_GetOwnsItem",NWar3_GetOwnsItem);
+    CreateNative("War3_RestoreItemsFromDeath",NWar3_RestoreItemsFromDeath);
+
+    CreateNative("War3_GetOwnsItem",NWar3_GetOwnsItem);
 	CreateNative("War3_SetOwnsItem",NWar3_SetOwnsItem);
 	
 	CreateNative("W3IsItemDisabledGlobal",NW3IsItemDisabledGlobal);
@@ -46,6 +50,133 @@ public bool:InitNativesForwards()
 	CreateNative("GetClientItemsOwned",NGetClientItemsOwned);
 	
 	return true;
+}
+
+/*public Action:Command_Say(client, args)
+{
+	new String:text[192]
+	GetCmdArgString(text, sizeof(text))
+
+	new startidx = 0
+	if (text[0] == '"')
+	{
+		startidx = 1
+		// Strip the ending quote, if there is one
+		new len = strlen(text);
+		if (text[len-1] == '"')
+		{
+			text[len-1] = '\0'
+		}
+	}
+	if (StrEqual(text[startidx], "buyprevious"))
+	{
+        if(War3_GetGame()==Game_TF)
+            War3_RestoreItemsFromDeath(client,true,false);
+        else if(War3_GetGame()==Game_CS)
+            War3_RestoreItemsFromDeath(client,true,true);
+
+
+		// Block the client's messsage from broadcasting
+		//return Plugin_Handled
+	}
+
+	// Let say continue normally
+	return Plugin_Continue
+
+}     */
+
+//native War3_RestoreItemsFromDeath(client,bool:payforit,bool:csmoney);
+public NWar3_RestoreItemsFromDeath(Handle:plugin,numParams)
+{
+// To Do: Fix bug that allows player to use buyprevious when they spawn
+//        which also allows them to buy one more item beyond their max items allowed.
+new client=GetNativeCell(1);
+new bool:payforit=GetNativeCell(2);
+new bool:csmoney=GetNativeCell(3);
+
+new ItemsLoaded = W3GetItemsLoaded();
+    if (ValidPlayer(client))
+        {
+            //payforit
+            if(payforit==true)
+            {
+                new num = 0;
+                // Check to see if they already have exact a copy of these items
+                new bool:checkit = false;
+                for(new i;i<=ItemsLoaded;i++)
+                {
+                    if((playerOwnsItem[client][i]==RestoreItemsFromDeath_playerOwnsItem[client][i]) && (playerOwnsItem[client][i]==true))
+                    {
+                        checkit=true;
+                    }
+                    else checkit=false;
+                }
+                if(checkit==true)
+                {
+                    War3_ChatMessage(client,"You already{red} own{default} these items{default}.");
+                    return false;
+                }
+
+                    // Record how much its going to cost
+                    for(new i;i<=ItemsLoaded;i++)
+                    {
+                        if(RestoreItemsFromDeath_playerOwnsItem[client][i]==true)
+                        {
+                            num = num + W3GetItemCost(i,GetNativeCell(3));
+                        }
+                    }
+                    // Figure out if its gold or cs money
+                    new GoldMoney;
+                    if(csmoney==true)
+                        GoldMoney = GetCSMoney(client);
+                    else
+                        GoldMoney = War3_GetGold(client);
+                    // See if they can afford it
+                    if(GoldMoney>=num)
+                    {
+                        // Do the math
+                        new MoneyGoldLeft=(GoldMoney-num);
+                        // Charge them for CSMoney or Gold?
+                        if(csmoney==true)
+                            SetCSMoney(client,MoneyGoldLeft);
+                        else
+                            War3_SetGold(client,MoneyGoldLeft);
+                        // Find the Items
+                        new String:itemName[64];
+                        for(new i;i<=ItemsLoaded;i++)
+                        {
+                            //playerOwnsItem[client][i]=RestoreItemsFromDeath_playerOwnsItem[client][i];
+                            if(RestoreItemsFromDeath_playerOwnsItem[client][i]==true)
+                            {
+                                War3_SetOwnsItem(client,i,true);
+                                W3GetItemName(i,itemName,64);
+                                War3_ChatMessage(client,"You bought {green}%s{default}.",itemName);
+                            }
+                        }
+                        // Tell them the total cost
+                        // To do: if cost == 0 then tell them they didn't buy anything.
+                        if(csmoney==true)
+                            War3_ChatMessage(client,"Total cost ${green}%i {default}.",num);
+                        else
+                            War3_ChatMessage(client,"Total cost {green}%i {default}gold.",num);
+                    }
+                    else
+                    {
+                        War3_ChatMessage(client,"You can not afford your previous items.")
+                    }
+            }
+            else
+            {
+            //no cost
+                for(new i;i<=ItemsLoaded;i++)
+                {
+                    playerOwnsItem[client][i]=RestoreItemsFromDeath_playerOwnsItem[client][i];
+                }
+            }
+            return true;
+        }
+    else
+		return false;
 }
 
 public NWar3_GetOwnsItem(Handle:plugin,numParams)
@@ -155,18 +286,8 @@ public NGetMaxShopitemsPerPlayer(Handle:h,n){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+// WAR3EVENT
+//new bool:BuyPrevious1_playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoForwardClientBoughtItem){
@@ -182,6 +303,32 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==DoCheckRestrictedItems){
 		CheckForRestrictedItemsOnRace(client);
 	}
+    // Record Items before death
+    if(event==OnDeathPre){
+    new ItemsLoaded = W3GetItemsLoaded();
+        for(new i2;i2<=ItemsLoaded;i2++)
+        {
+         RestoreItemsFromDeath_playerOwnsItem[client][i2]=playerOwnsItem[client][i2];
+        }
+    }
+}
+
+public OnClientPutInServer(client)
+{
+    ResetArrayVals(client);
+}
+
+ResetArrayVals(client)
+{
+    for(new i;i<=MAXITEMS;i++)
+    {
+        RestoreItemsFromDeath_playerOwnsItem[client][i]=false;
+    }
+}
+
+public OnMapStart()
+{
+// Clear Buy Previous
 }
 
 

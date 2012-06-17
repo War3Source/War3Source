@@ -135,7 +135,7 @@ enum W3EVENT
 	SHMyHeroes, //select a race to drop
 	SHClearPowers, //drop all heroes
 	SHSelectHeroesMenu, //sh changerace
-	
+
 	//shopmenu2
 	DoShowShopMenu2,
 	DoTriedToBuyItem2,
@@ -148,6 +148,8 @@ enum W3EVENT
 	DoShowSHMenu,
 	DoShowItems2InfoMenu,//MOVE
 	OnBuffChanged, //a buff has changed
+
+    DoShowPlayerItemsOwnTarget, ///EventArg1 = target = the person whos items is shown, client=SHOW TO
 }
 enum W3DENY{
 	DN_ShowChangeRace, //can show the menu

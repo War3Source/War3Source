@@ -340,6 +340,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetReqXP");
 	MarkNativeAsOptional("War3_ShowXP");
 	MarkNativeAsOptional("W3GetMaxGold");
+	MarkNativeAsOptional("War3_RestoreItemsFromDeath");
 	MarkNativeAsOptional("War3_GetOwnsItem");
 	MarkNativeAsOptional("War3_GetOwnsItem2");
 	MarkNativeAsOptional("W3GetItem2ExpireTime");
@@ -776,6 +777,18 @@ native W3GetMaxGold();
 native War3_GetOwnsItem(client,item);
 native War3_SetOwnsItem(client,item,bool:ownsitem);
 
+/**
+ * When a player dies, this command record's their shopmenu1 items.
+ * When you use this command, you are telling it to restore their items from death.
+ * It does not do any math as far as taking gold for items restored.
+ * @param client: Client index
+ * @param method: 0 = no cost, 1 = charge
+ * @param csmoney: true is cs money, false for gold.
+ * @return The return value will be true if it is successful.
+ */
+native War3_RestoreItemsFromDeath(client,bool:payforit,bool:csmoney);
+
+
 
 native W3GetItem2ExpireTime(client,item);
 native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
@@ -832,7 +845,7 @@ public bool:UltFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Ultimates));
 }
-//generic immunity filter for ultimate
+//generic immunity filter for skills
 public bool:SkillFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Skills));
