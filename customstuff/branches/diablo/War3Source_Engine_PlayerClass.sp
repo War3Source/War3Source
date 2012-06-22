@@ -201,7 +201,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
 				War3_GetRaceName(newrace,buf,sizeof(buf));
 				War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
 				
-				if(oldrace==0){
+				if(oldrace==0 && !IsFakeClient(client)){
 					new String:ClientName[64];
 					GetClientName(client, ClientName, 64);
 					// To Do: Detect Admin flags and have an option not to show admin total levels.
