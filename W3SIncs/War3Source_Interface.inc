@@ -2188,7 +2188,11 @@ stock HasSMAccess(client,flag)
 	return W3IsDeveloper(client);
 }
 
-
+stock bool:CvarEmpty(Handle:sourcemod_convar){
+	static String:zzstr[32];
+	return (GetConVarString(sourcemod_convar, zzstr, sizeof(zzstr))&&strlen(zzstr)<1);
+	
+}
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 

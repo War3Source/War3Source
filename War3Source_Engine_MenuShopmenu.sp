@@ -307,10 +307,10 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 			decl String:SelectionDispText[256];
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
-			new item=StringToInt(SelectionInfo);
-			if(item>0&&item<=W3GetItemsLoaded())
+			new itemtolose=StringToInt(SelectionInfo);
+			if(itemtolose>0&&itemtolose<=W3GetItemsLoaded())
 			{	
-				
+				//check he can afford new item
 				new cred=War3_GetGold(client);
 				new money=GetCSMoney(client);
 				new cost_num=W3GetItemCost(WantsToBuy[client],W3BuyUseCSMoney());
@@ -323,7 +323,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 					ShowMenuShop(client);
 				}
 				else{
-					W3SetVar(TheItemBoughtOrLost,item);
+					W3SetVar(TheItemBoughtOrLost,itemtolose);
 					W3CreateEvent(DoForwardClientLostItem,client); //old item
 					
 					

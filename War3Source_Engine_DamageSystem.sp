@@ -67,7 +67,9 @@ public OnPluginStart()
 	}
 }
 
-
+//cvar handle
+new Handle:ChanceModifierSentry;
+new Handle:ChanceModifierSentryRocket;
 public bool:InitNativesForwards()
 {
 	CreateNative("War3_DamageModPercent",Native_War3_DamageModPercent);
@@ -93,6 +95,12 @@ public bool:InitNativesForwards()
 	
 	g_OnWar3EventPostHurtFH=CreateGlobalForward("OnWar3EventPostHurt",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 
+
+	ChanceModifierSentry=CreateConVar("war3_chancemodifier_sentry","","None to use attack rate dependent chance modifier. Set from 0.0 to 1.0 chance modifier for sentry, this will override time dependent chance modifier");
+	ChanceModifierSentryRocket=CreateConVar("war3_chancemodifier_sentryrocket","","None to use attack rate dependent chance modifier. Set from 0.0 to 1.0 chance modifier for sentry, this will override time dependent chance modifier");
+	
+	
+	
 	return true;
 }
 
@@ -217,6 +225,25 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
 			//DP("%f",ChanceModifier[attacker]);
 			LastDamageDealtTime[attacker]=GetGameTime();
 		}
+		if(attacker!=inflictor)
+		{
+			if(inflictor>0 && IsValidEdict(inflictor))
+			{
+				new String:ent_name[64];
+				GetEdictClassname(inflictor,ent_name,64);
+			//	DP("ent name %s",ent_name);
+				if(StrContains(ent_name,"obj_sentrygun",false)==0    &&!CvarEmpty(ChanceModifierSentry))
+				{
+					ChanceModifier[attacker]=GetConVarFloat(ChanceModifierSentry);
+				}
+				else if(StrContains(ent_name,"tf_projectile_sentryrocket",false)==0 &&!CvarEmpty(ChanceModifierSentryRocket))
+				{
+					ChanceModifier[attacker]=GetConVarFloat(ChanceModifierSentryRocket);
+				}
+				
+			}
+		}
+	//	DP("%f",ChanceModifier[attacker]);
 		//else it is true damage
 		//PrintToChatAll("takedmg %f BULLET %d   lastiswarcraft %d",damage,isBulletDamage,g_CurDamageIsWarcraft);
 		

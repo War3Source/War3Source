@@ -32,7 +32,7 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 		if(vteam!=ateam)
 		{
 			new Float:percent = W3GetBuffSumFloat(attacker,fBashChance);
-			if((percent > 0.0) && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills))
+			if((percent > 0.0) && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills)&&W3ChanceModifier(attacker))
 			{
 				// Bash
 				if(War3_Chance(percent) && !W3GetBuffHasTrue(victim,bBashed) && IsPlayerAlive(attacker))
