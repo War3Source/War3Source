@@ -2188,6 +2188,7 @@ stock HasSMAccess(client,flag)
 	return W3IsDeveloper(client);
 }
 
+/* is a normal engine cvar empty (zero length, "") ? */
 stock bool:CvarEmpty(Handle:sourcemod_convar){
 	static String:zzstr[32];
 	return (GetConVarString(sourcemod_convar, zzstr, sizeof(zzstr))&&strlen(zzstr)<1);

@@ -127,6 +127,8 @@ public OnW3Denyable(W3DENY:event,client){
 			//DP("cvar %d %s",cvarid,cvarstring);
 			if(W3FindStringInCvar(cvarid,classstring,2)){
 				//DP("deny");
+				War3_ChatMessage(client,"Race restricted due to class restriction: %s",classstring);
+			
 				return W3Deny();
 			}
 		}
