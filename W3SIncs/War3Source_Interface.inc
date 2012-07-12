@@ -1643,7 +1643,8 @@ native W3LogNotError(const String:fmt[],any:...);
 //Skills
 native War3_SuicideBomber(client, Float:location[], Float:damage, race_skillid, Float:radius, bool:effect=true);
 
-native bool:War3_Teleport(client, Float:distance);
+//disabled due to human race requirements..for now
+//native bool:War3_Teleport(client, Float:distance);
 
 /**
  * Creates a new ward behavior. This will allow us to make ward effects modular, so people
