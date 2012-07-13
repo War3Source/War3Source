@@ -12,6 +12,7 @@ stock CS_GetClientClanTag(client, String:buffer[], size)
 	
 	if (startprop[0] == '\0' || offset == -1)
 	{
+		PrintToServer("Loading css clan tags");
 		new Handle:conf = LoadGameConfigFile("cssclantags");
 		if (conf == INVALID_HANDLE)
 		{

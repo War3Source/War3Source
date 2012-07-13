@@ -1527,7 +1527,7 @@ native War3_GetSkillLevel(client,race,skill);
 native War3_SetSkillLevelINTERNAL(client,race,skill,newlevel);
 native War3_GetSkillLevelINTERNAL(client,race,skill);
 
-native W3_GenericSkillLevel(client,gskill,&Handle:genericSkillData);
+native W3_GenericSkillLevel(client,gskill,&Handle:genericSkillData,&customerRace=0,&customerSkill=0);
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
 

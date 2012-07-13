@@ -23,7 +23,7 @@ public LoadCheck(){
 }
 public OnPluginStart()
 {
-   g_hClanVar = CreateConVar("war3_bonusclan_name","*СМЕРШ*","Player who are wearing this clantag will gain bonus XP");
+   g_hClanVar = CreateConVar("war3_bonusclan_name","","Player who are wearing this clantag will gain bonus XP");
    g_hXPMultipler = CreateConVar("war3_bonusclan_xprate","1.2","Bonus XP Multipler", 0, true, 1.0);
    g_hGOMultipler = CreateConVar("war3_bonusclan_goldrate","1.0","Bonus Gold Multipler", 0, true, 1.0);
    g_hVarWelcomeMsg = CreateConVar ("war3_bonusclan_welcome", "1.0", "Enable the welcome message", 0, true, 0.0, true, 1.0);
@@ -59,7 +59,7 @@ public Action:WelcomeAdvertTimer (Handle:timer, any:client)
 	new Float:xprate =(GetConVarFloat(g_hXPMultipler)-1)*100;
 	new Float:goldrate =(GetConVarFloat(g_hGOMultipler)-1)*100;
 	new String:str_xprate[8],String:str_goldrate[8];
-	if (GetConVarInt (g_hVarWelcomeMsg) && IsClientConnected (client) && IsClientInGame (client)) 
+	if (!CvarEmpty(g_hClanVar)&&GetConVarInt (g_hVarWelcomeMsg) && ValidPlayer(client)) 
 	{
 		GetClientName (client, ClientName, sizeof (ClientName));
 		GetConVarString(g_hClanVar,buffer2,sizeof(buffer2));

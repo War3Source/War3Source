@@ -49,6 +49,7 @@ new String:creatingraceshortname[16];
 
 new raceCell[MAXRACES][ENUM_RaceObject]
 
+
 //END race instance variables
 
 
@@ -448,13 +449,16 @@ public NW3GetRaceCell(Handle:plugin,numParams){
 
 
 new genericskillcount=0;
+
+//how many skills can use a generic skill, limited for memory
+#define MAXCUSTOMERRACES 32
 enum GenericSkillClass
 {
 	String:cskillname[32], 
-	redirectedfromrace[32], //theset start from 0!!!!
-	redirectedfromskill[32],
-	redirectedcount,
-	Handle:raceskilldatahandle[32], //handle the customer races passed us
+	redirectedfromrace[MAXCUSTOMERRACES], //theset start from 0!!!!
+	redirectedfromskill[MAXCUSTOMERRACES],
+	redirectedcount, //how many races are using this generic skill, first is 1, loop from 1 to <=redirected count
+	Handle:raceskilldatahandle[MAXCUSTOMERRACES], //handle the customer races passed us
 }
 //55 generic skills
 new GenericSkill[55][GenericSkillClass];
@@ -512,7 +516,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
 				
 				//check that the data handle isnt leaking
 				new genericcustomernumber=GenericSkill[i][redirectedcount];
-				for(new j=0;j<genericcustomernumber;j++){
+				for(new j=0;j<=genericcustomernumber;j++){
 					if(
 					GenericSkill[i][redirectedfromrace][j]==raceid
 					&&
@@ -567,22 +571,32 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
 	new level=0;
 	new reallevel=0;
 	new customernumber=0;
+	new clientrace=War3_GetRace(client);
 	//DP("customer count %d genericskill %d",count,genericskill);
 	for(new i=0;i<count;i++){
-		level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]) 
-		//DP("real skill %d %d %d",GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i],level);
-		if(level){ 
-			found++;
-			reallevel=level;
-			customernumber=i;
+		if(clientrace==GenericSkill[genericskill][redirectedfromrace][i]){
+			level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]) 
+			//DP("real skill %d %d %d",GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i],level);
+			if(level){ 
+				found++;
+				reallevel=level;
+				customernumber=i;
+			}
 		}
-		
 	}
 	if(found>1){
 		W3LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
 		return 0;
 	}
-	SetNativeCellRef(3,GenericSkill[genericskill][raceskilldatahandle][customernumber]);
+	if(found){
+		SetNativeCellRef(3,GenericSkill[genericskill][raceskilldatahandle][customernumber]);
+		if(numParams>=4){
+			SetNativeCellRef(4, GenericSkill[genericskill][redirectedfromrace][customernumber]);
+		}
+		if(numParams>=5){
+			SetNativeCellRef(5, GenericSkill[genericskill][redirectedfromskill][customernumber]);
+		}
+	}
 	return reallevel;
 	
 }
