@@ -19,7 +19,7 @@ new bool:IsCustom[MAXPLAYERSCUSTOM];
 public Plugin:myinfo= 
 {
 	name="W3S Engine Model CS",
-	author="berni, DonRevan",
+	author="blodia, DonRevan",
 	description="War3Source Core Plugins",
 	version="1.2",
 	url="https://forums.alliedmods.net/showthread.php?t=181558"
@@ -36,7 +36,7 @@ public bool:InitNativesForwards()
 
 // Silent Failure if non CS:S
 public LoadCheck(){
-	return GameCS();
+	return (GameCS() || GameCSGO());
 }
 
 public _:NWar3_SetModel(Handle:plugin,numParams)

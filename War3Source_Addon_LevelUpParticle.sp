@@ -27,11 +27,12 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-	PrecacheModel("effects/combinemuzzle2.vmt");
-	
 	if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
 	{
 		War3_PrecacheParticle("achieved");
+	}
+	else if (GameCS() || GameCSGO()) {
+		PrecacheModel("effects/combinemuzzle2.vmt");
 	}
 }
 
