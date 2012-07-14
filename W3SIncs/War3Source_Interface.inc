@@ -1214,7 +1214,7 @@ stock War3HealToHP(client,addhp,maximumHP){
 	if(newhp>maximumHP){
 		newhp=maximumHP;
 	}
-	SetEntityHealth(client,newhp)
+	SetEntityHealth(client,newhp);
 }
 /**
  * heals to max hp * 1.5 buff in tf2
