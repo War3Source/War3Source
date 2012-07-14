@@ -28,10 +28,10 @@ public Plugin:myinfo=
 	description="War3Source Addon Plugin",
 	version="1.1.0.0",
 };
-public LoadCheck(){
+/*public LoadCheck(){
 	// Allow loading if either steamtools has been loaded or we're running CS:S
 	return (GAMECS || HAS_STEAMTOOLS());
-}
+}*/
 public OnPluginStart()
 {
 	if(HAS_STEAMTOOLS()) {
