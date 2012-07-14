@@ -77,7 +77,7 @@ public OnPluginStart()
 	//Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	
-	if(War3_IsCounterStrike()){
+	if(GAMECSANY){
 		HookEvent("player_death",PlayerDeathEvent);
 		HookEvent("round_start",RoundStartEvent);
 		ultMaxCvar=CreateConVar("war3_warden_vengence_max","0","Max number of revivals from vengence per round (CS only), 0 for unlimited");
@@ -91,10 +91,10 @@ public OnWar3LoadRaceOrItemOrdered(num)
 	if(num==70)
 	{
 		thisRaceID=War3_CreateNewRaceT("warden");
-		SKILL_FANOFKNIVES=War3_AddRaceSkillT(thisRaceID,War3_IsCounterStrike()?"FanOfKnivesCS":"FanOfKnivesTF",false,4);
+		SKILL_FANOFKNIVES=War3_AddRaceSkillT(thisRaceID,GAMECSANY?"FanOfKnivesCS":"FanOfKnivesTF",false,4);
 		SKILL_BLINK=War3_AddRaceSkillT(thisRaceID,"Immunity",false,4);
 		SKILL_SHADOWSTRIKE=War3_AddRaceSkillT(thisRaceID,"ShadowStrike",false,4);
-		ULT_VENGENCE=War3_AddRaceSkillT(thisRaceID,War3_IsCounterStrike()?"VengenceCS":"VengenceTF",true,4); 
+		ULT_VENGENCE=War3_AddRaceSkillT(thisRaceID,GAMECSANY?"VengenceCS":"VengenceTF",true,4); 
 		War3_CreateRaceEnd(thisRaceID);
 	
 	}
@@ -108,7 +108,7 @@ public OnMapStart()
 	War3_PrecacheSound(ultimateSound);
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
-	if(War3_IsCounterStrike()){
+	if(GAMECSANY){
 		KnifeModel=PrecacheModel("models/weapons/w_knife.vmt");
 	}
 }
@@ -135,7 +135,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 		new ult_level=War3_GetSkillLevel(client,race,ULT_VENGENCE);
 		if(ult_level>0)
 		{
-			if(War3_IsCounterStrike()){
+			if(GAMECSANY){
 				if(War3_SkillNotInCooldown(client,thisRaceID,ULT_VENGENCE,true)){   //prints
 					W3MsgUltimateNotActivatable(client);
 				}
@@ -216,7 +216,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 										decl Float:StartPos[3];
 										GetClientAbsOrigin(victim,StartPos);
 										StartPos[2]+=40;
-										if(War3_IsCounterStrike()){
+										if(GAMECSANY){
 											decl Float:TargetPos[3];
 											TargetPos[0]=StartPos[0];
 											TargetPos[1]=StartPos[1];

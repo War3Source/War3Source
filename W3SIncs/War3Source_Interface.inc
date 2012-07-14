@@ -34,7 +34,7 @@ stock String:dummystr[32]; //just a dummy string!
  * Mark Natives optional
  * Calls your own functions (hackish way) if you have them:
  * InitNativesForwards()   
- * AskPluginLoad2CustomCustom(Handle:myself,bool:late,String:error[],err_max);
+ * AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max);
  * So if you want to do something in AskPluginLoad2, implement public AskPluginLoad2Custom(...) instead. 
  */ 
 public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
@@ -218,7 +218,7 @@ stock DetermineGameMode(){
 #define GAMEL4D2 GameL4D2()
 #define GAMEL4DAny GameL4DAny()
 #define GAMECSGO GameCSGO()
-
+#define GAMECSANY GameCSANY()
 stock bool:GameCS(){
 	return War3_GetGame()==Game_CS;
 }
@@ -241,7 +241,15 @@ stock bool:GameL4DAny(){
 stock bool:GameCSGO(){
 	return War3_GetGame() == Game_CSGO;
 }
+stock bool:GameCSANY(){
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO) {
+		return true;
+	}
+	return false;
+}
 
+#pragma deprecated use if(GAMECSANY)
 // This checks if the current game is CS:S or CS:GO
 stock bool:War3_IsCounterStrike(){
 	new ValveGameEnum:war3Game = War3_GetGame();
