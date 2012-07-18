@@ -148,6 +148,7 @@ enum W3EVENT
 	DoShowSHMenu,
 	DoShowItems2InfoMenu,//MOVE
 	OnBuffChanged, //a buff has changed
+	OnAuraCalculationFinished, //this is after all the OnW3PlayerAuraStateChanged have been sent
 }
 enum W3DENY{
 	DN_ShowChangeRace, //can show the menu

@@ -160,7 +160,7 @@ public Action:CalcAura(Handle:t)
 								{
 									//DP("aura target on %d",target);
 									HasAura[target][aura]++;
-									HasAuraLevel[target][aura]=IntMax(HasAuraLevel[target][aura],AuraOriginLevel[client][aura]);
+									HasAuraLevel[target][aura]=IntMax(HasAuraLevel[target][aura],AuraOriginLevel[client][aura]); //what level is larger, old level or new level brought by the new origin player
 								}
 							}
 							
@@ -203,7 +203,8 @@ public Action:CalcAura(Handle:t)
 			}
 		}
 	}
-
+	W3CreateEvent(OnAuraCalculationFinished,0);
+	
 }
 
 

@@ -21,7 +21,7 @@ public OnPluginStart()
 {
 	LoadTranslations("w3s.shopmenu2.phrases");
 	W3CreateCvar("w3shop2menu","loaded","is the shop2 loaded");
-	hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2");
+	hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2. Flag name (like kick)");
 }
 
 //flag to access shop 2

@@ -2603,8 +2603,13 @@ stock StrTokenCount(const String:input[])
 	return curind;
 }
 
-
-
+stock Float:GetPlayerDistance(client1,client2){
+	static Float:vec1[3];
+	static Float:vec2[3];				
+	GetClientAbsOrigin(client1,vec1);
+	GetClientAbsOrigin(client2,vec2);
+	return GetVectorDistance(vec1,vec2);
+}
 
 
 
