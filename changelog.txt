@@ -3,6 +3,9 @@
 
 
 B7
+
+SH cooldown error fix 
+
 GENERIC SKILLS
 Individual skill translations now possible (one skill is translated while others arn't)
 
@@ -11,6 +14,7 @@ Luna ult was not labled as an ult
 Some Undead Balance
 say speed in TF2 will print multiplier too
 RACE: Rainbow dash
+RACE: Twilight Sparkle
 
 gamedata removed and CS drop weapon now uses SM native
 

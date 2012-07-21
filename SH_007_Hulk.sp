@@ -65,7 +65,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 	//PrintToChatAll("%d",herotarget);
 	if(SHHasHero(client,herotarget)&&herotarget==thisRaceID){
 		//PrintToChatAll("1");
-		if(pressed && War3_SkillNotInCooldown(client,thisRaceID,0,true)){
+		if(pressed && SH_SkillNotInCooldown(client,thisRaceID,true)){
 			new Float:dist = 360.0;
 			new ClaperTeam = GetClientTeam(client);
 			new Float:ClaperPos[3];
@@ -77,7 +77,7 @@ public OnPowerCommand(client,herotarget,bool:pressed){
 			TE_SendToAll();	
 			for(new i=1;i<=MaxClients;i++)
 			{
-				if(ValidPlayer(i,true)&& GetClientTeam(i)!=ClaperTeam || i==client)
+				if(ValidPlayer(i,true)&& GetClientTeam(i)!=ClaperTeam )
 				{
 					GetClientAbsOrigin(i,VecPos);
 					if(GetVectorDistance(ClaperPos,VecPos)<=dist)

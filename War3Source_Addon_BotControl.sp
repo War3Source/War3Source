@@ -9,7 +9,7 @@ public Plugin:myinfo =
 	description = "Various tweaks regarding bots in War3Source",
 	version = "1.3",
 };
-
+public W3ONLY(){}
 // ########################## BOT EVASION ################################
 new Handle:botEvasionCvar;
 
