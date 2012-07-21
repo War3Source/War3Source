@@ -16,15 +16,13 @@ new Handle:g_hGOMultipler = INVALID_HANDLE;
 new Handle:g_hXPMultipler = INVALID_HANDLE;
 new Handle:g_hVarWelcomeMsg = INVALID_HANDLE;
 
-// Macro by GoD-Tony
-#define HAS_STEAMTOOLS()	(GetFeatureStatus(FeatureType_Native, "RequestGroupStatus") == FeatureStatus_Available)
 new bool:g_bSteamTools = false;
 new bool:bIsInGroup[MAXPLAYERSCUSTOM] = false;
 
 public Plugin:myinfo= 
 {
-	name="W3S Addon ClanBonusXP",
-	author="Revan. Edited by alex0310",
+	name="W3S Addon - ClanBonusXP",
+	author="alex0310 & Revan",
 	description="War3Source Addon Plugin",
 	version="1.1.0.0",
 };
@@ -34,25 +32,61 @@ public Plugin:myinfo=
 }*/
 public OnPluginStart()
 {
-	if(HAS_STEAMTOOLS()) {
-		// Revan: I'm using seperate convar names because theese are also separate values and generic clantags might be prefered
-		g_hClanID = CreateConVar("war3_bonusclan_id","0","If GroupID is non-zero the plugin will use steamtools to identify clan players(Overrides 'war3_bonusclan_name')");
-	}
+	// Revan: I'm using seperate convar names because theese are also separate values and generic clantags might be prefered
+	// Problems getting GroupID? see this: http://forums.alliedmods.net/showpost.php?p=1226621&postcount=11 .. example id: 2488793
+	g_hClanID = CreateConVar("war3_bonusclan_id","0","If GroupID is non-zero the plugin will use steamtools to identify clan players(Overrides 'war3_bonusclan_name')");
 	g_hClanVar = CreateConVar("war3_bonusclan_name","","Player who are wearing this clantag will gain bonus XP");
 	g_hXPMultipler = CreateConVar("war3_bonusclan_xprate","1.2","Bonus XP Multipler", 0, true, 1.0);
 	g_hGOMultipler = CreateConVar("war3_bonusclan_goldrate","1.0","Bonus Gold Multipler", 0, true, 1.0);
 	g_hVarWelcomeMsg = CreateConVar ("war3_bonusclan_welcome", "1.0", "Enable the welcome message", 0, true, 0.0, true, 1.0);
 
+	// tells if steamtools is loaded and(if used from a client console) if you're member of the war3_bonusclan_id group
+	RegConsoleCmd("war3_bonusclan", Command_TellStatus);
+	// refreshes groupcache
+	RegServerCmd("war3_bonusclan_refresh", Command_Refresh);
 	LoadTranslations ("w3s.addon.clanbonusxp.phrases");
+}
+
+public bool:InitNativesForwards()
+{
+	MarkNativeAsOptional("Steam_RequestGroupStatus");
+}
+
+public Action:Command_Refresh(args)
+{
+	for(new client=1;client<=MaxClients;client++)
+	{
+		if(ValidPlayer(client,false))
+		{
+			Steam_RequestGroupStatus(client, GetConVarInt(g_hClanID));
+		}
+	}
+	PrintToServer("[W3S] Repolling groupstatus...");
+}
+
+public Action:Command_TellStatus(client,args)
+{
+	if(g_bSteamTools) {
+		ReplyToCommand(client,"[W3S] Steamtools detected!");
+	}
+	else {
+		ReplyToCommand(client,"[W3S] Steamtools wasn't recognized!");
+	}
+	if(IS_PLAYER(client)) {
+		ReplyToCommand(client,"[W3S] Membership status of Group(%i) is: %s",GetConVarInt(g_hClanID),(bIsInGroup[client]?"member":"nobody"));
+	}
+	return Plugin_Handled;
 }
 
 public OnWar3Event(W3EVENT:event,client)
 {
 	if(event==OnPreGiveXPGold && !IsFakeClient(client)) {
 		new bool:bAwardBonus = false;
+		// Steamtools has highest priority
 		if(check_steamtools()) {
 			bAwardBonus = bIsInGroup[client];
 		}
+		// Check clantag if steamtools isn't available and bonus isn't granted yet
 		else if(GAMECS && !bAwardBonus) {
 			decl String:buffer[32],String:buffer2[32];
 			CS_GetClientClanTag(client,buffer, sizeof(buffer));
@@ -71,7 +105,7 @@ public OnWar3Event(W3EVENT:event,client)
 	}
 }
 
-public OnClientAuthorized(client, const String:auth[])
+/*public OnClientAuthorized(client, const String:auth[])
 {
 	if (!IsFakeClient(client))
 	{
@@ -82,11 +116,11 @@ public OnClientAuthorized(client, const String:auth[])
 			}
 		}
 	}
-}
+}*/
 
-public OnClientPutInServer (client)
+public OnClientPutInServer(client)
 {
-	if ((client == 0) || !IsClientConnected (client))
+	if (IsFakeClient (client))
 	return;
 
 	if(GetConVarBool (g_hVarWelcomeMsg)) {
@@ -94,6 +128,13 @@ public OnClientPutInServer (client)
 	}
 	// reset cached group status
 	bIsInGroup[client] = false;
+	// repoll
+	if(check_steamtools()) {
+		new iGroupID = GetConVarInt(g_hClanID);
+		if(iGroupID != 0) {
+			Steam_RequestGroupStatus(client, iGroupID);
+		}
+	}
 }
 
 public Action:WelcomeAdvertTimer (Handle:timer, any:client)
@@ -154,12 +195,13 @@ public Steam_GroupStatusResult(client, groupID, bool:bIsMember, bool:bIsOfficer)
 // Checks if steamtools is currently running properly
 stock bool:check_steamtools()
 {
-	if(HAS_STEAMTOOLS()) {
+	/*if(HAS_STEAMTOOLS()) {
 		if(!g_bSteamTools) {
 			LogError("SteamTools was detected but not properly loaded");
 			return false;
 		}
 		return true;
 	}
-	return false;
+	return false;*/
+	return g_bSteamTools;
 }
