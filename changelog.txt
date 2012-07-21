@@ -4,6 +4,7 @@
 
 B7
 
+war3_bot_set_races 1 // should plugins set races for bots
 SH cooldown error fix 
 
 GENERIC SKILLS

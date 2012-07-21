@@ -73,7 +73,7 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 			if(W3()){
 				CheckPendingRace(client);
 				
-				if(IsFakeClient(client)&&W3IsPlayerXPLoaded(client)&&War3_GetRace(client)==0){ //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
+				if(IsFakeClient(client)&&W3IsPlayerXPLoaded(client)&&War3_GetRace(client)==0&&GetConVarInt(botsetraces)){ //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
 					new tries=100;
 					if(tries>0){
 						new race=GetRandomInt(1,War3_GetRacesLoaded());

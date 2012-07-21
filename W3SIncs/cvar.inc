@@ -21,13 +21,14 @@ new Handle:hUseMetric;
 
 new Handle:introclannamecvar;
 new Handle:clanurl;
-
+new Handle:botsetraces;
 /////END CVARS
 ///other cvar handle definitions are in war3source.inc ??
 War3Source_InitCVars()
 {
 	introclannamecvar=CreateConVar("war3_introclanname","war3_introclanname","Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
 	clanurl=CreateConVar("war3_clanurl","Www.OwnageClan.Com (set war3_clanurl)","The url to display on intro menu");
+	
 	/*	
 	ChanceModifierPlasma=CreateConVar("war3_chancemodifier_directburn","0.0625","From 0.0 to 1.0 chance modifier for direct burns (plasma)");
 	ChanceModifierBurn=CreateConVar("war3_chancemodifier_burn","0.10","From 0.0 to 1.0 chance modifier for burns");
@@ -36,7 +37,7 @@ War3Source_InitCVars()
 	ChanceModifierSMGSniper=CreateConVar("war3_chancemodifier_smgsniper","0.5","From 0.0 to 1.0 chance modifier for sniper SMG");
 	
 	*/
-
+	botsetraces=CreateConVar("war3_bot_set_races","1","should bots get races");
 	
 	hRaceLimitEnabled=CreateConVar("war3_racelimit_enable","1","Should race limit restrictions per team be enabled");
 	W3SetVar(hRaceLimitEnabledCvar,hRaceLimitEnabled);

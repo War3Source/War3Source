@@ -11,10 +11,10 @@ new Handle:ultCooldownCvar;
 
 new Float:TeleportDistance[5]={0.0,300.0,350.0,400.0,450.0};
 
-new SKILL_HEALINGWAVE;
+new SKILL_HEAL;
 stock ULT_TELEPORT;
-new Float:HealingWaveDistance=100.0;
-new Float:HealAmount[5]={0.0,2.0,4.0,6.0,8.0};
+
+new Float:HealAmount[5]={0.0,0.5,1.0,1.5,2.0};
 new AuraID;
 public Plugin:myinfo = 
 {
@@ -51,66 +51,26 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SetArrayCell(genericSkillOptions,1,ultCooldownCvar);
 		//ULT_TELEPORT=
 		War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"TeleportTW","TeleportTWskilldesc");
-		SKILL_HEALINGWAVE=War3_AddRaceSkill(thisRaceID,"Friendship is Witchcraft","Heals you and your teammates when you are very close to them, up to 8HP/s");
+		
+		SKILL_HEAL=War3_AddRaceSkill(thisRaceID,"Connected","Global heal 2hp per second",false,4); 
 		War3_CreateRaceEnd(thisRaceID);
-		AuraID=W3RegisterAura("twilight_healwave",HealingWaveDistance);
+		AuraID=W3RegisterAura("fluttershy_healwave",999999.9);
 	}
 }
-
-
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-	if(race==thisRaceID &&skill==SKILL_HEALINGWAVE) //1
-	{
-			W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
-	}
-}
-
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
-	if(aura==AuraID&&inAura==false) //lost aura, remove helaing
+	if(aura==AuraID)
 	{
-		War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
+		War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealAmount[level]:0.0);
 		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
 	}
 }
-public OnWar3Event(W3EVENT:event,client){
-	if(event==OnAuraCalculationFinished){
-		RecalculateHealing();
-	//	DP("re");
-	}
-}
-RecalculateHealing(){
-	new level;
-	new playerlist[66];
-	new auralevel[66];
-	new auraactivated[66];
-	new playercount=0;
 
-	for(new client=1;client<=MaxClients;client++)
+public OnSkillLevelChanged(client,race,skill,newskilllevel)
+{	
+
+	if(race==thisRaceID &&skill==SKILL_HEAL) //1
 	{
-		if(ValidPlayer(client,true)&&W3HasAura(AuraID,client,level)){
-			for(new i=0;i<playercount;i++){
-				if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance){
-					auraactivated[playercount]++;
-					auraactivated[i]++;
-				}
-			}
-			
-			playerlist[playercount]=client;
-			auralevel[playercount]=level;
-			playercount++;
-		}
-	
-	}
-	for(new i=0;i<playercount;i++){
-		if(auraactivated[i]){
-			//DP("client %d %f",playerlist[i],HealAmount[auralevel[i]]);
-			War3_SetBuff(playerlist[i],fHPRegen,thisRaceID,HealAmount[auralevel[i]]);
-		}
-		else{
-			//DP("client %d disabled due to no neighbords",playerlist[i]);
-			War3_SetBuff(playerlist[i],fHPRegen,thisRaceID,0.0);
-		}
+			W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
 	}
 }

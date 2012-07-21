@@ -24,7 +24,7 @@ new Handle:botBuysItems;
 new Handle:botBuysRandom;
 new Handle:botBuysRandomChance;
 new Handle:botBuysRandomMultipleChance;
-
+new Handle:botsetraces;
 public OnPluginStart()
 {
 	//SetFailState("BROKEN");
@@ -57,7 +57,7 @@ public OnPluginStart()
 	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance","0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
 	
 	LoadTranslations ("w3s.addon.botcontrol.phrases");
-	
+	botsetraces=CreateConVar("war3_bot_set_races","1","should bots get races");
 }
 
 public bool:InitNativesForwards()
@@ -137,42 +137,48 @@ ScrambleBots()
 	new race_max_level;
 	new race;
 	
-	if(GetConVarBool(botAnnounce))
-		//PrintToChatAll("\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",LANG_SERVER);
-			
-		for(new players = 1; players <= MaxClients; ++players){
-		if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
+	if(GetConVarInt(botsetraces)){
+		if(GetConVarBool(botAnnounce))
 		{
-		PrintToChat(players,"\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",players);
-		}
-	}
-	
-	for(new client=1; client <= MaxClients; client++)
-	{
-		if(ValidPlayer(client) && IsFakeClient(client))
-		{
-			race = GetRandomInt(1, War3_GetRacesLoaded());
-			
-			while (W3RaceHasFlag(race, "nobots"))
-				race = GetRandomInt(1, War3_GetRacesLoaded());
-			
-			race_max_level = W3GetRaceMaxLevel(race);
-			if(bot_level_allowed == -1) // Give him max level?
-				level = race_max_level;
-			else
+			//PrintToChatAll("\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",LANG_SERVER);
+				
+			for(new players = 1; players <= MaxClients; ++players)
 			{
-				if (bot_level_allowed > race_max_level) // cvar higher than max for this race?
-					level = race_max_level;
-				else // use cvar value
-					level = bot_level_allowed;
+				if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
+				{
+					
+					PrintToChat(players,"\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",players);
+				}
 			}
-			
-			if(GetConVarInt(botLevelRandom) == 1)
-				level = GetRandomInt(0, level);
-			
-			War3_SetRace(client, race);
-			War3_SetLevel(client, race, level);
-			DistributeSkillPoints(client);
+		}
+		
+		for(new client=1; client <= MaxClients; client++)
+		{
+			if(ValidPlayer(client) && IsFakeClient(client))
+			{
+				race = GetRandomInt(1, War3_GetRacesLoaded());
+				
+				while (W3RaceHasFlag(race, "nobots"))
+					race = GetRandomInt(1, War3_GetRacesLoaded());
+				
+				race_max_level = W3GetRaceMaxLevel(race);
+				if(bot_level_allowed == -1) // Give him max level?
+					level = race_max_level;
+				else
+				{
+					if (bot_level_allowed > race_max_level) // cvar higher than max for this race?
+						level = race_max_level;
+					else // use cvar value
+						level = bot_level_allowed;
+				}
+				
+				if(GetConVarInt(botLevelRandom) == 1)
+					level = GetRandomInt(0, level);
+				
+				War3_SetRace(client, race);
+				War3_SetLevel(client, race, level);
+				DistributeSkillPoints(client);
+			}
 		}
 	}
 }

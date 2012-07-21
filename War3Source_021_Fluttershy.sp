@@ -22,12 +22,12 @@ public LoadCheck(){
 
 new SKILL_STARE,SKILL_TOLERATE,SKILL_KINDNESS,ULTIMATE_YOUBEGENTLE;
 new AuraID;
-
+new Float:HealingWaveDistance=133.0;
 new Float:starerange=300.0;
 new Float:StareDuration[5]={0.0,1.5,2.0,2.5,3.0};
 new Float:ArmorPhysical[5]={0.0,0.5,1.0,1.5,2.0};
-new Float:HealAmount[5]={0.0,0.5,1.0,1.5,2.0};
 
+new Float:HealAmount[5]={0.0,2.0,4.0,6.0,8.0};
 
 new Float:NotBadDuration[5]={0.0,1.0,1.3,1.6,1.8};
 new bNoDamage[MAXPLAYERSCUSTOM];
@@ -38,11 +38,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		thisRaceID=War3_CreateNewRaceT("fluttershy");
 		SKILL_STARE=War3_AddRaceSkillT(thisRaceID,"StareMaster",false,4);
 		SKILL_TOLERATE=War3_AddRaceSkillT(thisRaceID,"Tolerate",false,4); 
-		SKILL_KINDNESS=War3_AddRaceSkillT(thisRaceID,"Kindness",false,4); 
+		SKILL_KINDNESS=War3_AddRaceSkill(thisRaceID,"Kindness","Heals you and your teammates when both of you are very close, up to 8HP per sec");
+	
 		ULTIMATE_YOUBEGENTLE=War3_AddRaceSkillT(thisRaceID,"BeGentle",true,4); 
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 		
-		AuraID=W3RegisterAura("fluttershy_healwave",999999.9);
+		
+		AuraID=W3RegisterAura("twilight_healwave",HealingWaveDistance);
 	}
 }
 
@@ -139,51 +141,66 @@ public OnWar3EventDeath(client){ //end stare if fluttershy dies
 
 
 
-public OnWar3EventSpawn(client){
-	InitPassiveSkills(client);
-}
+
+
+
+
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-	if(race==thisRaceID &&ValidPlayer(client,true)){
-		InitPassiveSkills(client);
+{	
+	if(race==thisRaceID &&skill==SKILL_TOLERATE)	{
+		War3_SetBuff(client,fArmorPhysical,thisRaceID,ArmorPhysical[newskilllevel]);
 	}
-}
-InitPassiveSkills(client)
-{
-	if(War3_GetRace(client)==thisRaceID)
+	if(race==thisRaceID &&skill==SKILL_KINDNESS) //1
 	{
-
-		new level=War3_GetSkillLevel(client,thisRaceID,SKILL_TOLERATE);
-		War3_SetBuff(client,fArmorPhysical,thisRaceID,ArmorPhysical[level]);
-		
-		level=War3_GetSkillLevel(client,thisRaceID,SKILL_KINDNESS);
-		W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
-		
-		
-	}
-}
-
-public OnRaceChanged(client,oldrace,newrace)
-{
-	if(newrace==thisRaceID)
-	{	
-		InitPassiveSkills(client);
-		
-	}
-	else if(oldrace==thisRaceID)
-	{
-	
-		War3_SetBuff(client,fArmorPhysical,thisRaceID,0);
-		W3SetAuraFromPlayer(AuraID,client,false,0);
-		
+			W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
 	}
 }
 
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
-	if(aura==AuraID)
+	if(aura==AuraID&&inAura==false) //lost aura, remove helaing
 	{
-		War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealAmount[level]:0.0);
+		War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
 		//DP("%d %f",inAura,HealingWaveAmountArr[level]);
+	}
+}
+public OnWar3Event(W3EVENT:event,client){
+	if(event==OnAuraCalculationFinished){
+		RecalculateHealing();
+	//	DP("re");
+	}
+}
+RecalculateHealing(){
+	new level;
+	new playerlist[66];
+	new auralevel[66];
+	new auraactivated[66];
+	new playercount=0;
+
+	for(new client=1;client<=MaxClients;client++)
+	{
+		if(ValidPlayer(client,true)&&W3HasAura(AuraID,client,level)){
+			for(new i=0;i<playercount;i++){
+				if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance){
+					auraactivated[playercount]++;
+					auraactivated[i]++;
+				}
+			}
+			
+			playerlist[playercount]=client;
+			auralevel[playercount]=level;
+			playercount++;
+		}
+	
+	}
+	for(new i=0;i<playercount;i++){
+		if(auraactivated[i]){
+			//DP("client %d %f",playerlist[i],HealAmount[auralevel[i]]);
+			War3_SetBuff(playerlist[i],fHPRegen,thisRaceID,HealAmount[auralevel[i]]);
+		}
+		else{
+			//DP("client %d disabled due to no neighbords",playerlist[i]);
+			War3_SetBuff(playerlist[i],fHPRegen,thisRaceID,0.0);
+		}
 	}
 }
