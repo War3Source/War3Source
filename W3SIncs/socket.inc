@@ -467,7 +467,7 @@ native SocketSetArg(Handle:socket, any:arg);
  * @return			1 on success
  */
 native SocketGetHostName(String:dest[], destLen);
-
+ 
 /**
  * _________________Do not edit below this line!_______________________
  */
