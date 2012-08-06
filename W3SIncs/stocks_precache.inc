@@ -1,16 +1,4 @@
 
-/**
- * Returns UNIX time (integer)
- */ 
-stock NOW(){
-	return GetTime();
-}
-/**
- * returns the larger integer of the two
- */ 
-stock IntMax(one,two){
-	return  one>two?one:two;
-}
 
 // default beamsprite which is often used (moved here to keep compatibilty across diff. games)
 stock War3_PrecacheBeamSprite() {

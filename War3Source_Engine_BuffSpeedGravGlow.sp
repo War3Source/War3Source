@@ -8,7 +8,7 @@
 #pragma semicolon 1
 
 #include <sourcemod>
-
+#include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
 
@@ -65,7 +65,15 @@ public bool:InitNativesForwards()
 	CreateNative("W3GetSpeedMulti",NW3GetSpeedMulti);
 	return true;
 }
-
+public OnClientPutInServer(client)
+{
+    SDKHook(client, SDKHook_PostThinkPost, PostThinkPost);
+}
+public PostThinkPost(client){
+	if(invisWeaponAttachments[client]){
+		SetEntProp(client, Prop_Send, "m_iAddonBits",0);
+	}
+}
 
 public NW3ReapplySpeed(Handle:plugin,numParams)
 {	

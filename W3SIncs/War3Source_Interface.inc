@@ -988,7 +988,14 @@ stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=fal
 	return false;
 }
 
- 
+//is a buff index valid? X > 0 and X <  MaxBuffLoopLimitTemp
+stock bool:ValidBuff(W3Buff:val){
+	return bool:(_:val>0&&_:val<_:MaxBuffLoopLimitTemp);
+}
+
+stock bool:ValidRace(raceid_){
+	return bool:(raceid_>0&&raceid_<=War3_GetRacesLoaded());
+}
 /**
  * Respawns a dead player.
  * @param client: Client's index.
@@ -2032,6 +2039,8 @@ forward OnWar3EventDeath(victim,attacker,deathrace);
 
 
 //very generic damage event
+//derrived from the game engine's posthurt event
+//FRIENDLY FIRE IS NOT FILTERED
 forward OnWar3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft);
 
 //Fired after a player dodges, useful primarily for attaching effects
@@ -2931,6 +2940,26 @@ stock W3EmitSoundToAll(const String:sample[],
 		// No CS:GO use sdktools method instead
 		EmitSoundToAll(sample,entity,channel,level,flags,volume,pitch,speakerentity,origin,dir,updatePos,soundtime);
 	}
+}
+
+/**
+ * Returns UNIX time (integer)
+ */ 
+stock NOW(){
+	return GetTime();
+}
+/**
+ * returns the larger integer of the two
+ */ 
+stock IntMax(one,two){
+	return  one>two?one:two;
+}
+
+
+//what we want is something that always increments even past map changes
+//not intended to matter of game pauses or not (tick)
+stock Float:AbsoluteTime(){
+	return GetEngineTime();
 }
 
 #include "W3SIncs/stocks_precache"

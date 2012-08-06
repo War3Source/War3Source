@@ -4,6 +4,11 @@
 
 B7
 
+full invis player in CSS, weapon attachment are invisible.
+
+RACE twilight sparkle
+Buffhelper simple buff implemented, applys buff for simple duration
+
 war3_bot_set_races 1 // should plugins set races for bots
 SH cooldown error fix 
 

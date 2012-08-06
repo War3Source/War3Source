@@ -10,7 +10,7 @@ new thisRaceID;
 new Handle:ultCooldownCvar;
 
 new Float:TeleportDistance[5]={0.0,300.0,350.0,400.0,450.0};
-
+new Float:obediencechance[5]={0.0,0.05,0.10,0.15,0.20};
 new SKILL_HEAL;
 stock ULT_TELEPORT;
 new SKILL_MAGIC_OBEDIENCE;
@@ -53,7 +53,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		AuraID=W3RegisterAura("twilight_heal_global",999999.9);
 		
 		//magic obedience
-		SKILL_HEAL=War3_AddRaceSkill(thisRaceID,"Magic Obedience","Global heal 2HP per second",false,4); 
+		SKILL_MAGIC_OBEDIENCE=War3_AddRaceSkill(thisRaceID,"Magic Obedience","5-20% chance of silencing your enemy (on attack)",false,4); 
+		
 		
 		War3_CreateRaceEnd(thisRaceID);
 	}
@@ -73,5 +74,25 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 	if(race==thisRaceID &&skill==SKILL_HEAL) //1
 	{
 			W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
+	}
+}
+
+
+
+public OnWar3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft){
+	if(War3_GetRace(attacker)==thisRaceID){
+		new level=War3_GetSkillLevel(attacker,thisRaceID,SKILL_MAGIC_OBEDIENCE);
+		if(level){
+			if(W3Chance(obediencechance[level]*W3ChanceModifier(attacker))  && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills) ){
+				W3ApplyBuffSimple(victim,bSilenced,thisRaceID,true,2.0); 
+				new String:name[33];
+				GetClientName(victim,name,sizeof(name));
+				PrintHintText(attacker,"You silenced %s",name);
+				
+
+				GetClientName(attacker,name,sizeof(name));
+				PrintHintText(victim,"%s silenced you",name);
+			}
+		}
 	}
 }
