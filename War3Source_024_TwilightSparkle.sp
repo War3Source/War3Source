@@ -13,6 +13,7 @@ new Float:TeleportDistance[5]={0.0,300.0,350.0,400.0,450.0};
 
 new SKILL_HEAL;
 stock ULT_TELEPORT;
+new SKILL_MAGIC_OBEDIENCE;
 
 new Float:HealAmount[5]={0.0,0.5,1.0,1.5,2.0};
 new AuraID;
@@ -35,13 +36,9 @@ public OnPluginStart()
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-
-	
 	if(num==240)
 	{
-	
-		
-		
+
 		
 		thisRaceID=War3_CreateNewRace("Twilight Sparkle (TEST)","twilight");
 		
@@ -50,11 +47,15 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SetArrayArray(genericSkillOptions,0,TeleportDistance,sizeof(TeleportDistance));
 		SetArrayCell(genericSkillOptions,1,ultCooldownCvar);
 		//ULT_TELEPORT=
-		War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"TeleportTW","TeleportTWskilldesc");
+		War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"Teleport","Short range teleport");
+		///neal
+		SKILL_HEAL=War3_AddRaceSkill(thisRaceID,"Connected","Global heal 2HP per second",false,4); 
+		AuraID=W3RegisterAura("twilight_heal_global",999999.9);
 		
-		SKILL_HEAL=War3_AddRaceSkill(thisRaceID,"Connected","Global heal 2hp per second",false,4); 
+		//magic obedience
+		SKILL_HEAL=War3_AddRaceSkill(thisRaceID,"Magic Obedience","Global heal 2HP per second",false,4); 
+		
 		War3_CreateRaceEnd(thisRaceID);
-		AuraID=W3RegisterAura("fluttershy_healwave",999999.9);
 	}
 }
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)

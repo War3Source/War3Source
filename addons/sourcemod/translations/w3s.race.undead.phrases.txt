@@ -15,7 +15,7 @@
 	}
 	"undead_skill_VampiricAura_desc"
 	{
-		"en"		"Leech Health\nYou recieve 7-25%% of your damage dealt as Health"
+		"en"		"Leech Health\nYou recieve #1# of your damage dealt as Health"
 	}
 
 	"undead_skill_UnholyAura"
@@ -24,7 +24,7 @@
 	}
 	"undead_skill_UnholyAura_desc"
 	{
-		"en"		"You run 5-23%% faster"
+		"en"		"You run #1# faster"
 	}
 
 	"undead_skill_Levitation"
@@ -33,7 +33,7 @@
 	}
 	"undead_skill_Levitation_desc"
 	{
-		"en"		"You can jump higher\n15-50%% less gravity"
+		"en"		"You can jump higher\n#1# less gravity"
 	}
 
 	"undead_skill_SuicideBomber"

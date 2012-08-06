@@ -44,7 +44,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
 		
 		
-		AuraID=W3RegisterAura("twilight_healwave",HealingWaveDistance);
+		AuraID=W3RegisterAura("fluttershy_healwave",HealingWaveDistance);
 	}
 }
 

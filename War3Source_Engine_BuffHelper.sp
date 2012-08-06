@@ -42,7 +42,7 @@ public bool:InitNativesForwards()
 {
 	//CreateNative("W3RegisterBuffHelper",NW3ApplyBuff);
 	//CreateNative("W3SetBuffHelper",NW3ApplyBuff);
-	CreateNative("W3ApplyBuffSimple",NW3ApplyBuffSimple);
+	//CreateNative("W3ApplyBuffSimple",NW3ApplyBuffSimple);
 	return true;
 }
 
