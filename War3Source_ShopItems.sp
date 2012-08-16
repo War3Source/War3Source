@@ -150,9 +150,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 public OnMapStart()
 {
-	
 	War3_PrecacheSound(buyTombSound);
 	War3_PrecacheSound(masksnd);
+	if(GAMECSGO) {
+		// Theese models aren't always precached
+		PrecacheModel("models/player/ctm_gsg9.mdl");
+		PrecacheModel("models/player/tm_leet.mdl");
+	}
 }
 
 
@@ -548,7 +552,12 @@ public Action:DoMole(Handle:timer,any:client)
 			return;
 		}
 		GetClientModel(client,sOldModel[client],256);
-		SetEntityModel(client,(searchteam==2)?"models/player/t_leet.mdl":"models/player/ct_urban.mdl");
+		if(War3_GetGame() == Game_CS) {
+			SetEntityModel(client,(searchteam==2)?"models/player/t_leet.mdl":"models/player/ct_urban.mdl");
+		}
+		else {
+			SetEntityModel(client,(searchteam==2)?"models/player/tm_leet.mdl":"models/player/ctm_gsg9.mdl");
+		}
 		TeleportEntity(client,emptyspawnlist[GetRandomInt(0,availablelocs-1)],NULL_VECTOR,NULL_VECTOR);
 		War3_ChatMessage(client,"%T","You have moled!",client);
 		PrintHintText(client,"%T","You have moled!",client);
