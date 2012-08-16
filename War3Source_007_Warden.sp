@@ -110,7 +110,12 @@ public OnMapStart()
 	HaloSprite=War3_PrecacheHaloSprite();
 	if(GAMECSANY){
 		KnifeModel=PrecacheModel("models/weapons/w_knife.vmt");
-	}
+		if(GAMECSGO) {
+			// Theese models aren't always precached
+			PrecacheModel("models/player/ctm_gsg9.mdl");
+			PrecacheModel("models/player/tm_leet.mdl");
+		}
+	}	
 }
 
 public OnWar3EventSpawn(client){
