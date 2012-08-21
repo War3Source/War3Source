@@ -1,3 +1,5 @@
+stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0){}
+
 /**
  * File: War3Source_Interface.inc
  * Description: The file to be included for creating races and whatnot.
@@ -989,8 +991,14 @@ stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=fal
 }
 
 //is a buff index valid? X > 0 and X <  MaxBuffLoopLimitTemp
-stock bool:ValidBuff(W3Buff:val){
-	return bool:(_:val>0&&_:val<_:MaxBuffLoopLimitTemp);
+stock ValidBuff(W3Buff:buffindex){
+	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit){
+		return true;
+		
+		
+	}
+	ThrowError("invalid buff index (%d)",buffindex);
+	return false;
 }
 
 stock bool:ValidRace(raceid_){
