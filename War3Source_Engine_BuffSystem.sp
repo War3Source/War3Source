@@ -681,15 +681,7 @@ stock GetWeaponAlpha(client)
 	return 255;
 }
 
-stock ValidBuff(W3Buff:buffindex){
-	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit){
-		return true;
-		
-		
-	}
-	ThrowError("invalid buff index (%d)",buffindex);
-	return false;
-}
+
 //use 0 < limit
 stock BuffLoopLimit(){
 	return W3GetItemsLoaded()+War3_GetRacesLoaded()+1;
