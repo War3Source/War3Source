@@ -281,21 +281,22 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 					{
 						if(damage_i>40) damage_i=40; // lets not be too unfair ;]
 						
-						if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL)){
-						
-							decl Float:iVec[3];
-							decl Float:iVec2[3];
-							GetClientAbsOrigin(attacker, iVec); 
-							GetClientAbsOrigin(victim, iVec2);
-							iVec[2]+=35.0, iVec2[2]+=40.0;
-							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
-							TE_SendToAll();
-							iVec2[0]=iVec[0];
-							iVec2[1]=iVec[1];
-							iVec2[2]=80+iVec[2];
-							TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
-							TE_SendToAll();
-						}
+						//if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL))
+						//{
+						War3_DealDamageDelayed(attacker,victim,damage_i,"thorns",0.1,true,SKILL_THORNS);
+						decl Float:iVec[3];
+						decl Float:iVec2[3];
+						GetClientAbsOrigin(attacker, iVec); 
+						GetClientAbsOrigin(victim, iVec2);
+						iVec[2]+=35.0, iVec2[2]+=40.0;
+						TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
+						TE_SendToAll();
+						iVec2[0]=iVec[0];
+						iVec2[1]=iVec[1];
+						iVec2[2]=80+iVec[2];
+						TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
+						TE_SendToAll();
+						//}
 					}
 				}
 			}

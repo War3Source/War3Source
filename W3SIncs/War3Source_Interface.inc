@@ -2950,6 +2950,38 @@ stock W3EmitSoundToAll(const String:sample[],
 	}
 }
 
+// In csgo killing 2 players in the same frame causes a crash so we use this dirty workaround
+public Action:_war3source_Timer_DealDamage(Handle:timer, Handle:pack)
+{
+	ResetPack(pack); //resolve the package...
+	new victim = ReadPackCell(pack);
+	if(!ValidPlayer(victim,true)) {
+		// immedialety exit!
+		return Plugin_Stop;
+	}
+	new attacker = ReadPackCell(pack);
+	new damage = ReadPackCell(pack);
+	new bool:showDamage = bool:ReadPackCell(pack);
+	new showDamage_skill = ReadPackCell(pack);
+	decl String:classname[32];
+	ReadPackString(pack,classname,sizeof(classname));
+	if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
+		W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
+	}
+	return Plugin_Stop;
+}
+
+stock War3_DealDamageDelayed(victim,attacker,damage,String:classname[32],Float:delay=0.0,bool:showDamage=false,showDamage_skill=0) {
+	new Handle:pack;
+	CreateDataTimer(delay, _war3source_Timer_DealDamage, pack);
+	WritePackCell(pack, victim);
+	WritePackCell(pack, attacker);
+	WritePackCell(pack, damage);
+	WritePackCell(pack, showDamage);
+	WritePackCell(pack, showDamage_skill);
+	WritePackString(pack, classname);
+}
+
 /**
  * Returns UNIX time (integer)
  */ 
