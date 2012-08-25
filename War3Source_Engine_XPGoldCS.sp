@@ -36,7 +36,7 @@ public OnPluginStart()
 		PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
 		RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
 		 
-		if(GAMECS){
+		if(GAMECSANY){
 			if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
 			{
 				PrintToServer("[War3Source] Could not hook the bomb_defused event.");
