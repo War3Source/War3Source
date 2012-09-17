@@ -52,6 +52,8 @@ public bool:InitNativesForwards()
 	return true;
 }
 
+
+// INFORMATION FOR EL DIABLO
 /*public Action:Command_Say(client, args)
 {
 	new String:text[192]
@@ -88,8 +90,6 @@ public bool:InitNativesForwards()
 //native War3_RestoreItemsFromDeath(client,bool:payforit,bool:csmoney);
 public NWar3_RestoreItemsFromDeath(Handle:plugin,numParams)
 {
-// To Do: Fix bug that allows player to use buyprevious when they spawn
-//        which also allows them to buy one more item beyond their max items allowed.
 new client=GetNativeCell(1);
 new bool:payforit=GetNativeCell(2);
 new bool:csmoney=GetNativeCell(3);
@@ -98,12 +98,13 @@ new ItemsLoaded = W3GetItemsLoaded();
     if (ValidPlayer(client))
         {
 		new counter;
-		new maxitemsallowed = GetMaxShopitemsPerPlayer() - 1;
+		new maxitemsallowed = GetMaxShopitemsPerPlayer();
 		new String:itemName[64];
             //payforit
             if(payforit==true)
             {
-                new num = 0;
+                new numTotalCost = 0;
+				new War3_Temp_ItemCost;
                 // Check to see if they already have exact a copy of these items
                 new bool:checkit = false;
                 for(new i;i<=ItemsLoaded;i++)
@@ -125,70 +126,82 @@ new ItemsLoaded = W3GetItemsLoaded();
                     return false;
                 }
 				counter = 0;
-
-                    // Record how much its going to cost
-                    for(new i;i<=ItemsLoaded;i++)
-                    {
-                        if(RestoreItemsFromDeath_playerOwnsItem[client][i]==true)
-                        {
-                            num = num + W3GetItemCost(i,GetNativeCell(3));
-							counter++;
-                        }
-					if(counter>=maxitemsallowed)
-						break;
-                    }
                     // Figure out if its gold or cs money
                     new GoldMoney;
+					new bool:SkipBuying = false;
                     if(csmoney==true)
                         GoldMoney = GetCSMoney(client);
                     else
                         GoldMoney = War3_GetGold(client);
-                    // See if they can afford it
-                    if(GoldMoney>=num)
-                    {
-                        // Do the math
-                        new MoneyGoldLeft=(GoldMoney-num);
-                        // Charge them for CSMoney or Gold?
-                        if(csmoney==true)
-                            SetCSMoney(client,MoneyGoldLeft);
-                        else
-                            War3_SetGold(client,MoneyGoldLeft);
+						// Remove Items that are not part of list from when user died last
+                        for(new i;i<=ItemsLoaded;i++)
+                        {
+							if(War3_GetOwnsItem(client,i) && !RestoreItemsFromDeath_playerOwnsItem[client][i])
+							{
+								W3GetItemName(i,itemName,64);
+								War3_SetOwnsItem(client,i,false);
+								War3_ChatMessage(client,"{red}<<buyprevious>>{default}Item Discarded: {green}%s{default} (You didn't own this item on death).",itemName);
+							}
+						}
                         // Find the Items
 						counter = 0;
                         for(new i;i<=ItemsLoaded;i++)
                         {
-                            //playerOwnsItem[client][i]=RestoreItemsFromDeath_playerOwnsItem[client][i];
 						if(counter>=maxitemsallowed)
-							break;
-                            if(RestoreItemsFromDeath_playerOwnsItem[client][i]==true)
-                            {
-                                War3_SetOwnsItem(client,i,true);
-                                W3GetItemName(i,itemName,64);
-                                War3_ChatMessage(client,"{red}<<buyprevious>>{default}You bought {green}%s{default}.",itemName);
-								counter++;
-                            }
-                            if(RestoreItemsFromDeath_playerOwnsItem[client][i]==false && War3_GetOwnsItem(client,i))
+						{
+							SkipBuying = true;
+						}
+							if(SkipBuying == false)
 							{
-                                War3_SetOwnsItem(client,i,false);
-                                W3GetItemName(i,itemName,64);
-                                War3_ChatMessage(client,"{red}<<buyprevious>>{default}Item Discarded: {green}%s{default} (You didn't own this item on death).",itemName);
+								if(RestoreItemsFromDeath_playerOwnsItem[client][i])
+								{
+									if(!War3_GetOwnsItem(client,i))
+									{
+										//How much does the item cost?
+										War3_Temp_ItemCost = W3GetItemCost(i,GetNativeCell(3));
+										// if I can afford it, buy it:
+										if(GoldMoney>=War3_Temp_ItemCost)
+										{
+											GoldMoney = GoldMoney - War3_Temp_ItemCost;
+											numTotalCost = numTotalCost + War3_Temp_ItemCost;
+											War3_SetOwnsItem(client,i,true);
+											W3GetItemName(i,itemName,64);
+											War3_ChatMessage(client,"{red}<<buyprevious>>{default}You bought {green}%s{default}.",itemName);
+											counter++;
+										}
+										else
+										{
+											War3_ChatMessage(client,"{red}<<buyprevious>>{default}You can not afford {green}%s{default}.",itemName);
+										}
+									}
+									else
+									{
+										W3GetItemName(i,itemName,64);
+										War3_ChatMessage(client,"{red}<<buyprevious>>{default}You already own it! Skipping: {green}%s{default}.",itemName);
+										counter++;
+									}
+								}
 							}
-                        }
+							// For Debug:
+							//War3_ChatMessage(client,"{red}<<buyprevious>>{default}Counter: {green}%d{default}.",counter);
+						}
+                        // Do the math
+                        // Charge them for CSMoney or Gold?
+                        if(csmoney==true)
+                            SetCSMoney(client,GoldMoney);
+                        else
+                            War3_SetGold(client,GoldMoney);
                         // Tell them the total cost
                         // To do: if cost == 0 then tell them they didn't buy anything.
                         if(csmoney==true)
-                            War3_ChatMessage(client,"{red}<<buyprevious>>{default}Total cost ${green}%i {default}.",num);
+                            War3_ChatMessage(client,"{red}<<buyprevious>>{default}Total cost ${green}%i {default}.",numTotalCost);
                         else
-                            War3_ChatMessage(client,"{red}<<buyprevious>>{default}Total cost {green}%i {default}gold.",num);
-                    }
-                    else
-                    {
-                        War3_ChatMessage(client,"{red}<<buyprevious>>{default}You can not afford your previous items.")
-                    }
+                            War3_ChatMessage(client,"{red}<<buyprevious>>{default}Total cost {green}%i {default}gold.",numTotalCost);
             }
             else
             {
             //no cost
+			// NEEDS WORK ... BECAUSE ABOVE HAS BEEN CHANGED
 			counter = 0;
 				for(new i;i<=ItemsLoaded;i++)
 				{
