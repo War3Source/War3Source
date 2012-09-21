@@ -149,6 +149,7 @@ enum W3EVENT
 	DoShowItems2InfoMenu,//MOVE
 	OnBuffChanged, //a buff has changed
 	OnAuraCalculationFinished, //this is after all the OnW3PlayerAuraStateChanged have been sent
+	DoShowPlayerItemsOwnTarget, ///EventArg1 = target = the person whos items is shown, client=SHOW TO
 }
 enum W3DENY{
 	DN_ShowChangeRace, //can show the menu
@@ -368,7 +369,9 @@ enum W3Buff
 
 	iDamageBonus, //Gives a direct increase to damage done
 	fDamageModifier, //Gives a % increase to damage done
-	
+
+	bImmunity_Items, // is immune to items
+
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
 	
 }
@@ -557,7 +560,11 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fDamageModifier ][BuffStackType]=fAbsolute;
 	
 	buffpropertiesarray[ iDamageMode ][DefaultValue]=-1;
-	buffpropertiesarray[ iDamageMode ][BuffStackType]=iLastValue;	
+	buffpropertiesarray[ iDamageMode ][BuffStackType]=iLastValue;
+
+	buffpropertiesarray[ bImmunity_Items ][DefaultValue]=false;
+	buffpropertiesarray[ bImmunity_Items ][BuffStackType]=bHasOneTrue;
+
 	
 	
 	//check that all indexes have been set
