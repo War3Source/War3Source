@@ -1,6 +1,8 @@
 1.2.3
 
 
+9/20/2012
+
 B8
 //El Diablo
 Added "Buyprevious" say command (Same as War3_RestoreItemsFromDeath except it works as a say command)
@@ -23,6 +25,7 @@ Added "Buyprevious" say command (Same as War3_RestoreItemsFromDeath except it wo
  * @return The return value will be true if it is successful.
  */
 native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
+
 
 Added:
 
