@@ -537,6 +537,31 @@ War3_playertargetMenu(client,target) {
 			}
 		}
 	}
+	else if(client==target)
+	{
+		Format(title,sizeof(title),"%s\n \n%T\n",title,"Items:",client);
+
+		new String:itemname[64];
+		new moleitemid=War3_GetItemIdByShortname("mole");
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new itemid=1;itemid<=ItemsLoaded;itemid++)
+		{
+			if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid)
+			{
+			 W3GetItemName(itemid,itemname,sizeof(itemname));
+			 Format(title,sizeof(title),"%s\n%s",title,itemname);
+			}
+		}
+		new Items2Loaded = W3GetItems2Loaded();
+		for(new itemid=1;itemid<=Items2Loaded;itemid++)
+		{
+			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
+			{
+				W3GetItem2Name(itemid,itemname,sizeof(itemname));
+				Format(title,sizeof(title),"%s\n%s",title,itemname);
+			}
+		}
+	}
 	new Float:armorred=(1.0-W3GetPhysicalArmorMulti(target))*100;
 	Format(title,sizeof(title),"%s\n \n%T",title,"Physical Armor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(target,fArmorPhysical),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
 	
