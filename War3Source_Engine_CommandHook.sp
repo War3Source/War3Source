@@ -254,6 +254,20 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowPlayerInfoTarget,client);
 			return returnblocking;
 		}
+		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp1"))
+		{
+			if(War3_GetGame()==Game_TF)
+				War3_RestoreItemsFromDeath(client,true,false);
+			else if(War3_GetGame()==Game_CS)
+				War3_RestoreItemsFromDeath(client,true,true);
+			return returnblocking;
+		}
+		else if(CommandCheck(arg1,"myitems"))
+		{
+			W3SetVar(EventArg1,client);
+			W3CreateEvent(DoShowPlayerItemsOwnTarget,client);
+			return returnblocking;
+		}
 		else if((top_num=CommandCheckEx(arg1,"war3top"))>0)
 		{
 			if(top_num>100) top_num=100;
