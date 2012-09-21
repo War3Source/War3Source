@@ -1,7 +1,7 @@
 
 
 
-#pragma tabsize 0     // doesn't mess with how you format your lines
+//#pragma tabsize 0     // doesn't mess with how you format your lines
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
@@ -22,12 +22,12 @@ new Handle:ShowOtherPlayerItemsCvar;
 public OnPluginStart()
 {
 	if(W3())
-    {
-     // No Spendskill level restrictions on non-ultimates (Requires mapchange)
-     ShowOtherPlayerItemsCvar=CreateConVar("war3_show_playerinfo_other_player_items","1","0 disables showing other players items using playerinfo. [default 1]");
-    }
+	{
+		// No Spendskill level restrictions on non-ultimates (Requires mapchange)
+		ShowOtherPlayerItemsCvar=CreateConVar("war3_show_playerinfo_other_player_items","1","0 disables showing other players items using playerinfo. [default 1]");
+	}
 
-}                //War3_playertargetItemMenu
+}			//War3_playertargetItemMenu
 
 public OnWar3Event(W3EVENT:event,client){
 	if(W3()){
@@ -508,32 +508,36 @@ War3_playertargetMenu(client,target) {
 			Format(title,sizeof(title),"%s%T\n",title,"{skillname} (LVL {amount}/{amount})",client,skillname,level,W3GetRaceSkillMaxLevel(raceid,x));
 		}
 	}
-	// IF DISABLED:
-    // ONLY SHOW ITEMS IF YOU ARE OWNER
-    // DON'T SHOW OTHER PLAYERS ITEMS
+	// IF FALSE:
+	// ONLY SHOW ITEMS IF YOU ARE OWNER
+	// DON'T SHOW OTHER PLAYERS ITEMS
 //    if(client==target)
-	if(GetConVarBool(ShowOtherPlayerItemsCvar)&&client==target)
-    {
-	   Format(title,sizeof(title),"%s\n \n%T\n",title,"Items:",client);
+	if(GetConVarBool(ShowOtherPlayerItemsCvar)&&client!=target)
+	{
+		Format(title,sizeof(title),"%s\n \n%T\n",title,"Items:",client);
 	
-	   new String:itemname[64];
-	   new moleitemid=War3_GetItemIdByShortname("mole");
-	   new ItemsLoaded = W3GetItemsLoaded();
-	   for(new itemid=1;itemid<=ItemsLoaded;itemid++){
-		  if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid){
+		new String:itemname[64];
+		new moleitemid=War3_GetItemIdByShortname("mole");
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new itemid=1;itemid<=ItemsLoaded;itemid++)
+		{
+			if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid)
+			{
 			 W3GetItemName(itemid,itemname,sizeof(itemname));
 			 Format(title,sizeof(title),"%s\n%s",title,itemname);
-		  }
-	   }
-	   new Items2Loaded = W3GetItems2Loaded();
-	   for(new itemid=1;itemid<=Items2Loaded;itemid++){
-		  if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid){
-			 W3GetItem2Name(itemid,itemname,sizeof(itemname));
-			 Format(title,sizeof(title),"%s\n%s",title,itemname);
-		  }
-	   }
-    }
-    new Float:armorred=(1.0-W3GetPhysicalArmorMulti(target))*100;
+			}
+		}
+		new Items2Loaded = W3GetItems2Loaded();
+		for(new itemid=1;itemid<=Items2Loaded;itemid++)
+		{
+			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
+			{
+				W3GetItem2Name(itemid,itemname,sizeof(itemname));
+				Format(title,sizeof(title),"%s\n%s",title,itemname);
+			}
+		}
+	}
+	new Float:armorred=(1.0-W3GetPhysicalArmorMulti(target))*100;
 	Format(title,sizeof(title),"%s\n \n%T",title,"Physical Armor: {amount} (+-{amount}%)",client,W3GetBuffSumFloat(target,fArmorPhysical),armorred<0.0?"+":"-",armorred<0.0?armorred*-1.0:armorred);
 	
 	armorred=(1.0-W3GetMagicArmorMulti(target))*100;
@@ -570,50 +574,54 @@ War3_playertargetMenu(client,target) {
 
 War3_playertargetItemMenu(client,target) {
 
-        new Handle:hMenu=CreateMenu(War3_playertargetItemMenuSelected2);
-        SetMenuExitButton(hMenu,true);
+		new Handle:hMenu=CreateMenu(War3_playertargetItemMenuSelected2);
+		SetMenuExitButton(hMenu,true);
 
-        new String:title[3000];
+		new String:title[3000];
 
-        // Items info
-        //if(client==target)
-        //{
-	       Format(title,sizeof(title),"%s\n \n%T\n",title,"Items:",client);
+		// Items info
+		//if(client==target)
+		//{
+		Format(title,sizeof(title),"%s\n \n%T\n",title,"Items:",client);
 
-           Format(title,sizeof(title),"%s\n \n",title);
+		Format(title,sizeof(title),"%s\n \n",title);
 
-	       new String:itemname[64];
-	       new moleitemid=War3_GetItemIdByShortname("mole");
-	       new ItemsLoaded = W3GetItemsLoaded();
-	       for(new itemid=1;itemid<=ItemsLoaded;itemid++){
-		      if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid){
-			     W3GetItemName(itemid,itemname,sizeof(itemname));
-			     Format(title,sizeof(title),"%s\n%s",title,itemname);
-		      }
-	       }
-           Format(title,sizeof(title),"%s\n \n",title);
+		new String:itemname[64];
+		new moleitemid=War3_GetItemIdByShortname("mole");
+		new ItemsLoaded = W3GetItemsLoaded();
+		for(new itemid=1;itemid<=ItemsLoaded;itemid++)
+		{
+			if(War3_GetOwnsItem(target,itemid)&&itemid!=moleitemid)
+			{
+				W3GetItemName(itemid,itemname,sizeof(itemname));
+				Format(title,sizeof(title),"%s\n%s",title,itemname);
+			}
+		}
+		Format(title,sizeof(title),"%s\n \n",title);
 
-	       new Items2Loaded = W3GetItems2Loaded();
-	       for(new itemid=1;itemid<=Items2Loaded;itemid++){
-		      if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid){
-			     W3GetItem2Name(itemid,itemname,sizeof(itemname));
-			     Format(title,sizeof(title),"%s\n%s",title,itemname);
-		      }
-	       }
-        //}
+		new Items2Loaded = W3GetItems2Loaded();
+		for(new itemid=1;itemid<=Items2Loaded;itemid++)
+		{
+			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
+			{
+				W3GetItem2Name(itemid,itemname,sizeof(itemname));
+				Format(title,sizeof(title),"%s\n%s",title,itemname);
+			}
+		}
+	//}
 
-    Format(title,sizeof(title),"%s\n \n",title);
+		Format(title,sizeof(title),"%s\n \n",title);
 
-    SetMenuTitle(hMenu,"%s",title);
+		SetMenuTitle(hMenu,"%s",title);
 
-	new String:buf[3];
+		new String:buf[3];
 
-	IntToString(target,buf,sizeof(buf));
-	new String:str[100];
-	Format(str,sizeof(str),"%T","Refresh",client);
-	AddMenuItem(hMenu,buf,str);
+		IntToString(target,buf,sizeof(buf));
+		new String:str[100];
+		Format(str,sizeof(str),"%T","Refresh",client);
+		AddMenuItem(hMenu,buf,str);
 
-    DisplayMenu(hMenu,client,MENU_TIME_FOREVER);
+		DisplayMenu(hMenu,client,MENU_TIME_FOREVER);
 }
 
 
@@ -628,20 +636,20 @@ public War3_playertargetItemMenuSelected2(Handle:menu,MenuAction:action,client,s
 		if(!ValidPlayer(target)){
 			War3_ChatMessage(client,"%T","Player has left the server",client);
 		}
-		else{
-
+		else
+		{
 			if(selection==0){
 				War3_playertargetItemMenu(client,target);
 			}
-        }
-	if(action==MenuAction_End)
-	{
-		CloseHandle(menu);
-	}
+		}
+		if(action==MenuAction_End)
+		{
+			CloseHandle(menu);
+		}
 }
 
 public War3_playertargetMenuSelected(Handle:menu,MenuAction:action,client,selection)
-{    
+{
 	if(action==MenuAction_Select)
 	{
 		decl String:SelectionInfo[4];
