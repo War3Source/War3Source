@@ -376,6 +376,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3GetReqXP");
 	MarkNativeAsOptional("War3_ShowXP");
 	MarkNativeAsOptional("W3GetMaxGold");
+	MarkNativeAsOptional("War3_RestoreItemsFromDeath");
 	MarkNativeAsOptional("War3_GetOwnsItem");
 	MarkNativeAsOptional("War3_GetOwnsItem2");
 	MarkNativeAsOptional("W3GetItem2ExpireTime");
@@ -819,6 +820,24 @@ native W3GetMaxGold();
 native War3_GetOwnsItem(client,item);
 native War3_SetOwnsItem(client,item,bool:ownsitem);
 
+/**
+ * When a player dies, this command record's their shopmenu1 items.
+ * When you use this command, you are telling it to restore their items from death.
+ * It does all the math as far as taking gold or cs money for items restored.
+ * It will let the client know what items are discarded and/or bought.
+ * It will also only buy until the client goes broke.
+ * If the client already owns some items from the list from death, it will not charge them.
+ * It only charges for the items that the client must buy to match the items from death.
+ * It discards items that does not match from the previous death list.
+ * Note: The no cost method still needs work.
+ * @param client: Client index
+ * @param payforit: false = no cost, true = charge
+ * @param csmoney: true is cs money, false for gold.
+ * @return The return value will be true if it is successful.
+ */
+native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
+
+
 
 native W3GetItem2ExpireTime(client,item);
 native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
@@ -875,7 +894,7 @@ public bool:UltFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Ultimates));
 }
-//generic immunity filter for ultimate
+//generic immunity filter for skills
 public bool:SkillFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Skills));
@@ -2228,6 +2247,9 @@ stock bool:CvarEmpty(Handle:sourcemod_convar){
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
 
 	//add magic immunity etc later
+	if(immunityindex==Immunity_Items){
+		return W3GetBuffHasTrue(client,bImmunity_Items);
+	}
 	if(immunityindex==Immunity_Skills){
 		return W3GetBuffHasTrue(client,bImmunitySkills);
 	}
