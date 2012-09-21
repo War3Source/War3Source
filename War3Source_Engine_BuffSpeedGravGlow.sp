@@ -70,8 +70,11 @@ public OnClientPutInServer(client)
     SDKHook(client, SDKHook_PostThinkPost, PostThinkPost);
 }
 public PostThinkPost(client){
-	if(invisWeaponAttachments[client]){
-		SetEntProp(client, Prop_Send, "m_iAddonBits",0);
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if(war3Game==Game_CS || war3Game==Game_CSGO){
+		if(invisWeaponAttachments[client]){
+			SetEntProp(client, Prop_Send, "m_iAddonBits",0);
+		}
 	}
 }
 
