@@ -1,6 +1,55 @@
 1.2.3
 
 
+B8
+//El Diablo
+Added "Buyprevious" say command (Same as War3_RestoreItemsFromDeath except it works as a say command)
+- Buyprevious is a player say command that allows players to auto buy all items
+- they had from a previous death.  It will not be charged for the items they already own
+- that matches the list from a previous death.
+/**
+ * When a player dies, this command record's their shopmenu1 items.
+ * When you use this command, you are telling it to restore their items from death.
+ * It does all the math as far as taking gold or cs money for items restored.
+ * It will let the client know what items are discarded and/or bought.
+ * It will also only buy until the client goes broke.
+ * If the client already owns some items from the list from death, it will not charge them.
+ * It only charges for the items that the client must buy to match the items from death.
+ * It discards items that does not match from the previous death list.
+ * Note: The no cost method still needs work.
+ * @param client: Client index
+ * @param payforit: false = no cost, true = charge
+ * @param csmoney: true is cs money, false for gold.
+ * @return The return value will be true if it is successful.
+ */
+native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
+
+Added:
+
+enum W3Buff
+-bImmunity_Items
+
+stock bool:W3HasImmunity(client,War3Immunity:immunityindex)
+
+added:
+	if(immunityindex==Immunity_Items){
+		return W3GetBuffHasTrue(client,bImmunity_Items);
+	}
+
+Yes now you can check for immunity to items! Hurray!
+
+enum W3EVENT
+-DoShowPlayerItemsOwnTarget, ///EventArg1 = target = the person whos items is shown, client=SHOW TO
+
+For your war3source.cfg:
+/*
+*  1 = Allows a player to Show the list of items a target player owns when a the player uses the say command "playerinfo" [default]
+*  0 = Does not allow a player to Show the list of items a target player owns when a the player uses the say command "playerinfo"
+*/
+war3_show_playerinfo_other_player_items 1  //0 disables showing other players items using playerinfo. [default 1]
+
+Players can now see only their list of items by using the say command "myitems"
+
 
 B7
 

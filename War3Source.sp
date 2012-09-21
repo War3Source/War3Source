@@ -109,8 +109,8 @@ And that’s the art of the test!
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.3.7"
-#define REVISION_NUM 12317 //increment every release
+#define VERSION_NUM "1.2.3.8"
+#define REVISION_NUM 12318 //increment every release
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
