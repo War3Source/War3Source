@@ -23,7 +23,9 @@ public OnPluginStart()
 {
 	ShieldRestrictionCvar=CreateConVar("war3_shop_shield_restriction","0","Set this to 1 if you want to forbid necklace+shield. 0 default");
 	LoadTranslations("w3s.item.shield.phrases");
-	MoneyOffsetCS=FindSendPropInfo("CCSPlayer","m_iAccount");
+	if(GAMECSANY){
+		MoneyOffsetCS=FindSendPropInfo("CCSPlayer","m_iAccount");
+	}
 }
 
 public OnWar3LoadRaceOrItemOrdered2(num)

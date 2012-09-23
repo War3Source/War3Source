@@ -265,7 +265,8 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 		}
 	}
 }
-public OnWar3EventPostHurt(victim,attacker,damage){
+public OnWar3EventPostHurt(victim,attacker,damage)
+{
 	if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
 	{
 		
@@ -274,34 +275,52 @@ public OnWar3EventPostHurt(victim,attacker,damage){
 			new skill_level=War3_GetSkillLevel(victim,thisRaceID,SKILL_THORNS);
 			if(skill_level>0&&!Hexed(victim,false))
 			{
-				if(!W3HasImmunity(attacker,Immunity_Skills)){
-				
+				if(!W3HasImmunity(attacker,Immunity_Skills))
+				{
 					new damage_i=RoundToFloor(damage*ThornsReturnDamage[skill_level]);
 					if(damage_i>0)
 					{
 						if(damage_i>40) damage_i=40; // lets not be too unfair ;]
 						
-						//if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL))
-						//{
-						War3_DealDamageDelayed(attacker,victim,damage_i,"thorns",0.1,true,SKILL_THORNS);
-						decl Float:iVec[3];
-						decl Float:iVec2[3];
-						GetClientAbsOrigin(attacker, iVec); 
-						GetClientAbsOrigin(victim, iVec2);
-						iVec[2]+=35.0, iVec2[2]+=40.0;
-						TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
-						TE_SendToAll();
-						iVec2[0]=iVec[0];
-						iVec2[1]=iVec[1];
-						iVec2[2]=80+iVec[2];
-						TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
-						TE_SendToAll();
-						//}
+						if(GAMETF)    // Team Fortress 2 is stable with code below:
+						{
+							if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL))
+							{
+								decl Float:iVec[3];
+								decl Float:iVec2[3];
+								GetClientAbsOrigin(attacker, iVec);
+								GetClientAbsOrigin(victim, iVec2);
+								iVec[2]+=35.0, iVec2[2]+=40.0;
+								TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
+								TE_SendToAll();
+								iVec2[0]=iVec[0];
+								iVec2[1]=iVec[1];
+								iVec2[2]=80+iVec[2];
+								TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
+								TE_SendToAll();
+							}
+						}
+						else   // For CS Stuff or others:
+						{
+							War3_DealDamageDelayed(attacker,victim,damage_i,"thorns",0.1,true,SKILL_THORNS);
+							decl Float:iVec[3];
+							decl Float:iVec2[3];
+							GetClientAbsOrigin(attacker, iVec);
+							GetClientAbsOrigin(victim, iVec2);
+							iVec[2]+=35.0, iVec2[2]+=40.0;
+							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
+							TE_SendToAll();
+							iVec2[0]=iVec[0];
+							iVec2[1]=iVec[1];
+							iVec2[2]=80+iVec[2];
+							TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
+							TE_SendToAll();
+						}
 					}
 				}
 			}
 		}
-	}		
+	}
 
 }
 

@@ -174,11 +174,17 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 					}
 					new returndmg=RoundFloat(FloatMul(SpikeReturnDmgArr[skill_level],float(damage)));
 					returndmg=returndmg<40?returndmg:40;
-					/*if(War3_DealDamage(attacker,returndmg,victim,_,"spiked_carapace",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL))
+					if(GAMETF)  // Team Fortress 2 is stable with code below:
 					{
-						W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_SPIKE);
-					}*/
+					if(War3_DealDamage(attacker,returndmg,victim,_,"spiked_carapace",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL))
+						{
+							W3PrintSkillDmgConsole(attacker,victim,War3_GetWar3DamageDealt(),SKILL_SPIKE);
+						}
+					}
+					else // Code for CS STuff or others:
+					{
 					War3_DealDamageDelayed(attacker,victim,returndmg,"spiked_carapace",0.1,true,SKILL_SPIKE);
+					}
 				}
 			}
 			

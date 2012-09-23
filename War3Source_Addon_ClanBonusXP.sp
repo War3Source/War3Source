@@ -50,6 +50,7 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
 	MarkNativeAsOptional("Steam_RequestGroupStatus");
+	return true;  // prevents log errors
 }
 
 public Action:Command_Refresh(args)
