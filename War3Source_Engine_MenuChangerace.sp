@@ -153,7 +153,18 @@ public bool:HasCategoryAccess(client,i) {
 	return false;
 }
 
-public OnMapStart() refreshCategories();
+public OnMapStart(){
+	// Delay refresh cats helps prevent stack overflow. - el diablo
+	CreateTimer(5.0,refresh_cats,_);
+}
+
+/* ****************************** Action:refresh_cats ************************** */
+
+public Action:refresh_cats(Handle:timer)
+{
+	refreshCategories();
+}
+
 
 new String:dbErrorMsg[100];
 public OnWar3GlobalError(String:err[]){
