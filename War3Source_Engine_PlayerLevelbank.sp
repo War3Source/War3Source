@@ -8,7 +8,7 @@ new levelbank[MAXPLAYERSCUSTOM];
 new Handle:hCvar_NewPlayerLevelbank;
 
 new Handle:hCvarPrintLevelBank;
-
+new Handle:hLevelup;
 
 public Plugin:myinfo= 
 {
@@ -26,7 +26,7 @@ public OnPluginStart()
 	W3SetVar(hNewPlayerLevelbankCvar,hCvar_NewPlayerLevelbank);
 		
 	hCvarPrintLevelBank=CreateConVar("war3_print_levelbank_spawn","0","Print how much you have in your level bank in chat every time you spawn?");
-
+	hLevelup=CreateConVar("war3_levelbank_method","0","Selects the method the levelbank uses the levelup a player(available: 0=just increase current race level(default) 1=give required XP to levelup)");
 
 	RegAdminCmd("war3_addlevelbank",War3Source_CMD_addlevelbank,ADMFLAG_RCON,"Add to user(steamid)'s level bank");
 	LoadTranslations("w3s.levelbank.phrases");
@@ -105,8 +105,21 @@ public OnSelectShowLevelBankMenu(Handle:menu,MenuAction:action,client,selection)
 				War3_ChatMessage(client,"%T","Your race is already maxed",client);
 				return;
 			}
+			// Revan: I've added this in order to make some scripts working
+			// because War3_SetLevel doesn't triggers generic levelup events.
+			new method = GetConVarInt(hLevelup);
+			if(method == 0) {
+				// Just increase race level.
+				War3_SetLevel(client,race,War3_GetLevel(client,race)+1);
+			}
+			else {
+				// Add enough XP to let player levelup.
+				new requiredxp = W3GetReqXP(War3_GetLevel(client,race)+1);
+				War3_SetXP(client,race,requiredxp);
+				W3DoLevelCheck(client);
+			}
 			W3SetLevelBank(client,W3GetLevelBank(client)-1);
-			War3_SetLevel(client,race,War3_GetLevel(client,race)+1);
+			//War3_SetLevel(client,race,War3_GetLevel(client,race)+1);
 			new String:racename[64];
 			War3_GetRaceName(race,racename,sizeof(racename));
 			War3_ChatMessage(client,"%T %s","Successfully added a level to race",client,racename);

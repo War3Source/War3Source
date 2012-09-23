@@ -104,7 +104,7 @@ public _:NWar3_RelationFactionFunction(Handle:plugin,numParams) {
 		}
 		return factionBehavior[f1][f2];
 	}
-	return ThrowNativeError(SP_ERROR_NATIVE,"Invalid FactionId1/FactionId2");
+	return ThrowNativeError(SP_ERROR_NATIVE,"Invalid FactionId1(%d)/FactionId2(%d)",f1,f2);
 }
 
 //FakeNative callback of "W3GetRaceFaction"

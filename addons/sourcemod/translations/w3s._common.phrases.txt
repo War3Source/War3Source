@@ -2,7 +2,7 @@
 {
 	"[War3Source]"
 	{
-		"en"		"{green}[War3Source]{default} "
+		"en"		"{green} [War3Source] {default} "
 	}
 
 	//War3Source_Engine_AdminConsole.sp
