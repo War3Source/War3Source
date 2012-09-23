@@ -3,6 +3,17 @@
 
 9/20/2012
 
+B9
+//El Diablo
+Major fix!
+
+I added a 5 second delay to the refreshCategories() in the OnMapStart() section of War3Source_Engine_MenuChangerace.sp
+
+This has fixed the stack errors I get when trying to load the whole svn folder, including SH stuff.  I used to run without the SH stuff (basically I don't use it), but decided today I needed to make sure everything runs together just fine.  So I looked for a solution to a longtime problem... Stack errors.  The War3Source_Engine_MenuChangerace.sp was refreshing the Categories so fast, it leaves not much room for sourcemod to load anything else.. causing stack errors.
+
+Other than TF2 having a slightly minor problem with War3Source_Addon_ClanBonusXP.sp, this version of War3Source is very stable.
+
+
 B8
 //El Diablo
 Added "Buyprevious" say command (Same as War3_RestoreItemsFromDeath except it works as a say command)
