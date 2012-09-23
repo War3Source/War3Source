@@ -254,7 +254,7 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowPlayerInfoTarget,client);
 			return returnblocking;
 		}
-		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp1"))
+		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp"))
 		{
 			if(War3_GetGame()==Game_TF)
 				War3_RestoreItemsFromDeath(client,true,false);
