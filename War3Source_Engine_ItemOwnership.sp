@@ -316,10 +316,15 @@ public OnWar3Event(W3EVENT:event,client){
 	// Record Items before death
 	if(event==OnDeathPre)
 	{
-		new ItemsLoaded = W3GetItemsLoaded();
-		for(new i2;i2<=ItemsLoaded;i2++)
+		//Check to see if Player owns any items, if so.. record those items,
+		// otherwise keep the current record.
+		if(GetClientItemsOwned(client)>0)
 		{
-			RestoreItemsFromDeath_playerOwnsItem[client][i2]=playerOwnsItem[client][i2];
+			new ItemsLoaded = W3GetItemsLoaded();
+			for(new i2;i2<=ItemsLoaded;i2++)
+			{
+					RestoreItemsFromDeath_playerOwnsItem[client][i2]=playerOwnsItem[client][i2];
+			}
 		}
 	}
 }
