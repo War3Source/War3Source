@@ -171,7 +171,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 	if(GAMETF)
 	{
 		//. TF2 having problems with the ultimate created for CS:GO
-		DP("GAMETF");
+		//DP("GAMETF");
 		new userid=GetClientUserId(client);
 		if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) && !Silenced(client))
 		{
@@ -204,7 +204,7 @@ public OnUltimateCommand(client,race,bool:pressed)
 	else
 	{
 		// If game cs or cs go or whatever:
-		DP("GAMECSANY");
+		//DP("GAMECSANY");
 		if( pressed  && ValidPlayer(client,true) && !Silenced(client))
 		{
 			new Handle:genericSkillOptions;
