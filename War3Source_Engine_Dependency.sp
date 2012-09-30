@@ -39,8 +39,8 @@ public NWar3_AddDependency(Handle:plugin,numParams)
 		new iOtherId = GetNativeCell(3);
 		new iOtherLevel = GetNativeCell(4);
 		if(iOtherLevel>0) {
-			skillDependency[iRace][iSkill][0] = iOtherId;
-			skillDependency[iRace][iSkill][1] = iOtherLevel;
+			skillDependency[iRace][iSkill][SkillDependency:ID] = iOtherId;
+			skillDependency[iRace][iSkill][SkillDependency:LVL] = iOtherLevel;
 			return 1;
 		}
 		return 0;

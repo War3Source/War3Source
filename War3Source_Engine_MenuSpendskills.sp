@@ -1,22 +1,13 @@
 
-
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-
-
-
-
-
-
 
 public Plugin:myinfo= 
 {
 	name="War3Source Menu spendskills",
 	author="Ownz (DarkEnergy)",
 	description="War3Source Core Plugins",
-	version="1.0",
+	version="1.1",
 	url="http://war3source.com/"
 };
 
@@ -44,8 +35,8 @@ public OnWar3Event(W3EVENT:event,client){
 stock bool:HasDependency(client,race,skill,String:buffer[],maxlen,bool:is_ult)
 {
 	//Check if our skill has a dependency
-	new dependencyID = INVALID_DEPENDENCY;
-	if( (dependencyID = War3_GetDependency(race, skill, SkillDependency:ID) != INVALID_DEPENDENCY) ) {
+	new dependencyID = War3_GetDependency(race, skill, SkillDependency:ID);
+	if( dependencyID != INVALID_DEPENDENCY ) {
 		//If so, append our stuff if the skill minlevel is below our current level(otherwhise do just NOTHING)
 		//but wait.. is our depending required level valid?
 		new requiredLVL = War3_GetDependency(race, skill, SkillDependency:LVL);
