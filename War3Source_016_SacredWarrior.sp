@@ -228,7 +228,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 			CheckSkills(client);
 		}
 	}
-	else
+	if(skill==0 && War3_GetRace(client)==thisRaceID)
 	{
 		PrintHintText(client, "Your Ability is not leveled");
 	}
