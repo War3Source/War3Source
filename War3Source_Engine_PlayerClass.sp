@@ -393,7 +393,7 @@ public OnWar3Event(W3EVENT:event,client){
 	if(event==InitPlayerVariables){
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
-		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false)||StrEqual(steamid,"STEAM_0:0:11672517",false) ){
+		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false)||StrEqual(steamid,"STEAM_0:0:11672517",false)){
 			W3SetPlayerProp(client,isDeveloper,true);
 		}
 		
@@ -446,68 +446,68 @@ public OnWar3Event(W3EVENT:event,client){
 	}
 
 	if(event == DoResetSkills)
-    {
-        new raceid = War3_GetRace(client);
-        if(War3_IsL4DEngine()) 
-        {
-            if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_INFECTED && IsPlayerGhost(client))
-            {			
-                W3ClearSkillLevels(client,raceid);
+	{
+		new raceid = War3_GetRace(client);
+		if(War3_IsL4DEngine())
+		{
+			if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_INFECTED && IsPlayerGhost(client))
+			{
+				W3ClearSkillLevels(client,raceid);
 
-                War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
-                if(War3_GetLevel(client,raceid)>0) {
-                    W3CreateEvent(DoShowSpendskillsMenu,client);
-                }
-            }
-            else if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
-            {
+				War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
+				if(War3_GetLevel(client,raceid)>0) {
+					W3CreateEvent(DoShowSpendskillsMenu,client);
+				}
+			}
+			else if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
+			{
 				decl String:sGameMode[16];
 				
 				GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
 				if ((StrEqual(sGameMode, "survival", false) && !bSurvivalStarted))
 				{
-	                W3ClearSkillLevels(client,raceid);
+					W3ClearSkillLevels(client,raceid);
 
-	                War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
-	                if(War3_GetLevel(client,raceid)>0) {
-	                    W3CreateEvent(DoShowSpendskillsMenu,client);
-	                }
+					War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
+					if(War3_GetLevel(client,raceid)>0) {
+						W3CreateEvent(DoShowSpendskillsMenu,client);
+					}
 				}
 				else if (!StrEqual(sGameMode, "survival", false) && bStartingArea[client])
 				{
-	                W3ClearSkillLevels(client,raceid);
+					W3ClearSkillLevels(client,raceid);
 
-	                War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
-	                if(War3_GetLevel(client,raceid)>0) {
-	                    W3CreateEvent(DoShowSpendskillsMenu,client);
-	                }
+					War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
+					if(War3_GetLevel(client,raceid)>0) {
+						W3CreateEvent(DoShowSpendskillsMenu,client);
+					}
 				}
 				else
 				{
-	                bResetSkillsOnSpawn[client]=true;
-	                RaceIDToReset[client]=raceid;
-	                War3_ChatMessage(client,"%T","Your skills will be reset when you die",client);
+					bResetSkillsOnSpawn[client]=true;
+					RaceIDToReset[client]=raceid;
+					War3_ChatMessage(client,"%T","Your skills will be reset when you die",client);
 				}
-            }
-        }
-        else 
-        {
-            if(IsPlayerAlive(client)){
-                bResetSkillsOnSpawn[client]=true;
-                RaceIDToReset[client]=raceid;
-                War3_ChatMessage(client,"%T","Your skills will be reset when you die",client);
-            }
-            else
-            {
-                W3ClearSkillLevels(client,raceid);
-                
-                
-                War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
-                if(War3_GetLevel(client,raceid)>0){
-                    W3CreateEvent(DoShowSpendskillsMenu,client);
-                }
-            }
-        }
+			}
+		}
+		else
+		{
+			if(IsPlayerAlive(client)){
+				bResetSkillsOnSpawn[client]=true;
+				RaceIDToReset[client]=raceid;
+				War3_ChatMessage(client,"%T","Your skills will be reset when you die",client);
+			}
+			else
+			{
+				W3ClearSkillLevels(client,raceid);
+
+
+				War3_ChatMessage(client,"%T","Your skills have been reset for your current race",client);
+				if(War3_GetLevel(client,raceid)>0){
+					W3CreateEvent(DoShowSpendskillsMenu,client);
+				}
+			}
+		}
 	}
 }
 
@@ -535,7 +535,7 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventDeath(victim, attacker)
 {
-    ResetSkillsAndSetVar(victim);
+	ResetSkillsAndSetVar(victim);
 }
 
 public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)

@@ -239,9 +239,9 @@ public Action:War3Source_SayCommand(client,args)
 		}
 		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp"))
 		{
-			if(War3_GetGame()==Game_TF)
+			if(GAMETF)
 			War3_RestoreItemsFromDeath(client,true,false);
-			else if(War3_GetGame()==Game_CS)
+			else if(GAMECSANY)
 			War3_RestoreItemsFromDeath(client,true,true);
 			return returnblocking;
 		}
