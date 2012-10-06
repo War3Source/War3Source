@@ -90,7 +90,7 @@ public Action:Heal_BurningSpearTimer(Handle:h,any:data) //1 sec
 			{
 				attacker = SpearedBy[i];
 				skill = War3_GetSkillLevel(attacker, thisRaceID, SKILL_SPEAR);
-				if(skill>0&&ValidPlayer(attacker, true)&&bSpearActivated[attacker]) // Attacker has Burning Spear activated
+				if(ValidPlayer(attacker, true)&&bSpearActivated[attacker]) // Attacker has Burning Spear activated
 				{
 					damage = VictimSpearStacks[i] * SpearDamage[skill]; // Number of stacks on the client * damage of the attacker
 					
@@ -212,7 +212,8 @@ CheckSkills(client){
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-	if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client)&&!Silenced(client))
+	new skill = War3_GetSkillLevel(client, thisRaceID, SKILL_SPEAR);
+	if(skill>0 && War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client)&&!Silenced(client))
 	{
 		if(!bSpearActivated[client])
 		{
@@ -226,6 +227,10 @@ public OnAbilityCommand(client,ability,bool:pressed)
 			bSpearActivated[client] = false;
 			CheckSkills(client);
 		}
+	}
+	else
+	{
+		PrintHintText(client, "Your Ability is not leveled");
 	}
 }
 public OnUltimateCommand(client,race,bool:pressed)
