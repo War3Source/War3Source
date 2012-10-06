@@ -90,7 +90,7 @@ public Action:Heal_BurningSpearTimer(Handle:h,any:data) //1 sec
 			{
 				attacker = SpearedBy[i];
 				skill = War3_GetSkillLevel(attacker, thisRaceID, SKILL_SPEAR);
-				if(ValidPlayer(attacker, true)&&bSpearActivated[attacker]) // Attacker has Burning Spear activated
+				if(skill>0&&ValidPlayer(attacker, true)&&bSpearActivated[attacker]) // Attacker has Burning Spear activated
 				{
 					damage = VictimSpearStacks[i] * SpearDamage[skill]; // Number of stacks on the client * damage of the attacker
 					
