@@ -1,4 +1,4 @@
-stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0){}
+stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
 
 /**
  * File: War3Source_Interface.inc
@@ -25,7 +25,6 @@ stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0){}
 //There will be a system check to make sure all plugins are compiled to the same interface.
 new String:interfaceVersion[]="1.2.2.1";
 
-
 stock dummy; //variable for dummies! Use this where ever u want for a dummy return
 stock String:dummystr[32]; //just a dummy string! 
 
@@ -38,83 +37,80 @@ stock String:dummystr[32]; //just a dummy string!
  * InitNativesForwards()   
  * AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max);
  * So if you want to do something in AskPluginLoad2, implement public AskPluginLoad2Custom(...) instead. 
- */ 
+ */
 public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 {
 	GlobalOptionalNatives();
 	DetermineGameMode();
 	new Function:func;
 	func=GetFunctionByName(plugin, "InitNativesForwards");
-	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+	if(func!=INVALID_FUNCTION) { //non war3 plugins dont have this function
 		Call_StartFunction(plugin, func);
 		Call_Finish(dummy);
-		if(!dummy){
+		if(!dummy) {
 			LogError("InitNativesForwards did not return true, possible failure");
 		}
 	}
 	func=GetFunctionByName(plugin, "AskPluginLoad2Custom");
-	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+	if(func!=INVALID_FUNCTION) { //non war3 plugins dont have this function
 		Call_StartFunction(plugin, func);
 		Call_PushCell(plugin);
 		Call_PushCell(late);
 		Call_PushString(error);
 		Call_PushCell(err_max);
 		Call_Finish(dummy);
-		if(APLRes:dummy==APLRes_SilentFailure){
+		if(APLRes:dummy==APLRes_SilentFailure) {
 			return APLRes_SilentFailure;
 		}
-		if(APLRes:dummy!=APLRes_Success){
+		if(APLRes:dummy!=APLRes_Success) {
 			LogError("AskPluginLoad2Custom did not return true, possible failure");
 		}
 	}
 	func=GetFunctionByName(plugin, "LoadCheck");
-	if(func!=INVALID_FUNCTION){ //non war3 plugins dont have this function
+	if(func!=INVALID_FUNCTION) { //non war3 plugins dont have this function
 		Call_StartFunction(plugin, func);
 		Call_Finish(dummy);
-		if(dummy==0){
+		if(dummy==0) {
 			return APLRes_SilentFailure;
 		}
 	}
-	
+
 	//do not load if these functions exists
-	if(GetFunctionByName(plugin, "W3ONLY")!=INVALID_FUNCTION  &&  !W3()){
+	if(GetFunctionByName(plugin, "W3ONLY")!=INVALID_FUNCTION && !W3()) {
 		return APLRes_SilentFailure;
 	}
-	if(GetFunctionByName(plugin, "SHONLY")!=INVALID_FUNCTION  &&  !SH()){
+	if(GetFunctionByName(plugin, "SHONLY")!=INVALID_FUNCTION && !SH()) {
 		return APLRes_SilentFailure;
 	}
 	return APLRes_Success;
 }
 /**********************
  * Implement this if you have natives/forwards
- */ 
+ */
 forward bool:InitNativesForwards();
 
 /**********************
  * Implement this if you need AskPluginLoad2Custom
- */ 
+ */
 forward APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max);
 
 /**********************
  * Implement this with blank statement if you want this plugin to not load if it is not war3 mode
- */ 
+ */
 forward W3ONLY();
 
 /**********************
  * Implement this with blank statement if you want this plugin to not load if it is not sh mode
- */ 
+ */
 forward SHONLY();
-
-
-
 
 //variables forwarded to every w3 plugin
 new W3ForwarededVars[W3ForwardedVarsEnum];
-public W3SetForwarededVar(index,value){
+public W3SetForwarededVar(index,value) {
 	//DP("forwarded %d %d",index,value);
 	W3ForwarededVars[index]=value;
 }
-stock EXT(){
+stock EXT() {
 	return W3ForwarededVars[EXTAvailable];
 }
 
@@ -122,97 +118,90 @@ stock EXT(){
 stock tValveGame;
 stock bool:bWar3Mode;
 stock bool:bSHMode;
-stock W3(){
+stock W3() {
 	return bWar3Mode;
 }
-stock SH(){
+stock SH() {
 	return bSHMode;
 }
-stock ValveGameEnum:War3_GetGame(){
+stock ValveGameEnum:War3_GetGame() {
 	return ValveGameEnum:tValveGame;
 }
 
 //Do not manually call this, this determines the game mode and is called internally in the API
-stock DetermineGameMode(){
+stock DetermineGameMode() {
 	//DETERMIE GAME MODE
-	#if defined WAR3MAIN
+#if defined WAR3MAIN
 	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
-	#endif
+#endif
 	new Handle:file=OpenFile("cfg/shsourcemode.cfg", "a+"); //creates new file if one not exists
-	
-	bWar3Mode=true; //default
-	bSHMode=false; //default
+
+	bWar3Mode = true; //default
+	bSHMode = false; //default
 	new String:buffer[256];
-	while (ReadFileLine(file, buffer, sizeof(buffer)))
-	{
-		if(strncmp(buffer, "shsource",strlen( "shsource"), false)==0){
-			bWar3Mode=false;
-			bSHMode=true;
-			#if defined WAR3MAIN
+	while (ReadFileLine(file, buffer, sizeof(buffer))) {
+		if (strncmp(buffer, "shsource", strlen("shsource"), false) == 0) {
+			bWar3Mode = false;
+			bSHMode = true;
+#if defined WAR3MAIN
 			PrintToServer("[SH] SHSource MODE ENABLED");
-			#endif
+#endif
 			break;
 		}
 	}
-	CloseHandle(file);
-	#if defined WAR3MAIN
+	CloseHandle( file);
+#if defined WAR3MAIN
 	PrintToServer("[SH] FINISHED READING shsourcemode.cfg");
-	#endif
-	
-	
-
+#endif
 
 	//DETERMINE GAME TYPE: CS TF ETC
 	new String:gameDir[64];
-	GetGameFolderName(gameDir,sizeof(gameDir));
-	if(StrContains(gameDir,"cstrike",false)==0)
-	{
+	GetGameFolderName(gameDir, sizeof(gameDir));
+	if (StrContains(gameDir, "cstrike", false) == 0) {
 		tValveGame=_:Game_CS;
-		#if defined WAR3MAIN
+#if defined WAR3MAIN
 		PrintToServer("[War3Source] Game set: Counter-Strike Source ValveGame %d",tValveGame);
-		#endif
+#endif
 		ServerCommand("sv_allowminmodels 0");
-	}
-	else if(StrContains(gameDir,"dod",false)==0)
-	{
-		#if defined WAR3MAIN
+	} else if (StrContains(gameDir, "dod", false) == 0) {
+#if defined WAR3MAIN
 		PrintToServer("[War3Source] Game set: Day of Defeat Source (ONLY DEVELOPER SUPPORT!)");
-		#endif
-		tValveGame=_:Game_DOD;
-	}
-	else if(StrContains(gameDir,"tf",false)==0)
-	{
-		#if defined WAR3MAIN
-		PrintToServer("[War3Source] Game set: Team Fortress 2");
-		#endif
-		tValveGame=_:Game_TF;
-	}
-	else if(StrContains(gameDir,"left4dead2",false)==0)
-	{
-		#if defined WAR3MAIN
-		PrintToServer("[War3Source] Game set: Left 4 Dead 2");
-		#endif
-		tValveGame=_:Game_L4D2;
-	}
-	else if(StrContains(gameDir,"left4dead",false)==0)
-	{
-		#if defined WAR3MAIN
-		PrintToServer("[War3Source] Game set: Left 4 Dead");
-		#endif
-		tValveGame=_:Game_L4D;
-	}
-	else if(StrContains(gameDir,"csgo",false)==0)
-	{
-		#if defined WAR3MAIN
-		PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
-		#endif
-		tValveGame=_:Game_CSGO;
-	}
-	else
-	{
-		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error. (folder name: %s)", gameDir);
-	}
-	//bGameModeDetermined=true;
+#endif
+tValveGame	=_:Game_DOD;
+}
+else if(StrContains(gameDir,"tf",false)==0)
+{
+#if defined WAR3MAIN
+	PrintToServer("[War3Source] Game set: Team Fortress 2");
+#endif
+	tValveGame=_:Game_TF;
+}
+else if(StrContains(gameDir,"left4dead2",false)==0)
+{
+#if defined WAR3MAIN
+	PrintToServer("[War3Source] Game set: Left 4 Dead 2");
+#endif
+	tValveGame=_:Game_L4D2;
+}
+else if(StrContains(gameDir,"left4dead",false)==0)
+{
+#if defined WAR3MAIN
+	PrintToServer("[War3Source] Game set: Left 4 Dead");
+#endif
+	tValveGame=_:Game_L4D;
+}
+else if(StrContains(gameDir,"csgo",false)==0)
+{
+#if defined WAR3MAIN
+	PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
+#endif
+	tValveGame=_:Game_CSGO;
+}
+else
+{
+	SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error. (folder name: %s)", gameDir);
+}
+//bGameModeDetermined=true;
 }
 #define GAMECS GameCS()
 #define GAMETF GameTF()
@@ -221,29 +210,29 @@ stock DetermineGameMode(){
 #define GAMEL4DAny GameL4DAny()
 #define GAMECSGO GameCSGO()
 #define GAMECSANY GameCSANY()
-stock bool:GameCS(){
+stock bool:GameCS() {
 	return War3_GetGame()==Game_CS;
 }
-stock bool:GameTF(){
+stock bool:GameTF() {
 	return War3_GetGame()==Game_TF;
 }
 
-stock bool:GameL4D1(){
+stock bool:GameL4D1() {
 	return (War3_GetGame() == Game_L4D);
 }
 
-stock bool:GameL4D2(){
+stock bool:GameL4D2() {
 	return ( War3_GetGame() == Game_L4D2);
 }
 
-stock bool:GameL4DAny(){
+stock bool:GameL4DAny() {
 	return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
 }
 
-stock bool:GameCSGO(){
+stock bool:GameCSGO() {
 	return War3_GetGame() == Game_CSGO;
 }
-stock bool:GameCSANY(){
+stock bool:GameCSANY() {
 	new ValveGameEnum:war3Game = War3_GetGame();
 	if(war3Game==Game_CS || war3Game==Game_CSGO) {
 		return true;
@@ -253,7 +242,7 @@ stock bool:GameCSANY(){
 
 #pragma deprecated use if(GAMECSANY)
 // This checks if the current game is CS:S or CS:GO
-stock bool:War3_IsCounterStrike(){
+stock bool:War3_IsCounterStrike() {
 	new ValveGameEnum:war3Game = War3_GetGame();
 	if(war3Game==Game_CS || war3Game==Game_CSGO) {
 		return true;
@@ -263,24 +252,24 @@ stock bool:War3_IsCounterStrike(){
 //We mark some natives optional so different plugins can still startup
 /**********************
  * CALL THIS IN ASKPLUGINLOAD if you are using any of these or have native errors
- */ 
- 
-stock GlobalOptionalNatives(){
-	MarkNativeAsOptional("SHHasHero"); 
-	MarkNativeAsOptional("SHGetHeroesClientCanHave"); 
-	MarkNativeAsOptional("SHHasHero"); 
-	
+ */
+
+stock GlobalOptionalNatives() {
+	MarkNativeAsOptional("SHHasHero");
+	MarkNativeAsOptional("SHGetHeroesClientCanHave");
+	MarkNativeAsOptional("SHHasHero");
+
 	MarkNativeAsOptional("W3GetReqXP");
 	MarkNativeAsOptional("SHGetReqXP");
-	
+
 	MarkNativeAsOptional("War3_ShowXP");
 	MarkNativeAsOptional("SHShowXP");
-	
+
 	MarkNativeAsOptional("W3SaveXP");
 	MarkNativeAsOptional("SHSaveXP");
-	
-	MarkNativeAsOptional("War3Failed"); 
-	
+
+	MarkNativeAsOptional("War3Failed");
+
 	///omfg
 	MarkNativeAsOptional("SHHasHero");
 	MarkNativeAsOptional("SHSetHasHero");
@@ -477,7 +466,7 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("W3LogNotError");
 	MarkNativeAsOptional("CreateWar3GlobalError");
 	MarkNativeAsOptional("W3CreateEvent");
-	
+
 	MarkNativeAsOptional("War3_SetDiamondsEXT");
 	MarkNativeAsOptional("War3_GetDiamondsEXT");
 	MarkNativeAsOptional("War3_GetOwnsItem2EXT");
@@ -503,22 +492,22 @@ stock GlobalOptionalNatives(){
 	MarkNativeAsOptional("War3_GetWardOwner");
 	MarkNativeAsOptional("War3_GetWardData");
 	MarkNativeAsOptional("War3_RemoveWard");
-	
+
 	//String Math
 	MarkNativeAsOptional("War3_StringMath");
-	
+
 	//Factions
 	MarkNativeAsOptional("W3Faction");
 	MarkNativeAsOptional("W3FactionBehavior");
 	MarkNativeAsOptional("W3FactionBehaviorByName");
 	MarkNativeAsOptional("W3FactionCompare");
 	MarkNativeAsOptional("W3GetRaceFaction");
-	
+
 	// Dependency Engine
 	MarkNativeAsOptional("War3_SetDependency");
 	MarkNativeAsOptional("War3_RemoveDependency");
 	MarkNativeAsOptional("War3_GetDependency");
-	
+
 	//Custom Models (CS:S only)
 	MarkNativeAsOptional("War3_AddCustomModel");
 	MarkNativeAsOptional("War3_RemoveCustomModel");
@@ -554,12 +543,9 @@ stock bool:IsRaceFaction(raceid,String:faction[]) {
 
 //Warcraft required executions, does common tasks, such as loading translations.
 forward War3InterfaceExec();
-public War3InterfaceExec(){ 
+public War3InterfaceExec() {
 	LoadTranslations("w3s._common.phrases");
 }
-
-
-
 
 /*
  * Natives and misc stocks
@@ -573,7 +559,7 @@ public War3InterfaceExec(){
  * Natives and misc stocks
  * Natives and misc stocks
  * Natives and misc stocks
-*/ 
+ */
 
 native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
 native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
@@ -587,8 +573,7 @@ native W3Socket(String:url[],Function:callback);
 native W3Socket2(String:url[],String:postdata[],Function:callback);
 
 //forces weapon drop, given a weapon entity
-native W3DropWeapon(client,weaponent);
-
+native W3DropWeapon(client, weaponent);
 
 /**
  * Checks if we are in the freeze time. Certain games support this, like CS.
@@ -596,9 +581,7 @@ native W3DropWeapon(client,weaponent);
  *  
  */
 #pragma deprecated
-native bool:War3_InFreezeTime();    
-
-
+native bool:War3_InFreezeTime();
 
 /* BEGIN Race Class */
 
@@ -608,7 +591,6 @@ native War3_CreateNewRace(String:name[],String:shortname[]);
 
 //adds a skill or a ultimate
 native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL);
-
 
 //translated
 //creates a new race, returns the race id
@@ -631,7 +613,6 @@ native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
 #pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
 
-
 native War3_CreateGenericSkill(String:gskillname[]);
 //genericSkillData is an array or trie that modifies behavior of that generic skill
 //if NEW HANDLE is passed, OLD one will be closed (i e during create race call after race has been created like on a map change)
@@ -641,11 +622,11 @@ native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,S
 native War3_GetRacesLoaded();
 native W3GetRaceMaxLevel(race);
 
-native War3_IsSkillUltimate(raceid,skillnum);
+native War3_IsSkillUltimate(raceid, skillnum);
 native War3_GetRaceSkillCount(raceid);
 native W3GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen);
 native W3GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen);
-native W3GetRaceSkillMaxLevel(raceid,skillnum);
+native W3GetRaceSkillMaxLevel(raceid, skillnum);
 native W3GetRaceOrder(raceid);
 //Flag is a generic string. We compare the race_flags cvar to the string you passed
 native bool:W3RaceHasFlag(raceid,String:flag[]);
@@ -662,21 +643,15 @@ native War3_GetRaceIDByShortname(String:raceshortname[]);
 
 native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);
 native W3GetRaceItemRestrictionsStr(raceid,String:ret[],maxlen);
-native W3GetRaceMaxLimitTeam(raceid,team);
-native W3GetRaceMaxLimitTeamCvar(raceid,team); //returns the internal cvar id (int not handle)
+native W3GetRaceMaxLimitTeam(raceid, team);
+native W3GetRaceMaxLimitTeamCvar(raceid, team); //returns the internal cvar id (int not handle)
 native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
 native W3GetRaceCell(raceid,ENUM_RaceObject:property);
 native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
 
-
-
 /* END RACE CLASS */
-
-
-
-
 
 /* BEGIN GLOBAL VARS */
 //retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
@@ -690,7 +665,6 @@ native any:W3GetVar(W3Var:variabletoretrieve);
 native any:W3SetVar(W3Var:variabletoretrieve,any:value);
 /* END GLOBAL VARS */
 
-
 /**
  * Registers a shop item with the War3Source plugin
  * @param name: The name of the item. 
@@ -698,7 +672,7 @@ native any:W3SetVar(W3Var:variabletoretrieve,any:value);
  * @param desc: The description of the item. 
  * @param cost: The cost of the item 
  * @return The return value will be the item index or -1 if there was a problem.
- */		 
+ */
 native War3_CreateShopItem(String:name[],String:shortname[],String:desc[],costgold,costmoney);
 //translated
 native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
@@ -707,11 +681,9 @@ native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
 native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
 native War3_GetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY);
 
-
 //remember itemid that is valid is more than 0
 //returns -1 if not found
-native War3_GetItemIdByShortname(String:itemshortname[]) ;
-
+native War3_GetItemIdByShortname(String:itemshortname[]);
 
 native W3GetItemName(itemid,String:ret[],maxlen);
 native W3GetItemShortname(itemid,String:ret[],maxlen);
@@ -726,15 +698,13 @@ native W3GetItemsLoaded(); //how many items are loaded?
 native bool:W3IsItemDisabledGlobal(itemid);
 native bool:W3IsItemDisabledForRace(race,itemid);
 
-
-
 //Shopmenu 2 item class
 //native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
 native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
 //translated
-stock W3CreateShopItem2T(String:shortname[],cost){
+stock W3CreateShopItem2T(String:shortname[],cost) {
 	return W3CreateShopItem2("",shortname,"",cost,true);
-	
+
 }
 
 native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
@@ -742,8 +712,7 @@ native War3_GetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY);
 
 //returns -1 if not found
 //valid itemid if > 0
-native War3_GetItem2IdByShortname(String:itemshortname[]) ;
-
+native War3_GetItem2IdByShortname(String:itemshortname[]);
 
 native W3GetItem2Name(itemid,String:ret[],maxlen);
 native W3GetItem2Shortname(itemid,String:ret[],maxlen);
@@ -754,8 +723,8 @@ native W3GetItem2Cost(itemid);
 native W3Item2HasFlag(itemid,String:flagsearch[]);
 //native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
 native W3GetItems2LoadedEXT();
-stock W3GetItems2Loaded(){ //how many items are loaded?
-	return EXT()?W3GetItems2LoadedEXT():0;
+stock W3GetItems2Loaded() { //how many items are loaded?
+	return EXT() ? W3GetItems2LoadedEXT() : 0;
 }
 
 native bool:W3IsItem2DisabledGlobal(itemid);
@@ -765,14 +734,10 @@ native W3ExtShowShop2(client);
 
 //Forces a save into database of when the item expires
 //client must own item already
-native W3SaveItem2ExpireTime(client,itemid);
+native W3SaveItem2ExpireTime(client, itemid);
 
 native GetClientItemsOwned(client);
 native GetMaxShopitemsPerPlayer();
-
-
-
-
 
 /**
  * Registers a help command with the War3Source plugin for war3help
@@ -782,18 +747,15 @@ native GetMaxShopitemsPerPlayer();
  */
 native War3_CreateHelpCommand(String:name[],String:desc[]);
 
-
-
-native W3GetLevelsSpent(client,race);
-native W3ClearSkillLevels(client,race);
-
+native W3GetLevelsSpent(client, race);
+native W3ClearSkillLevels(client, race);
 
 /**
  * Gets the kill XP for a player depending on his CURRENT level 
  * @param client: Client index
  * adds extra xp per leveldifference if cvar is configured
  */
-native W3GetKillXP(client,leveldifference=0);
+native W3GetKillXP(client, leveldifference = 0);
 native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
 native W3GetKillGold();
@@ -806,10 +768,8 @@ native W3GetAssistGold();
  */
 native War3_ShowXP(client);
 
-
 //max gold a player can have (cvar read)
 native W3GetMaxGold();
-
 
 /**
  * Gets if the player owns a specific item.
@@ -817,7 +777,7 @@ native W3GetMaxGold();
  * @param item: The item ID returned from War3_CreateShopItem
  * @return The return value will be 1 if they own it, if 0 they don't, if -1 then it failed.
  */
-native War3_GetOwnsItem(client,item);
+native War3_GetOwnsItem(client, item);
 native War3_SetOwnsItem(client,item,bool:ownsitem);
 
 /**
@@ -837,12 +797,11 @@ native War3_SetOwnsItem(client,item,bool:ownsitem);
  */
 native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
 
-
-
-native W3GetItem2ExpireTime(client,item);
-native W3SetItem2ExpireTime(client,item,time); //use full linux time , ie: NOW()+duration
+native W3GetItem2ExpireTime(client, item);
+native W3SetItem2ExpireTime(client, item, time); //use full linux time , ie: NOW()+duration
 
 native bool:W3BuyUseCSMoney();
+native bool:W3BuyUseMVMMoney();
 
 /**
  * Sets if the player owns a specific item.
@@ -854,27 +813,24 @@ native bool:W3BuyUseCSMoney();
  *	ITEM IS NOT LOST AUTOMATICALLY ON DEATH  
  */
 
-native War3_GetOwnsItem2EXT(client,item);
+native War3_GetOwnsItem2EXT(client, item);
 
 native War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
-stock War3_GetOwnsItem2(client,item){
-	if(EXT()){
-		if(item<1){
-			DP("err invalid item id %d client %d",item,client);
+stock War3_GetOwnsItem2(client, item) {
+	if (EXT()) {
+		if (item < 1) {
+			DP("err invalid item id %d client %d", item, client);
 			ThrowError("asdf");
 		}
-		return War3_GetOwnsItem2EXT(client,item);
+		return War3_GetOwnsItem2EXT(client, item);
 	}
 	return 0;
 }
-stock War3_SetOwnsItem2(client,item,bool:ownsitem){
-	if(EXT()){
+stock War3_SetOwnsItem2(client,item,bool:ownsitem) {
+	if(EXT()) {
 		War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
 	}
 }
-
-
-
 
 /**
  * Finds the best target within a player's view cone
@@ -887,7 +843,6 @@ stock War3_SetOwnsItem2(client,item,bool:ownsitem){
  * @param FilterFunction: Callback filter function, return false in this function to ignore entity.     
  */
 native War3_GetTargetInViewCone(client,Float:max_distance=0.0,bool:include_friendlys=false,Float:cone_angle=23.0,Function:FilterFunction=INVALID_FUNCTION);
- 
 
 //generic immunity filter for ultimate
 public bool:UltFilter(client)
@@ -899,9 +854,9 @@ public bool:SkillFilter(client)
 {
 	return (!W3HasImmunity(client,Immunity_Skills));
 }
- 
+
 ///traces from client to target and see if they are in view of each other (Line of Signt - LOS)
-native W3LOS(client,target);
+native W3LOS(client, target);
 
 // The following are bit-flags for War3_DealDamage
 // Does not appear useful in any way
@@ -952,12 +907,11 @@ native W3LOS(client,target);
  * @param noWarning: Prevent warning print when using DealDamage from a event where it's error prone
  * @return bool: did damage go through, false if player was immune to that damage type or damage was zero or something else failed
  */
-native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[],    War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED  ,   War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC  ,  bool:respectVictimImmunity=true   ,   bool:countAsFirstDamageRetriggered=false, bool:noWarning=false);       
+native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[], War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED , War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC , bool:respectVictimImmunity=true , bool:countAsFirstDamageRetriggered=false, bool:noWarning=false);
 
 //get the actual damage dealt from War3_DealDamage, because real damage is different after taking account to magic/physical armor
 //u wana call this immediately after War3_DealDamage cuz this is a single global variable. when someone else calls War3_DealDamage it will be changed
 native War3_GetWar3DamageDealt();
-
 
 ///is last damage a bullet first triggered damage? works on posthurt and sdkhookdmgall
 native W3GetDamageIsBullet();
@@ -970,7 +924,6 @@ native W3ForceDamageIsBullet();
 //get the depth of the damage stack, usually 1 or more
 native W3GetDamageStack();
 
-
 /**
  * Flashes a player's screen a certain color for a duration.
  * @param client: Client's index.
@@ -981,8 +934,6 @@ native W3GetDamageStack();
  */
 native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
 
-
-
 /**
  * Shakes a player's screen at a magnitude and noise for a duration.
  * @param client: Client's index.
@@ -991,17 +942,16 @@ native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0
  * @param noise: Optional noise value.
  * @noreturn
  */
-native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);     
+native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
 
-
-stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=false){
+stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=false) {
 	if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client))
 	{
 		if(check_alive && !IsPlayerAlive(client))
 		{
 			return false;
 		}
-		if(alivecheckbyhealth&&GetClientHealth(client)<1){
+		if(alivecheckbyhealth&&GetClientHealth(client)<1) {
 			return false;
 		}
 		return true;
@@ -1010,17 +960,16 @@ stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=fal
 }
 
 //is a buff index valid? X > 0 and X <  MaxBuffLoopLimitTemp
-stock ValidBuff(W3Buff:buffindex){
-	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit){
+stock ValidBuff(W3Buff:buffindex) {
+	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit) {
 		return true;
-		
-		
+
 	}
 	ThrowError("invalid buff index (%d)",buffindex);
 	return false;
 }
 
-stock bool:ValidRace(raceid_){
+stock bool:ValidRace(raceid_) {
 	return bool:(raceid_>0&&raceid_<=War3_GetRacesLoaded());
 }
 /**
@@ -1030,7 +979,6 @@ stock bool:ValidRace(raceid_){
  * @noreturn
  */
 native War3_SpawnPlayer(client,bool:ignore_dead_check=false);
-
 
 /**
  * Stock, checks if a player is near any entity in a datapack of entities, again by name.
@@ -1061,7 +1009,7 @@ stock Handle:War3_NearEntsByName(client,Handle:hEnts,pack_size,Float:distance=15
 		}
 	}
 	if(GetArraySize(hResults)>0)
-		return hResults;
+	return hResults;
 	else
 	{
 		CloseHandle(hResults);
@@ -1072,7 +1020,7 @@ stock Handle:War3_NearEntsByName(client,Handle:hEnts,pack_size,Float:distance=15
 stock Handle:War3_NearEntByName(client,String:ent_name[],Float:distance)
 {
 	if(distance<0.0)
-		return INVALID_HANDLE; // wtf? lol
+	return INVALID_HANDLE; // wtf? lol
 	if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		new Handle:hResults=CreateArray();
@@ -1122,8 +1070,8 @@ stock Handle:War3_NearBuilding(client,Float:distance=150.0)
 		return result;
 	}
 	return INVALID_HANDLE;
-}      
- 
+}
+
 // THE FOLLOWING NATIVES RETRIEVE DATA CACHED ONGAMEFRAME!
 // THE FUNCTIONS NAMED War3_CachedDead* ARE VALUES SET WHEN THE PLAYER DIES
 // THESE ARE ADVANCED FUNCTIONS, CHANCES ARE IF U DON'T KNOW WHAT THEY MEAN
@@ -1134,7 +1082,7 @@ stock Handle:War3_NearBuilding(client,Float:distance=150.0)
  * @param client: Client index
  * @param angle[3]: Output array
  * @noreturn
- */    
+ */
 native War3_CachedAngle(client,Float:angle[3]);
 
 /**
@@ -1159,7 +1107,7 @@ native bool:War3_CachedDucking(client);
  * @param weapon_iterator: Number from 0-9. 
  * @return Weapon entity, 0 if none.
  */
-native War3_CachedWeapon(client,weapon_iterator);
+native War3_CachedWeapon(client, weapon_iterator);
 
 /**
  * Get cached weapon entity "clip1" based on iterator.
@@ -1168,7 +1116,7 @@ native War3_CachedWeapon(client,weapon_iterator);
  * @param weapon_iterator: Number from 0-9. 
  * @return Value of clip1.
  */
-native War3_CachedClip1(client,weapon_iterator);
+native War3_CachedClip1(client, weapon_iterator);
 
 /**
  * Get cached ammo of a player with a specific weapon ID.
@@ -1177,7 +1125,7 @@ native War3_CachedClip1(client,weapon_iterator);
  * @param game_weapon_id: Game specific weapon identifier, this is constant for each weapon. 
  * @return Value of iAmmo.
  */
-native War3_CachedAmmo(client,game_weapon_id);
+native War3_CachedAmmo(client, game_weapon_id);
 
 /**
  * Get cached weapon entity "clip1" of iterator, only changes when a player dies.
@@ -1186,7 +1134,7 @@ native War3_CachedAmmo(client,game_weapon_id);
  * @param weapon_iterator: Number from 0-9. 
  * @return Value of clip1 from last death.
  */
-native War3_CachedDeadClip1(client,weapon_iterator);
+native War3_CachedDeadClip1(client, weapon_iterator);
 
 /**
  * Get cached ammo of a player with a specific weapon ID, only changes when a player dies.
@@ -1195,7 +1143,7 @@ native War3_CachedDeadClip1(client,weapon_iterator);
  * @param game_weapon_id: Game specific weapon identifier, this is constant for each weapon. 
  * @return Value of iAmmo from last death.
  */
-native War3_CachedDeadAmmo(client,game_weapon_id);
+native War3_CachedDeadAmmo(client, game_weapon_id);
 
 /**
  * Get cached weapon name of iterator, only changes when a player dies.
@@ -1205,86 +1153,77 @@ native War3_CachedDeadAmmo(client,game_weapon_id);
  * @param output_buffer: Output buffer
  * @param output_size: Size of output buffer.   
  * @noreturn
- */ 
+ */
 native War3_CachedDeadWeaponName(client,weapon_iterator,String:output_buffer[],output_size);
 
 /**
  * Is player ubered (TF2)
  * @param client:
  * @return: true false
- */  
-   
+ */
+
 native bool:War3_IsUbered(client);
 
 /**
  * Is player carrying intellegence
  * @param client:
  * @return: true false
- */  
+ */
 native bool:War3_HasFlag(client);
 
 /**
  * Is player cloaked
  * @param client:
  * @return: true false
- */  
-   
+ */
+
 native bool:War3_IsCloaked(client);
 
 /*
  * forces the damage to be multiplied by @num
  * shall only be done inside SDKHOOKS damage forward (when damage hasnt been dealt yet) 
  * @noreturn
- */      
-native War3_DamageModPercent(Float:num);  
+ */
+native War3_DamageModPercent(Float:num);
 
 //Sends a particle to client like "miss_text"
-native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);  
+native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);
 
 /**
  * heals with the limit of (warcraft ) max hp
  * @noreturn
- */  
-native War3_HealToMaxHP(client,addhp);  
+ */
+native War3_HealToMaxHP(client, addhp);
 
 /**
  * heals with the limit of your specified HP
  * @noreturn
- */  
-stock War3HealToHP(client,addhp,maximumHP){
-	new currenthp=GetClientHealth(client);
-	new newhp=currenthp+addhp;
-	if(newhp>maximumHP){
-		newhp=maximumHP;
+ */
+stock War3HealToHP(client, addhp, maximumHP) {
+	new currenthp = GetClientHealth(client);
+	new newhp = currenthp + addhp;
+	if (newhp > maximumHP) {
+		newhp = maximumHP;
 	}
-	SetEntityHealth(client,newhp);
+	SetEntityHealth(client, newhp);
 }
 /**
  * heals to max hp * 1.5 buff in tf2
  * no extra hp in other games 
  * @noreturn
- */  
-native War3_HealToBuffHP(client,addhp);  
+ */
+native War3_HealToBuffHP(client, addhp);
 
 /** 
  * direcly decreases the player's hp by X amount (Not via damage)
  * this health removal is "non lethal"
  */
-native War3_DecreaseHP(client,decrease);
+native War3_DecreaseHP(client, decrease);
 
-stock nsEntity_SetHealth(entity, health)
-{
+stock nsEntity_SetHealth(entity, health) {
 	SetEntProp(entity, Prop_Data, "m_iHealth", health);
 	ChangeEdictState(entity, 0);
 }
-
-
-
-
-
-
-
-
 
 //LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
 //we essentially move the cooldown system out of our races into our main plugin
@@ -1297,8 +1236,8 @@ stock nsEntity_SetHealth(entity, health)
  * @noreturn
  * 
  * Usually the first 4 parameters are enough  
- */  
-native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum,         bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);  
+ */
+native War3_CooldownMGR(client,Float:cooldownTime,raceid,skillNum, bool:resetOnSpawn=true,bool:printMsgOnExpireByTime=true);
 
 //tells the cooldown manager to create a predefined cooldown time when player spawns with that race. 
 //cooldown is created regardless of resetOnSpawn in War3_CooldownMGR(...) calls
@@ -1309,33 +1248,25 @@ native W3SkillCooldownOnSpawn(raceid,skillnum,Float:cooldownTime,bool:printmsgon
 /**
  * how much time is left on this particular cooldown?
  * returns an int (rounted up from the float)
- */  
-native War3_CooldownRemaining(client,raceid,skillNum);  
-
+ */
+native War3_CooldownRemaining(client, raceid, skillNum);
 
 /**
  * basically make this cooldown expire, this expiration is not considered "by time"
- */  
-native War3_CooldownReset(client,raceid,skillNum);  
-
+ */
+native War3_CooldownReset(client, raceid, skillNum);
 
 /**
  * is this skill NOT in COOLDOWN? YOU NEED TO CHECK IF CLIENT HAS LEVELED THIS SKILL FIRST, THIS IS ONLY COOLDOWN RELATED
  * you would only do this if this skill has a cooldown and u called War3_CooldownMGR
  * printTextIfNotReady=true will print a "not ready" message
- */  
-native bool:War3_SkillNotInCooldown(client,raceid,skillNum,bool:printTextIfNotReady=false);  
-
+ */
+native bool:War3_SkillNotInCooldown(client,raceid,skillNum,bool:printTextIfNotReady=false);
 
 /**
  * prints Skill Is Not Ready
- */  
-native War3_PrintSkillIsNotReady(client,raceid,skillNum);
-
-
-
-
-
+ */
+native War3_PrintSkillIsNotReady(client, raceid, skillNum);
 
 ////BUFF SYSTEM
 ////BUFF SYSTEM
@@ -1346,16 +1277,16 @@ native War3_PrintSkillIsNotReady(client,raceid,skillNum);
 
 
 /*
-* set a buff, identified as coming from a race
-* value can be int float bool, but has to be consistant, agreed upon by war3 main plugin
-* 
-*/
+ * set a buff, identified as coming from a race
+ * value can be int float bool, but has to be consistant, agreed upon by war3 main plugin
+ * 
+ */
 native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
 
 /*
-* set a buff, identified as coming from a item
-* 
-*/
+ * set a buff, identified as coming from a item
+ * 
+ */
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
 native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
 native W3BuffCustomOFFSET(); //get offset for custom buff modifier indexes. use War3_SetBuffItem(client,buffindex,W3BuffCustomOFFSET() + NUMBER,value) (YES, ITEM)
@@ -1369,21 +1300,20 @@ native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:appliedBuffValue,Flo
 native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
 
 ///RESETS ALL BUFFS PERTAINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
-native W3ResetAllBuffRace(client,raceid);
-
-
+native W3ResetAllBuffRace(client, raceid);
 
 //set player shell glowish color (blood mage, shadow hunter), highest override priority takes effect, all integers
-stock W3SetPlayerColor(client,raceid,r,g,b,a=255,overridepriority=GLOW_DEFAULT){
-	War3_SetBuff(client,iGlowRed,raceid,r);
-	War3_SetBuff(client,iGlowGreen,raceid,g);
-	War3_SetBuff(client,iGlowBlue,raceid,b);
-	War3_SetBuff(client,iGlowAlpha,raceid,a);
-	War3_SetBuff(client,iGlowPriority,raceid,overridepriority);
-	War3_SetBuff(client,fGlowSetTime,raceid,GetGameTime());
+stock W3SetPlayerColor(client, raceid, r, g, b, a = 255,
+		overridepriority = GLOW_DEFAULT) {
+	War3_SetBuff(client, iGlowRed, raceid, r);
+	War3_SetBuff(client, iGlowGreen, raceid, g);
+	War3_SetBuff(client, iGlowBlue, raceid, b);
+	War3_SetBuff(client, iGlowAlpha, raceid, a);
+	War3_SetBuff(client, iGlowPriority, raceid, overridepriority);
+	War3_SetBuff(client, fGlowSetTime, raceid, GetGameTime());
 }
-stock W3ResetPlayerColor(client,raceid){
-	W3SetPlayerColor(client,raceid,255,255,255,_,0);
+stock W3ResetPlayerColor(client, raceid) {
+	W3SetPlayerColor(client, raceid, 255, 255, 255, _, 0);
 }
 
 //getting buffs
@@ -1412,17 +1342,17 @@ native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 // Register once on plugin start please!
 //returns -1 if tracker is full. LogErrors on Full
 /*
-usage:
+ usage:
 
-register tracker
-create delay
+ register tracker
+ create delay
 
-repeat:{
-expired?
-create delay
-}
+ repeat:{
+ expired?
+ create delay
+ }
 
-*/
+ */
 native War3_RegisterDelayTracker();
 
 //create a delay
@@ -1430,7 +1360,6 @@ native War3_TrackDelay(trackerIndex,Float:delay);
 
 //did the delay expire?
 native War3_TrackDelayExpired(trackerIndex);
-
 
 ///PLAYER  TRACE
 ///PLAYER  TRACE
@@ -1443,7 +1372,6 @@ native War3_GetAimEndPoint(client,Float:endpos[3]);
 
 //get location of where the player is aiming (trace to the end of your crosshair) limited by distance
 native War3_GetAimTraceMaxLen(client,Float:endpos[3],Float:maxdistance);
-
 
 //simple weapon restriction:    pass "weapon_knife,weapon_hegrenade" to only allow these weapons, separated by comma. 
 //pass "" to allow all weapons again
@@ -1461,7 +1389,6 @@ native Float:W3GetMagicArmorMulti(client); //damage multipler for client by acco
 native W3GetCurrentWeaponEnt(client); //get the entity of the current (active) weapon
 
 
-
 native W3GetMinUltLevel();
 
 //force all supported war3 plugins into failed mode (pause plugin)
@@ -1472,7 +1399,6 @@ native W3GetDamageType();
 //get inflictor of the last damage (TakeDmg forward) (ie sentry gun  is a different object than the attacker itself)
 native W3GetDamageInflictor();
 
-
 /**
  * Use this for getting a chance modifier in OnWar3TakeDamage!!
  * This is a cvar based value used for lowering chance of skill activation when a weapon such as flamethrower inflicts damage many times over a period of time.
@@ -1481,27 +1407,27 @@ native W3GetDamageInflictor();
  * @param inflictor: Inflictor entity index. (ie sentry gun)
  * @param damagetype: Type of damage.
  * @return Float modifier, 1.0 for 100% chance otherwise percentage between 0.0 and 1.0
- */  
+ */
 
 //helper, directly uses last inflictor and damagetype
 native Float:W3ChanceModifier(attacker);
 
 //print via hint engine. format accepts translations
-native  W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
+native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
 
 //for activatable skills only
-stock bool:SkillAvailable(client,yourRaceID,skillnumber,bool:printCooldown=true,bool:checksilenced=true,bool:printSilenced=true){	
+stock bool:SkillAvailable(client,yourRaceID,skillnumber,bool:printCooldown=true,bool:checksilenced=true,bool:printSilenced=true) {
 	return War3_SkillNotInCooldown(client,yourRaceID,skillnumber,printCooldown)&& (!checksilenced||!Silenced(client,printSilenced));
 }
 
 //statuses
-stock bool:Stunned(client){
+stock bool:Stunned(client) {
 	return W3GetBuffHasTrue(client,bStunned);
 }
-stock bool:Silenced(client,printSilenced=true){
+stock bool:Silenced(client,printSilenced=true) {
 	new bool:silenced=(W3GetBuffHasTrue(client,bSilenced)||Stunned(client));
-	if(silenced&&printSilenced){
-		if(IsPlayerAlive(client)){
+	if(silenced&&printSilenced) {
+		if(IsPlayerAlive(client)) {
 			if(Stunned(client))
 			{
 				PrintHintText(client,"%T","You are stunned",client);
@@ -1522,10 +1448,10 @@ stock bool:Silenced(client,printSilenced=true){
 	}
 	return silenced;
 }
-stock bool:Hexed(client,printmsg=true){
+stock bool:Hexed(client,printmsg=true) {
 	new bool:status=(W3GetBuffHasTrue(client,bHexed)||W3GetBuffHasTrue(client,bStunned));
-	if(status&&printmsg){
-		
+	if(status&&printmsg) {
+
 		if(Stunned(client))
 		{
 			PrintToConsole(client,"%T","You are stunned, cannot proc skill",client);
@@ -1537,10 +1463,10 @@ stock bool:Hexed(client,printmsg=true){
 	}
 	return status;
 }
-stock bool:Perplexed(client,printmsg=true){
+stock bool:Perplexed(client,printmsg=true) {
 	new bool:perplexed=(W3GetBuffHasTrue(client,bPerplexed)||W3GetBuffHasTrue(client,bStunned));
-	if(perplexed&&printmsg){
-		
+	if(perplexed&&printmsg) {
+
 		if(Stunned(client))
 		{
 			PrintToConsole(client,"%T","You are stunned, cannot activate item",client);
@@ -1554,24 +1480,24 @@ stock bool:Perplexed(client,printmsg=true){
 }
 
 native War3_GetRace(client);
-native War3_SetRace(client,race);
+native War3_SetRace(client, race);
 
-native War3_SetLevel(client,race,level);
-native War3_GetLevel(client,race);
+native War3_SetLevel(client, race, level);
+native War3_GetLevel(client, race);
 
 native W3GetTotalLevels(client); //sum of  levels in each race
 
 native W3GetLevelBank(client);
-native W3SetLevelBank(client,newlevelbank);
+native W3SetLevelBank(client, newlevelbank);
 
-native War3_SetXP(client,race,newxp);
-native War3_GetXP(client,race);
+native War3_SetXP(client, race, newxp);
+native War3_GetXP(client, race);
 
 //native War3_SetSkillLevel(client,race,skill,newlevel);
-native War3_GetSkillLevel(client,race,skill);
+native War3_GetSkillLevel(client, race, skill);
 
-native War3_SetSkillLevelINTERNAL(client,race,skill,newlevel);
-native War3_GetSkillLevelINTERNAL(client,race,skill);
+native War3_SetSkillLevelINTERNAL(client, race, skill, newlevel);
+native War3_GetSkillLevelINTERNAL(client, race, skill);
 
 native W3_GenericSkillLevel(client,gskill,&Handle:genericSkillData,&customerRace=0,&customerSkill=0);
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
@@ -1581,8 +1507,6 @@ native any:W3GetPlayerProp(client,W3PlayerProp:property);
 //automatically prints gained or lost xp/gold
 native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);
 
-
-
 //TKV = trie key value , a abstract data storage, emulates cvars for war3
 ///Creates internal war3 cvars. returns a id to your cvar, store it!
 //cvarid of 0 is null null (filled auto)
@@ -1590,7 +1514,6 @@ native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0
 native W3CreateCvar(String:cvarstr[],String:cvarvalue[],String:cvardesc[]);
 native W3GetCvar(cvarid,String:returnstr[],maxlen);
 native W3SetCvar(cvarid,String:cvarvalue[]);
-
 
 //returns -1 if not found, otherwise returns cvar id
 native W3FindCvar(String:cvar[]);
@@ -1600,77 +1523,76 @@ native Handle:W3CvarList(); //returns a handle arraylist of cvar list (no values
 native W3GetCvarByString(String:cvarstr[],String:returnstr[],maxlen);
 
 //get actual cvar name: undead_blah (the KEY)
-native W3GetCvarActualString(cvarid,String:returnstr[],maxlen); 
+native W3GetCvarActualString(cvarid,String:returnstr[],maxlen);
 
-stock W3CreateCvarInt(String:cvarstr[],intval,String:cvardesc[]){
+stock W3CreateCvarInt(String:cvarstr[],intval,String:cvardesc[]) {
 	decl String:str[1024];
 	Format(str,sizeof(str),"%d",intval);
 	return W3CreateCvar(cvarstr,str,cvardesc);
 }
-stock W3GetCvarInt(cvarid){
+stock W3GetCvarInt(cvarid) {
 	decl String:ret[1024];
-	W3GetCvar(cvarid,ret,sizeof(ret));
+	W3GetCvar(cvarid, ret, sizeof(ret));
 	//PrintToChatAll("%s %d",ret,StringToInt(ret));
 	return StringToInt(ret);
 }
-stock W3SetCvarInt(cvarid,intval){
+stock W3SetCvarInt(cvarid, intval) {
 	decl String:str[1024];
-	Format(str,sizeof(str),"%d",intval);
-	return W3SetCvar(cvarid,str);
+	Format(str, sizeof(str), "%d", intval);
+	return W3SetCvar(cvarid, str);
 }
-stock W3CreateCvarFloat(String:cvarstr[],intval,String:cvardesc[]){
+stock W3CreateCvarFloat(String:cvarstr[],intval,String:cvardesc[]) {
 	decl String:str[1024];
 	Format(str,sizeof(str),"%f",intval);
 	W3CreateCvar(cvarstr,str,cvardesc);
 }
-stock W3GetCvarFloat(cvarid){
+stock W3GetCvarFloat(cvarid) {
 	decl String:ret[1024];
-	W3GetCvar(cvarid,ret,sizeof(ret));
+	W3GetCvar(cvarid, ret, sizeof(ret));
 	return StringToFloat(ret);
 }
-stock W3SetCvarFloat(cvarid,intval){
+stock W3SetCvarFloat(cvarid, intval) {
 	decl String:str[1024];
-	Format(str,sizeof(str),"%f",intval);
-	W3SetCvar(cvarid,str);
+	Format(str, sizeof(str), "%f", intval);
+	W3SetCvar(cvarid, str);
 }
 
-
-stock War3_SetMaxHP_INTERNAL(client,maxhp){
-//	DP("set to %d",maxhp);
-	W3SetPlayerProp(client,iMaxHP,maxhp);
+stock War3_SetMaxHP_INTERNAL(client, maxhp) {
+	//	DP("set to %d",maxhp);
+	W3SetPlayerProp(client, iMaxHP, maxhp);
 }
-stock War3_GetMaxHP(client){
-//DP("add %d",W3GetBuffSumInt(client,iAdditionalMaxHealth));
-	return W3GetPlayerProp(client,iMaxHP);//+ W3GetBuffSumInt(client,iAdditionalMaxHealth);
+stock War3_GetMaxHP(client) {
+	//DP("add %d",W3GetBuffSumInt(client,iAdditionalMaxHealth));
+	return W3GetPlayerProp(client, iMaxHP);//+ W3GetBuffSumInt(client,iAdditionalMaxHealth);
 }
-stock bool:W3IsPlayerXPLoaded(client){
+stock bool:W3IsPlayerXPLoaded(client) {
 	return W3GetPlayerProp(client,xpLoaded);
 }
-stock W3GetPendingRace(client){
-	return W3GetPlayerProp(client,PendingRace);
+stock W3GetPendingRace(client) {
+	return W3GetPlayerProp(client, PendingRace);
 }
-stock W3SetPendingRace(client,pendrace){
-	W3SetPlayerProp(client,PendingRace,pendrace);
+stock W3SetPendingRace(client, pendrace) {
+	W3SetPlayerProp(client, PendingRace, pendrace);
 }
-stock War3_SetGold(client,newgold){
-	W3SetPlayerProp(client,PlayerGold,newgold);
+stock War3_SetGold(client, newgold) {
+	W3SetPlayerProp(client, PlayerGold, newgold);
 }
-stock War3_GetGold(client){
-	return W3GetPlayerProp(client,PlayerGold);
+stock War3_GetGold(client) {
+	return W3GetPlayerProp(client, PlayerGold);
 }
 
 native War3_GetDiamondsEXT(client);
-native War3_SetDiamondsEXT(client,newd);
+native War3_SetDiamondsEXT(client, newd);
 
-stock War3_GetDiamonds(client){
-	if(EXT()){
+stock War3_GetDiamonds(client) {
+	if (EXT()) {
 		return War3_GetDiamondsEXT(client);
 	}
 	return 0;
 }
-stock War3_SetDiamonds(client,newd){
-	if(EXT()){
-		War3_SetDiamondsEXT(client,newd);
+stock War3_SetDiamonds(client, newd) {
+	if (EXT()) {
+		War3_SetDiamondsEXT(client, newd);
 	}
 }
 
@@ -1679,12 +1601,11 @@ native W3IsDeveloper(client);
 ///use W3GetVar(hDatabase) to get the handle to the database which your xp is saved, so you dont have to connect again for your addon scipts
 
 native bool:W3SaveEnabled();
-native W3SaveXP(client,race);
+native W3SaveXP(client, race);
 
 native W3Log(const String:fmt[],any:...);
 native W3LogError(const String:fmt[],any:...);
 native W3LogNotError(const String:fmt[],any:...);
-
 
 //Skills
 native War3_SuicideBomber(client, Float:location[], Float:damage, race_skillid, Float:radius, bool:effect=true);
@@ -1741,7 +1662,7 @@ native _:War3_GetWardBehaviorByShortname(String:shortname[]);
  * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
  * @return ID for the ward created or -1 if the ward was not created
  */
-native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], any:data[]={0}, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
+native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], any:data[]= {0}, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
 
 /**
  * Gets a specific ward's behavior.
@@ -1766,12 +1687,9 @@ native War3_GetWardData(wardindex, any:data[]);
  */
 native bool:War3_RemoveWard(wardindex);
 
-
-
 native War3_StringMath(String:equation[]);
 
 native W3HasDiedThisFrame(client);
-
 
 /**
  * Adds a dependency on a skill
@@ -1816,8 +1734,7 @@ native War3_GetDependency(iRaceID, iSkill, SkillDependency:eInfo=ID);
  *
  * @param client: client index
  */
-native bool:War3_bots_distribute_sp(client);  
-
+native bool:War3_bots_distribute_sp(client);
 
 /**
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
@@ -1860,14 +1777,7 @@ native bool:War3_bots_distribute_sp(client);
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS    
-*/
-
-
-
-
-
-
-
+ */
 
 /*create an error displayed in various places at runtime*/
 native CreateWar3GlobalError(String:str[]);
@@ -1878,7 +1788,7 @@ forward OnWar3GlobalError(String:str[]);
 forward War3FailedSignal(String:str[]);
 
 /* interface side implementation, do not use */
-public War3FailedSignal(String:str[]){
+public War3FailedSignal(String:str[]) {
 	LogError(str); //must be a non dependent native log error
 	SetFailState(str);
 }
@@ -1886,13 +1796,12 @@ public War3FailedSignal(String:str[]){
 forward CheckWar3Compatability(String:w3mainInterfVersion[]);
 
 /* interface side implementation, do not use */
-public CheckWar3Compatability(String:w3mainInterfVersion[]){
-	if(!StrEqual(interfaceVersion,w3mainInterfVersion)){
+public CheckWar3Compatability(String:w3mainInterfVersion[]) {
+	if(!StrEqual(interfaceVersion,w3mainInterfVersion)) {
 		W3LogError("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
 		SetFailState("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
 	}
 }
-
 
 /**
  * Called when the plugin is ready.
@@ -1924,11 +1833,11 @@ forward OnWar3PlayerAuthed(client);
  * @param client: The client's index.
  * @param newrace: The player's new race.
  */
- #pragma deprecated Use OnRaceChanged(client,oldrace,newrace);
-forward OnRaceSelected(client,newrace); //to be removed
+#pragma deprecated Use OnRaceChanged(client,oldrace,newrace);
+forward OnRaceSelected(client, newrace); //to be removed
 
 //client is not check if valid or not, still forwarded if client is not present, so you can disable buffs etc
-forward OnRaceChanged(client,oldrace,newrace);
+forward OnRaceChanged(client, oldrace, newrace);
 
 /**
  * Gets called when the +ultimate or -ultimate command is called, IT ISNT ALWAYS FOR YOUR RACE, YOU NEED TO CHECK!!!
@@ -1954,9 +1863,8 @@ forward OnAbilityCommand(client,ability,bool:pressed);
  * @param item: The item that was purchased.
  * PLAYER ALREADY HAS OWNERSHIP BY THIS POINT  
  */
-forward OnItemPurchase(client,item);
-forward OnItem2Purchase(client,item);
-
+forward OnItemPurchase(client, item);
+forward OnItem2Purchase(client, item);
 
 /**
  * Gets called when a player loses an item. (after death (ownership to false) or traded it back..)
@@ -1964,15 +1872,14 @@ forward OnItem2Purchase(client,item);
  * @param item: The item that was purchased.
  * PLAYER ALREADY HAS LOST OWNERSHIP BY THIS POINT   
  */
-forward OnItemLost(client,item);
-forward OnItem2Lost(client,item);
-
+forward OnItemLost(client, item);
+forward OnItem2Lost(client, item);
 
 /**
  * Gets called when a skill level is changed.
  */
-forward OnSkillLevelChanged(client,race,skill,newskilllevel);
- 
+forward OnSkillLevelChanged(client, race, skill, newskilllevel);
+
 /**
  * Called when a an entity takes damage, requires SDK Hooks until SM natively supports this.
  * @param victim: Victim entity.
@@ -1985,36 +1892,27 @@ forward OnSkillLevelChanged(client,race,skill,newskilllevel);
  * bulletpre (if bullet)
  * damageall
  * bullet  (if bullet)       
- */ 
+ */
 //FF triggers this function!!! even though it didnt damage any teammate
 //THIS is a theoretical damage given by the engine, if u want real damage dealt use the hurt-event 
 //use natives to retrieve inflictor and game damagetype
 //becareful when using this, u should only use this to reduce incoming damage. if you want to return damge, only use on bullet (first trigger damage)(below) or check IsBullet
 //you may set damage mod percent HERE  
 //you may NOT DAMAGE IN HERE  
-forward OnW3TakeDmgAllPre(victim,attacker,Float:damage);  
+forward OnW3TakeDmgAllPre(victim,attacker,Float:damage);
 //bullet only 
-forward OnW3TakeDmgBulletPre(victim,attacker,Float:damage);  
-
+forward OnW3TakeDmgBulletPre(victim,attacker,Float:damage);
 
 //you may NOT set damage mod percent HERE   
 //you may DAMAGE in here, however damage will be engine theoretical damage, not actual damage dealt 
-forward OnW3TakeDmgAll(victim,attacker,Float:damage);  
+forward OnW3TakeDmgAll(victim,attacker,Float:damage);
 // BULLET GAME DAMAGE ONLY or Warcraft damage that is allowed to be retriggered (allow more item and skill modifiers), (FILTERED)
 //you may NOT set damage mod percent HERE 
 //you may DAMAGE in here
-forward OnW3TakeDmgBullet(victim,attacker,Float:damage);  
-
-
-
+forward OnW3TakeDmgBullet(victim,attacker,Float:damage);
 
 //when a weapon fires, via weapon_fire or TF2 Calc critical (which crits must be on)
-forward OnWeaponFired(victim,attacker,Float:damage);  
-
-
-
-
-
+forward OnWeaponFired(victim,attacker,Float:damage);
 
 /**
  * Called when a cooldown expires (timed, death, or spawn)
@@ -2030,40 +1928,37 @@ native W3CreateEvent(W3EVENT:event,client);
 //simple system for stopping actions, send a specific event with optinal player, those hooking can use W3Deny() to deny
 forward OnW3Denyable(W3DENY:event,client);
 native bool:W3Denied(W3DENY:event,client); //returns FALSE if NOT DENIED
-stock bool:W3Denyable(W3DENY:event,client){
+stock bool:W3Denyable(W3DENY:event,client) {
 	return !W3Denied(event,client);
 }
 native W3Deny();
 
-stock bool:CanSelectRace(client,race){
+stock bool:CanSelectRace(client,race) {
 	W3SetVar(EventArg1,race);
 	new bool:value=W3Denyable(DN_CanSelectRace,client);
 	//DP("dp %d",value);
-	if(value==false && W3IsDeveloper(client)){
+	if(value==false && W3IsDeveloper(client)) {
 		//DP("dp2 %d",value);
 		War3_ChatMessage(client,"You are normally not allowed to select this race, but since you are developer we will allow you to select this race");
-		
+
 		return true;
 	}
 	return value;
 }
 
-
-stock ShowChangeRaceMenu(client){
-	W3CreateEvent(DoShowChangeRaceMenu,client);
+stock ShowChangeRaceMenu(client) {
+	W3CreateEvent(DoShowChangeRaceMenu, client);
 }
 
-stock W3DoLevelCheck(client){
-	W3CreateEvent(DoLevelCheck,client);
+stock W3DoLevelCheck(client) {
+	W3CreateEvent(DoLevelCheck, client);
 }
-
 
 //when player spawns, fires only in war3 mode
 forward OnWar3EventSpawn(client);
 
 //when player dies, fires only in war3 mode
-forward OnWar3EventDeath(victim,attacker,deathrace);
-
+forward OnWar3EventDeath(victim, attacker, deathrace);
 
 //very generic damage event
 //derrived from the game engine's posthurt event
@@ -2071,24 +1966,22 @@ forward OnWar3EventDeath(victim,attacker,deathrace);
 forward OnWar3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft);
 
 //Fired after a player dodges, useful primarily for attaching effects
-forward OnW3DodgePost(victim,attacker);
+forward OnW3DodgePost(victim, attacker);
 
 //Fired before a player dodges, you can edit the dodge chance here
 forward OnW3DodgePre(victim,attacker,Float:chance);
 
 //Fired every time a ward is created
-forward OnWardCreated(wardindex,behaviorID);
+forward OnWardCreated(wardindex, behaviorID);
 
 //Fired every time a ward "pulses"
-forward OnWardPulse(wardindex,behaviorID);
+forward OnWardPulse(wardindex, behaviorID);
 
 //Fired every time a ward "pulses" when a valid target is in range
-forward OnWardTrigger(wardindex,victim,owner,behaviorID);
+forward OnWardTrigger(wardindex, victim, owner, behaviorID);
 
 //Fired every time a ward is removed
-forward OnWardExpire(wardindex,owner,behaviorID);
-
-
+forward OnWardExpire(wardindex, owner, behaviorID);
 
 /*
  * STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS
@@ -2110,8 +2003,7 @@ forward OnWardExpire(wardindex,owner,behaviorID);
  * STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS
  * STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS
  * STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS STOCKS
-*/
-
+ */
 
 #define MAX_MESSAGE_LENGTH 250
 
@@ -2163,11 +2055,11 @@ stock War3_ChatMessageEx(client, author, const String:szMessage[], any:...)
 	if (client == 0)
 	{
 		if (author < 0 || author > MaxClients)
-			ThrowError("Invalid client index %d", author);
-		
+		ThrowError("Invalid client index %d", author);
+
 		if (!IsClientInGame(author))
-			ThrowError("Client %d is not in game", author);
-		
+		ThrowError("Client %d is not in game", author);
+
 		decl String:szBuffer[MAX_MESSAGE_LENGTH];
 		for (new i = 1; i <= MaxClients; i++)
 		{
@@ -2191,83 +2083,78 @@ stock War3_ChatMessageEx(client, author, const String:szMessage[], any:...)
 }
 
 //who should the tanslated phrase be translated to, 0 = server default language
-stock SetTrans(client){
-	W3SetVar(TransClient,client);
+stock SetTrans(client) {
+	W3SetVar(TransClient, client);
 }
-stock GetTrans(){
+stock GetTrans() {
 	return W3GetVar(TransClient);
 }
-
-
 
 stock bool:IS_PLAYER(x)
 {
 	if(x>0&&x<=MaxClients)
-		return true;
+	return true;
 	return false;
 }
 
 /*
-There are two ways to get admin
-//need 
-//good if you need the string to admin flag like "o" -> number
-id= native bool:GetAdminFlag(AdminId:id, AdminFlag:flag, AdmAccessMode:mode=Access_Effective);
-	Admin_RCON,			
-	Admin_Root,
-	
-	VS
-	
-	//good if u know the access level
-GetUserFlagBits(client)	
-	
-	ADMFLAG_RCON
-	ADMFLAG_ROOT
-	*/
+ There are two ways to get admin
+ //need 
+ //good if you need the string to admin flag like "o" -> number
+ id= native bool:GetAdminFlag(AdminId:id, AdminFlag:flag, AdmAccessMode:mode=Access_Effective);
+ Admin_RCON,			
+ Admin_Root,
+ 
+ VS
+ 
+ //good if u know the access level
+ GetUserFlagBits(client)	
+ 
+ ADMFLAG_RCON
+ ADMFLAG_ROOT
+ */
 
-stock HasSMAccess(client,flag)
-{
+stock HasSMAccess(client, flag) {
 	new flags = GetUserFlagBits(client);
 	//DP("flags %d",flags);
-	if (flags & (flag|ADMFLAG_ROOT)) //ADMFLAG_ROOT is "z"
+	if (flags & (flag | ADMFLAG_ROOT)) //ADMFLAG_ROOT is "z"
 	{
 		return true;
 	}
-	
-	
+
 	return W3IsDeveloper(client);
 }
 
 /* is a normal engine cvar empty (zero length, "") ? */
-stock bool:CvarEmpty(Handle:sourcemod_convar){
+stock bool:CvarEmpty(Handle:sourcemod_convar) {
 	static String:zzstr[32];
 	return (GetConVarString(sourcemod_convar, zzstr, sizeof(zzstr))&&strlen(zzstr)<1);
-	
+
 }
 
-stock bool:W3HasImmunity(client,War3Immunity:immunityindex){
+stock bool:W3HasImmunity(client,War3Immunity:immunityindex) {
 
 	//add magic immunity etc later
-	if(immunityindex==Immunity_Items){
+	if(immunityindex==Immunity_Items) {
 		return W3GetBuffHasTrue(client,bImmunity_Items);
 	}
-	if(immunityindex==Immunity_Skills){
+	if(immunityindex==Immunity_Skills) {
 		return W3GetBuffHasTrue(client,bImmunitySkills);
 	}
-	if(immunityindex==Immunity_Ultimates){
+	if(immunityindex==Immunity_Ultimates) {
 		return W3GetBuffHasTrue(client,bImmunityUltimates);
 	}
-	if(immunityindex==Immunity_Wards){
+	if(immunityindex==Immunity_Wards) {
 		return W3GetBuffHasTrue(client,bImmunityWards)||W3GetBuffHasTrue(client,bImmunitySkills);
 	}
 
-	
 	return false;
-	
+
 }
-stock bool:IsSkillImmune(client){
+stock bool:IsSkillImmune(client) {
 	return W3GetBuffHasTrue(client,bImmunitySkills);
 }
-stock bool:IsUltImmune(client){
+stock bool:IsUltImmune(client) {
 	return W3GetBuffHasTrue(client,bImmunityUltimates);
 }
 
@@ -2280,98 +2167,113 @@ stock bool:W3Chance(Float:chancepercent=1.0) {
 }
 
 //sets armor, but does not give any helm
-stock War3_SetCSArmor(client,amount){
+stock War3_SetCSArmor(client, amount) {
 	// Revan: thoose armor properities for CS:GO are the same as in CS:Source
 	new ValveGameEnum:war3Game = War3_GetGame();
-	if(war3Game==Game_CS || war3Game==Game_CSGO){
-		if(amount>125){
-			amount=125;
+	if (war3Game == Game_CS || war3Game == Game_CSGO) {
+		if (amount > 125) {
+			amount = 125;
 		}
-		SetEntProp(client,Prop_Send,"m_ArmorValue",amount);
+		SetEntProp(client, Prop_Send, "m_ArmorValue", amount);
 	}
 }
-stock War3_GetCSArmor(client){
+stock War3_GetCSArmor(client) {
 	new ValveGameEnum:war3Game = War3_GetGame();
-	if(war3Game==Game_CS || war3Game==Game_CSGO){
-		return GetEntProp(client,Prop_Send,"m_ArmorValue");
+	if (war3Game == Game_CS || war3Game == Game_CSGO) {
+		return GetEntProp(client, Prop_Send, "m_ArmorValue");
 	}
 	return 0;
 }
-stock War3_GetCSArmorHasHelmet(client){
-	return GetEntProp(client, Prop_Send, "m_bHasHelmet")
+stock War3_GetCSArmorHasHelmet(client) {
+return GetEntProp(client, Prop_Send, "m_bHasHelmet")
 }
-stock War3_SetCSArmorHasHelmet(client,bool:hashelmet){
+stock War3_SetCSArmorHasHelmet(client,bool:hashelmet) {
 	return SetEntProp(client, Prop_Send, "m_bHasHelmet",hashelmet? 1:0, 1);
 }
-stock GetCSMoney(client){
+
+/**
+ * Returns the amount of money you have in CS/CS:GO
+ * When used in TF2 it returns the amount of money the player has in MVM
+ */
+stock GetCSMoney(client) {
 	new ValveGameEnum:war3Game = War3_GetGame();
-	if(war3Game==Game_CS || war3Game==Game_CSGO) {
+	if (war3Game == Game_CS || war3Game == Game_CSGO) {
 		return GetEntProp(client, Prop_Send, "m_iAccount");
+	} else if (war3Game == Game_TF) {
+		return GetEntProp(client, Prop_Send, "m_nCurrency");
 	}
-	return 0;	
-}
-stock SetCSMoney(client,newamount){
-	SetEntProp(client, Prop_Send, "m_iAccount",newamount);
+
+	return 0;
 }
 
-
-stock UTIL_Remove(entity)
-{
-	if(IsValidEdict(entity))	AcceptEntityInput(entity, "Kill");
-}
-
-stock W3ShowSkillsInfo(client)
-{
-	if(War3_GetRace(client)>0){
-		W3SetVar(RaceinfoRaceToShow,War3_GetRace(client));
-		W3CreateEvent(DoShowParticularRaceInfo,client);
+/**
+ * Sets the amount of money the player has in CS/CS:GO
+ * When used in TF2 it sets the amount of money the player has in MVM
+ */
+stock SetCSMoney(client, newamount) {
+	new ValveGameEnum:war3Game = War3_GetGame();
+	if (war3Game == Game_CS || war3Game == Game_CSGO) {
+		SetEntProp(client, Prop_Send, "m_iAccount", newamount);
+	} else if (war3Game == Game_TF) {
+		if (newamount < 0)
+			newamount = 0;
+		if (newamount > 32767)
+			newamount = 32767;
+		SetEntProp(client, Prop_Send, "m_nCurrency", newamount);
 	}
-	else{
-		War3_ChatMessage(client,"%T","Select a race first!",client);
-		W3CreateEvent(DoShowChangeRaceMenu,client);
+}
+
+stock UTIL_Remove(entity) {
+	if (IsValidEdict(entity))
+		AcceptEntityInput(entity, "Kill");
+}
+
+stock W3ShowSkillsInfo(client) {
+	if (War3_GetRace(client) > 0) {
+		W3SetVar(RaceinfoRaceToShow, War3_GetRace(client));
+		W3CreateEvent(DoShowParticularRaceInfo, client);
+	} else {
+		War3_ChatMessage(client, "%T", "Select a race first!", client);
+		W3CreateEvent(DoShowChangeRaceMenu, client);
 	}
 }
 
 //get numver of players on the specified team (integer team)
-stock PlayersOnTeam(team)
-{
+stock PlayersOnTeam(team) {
 	new num;
-	for(new x=1;x<=MaxClients;x++)
-	{
-		if(IsClientInGame(x)&&GetClientTeam(x)==team){
+	for (new x = 1; x <= MaxClients; x++) {
+		if (IsClientInGame(x) && GetClientTeam(x) == team) {
 			num++;
 		}
 	}
 	return num;
 }
 
-
-
-stock GetShortTeamName(team,String:retstr[],maxlen){
-	if(War3_GetGame()==CS || War3_GetGame()==CSGO){
-		if(team==1){
+stock GetShortTeamName(team,String:retstr[],maxlen) {
+	if(War3_GetGame()==CS || War3_GetGame()==CSGO) {
+		if(team==1) {
 			Format(retstr,maxlen,"%t","CS Spec");
 			return;
 		}
-		if(team==TEAM_T){
+		if(team==TEAM_T) {
 			Format(retstr,maxlen,"%t","CS T");
 			return;
 		}
-		if(team==TEAM_CT){
+		if(team==TEAM_CT) {
 			Format(retstr,maxlen,"%t","CS CT");
 			return;
 		}
-	} 
-	else if(War3_GetGame()==TF){
-		if(team==1){
+	}
+	else if(War3_GetGame()==TF) {
+		if(team==1) {
 			Format(retstr,maxlen,"%t","TF Spec");
 			return;
 		}
-		if(team==TEAM_RED){
+		if(team==TEAM_RED) {
 			Format(retstr,maxlen,"%t","TF RED");
 			return;
 		}
-		if(team==TEAM_BLUE){
+		if(team==TEAM_BLUE) {
 			Format(retstr,maxlen,"%t","TF BLU");
 			return;
 		}
@@ -2381,21 +2283,16 @@ stock GetShortTeamName(team,String:retstr[],maxlen){
 	return;
 }
 
-stock GetRacesOnTeam(raceid,team,ignoreIfAdminSetRace=false){
+stock GetRacesOnTeam(raceid, team, ignoreIfAdminSetRace = false) {
 	new num;
-	for(new y=1;y<=MaxClients;y++)
-	{
-		
-		if(ValidPlayer(y,false))
-		{	
-			
-			if(War3_GetRace(y)==raceid)
-			{
-				if(GetClientTeam(y)==team)
-				{
-					if(ignoreIfAdminSetRace&&W3GetPlayerProp(y,RaceSetByAdmin)){
-					}
-					else{
+	for (new y = 1; y <= MaxClients; y++) {
+
+		if (ValidPlayer(y, false)) {
+
+			if (War3_GetRace(y) == raceid) {
+				if (GetClientTeam(y) == team) {
+					if (ignoreIfAdminSetRace&&W3GetPlayerProp(y,RaceSetByAdmin)) {
+					} else {
 						num++;
 					}
 				}
@@ -2416,46 +2313,46 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		case Game_DOD:
 		{
 			return (StrEqual(weapon,"amerknife") ||
-			StrEqual(weapon,"spade") ||
-			StrEqual(weapon,"punch"));
+					StrEqual(weapon,"spade") ||
+					StrEqual(weapon,"punch"));
 		}
 		case Game_TF:
 		{
 			return (
-			StrEqual(weapon,"shovel") ||
-			StrEqual(weapon,"wrench") ||
-			StrEqual(weapon,"bat") ||
-			StrEqual(weapon,"bonesaw") ||
-			StrEqual(weapon,"bottle") ||
-			StrEqual(weapon,"club") ||
-			StrEqual(weapon,"fireaxe") ||
-			StrEqual(weapon,"axtinguisher") ||
-			StrEqual(weapon,"fists") ||
-			StrEqual(weapon,"sandman") ||
-			StrEqual(weapon,"pickaxe") ||
-			StrEqual(weapon,"sword") ||
-			StrEqual(weapon,"demoshield") ||
-			StrEqual(weapon,"taunt_scout") ||
-			StrEqual(weapon,"taunt_sniper") ||
-			StrEqual(weapon,"taunt_pyro") ||
-			StrEqual(weapon,"taunt_demoman") ||
-			StrEqual(weapon,"taunt_heavy") ||
-			StrEqual(weapon,"taunt_spy") ||
-			StrEqual(weapon,"taunt_soldier")||
-			
-			StrEqual(weapon,"tf_weapon_knife") ||
-			StrEqual(weapon,"tf_weapon_shovel") ||
-			StrEqual(weapon,"tf_weapon_wrench") ||
-			StrEqual(weapon,"tf_weapon_bat") ||
-			StrEqual(weapon,"tf_weapon_bat_wood") ||
-			StrEqual(weapon,"tf_weapon_bonesaw") ||
-			StrEqual(weapon,"tf_weapon_bottle") ||
-			StrEqual(weapon,"tf_weapon_club") ||
-			StrEqual(weapon,"tf_weapon_fireaxe") ||
-			StrEqual(weapon,"tf_weapon_fists") ||
-			StrEqual(weapon,"tf_weapon_sword") ||
-			StrEqual(weapon,"tf_weapon_bat_fish") ||
-			StrEqual(weapon,"tf_weapon_robot_arm")
+					StrEqual(weapon,"shovel") ||
+					StrEqual(weapon,"wrench") ||
+					StrEqual(weapon,"bat") ||
+					StrEqual(weapon,"bonesaw") ||
+					StrEqual(weapon,"bottle") ||
+					StrEqual(weapon,"club") ||
+					StrEqual(weapon,"fireaxe") ||
+					StrEqual(weapon,"axtinguisher") ||
+					StrEqual(weapon,"fists") ||
+					StrEqual(weapon,"sandman") ||
+					StrEqual(weapon,"pickaxe") ||
+					StrEqual(weapon,"sword") ||
+					StrEqual(weapon,"demoshield") ||
+					StrEqual(weapon,"taunt_scout") ||
+					StrEqual(weapon,"taunt_sniper") ||
+					StrEqual(weapon,"taunt_pyro") ||
+					StrEqual(weapon,"taunt_demoman") ||
+					StrEqual(weapon,"taunt_heavy") ||
+					StrEqual(weapon,"taunt_spy") ||
+					StrEqual(weapon,"taunt_soldier")||
+
+					StrEqual(weapon,"tf_weapon_knife") ||
+					StrEqual(weapon,"tf_weapon_shovel") ||
+					StrEqual(weapon,"tf_weapon_wrench") ||
+					StrEqual(weapon,"tf_weapon_bat") ||
+					StrEqual(weapon,"tf_weapon_bat_wood") ||
+					StrEqual(weapon,"tf_weapon_bonesaw") ||
+					StrEqual(weapon,"tf_weapon_bottle") ||
+					StrEqual(weapon,"tf_weapon_club") ||
+					StrEqual(weapon,"tf_weapon_fireaxe") ||
+					StrEqual(weapon,"tf_weapon_fists") ||
+					StrEqual(weapon,"tf_weapon_sword") ||
+					StrEqual(weapon,"tf_weapon_bat_fish") ||
+					StrEqual(weapon,"tf_weapon_robot_arm")
 			);
 		}
 		case Game_L4D2:
@@ -2479,19 +2376,15 @@ stock bool:TF2_HasTheFlag(client)
 		while ((ent = FindEntityByClassname(ent, "item_teamflag")) != -1)
 		{
 			if (GetEntPropEnt(ent, Prop_Data, "m_hOwnerEntity")==client)
-				return true;
+			return true;
 		}
 	}
 	return false;
 }
-stock TE_SetupKillPlayerAttachments(client)
-{
+stock TE_SetupKillPlayerAttachments(client) {
 	TE_Start("KillPlayerAttachments");
-	TE_WriteNum("m_nPlayer",client);
+	TE_WriteNum("m_nPlayer", client);
 }
-
-
-
 
 /// General callback for threaded queries.  No Actions
 public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], any:data)
@@ -2500,18 +2393,18 @@ public SQLWar3GeneralCallback(Handle:owner, Handle:hndl, const String:error[], a
 }
 
 //pass me a trie with key "query" = your query into originalqueryTrie
-stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]="",Handle:originalqueryTrie=Handle:0){
+stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:prependstr[]="",Handle:originalqueryTrie=Handle:0) {
 	new String:orignalquerystr[512];
-	if(originalqueryTrie){
-		if(!GetTrieString(originalqueryTrie,"query",orignalquerystr,sizeof(orignalquerystr))){
+	if(originalqueryTrie) {
+		if(!GetTrieString(originalqueryTrie,"query",orignalquerystr,sizeof(orignalquerystr))) {
 			LogError("SQLCheckForErrors: originalqueryTrie is not null but key 'query' not set from trie");
 		}
 		CloseHandle(originalqueryTrie);
 		//DP("closed");
 	}
-	
+
 	if(!StrEqual("", originalerror))
-		LogError("SQL error: [%s] %s QUERY:%s", prependstr, originalerror,orignalquerystr);
+	LogError("SQL error: [%s] %s QUERY:%s", prependstr, originalerror,orignalquerystr);
 	else if(hndl == INVALID_HANDLE)
 	{
 		decl String:err[512];
@@ -2520,8 +2413,8 @@ stock SQLCheckForErrors(Handle:hndl,const String:originalerror[],const String:pr
 	}
 }
 
-public bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
-	if(!SQL_FastQuery(DB,query)){
+public bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]) {
+	if(!SQL_FastQuery(DB,query)) {
 		new String:error[256];
 		SQL_GetError(DB, error, sizeof(error));
 		LogError("SQLFastQuery %s failed, Error: %s",query,error);
@@ -2531,7 +2424,7 @@ public bool:SQL_FastQueryLogOnError(Handle:DB,const String:query[]){
 }
 
 //normal query like SQL_QUERY, database must be locked 
-stock bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
+stock bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]) {
 	new Handle:result= SQL_Query(DB, querystr);
 	if(result==INVALID_HANDLE) {
 		new String:error[256];
@@ -2539,7 +2432,7 @@ stock bool:SQL_War3_NormalQuery(Handle:DB,String:querystr[]){
 		LogError("SQL_War3_NormalQuery %s failed, Error: %s",querystr,error);
 		return false;
 	}
-	else{
+	else {
 		CloseHandle(result);
 	}
 	return true;
@@ -2552,7 +2445,7 @@ stock W3SQLPlayerInt(Handle:query,const String:columnname[]) //fech from query
 	decl String:result[16];
 	SQL_FetchString(query,column,result,sizeof(result));
 	return StringToInt(result);
-}	
+}
 //fetch using column string
 stock W3SQLPlayerFloat(Handle:query,const String:columnname[]) //fech from query
 {
@@ -2584,24 +2477,7 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 	SQL_FastQueryLogOnError(DB,query);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///string?
-
-
 
 
 // Stocks
@@ -2646,62 +2522,61 @@ stock StrTokenCount(const String:input[])
 	return curind;
 }
 
-stock Float:GetPlayerDistance(client1,client2){
+stock Float:GetPlayerDistance(client1,client2) {
 	static Float:vec1[3];
-	static Float:vec2[3];				
+	static Float:vec2[3];
 	GetClientAbsOrigin(client1,vec1);
 	GetClientAbsOrigin(client2,vec2);
 	return GetVectorDistance(vec1,vec2);
 }
 
-
-
-
-
 //////MESSAGES
-
-
 
 
 //prints [W3S] You did %d damage to %name with SKILLNAME
 //prints [W3S] %name did %d damage to you with SKILLNAME
 new String:zzname[32];
-stock W3PrintSkillDmgConsole(victim=0,attacker,damage,skillnum){
-	GetClientName(victim,zzname,sizeof(zzname));
-	new race=War3_GetRace(attacker);
+stock W3PrintSkillDmgConsole(victim = 0, attacker, damage, skillnum) {
+	GetClientName(victim, zzname, sizeof(zzname));
+	new race = War3_GetRace(attacker);
 	new String:skillname[32];
-	SetTrans(attacker);
-	W3GetRaceSkillName(race,skillnum,skillname,sizeof(skillname));
-	PrintToConsole(attacker,"%T","[W3S] You did +{amount} damage to {player} with {skill}",attacker,damage,zzname,skillname);
-	
-	if(victim>0){
-		SetTrans(victim);
-		W3GetRaceSkillName(race,skillnum,skillname,sizeof(skillname)); //get trans again
-		GetClientName(attacker,zzname,sizeof(zzname));
-		PrintToConsole(victim,"%T","[W3S] {player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
+	SetTrans( attacker);
+	W3GetRaceSkillName(race, skillnum, skillname, sizeof(skillname));
+	PrintToConsole(attacker, "%T",
+			"[W3S] You did +{amount} damage to {player} with {skill}",
+			attacker, damage, zzname, skillname);
+
+	if (victim > 0) {
+		SetTrans( victim);
+		W3GetRaceSkillName(race, skillnum, skillname, sizeof(skillname)); //get trans again
+		GetClientName(attacker, zzname, sizeof(zzname));
+		PrintToConsole(victim, "%T",
+				"[W3S] {player} did {amount} damage to you with {skill}",
+				victim, zzname, damage, skillname);
 	}
 }
 //+%d damage with skill name
-stock W3PrintSkillDmgHint(victim=0,attacker,damage,SKILLNUM){
+stock W3PrintSkillDmgHint(victim = 0, attacker, damage, SKILLNUM) {
 
-	new race=War3_GetRace(attacker);
+	new race = War3_GetRace(attacker);
 	new String:skillname[32];
-	SetTrans(attacker);
-	W3GetRaceSkillName(race,SKILLNUM,skillname,sizeof(skillname));
-	
-	PrintHintText(attacker,"%T","+{amount} damage with {skill}",attacker,damage,skillname);
-	
-	if(victim>0){
-		SetTrans(victim);
-		W3GetRaceSkillName(race,SKILLNUM,skillname,sizeof(skillname));
-		PrintHintText(victim,"%T","Received {amount} damage from {skill}",victim,damage,skillname);
+	SetTrans( attacker);
+	W3GetRaceSkillName(race, SKILLNUM, skillname, sizeof(skillname));
+
+	PrintHintText(attacker, "%T", "+{amount} damage with {skill}", attacker,
+			damage, skillname);
+
+	if (victim > 0) {
+		SetTrans( victim);
+		W3GetRaceSkillName(race, SKILLNUM, skillname, sizeof(skillname));
+		PrintHintText(victim, "%T", "Received {amount} damage from {skill}",
+				victim, damage, skillname);
 	}
 }
-stock W3PrintSkillDmgHintConsole(victim=0,attacker,damage,SKILLNUM){
-	W3PrintSkillDmgHint(victim,attacker,damage,SKILLNUM);
-	W3PrintSkillDmgConsole(victim,attacker,damage,SKILLNUM);
+stock W3PrintSkillDmgHintConsole(victim = 0, attacker, damage, SKILLNUM) {
+	W3PrintSkillDmgHint(victim, attacker, damage, SKILLNUM);
+	W3PrintSkillDmgConsole(victim, attacker, damage, SKILLNUM);
 }
-
 
 //colored
 //prints [war3 tag] You did %d damage to %name with SKILLNAME
@@ -2709,26 +2584,26 @@ stock W3PrintSkillDmgHintConsole(victim=0,attacker,damage,SKILLNUM){
 ///automatically goes into console
 //removed in favor of console and hint
 /*
-stock W3PrintSkillDmgChat(victim,attacker,damage,String:skillname[]){
-	GetClientName(victim,zzname,sizeof(zzname));
-	War3_ChatMessage(attacker,"%T","You did +{amount} damage to {player} with {skill}",attacker,damage,zzname,skillname);
-	
-	if(victim>0){
-		GetClientName(attacker,zzname,sizeof(zzname));
-		War3_ChatMessage(victim,"%T","{player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
-	}
-}
-*/
+ stock W3PrintSkillDmgChat(victim,attacker,damage,String:skillname[]){
+ GetClientName(victim,zzname,sizeof(zzname));
+ War3_ChatMessage(attacker,"%T","You did +{amount} damage to {player} with {skill}",attacker,damage,zzname,skillname);
+ 
+ if(victim>0){
+ GetClientName(attacker,zzname,sizeof(zzname));
+ War3_ChatMessage(victim,"%T","{player} did {amount} damage to you with {skill}",victim,zzname,damage,skillname);
+ }
+ }
+ */
 
-stock W3MsgUltNotLeveled(client){
+stock W3MsgUltNotLeveled(client) {
 	new String:buffer[100];
 	Format(buffer, sizeof(buffer), "%T", "Your Ultimate is not leveled", client);
-	PrintHintText(client,buffer);
+	PrintHintText(client, buffer);
 }
-stock W3MsgNoTargetFound(client,Float:distancegameunits=0.0){
+stock W3MsgNoTargetFound(client,Float:distancegameunits=0.0) {
 	decl String:print[500];
 	Format(print,sizeof(print),"%T","No target found",client);
-	if(distancegameunits>0.1){
+	if(distancegameunits>0.1) {
 		if(GetConVarInt(W3GetVar(hUseMetricCvar))==0)
 		{
 			Format(print,sizeof(print),"%T","No target found within {amount} feet",client,distancegameunits/10.0);
@@ -2740,137 +2615,143 @@ stock W3MsgNoTargetFound(client,Float:distancegameunits=0.0){
 	}
 	PrintHintText(client,"%s",print);
 }
-stock W3MsgCreatedWard(client,currentwardcount=0,totalwardcount=0){
+stock W3MsgCreatedWard(client, currentwardcount = 0, totalwardcount = 0) {
 	decl String:print[500];
-	Format(print,sizeof(print),"%T","You created a Ward",client);
-	if(totalwardcount>0){
-		Format(print,sizeof(print),"%T","You created a Ward {amount}/{amount}",client,currentwardcount,totalwardcount);
+	Format(print, sizeof(print), "%T", "You created a Ward", client);
+	if (totalwardcount > 0) {
+		Format(print, sizeof(print), "%T",
+				"You created a Ward {amount}/{amount}", client,
+				currentwardcount, totalwardcount);
 	}
-	PrintHintText(client,"%s",print);
+	PrintHintText(client, "%s", print);
 }
-stock W3MsgWardLocationDeny(client){
-	PrintHintText(client,"%T","You can not build a Ward Here",client);
+stock W3MsgWardLocationDeny(client) {
+	PrintHintText(client, "%T", "You can not build a Ward Here", client);
 }
-stock W3MsgNoWardsLeft(client){
-	PrintHintText(client,"%T","You have used up all your Wards!",client);
+stock W3MsgNoWardsLeft(client) {
+	PrintHintText(client, "%T", "You have used up all your Wards!", client);
 }
-stock W3MsgNoWardWhenInvis(client){
-	PrintHintText(client,"%T","No Ward Placement While Invisible",client);
+stock W3MsgNoWardWhenInvis(client) {
+	PrintHintText(client, "%T", "No Ward Placement While Invisible", client);
 }
-stock W3MsgEvaded(victim,attacker){
-	PrintHintText(victim,"%T","You Evaded a Shot",victim);
-	PrintHintText(attacker,"%T","Enemy Evaded",attacker);
+stock W3MsgEvaded(victim, attacker) {
+	PrintHintText(victim, "%T", "You Evaded a Shot", victim);
+	PrintHintText(attacker, "%T", "Enemy Evaded", attacker);
 }
-stock W3MsgEntangle(victim,attacker){
-	PrintHintText(victim,"%T","You are Entangled!",victim);
-	PrintHintText(attacker,"%T","Entangled!",attacker);
+stock W3MsgEntangle(victim, attacker) {
+	PrintHintText(victim, "%T", "You are Entangled!", victim);
+	PrintHintText(attacker, "%T", "Entangled!", attacker);
 }
 
-stock W3MsgNoCastDuringFreezetime(client){
-	PrintHintText(client,"%T","Cannot cast during freezetime",client);		
+stock W3MsgNoCastDuringFreezetime(client) {
+	PrintHintText(client, "%T", "Cannot cast during freezetime", client);
 }
-stock W3MsgSkillBlocked(victim=0,attacker=0,String:skillname[]){
-	if(victim>0){
-		PrintHintText(victim,"%T","Blocked enemy {skill}",victim,skillname);	
+stock W3MsgSkillBlocked(victim=0,attacker=0,String:skillname[]) {
+	if(victim>0) {
+		PrintHintText(victim,"%T","Blocked enemy {skill}",victim,skillname);
 	}
-	if(attacker>0){
-		PrintHintText(victim,"%T","Enemy Blocked {skill}",victim,skillname);	
+	if(attacker>0) {
+		PrintHintText(victim,"%T","Enemy Blocked {skill}",victim,skillname);
 	}
 }
-stock W3MsgBanished(victim,attacker){
-	PrintHintText(victim,"%T","You have been Banished",victim);
-	PrintHintText(attacker,"%T","You Banished",attacker);
+stock W3MsgBanished(victim, attacker) {
+	PrintHintText(victim, "%T", "You have been Banished", victim);
+	PrintHintText(attacker, "%T", "You Banished", attacker);
 }
-stock W3MsgStoleMoney(victim,attacker,dollars){
-	PrintHintText(victim,"%T","Enemy stole {dollars} dollars from you",victim,dollars);
-	PrintHintText(attacker,"%T","You Stole {dollars} dollars",attacker,dollars);
+stock W3MsgStoleMoney(victim, attacker, dollars) {
+	PrintHintText(victim, "%T", "Enemy stole {dollars} dollars from you",
+			victim, dollars);
+	PrintHintText(attacker, "%T", "You Stole {dollars} dollars", attacker,
+			dollars);
 }
-stock W3MsgStoleGold(victim,attacker,gold){
-	PrintHintText(victim,"%T","Enemy stole {gold} gold from you",victim,gold);
-	PrintHintText(attacker,"%T","You Stole {gold} gold",attacker,gold);
+stock W3MsgStoleGold(victim, attacker, gold) {
+	PrintHintText(victim, "%T", "Enemy stole {gold} gold from you", victim,
+			gold);
+	PrintHintText(attacker, "%T", "You Stole {gold} gold", attacker, gold);
 }
-stock W3MsgRevivedBM(playerrevived,savior){
+stock W3MsgRevivedBM(playerrevived, savior) {
 	new String:clientName[64];
-	GetClientName(playerrevived,clientName,sizeof(clientName));	
+	GetClientName(playerrevived, clientName, sizeof(clientName));
 	new String:saviorName[64];
-	GetClientName(savior,saviorName,sizeof(saviorName));
-		
-	PrintHintText(savior,"%T","You revived {player}",savior,clientName);
-	War3_ChatMessage(playerrevived,"%T","{player} revived you",playerrevived,saviorName);
+	GetClientName(savior, saviorName, sizeof(saviorName));
+
+	PrintHintText(savior, "%T", "You revived {player}", savior, clientName);
+	War3_ChatMessage(playerrevived, "%T", "{player} revived you",
+			playerrevived, saviorName);
 }
-stock W3MsgUsingVoodoo(client){
-	PrintHintText(client,"%T","Activated Voodoo!",client);
+stock W3MsgUsingVoodoo(client) {
+	PrintHintText(client, "%T", "Activated Voodoo!", client);
 }
-stock W3MsgVoodooEnded(client){
-	PrintHintText(client,"%T","Voodoo has ended",client);
+stock W3MsgVoodooEnded(client) {
+	PrintHintText(client, "%T", "Voodoo has ended", client);
 }
-stock W3MsgEnemyHasImmunity(client,bool:console=true){
+stock W3MsgEnemyHasImmunity(client,bool:console=true) {
 	PrintHintText(client,"%T","Enemy has immunity!",client);
 	PrintToConsole(client,"%T","[W3S] Enemy has immunity!",client);
 }
-stock W3MsgUltimateNotActivatable(client){
-	PrintHintText(client,"%T","This ultimate is not activatable",client);    //prints
+stock W3MsgUltimateNotActivatable(client) {
+	PrintHintText(client, "%T", "This ultimate is not activatable", client); //prints
 }
-stock W3MsgUltimateBlocked(client){
-	PrintHintText(client,"%T","Ultimate Blocked",client);
+stock W3MsgUltimateBlocked(client) {
+	PrintHintText(client, "%T", "Ultimate Blocked", client);
 }
-stock W3MsgThrewKnives(client){
-	PrintHintText(client,"%T","You threw knives around you",client);
+stock W3MsgThrewKnives(client) {
+	PrintHintText(client, "%T", "You threw knives around you", client);
 }
-stock W3MsgHitByKnives(client){
-	PrintHintText(client,"%T","Attacked by Fan of Knives",client);
+stock W3MsgHitByKnives(client) {
+	PrintHintText(client, "%T", "Attacked by Fan of Knives", client);
 }
-stock W3MsgActivated(client,String:postpendstr[]){
+stock W3MsgActivated(client,String:postpendstr[]) {
 	PrintHintText(client,"%T","Activated {skillname}",client,postpendstr);
 }
-stock W3MsgAttackedBy(client,String:postpendstr[]){
+stock W3MsgAttackedBy(client,String:postpendstr[]) {
 	PrintHintText(client,"%T","Attacked By {skillname}",client,postpendstr);
 }
-stock W3MsgMoleIn(client,Float:timetillactivation){
+stock W3MsgMoleIn(client,Float:timetillactivation) {
 	PrintHintText(client,"%T","WARNING! MOLE IN {amount} SECONDS!",client,timetillactivation);
 	War3_ChatMessage(client,"%T","WARNING! MOLE IN {amount} SECONDS!",client,timetillactivation);
 }
-stock W3MsgMoled(client){
-	War3_ChatMessage(client,"%T","You have moled!",client);
-	PrintHintText(client,"%T","You have moled!",client);
+stock W3MsgMoled(client) {
+	War3_ChatMessage(client, "%T", "You have moled!", client);
+	PrintHintText(client, "%T", "You have moled!", client);
 }
-stock W3MsgNoLongerDisguised(client){
-	War3_ChatMessage(client,"%T","You are no longer disguised",client);
-	PrintHintText(client,"%T","You are no longer disguised",client);
+stock W3MsgNoLongerDisguised(client) {
+	War3_ChatMessage(client, "%T", "You are no longer disguised", client);
+	PrintHintText(client, "%T", "You are no longer disguised", client);
 }
-stock W3MsgVengenceWasBlocked(client,String:reason[]){
+stock W3MsgVengenceWasBlocked(client,String:reason[]) {
 	War3_ChatMessage(client,"%T","Vengence blocked ({reason})",client,reason);
 }
 
-stock bool:Spying(client){
-	return	GameTF()&&(   TF2_IsPlayerInCondition(client,TFCond_Disguising)||TF2_IsPlayerInCondition(client,TFCond_Disguised) || TF2_IsPlayerInCondition(client,TFCond_Cloaked));
+stock bool:Spying(client) {
+	return GameTF()&&( TF2_IsPlayerInCondition(client,TFCond_Disguising)||TF2_IsPlayerInCondition(client,TFCond_Disguised) || TF2_IsPlayerInCondition(client,TFCond_Cloaked));
 }
 //team 2 3 swapped if spying
-stock GetApparentTeam(client){
-	new team=GetClientTeam(client);
-	if(Spying(client)){
-		if(team==2) team++;
-		else if(team==3) team--;
+stock GetApparentTeam(client) {
+	new team = GetClientTeam(client);
+	if (Spying(client)) {
+		if (team == 2)
+			team++;
+		else if (team == 3)
+			team--;
 	}
 	return team;
 }
 native W3IsBuffInvised(client); //returns true if client alpha is <50
 
 //invisible or cloaked?
-stock IsInvis(client){
-	 return (  GameTF()
-	 &&(   TF2_IsPlayerInCondition(client,TFCond_Cloaked) ||
-	 	W3IsBuffInvised(client)
-	 ));
+stock IsInvis(client) {
+	return (GameTF() && (TF2_IsPlayerInCondition(client, TFCond_Cloaked)
+			|| W3IsBuffInvised(client)));
 }
 
 /**
  * Prints Message to server and all chat
  * For debugging prints
- */ 
+ */
 stock DP(const String:szMessage[], any:...)
 {
-	
+
 	decl String:szBuffer[1000];
 
 	VFormat(szBuffer, sizeof(szBuffer), szMessage, 2);
@@ -2886,12 +2767,12 @@ stock DPP(Plugin:plugin)
 	DP("[Debug PrintP] %s", szBuffer);
 }
 
-stock PrintPlugin(Handle:plugin){
+stock PrintPlugin(Handle:plugin) {
 	new String:str[100];
 	GetPluginFilename(Handle:plugin, str, sizeof(str));
 	W3LogNotError("%s",str);
 }
-stock PrintPluginError(Handle:plugin){
+stock PrintPluginError(Handle:plugin) {
 	new String:str[100];
 	GetPluginFilename(Handle:plugin, str, sizeof(str));
 	LogError("%s",str);
@@ -2899,18 +2780,18 @@ stock PrintPluginError(Handle:plugin){
 }
 
 ///find a "string" in a war3cvar that is delimited by commas "rubbish,string" = true
-stock bool:W3FindStringInCvar(cvarid,String:findme[],max=9999){
+stock bool:W3FindStringInCvar(cvarid,String:findme[],max=9999) {
 	decl String:cvarstr[100];
 	decl String:exploded[32][32];
-	
+
 	W3GetCvar(cvarid,cvarstr,sizeof(cvarstr));
-	
+
 	new num;
-	if(strlen(cvarstr)>0){
+	if(strlen(cvarstr)>0) {
 		num=ExplodeString(cvarstr,",",exploded,256,256);
-		for(new i=0;i<num && i<max;i++){
+		for(new i=0;i<num && i<max;i++) {
 			//PrintToServer("'%s' compared to: '%s' num%d",exploded[i],itemShort,num);
-			if(StrEqual(exploded[i],findme,false)){
+			if(StrEqual(exploded[i],findme,false)) {
 				//PrintToServer("TRUE");
 				return true;
 			}
@@ -2930,19 +2811,19 @@ stock bool:VectorEquals(const Float:a[3], const Float:b[3])
 
 // Revan: wrapper to play sounds for current cs:go
 stock W3EmitSoundToAll(const String:sample[],
-				 entity = SOUND_FROM_PLAYER,
-				 channel = SNDCHAN_AUTO,
-				 level = SNDLEVEL_NORMAL,
-				 flags = SND_NOFLAGS,
-				 Float:volume = SNDVOL_NORMAL,
-				 pitch = SNDPITCH_NORMAL,
-				 speakerentity = -1,
-				 Float:origin[3] = NULL_VECTOR,
-				 const Float:dir[3] = NULL_VECTOR,
-				 bool:updatePos = true,
-				 Float:soundtime = 0.0)
+		entity = SOUND_FROM_PLAYER,
+		channel = SNDCHAN_AUTO,
+		level = SNDLEVEL_NORMAL,
+		flags = SND_NOFLAGS,
+		Float:volume = SNDVOL_NORMAL,
+		pitch = SNDPITCH_NORMAL,
+		speakerentity = -1,
+		Float:origin[3] = NULL_VECTOR,
+		const Float:dir[3] = NULL_VECTOR,
+		bool:updatePos = true,
+		Float:soundtime = 0.0)
 {
-//hard coded value to avoid spammed sounds
+	//hard coded value to avoid spammed sounds
 #define EMITSOUND_MAXDISTANCE 280
 
 	if(GAMECSGO) {
@@ -3006,21 +2887,20 @@ stock War3_DealDamageDelayed(victim,attacker,damage,String:classname[32],Float:d
 
 /**
  * Returns UNIX time (integer)
- */ 
-stock NOW(){
+ */
+stock NOW() {
 	return GetTime();
 }
 /**
  * returns the larger integer of the two
- */ 
-stock IntMax(one,two){
-	return  one>two?one:two;
+ */
+stock IntMax(one, two) {
+	return one > two ? one : two;
 }
-
 
 //what we want is something that always increments even past map changes
 //not intended to matter of game pauses or not (tick)
-stock Float:AbsoluteTime(){
+stock Float:AbsoluteTime() {
 	return GetEngineTime();
 }
 
