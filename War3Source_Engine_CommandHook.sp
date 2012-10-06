@@ -1,22 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-
-
-
-
 
 new Handle:Cvar_ChatBlocking;
 
 new Handle:g_OnUltimateCommandHandle;
 new Handle:g_OnAbilityCommandHandle;
 
-
-
-
-
-public Plugin:myinfo= 
+public Plugin:myinfo=
 {
 	name="W3S Engine Command Hooks",
 	author="Ownz (DarkEnergy)",
@@ -25,15 +15,11 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-
-
-
-
 public OnPluginStart()
 {
 	Cvar_ChatBlocking=CreateConVar("war3_command_blocking","0","block chat commands from showing up");
-	if(W3()){
-	
+	if(W3()) {
+
 		RegConsoleCmd("say",War3Source_SayCommand);
 		RegConsoleCmd("say_team",War3Source_SayCommand);
 		RegConsoleCmd("+ultimate",War3Source_UltimateCommand);
@@ -48,14 +34,14 @@ public OnPluginStart()
 		RegConsoleCmd("-ability3",War3Source_AbilityCommand);
 		RegConsoleCmd("+ability4",War3Source_AbilityCommand);
 		RegConsoleCmd("-ability4",War3Source_AbilityCommand);
-		
+
 		RegConsoleCmd("ability",War3Source_OldWCSCommand);
 		RegConsoleCmd("ability1",War3Source_OldWCSCommand);
 		RegConsoleCmd("ability2",War3Source_OldWCSCommand);
 		RegConsoleCmd("ability3",War3Source_OldWCSCommand);
 		RegConsoleCmd("ability4",War3Source_OldWCSCommand);
 		RegConsoleCmd("ultimate",War3Source_OldWCSCommand);
-	
+
 		RegConsoleCmd("shopmenu",War3Source_CmdShopmenu);
 		RegConsoleCmd("shopmenu2",War3Source_CmdShopmenu2);
 	}
@@ -65,18 +51,9 @@ public bool:InitNativesForwards()
 {
 	g_OnUltimateCommandHandle=CreateGlobalForward("OnUltimateCommand",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
 	g_OnAbilityCommandHandle=CreateGlobalForward("OnAbilityCommand",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
-	
+
 	return true;
 }
-
-
-
-
-
-
-
-
-
 
 new String:command2[70];
 new String:command3[70];
@@ -86,14 +63,15 @@ public bool:CommandCheck(String:compare[],String:command[])
 	Format(command2,sizeof(command2),"\\%s",command);
 	Format(command3,sizeof(command3),"/%s",command);
 	if(!strcmp(compare,command,false)||!strcmp(compare,command2,false)||!strcmp(compare,command3,false))
-		return true;
+	return true;
+
 	return false;
 }
 
 public CommandCheckEx(String:compare[],String:command[])
 {
 	if(StrEqual(command,"",false))
-		return -1;
+	return -1;
 	Format(command2,sizeof(command2),"\\%s",command);
 	Format(command3,sizeof(command3),"/%s",command);
 	if(!StrContains(compare,command,false)||!StrContains(compare,command2,false)||!StrContains(compare,command3,false))
@@ -103,7 +81,7 @@ public CommandCheckEx(String:compare[],String:command[])
 		ReplaceString(compare,70,command3,"",false);
 		new val=StringToInt(compare);
 		if(val>0)
-			return val;
+		return val;
 	}
 	return -1;
 }
@@ -124,15 +102,15 @@ public Action:War3Source_SayCommand(client,args)
 {
 	decl String:arg1[70];
 	GetCmdArg(1,arg1,sizeof(arg1));
-	
+
 	new top_num;
-	
+
 	new Action:returnblocking = (GetConVarInt(Cvar_ChatBlocking)>0)?Plugin_Handled:Plugin_Continue;
 	if(CommandCheck(arg1,"showxp") || CommandCheck(arg1,"xp"))
 	{
 		War3_ShowXP(client);
 		return returnblocking;
-		
+
 	}
 	else if(CommandCheck(arg1,"changerace"))
 	{
@@ -142,6 +120,11 @@ public Action:War3Source_SayCommand(client,args)
 	else if(CommandCheck(arg1,"war3help")||CommandCheck(arg1,"help")||CommandCheck(arg1,"wchelp"))
 	{
 		W3CreateEvent(DoShowHelpMenu,client);
+		return returnblocking;
+	}
+	else if(CommandCheck(arg1,"iteminfo"))
+	{
+		W3CreateEvent(DoShowItemsInfoMenu,client);
 		return returnblocking;
 	}
 	else if(CommandCheck(arg1,"itemsinfo"))
@@ -160,7 +143,7 @@ public Action:War3Source_SayCommand(client,args)
 		PushArrayString(array,arg1);
 		W3SetVar(hPlayerInfoArgStr,array);
 		W3CreateEvent(DoShowPlayerinfoEntryWithArg,client);
-		
+
 		CloseHandle(array);
 		return returnblocking;
 	}
@@ -169,13 +152,13 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(DoShowRaceinfoMenu,client);
 		return returnblocking;
 	}
-	else if(CommandCheck(arg1,"speed")){
+	else if(CommandCheck(arg1,"speed")) {
 
 		new Float:currentmaxspeed=GetEntDataFloat(client,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
-		if(GameTF()){
+		if(GameTF()) {
 			War3_ChatMessage(client,"%T (%.2fx)","Your max speed is {amount}",client,currentmaxspeed,W3GetSpeedMulti(client));
 		}
-		else{
+		else {
 			War3_ChatMessage(client,"%T","Your max speed is {amount}",client,currentmaxspeed);
 		}
 	}
@@ -200,9 +183,9 @@ public Action:War3Source_SayCommand(client,args)
 		{
 			new race=War3_GetRace(client);
 			if(W3GetLevelsSpent(client,race)<War3_GetLevel(client,race))
-				W3CreateEvent(DoShowSpendskillsMenu,client);
+			W3CreateEvent(DoShowSpendskillsMenu,client);
 			else
-				War3_ChatMessage(client,"%T","You do not have any skill points to spend, if you want to reset your skills use resetskills",client);
+			War3_ChatMessage(client,"%T","You do not have any skill points to spend, if you want to reset your skills use resetskills",client);
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"shopmenu")||CommandCheck(arg1,"sh1"))
@@ -225,7 +208,7 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowLevelBank,client);
 			return returnblocking;
 		}
-		
+
 		else if(CommandCheck(arg1,"war3rank"))
 		{
 			if(W3SaveEnabled())
@@ -235,7 +218,7 @@ public Action:War3Source_SayCommand(client,args)
 			else
 			{
 				War3_ChatMessage(client,"%T","This server does not save XP, feature disabled",client);
-			}  
+			}
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"war3stats"))
@@ -257,9 +240,9 @@ public Action:War3Source_SayCommand(client,args)
 		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp"))
 		{
 			if(War3_GetGame()==Game_TF)
-				War3_RestoreItemsFromDeath(client,true,false);
+			War3_RestoreItemsFromDeath(client,true,false);
 			else if(War3_GetGame()==Game_CS)
-				War3_RestoreItemsFromDeath(client,true,true);
+			War3_RestoreItemsFromDeath(client,true,true);
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"myitems"))
@@ -284,19 +267,19 @@ public Action:War3Source_SayCommand(client,args)
 		}
 		new String:itemshort[100];
 		new ItemsLoaded = W3GetItemsLoaded();
-		for(new itemid=1;itemid<=ItemsLoaded;itemid++){
+		for(new itemid=1;itemid<=ItemsLoaded;itemid++) {
 			W3GetItemShortname(itemid,itemshort,sizeof(itemshort));
-			if(CommandCheckStartsWith(arg1,itemshort)&&!W3ItemHasFlag(itemid,"hidden")){
+			if(CommandCheckStartsWith(arg1,itemshort)&&!W3ItemHasFlag(itemid,"hidden")) {
 				W3SetVar(EventArg1,itemid);
 				W3SetVar(EventArg2,false); //dont show menu again
-				if(CommandCheckStartsWith(arg1,"tome")){//item is tome
+				if(CommandCheckStartsWith(arg1,"tome")) {//item is tome
 					new multibuy;
-					if(   (multibuy=CommandCheckEx(arg1,"tomes"))>0   ||    (multibuy=CommandCheckEx(arg1,"tome"))>0    )
+					if( (multibuy=CommandCheckEx(arg1,"tomes"))>0 || (multibuy=CommandCheckEx(arg1,"tome"))>0 )
 					{
-//						PrintToChatAll("passed commandx");
+						//						PrintToChatAll("passed commandx");
 						if(multibuy>10) multibuy=10;
-						for(new i=1;i<multibuy;i++){ //doesnt itterate if its 1
-							
+						for(new i=1;i<multibuy;i++) { //doesnt itterate if its 1
+
 							W3CreateEvent(DoTriedToBuyItem,client);
 						}
 					}
@@ -304,31 +287,28 @@ public Action:War3Source_SayCommand(client,args)
 						War3_ChatMessage(client,"%T","say tomes5 to buy many tomes at once, up to 10",client);
 					}
 				}
-				
+
 				W3CreateEvent(DoTriedToBuyItem,client);
-				
-				
-				
-				
-				return returnblocking ;
+
+				return returnblocking;
 			}
 		}
 	}
 	else
 	{
 		if(CommandCheck(arg1,"skillsinfo") ||
-			CommandCheck(arg1,"skl") ||
-			CommandCheck(arg1,"resetskills") ||
-			CommandCheck(arg1,"spendskills") ||
-			CommandCheck(arg1,"showskills") ||
-			CommandCheck(arg1,"shopmenu") ||
-			CommandCheck(arg1,"sh1") ||
-			CommandCheck(arg1,"war3menu") ||
-			CommandCheck(arg1,"w3s") ||
-			CommandCheck(arg1,"war3rank") ||
-			CommandCheck(arg1,"war3stats") ||
-			CommandCheck(arg1,"levelbank")||
-			CommandCheckEx(arg1,"war3top")>0)
+				CommandCheck(arg1,"skl") ||
+				CommandCheck(arg1,"resetskills") ||
+				CommandCheck(arg1,"spendskills") ||
+				CommandCheck(arg1,"showskills") ||
+				CommandCheck(arg1,"shopmenu") ||
+				CommandCheck(arg1,"sh1") ||
+				CommandCheck(arg1,"war3menu") ||
+				CommandCheck(arg1,"w3s") ||
+				CommandCheck(arg1,"war3rank") ||
+				CommandCheck(arg1,"war3stats") ||
+				CommandCheck(arg1,"levelbank")||
+				CommandCheckEx(arg1,"war3top")>0)
 		{
 			if(W3IsPlayerXPLoaded(client))
 			{
@@ -338,19 +318,19 @@ public Action:War3Source_SayCommand(client,args)
 			return returnblocking;
 		}
 	}
-	
+
 	return Plugin_Continue;
 }
- 
+
 public Action:War3Source_UltimateCommand(client,args)
 {
 	//PrintToChatAll("ult cmd");
 	decl String:command[32];
 	GetCmdArg(0,command,sizeof(command));
-	
+
 	//PrintToChatAll("%s",command) ;
-	
-	
+
+
 	//PrintToChatAll("ult cmd2");
 	new race=War3_GetRace(client);
 	if(race>0)
@@ -358,7 +338,7 @@ public Action:War3Source_UltimateCommand(client,args)
 		//PrintToChatAll("ult cmd3");
 		new bool:pressed=false;
 		if(StrContains(command,"+")>-1)
-			pressed=true;
+		pressed=true;
 		Call_StartForward(g_OnUltimateCommandHandle);
 		Call_PushCell(client);
 		Call_PushCell(race);
@@ -367,7 +347,7 @@ public Action:War3Source_UltimateCommand(client,args)
 		Call_Finish(result);
 		//PrintToChatAll("ult cmd4");
 	}
-	
+
 	return Plugin_Handled;
 }
 
@@ -375,14 +355,14 @@ public Action:War3Source_AbilityCommand(client,args)
 {
 	decl String:command[32];
 	GetCmdArg(0,command,sizeof(command));
-	
+
 	new bool:pressed=false;
 	//PrintToChatAll("%s",command) ;
-	
+
 	if(StrContains(command,"+")>-1)
-			pressed=true;
+	pressed=true;
 	if(!IsCharNumeric(command[8]))
-		return Plugin_Handled;
+	return Plugin_Handled;
 	new num=_:command[8]-48;
 	if(num>0 && num<7)
 	{
@@ -393,7 +373,7 @@ public Action:War3Source_AbilityCommand(client,args)
 		new result;
 		Call_Finish(result);
 	}
-	
+
 	return Plugin_Handled;
 }
 
@@ -402,20 +382,20 @@ public Action:War3Source_NoNumAbilityCommand(client,args)
 	decl String:command[32];
 	GetCmdArg(0,command,sizeof(command));
 	//PrintToChatAll("%s",command) ;
-	
+
 	new bool:pressed=false;
 	if(StrContains(command,"+")>-1)
-		pressed=true;
+	pressed=true;
 	Call_StartForward(g_OnAbilityCommandHandle);
 	Call_PushCell(client);
 	Call_PushCell(0);
 	Call_PushCell(pressed);
 	new result;
 	Call_Finish(result);
-	
+
 	return Plugin_Handled;
 }
 
-public Action:War3Source_OldWCSCommand(client,args){
+public Action:War3Source_OldWCSCommand(client,args) {
 	War3_ChatMessage(client,"%T","The proper commands are +ability, +ability1 ... and +ultimate",client);
 }
