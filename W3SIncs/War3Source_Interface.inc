@@ -167,40 +167,40 @@ stock DetermineGameMode() {
 #if defined WAR3MAIN
 		PrintToServer("[War3Source] Game set: Day of Defeat Source (ONLY DEVELOPER SUPPORT!)");
 #endif
-tValveGame	=_:Game_DOD;
-}
-else if(StrContains(gameDir,"tf",false)==0)
-{
+	tValveGame	=_:Game_DOD;
+	}
+	else if(StrContains(gameDir,"tf",false)==0)
+	{
 #if defined WAR3MAIN
-	PrintToServer("[War3Source] Game set: Team Fortress 2");
+		PrintToServer("[War3Source] Game set: Team Fortress 2");
 #endif
-	tValveGame=_:Game_TF;
-}
-else if(StrContains(gameDir,"left4dead2",false)==0)
-{
+		tValveGame=_:Game_TF;
+	}
+	else if(StrContains(gameDir,"left4dead2",false)==0)
+	{
 #if defined WAR3MAIN
-	PrintToServer("[War3Source] Game set: Left 4 Dead 2");
+		PrintToServer("[War3Source] Game set: Left 4 Dead 2");
 #endif
-	tValveGame=_:Game_L4D2;
-}
-else if(StrContains(gameDir,"left4dead",false)==0)
-{
+		tValveGame=_:Game_L4D2;
+	}
+	else if(StrContains(gameDir,"left4dead",false)==0)
+	{
 #if defined WAR3MAIN
-	PrintToServer("[War3Source] Game set: Left 4 Dead");
+		PrintToServer("[War3Source] Game set: Left 4 Dead");
 #endif
-	tValveGame=_:Game_L4D;
-}
-else if(StrContains(gameDir,"csgo",false)==0)
-{
+		tValveGame=_:Game_L4D;
+	}
+	else if(StrContains(gameDir,"csgo",false)==0)
+	{
 #if defined WAR3MAIN
-	PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
+		PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
 #endif
-	tValveGame=_:Game_CSGO;
-}
-else
-{
-	SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error. (folder name: %s)", gameDir);
-}
+		tValveGame=_:Game_CSGO;
+	}
+	else
+	{
+		SetFailState("[War3Source] Sorry, this game isn't support by War3Source yet. If you think this is a mistake, you probably renamed your game directory. For example, re-naming cstrike to cstrike2 will cause this error. (folder name: %s)", gameDir);
+	}
 //bGameModeDetermined=true;
 }
 #define GAMECS GameCS()
