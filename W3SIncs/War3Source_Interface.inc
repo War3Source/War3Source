@@ -801,7 +801,6 @@ native W3GetItem2ExpireTime(client, item);
 native W3SetItem2ExpireTime(client, item, time); //use full linux time , ie: NOW()+duration
 
 native bool:W3BuyUseCSMoney();
-native bool:W3BuyUseMVMMoney();
 
 /**
  * Sets if the player owns a specific item.
