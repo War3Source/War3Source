@@ -234,11 +234,14 @@ public Action:War3Source_SayCommand(client,args)
 		}
 		else if(CommandCheck(arg1,"buyprevious")||CommandCheck(arg1,"bp"))
 		{
-			if(GAMETF)
+			War3_RestoreItemsFromDeath(client,true,W3BuyUseCSMoney());
+/*			if(GAMETF)
 			War3_RestoreItemsFromDeath(client,true,false);
 			else if(GAMECSANY)
 			War3_RestoreItemsFromDeath(client,true,true);
 			return returnblocking;
+			W3BuyUseCSMoney()
+*/
 		}
 		else if(CommandCheck(arg1,"myitems"))
 		{
