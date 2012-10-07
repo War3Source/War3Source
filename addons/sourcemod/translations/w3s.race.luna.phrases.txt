@@ -15,7 +15,7 @@
 	}
 	"luna_skill_LucentBeam_desc"
 	{
-		"en"		"Luna concentrates on the moon`s energy and channels it forcefully to the surface, 6-10dmg. Autocast. 3s cooldown."
+		"en"		"Luna concentrates on the moon`s energy and channels it forcefully to the surface, 3-7/4-8/5-9/6-10 dmg. Autocast. 3s cooldown."
 	}
 
 	"luna_skill_MoonGlaive"
