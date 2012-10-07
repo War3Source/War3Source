@@ -5,7 +5,12 @@
 
 #pragma semicolon 1
 
-new String:explosionSound1[]="war3source/particle_suck1.wav";
+//new String:explosionSound1[]="war3source/particle_suck1.wav";
+#if defined WAR3MAIN
+		PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
+#endif
+
+new String:explosionSound1[256];
 
 
 #define MAXWARDS 64*4 //on map LOL
@@ -34,6 +39,7 @@ new bool:inteleportcheck[MAXPLAYERSCUSTOM];
 
 new String:teleportSound[]="war3source/blinkarrival.wav";
 */
+
 public Plugin:myinfo = 
 {
 	name = "WCX - Skills Engine",
@@ -51,6 +57,14 @@ public OnPluginStart()
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(explosionSound1,sizeof(explosionSound1),"music/war3source/particle_suck1.mp3");
+	}
+	else
+	{
+		strcopy(explosionSound1,sizeof(explosionSound1),"war3source/particle_suck1.mp3");
+	}
+
 	if(War3_GetGame()==Game_TF)
 	{
 		ExplosionModel=PrecacheModel("materials/particles/explosion/explosionfiresmoke.vmt",false);

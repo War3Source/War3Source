@@ -48,8 +48,12 @@ new Float:VengenceTFHealHPPercent[]={0.0,0.25,0.5,0.75,1.0};
 
 new SKILL_FANOFKNIVES, SKILL_BLINK,SKILL_SHADOWSTRIKE,ULT_VENGENCE;
 
-new String:shadowstrikestr[]="war3source/shadowstrikebirth.wav";
-new String:ultimateSound[]="war3source/MiniSpiritPissed1.wav";
+//new String:shadowstrikestr[]="war3source/shadowstrikebirth.wav";
+//new String:ultimateSound[]="war3source/MiniSpiritPissed1.wav";
+
+new String:shadowstrikestr[256]; //="war3source/shadowstrikebirth.mp3";
+new String:ultimateSound[256]; //="war3source/MiniSpiritPissed1.mp3";
+
 new BeamSprite;
 new HaloSprite;
 new KnifeModel;
@@ -104,6 +108,16 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(shadowstrikestr,sizeof(shadowstrikestr),"music/war3source/shadowstrikebirth.mp3");
+		strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/MiniSpiritPissed1.mp3");
+	}
+	else
+	{
+		strcopy(shadowstrikestr,sizeof(shadowstrikestr),"war3source/shadowstrikebirth.mp3");
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/MiniSpiritPissed1.mp3");
+	}
+
 	War3_PrecacheSound(shadowstrikestr);
 	War3_PrecacheSound(ultimateSound);
 	BeamSprite=War3_PrecacheBeamSprite();

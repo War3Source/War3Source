@@ -57,7 +57,9 @@ new ULT_DAMAGE_TF = 10;
 new MyWeaponsOffset,AmmoOffset;
 //Clip1Offset,; //cs stuff?
 
-new String:reviveSound[]="war3source/reincarnation.wav";
+//new String:reviveSound[]="war3source/reincarnation.wav";
+new String:reviveSound[256]; //="war3source/reincarnation.mp3";
+
 new BeamSprite,HaloSprite,FireSprite;
 new BloodSpray,BloodDrop;
 
@@ -106,6 +108,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(reviveSound,sizeof(reviveSound),"music/war3source/reincarnation.mp3");
+	}
+	else
+	{
+		strcopy(reviveSound,sizeof(reviveSound),"war3source/reincarnation.mp3");
+	}
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
 	//we gonna use theese bloodsprite as "money blood"(change color)

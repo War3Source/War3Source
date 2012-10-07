@@ -47,8 +47,8 @@ new Handle:RegenHPTFCvar;
 new Handle:MoleDeathmatchCvar;
 new String:sOldModel[65][256]; // reset model after 10 seconds
 
-new String:buyTombSound[]="war3source/tomes.wav";
-new String:masksnd[]="war3source/mask.mp3";
+new String:buyTombSound[256]; //="war3source/tomes.mp3";
+new String:masksnd[256]; //="war3source/mask.mp3";
 new maskSoundDelay[66];
 
 
@@ -150,6 +150,16 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(buyTombSound,sizeof(buyTombSound),"music/war3source/tomes.mp3");
+		strcopy(masksnd,sizeof(masksnd),"music/war3source/mask.mp3");
+	}
+	else
+	{
+		strcopy(buyTombSound,sizeof(buyTombSound),"war3source/tomes.mp3");
+		strcopy(masksnd,sizeof(masksnd),"war3source/mask.mp3");
+	}
+
 	War3_PrecacheSound(buyTombSound);
 	War3_PrecacheSound(masksnd);
 	if(GAMECSGO) {
@@ -273,7 +283,7 @@ public OnItemPurchase(client,item)
 			EmitSoundToAll(buyTombSound,client);
 		}
 		else{
-			EmitSoundToClient(client,"war3source/tomes.wav");
+			EmitSoundToClient(client,"war3source/tomes.mp3");
 		}
 		
 	}

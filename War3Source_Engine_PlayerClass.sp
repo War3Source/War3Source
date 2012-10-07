@@ -15,7 +15,7 @@ new bool:bResetSkillsOnSpawn[MAXPLAYERSCUSTOM];
 new RaceIDToReset[MAXPLAYERSCUSTOM];
 
 
-new String:levelupSound[]="war3source/levelupcaster.mp3";
+new String:levelupSound[256]; //="war3source/levelupcaster.mp3";
 
 
 
@@ -76,7 +76,16 @@ public OnPluginStart()
 		}		
 	}
 }
-public OnMapStart(){
+public OnMapStart()
+{
+	if(GAMECSGO){
+		strcopy(levelupSound,sizeof(levelupSound),"music/war3source/levelupcaster.mp3");
+	}
+	else
+	{
+		strcopy(levelupSound,sizeof(levelupSound),"war3source/levelupcaster.mp3");
+	}
+
 	War3_PrecacheSound(levelupSound);
 }
 

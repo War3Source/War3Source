@@ -34,7 +34,8 @@ new Handle:ultCooldownCvar;
 new Handle:ultRangeCvar;
 new Float:LocustDamagePercent[]={0.0,0.1,0.2,0.3,0.4};
 
-new String:ultimateSound[]="war3source/locustswarmloop.wav";
+//new String:ultimateSound[]="war3source/locustswarmloop.wav";
+new String:ultimateSound[256]; //="war3source/locustswarmloop.mp3";
 
 
 public Plugin:myinfo = 
@@ -71,6 +72,14 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/locustswarmloop.mp3");
+	}
+	else
+	{
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/locustswarmloop.mp3");
+	}
+
 	War3_PrecacheSound(ultimateSound);
 }
 

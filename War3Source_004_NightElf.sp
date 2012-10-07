@@ -29,7 +29,8 @@ new Float:TrueshotDamagePercent[5]={0.0,0.05,0.10,0.15,0.20};
 new Float:EntangleDistance=600.0;
 new Float:EntangleDuration[5]={0.0,1.25,1.5,1.75,2.0};
 
-new String:entangleSound[]="war3source/entanglingrootsdecay1.wav";
+//new String:entangleSound[]="war3source/entanglingrootsdecay1.wav";
+new String:entangleSound[256]; //="war3source/entanglingrootsdecay1.mp3";
 
 // Effects
 new TeleBeam,BeamSprite,HaloSprite;
@@ -56,6 +57,14 @@ public OnPluginStart()
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(entangleSound,sizeof(entangleSound),"music/war3source/entanglingrootsdecay1.mp3");
+	}
+	else
+	{
+		strcopy(entangleSound,sizeof(entangleSound),"war3source/entanglingrootsdecay1.mp3");
+	}
+
 	TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();

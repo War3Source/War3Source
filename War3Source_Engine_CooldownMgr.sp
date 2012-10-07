@@ -17,8 +17,8 @@ new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];
 new bool:CdOnSpawnPrintOnExpire[MAXRACES][MAXSKILLCOUNT];
 new Float:CooldownOnSpawnDuration[MAXRACES][MAXSKILLCOUNT];
 
-new String:ultimateReadySound[]="war3source/ult_ready.mp3";
-new String:abilityReadySound[]="war3source/ability_refresh.mp3";
+new String:ultimateReadySound[256]; //="war3source/ult_ready.mp3";
+new String:abilityReadySound[256]; //="war3source/ability_refresh.mp3";
 
 new Handle:g_CooldownExpiredForwardHandle;
 
@@ -68,7 +68,18 @@ public OnPluginStart()
 	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 
 }
-public OnMapStart(){
+public OnMapStart()
+{
+	if(GAMECSGO){
+		strcopy(ultimateReadySound,sizeof(ultimateReadySound),"music/war3source/ult_ready.mp3");
+		strcopy(abilityReadySound,sizeof(abilityReadySound),"music/war3source/ability_refresh.mp3");
+	}
+	else
+	{
+		strcopy(ultimateReadySound,sizeof(ultimateReadySound),"war3source/ult_ready.mp3");
+		strcopy(abilityReadySound,sizeof(abilityReadySound),"war3source/ability_refresh.mp3");
+	}
+
 	for(new i=0;i<MAXTHREADS;i++){
 		expireTime[i]=0.0;
 	}

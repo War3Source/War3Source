@@ -39,7 +39,8 @@ new Float:oldpos[MAXPLAYERSCUSTOM][3];
 new Float:teleportpos[MAXPLAYERSCUSTOM][3];
 new bool:inteleportcheck[MAXPLAYERSCUSTOM];
 
-new String:teleportSound[]="war3source/blinkarrival.wav";
+//new String:teleportSound[]="war3source/blinkarrival.wav";
+new String:teleportSound[256];
 public Plugin:myinfo = 
 {
 	name = "Race - Human Alliance",
@@ -98,6 +99,15 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+
+	if(GAMECSGO){
+		strcopy(teleportSound,sizeof(teleportSound),"music/war3source/blinkarrival.mp3");
+	}
+	else
+	{
+		strcopy(teleportSound,sizeof(teleportSound),"war3source/blinkarrival.mp3");
+	}
+
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
 	

@@ -55,8 +55,11 @@ new Float:UltimateDuration[]={0.0,0.66,1.0,1.33,1.66}; ///big bad voodoo duratio
 
 new bool:bVoodoo[65];
 
-new String:ultimateSound[]="war3source/divineshield.wav";
-new String:wardDamageSound[]="war3source/thunder_clap.wav";
+//new String:ultimateSound[]="war3source/divineshield.wav";
+//new String:wardDamageSound[]="war3source/thunder_clap.wav";
+
+new String:ultimateSound[256]; //="war3source/divineshield.mp3";
+new String:wardDamageSound[256]; //="war3source/thunder_clap.mp3";
 
 
 new bool:particled[MAXPLAYERSCUSTOM]; //heal particle
@@ -103,6 +106,16 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO){
+		strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/divineshield.mp3");
+		strcopy(wardDamageSound,sizeof(wardDamageSound),"music/war3source/thunder_clap.mp3");
+	}
+	else
+	{
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/divineshield.mp3");
+		strcopy(wardDamageSound,sizeof(wardDamageSound),"war3source/thunder_clap.mp3");
+	}
+
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
 	
