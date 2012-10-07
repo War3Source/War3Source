@@ -122,12 +122,7 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(DoShowHelpMenu,client);
 		return returnblocking;
 	}
-	else if(CommandCheck(arg1,"iteminfo"))
-	{
-		W3CreateEvent(DoShowItemsInfoMenu,client);
-		return returnblocking;
-	}
-	else if(CommandCheck(arg1,"itemsinfo"))
+	else if(CommandCheck(arg1,"itemsinfo")||CommandCheck(arg1,"iteminfo"))
 	{
 		W3CreateEvent(DoShowItemsInfoMenu,client);
 		return returnblocking;
