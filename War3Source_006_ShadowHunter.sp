@@ -112,8 +112,8 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/divineshield.mp3");
-		strcopy(wardDamageSound,sizeof(wardDamageSound),"war3source/thunder_clap.mp3");
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/divineshield.wav");
+		strcopy(wardDamageSound,sizeof(wardDamageSound),"war3source/thunder_clap.wav");
 	}
 
 	BeamSprite=War3_PrecacheBeamSprite();

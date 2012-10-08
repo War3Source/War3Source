@@ -58,7 +58,7 @@ public OnMapStart()
 	else
 	{
 		strcopy(beamsnd,sizeof(beamsnd),"war3source/moonqueen/beam.mp3");
-		strcopy(lunasnd2,sizeof(lunasnd2),"war3source/flashbang_explode2.mp3");
+		//strcopy(lunasnd2,sizeof(lunasnd2),"war3source/flashbang_explode2.mp3");
 	}
 
 	War3_PrecacheSound( beamsnd );

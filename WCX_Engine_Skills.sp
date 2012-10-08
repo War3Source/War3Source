@@ -62,7 +62,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(explosionSound1,sizeof(explosionSound1),"war3source/particle_suck1.mp3");
+		strcopy(explosionSound1,sizeof(explosionSound1),"war3source/particle_suck1.wav");
 	}
 
 	if(War3_GetGame()==Game_TF)

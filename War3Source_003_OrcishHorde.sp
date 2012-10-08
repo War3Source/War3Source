@@ -131,7 +131,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(lightningSound,sizeof(lightningSound),"war3source/lightningbolt.mp3");
+		strcopy(lightningSound,sizeof(lightningSound),"war3source/lightningbolt.wav");
 	}
 
 	BeamSprite=War3_PrecacheBeamSprite(); 

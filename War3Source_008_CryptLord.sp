@@ -77,7 +77,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/locustswarmloop.mp3");
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/locustswarmloop.wav");
 	}
 
 	War3_PrecacheSound(ultimateSound);
