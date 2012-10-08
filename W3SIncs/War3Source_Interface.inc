@@ -2317,7 +2317,26 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		}
 		case Game_TF:
 		{
-			return (StrEqual(weapon, "annihilator") ||
+			return (StrEqual(weapon,"shovel") ||
+					StrEqual(weapon,"wrench") ||
+					StrEqual(weapon,"bat") ||
+					StrEqual(weapon,"bonesaw") ||
+					StrEqual(weapon,"bottle") ||
+					StrEqual(weapon,"club") ||
+					StrEqual(weapon,"fireaxe") ||
+					StrEqual(weapon,"fists") ||
+					StrEqual(weapon,"sandman") ||
+					StrEqual(weapon,"pickaxe") ||
+					StrEqual(weapon,"sword") ||
+					StrEqual(weapon,"demoshield") ||
+					StrEqual(weapon,"taunt_scout") ||
+					StrEqual(weapon,"taunt_sniper") ||
+					StrEqual(weapon,"taunt_pyro") ||
+					StrEqual(weapon,"taunt_demoman") ||
+					StrEqual(weapon,"taunt_heavy") ||
+					StrEqual(weapon,"taunt_spy") ||
+					StrEqual(weapon,"taunt_soldier")||
+                    StrEqual(weapon, "annihilator") ||
                     StrEqual(weapon, "ubersaw") ||
                     StrEqual(weapon, "axtinguisher") ||
                     StrEqual(weapon, "gloves") ||
