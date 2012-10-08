@@ -2317,52 +2317,69 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		}
 		case Game_TF:
 		{
-			return (
-					// common
-					StrEqual(weapon,"tf_weapon_shovel") || // frying pan, pain train
-					StrEqual(weapon,"saxxy") ||
-					StrEqual(weapon,"tf_weapon_katana") ||
-					StrEqual(weapon,"saxxy") ||
-					StrEqual(weapon,"saxxy") ||
-					StrEqual(weapon,"saxxy") ||
-					StrEqual(weapon,"saxxy") ||
-
-					
-					// scout
-					StrEqual(weapon,"taunt_scout") ||
-					StrEqual(weapon,"tf_weapon_bat") ||
-					StrEqual(weapon,"tf_weapon_bat_wood") ||
-					StrEqual(weapon,"tf_weapon_bat_fish") ||
-					StrEqual(weapon,"tf_weapon_bat_giftwrap") ||
-
-					// soldier
-					StrEqual(weapon,"tf_weapon_shovel") ||
-					
-					// pyro
-					StrEqual(weapon,"tf_weapon_fireaxe") ||
-					
-					// demoman
-					StrEqual(weapon,"tf_weapon_bottle") ||
-					StrEqual(weapon,"tf_weapon_sword") ||
-					StrEqual(weapon,"tf_weapon_stickbomb") ||
-					
-					// heavy
-					StrEqual(weapon,"tf_weapon_fists") ||
-					
-					// engineer
-					StrEqual(weapon,"tf_weapon_wrench") ||
-					StrEqual(weapon,"tf_weapon_robot_arm") ||
-					
-					// medic
-					StrEqual(weapon,"tf_weapon_bonesaw") ||
-					
-					// sniper
-					StrEqual(weapon,"tf_weapon_club") ||
-					
-					// spy
-					StrEqual(weapon,"tf_weapon_knife")
-					
-			);
+			return (StrEqual(weapon, "annihilator") ||
+                    StrEqual(weapon, "ubersaw") ||
+                    StrEqual(weapon, "axtinguisher") ||
+                    StrEqual(weapon, "gloves") ||
+                    StrEqual(weapon, "sandman") ||
+                    StrEqual(weapon, "unique_pickaxe") ||
+                    StrEqual(weapon, "robot_arm") ||
+                    StrEqual(weapon, "sledgehammer") ||
+                    StrEqual(weapon, "paintrain") ||
+                    StrEqual(weapon, "southern_hospitality") ||
+                    StrEqual(weapon, "wrench_golden") ||
+                    StrEqual(weapon, "tribalkukri") ||
+                    StrEqual(weapon, "battleaxe") ||
+                    StrEqual(weapon, "battleneedle") ||
+                    StrEqual(weapon, "powerjack") ||
+                    StrEqual(weapon, "holy_mackerel") ||
+                    StrEqual(weapon, "eternal_reward") ||
+                    StrEqual(weapon, "bushwacka") ||
+                    StrEqual(weapon, "gloves_running_urgently") ||
+                    StrEqual(weapon, "fryingpan") ||
+                    StrEqual(weapon, "headtaker") ||
+                    StrEqual(weapon, "ullapool_caber") ||
+                    StrEqual(weapon, "warrior_spirit") ||
+                    StrEqual(weapon, "candy_cane") ||
+                    StrEqual(weapon, "boston_basher") ||
+                    StrEqual(weapon, "back_scratcher") ||
+                    StrEqual(weapon, "claidheamohmor") ||
+                    StrEqual(weapon, "wrench_jag") ||
+                    StrEqual(weapon, "steel_fists") ||
+                    StrEqual(weapon, "lava_axe") ||
+                    StrEqual(weapon, "lava_bat") ||
+                    StrEqual(weapon, "warfan") ||
+                    StrEqual(weapon, "kunai") ||
+                    StrEqual(weapon, "demokatana") ||
+                    StrEqual(weapon, "shahanshah") ||
+                    StrEqual(weapon, "persian_persuader") ||
+                    StrEqual(weapon, "solemn_vow") ||
+                    StrEqual(weapon, "market_gardener") ||
+                    StrEqual(weapon, "saxxy") ||
+                    StrEqual(weapon, "eviction_notice") ||
+                    StrEqual(weapon, "disciplinary_action") ||
+                    StrEqual(weapon, "atomizer") ||
+                    StrEqual(weapon, "scout_sword") ||
+                    StrEqual(weapon, "mailbox") ||
+                    StrEqual(weapon, "big_earner") ||
+                    StrEqual(weapon, "the_maul") ||
+                    StrEqual(weapon, "nonnonviolent_protest") ||
+                    StrEqual(weapon, "nessieclub") ||
+                    StrEqual(weapon, "unarmed_combat") ||
+                    StrEqual(weapon, "voodoo_pin") ||
+                    StrEqual(weapon, "apocofists") ||
+                    StrEqual(weapon, "eureka_effect") ||
+                    StrEqual(weapon, "thirddegree") ||
+                    StrEqual(weapon, "scotland_shard") ||
+                    StrEqual(weapon, "sharp_dresser") ||
+                    StrEqual(weapon, "wrap_assassin") ||
+                    StrEqual(weapon, "spy_cicle") ||
+                    StrEqual(weapon, "holiday_punch") ||
+                    StrEqual(weapon, "black_rose") ||
+                    StrEqual(weapon, "lollichop") ||
+                    StrEqual(weapon, "unique_pickaxe_escape") ||
+                    StrEqual(weapon, "freedom_staff")
+                );
 		}
 		case Game_L4D2:
 		{
