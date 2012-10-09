@@ -114,8 +114,8 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(shadowstrikestr,sizeof(shadowstrikestr),"war3source/shadowstrikebirth.wav");
-		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/MiniSpiritPissed1.wav");
+		strcopy(shadowstrikestr,sizeof(shadowstrikestr),"war3source/shadowstrikebirth.mp3");
+		strcopy(ultimateSound,sizeof(ultimateSound),"war3source/MiniSpiritPissed1.mp3");
 	}
 
 	War3_PrecacheSound(shadowstrikestr);

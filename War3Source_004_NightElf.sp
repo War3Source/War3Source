@@ -62,7 +62,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(entangleSound,sizeof(entangleSound),"war3source/entanglingrootsdecay1.wav");
+		strcopy(entangleSound,sizeof(entangleSound),"war3source/entanglingrootsdecay1.mp3");
 	}
 
 	TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");

@@ -113,7 +113,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(reviveSound,sizeof(reviveSound),"war3source/reincarnation.wav");
+		strcopy(reviveSound,sizeof(reviveSound),"war3source/reincarnation.mp3");
 	}
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();

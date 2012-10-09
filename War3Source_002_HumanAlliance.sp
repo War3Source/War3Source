@@ -105,7 +105,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(teleportSound,sizeof(teleportSound),"war3source/blinkarrival.wav");
+		strcopy(teleportSound,sizeof(teleportSound),"war3source/blinkarrival.mp3");
 	}
 
 	BeamSprite=War3_PrecacheBeamSprite();

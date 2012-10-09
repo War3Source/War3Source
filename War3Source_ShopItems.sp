@@ -156,7 +156,7 @@ public OnMapStart()
 	}
 	else
 	{
-		strcopy(buyTombSound,sizeof(buyTombSound),"war3source/tomes.wav");
+		strcopy(buyTombSound,sizeof(buyTombSound),"war3source/tomes.mp3");
 		strcopy(masksnd,sizeof(masksnd),"war3source/mask.mp3");
 	}
 
