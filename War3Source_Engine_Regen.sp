@@ -14,7 +14,7 @@ new g_iRegenParticleSkip[MAXPLAYERSCUSTOM];
 new g_iDecayParticleSkip[MAXPLAYERSCUSTOM];
 new Float:g_fLastTick[MAXPLAYERSCUSTOM];
 
-#define HEALTH_GAINED_PARTICLE GetApparentTeam(client) == TEAM_RED ? "healthlgained_red" : "healthlgained_blu"
+#define HEALTH_GAINED_PARTICLE GetApparentTeam(client) == TEAM_RED ? "healthgained_red" : "healthgained_blu"
 #define HEALTH_LOST_PARTICLE GetApparentTeam(client) == TEAM_RED ? "healthlost_red" : "healthlost_blu"
 #define KILL_NAME GameTF() ? "bleed_kill" : "damageovertime"
 
