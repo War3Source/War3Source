@@ -2317,25 +2317,26 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
 		}
 		case Game_TF:
 		{
-			return (StrEqual(weapon,"shovel") ||
-					StrEqual(weapon,"wrench") ||
-					StrEqual(weapon,"bat") ||
-					StrEqual(weapon,"bonesaw") ||
-					StrEqual(weapon,"bottle") ||
-					StrEqual(weapon,"club") ||
-					StrEqual(weapon,"fireaxe") ||
-					StrEqual(weapon,"fists") ||
-					StrEqual(weapon,"sandman") ||
-					StrEqual(weapon,"pickaxe") ||
-					StrEqual(weapon,"sword") ||
-					StrEqual(weapon,"demoshield") ||
-					StrEqual(weapon,"taunt_scout") ||
-					StrEqual(weapon,"taunt_sniper") ||
-					StrEqual(weapon,"taunt_pyro") ||
-					StrEqual(weapon,"taunt_demoman") ||
-					StrEqual(weapon,"taunt_heavy") ||
-					StrEqual(weapon,"taunt_spy") ||
-					StrEqual(weapon,"taunt_soldier")||
+			return (// Logfile names
+					StrEqual(weapon, "shovel") ||
+					StrEqual(weapon, "wrench") ||
+					StrEqual(weapon, "bat") ||
+					StrEqual(weapon, "bonesaw") ||
+					StrEqual(weapon, "bottle") ||
+					StrEqual(weapon, "club") ||
+					StrEqual(weapon, "fireaxe") ||
+					StrEqual(weapon, "fists") ||
+					StrEqual(weapon, "sandman") ||
+					StrEqual(weapon, "pickaxe") ||
+					StrEqual(weapon, "sword") ||
+					StrEqual(weapon, "demoshield") ||
+					StrEqual(weapon, "taunt_scout") ||
+					StrEqual(weapon, "taunt_sniper") ||
+					StrEqual(weapon, "taunt_pyro") ||
+					StrEqual(weapon, "taunt_demoman") ||
+					StrEqual(weapon, "taunt_heavy") ||
+					StrEqual(weapon, "taunt_spy") ||
+					StrEqual(weapon, "taunt_soldier")||
                     StrEqual(weapon, "annihilator") ||
                     StrEqual(weapon, "ubersaw") ||
                     StrEqual(weapon, "axtinguisher") ||
@@ -2397,7 +2398,25 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
                     StrEqual(weapon, "black_rose") ||
                     StrEqual(weapon, "lollichop") ||
                     StrEqual(weapon, "unique_pickaxe_escape") ||
-                    StrEqual(weapon, "freedom_staff")
+                    StrEqual(weapon, "freedom_staff") ||
+                    // Weapon names
+                    StrEqual(weapon, "tf_weapon_bat") ||
+                    StrEqual(weapon, "tf_weapon_bat_wood") ||
+                    StrEqual(weapon, "tf_weapon_bat_fish") ||
+                    StrEqual(weapon, "tf_weapon_shovel") ||
+                    StrEqual(weapon, "saxxy") ||
+                    StrEqual(weapon, "tf_weapon_bat_giftwrap") ||
+                    StrEqual(weapon, "tf_weapon_fireaxe") ||
+                    StrEqual(weapon, "tf_weapon_sword") ||
+                    StrEqual(weapon, "tf_weapon_bottle") ||
+                    StrEqual(weapon, "tf_weapon_stickbomb") ||
+                    StrEqual(weapon, "tf_weapon_katana") ||
+                    StrEqual(weapon, "tf_weapon_fists") ||
+                    StrEqual(weapon, "tf_weapon_wrench") ||
+                    StrEqual(weapon, "tf_weapon_robot_arm") ||
+                    StrEqual(weapon, "tf_weapon_bonesaw") ||
+                    StrEqual(weapon, "tf_weapon_club") ||
+                    StrEqual(weapon, "tf_weapon_knife")
                 );
 		}
 		case Game_L4D2:

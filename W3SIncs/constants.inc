@@ -356,6 +356,7 @@ enum W3Buff
 	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
 	fVampirePercent, //Sets a % of damage done to give back as health
+	fMeleeVampirePercent, // Sets a % of damage done to give back as health when the damage was caused by melee
 	
 	fBashChance, //Registers a chance to bash, (Note: 0.7 would equal a 30% chance to bash)
 	iBashDamage, //Does a certain amount of damage when you bash an enemy (more similar to warcraft 3's bash, default 0)

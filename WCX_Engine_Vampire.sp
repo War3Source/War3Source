@@ -3,13 +3,13 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
-	name = "WCX - Vampire",
-	author = "necavi, Anthony Iacono",
-	description = "WCX - Vampire",
-	version = "0.1",
-	url = "http://necavi.com"
+	name = "WCX - Vampirism Engine",
+	author = "Necavi, Anthony Iacono, Glider",
+	description = "WCX - Vampirism Engine",
+	version = "0.2",
+	url = "http://war3source.com"
 }
 
 public OnPluginStart()
@@ -17,31 +17,59 @@ public OnPluginStart()
 	LoadTranslations("w3s.race.undead.phrases");
 }
 
-public OnWar3EventPostHurt(victim,attacker,damage)
+LeechHP(client, damage, Float:percentage)
 {
-	if(W3GetDamageIsBullet()&&ValidPlayer(victim)&&ValidPlayer(attacker,true)&&attacker!=victim)
-	{
-		new vteam=GetClientTeam(victim);
-		new ateam=GetClientTeam(attacker);
-		if(vteam!=ateam)
-		{
-			new Float:Vampire = 0.0;
-			Vampire = W3GetBuffSumFloat(attacker, fVampirePercent);
-			if(Vampire > 0.0)
-			{
-				
-				if(!W3HasImmunity(victim,Immunity_Skills)&&!Hexed(attacker))
-				{	
-					new leechhealth=RoundToFloor(damage*Vampire);
-					if(leechhealth>40) leechhealth=40;
-					
-					W3FlashScreen(attacker,RGBA_COLOR_GREEN);
-						
-					War3_HealToBuffHP(attacker,leechhealth);
-					PrintToConsole(attacker,"%T","Leeched +{amount} HP",attacker,leechhealth);
+	new leechhealth = RoundToFloor(damage * percentage);
+	if(leechhealth > 40) leechhealth = 40;
 
-				}
+	W3FlashScreen(client, RGBA_COLOR_GREEN);
+
+	War3_HealToBuffHP(client, leechhealth);
+	PrintToConsole(client, "%T", "Leeched +{amount} HP", client, leechhealth);
+}
+
+public OnWar3EventPostHurt(victim, attacker, damage)
+{
+	if(W3GetDamageIsBullet() && ValidPlayer(victim) && ValidPlayer(attacker, true) && attacker != victim && GetClientTeam(victim) != GetClientTeam(attacker))
+	{
+		new Float:fVampirePercentage = W3GetBuffSumFloat(attacker, fVampirePercent);
+
+		if(fVampirePercentage > 0.0)
+		{
+			if(!W3HasImmunity(victim, Immunity_Skills) && !Hexed(attacker))
+			{
+				LeechHP(attacker, damage, fVampirePercentage);
 			}
 		}
+	}
+}
+
+// PostHurt does not have the inflictor
+public OnW3TakeDmgBullet(victim, attacker, Float:damage)
+{
+	if(W3GetDamageIsBullet() && ValidPlayer(victim) && ValidPlayer(attacker, true) && attacker != victim && GetClientTeam(victim) != GetClientTeam(attacker))
+	{
+		new Float:fVampirePercentage = 0.0;
+
+		new inflictor = W3GetDamageInflictor();
+		if (attacker == inflictor || !IsValidEntity(inflictor))
+		{
+			new String:weapon[64];
+			GetClientWeapon(attacker, weapon, sizeof(weapon));
+
+			if (W3IsDamageFromMelee(weapon))
+			{
+				fVampirePercentage += W3GetBuffSumFloat(attacker, fMeleeVampirePercent);
+			}
+		}
+		
+		if(fVampirePercentage > 0.0)
+		{
+			if(!W3HasImmunity(victim, Immunity_Skills) && !Hexed(attacker))
+			{
+				LeechHP(attacker, RoundToFloor(damage), fVampirePercentage);
+			}
+		}
+
 	}
 }
