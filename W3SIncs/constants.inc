@@ -536,6 +536,9 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fVampirePercent][DefaultValue]=0.0;
 	buffpropertiesarray[ fVampirePercent][BuffStackType]=fAbsolute;
 	
+	buffpropertiesarray[ fMeleeVampirePercent][DefaultValue]=0.0;
+	buffpropertiesarray[ fMeleeVampirePercent][BuffStackType]=fAbsolute;	
+	
 	buffpropertiesarray[ fBashChance ][DefaultValue]=0.0;
 	buffpropertiesarray[ fBashChance ][BuffStackType]=fAbsolute;
 	
