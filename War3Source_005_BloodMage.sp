@@ -469,8 +469,13 @@ public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 	}
 }
 
-public Action:DoRevival(Handle:timer,any:client)
+public Action:DoRevival(Handle:timer,any:userid)
 {
+	new client=GetClientOfUserId(userid);
+	if(Can_Player_Revive[client]==false)
+	{
+		return Plugin_Handled;
+	}
 	//new client=GetClientOfUserId(userid);
 	if(client>0)
 	{
@@ -560,8 +565,9 @@ public Action:DoRevival(Handle:timer,any:client)
 			RevivedBy[client]=0;
 			bRevived[client]=false; 
 		}
-	
+
 	}
+	return Plugin_Continue;
 }
 
 bool:CooldownRevive(client)
@@ -632,7 +638,8 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 			//find a revival
 
 			// Can_Player_Revive is the team switch checking variable
-			if(CooldownRevive(victim)&&Can_Player_Revive[victim]) {
+			//if(CooldownRevive(victim)&&Can_Player_Revive[victim]) {
+			if(Can_Player_Revive[victim]) {
 				for(new i=1;i<=MaxClients;i++)
 				{
 					if(i!=victim&&ValidPlayer(i,true)&&GetClientTeam(i)==victimTeam&&War3_GetRace(i)==thisRaceID)
@@ -640,17 +647,17 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 						skillevel=War3_GetSkillLevel(i,thisRaceID,SKILL_REVIVE);
 						if(skillevel>0&&!Hexed(i,false))
 						{
-							if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
-							{
+							//if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
+							//{
 								CurrentRevivalChance[i]/=2.0;
 								if(CurrentRevivalChance[i]<0.020*skillevel){
 									CurrentRevivalChance[i]=0.020*skillevel;
 								}
 								RevivedBy[victim]=i;
 								bRevived[victim]=true;
-								CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,victim);
+								CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
 								break;
-							}
+							//}
 						}
 					}
 				}
