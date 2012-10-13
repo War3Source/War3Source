@@ -4,6 +4,7 @@
 * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
 */
 
+
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -26,6 +27,9 @@ new Float:RevivalChancesArr[]={0.00,0.2,0.3,0.4,0.5};
 new RevivedBy[MAXPLAYERSCUSTOM];
 new bool:bRevived[MAXPLAYERSCUSTOM];
 new Float:fLastRevive[MAXPLAYERSCUSTOM];
+
+// Team switch checker
+new bool:Can_Player_Revive[MAXPLAYERSCUSTOM];
  
 //skill 2
 new Float:BanishChance[MAXPLAYERSCUSTOM];
@@ -57,8 +61,7 @@ new ULT_DAMAGE_TF = 10;
 new MyWeaponsOffset,AmmoOffset;
 //Clip1Offset,; //cs stuff?
 
-//new String:reviveSound[]="war3source/reincarnation.wav";
-new String:reviveSound[256]; //="war3source/reincarnation.mp3";
+new String:reviveSound[256];
 
 new BeamSprite,HaloSprite,FireSprite;
 new BloodSpray,BloodDrop;
@@ -88,6 +91,7 @@ public OnPluginStart()
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
 	
 	HookEvent("player_death",PlayerDeathEvent);
+	HookEvent("player_team",PlayerTeamEvent);
 	
 	LoadTranslations("w3s.race.mage.phrases");
 }
@@ -130,13 +134,20 @@ public OnMapStart()
 		FireSprite	 = PrecacheModel("materials/sprites/fireburst.vmt");
 	}
 	
-	
 	War3_PrecacheSound(reviveSound);
+
+	// Reset Can Player Revive
+	for(new i=1;i<=MAXPLAYERSCUSTOM;i++)
+	{
+		Can_Player_Revive[i]=true;
+	}
 }
+
 
 public OnWar3PlayerAuthed(client)
 {
 	fLastRevive[client]=0.0;
+	Can_Player_Revive[client]=true;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
@@ -435,7 +446,7 @@ public PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
 					CurrentRevivalChance[client]=RevivalChancesArr[skill_level_revive];
 				}
 				
-			}                   
+			}
 		}
 		bRevived[client]=false;
 	}
@@ -560,6 +571,30 @@ bool:CooldownRevive(client)
 	return false;
 }
 
+public PlayerTeamEvent(Handle:event,const String:name[],bool:dontBroadcast)
+{
+// Team Switch checker
+	new userid=GetEventInt(event,"userid");
+	new client=GetClientOfUserId(userid);
+	// For testing purposes:
+	//new String:clientname[64];
+	//GetClientName(client, clientname, sizeof(clientname));
+	//DP("Player %s Switched Teams (Can not be revived for 15 seconds)",clientname);
+	Can_Player_Revive[client]=false;
+	CreateTimer(30.0,PlayerCanRevive,userid);
+}
+
+public Action:PlayerCanRevive(Handle:timer,any:userid)
+{
+// Team Switch checker
+	new client=GetClientOfUserId(userid);
+	// For testing purposes:
+	//new String:clientname[64];
+	//GetClientName(client, clientname, sizeof(clientname));
+	//DP("Player %s can be revived by bloodmages",clientname);
+	Can_Player_Revive[client]=true;
+}
+
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
 	new userid=GetEventInt(event,"userid");
@@ -589,13 +624,15 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 			//
 			
 			//TEST!! remove!!
+			//DP("Auto revival  Remove this line CreateTimer(0.1,DoRevival,victim);");
 			//CreateTimer(0.1,DoRevival,victim);
 			//RevivedBy[victim]=GetClientOfUserId(userid);
 			//PrintToChatAll("blood mage");
 			
 			//find a revival
-			
-			if(CooldownRevive(victim)) {
+
+			// Can_Player_Revive is the team switch checking variable
+			if(CooldownRevive(victim)&&Can_Player_Revive[victim]) {
 				for(new i=1;i<=MaxClients;i++)
 				{
 					if(i!=victim&&ValidPlayer(i,true)&&GetClientTeam(i)==victimTeam&&War3_GetRace(i)==thisRaceID)
@@ -603,7 +640,6 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 						skillevel=War3_GetSkillLevel(i,thisRaceID,SKILL_REVIVE);
 						if(skillevel>0&&!Hexed(i,false))
 						{
-							
 							if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
 							{
 								CurrentRevivalChance[i]/=2.0;
