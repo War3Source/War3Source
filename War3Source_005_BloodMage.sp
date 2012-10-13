@@ -638,8 +638,8 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 			//find a revival
 
 			// Can_Player_Revive is the team switch checking variable
-			//if(CooldownRevive(victim)&&Can_Player_Revive[victim]) {
-			if(Can_Player_Revive[victim]) {
+			if(CooldownRevive(victim)&&Can_Player_Revive[victim]) {
+			//if(Can_Player_Revive[victim]) {
 				for(new i=1;i<=MaxClients;i++)
 				{
 					if(i!=victim&&ValidPlayer(i,true)&&GetClientTeam(i)==victimTeam&&War3_GetRace(i)==thisRaceID)
@@ -647,8 +647,8 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 						skillevel=War3_GetSkillLevel(i,thisRaceID,SKILL_REVIVE);
 						if(skillevel>0&&!Hexed(i,false))
 						{
-							//if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
-							//{
+							if(GetRandomFloat(0.0,1.0)<=CurrentRevivalChance[i])
+							{
 								CurrentRevivalChance[i]/=2.0;
 								if(CurrentRevivalChance[i]<0.020*skillevel){
 									CurrentRevivalChance[i]=0.020*skillevel;
@@ -657,7 +657,7 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 								bRevived[victim]=true;
 								CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
 								break;
-							//}
+							}
 						}
 					}
 				}
