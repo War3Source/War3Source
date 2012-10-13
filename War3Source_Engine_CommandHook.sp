@@ -158,14 +158,50 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(DoShowRaceinfoMenu,client);
 		return returnblocking;
 	}
-	else if(CommandCheck(arg1,"speed")) {
-
-		new Float:currentmaxspeed=GetEntDataFloat(client,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
-		if(GameTF()) {
-			War3_ChatMessage(client,"%T (%.2fx)","Your max speed is {amount}",client,currentmaxspeed,W3GetSpeedMulti(client));
+	else if(CommandCheck(arg1,"speed"))
+	{
+		new ClientX=client;
+		new bool:SpecTarget=false;
+		if(GetClientTeam(client)==1) // Specator
+		{
+			if (!IsPlayerAlive(client))
+			{
+				ClientX = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
+				if (ClientX == -1)  // if spectator target does not exist then...
+				{
+					//DP("Spec target does not exist");
+					War3_ChatMessage(client,"While being spectator,\nYou must be spectating a player to get player's speed.");
+					return returnblocking;
+				}
+				else
+				{
+					//DP("Spec target does Exist!");
+					SpecTarget=true;
+				}
+			}
 		}
-		else {
-			War3_ChatMessage(client,"%T","Your max speed is {amount}",client,currentmaxspeed);
+		new Float:currentmaxspeed=GetEntDataFloat(ClientX,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
+		if(GameTF())
+		{
+			if(SpecTarget==true)
+			{
+				War3_ChatMessage(client,"%T (%.2fx)","Spectating target's max speed is {amount}",client,currentmaxspeed,W3GetSpeedMulti(ClientX));
+			}
+			else
+			{
+				War3_ChatMessage(client,"%T (%.2fx)","Your max speed is {amount}",client,currentmaxspeed,W3GetSpeedMulti(client));
+			}
+		}
+		else
+		{
+			if(SpecTarget==true)
+			{
+				War3_ChatMessage(client,"%T","Spectating target's max speed is {amount}",client,currentmaxspeed);
+			}
+			else
+			{
+				War3_ChatMessage(client,"%T","Your max speed is {amount}",client,currentmaxspeed);
+			}
 		}
 	}
 	else if(CommandCheck(arg1,"maxhp"))

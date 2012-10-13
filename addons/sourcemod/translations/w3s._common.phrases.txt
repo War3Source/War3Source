@@ -447,6 +447,11 @@
 		"#format"	"{1:.2f}"
 		"en"		"Your max speed is {1}"
 	}
+	"Spectating target's max speed is {amount}"
+	{
+		"#format"	"{1:.2f}"
+		"en"		"Spectating target's max speed is {1}"
+	}
 	"Your max health is: {amount}"
 	{
 		"#format"	"{1:d}"
