@@ -122,6 +122,17 @@ public Action:War3Source_SayCommand(client,args)
 		W3CreateEvent(DoShowHelpMenu,client);
 		return returnblocking;
 	}
+	else if(CommandCheck(arg1,"war3version"))
+	{
+		new String:version[64];
+		new Handle:g_hCVar = FindConVar("war3_version");
+		if(g_hCVar!=INVALID_HANDLE)
+		{
+			GetConVarString(g_hCVar, version, sizeof(version));
+			War3_ChatMessage(client,"War3Source Current Version: %s",version);
+		}
+		return returnblocking;
+	}
 	else if(CommandCheck(arg1,"itemsinfo")||CommandCheck(arg1,"iteminfo"))
 	{
 		W3CreateEvent(DoShowItemsInfoMenu,client);
@@ -203,7 +214,6 @@ public Action:War3Source_SayCommand(client,args)
 			W3CreateEvent(DoShowLevelBank,client);
 			return returnblocking;
 		}
-
 		else if(CommandCheck(arg1,"war3rank"))
 		{
 			if(W3SaveEnabled())
