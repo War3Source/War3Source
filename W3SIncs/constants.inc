@@ -356,7 +356,9 @@ enum W3Buff
 	bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
 	
 	fVampirePercent, //Sets a % of damage done to give back as health
+	fVampirePercentNoBuff, // Same as fVampirePercent, but doesn't overheal
 	fMeleeVampirePercent, // Sets a % of damage done to give back as health when the damage was caused by melee
+	fMeleeVampirePercentNoBuff, // Same as fMeleeVampirePercent, but doesn't overheal
 	
 	fBashChance, //Registers a chance to bash, (Note: 0.7 would equal a 30% chance to bash)
 	iBashDamage, //Does a certain amount of damage when you bash an enemy (more similar to warcraft 3's bash, default 0)
@@ -536,8 +538,14 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ fVampirePercent][DefaultValue]=0.0;
 	buffpropertiesarray[ fVampirePercent][BuffStackType]=fAbsolute;
 	
+	buffpropertiesarray[ fVampirePercentNoBuff][DefaultValue]=0.0;
+	buffpropertiesarray[ fVampirePercentNoBuff][BuffStackType]=fAbsolute;
+	
 	buffpropertiesarray[ fMeleeVampirePercent][DefaultValue]=0.0;
 	buffpropertiesarray[ fMeleeVampirePercent][BuffStackType]=fAbsolute;	
+	
+	buffpropertiesarray[ fMeleeVampirePercentNoBuff][DefaultValue]=0.0;
+	buffpropertiesarray[ fMeleeVampirePercentNoBuff][BuffStackType]=fAbsolute;	
 	
 	buffpropertiesarray[ fBashChance ][DefaultValue]=0.0;
 	buffpropertiesarray[ fBashChance ][BuffStackType]=fAbsolute;
