@@ -10,10 +10,10 @@
 #include "W3SIncs/War3Source_Interface"
 
 new thisItem;
-new String:helmSound0[]="physics/metal/metal_solid_impact_bullet1.wav";
-new String:helmSound1[]="physics/metal/metal_solid_impact_bullet2.wav";
-new String:helmSound2[]="physics/metal/metal_solid_impact_bullet3.wav";
-new String:helmSound3[]="physics/metal/metal_solid_impact_bullet4.wav";
+new String:helmSound0[256]; //="physics/metal/metal_solid_impact_bullet1.wav";
+new String:helmSound1[256]; //="physics/metal/metal_solid_impact_bullet2.wav";
+new String:helmSound2[256]; //="physics/metal/metal_solid_impact_bullet3.wav";
+new String:helmSound3[256]; //="physics/metal/metal_solid_impact_bullet4.wav";
 
 public Plugin:myinfo= {
 	name="War3Source Shop - Helm",
@@ -27,6 +27,22 @@ public Plugin:myinfo= {
 
 public OnPluginStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(helmSound0,sizeof(helmSound0),"music/war3source/helm/metal_solid_impact_bullet1.mp3");
+		strcopy(helmSound1,sizeof(helmSound1),"music/war3source/helm/metal_solid_impact_bullet2.mp3");
+		strcopy(helmSound2,sizeof(helmSound2),"music/war3source/helm/metal_solid_impact_bullet3.mp3");
+		strcopy(helmSound3,sizeof(helmSound3),"music/war3source/helm/metal_solid_impact_bullet4.mp3");
+	}
+	else
+	{
+		strcopy(helmSound0,sizeof(helmSound0),"war3source/helm/metal_solid_impact_bullet1.mp3");
+		strcopy(helmSound1,sizeof(helmSound1),"war3source/helm/metal_solid_impact_bullet2.mp3");
+		strcopy(helmSound2,sizeof(helmSound2),"war3source/helm/metal_solid_impact_bullet3.mp3");
+		strcopy(helmSound3,sizeof(helmSound3),"war3source/helm/metal_solid_impact_bullet4.mp3");
+	}
+
+
 	War3_PrecacheSound(helmSound0);
 	War3_PrecacheSound(helmSound1);
 	War3_PrecacheSound(helmSound2);

@@ -73,11 +73,13 @@ public OnMapStart()
 	if(GAMECSGO){
 		strcopy(ultimateReadySound,sizeof(ultimateReadySound),"music/war3source/ult_ready.mp3");
 		strcopy(abilityReadySound,sizeof(abilityReadySound),"music/war3source/ability_refresh.mp3");
+		War3_PrecacheSound("war3source/csgo/ui/hint.mp3");
 	}
 	else
 	{
 		strcopy(ultimateReadySound,sizeof(ultimateReadySound),"war3source/ult_ready.mp3");
 		strcopy(abilityReadySound,sizeof(abilityReadySound),"war3source/ability_refresh.mp3");
+		War3_PrecacheSound("UI/hint.wav");
 	}
 
 	for(new i=0;i<MAXTHREADS;i++){
@@ -86,9 +88,8 @@ public OnMapStart()
 	
 	War3_PrecacheSound(abilityReadySound);
 	War3_PrecacheSound(ultimateReadySound);
-	War3_PrecacheSound("UI/hint.wav");
-	
-	
+
+
 	ClearAllCooldowns();
 }
 

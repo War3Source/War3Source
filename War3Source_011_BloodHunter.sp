@@ -36,7 +36,7 @@ new Float:RuptureUntil[MAXPLAYERSCUSTOM];
 new bool:bRuptured[MAXPLAYERSCUSTOM];
 new RupturedBy[MAXPLAYERSCUSTOM];
 
-new String:ultsnd[]="war3source/bh/ult.mp3";
+new String:ultsnd[256]; //="war3source/bh/ult.mp3";
 
 
 public Plugin:myinfo = 
@@ -81,7 +81,14 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-	
+	if(GAMECSGO){
+		strcopy(ultsnd,sizeof(ultsnd),"music/war3source/bh/ult.mp3");
+	}
+	else
+	{
+		strcopy(ultsnd,sizeof(ultsnd),"war3source/bh/ult.mp3");
+	}
+
 	War3_PrecacheSound(ultsnd);
 }
 

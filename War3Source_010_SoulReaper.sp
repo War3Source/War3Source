@@ -35,9 +35,9 @@ new Float:InhumanRange=400.0;
 new Float:ultRange=300.0;
 new Float:ultiDamageMulti[5]={0.0,0.4,0.6,0.8,1.0};
 
-new String:judgesnd[]="war3source/sr/judgement.mp3";
+new String:judgesnd[256]; //="war3source/sr/judgement.mp3";
+new String:ultsnd[256]; //="war3source/sr/ult.mp3";
 
-new String:ultsnd[]="war3source/sr/ult.mp3";
 new AuraID;
 
 public Plugin:myinfo = 
@@ -75,6 +75,17 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(judgesnd,sizeof(judgesnd),"music/war3source/sr/judgement.mp3");
+		strcopy(ultsnd,sizeof(ultsnd),"music/war3source/sr/ult.mp3");
+	}
+	else
+	{
+		strcopy(judgesnd,sizeof(judgesnd),"war3source/sr/judgement.mp3");
+		strcopy(ultsnd,sizeof(ultsnd),"war3source/sr/ult.mp3");
+	}
+
 	War3_PrecacheSound(judgesnd);
 	War3_PrecacheSound(ultsnd);
 }

@@ -38,8 +38,8 @@ new Float:ultRange=200.0;
 new Handle:ultCooldownCvar;
 new Float:SphereTime[5]={0.0,3.0,3.5,4.0,4.5};
 
-new String:leapsnd[]="war3source/chronos/timeleap.mp3";
-new String:spheresnd[]="war3source/chronos/sphere.mp3";
+new String:leapsnd[256]; //="war3source/chronos/timeleap.mp3";
+new String:spheresnd[256]; //="war3source/chronos/sphere.mp3";
 
 new Float:sphereRadius=150.0;
 
@@ -85,6 +85,17 @@ public Action:Cmdbashme(client,args){
 new glowsprite;
 public OnMapStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(leapsnd,sizeof(leapsnd),"music/war3source/chronos/timeleap.mp3");
+		strcopy(spheresnd,sizeof(spheresnd),"music/war3source/chronos/sphere.mp3");
+	}
+	else
+	{
+		strcopy(leapsnd,sizeof(leapsnd),"war3source/chronos/timeleap.mp3");
+		strcopy(spheresnd,sizeof(spheresnd),"war3source/chronos/sphere.mp3");
+	}
+
 	War3_PrecacheSound(leapsnd);
 	War3_PrecacheSound(spheresnd);
 	glowsprite=PrecacheModel("sprites/strider_blackball.spr");

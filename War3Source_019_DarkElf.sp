@@ -34,8 +34,8 @@ new Float:prevdarkvec[3]={0.0,0.0,0.0};
 new Float:victimvec[3]={0.0,0.0,0.0};
 
 // Sounds
-stock String:tribunal[]="war3source/darkelf/tribunal.mp3";
-stock String:darkorb[]="war3source/darkelf/darkorb.mp3";
+stock String:tribunal[256]; //="war3source/darkelf/tribunal.mp3";
+stock String:darkorb[256]; //="war3source/darkelf/darkorb.mp3";
 
 
 public OnWar3LoadRaceOrItemOrdered(num)
@@ -59,6 +59,17 @@ public OnPluginStart()
 
 public OnMapStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(tribunal,sizeof(tribunal),"music/war3source/darkelf/tribunal.mp3");
+		strcopy(darkorb,sizeof(darkorb),"music/war3source/darkelf/darkorb.mp3");
+	}
+	else
+	{
+		strcopy(tribunal,sizeof(tribunal),"war3source/darkelf/tribunal.mp3");
+		strcopy(darkorb,sizeof(darkorb),"war3source/darkelf/darkorb.mp3");
+	}
+
 	//Only precache them on TF2
 	if(War3_GetGame()==Game_TF)
 	{

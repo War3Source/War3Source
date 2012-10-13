@@ -37,8 +37,8 @@ new DarkRitualAmt[]={0,1,2,3,4};
 new Handle:ultCooldownCvar;
 new Handle:ultRangeCvar;
 new DeathDecayAmt[]={0,2,4,6,8};
-new String:ultsnd[]="npc/antlion/attack_single2.wav";
-new String:novasnd[]="npc/combine_gunship/ping_patrol.wav";
+new String:ultsnd[256]; //="npc/antlion/attack_single2.wav";
+new String:novasnd[256]; //="npc/combine_gunship/ping_patrol.wav";
 new BeamSprite,HaloSprite; 
 
 public Plugin:myinfo = 
@@ -73,7 +73,19 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 
 public OnMapStart()
-{	
+{
+	if(GAMECSGO)
+	{
+		strcopy(ultsnd,sizeof(ultsnd),"music/war3source/lich/attack_single2.mp3");
+		strcopy(novasnd,sizeof(novasnd),"music/war3source/lich/ping_patrol.mp3");
+	}
+	else
+	{
+		strcopy(ultsnd,sizeof(ultsnd),"war3source/lich/attack_single2.mp3");
+		strcopy(novasnd,sizeof(novasnd),"war3source/lich/ping_patrol.mp3");
+	}
+
+	
 	War3_PrecacheSound(ultsnd);
 	War3_PrecacheSound(novasnd);
 	BeamSprite=War3_PrecacheBeamSprite();

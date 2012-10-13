@@ -47,8 +47,8 @@ new bool:bStrengthActivated[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar; // cooldown
 
 // Sounds
-new String:hammerboltsound[]="war3source/hammerstorm/stun.mp3";
-new String:ultsnd[]="war3source/hammerstorm/ult.mp3";
+new String:hammerboltsound[256]; //="war3source/hammerstorm/stun.mp3";
+new String:ultsnd[256]; //="war3source/hammerstorm/ult.mp3";
 //new String:galvanizesnd[]="war3source/hammerstorm/galvanize.mp3";
 
 public OnWar3LoadRaceOrItemOrdered(num)
@@ -72,6 +72,17 @@ public OnPluginStart()
 
 public OnMapStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(hammerboltsound,sizeof(hammerboltsound),"music/war3source/hammerstorm/stun.mp3");
+		strcopy(ultsnd,sizeof(ultsnd),"music/war3source/hammerstorm/ult.mp3");
+	}
+	else
+	{
+		strcopy(hammerboltsound,sizeof(hammerboltsound),"war3source/hammerstorm/stun.mp3");
+		strcopy(ultsnd,sizeof(ultsnd),"war3source/hammerstorm/ult.mp3");
+	}
+
 	// Precache the stuff for the beacon ring
 	g_BeamSprite = War3_PrecacheBeamSprite();
 	g_HaloSprite = War3_PrecacheHaloSprite(); 

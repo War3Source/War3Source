@@ -58,12 +58,12 @@ new ConduitBy[MAXPLAYERSCUSTOM]; //[VICTIM]
 new UltimateZapsRemaining[MAXPLAYERSCUSTOM];
 new Float:PlayerDamageIncrease[MAXPLAYERSCUSTOM];
 
-new String:taunt1[]="war3source/cd/feeltheburn2.mp3";
-new String:taunt2[]="war3source/cd/feeltheburn3.mp3";
+new String:taunt1[256]; //="war3source/cd/feeltheburn2.mp3";
+new String:taunt2[256]; //="war3source/cd/feeltheburn3.mp3";
 
-new String:overload1[]="war3source/cd/overload2.mp3";
-new String:overloadzap[]="war3source/cd/overloadzap.mp3";
-new String:overloadstate[]="war3source/cd/ultstate.mp3";
+new String:overload1[256]; //="war3source/cd/overload2.mp3";
+new String:overloadzap[256]; //="war3source/cd/overloadzap.mp3";
+new String:overloadstate[256]; //="war3source/cd/ultstate.mp3";
 
 // Effects
 new BeamSprite,HaloSprite; 
@@ -104,6 +104,24 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
+	if(GAMECSGO)
+	{
+		strcopy(taunt1,sizeof(taunt1),"music/war3source/cd/feeltheburn2.mp3");
+		strcopy(taunt2,sizeof(taunt2),"music/war3source/cd/feeltheburn3.mp3");
+		strcopy(overload1,sizeof(overload1),"music/war3source/cd/overload2.mp3");
+		strcopy(overloadzap,sizeof(overloadzap),"music/war3source/cd/overloadzap.mp3");
+		strcopy(overloadstate,sizeof(overloadstate),"music/war3source/cd/ultstate.mp3");
+	}
+	else
+	{
+		strcopy(taunt1,sizeof(taunt1),"war3source/cd/feeltheburn2.mp3");
+		strcopy(taunt2,sizeof(taunt2),"war3source/cd/feeltheburn3.mp3");
+		strcopy(overload1,sizeof(overload1),"war3source/cd/overload2.mp3");
+		strcopy(overloadzap,sizeof(overloadzap),"war3source/cd/overloadzap.mp3");
+		strcopy(overloadstate,sizeof(overloadstate),"war3source/cd/ultstate.mp3");
+	}
+
+
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
 	
