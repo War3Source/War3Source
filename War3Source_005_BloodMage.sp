@@ -29,7 +29,7 @@ new bool:bRevived[MAXPLAYERSCUSTOM];
 new Float:fLastRevive[MAXPLAYERSCUSTOM];
 
 // Team switch checker
-new bool:Can_Player_Revive[MAXPLAYERSCUSTOM];
+new bool:Can_Player_Revive[MAXPLAYERSCUSTOM+1];
  
 //skill 2
 new Float:BanishChance[MAXPLAYERSCUSTOM];
