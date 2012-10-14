@@ -111,6 +111,7 @@ And that’s the art of the test!
 
 #define VERSION_NUM "1.2.3.9"
 #define REVISION_NUM 12319 //increment every release
+#define REVISION_SVN "855" //Add 1 to the number of the current SVN before you commit
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
 #define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
@@ -147,8 +148,11 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 	
 	
 	new String:version[64];
+	new String:revision[64];
 	Format(version,sizeof(version),"%s by %s",VERSION_NUM,AUTHORS);
-	CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);	
+	Format(revision,sizeof(revision),"SVN Revision %s",REVISION_SVN);
+	CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+	CreateConVar("war3_svn",revision,"War3Source SVN.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	CreateConVar("a_war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	
 	

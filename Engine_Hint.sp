@@ -189,15 +189,15 @@ public OnGameFrame()
 
 					if(strlen(output)>1 /*&& strcmp(output," ")==-1 && strcmp(output,"  ")==-1*/)
 					{
-					//DP("-1");
-					if(GAMECSGO)
-					{
-						StopSound(client, SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
-					}
-					else
-					{
-						StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
-					}
+						//DP("-1");
+						if(GAMECSGO)
+						{
+							StopSound(client, SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
+						}
+						else
+						{
+							StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
+						}
 						//if(output[strlen(output)-1]=='\n')
 						//{ 
 						//PrintToServer("deleted");
