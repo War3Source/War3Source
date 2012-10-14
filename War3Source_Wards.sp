@@ -32,8 +32,8 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
 }
 
 public OnWar3LoadRaceOrItemOrdered2(num)

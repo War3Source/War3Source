@@ -59,13 +59,14 @@ public OnMapStart()
 {
 	if(GAMECSGO){
 		strcopy(entangleSound,sizeof(entangleSound),"music/war3source/entanglingrootsdecay1.mp3");
+		TeleBeam=War3_PrecacheBeamSprite();
 	}
 	else
 	{
 		strcopy(entangleSound,sizeof(entangleSound),"war3source/entanglingrootsdecay1.mp3");
+		TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
 	}
 
-	TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
 	

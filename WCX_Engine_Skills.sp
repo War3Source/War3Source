@@ -65,20 +65,26 @@ public OnMapStart()
 		strcopy(explosionSound1,sizeof(explosionSound1),"war3source/particle_suck1.mp3");
 	}
 
-	if(War3_GetGame()==Game_TF)
+	if(GAMETF)
 	{
 		ExplosionModel=PrecacheModel("materials/particles/explosion/explosionfiresmoke.vmt",false);
 		PrecacheSound("weapons/explode1.wav",false);
 	}
-	else
+	else if(GAMECS)
 	{
 		ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
 		PrecacheSound("weapons/explode5.wav",false);
 	}
-	
-	BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
-	
+	else if(GAMECSGO)
+	{
+		ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
+		War3_PrecacheSound("music/war3source/csgo/weapons/explode5.mp3");
+		//PrecacheSound("music/war3source/csgo/weapons/explode5.mp3",false);
+	}
+
+	BeamSprite=War3_PrecacheBeamSprite();
+	HaloSprite=War3_PrecacheHaloSprite();
+
 	War3_PrecacheSound(explosionSound1);
 	
 //	War3_PrecacheSound(teleportSound);
@@ -161,11 +167,17 @@ public Action:SuicideAction(Handle:timer,any:client)
 			
 			EmitSoundToAll(explosionSound1,client);
 			
-			if(War3_GetGame()==Game_TF){
+			if(GAMETF)
+			{
 				EmitSoundToAll("weapons/explode1.wav",client);
 			}
-			else{
+			else if(GAMECS)
+			{
 				EmitSoundToAll("weapons/explode5.wav",client);
+			}
+			else if(GAMECSGO)
+			{
+				W3EmitSoundToAll("music/war3source/csgo/weapons/explode5.mp3",client);
 			}
 		}
 		new bool:friendlyfire = GetConVarBool(FindConVar("mp_friendlyfire"));
