@@ -192,7 +192,7 @@ public OnGameFrame()
 						//DP("-1");
 						if(GAMECSGO)
 						{
-							StopSound(client, SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
+							StopSound(client, SNDCHAN_STATIC, "music/war3source/csgo/ui/hint.mp3");
 						}
 						else
 						{
@@ -286,7 +286,7 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 			{
 				if(GAMECSGO)
 				{
-					StopSound(players[i], SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
+					StopSound(players[i], SNDCHAN_STATIC, "music/war3source/csgo/ui/hint.mp3");
 				}
 				else
 				{

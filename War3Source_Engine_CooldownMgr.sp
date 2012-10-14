@@ -73,7 +73,7 @@ public OnMapStart()
 	if(GAMECSGO){
 		strcopy(ultimateReadySound,sizeof(ultimateReadySound),"music/war3source/ult_ready.mp3");
 		strcopy(abilityReadySound,sizeof(abilityReadySound),"music/war3source/ability_refresh.mp3");
-		War3_PrecacheSound("war3source/csgo/ui/hint.mp3");
+		War3_PrecacheSound("music/war3source/csgo/ui/hint.mp3");
 	}
 	else
 	{
