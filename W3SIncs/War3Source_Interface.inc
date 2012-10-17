@@ -2132,10 +2132,13 @@ stock bool:CvarEmpty(Handle:sourcemod_convar) {
 }
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex) {
-
+										 //Immunity_Ability
 	//add magic immunity etc later
+	if(immunityindex==Immunity_Abilities) {
+		return W3GetBuffHasTrue(client,bImmunityAbilities);
+	}
 	if(immunityindex==Immunity_Items) {
-		return W3GetBuffHasTrue(client,bImmunity_Items);
+		return W3GetBuffHasTrue(client,bImmunityItems);
 	}
 	if(immunityindex==Immunity_Skills) {
 		return W3GetBuffHasTrue(client,bImmunitySkills);

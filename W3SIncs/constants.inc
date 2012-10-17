@@ -190,7 +190,7 @@ enum War3Immunity
 	Immunity_Items, // Immune from shop items
 	Immunity_Skills, // Immune from all skills
 	Immunity_Wards, // Immune ward modifiers/damage. skill immunity includes ward immunity
-	Immunity_Ability, // Immune from abilities (not implemented by core)
+	Immunity_Abilities, // Immune from abilities (not implemented by core)
 }; // The last of PimpinJuice's sexy syntax
 
 //where damage is from   skill or ultimate etc
@@ -318,6 +318,8 @@ enum W3Buff
 	bImmunitySkills, //is immune to skills
 	bImmunityUltimates, // is immune to ultimates	
 	bImmunityWards, // is immune to wards, skill immunity includes ward immunity
+	bImmunityItems, // is immune to items
+	bImmunityAbilities, // is immune to abilities
 	
 	fAttackSpeed, //attack speed multipler!
 	
@@ -344,7 +346,6 @@ enum W3Buff
 	iGlowPriority, //highest priority takes effect
 	fGlowSetTime, //time is recorded, those with same prioirty will compete via time. not something u set
 	
-
 	
 	fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second ( 1 hp per 2 seconds)
 	fHPDecay, //float sum, NO NEGATIVES, postive means lose this much HP / second, same requirements as fHPRegen
@@ -373,9 +374,7 @@ enum W3Buff
 	iDamageBonus, //Gives a direct increase to damage done
 	fDamageModifier, //Gives a % increase to damage done
 
-	bImmunity_Items, // is immune to items
-
-	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated fromt the enum. 
+	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated from the enum.
 	
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
@@ -454,8 +453,14 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ bImmunityWards ][BuffStackType]=bHasOneTrue;	
 	
 	buffpropertiesarray[ bImmunityUltimates ][DefaultValue]=false;
-	buffpropertiesarray[ bImmunityUltimates ][BuffStackType]=bHasOneTrue;	
-	
+	buffpropertiesarray[ bImmunityUltimates ][BuffStackType]=bHasOneTrue;
+
+	buffpropertiesarray[ bImmunityItems ][DefaultValue]=false;
+	buffpropertiesarray[ bImmunityItems ][BuffStackType]=bHasOneTrue;
+
+	buffpropertiesarray[ bImmunityAbilities ][DefaultValue]=false;
+	buffpropertiesarray[ bImmunityAbilities ][BuffStackType]=bHasOneTrue;
+
 	buffpropertiesarray[ fAttackSpeed ][DefaultValue]=1.0;
 	buffpropertiesarray[ fAttackSpeed ][BuffStackType]=fStacked;
 	
@@ -573,9 +578,6 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	
 	buffpropertiesarray[ iDamageMode ][DefaultValue]=-1;
 	buffpropertiesarray[ iDamageMode ][BuffStackType]=iLastValue;
-
-	buffpropertiesarray[ bImmunity_Items ][DefaultValue]=false;
-	buffpropertiesarray[ bImmunity_Items ][BuffStackType]=bHasOneTrue;
 
 	
 	
