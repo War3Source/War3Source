@@ -28,6 +28,10 @@ new bool:collectwlstats; //win loss stats
 new bool:collectkdstats;
 
 new Handle:hUpdateTimer;
+new Handle:hCollectingStats;
+
+new bool:bCollectStats;
+
 public Plugin:myinfo= 
 {
 	name="W3S Engine Statistics",
@@ -40,6 +44,9 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {	
+    hCollectingStats = CreateConVar("war3_enable_stat_collection", "1", "Controls if K/D and W/L stats should be collected", _, true, 0.0, true, 1.0);
+    HookConVarChange(hCollectingStats, StatCollectionCallback);
+
 	collectwlstats=true;
 	collectkdstats=true;
 	if(GetExtensionFileStatus("cssdm.ext",dummystr,sizeof(dummystr))>0){
@@ -99,6 +106,11 @@ public OnPluginStart()
 	RegConsoleCmd("w3hyperupdate",cmdhyperupdate);
 	RegConsoleCmd("w3hyperupdate2",cmdhyperupdate2);
 	return;
+}
+
+public StatCollectionCallback(Handle:cvar, const String:oldVal[], const String:newVal[])
+{
+    bCollectStats = GetConVarBool(cvar);
 }
 
 
@@ -619,7 +631,7 @@ public Action:MinuteTimer(Handle:h)
 	}
 }
 public OnWar3EventDeath(victim,attacker){
-	if(collectkdstats&&(ValidPlayer(victim)&&ValidPlayer(attacker)&&War3_GetRace(victim)>0&&War3_GetRace(attacker)>0&&!IsFakeClient(victim)&&!IsFakeClient(attacker)&&victim!=attacker)){
+	if(bCollectStats && collectkdstats&&(ValidPlayer(victim)&&ValidPlayer(attacker)&&War3_GetRace(victim)>0&&War3_GetRace(attacker)>0&&!IsFakeClient(victim)&&!IsFakeClient(attacker)&&victim!=attacker)){
 		decl String:longquery[4000];
 		decl String:raceshortatt[64];
 		decl String:raceshortvic[64];
@@ -647,7 +659,7 @@ public SockCallbackKill(bool:success,fail,String:ret[]){
 
 public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	if(collectwlstats&&   PlayersOnTeam(2)+PlayersOnTeam(3)>5)
+	if(bCollectStats && collectwlstats&&   PlayersOnTeam(2)+PlayersOnTeam(3)>5)
 	{
 		new winteam=-1;
 		if(War3_GetGame()==Game_TF)
