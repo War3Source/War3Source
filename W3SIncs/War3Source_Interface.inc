@@ -1,4 +1,3 @@
-stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
 
 /**
  * File: War3Source_Interface.inc
@@ -23,7 +22,7 @@ stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
-new String:interfaceVersion[]="1.2.2.1";
+new String:interfaceVersion[]="1.2.4.0";
 
 stock dummy; //variable for dummies! Use this where ever u want for a dummy return
 stock String:dummystr[32]; //just a dummy string! 
@@ -2970,6 +2969,9 @@ stock IntMax(one, two) {
 stock Float:AbsoluteTime() {
 	return GetEngineTime();
 }
+
+stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
+
 
 #include "W3SIncs/stocks_precache"
 #include "W3SIncs/War3Source_L4D_Interface"

@@ -109,8 +109,9 @@ And that’s the art of the test!
 #pragma semicolon 1
 
 
-#define VERSION_NUM "1.2.3.9"
-#define REVISION_NUM 12319 //increment every release
+#define VERSION_NUM "1.2.4.0"
+#define REVISION_NUM 12400 //increment every release
+//ownz: im not going to bother updating this every time, i can't tell what the next rev is. revision_num was intended for this purpose
 #define REVISION_SVN "855" //Add 1 to the number of the current SVN before you commit
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
