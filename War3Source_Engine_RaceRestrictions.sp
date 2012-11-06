@@ -41,9 +41,11 @@ public OnW3Denyable(W3DENY:event,client){
 		//in the races content of any server.  This allows me to have all races enabled.
 		//I do not have any other access other than all races to make sure that
 		//all races work correctly with war3source.
+		//Changed to Ownz id
+		//access to races only you create please
 		new String:steamid[32];
 		GetClientAuthString(client,steamid,sizeof(steamid));
-		if(!StrEqual(steamid,"STEAM_0:1:35173666",false))
+		if(!StrEqual(steamid,"STEAM_0:1:9724315",false))
 		{
 			if(min_level!=0&&min_level>total_level)
 			{
