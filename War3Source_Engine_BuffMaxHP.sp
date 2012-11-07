@@ -53,12 +53,13 @@ public Action:CheckHP(Handle:h,any:client){
 //DP("TIMERHIT");
 	mytimer[client]=INVALID_HANDLE;
 	if(ValidPlayer(client,true) && !bHealthAddedThisSpawn[client]){
-		new hpadd=W3GetBuffSumInt(client,iAdditionalMaxHealth);
+		new buff1=W3GetBuffSumInt(client,iAdditionalMaxHealth);
 		//if(!IsFakeClient(client))
 		//DP("oroginal %d, additonal %d",ORIGINALHP[client],hpadd);
 		new curhp=GetClientHealth(client);
-		SetEntityHealth(client,curhp+hpadd);
-		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+hpadd);
+		SetEntityHealth(client,curhp+buff1);
+		new buff2=W3GetBuffSumInt(client,iAdditionalMaxHealthNoHPChange);
+		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+buff1+buff2); //set max hp
 		//if(!IsFakeClient(client))
 		//DP("CheckHP was curhp %d, set to %d",curhp,GetClientHealth(client));
 		LastDamageTime[client]=GetEngineTime()-100.0;
@@ -69,7 +70,7 @@ new Handle:mytimer2[MAXPLAYERSCUSTOM];
 public OnWar3Event(W3EVENT:event,client){
 	if(event==OnBuffChanged)
 	{
-		if(W3GetVar(EventArg1)==iAdditionalMaxHealth&&ValidPlayer(client,true)){
+		if(W3GetVar(EventArg1)==iAdditionalMaxHealth &&ValidPlayer(client,true)){
 			if(mytimer2[client]==INVALID_HANDLE){	
 				mytimer2[client]=CreateTimer(0.1,CheckHPBuffChange,client);
 			}
@@ -103,7 +104,8 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 		///method 2
 		new oldbuff=War3_GetMaxHP(client)-ORIGINALHP[client];
 		new newbuff=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+newbuff); //set max hp
+		new newbuff2=W3GetBuffSumInt(client,iAdditionalMaxHealthNoHPChange);
+		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+newbuff+newbuff2); //set max hp
 		
 		new newhp=GetClientHealth(client)+newbuff-oldbuff; //difference
 		if(newhp<1){
