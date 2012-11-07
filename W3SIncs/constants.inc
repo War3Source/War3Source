@@ -374,6 +374,7 @@ enum W3Buff
 	iDamageBonus, //Gives a direct increase to damage done
 	fDamageModifier, //Gives a % increase to damage done
 
+	iAdditionalMaxHealthNoHPChange,   ///increase / decrease in maxhp. NO AUTOMATIC HP CHANGE WHEN BUFF IS CHANGED
 	MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated from the enum.
 	
 }
@@ -580,7 +581,8 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
 	buffpropertiesarray[ iDamageMode ][BuffStackType]=iLastValue;
 
 	
-	
+	buffpropertiesarray[ iAdditionalMaxHealthNoHPChange ][DefaultValue]=0;
+	buffpropertiesarray[ iAdditionalMaxHealthNoHPChange ][BuffStackType]=iAbsolute;
 	//check that all indexes have been set
 	for(new i=0;i<MaxBuffLoopLimit;i++)
 	{
