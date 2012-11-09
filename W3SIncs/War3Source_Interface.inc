@@ -2866,6 +2866,16 @@ stock bool:W3FindStringInCvar(cvarid,String:findme[],max=9999) {
 	return false;
 }
 
+// Picks a random player currently ingame.
+stock W3GetRandomPlayer(team,bool:check_alive=false,War3Immunity:check_immunity=Immunity_None) {
+
+    new clients[MaxClients+1], clientCount;
+    for (new i = 1; i <= MaxClients; i++)
+        if (IsClientInGame(i) && (GetClientTeam(i) == team) && (!check_alive || IsPlayerAlive(i)) && (!W3HasImmunity(i,check_immunity)))
+            clients[clientCount++] = i;
+    return (clientCount == 0) ? -1 : clients[GetRandomInt(0, clientCount-1)];
+}
+
 // Returns true if a and b are the same
 stock bool:VectorEquals(const Float:a[3], const Float:b[3])
 {
@@ -2875,7 +2885,11 @@ stock bool:VectorEquals(const Float:a[3], const Float:b[3])
 	return false;
 }
 
-// Revan: wrapper to play sounds for current cs:go
+// Revan: This was originally a hotfix for sounds in csgo
+// it just ClientCommand("playgamesound")..
+// Its not required anymore because a more clean fix
+// for sounds has been implemented!
+// @deprecated This is here for backwards compatibility only.
 stock W3EmitSoundToAll(const String:sample[],
 		entity = SOUND_FROM_PLAYER,
 		channel = SNDCHAN_AUTO,
@@ -2889,34 +2903,7 @@ stock W3EmitSoundToAll(const String:sample[],
 		bool:updatePos = true,
 		Float:soundtime = 0.0)
 {
-	//hard coded value to avoid spammed sounds
-#define EMITSOUND_MAXDISTANCE 280
-
-	if(GAMECSGO) {
-		if((entity > SOUND_FROM_WORLD) && (VectorEquals(origin,NULL_VECTOR))) {
-			if(IsClientInGame(entity)) {
-				GetClientEyePosition(entity,origin);
-			}
-		}
-		// this isn't nice, but atleast it works
-		decl Float:fVictimPos[3];
-		for (new i=1; i<=MaxClients; i++)
-		{
-			if (IsClientInGame(i))
-			{
-				GetClientEyePosition(i,fVictimPos);
-				if((VectorEquals(origin,NULL_VECTOR)) || (GetVectorDistance(origin,fVictimPos)<=EMITSOUND_MAXDISTANCE))
-				{
-					// BEWARE! hackish stuff
-					ClientCommand(i, "playgamesound \"%s\"", sample);
-				}
-			}
-		}
-	}
-	else {
-		// No CS:GO use sdktools method instead
-		EmitSoundToAll(sample,entity,channel,level,flags,volume,pitch,speakerentity,origin,dir,updatePos,soundtime);
-	}
+	EmitSoundToAll(sample,entity,channel,level,flags,volume,pitch,speakerentity,origin,dir,updatePos,soundtime);
 }
 
 // In csgo killing 2 players in the same frame causes a crash so we use this dirty workaround
