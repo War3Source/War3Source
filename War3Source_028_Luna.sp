@@ -10,7 +10,7 @@
 #include "W3SIncs/revantools"
 new thisRaceID;
 new String:beamsnd[256]; // = "war3source/moonqueen/beam.mp3";
-new String:lunasnd2[256]; // = "weapons/flashbang/flashbang_explode2.mp3";
+new String:lunasnd2[256]; // = "weapons/flashbang/flashbang_explode2.wav";
 
 //skill is auto cast via chance
 //new Float:LucentChance[5] = {0.00,0.05,0.11,0.22,0.30};
@@ -58,7 +58,7 @@ public OnMapStart()
 	else
 	{
 		strcopy(beamsnd,sizeof(beamsnd),"war3source/moonqueen/beam.mp3");
-		strcopy(lunasnd2,sizeof(lunasnd2),"war3source/flashbang_explode2.mp3");
+		strcopy(lunasnd2,sizeof(lunasnd2),"weapons/flashbang/flashbang_explode2.wav");
 	}
 
 	War3_PrecacheSound( beamsnd );
