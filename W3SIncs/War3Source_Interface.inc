@@ -1203,8 +1203,14 @@ stock War3HealToHP(client, addhp, maximumHP) {
 	if (newhp > maximumHP) {
 		newhp = maximumHP;
 	}
+    
 	SetEntityHealth(client, newhp);
+    if (currenthp < newhp)
+    {
+        War3_TFHealingEvent(client, newhp - currenthp);
+    }
 }
+
 /**
  * heals to max hp * 1.5 buff in tf2
  * no extra hp in other games 
@@ -1218,9 +1224,32 @@ native War3_HealToBuffHP(client, addhp);
  */
 native War3_DecreaseHP(client, decrease);
 
+// This one is actually used by HealToMaxHP, HealToBuffHP aswell as DecreaseHP
 stock nsEntity_SetHealth(entity, health) {
+    new currenthp = GetEntProp(entity, Prop_Data, "m_iHealth");
 	SetEntProp(entity, Prop_Data, "m_iHealth", health);
 	ChangeEdictState(entity, 0);
+    
+    if (currenthp < health)
+    {
+        War3_TFHealingEvent(entity, health - currenthp);
+    }
+}
+
+/** 
+ * Creates a event to show a player in the HUD how much HP he has healed
+ */
+stock War3_TFHealingEvent(client, amount_healed)
+{
+    if (War3_GetGame() != Game_TF || !ValidPlayer(client, true) || IsFakeClient(client))
+    {
+        return;
+    }
+    
+    new Handle:event = CreateEvent("player_healonhit");
+    SetEventInt(event, "entindex", client);
+    SetEventInt(event, "amount", amount_healed);
+    FireEvent(event);
 }
 
 //LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
