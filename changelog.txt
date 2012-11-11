@@ -2,7 +2,12 @@
 
 1.2.4.0
 
-
+10/10/2012
+Glider: When you use one of the War3 functions to heal
+ (War3HealToHP, War3_HealToMaxHP, War3_HealToBuffHP) 
+ in TF2 you now get the amount healed shown in the HUD like you'd expect in TF2
+ 
+Revan: Added stock W3GetRandomPlayer.
 
 iAdditionalMaxHealthNoHPChange buff added, this buff does not automatically change the player's HP when set
 
@@ -1891,6 +1896,7 @@ new include (separated from playertracking): playerbuffs.inc
 players data are now stored in static arrays! no more complicated handles, much more extensible
 YOU DO NOT KNOW WHAT I HAD TO GO THROUGH TO DO THIS!!! ITS ALL FOR THE SAKE OF EXPANDABILITY!!!!!!
 
+buff system:
 new system for buffs and debuffs!!! very expandable
 
 unholy aura (speed) reduced to maximum increase of 30%
