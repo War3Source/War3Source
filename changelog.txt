@@ -2,6 +2,9 @@
 
 1.2.4.0
 
+Revan:	W3Faction() changed default variable from FALSE to TRUE as using TRUE
+	should be the default method of setting factions on War3PluginReady/whatever.
+
 10/10/2012
 Glider: When you use one of the War3 functions to heal
  (War3HealToHP, War3_HealToMaxHP, War3_HealToBuffHP) 
