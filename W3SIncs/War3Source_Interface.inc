@@ -517,7 +517,7 @@ forward Action:OnW3DrawCategory(client,categoryindex,String:categoryname[]);
 
 ///NOTE: U NEED TO PASS 'YOUR' FACTION/RACE WHATEVER AS THE FIRST PARAM!!!
 //Creates(or just returns the factionid) a (new) faction behavior
-native W3Faction(raceid,String:strFactionName[],bool:bCreateIfNotExist=false);
+native W3Faction(raceid,String:strFactionName[],bool:bCreateIfNotExist=true);
 
 //Changes(or just returns when using relation == ReturnValue) the relation of 2 factions (by id)
 native any:W3FactionRelation(faction1,faction2,FactionBehavior:relation=ReturnValue);
