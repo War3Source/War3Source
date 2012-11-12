@@ -32,6 +32,10 @@ new Handle:PukeFatalXPCvar;
 new Handle:IncapXPCvar;
 new Handle:KillSurvivorXPCvar
 
+public LoadCheck(){
+	return GameL4DAny();
+}
+
 
 public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
 {
