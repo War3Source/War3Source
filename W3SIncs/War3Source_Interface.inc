@@ -1526,7 +1526,21 @@ native War3_GetSkillLevel(client, race, skill);
 native War3_SetSkillLevelINTERNAL(client, race, skill, newlevel);
 native War3_GetSkillLevelINTERNAL(client, race, skill);
 
-native W3_GenericSkillLevel(client,gskill,&Handle:genericSkillData,&customerRace=0,&customerSkill=0);
+/*
+Gets the skill level of a generic skill
+@client
+@g_skill_id = generic skill id
+@genericSkillData = array that the customer race passed to you (if any) when attaching itself to this generic skill
+@customerRaceID = the matching race that is trying to use this generic skill
+@customerSkillID = the matching skill id for the race trying to use this as generic skill
+
+for example, if race 4 skill 3 is redirected as generic skill 2, 
+you should have passed 2 as g_skill_id
+customerRaceID will be returned as 4
+customerSkillID returns 3
+
+*/
+native W3_GenericSkillLevel(client,g_skill_id,&Handle:genericSkillData,&customerRaceID=0,&customerSkillID=0);
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
 
