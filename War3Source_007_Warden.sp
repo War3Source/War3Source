@@ -127,7 +127,7 @@ public OnMapStart()
 		if(GAMECSGO) {
 			// Theese models aren't always precached
 			PrecacheModel("models/player/ctm_gsg9.mdl");
-			PrecacheModel("models/player/tm_leet.mdl");
+			PrecacheModel("models/player/tm_leet_variantb.mdl");
 		}
 	}	
 }
@@ -409,7 +409,7 @@ public Action:DoMole(Handle:timer,any:client)
 		}
 		else {
 			// TODO: probably needs a improvement(models) ?
-			SetEntityModel(client,(searchteam==2)?"models/player/tm_leet.mdl":"models/player/ctm_gsg9.mdl");
+			SetEntityModel(client,(searchteam==2)?"models/player/tm_leet_variantb.mdl":"models/player/ctm_gsg9.mdl");
 		}
 		TeleportEntity(client,emptyspawnlist[GetRandomInt(0,availablelocs-1)],NULL_VECTOR,NULL_VECTOR);
 		W3MsgMoled(client);

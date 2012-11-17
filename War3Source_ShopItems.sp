@@ -165,7 +165,7 @@ public OnMapStart()
 	if(GAMECSGO) {
 		// Theese models aren't always precached
 		PrecacheModel("models/player/ctm_gsg9.mdl");
-		PrecacheModel("models/player/tm_leet.mdl");
+		PrecacheModel("models/player/tm_leet_variantb.mdl");
 	}
 }
 
@@ -566,7 +566,7 @@ public Action:DoMole(Handle:timer,any:client)
 			SetEntityModel(client,(searchteam==2)?"models/player/t_leet.mdl":"models/player/ct_urban.mdl");
 		}
 		else {
-			SetEntityModel(client,(searchteam==2)?"models/player/tm_leet.mdl":"models/player/ctm_gsg9.mdl");
+			SetEntityModel(client,(searchteam==2)?"models/player/tm_leet_variantb.mdl":"models/player/ctm_gsg9.mdl");
 		}
 		TeleportEntity(client,emptyspawnlist[GetRandomInt(0,availablelocs-1)],NULL_VECTOR,NULL_VECTOR);
 		War3_ChatMessage(client,"%T","You have moled!",client);
