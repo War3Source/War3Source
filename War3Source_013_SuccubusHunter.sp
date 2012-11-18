@@ -177,7 +177,7 @@ public OnWar3EventSpawn(client)
 			}
 			else
 			{
-				new max=1000;
+				new max=W3GetMaxGold();
 				
 				new old_credits=War3_GetGold(client);
 				//PrintToChat(client,"dollar %d",dollar);

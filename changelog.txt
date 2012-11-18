@@ -4,8 +4,10 @@
 
 El Diablo: XP/Gold reward for killing Halloween Boss Horseman
 
-Revan:	W3Faction() changed default variable from FALSE to TRUE as using TRUE
+Revan:	
+ - W3Faction() changed default variable from FALSE to TRUE as using TRUE
 	should be the default method of setting factions on War3PluginReady/whatever.
+ - Fixed Succubus Hunter "Gold leak"
 
 10/10/2012
 Glider: When you use one of the War3 functions to heal
