@@ -201,6 +201,9 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
 		new cost_num=W3GetItemCost(item,W3BuyUseCSMoney());
 
 		new bool:canbuy=true;
+	
+		W3SetVar(EventArg1,item);
+		canbuy=W3Denyable(DN_CanBuyItem1,client);
 
 		new race=War3_GetRace(client);
 		if(W3IsItemDisabledGlobal(item)) {
