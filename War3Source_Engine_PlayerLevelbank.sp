@@ -74,16 +74,18 @@ GiveNewPlayerLevelBank(client){
 
 
 public CmdShowLevelBankMenu(client){
-	SetTrans(client);
-	new Handle:hMenu=CreateMenu(OnSelectShowLevelBankMenu);
-	SetMenuTitle(hMenu,"%T","You have {amount} levels in your levelbank",client,W3GetLevelBank(client));
-	SetMenuExitButton(hMenu,true);
-	
-	new String:str[1000],String:racename[64];
-	War3_GetRaceName(War3_GetRace(client),racename,sizeof(racename));
-	Format(str,sizeof(str),"%T %s","Add a level to current race from bank:",client,racename);
-	AddMenuItem(hMenu,"0",str);
-	DisplayMenu(hMenu,client,20);
+	if(W3Denyable(DN_ShowLevelbank,client)) {
+		SetTrans(client);
+		new Handle:hMenu=CreateMenu(OnSelectShowLevelBankMenu);
+		SetMenuTitle(hMenu,"%T","You have {amount} levels in your levelbank",client,W3GetLevelBank(client));
+		SetMenuExitButton(hMenu,true);
+		
+		new String:str[1000],String:racename[64];
+		War3_GetRaceName(War3_GetRace(client),racename,sizeof(racename));
+		Format(str,sizeof(str),"%T %s","Add a level to current race from bank:",client,racename);
+		AddMenuItem(hMenu,"0",str);
+		DisplayMenu(hMenu,client,20);
+	}
 }
 
 public OnSelectShowLevelBankMenu(Handle:menu,MenuAction:action,client,selection)

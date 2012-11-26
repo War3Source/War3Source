@@ -8,6 +8,9 @@ Revan:
  - W3Faction() changed default variable from FALSE to TRUE as using TRUE
 	should be the default method of setting factions on War3PluginReady/whatever.
  - Fixed Succubus Hunter "Gold leak"
+ - ShopMenu1 Items are now denyable (W3DENY::DN_CanBuyItem1).
+ - Minor fixes for W3Event DoShowParticularRaceInfo, DoShowPlayerInfoTarget and DoShowPlayerItemsOwnTarget to handle invalid(aka 'denied') event args properly.
+ - Added more denyable events (DN_ShowLevelBan,DN_ShowShopMenu)
 
 10/10/2012
 Glider: When you use one of the War3 functions to heal
