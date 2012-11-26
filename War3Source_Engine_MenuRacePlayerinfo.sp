@@ -41,13 +41,22 @@ public OnWar3Event(W3EVENT:event,client){
 			PlayerInfoMenuEntry(client);
 		}
 		if(event==DoShowParticularRaceInfo){
-			War3_ShowParticularRaceInfoMenu(client,W3GetVar(RaceinfoRaceToShow));
+			new raceid = W3GetVar(RaceinfoRaceToShow);
+			if(ValidRace(raceid)) {
+				War3_ShowParticularRaceInfoMenu(client,raceid);
+			}
 		}
 		if(event==DoShowPlayerInfoTarget){
-			War3_playertargetMenu(client,W3GetVar(EventArg1)) ;
+			new target = W3GetVar(EventArg1);
+			if(ValidPlayer(target,false)) {
+				War3_playertargetMenu(client,target) ;
+			}
 		}
 		if(event==DoShowPlayerItemsOwnTarget){
-			War3_playertargetItemMenu(client,W3GetVar(EventArg1)) ;
+			new target = W3GetVar(EventArg1);
+			if(ValidPlayer(target,false)) {
+				War3_playertargetItemMenu(client,target) ;
+			}
 		}
 	}
 }
