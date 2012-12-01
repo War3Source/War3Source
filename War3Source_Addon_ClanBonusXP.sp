@@ -6,8 +6,8 @@
 #include <sourcemod>
 #undef REQUIRE_EXTENSIONS
 #include "W3SIncs/steamtools"
+#include <cstrike>
 #define REQUIRE_EXTENSIONS
-#include "W3SIncs/cssclantags"
 #include "W3SIncs/War3Source_Interface"
 
 new Handle:g_hClanVar = INVALID_HANDLE;
@@ -41,9 +41,9 @@ public OnPluginStart()
 	g_hVarWelcomeMsg = CreateConVar ("war3_bonusclan_welcome", "1.0", "Enable the welcome message", 0, true, 0.0, true, 1.0);
 
 	// tells if steamtools is loaded and(if used from a client console) if you're member of the war3_bonusclan_id group
-	RegConsoleCmd("war3_bonusclan", Command_TellStatus);
+	RegConsoleCmd("war3_bonusclan", Command_TellStatus,"Gives information about your current group status.");
 	// refreshes groupcache
-	RegServerCmd("war3_bonusclan_refresh", Command_Refresh);
+	RegServerCmd("war3_bonusclan_refresh", Command_Refresh,"Refresh War3Source groupcache.");
 	LoadTranslations ("w3s.addon.clanbonusxp.phrases");
 }
 
@@ -88,7 +88,7 @@ public OnWar3Event(W3EVENT:event,client)
 			bAwardBonus = bIsInGroup[client];
 		}
 		// Check clantag if steamtools isn't available and bonus isn't granted yet
-		else if(GAMECS && !bAwardBonus) {
+		else if(GAMECSANY && !bAwardBonus) {
 			decl String:buffer[32],String:buffer2[32];
 			CS_GetClientClanTag(client,buffer, sizeof(buffer));
 			GetConVarString(g_hClanVar,buffer2,sizeof(buffer2));
@@ -105,19 +105,6 @@ public OnWar3Event(W3EVENT:event,client)
 		}
 	}
 }
-
-/*public OnClientAuthorized(client, const String:auth[])
-{
-	if (!IsFakeClient(client))
-	{
-		if(check_steamtools()) {
-			new iGroupID = GetConVarInt(g_hClanID);
-			if(iGroupID != 0) {
-				Steam_RequestGroupStatus(client, iGroupID);
-			}
-		}
-	}
-}*/
 
 public OnClientPutInServer(client)
 {
@@ -136,6 +123,12 @@ public OnClientPutInServer(client)
 			Steam_RequestGroupStatus(client, iGroupID);
 		}
 	}
+}
+
+stock FloatToCutString(Float:value, String:target[], targetSize, DecPlaces) {
+    decl String:fmt[8];
+    FormatEx(fmt, sizeof(fmt), "%%.%df", DecPlaces); // e.g., 2 places = %.2f
+    FormatEx(target, targetSize, fmt, value);
 }
 
 public Action:WelcomeAdvertTimer (Handle:timer, any:client)
@@ -205,4 +198,19 @@ stock bool:check_steamtools()
 	}
 	return false;*/
 	return g_bSteamTools;
+}
+
+// This listens for removed libraries and stuff
+public OnLibraryRemoved(const String:name[])
+{
+	new iGroupID = GetConVarInt(g_hClanID);
+	if(iGroupID != 0) {
+		// Error out if steamtools got unloaded.
+		if(strcmp(name, "SteamTools")==0) {
+			SetFailState("SteamTools has been unloaded!");
+		}
+	}
+	else if(strcmp(name, "cstrike")==0) {
+		SetFailState("CS Tools extension has been unloaded!");
+	}
 }

@@ -10,7 +10,8 @@ Revan:
  - Fixed Succubus Hunter "Gold leak"
  - ShopMenu1 Items are now denyable (W3DENY::DN_CanBuyItem1).
  - Minor fixes for W3Event DoShowParticularRaceInfo, DoShowPlayerInfoTarget and DoShowPlayerItemsOwnTarget to handle invalid(aka 'denied') event args properly.
- - Levelbank is now denyable.
+ - Levelbank is now denyable (W3DENY::DN_ShowLevelbank).
+ - CSGO support for ClanBonusXP added :)
 
 10/10/2012
 Glider: When you use one of the War3 functions to heal
