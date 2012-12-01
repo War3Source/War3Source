@@ -1,6 +1,7 @@
-//////////////////////////////////////
-// 			CSS   O N L Y          //
-//////////////////////////////////////
+/***************************************
+* Clantags: CS:S and CS:GO only
+* GroupId: Any game; requires steamtools
+***************************************/
 
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 #include <sourcemod>
