@@ -36,7 +36,7 @@ public _:NWar3_FactionCompare(Handle:plugin,numParams) {
 	decl r1,r2;
 	r1 = GetNativeCell(1);
 	r2 = GetNativeCell(2);
-	if(r1>0&&r2>0) {
+	if(ValidRace(r1)&&ValidRace(r2)) {
 		decl f1,f2;
 		f1 = W3GetFaction(r1);
 		f2 = W3GetFaction(r2);
@@ -45,7 +45,7 @@ public _:NWar3_FactionCompare(Handle:plugin,numParams) {
 		}
 		return ThrowNativeError(SP_ERROR_NATIVE,"Could not resolve race factions");
 	}
-	return ThrowNativeError(SP_ERROR_NATIVE,"Invalid RaceId1 and/or RaceId2");
+	return ThrowNativeError(SP_ERROR_NATIVE,"Invalid RaceId1(%d) and/or RaceId2(%d)",r1,r2);
 }
 //FakeNative callback of "W3Faction"
 public NWar3_MainFactionFunction(Handle:plugin,numParams) {
@@ -53,7 +53,7 @@ public NWar3_MainFactionFunction(Handle:plugin,numParams) {
 	raceid = GetNativeCell(1);
 	GetNativeString(2,name,sizeof(name));
 	bCreate = GetNativeCell(3);
-	if(raceid>0 && strlen(name)>0) {
+	if(ValidRace(raceid) && strlen(name)>0) {
 		//Check if the faction allready exist or not
 		decl faction;
 		faction = W3GetFactionIdByName(name,bCreate);
@@ -111,6 +111,10 @@ public _:NWar3_RelationFactionFunction(Handle:plugin,numParams) {
 public _:NWar3_GetRaceFaction(Handle:plugin,numParams) {
 	decl iRace,iSize;
 	iRace=GetNativeCell(1);
+	if(!ValidRace(iRace))
+	{
+		return ThrowNativeError(SP_ERROR_NATIVE,"Invalid RaceID(%d)",iRace);
+	}
 	iSize=GetNativeCell(3);
 	decl String:buffer[iSize];
 	W3GetFactionNameById(W3GetFaction(iRace),buffer,iSize);
