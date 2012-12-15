@@ -12,6 +12,7 @@ Revan:
  - Minor fixes for W3Event DoShowParticularRaceInfo, DoShowPlayerInfoTarget and DoShowPlayerItemsOwnTarget to handle invalid(aka 'denied') event args properly.
  - Levelbank is now denyable (W3DENY::DN_ShowLevelbank).
  - CSGO support for ClanBonusXP added :)
+ - XP Multipler added(2 new cvars: war3_xp_multipler and war3_gold_multipler) have fun!
 
 10/10/2012
 Glider: When you use one of the War3 functions to heal
