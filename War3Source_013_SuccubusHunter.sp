@@ -74,19 +74,12 @@ public OnPluginStart()
 	//HookEvent("player_hurt",PlayerHurtEvent);
 	//HookEvent("player_death",PlayerDeathEvent);
 	
-	g_GameType = War3_GetGame();
-	switch (g_GameType)
+	if(GAMECSANY)
 	{
-		case Game_CS:
-		{
-			HookEvent("player_jump",PlayerJumpEvent);
-			m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
-			m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
-			m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
-		}
-		case Game_TF:
-		{
-		}
+		HookEvent("player_jump",PlayerJumpEvent);
+		m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
+		m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
+		m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
 	}
 	
 	AddCommandListener(SayCommand, "say");
@@ -501,7 +494,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
 
-	if (g_GameType != Game_CS && (buttons & IN_JUMP)) //assault for non CS games
+	if (!GAMECSANY && (buttons & IN_JUMP)) //assault for non CS games
 	{
 		if (War3_GetRace(client) == thisRaceID)
 		{

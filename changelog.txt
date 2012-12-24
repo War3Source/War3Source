@@ -2,6 +2,8 @@
 
 1.2.4.0
 
+Remy Lebeau: Fixed iAdditionalMaxHealthNoHPChange Periapt of Health bug
+
 El Diablo: XP/Gold reward for killing Halloween Boss Horseman
 
 Revan:	
@@ -13,6 +15,7 @@ Revan:
  - Levelbank is now denyable (W3DENY::DN_ShowLevelbank).
  - CSGO support for ClanBonusXP added :)
  - XP Multipler added(2 new cvars: war3_xp_multipler and war3_gold_multipler) have fun!
+ - CSGO longjump fix
 
 10/10/2012
 Glider: When you use one of the War3 functions to heal

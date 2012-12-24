@@ -71,7 +71,7 @@ public OnPluginStart()
 	m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
 	m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
 	
-	if(War3_GetGame()==CS){
+	if(GAMECSANY){
 		HookEvent("player_jump",PlayerJumpEvent);
 	}
 	RegConsoleCmd("bashme",Cmdbashme);
@@ -153,7 +153,7 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
 
-	if (War3_GetGame() != Game_CS && (buttons & IN_JUMP)) //assault for non CS games
+	if (!GAMECSANY && (buttons & IN_JUMP)) //assault for non CS games
 	{
 		if (War3_GetRace(client) == thisRaceID)
 		{
