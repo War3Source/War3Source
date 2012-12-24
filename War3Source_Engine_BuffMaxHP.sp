@@ -102,10 +102,11 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
 		
 		
 		///method 2
-		new oldbuff=War3_GetMaxHP(client)-ORIGINALHP[client];
 		new newbuff=W3GetBuffSumInt(client,iAdditionalMaxHealth);
 		new newbuff2=W3GetBuffSumInt(client,iAdditionalMaxHealthNoHPChange);
+		new oldbuff=War3_GetMaxHP(client)-ORIGINALHP[client]-newbuff2;
 		War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+newbuff+newbuff2); //set max hp
+		
 		
 		new newhp=GetClientHealth(client)+newbuff-oldbuff; //difference
 		if(newhp<1){
