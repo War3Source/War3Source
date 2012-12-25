@@ -3007,5 +3007,3 @@ stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/stocks_misc"
 
-//SUPER HERO INDLUDE FILE, many stock requires war3 functions to be delcared first...
-#include "W3SIncs/SuperHero_Interface"
