@@ -1,4 +1,0 @@
-available on the download site /war3source/dll until i have time to organize it to this SVN
-
-requires the zlib library (google it)
-requires includes from war3ext
