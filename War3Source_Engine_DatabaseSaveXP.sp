@@ -443,8 +443,8 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 			//get their name and steamid
 			if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name))) // steamid
 			{
-				ReplaceString(name,sizeof(name), "'","", true);//REMOVE IT//double escape because \\ turns into -> \  after the %s insert into sql statement
-				
+				ReplaceString(name,sizeof(name), "'","", true); //REMOVE IT
+				ReplaceString(name,sizeof(name), "\\","", true); 
 				new total_level=W3GetTotalLevels(client);
 				new total_xp=0;
 				
@@ -570,7 +570,9 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 				decl String:steamid[64];
 				decl String:name[64];
 				if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name)) ) {
-					ReplaceString(name,sizeof(name), "'","", true);//REMOVE IT //double escape because \\ turns into -> \  after the %s insert into sql statement
+					ReplaceString(name,sizeof(name), "'","", true);
+					ReplaceString(name,sizeof(name), "\\","", true);
+					
 					
 					
 					new String:longquery[4000];
@@ -729,7 +731,7 @@ War3_SavePlayerMainData(client){
 		if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name)))
 		{
 			ReplaceString(name,sizeof(name), "'","", true);//REMOVE IT //double escape because \\ turns into -> \  after the %s insert into sql statement
-			
+			ReplaceString(name,sizeof(name), "\\","", true);
 				
 			new String:longquery[4000];
 			new total_level=W3GetTotalLevels(client);

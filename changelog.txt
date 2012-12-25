@@ -2,6 +2,8 @@
 
 1.2.4.0
 
+Ownz: remove '\' from player names, messes with database saving
+
 Remy Lebeau: Fixed iAdditionalMaxHealthNoHPChange Periapt of Health bug
 
 El Diablo: XP/Gold reward for killing Halloween Boss Horseman
