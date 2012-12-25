@@ -443,8 +443,11 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 			//get their name and steamid
 			if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name))) // steamid
 			{
-				ReplaceString(name,sizeof(name), "'","", true); //REMOVE IT
-				ReplaceString(name,sizeof(name), "\\","", true); 
+				ReplaceString(name,sizeof(name), "'","", true);//REMOVE IT//double escape because \\ turns into -> \  after the %s insert into sql statement
+
+				new String:szSafeName[(sizeof(name)*2)-1];
+				SQL_EscapeString( hDB, name, szSafeName, sizeof(szSafeName));
+
 				new total_level=W3GetTotalLevels(client);
 				new total_xp=0;
 				
@@ -461,7 +464,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				
 				new String:longquery[4000];
 				// Main table query
-				Format(longquery,sizeof(longquery),"INSERT INTO war3source (steamid,name,currentrace,total_level,total_xp) VALUES ('%s','%s','%s','%d','%d')",steamid,name,short_name,total_level,total_xp);
+				Format(longquery,sizeof(longquery),"INSERT INTO war3source (steamid,name,currentrace,total_level,total_xp) VALUES ('%s','%s','%s','%d','%d')",steamid,szSafeName,short_name,total_level,total_xp);
 				new Handle:querytrie=CreateTrie();
 				SetTrieString(querytrie,"query",longquery);
 				SQL_TQuery(hDB,T_CallbackInsertPDataMain,longquery,querytrie);
@@ -571,10 +574,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
 				decl String:name[64];
 				if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name)) ) {
 					ReplaceString(name,sizeof(name), "'","", true);
-					ReplaceString(name,sizeof(name), "\\","", true);
-					
-					
-					
+
 					new String:longquery[4000];
 					new String:short[16];
 					War3_GetRaceShortname(raceid,short,sizeof(short));
@@ -731,8 +731,10 @@ War3_SavePlayerMainData(client){
 		if(GetClientAuthString(client,steamid,sizeof(steamid)) && GetClientName(client,name,sizeof(name)))
 		{
 			ReplaceString(name,sizeof(name), "'","", true);//REMOVE IT //double escape because \\ turns into -> \  after the %s insert into sql statement
-			ReplaceString(name,sizeof(name), "\\","", true);
-				
+
+			new String:szSafeName[(sizeof(name)*2)-1];
+			SQL_EscapeString( hDB, name, szSafeName, sizeof(szSafeName));
+
 			new String:longquery[4000];
 			new total_level=W3GetTotalLevels(client);
 			new total_xp=0;
@@ -746,7 +748,7 @@ War3_SavePlayerMainData(client){
 			
 			new String:short[16];
 			War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
-			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",name,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
+			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",szSafeName,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
 			new Handle:querytrie=CreateTrie();
 			SetTrieString(querytrie,"query",longquery);
 			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,querytrie);
