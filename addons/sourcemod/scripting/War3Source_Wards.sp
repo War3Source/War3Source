@@ -4,7 +4,7 @@
 * Author(s): Invalid
 */
 
-#include <SourceMod>
+#include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
 #define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
