@@ -34,22 +34,6 @@ W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the
 Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
 and took over primary development after march 2010.
 
-
-==== SuperHero Source (SH) ====
-
-SuperHero Source  runs on top of war3source, uses its powerful engines and interfaces.
-
-Superhero Source is a modification for the source engine
-and is made after the successful Superhero Mod from Counter Strike 1.6.
-The point is to Kill other Players and gain Experience. When you reach a certain amount of Experience you get a Level Up.
-Each Level Up allows you to Pick one additional Hero up to a maximum number of heroes.
-Each Hero possesses a unique Power, enabling you to do unbelievable stuff, which may seem to be cheats or hacks first, but they are not!
-But remember: You are not alone with those Powers!
-
-
-See installation and follow directions on how to run SuperHero Source mode.
-
-
 -----------------------
 CREDITS
 -----------------------
