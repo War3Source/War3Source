@@ -7,10 +7,6 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-#define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
-#define WARDABOVE 160.0
-#define MAXWARDDATA 32
-
 enum {
 	DAMAGE=0,
 	HEAL
@@ -24,10 +20,10 @@ new HaloSprite =-1;
 public Plugin:myinfo = 
 {
 	name = "War3Source - Ward Behavior Definitions",
-	author = "Invalid",
+	author = "Invalid && necavi",
 	description = "Ward behaviors",
 	version = "1.0",
-	url = "none"
+	url = "http://necavi.org/"
 };
 
 public OnPluginStart()
@@ -47,15 +43,28 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 
 public OnWardPulse(wardindex, behavior) {
 	new beamcolor[4];
-
-	if (behavior==BehaviorIndex[DAMAGE]) {
-		beamcolor={255,0,0,160};
-		doVisualEffect(wardindex,beamcolor);
+	if(War3_GetWardUseDefaultColor(wardindex)) {
+		if(behavior == BehaviorIndex[DAMAGE]) {
+			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+				beamcolor = {0,0,255,255};
+			} else {
+				beamcolor = {255,0,0,255};
+			}
+		} else {
+			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+				beamcolor = {0,255,128,255};
+			} else {
+				beamcolor = {128,255,0,255};
+			}
+		}
+	} else {
+		if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+			War3_GetWardColor2(wardindex, beamcolor);
+		} else {
+			War3_GetWardColor3(wardindex, beamcolor);
+		}
 	}
-	else if (behavior==BehaviorIndex[HEAL]) {
-		beamcolor={0,255,0,160};
-		doVisualEffect(wardindex,beamcolor);
-	}
+	doVisualEffect(wardindex,beamcolor);
 }
 
 doVisualEffect(wardindex,beamcolor[4]) {
@@ -88,14 +97,14 @@ public OnWardTrigger(wardindex,victim,owner,behavior) {
 	GetClientAbsOrigin(victim,VictimPos);
 
 	if (behavior==BehaviorIndex[DAMAGE]) {
-		new damage = data[0];
+		new damage = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
 		
 		War3_DealDamage(victim,damage,owner,_,"weapon_wards");
 		VictimPos[2]+=65.0;
 		War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
 	}
 	else if (behavior==BehaviorIndex[HEAL]) {
-		new healamt = data[0];
+		new healamt = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
 		
 		new cur_hp=GetClientHealth(victim);
 		new new_hp=cur_hp+healamt;

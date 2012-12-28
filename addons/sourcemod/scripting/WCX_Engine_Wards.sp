@@ -3,65 +3,70 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-#define MAXWARDS 64*4 //on map LOL
-#define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
-#define WARDABOVE 160.0
-#define WARDNAMELEN 64
-#define WARDSNAMELEN 16
-#define WARDDESCLEN 2001
-#define MAXWARDBEHAVIORS 64*4 // Really, there shouldn't be this many ward types, but I want to be safe.
-#define MAXWARDDATA 32	// That's 32 cells of data that can be passed to the ward behavior
-
 // Ward info
-
-new CurrentWardCount[MAXPLAYERSCUSTOM];
-new Float:WardLocation[MAXWARDS][3]; 
-new WardOwner[MAXWARDS];
-new WardRadius[MAXWARDS];
-new Float:WardDuration[MAXWARDS];
-new Handle:WardTimer[MAXWARDS];
-new bool:WardSelfInflict[MAXWARDS];
-new War3WardAffinity:WardAffinity[MAXWARDS];
-new Float:WardInterval[MAXWARDS];
-new WardBehavior[MAXWARDS];
-new any:WardData[MAXWARDS][MAXWARDDATA];
+new Handle:g_hWardOwner = INVALID_HANDLE;
+new Handle:g_hWardRadius = INVALID_HANDLE;
+new Handle:g_hWardLocation = INVALID_HANDLE;
+new Handle:g_hWardDuration = INVALID_HANDLE;
+new Handle:g_hWardTimer = INVALID_HANDLE;
+new Handle:g_hWardSelfInflict = INVALID_HANDLE;
+new Handle:g_hWardAffinity = INVALID_HANDLE;
+new Handle:g_hWardInterval = INVALID_HANDLE;
+new Handle:g_hWardBehavior = INVALID_HANDLE;
+new Handle:g_hWardSkill = INVALID_HANDLE;
+new Handle:g_hWardData = INVALID_HANDLE;
+new Handle:g_hWardUseDefaultColors = INVALID_HANDLE;
+new Handle:g_hWardColor2 = INVALID_HANDLE;
+new Handle:g_hWardColor3 = INVALID_HANDLE;
+new Handle:g_hWardEnabled = INVALID_HANDLE;
 
 // Behavior info
-
-new totalBehaviorsLoaded=0;
-new String:behaviorName[MAXWARDBEHAVIORS][WARDNAMELEN];
-new String:behaviorShortname[MAXWARDBEHAVIORS][WARDSNAMELEN];
-new String:behaviorDescription[MAXWARDBEHAVIORS][WARDDESCLEN];
+new Handle:g_hBehaviorName = INVALID_HANDLE;
+new Handle:g_hBehaviorShortname = INVALID_HANDLE;
+new Handle:g_hBehaviorDescription = INVALID_HANDLE;
 
 // Event handles
-new Handle:g_OnWardCreatedHandle;
-new Handle:g_OnWardPulseHandle;
-new Handle:g_OnWardTriggerHandle;
-new Handle:g_OnWardExpireHandle;
+new Handle:g_OnWardCreatedHandle = INVALID_HANDLE;
+new Handle:g_OnWardPulseHandle = INVALID_HANDLE;
+new Handle:g_OnWardTriggerHandle = INVALID_HANDLE;
+new Handle:g_OnWardExpireHandle = INVALID_HANDLE;
 
-//new BeamSprite =-1;
-//new HaloSprite =-1;
+new g_iPlayerWardCount[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {
 	name = "WCX - Wards",
-	author = "Invalid, necavi, PimpinJuice",
+	author = "necavi && Invalid && PimpinJuice",
 	description = "Ward Natives",
 	version = "0.1",
-	url = "http://necavi.com"
+	url = "http://necavi.org"
 }
 
 public OnPluginStart()
 {
-	//BeamSprite=PrecacheModel("materials/sprites/lgtning.vmt");
-	//HaloSprite=PrecacheModel("materials/sprites/halo01.vmt");
-	
-	/* Default Ward Behavior (0) */
-	behaviorName[0] = "None";
-	behaviorShortname[0] = "none";
-	behaviorDescription[0] = "Default behavior";
-}
+	g_hWardOwner = CreateArray(1);
+	g_hWardRadius = CreateArray(1);
+	g_hWardLocation = CreateArray(3)
+	g_hWardDuration = CreateArray(1);
+	g_hWardTimer = CreateArray(1);
+	g_hWardSelfInflict = CreateArray(1);
+	g_hWardAffinity = CreateArray(1);
+	g_hWardInterval = CreateArray(1);
+	g_hWardBehavior = CreateArray(1);
+	g_hWardSkill = CreateArray(1);
+	g_hWardUseDefaultColors = CreateArray(1);
+	g_hWardEnabled = CreateArray(1);
+	g_hWardColor2 = CreateArray(4);
+	g_hWardColor3 = CreateArray(4);
+	g_hWardData = CreateArray(MAXWARDDATA);
 
+	g_hBehaviorName = CreateArray(WARDNAMELEN);
+	g_hBehaviorShortname = CreateArray(WARDSNAMELEN);
+	g_hBehaviorDescription = CreateArray(WARDDESCLEN);
+}
+public OnClientConnected(client) {
+	g_iPlayerWardCount[client] = 0;
+}
 public bool:InitNativesForwards()
 {
 	g_OnWardCreatedHandle=CreateGlobalForward("OnWardCreated",ET_Ignore,Param_Cell,Param_Cell);
@@ -83,11 +88,30 @@ public bool:InitNativesForwards()
 	CreateNative("War3_GetWardRadius", Native_War3_GetWardRadius);
 	CreateNative("War3_GetWardOwner", Native_War3_GetWardOwner);
 	CreateNative("War3_GetWardData", Native_War3_GetWardData);
+	CreateNative("War3_GetWardUseDefaultColor", Native_War3_GetWardUseDefaultColor);
+	CreateNative("War3_GetWardColor2", Native_War3_GetWardColor2);
+	CreateNative("War3_GetWardColor3", Native_War3_GetWardColor3);
+	CreateNative("War3_GetWardSkill", Native_War3_GetWardSkill);
 	CreateNative("War3_RemoveWard", Native_War3_RemoveWard);
 	return true;
 }
-
-public _:Native_War3_CreateWardBehavior(Handle:plugin,numParams)
+public Native_War3_GetWardUseDefaultColor(Handle:plugin, numParams) {
+	return bool:GetArrayCell(g_hWardUseDefaultColors, GetNativeCell(1));
+}
+public Native_War3_GetWardSkill(Handle:plugin, numParams) {
+	return GetArrayCell(g_hWardSkill, GetNativeCell(1));
+}
+public Native_War3_GetWardColor2(Handle:plugin, numParams) {
+	new color[4];
+	GetArrayArray(g_hWardColor2, GetNativeCell(1), color);
+	SetNativeArray(2, color, sizeof(color))
+}
+public Native_War3_GetWardColor3(Handle:plugin, numParams) {
+	new color[4];
+	GetArrayArray(g_hWardColor3, GetNativeCell(1), color);
+	SetNativeArray(2, color, sizeof(color))
+}
+public Native_War3_CreateWardBehavior(Handle:plugin,numParams)
 {
 	decl String:name[WARDNAMELEN],String:shortname[WARDSNAMELEN],String:desc[WARDDESCLEN];
 	GetNativeString(1,shortname,sizeof(shortname));
@@ -99,122 +123,119 @@ public _:Native_War3_CreateWardBehavior(Handle:plugin,numParams)
 
 
 public Native_War3_GetWardBehaviorsLoaded(Handle:plugin,numParams) {
-	return _:GetBehaviorsLoaded();
+	return GetArraySize(g_hBehaviorShortname);
 }
 
 public Native_War3_GetWardBehaviorName(Handle:plugin,numParams) {
 	new id=GetNativeCell(1);
 	new maxlen=GetNativeCell(3);
 	
-	new String:buf[WARDNAMELEN];
-	GetBehaviorName(id,buf,sizeof(buf));
-	SetNativeString(2,buf,maxlen);
+	new String:name[WARDNAMELEN];
+	GetBehaviorName(id,name,sizeof(name));
+	SetNativeString(2,name,maxlen);
 }
 
 public Native_War3_GetWardBehaviorShortname(Handle:plugin,numParams) {
 	new id=GetNativeCell(1);
-	new bufsize=GetNativeCell(3);
-	if(id>=0 && id<=GetBehaviorsLoaded())
-	{
-		new String:shortname[WARDSNAMELEN];
-		GetBehaviorShortname(id,shortname,sizeof(shortname));
-		SetNativeString(2,shortname,bufsize);
-	}
+	new maxlen=GetNativeCell(3);
+	
+	new String:shortname[WARDSNAMELEN];
+	GetBehaviorShortname(id, shortname, sizeof(shortname));
+	SetNativeString(2,shortname,maxlen);
 }
 
 public Native_War3_GetWardBehaviorDesc(Handle:plugin,numParams) {
 	new id=GetNativeCell(1);
 	new maxlen=GetNativeCell(3);
 	
-	new String:longbuf[WARDDESCLEN];
-	GetBehaviorDesc(id,longbuf,sizeof(longbuf));
-	SetNativeString(2,longbuf,maxlen);
+	new String:desc[WARDDESCLEN];
+	GetBehaviorDesc(id,desc,sizeof(desc));
+	SetNativeString(2,desc,maxlen);
 }
 
-public _:Native_War3_GetWardBehaviorByShortname(Handle:plugin,numParams)
+public Native_War3_GetWardBehaviorByShortname(Handle:plugin,numParams)
 {
 	new String:shortname[WARDSNAMELEN];
 	GetNativeString(1,shortname,sizeof(shortname));
 	return _:GetWardBehaviorByShortname(shortname);
 }
 
-public _:Native_War3_CreateWard(Handle:plugin,numParams)
+public Native_War3_CreateWard(Handle:plugin,numParams)
 {
 	new client = GetNativeCell(1);
 	
-	for(new i=0;i<MAXWARDS;i++)
+	if(W3Denyable(DN_CanPlaceWard,client))
 	{
-		if(WardOwner[i]==0)
-		{
-			WardOwner[i]=client;
-			GetNativeArray(2,WardLocation[i],3);
-			WardRadius[i] = GetNativeCell(3);
-			WardDuration[i] = Float:GetNativeCell(4);
-			WardInterval[i] = Float:GetNativeCell(5);
+		new id = PushArrayCell(g_hWardOwner, client);
+		new Float:location[3];
+		GetNativeArray(2,location,3);
+		PushArrayArray(g_hWardLocation, location);
+		PushArrayCell(g_hWardRadius, GetNativeCell(3));
+		PushArrayCell(g_hWardDuration, GetNativeCell(4));
+		PushArrayCell(g_hWardInterval, GetNativeCell(5));
 			
-			decl String:behavior[WARDSNAMELEN];
-			GetNativeString(6,behavior,sizeof(behavior));
-			WardBehavior[i] = GetWardBehaviorByShortname(behavior);
-			
-			GetNativeArray(7,WardData[i],MAXWARDDATA);
-			
-			WardSelfInflict[i] = bool:GetNativeCell(8);
-			WardAffinity[i] = GetNativeCell(9);
-			WardTimer[i] = CreateTimer(WardInterval[i],wardPulse,i,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
-			if (GetNativeCell(4) > 0) {
-				CreateTimer(WardDuration[i],timedRemoveWard,i);
-			}
-			CurrentWardCount[client]++;
-			
-			Call_StartForward(g_OnWardCreatedHandle);
-			Call_PushCell(i);
-			Call_PushCell(WardBehavior[i]);
-			Call_Finish();
-			return i;
+		new String:behavior[WARDSNAMELEN];
+		GetNativeString(6,behavior,sizeof(behavior));
+		PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(behavior));
+		PushArrayCell(g_hWardSkill, GetNativeCell(7))
+		new any:data[MAXWARDDATA];
+		GetNativeArray(8,data,MAXWARDDATA);
+		PushArrayArray(g_hWardData, data);
+		PushArrayCell(g_hWardAffinity, GetNativeCell(8));
+		PushArrayCell(g_hWardSelfInflict, GetNativeCell(9));
+		PushArrayCell(g_hWardTimer, CreateTimer(GetArrayCell(g_hWardInterval, id),WardPulse,id,TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE));
+		PushArrayCell(g_hWardUseDefaultColors, GetNativeCell(10));
+		new color[4];
+		GetNativeArray(11, color, sizeof(color))
+		PushArrayArray(g_hWardColor2, color);
+		GetNativeArray(12, color, sizeof(color))
+		PushArrayArray(g_hWardColor3, color);
+		if (GetArrayCell(g_hWardDuration,id) > 0) {
+			CreateTimer(GetArrayCell(g_hWardDuration,id),TimedRemoveWard,id);
 		}
+		g_iPlayerWardCount[client]++;
+		Call_StartForward(g_OnWardCreatedHandle);
+		Call_PushCell(id);
+		Call_PushCell(GetArrayCell(g_hWardBehavior, id));
+		Call_Finish();
+		return id;
+		
 	}
 	return -1;
 }
 
-public _:Native_War3_GetWardBehavior(Handle:plugin,numParams)
+public Native_War3_GetWardBehavior(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	if (WardOwner[id] == 0) {
-		return -1;
-	}
-	
-	return WardBehavior[id];
+	return GetArrayCell(g_hWardBehavior, GetNativeCell(1));
 }
 
 public Native_War3_GetWardLocation(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	SetNativeArray(2,WardLocation[id],3);
+	new Float:location[3];
+	GetArrayArray(g_hWardLocation, GetNativeCell(1), location);
+	SetNativeArray(2,location,3);
 }
 
 public Native_War3_GetWardInterval(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	return _:WardInterval[id];
+	return GetArrayCell(g_hWardInterval, GetNativeCell(1));
 }
 
-public _:Native_War3_GetWardRadius(Handle:plugin,numParams)
+public Native_War3_GetWardRadius(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	return WardRadius[id];
+	return GetArrayCell(g_hWardRadius,GetNativeCell(1));
 }
 
 public _:Native_War3_GetWardOwner(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	return WardOwner[id];
+	return GetArrayCell(g_hWardOwner, GetNativeCell(1));
 }
 
 public Native_War3_GetWardData(Handle:plugin,numParams)
 {
-	new id = GetNativeCell(1);
-	
-	SetNativeArray(2,WardData[id],MAXWARDDATA);
+	new data[MAXWARDDATA];
+	GetArrayArray(g_hWardData, GetNativeCell(1), data)
+	SetNativeArray(2,data,MAXWARDDATA);
 }
 
 public Native_War3_RemoveWard(Handle:plugin,numParams)
@@ -222,40 +243,25 @@ public Native_War3_RemoveWard(Handle:plugin,numParams)
 	return bool:RemoveWard(GetNativeCell(1));
 }
 
-public Action:timedRemoveWard(Handle:timer,any:id) {
+public Action:TimedRemoveWard(Handle:timer,any:id) {
 	RemoveWard(id);
 }
 
-
-
-GetBehaviorsLoaded() {
-	return totalBehaviorsLoaded;
-}
-
 GetBehaviorShortname(id,String:retstr[],maxlen){
-	new num=strcopy(retstr, maxlen, behaviorShortname[id]);
-	return num;
+	GetArrayString(g_hBehaviorShortname, id, retstr, maxlen);
 }
 
 GetBehaviorName(id,String:retstr[],maxlen){
-	new num=strcopy(retstr, maxlen, behaviorName[id]);
-	return num;
+	GetArrayString(g_hBehaviorName, id, retstr, maxlen);
 }
 
 GetBehaviorDesc(id,String:retstr[],maxlen){
-	new num=strcopy(retstr, maxlen, behaviorDescription[id]);
-	return num;
+	GetArrayString(g_hBehaviorDescription, id, retstr, maxlen);
 }
 
 bool:BehaviorExistsByShortname(String:shortname[]) {
-	new String:buffer[WARDSNAMELEN];
-	
-	new BehaviorsLoaded = GetBehaviorsLoaded();
-	for(new id=1;id<=BehaviorsLoaded;id++){
-		GetBehaviorShortname(id,buffer,sizeof(buffer));
-		if(StrEqual(shortname, buffer, false)){
-			return true;
-		}
+	if(FindStringInArray(g_hBehaviorShortname, shortname) != -1) {
+		return true;
 	}
 	return false;
 }
@@ -268,14 +274,6 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 		return oldid;
 	}
 	
-	if(totalBehaviorsLoaded+1==MAXWARDBEHAVIORS){ //make sure we didnt reach our behavior capacity limit
-		LogError("[War3] MAX WARD BEHAVIORS REACHED, CANNOT REGISTER %s %s",name,shortname);
-		return 0;
-	}
-	
-	totalBehaviorsLoaded++;
-	new id=totalBehaviorsLoaded;
-	
 	// Print a warning if a behavior name/shortname/description is truncated (exceeds max length)
 	if (strlen(name) > WARDNAMELEN) {
 		LogError("[War3] Ward Behavior (%s) name exceeds max length; truncated to %d characters",name,WARDNAMELEN);
@@ -286,84 +284,92 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 	if (strlen(desc) > WARDDESCLEN) {
 		LogError("[War3] Ward Behavior (%s) description exceeds max length; truncated to %d characters",desc,WARDDESCLEN);
 	}
-	
-	strcopy(behaviorName[id], WARDNAMELEN, name);
-	strcopy(behaviorShortname[id], WARDSNAMELEN, shortname);
-	strcopy(behaviorDescription[id], WARDDESCLEN, desc);
-	
-	return id;
+	PushArrayString(g_hBehaviorName, name);
+	PushArrayString(g_hBehaviorShortname, shortname);
+	return PushArrayString(g_hBehaviorDescription, desc);
 }
 
 GetWardBehaviorByShortname(String:shortname[])
 {
-	new String:buffer[WARDSNAMELEN];
-	
-	new BehaviorsLoaded =GetBehaviorsLoaded();
-	for(new id=0;id<=BehaviorsLoaded;id++){
-		GetBehaviorShortname(id,buffer,sizeof(buffer));
-		if(StrEqual(shortname, buffer, false)){
-			return id;
-		}
-	}
-	return -1;
+	return FindStringInArray(g_hBehaviorShortname, shortname);
 }
 
 public bool:RemoveWard(id)
 {
-	if (WardOwner[id] == 0)
+	if(GetArrayCell(g_hWardEnabled, id))
 	{
-		return false;
+		Call_StartForward(g_OnWardExpireHandle);
+		Call_PushCell(id);
+		Call_PushCell(GetArrayCell(g_hWardOwner,id));
+		Call_PushCell(GetArrayCell(g_hWardBehavior, id));
+		Call_Finish();
+		
+		g_iPlayerWardCount[GetArrayCell(g_hWardOwner,id)]--;
+		SetArrayCell(g_hWardEnabled,id, 0);
+		if (GetArrayCell(g_hWardTimer,id) != INVALID_HANDLE)
+		{
+			CloseHandle(GetArrayCell(g_hWardTimer,id));
+			SetArrayCell(g_hWardTimer, id, INVALID_HANDLE);
+		}
+		return true;
 	}
-	
-	Call_StartForward(g_OnWardExpireHandle);
-	Call_PushCell(id);
-	Call_PushCell(WardOwner[id]);
-	Call_PushCell(WardBehavior[id]);
-	Call_Finish();
-	
-	CurrentWardCount[WardOwner[id]]--;
-	WardOwner[id] = 0;
-	if (WardTimer[id] != INVALID_HANDLE)
-	{
-		CloseHandle(WardTimer[id]);
-	}
-	return true;
+	return false;
 }
 
 
 public RemoveWards(client)
 {
-	for(new i=0;i<MAXWARDS;i++)
+	for(new id=0;id<GetArraySize(g_hWardOwner);id++)
 	{
-		if(WardOwner[i]==client)
+		if(GetArrayCell(g_hWardOwner, id) ==client)
 		{
-			RemoveWard(i);
+			RemoveWard(id);
 		}
 	}
 }
 
 public OnWar3EventSpawn(client)
 {	
-	for(new i=0;i<MAXWARDS;i++)
+	RemoveWards(client);
+}
+public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
+{	
+	for(new i=0;i<GetArraySize(g_hWardOwner);i++)
 	{
-		if(WardOwner[i]==client)
-		{
-			RemoveWard(i);
-		}
+		RemoveWard(i);
 	}
 }
-
-public Action:wardPulse(Handle:timer,any:wardindex) {
-	new owner = WardOwner[wardindex];
+public Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast) 
+{
+	ClearArray(g_hWardOwner);
+	ClearArray(g_hWardRadius);
+	ClearArray(g_hWardLocation);
+	ClearArray(g_hWardDuration);
+	ClearArray(g_hWardTimer);
+	ClearArray(g_hWardSelfInflict);
+	ClearArray(g_hWardAffinity);
+	ClearArray(g_hWardInterval);
+	ClearArray(g_hWardBehavior);
+	ClearArray(g_hWardSkill);
+	ClearArray(g_hWardData);
+	ClearArray(g_hWardUseDefaultColors);
+	ClearArray(g_hWardColor2);
+	ClearArray(g_hWardColor3);
+	ClearArray(g_hWardEnabled);	
+}
+public Action:WardPulse(Handle:timer,any:id) {
+	new owner = GetArrayCell(g_hWardOwner, id);
 	
 	Call_StartForward(g_OnWardPulseHandle);
-	Call_PushCell(wardindex);
-	Call_PushCell(WardBehavior[wardindex]);
+	Call_PushCell(id);
+	Call_PushCell(GetArrayCell(g_hWardBehavior, id));
 	Call_Finish();
 	
 	new Float:start_pos[3];
-	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
-	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
+	new Float:vec[3];
+	GetArrayArray(g_hWardLocation, id, vec);
+	new Float:tempvec[3] = {0.0,0.0,WARDBELOW};
+	AddVectors(vec,tempvec,start_pos);
 	new Float:BeamXY[3];
 	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
 	new Float:BeamZ= BeamXY[2];
@@ -373,18 +379,18 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	
 	for(new i=1;i<=MaxClients;i++)
 	{
-		if(ValidPlayer(i,true)&&ValidPlayer(WardOwner[wardindex]))
+		if(ValidPlayer(i,true)&&ValidPlayer(owner))
 		{
-			if (i == WardOwner[wardindex]) {
-				if (!WardSelfInflict[wardindex]) {
+			if (i == owner) {
+				if (!bool:GetArrayCell(g_hWardSelfInflict, id)) {
 					continue;
 				}
-			} else if (GetClientTeam(i) == GetClientTeam(WardOwner[wardindex])) {
-				if (WardAffinity[wardindex] == ENEMIES || WardAffinity[wardindex] == SELF_ONLY) {
+			} else if (GetClientTeam(i) == GetClientTeam(owner)) {
+				if (GetArrayCell(g_hWardAffinity, id) == ENEMIES || GetArrayCell(g_hWardAffinity, id) == SELF_ONLY) {
 					continue;
 				}
 			} else {
-				if (WardAffinity[wardindex] == ALLIES || WardAffinity[wardindex] == SELF_ONLY) {
+				if (GetArrayCell(g_hWardAffinity, id) == ALLIES || GetArrayCell(g_hWardAffinity, id) == SELF_ONLY) {
 					continue;
 				}
 			}
@@ -392,16 +398,16 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 			GetClientAbsOrigin(i,VictimPos);
 			tempZ=VictimPos[2];
 			VictimPos[2]=0.0; //no Z
-			if(GetVectorDistance(BeamXY,VictimPos) < WardRadius[wardindex]) ////ward RADIUS
+			if(GetVectorDistance(BeamXY,VictimPos) < GetArrayCell(g_hWardRadius, id)) ////ward RADIUS
 			{
 				// now compare z
 				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
 				{
 					Call_StartForward(g_OnWardTriggerHandle);
-					Call_PushCell(wardindex);
+					Call_PushCell(id);
 					Call_PushCell(i);
 					Call_PushCell(owner);
-					Call_PushCell(WardBehavior[i]);
+					Call_PushCell(GetArrayCell(g_hWardBehavior, id));
 					Call_Finish();
 				}
 			}
@@ -409,94 +415,5 @@ public Action:wardPulse(Handle:timer,any:wardindex) {
 	}
 }
 
-/*
-public WardEffect(wardindex) {
-	
-	new owner = WardOwner[wardindex];
-	new beamcolor[4];
-	if(WardType[wardindex]==true)
-	{
-		beamcolor={0,255,0,160};
-	} else if(GetClientTeam(owner)==3)
-	{
-		beamcolor={0,0,255,160};
-	} else {
-		beamcolor={255,0,0,160};
-	}
-	
-	
-	new Float:start_pos[3];
-	new Float:end_pos[3];
-	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
-	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
-	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
-	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
-	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),WardInterval[wardindex],70.0,70.0,0,30.0,beamcolor,10);
-	TE_SendToAll()
-	
-	new Float:StartRadius = WardRadius[wardindex]/2.0;
-	new Speed = RoundToFloor((WardRadius[wardindex]-StartRadius)/WardInterval[wardindex])
-	
-	TE_SetupBeamRingPoint(WardLocation[wardindex],StartRadius,float(WardRadius[wardindex]),BeamSprite,HaloSprite,0,1,WardInterval[wardindex],20.0,1.5,beamcolor,Speed,0);
-	TE_SendToAll();
-	new Float:BeamXY[3];
-	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
-	new Float:BeamZ= BeamXY[2];
-	BeamXY[2]=0.0;
-	new Float:VictimPos[3];
-	new Float:tempZ;
-	
-	for(new i=1;i<=MaxClients;i++)
-	{
-		if(ValidPlayer(i,true))
-		{
-			if (i == WardOwner[wardindex]) {
-				if (!WardSelfInflict[wardindex]) {
-					continue;
-				}
-			} else if (GetClientTeam(i) == GetClientTeam(WardOwner[wardindex])) {
-				if (WardAffinity[wardindex] == ENEMIES || WardAffinity[wardindex] == SELF_ONLY) {
-					continue;
-				}
-			} else {
-				if (WardAffinity[wardindex] == ALLIES || WardAffinity[wardindex] == SELF_ONLY) {
-					continue;
-				}
-			}
-			
-			GetClientAbsOrigin(i,VictimPos);
-			tempZ=VictimPos[2];
-			VictimPos[2]=0.0; //no Z
-			if(GetVectorDistance(BeamXY,VictimPos) < WardRadius[wardindex]) ////ward RADIUS
-			{
-				// now compare z
-				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
-				{
-					beamcolor[3]=20;
-					if(WardType[wardindex]==true)
-					{
-						//Heal!!
-						new cur_hp=GetClientHealth(i);
-						new new_hp=cur_hp+WardDamage[owner];
-						new max_hp=War3_GetMaxHP(i);
-						if(new_hp>max_hp)	new_hp=max_hp;
-						if(cur_hp<new_hp)
-						{
-							War3_HealToMaxHP(i,WardDamage[wardindex]);
-							VictimPos[i]+=65.0;
-							War3_TF_ParticleToClient(0, GetClientTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
-						}
-					} else {
-						//Damage! !
-						War3_DealDamage(i,WardDamage[wardindex],owner,_,"weapon_wards");
-						VictimPos[i]+=65.0;
-						War3_TF_ParticleToClient(0, GetClientTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
-					}
-				}
-			}
-		}
-	}
-}
-*/
 
 

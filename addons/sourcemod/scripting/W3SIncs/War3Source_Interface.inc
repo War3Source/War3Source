@@ -17,6 +17,7 @@
 #include "W3SIncs/colors"
 #include "W3SIncs/aura"
 #include "W3SIncs/War3Source_Effects"
+#include "W3SIncs/wards"
 //sh include is at the end of this file
 
 
@@ -1653,80 +1654,6 @@ native War3_SuicideBomber(client, Float:location[], Float:damage, race_skillid, 
 
 //disabled due to human race requirements..for now
 //native bool:War3_Teleport(client, Float:distance);
-
-/**
- * Creates a new ward behavior. This will allow us to make ward effects modular, so people
- * can make their own ward types! Currently I don't know what I'm going to do with the name
- * and description fields, but there is definitely room for expansion of features with this
- * model.
- *
- * @param shortname: short name for the behavior
- * @param name: full name for the behavior (unused right now)
- * @param desc: description of ward behavior (unused right now)
- * @return ward behavior ID or 0 if ward behavior limit reached
- */
-native _:War3_CreateWardBehavior(String:shortname[],String:name[],String:desc[]);
-
-/**
- * Gets the number of ward behaviors loaded.
- *
- * @return number of ward behaviors loaded
- */
-native _:War3_GetWardBehaviorsLoaded();
-native War3_GetWardBehaviorName(id,String:retstr[],maxlen);
-native War3_GetWardBehaviorShortname(id,String:retstr[],maxlen);
-native War3_GetWardBehaviorDesc(id,String:retstr[],maxlen);
-
-/**
- * Gets the ID of the ward behavior given its shortname.
- *
- * @param shortname: short name for the behavior
- * @return ward behavior ID or -1 if it does not exist
- */
-native _:War3_GetWardBehaviorByShortname(String:shortname[]);
-
-/**
- * Creates a ward.
- * 
- * Odd/special cases:
- * If a ward is created with selfInflict=false, but affinity=SELF_ONLY, you get a ward that does nothing, essentially.
- * If a ward is created with a negative/zero duration, it will last until map change or until it is removed manually.
- * 
- * @param client: owner id
- * @param location: ward location
- * @param radius: ward effect radius
- * @param duration: ward duration. If negative or zero, duration is infinite (until map change). Don't forget to remove the ward!
- * @param pulseInterval: time between effect triggerings
- * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
- * @param data: Array of data to pass to the ward. This is used by the ward behavior for things like damage per skill level.
- * @param selfInflict: whether or not this ward applies effects to its owner
- * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
- * @return ID for the ward created or -1 if the ward was not created
- */
-native _:War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], any:data[]= {0}, bool:selfInflict=false, War3WardAffinity:affinity=ENEMIES);
-
-/**
- * Gets a specific ward's behavior.
- *
- * Important: This refers to a specific instance of a ward. That is, if you know the index of a
- * ward that has been placed inside the game, this will tell you what its behavior ID is.
- *
- * @param wardindex: ward ID
- * @return Ward behavior ID or -1 if the ward does not exist
- */
-native _:War3_GetWardBehavior(wardindex);
-native War3_GetWardLocation(wardindex, Float:location[]);
-native Float:War3_GetWardInterval(wardindex);
-native _:War3_GetWardRadius(wardindex);
-native _:War3_GetWardOwner(wardindex);
-native War3_GetWardData(wardindex, any:data[]);
-
-/**
- * Removes a ward given an id
- * @param wardindex: ward id
- * @return True if the ward was removed. False otherwise
- */
-native bool:War3_RemoveWard(wardindex);
 
 native War3_StringMath(String:equation[]);
 
