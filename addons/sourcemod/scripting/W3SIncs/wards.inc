@@ -55,8 +55,8 @@ native War3_GetWardBehaviorByShortname(String:shortname[]);
  * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
  * @param selfInflict: whether or not this ward applies effects to its owner
  * @param useDefaultColors: Chooses whether to use the behaviour's built-in colors or substitute your own
- * @param customColor2: Custom color to use on team 2 (counter-terrorists in CS:S)
- * @param customColor3: Custom color to use on team 3 (terrorists in CS:S)
+ * @param customColor2: Custom color to use on team 2 (terrorists in CS:S)
+ * @param customColor3: Custom color to use on team 3 (counter-terrorists in CS:S)
  * @return ID for the ward created or -1 if the ward was not created
  */
 native War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], skillNum, any:data[], War3WardAffinity:affinity=ENEMIES, bool:selfInflict=false, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
@@ -88,3 +88,16 @@ native War3_GetWardColor2(wardindex, color[]);
 native War3_GetWardColor3(wardindex, color[]);
 native War3_GetWardSkill(wardindex);
 native War3_GetWardCount(client);
+
+
+//Fired every time a ward is created
+forward OnWardCreated(wardindex, behaviorID);
+
+//Fired every time a ward "pulses"
+forward OnWardPulse(wardindex, behaviorID);
+
+//Fired every time a ward "pulses" when a valid target is in range
+forward OnWardTrigger(wardindex, victim, owner, behaviorID);
+
+//Fired every time a ward is removed
+forward OnWardExpire(wardindex, owner, behaviorID);

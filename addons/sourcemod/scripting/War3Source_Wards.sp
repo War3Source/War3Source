@@ -45,20 +45,20 @@ public OnWardPulse(wardindex, behavior) {
 	new beamcolor[4];
 	if(War3_GetWardUseDefaultColor(wardindex)) {
 		if(behavior == BehaviorIndex[DAMAGE]) {
-			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
 				beamcolor = {0,0,255,255};
 			} else {
 				beamcolor = {255,0,0,255};
 			}
 		} else {
-			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+			if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
 				beamcolor = {0,255,128,255};
 			} else {
 				beamcolor = {128,255,0,255};
 			}
 		}
 	} else {
-		if(GetClientTeam(War3_GetWardOwner(wardindex)) == 2) {
+		if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
 			War3_GetWardColor2(wardindex, beamcolor);
 		} else {
 			War3_GetWardColor3(wardindex, beamcolor);
@@ -95,7 +95,6 @@ public OnWardTrigger(wardindex,victim,owner,behavior) {
 	
 	War3_GetWardData(wardindex,data);
 	GetClientAbsOrigin(victim,VictimPos);
-
 	if (behavior==BehaviorIndex[DAMAGE]) {
 		new damage = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
 		

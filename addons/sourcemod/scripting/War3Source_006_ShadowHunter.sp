@@ -166,8 +166,6 @@ public OnUltimateCommand(client,race,bool:pressed)
 	}
 }
 
-
-
 public Action:EndVoodoo(Handle:timer,any:client)
 {
 	bVoodoo[client]=false;
@@ -222,7 +220,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
 					}
 					new Float:location[3];
 					GetClientAbsOrigin(client, location);
-					War3_CreateWard(client, location, 60, 300.0, 0.17, "damage", SKILL_WARD, WardDamage);
+					War3_CreateWard(client, location, 60, 300.0, 0.5, "damage", SKILL_WARD, WardDamage);
 					W3MsgCreatedWard(client,War3_GetWardCount(client),MaximumWards[skill_level]);
 				}
 			}
@@ -260,8 +258,6 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 						GetClientEyePosition(victim, pos);
 						pos[2] += 4.0;
 						War3_TF_ParticleToClient(0, "miss_text", pos); //to the attacker at the enemy pos
-						
-						//War3_TF_ParticleToClient(0, "healthgained_blu", pos);
 					}
 					War3_DamageModPercent(0.0);
 				}
