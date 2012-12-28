@@ -63,6 +63,7 @@ public OnPluginStart()
 	g_hBehaviorName = CreateArray(WARDNAMELEN);
 	g_hBehaviorShortname = CreateArray(WARDSNAMELEN);
 	g_hBehaviorDescription = CreateArray(WARDDESCLEN);
+	HookEvent("round_end", Event_RoundEnd);
 }
 public OnClientConnected(client) {
 	g_iPlayerWardCount[client] = 0;
@@ -92,8 +93,12 @@ public bool:InitNativesForwards()
 	CreateNative("War3_GetWardColor2", Native_War3_GetWardColor2);
 	CreateNative("War3_GetWardColor3", Native_War3_GetWardColor3);
 	CreateNative("War3_GetWardSkill", Native_War3_GetWardSkill);
+	CreateNative("War3_GetWardCount", Native_War3_GetWardCount);
 	CreateNative("War3_RemoveWard", Native_War3_RemoveWard);
 	return true;
+}
+public Native_War3_GetWardCount(Handle:plugin, numParams) {
+	return g_iPlayerWardCount[GetNativeCell(1)];
 }
 public Native_War3_GetWardUseDefaultColor(Handle:plugin, numParams) {
 	return bool:GetArrayCell(g_hWardUseDefaultColors, GetNativeCell(1));
@@ -338,9 +343,6 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 	{
 		RemoveWard(i);
 	}
-}
-public Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast) 
-{
 	ClearArray(g_hWardOwner);
 	ClearArray(g_hWardRadius);
 	ClearArray(g_hWardLocation);

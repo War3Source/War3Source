@@ -87,3 +87,4 @@ native bool:War3_GetWardUseDefaultColor(wardindex);
 native War3_GetWardColor2(wardindex, color[]);
 native War3_GetWardColor3(wardindex, color[]);
 native War3_GetWardSkill(wardindex);
+native War3_GetWardCount(client);

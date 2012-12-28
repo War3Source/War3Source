@@ -25,8 +25,6 @@ new bool:bBeenHit[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // [caster][victim] been 
 
 
 new MyWeaponsOffset,AmmoOffset;
-//Clip1Offset
-
 
 // Chance/Data Arrays
 new Float:ReincarnationChance[5]={0.0,0.15,0.37,0.59,0.8};
@@ -42,25 +40,14 @@ new Float:WindWalkReinvisTime[MAXPLAYERSCUSTOM]; //when can he invis again?
 
 new Handle:hCvarDisableCritWithGloves;
 
-// Healing Ward Specific
-#define MAXWARDS 64*4 //on map LOL
-#define WARDRADIUS 70
-#define WARDHEAL 4
-#define WARDBELOW -2.0 // player is 60 units tall about (6 feet)
-#define WARDABOVE 160.0
-new CurrentWardCount[MAXPLAYERSCUSTOM];
-new WardStartingArr[]={0,1,2,3,4}; 
-new Float:WardLocation[MAXWARDS][3]; 
-new WardOwner[MAXWARDS];
+new MaximumWards[]={0,1,2,3,4}; 
+new HealAmount[]={0,1,2,3,5};
 
-//new String:lightningSound[]="war3source/lightningbolt.wav";
 new String:lightningSound[256]; //="war3source/lightningbolt.mp3";
 
 new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_RECARN_WARD,ULT_LIGHTNING;
 // Effects
 new BeamSprite,HaloSprite,BloodSpray,BloodDrop; 
-
-new bool:flashedscreen[MAXPLAYERSCUSTOM];
 
 public Plugin:myinfo = 
 {
@@ -81,9 +68,7 @@ public OnPluginStart()
 	hCvarDisableCritWithGloves=CreateConVar("war3_orc_nocritgloves","1","Disable nade crit with gloves");
 	
 	MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
-//	Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
 	AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
-	CreateTimer(1.0,CalcWards,_,TIMER_REPEAT);
 	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 	
 	LoadTranslations("w3s.race.orc.phrases");
@@ -102,14 +87,6 @@ public OnWar3LoadRaceOrItemOrdered(num)
 			strcopy(skill1_name,sizeof(skill1_name),"WindWalker");
 			strcopy(skill2_name,sizeof(skill2_name),"HealingWard");
 		}
-		
-
-		/*thisRaceID=War3_CreateNewRace("Orcish Horde","orc");
-		SKILL_CRIT=War3_AddRaceSkill(thisRaceID,"Critical Strike","Chance of doing critical damage",false,4);
-		SKILL_NADE_INVIS=War3_AddRaceSkill(thisRaceID,skill1_name,skill1_desc,false,4);
-		SKILL_RECARN_WARD=War3_AddRaceSkill(thisRaceID,skill2_name,skill2_desc,false,4);
-		ULT_LIGHTNING=War3_AddRaceSkill(thisRaceID,"Chain Lightning","Discharges a bolt of lightning that jumps\nnearby enemies 150-300 units in range,\ndealing each damage",true,4); //TEST
-		*/
 		
 		thisRaceID=War3_CreateNewRaceT("orc");
 		SKILL_CRIT=War3_AddRaceSkillT(thisRaceID,"CriticalStrike",false,4);
@@ -258,12 +235,13 @@ public OnAbilityCommand(client,ability,bool:pressed)
 		new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_RECARN_WARD);
 		if(skill_level>0&&!Silenced(client))
 		{
-			if(CurrentWardCount[client]<WardStartingArr[skill_level])
+			if(War3_GetWardCount(client) < MaximumWards[skill_level])
 			{
-				CreateWard(client);
-				CurrentWardCount[client]++;
+				new Float:location[3];
+				GetClientAbsOrigin(client, location);
+				War3_CreateWard(client, location, 70, 300.0, 1.0, "heal", SKILL_RECARN_WARD, HealAmount, ALLIES);
 				
-				W3MsgCreatedWard(client,CurrentWardCount[client],WardStartingArr[skill_level]);
+				W3MsgCreatedWard(client,War3_GetWardCount(client),MaximumWards[skill_level]);
 			}
 			else
 			{
@@ -305,7 +283,6 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 public OnWar3EventSpawn(client)
 {
-	RemoveWards(client);
 	for(new x=1;x<=MaxClients;x++)
 		bBeenHit[client][x]=false;
 	
@@ -316,7 +293,6 @@ public OnWar3EventSpawn(client)
 		{
 			new Float:alpha=WindWalkAlpha[skill_wind];
 			War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
-			//War3_ChatMessage(client,"You fade %s into the backdrop.",(skill_wind==1)?"slightly":(skill_wind==2)?"well":(skill_wind==3)?"greatly":"dramatically");
 			War3_SetBuff(client,bInvisibilityDenySkill,thisRaceID,false);
 		}
 	}
@@ -551,114 +527,6 @@ public Action:DeciSecondTimer(Handle:h)
 				{
 					War3_SetBuff(x,bInvisibilityDenySkill,thisRaceID,false);//can invis again
 					WindWalkReinvisTime[x]=0.0;
-				}
-			}
-		}
-	}
-}
-
-// Wards
-public CreateWard(client)
-{
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		if(WardOwner[i]==0)
-		{
-			WardOwner[i]=client;
-			GetClientAbsOrigin(client,WardLocation[i]);
-			break;
-		}
-	}
-}
-
-public RemoveWards(client)
-{
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		if(WardOwner[i]==client)
-		{
-			WardOwner[i]=0;
-		}
-	}
-	CurrentWardCount[client]=0;
-}
-
-public Action:CalcWards(Handle:timer,any:userid)
-{
-	for(new i=0;i<=MaxClients;i++){
-		flashedscreen[i]=false;
-	}
-	new client;
-	for(new i=0;i<MAXWARDS;i++)
-	{
-		
-		if(WardOwner[i]!=0)
-		{
-			client=WardOwner[i];
-			if(!ValidPlayer(client,true))
-			{
-				WardOwner[i]=0; //he's dead, so no more wards for him
-				--CurrentWardCount[client];
-			}
-			else
-			{
-				WardEffectAndHeal(client,i);
-			}
-		}
-	}
-}
-//healing wards
-public WardEffectAndHeal(owner,wardindex)
-{
-	new beamcolor[]={0,255,0,150};
-	new Float:start_pos[3];
-	new Float:end_pos[3];
-	new Float:tempVec1[]={0.0,0.0,WARDBELOW};
-	new Float:tempVec2[]={0.0,0.0,WARDABOVE};
-	AddVectors(WardLocation[wardindex],tempVec1,start_pos);
-	AddVectors(WardLocation[wardindex],tempVec2,end_pos);
-	TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),1.2,float(WARDRADIUS),float(WARDRADIUS),0,30.0,beamcolor,10);
-	TE_SendToAll();
-	new Float:BeamXY[3];
-	for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
-	new Float:BeamZ= BeamXY[2];
-	BeamXY[2]=0.0;
-	new Float:VictimPos[3];
-	new Float:tempZ;
-
-	for(new i=1;i<=MaxClients;i++)
-	{
-		if(ValidPlayer(i,true))
-		{
-			GetClientAbsOrigin(i,VictimPos);
-			tempZ=VictimPos[2];
-			VictimPos[2]=0.0; //no Z
-			if(GetVectorDistance(BeamXY,VictimPos) < WARDRADIUS) ////ward RADIUS
-			{
-				// now compare z
-				if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
-				{
-					//Heal!!
-					new DamageScreen[4];
-					DamageScreen[0]=beamcolor[0];
-					DamageScreen[1]=beamcolor[1];
-					DamageScreen[2]=beamcolor[2];
-					DamageScreen[3]=20; //alpha
-					new cur_hp=GetClientHealth(i);
-					new new_hp=cur_hp+WARDHEAL;
-					new max_hp=War3_GetMaxHP(i);
-					if(new_hp>max_hp)	new_hp=max_hp;
-					if(cur_hp<new_hp)
-					{
-						if(!flashedscreen[i]){
-							flashedscreen[i]=true;
-							W3FlashScreen(i,DamageScreen);
-						}
-						//SetEntityZHealth(i,new_hp);
-						War3_HealToMaxHP(i,WARDHEAL);
-						VictimPos[2]+=65.0;
-						War3_TF_ParticleToClient(0, GetApparentTeam(i)==2?"healthgained_red":"healthgained_blu", VictimPos);
-					}
 				}
 			}
 		}
