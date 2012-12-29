@@ -187,7 +187,7 @@ stock GetNewRacesInCat(client,String:category[]) {
 	return amount;
 }
 
-War3Source_ChangeRaceMenu(client)
+War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
 {
 	if(W3IsPlayerXPLoaded(client))
 	{
@@ -201,7 +201,7 @@ War3Source_ChangeRaceMenu(client)
 
 		SetTrans(client);
 		decl Handle:crMenu;
-		if(IsCategorized()) {
+		if( IsCategorized() && !forceUncategorized ) {
 			//Revan: the long requested changerace categorie feature
 			//TODO:
 			//- translation support
@@ -218,6 +218,8 @@ War3Source_ChangeRaceMenu(client)
 			}
 			SetMenuTitle(crMenu,"%s\n \n",title);
 			decl String:strCat[64];
+			//Prepend 'All Races' entry.
+			AddMenuItem(crMenu,"-1","All Races");
 			//At first we gonna add the categories
 			for(new i=1;i<CatCount;i++) {
 				W3GetCategory(i,strCat,sizeof(strCat));
@@ -328,6 +330,10 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 				SetTrans(client);
 				new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
 				GetMenuItem(menu, selection, sItem, sizeof(sItem));
+				if( StringToInt(sItem) == -1 ) {
+					War3Source_ChangeRaceMenu(client,true);			
+				}
+
 				new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
 				SetMenuExitButton(crMenu,true);
 				Format(title,sizeof(title),"%T","[War3Source] Select your desired race",GetTrans());
