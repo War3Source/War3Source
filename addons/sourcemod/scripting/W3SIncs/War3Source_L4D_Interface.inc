@@ -84,6 +84,30 @@ native bool:War3_L4D_HasProgressBar(client);
 forward HasFinishedProgress(client, progress_id);
 forward HasAbortedProgress(client, progress_id);
 
+stock bool:War3_SurvivorHittingZombie(victim, attacker)
+{
+    if ( ValidPlayer(attacker) && GetClientTeam(attacker) == TEAM_SURVIVORS &&
+        ( War3_IsL4DZombieEntity(victim) || (ValidPlayer(victim) && GetClientTeam(victim) == TEAM_INFECTED) )  
+       )
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+stock bool:War3_ZombieHittingSurvivor(victim, attacker)
+{
+    if ( ValidPlayer(victim) && GetClientTeam(victim) == TEAM_SURVIVORS &&
+        ( War3_IsL4DZombieEntity(attacker) || (ValidPlayer(attacker) && GetClientTeam(attacker) == TEAM_INFECTED) )  
+       )
+    {
+        return true;
+    }
+    
+    return false;
+}
+
 //  * type == 0: Fire
 //  * type != 0: Explosion
 native War3_L4D_Explode(attacker, Float:pos[3], type);
@@ -106,7 +130,7 @@ stock bool:War3_IsL4DZombieEntity(iEntity) {
 	return false;
 }
 
-// Finds all zombies, common and uncommon
+// returns true for both common and uncommon infected
 stock bool:War3_IsCommonInfected(iEntity)
 {
 	if(iEntity > 0 && IsValidEntity(iEntity) && IsValidEdict(iEntity))
@@ -170,6 +194,24 @@ stock SetSurvivorTempHealth(client, Float:hp)
 {
 	SetEntPropFloat(client, Prop_Send, "m_healthBufferTime", GetGameTime());
 	SetEntPropFloat(client, Prop_Send, "m_healthBuffer", hp);
+}
+
+stock GetAmountOfTanks()
+{
+	new amount;
+	decl String:modelName[100];
+	for(new i=1; i <= MaxClients; i++) 
+	{
+		if(ValidPlayer(i, true) && GetClientTeam(i) == TEAM_INFECTED) 
+		{
+			GetClientModel(i, modelName, sizeof(modelName));
+			if (StrContains(modelName, "hulk", false) != -1) {
+				amount++;
+			}
+		}
+	}
+	
+	return amount;
 }
 
 stock GetMaxMagSize(const String:weapon[])

@@ -253,7 +253,6 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
 	new rewarded_players = 0;
 	new reward_multiplier = 0;
 	new addxp = 0;
-	decl String:PlayerName[64];
 	
 	// Reward them
 	while (rewarded_players < iAmountOfPlayers)
@@ -280,12 +279,8 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
 					{
 						place--;
 					}
-					
-					GetClientName(client, PlayerName, sizeof(PlayerName)); 
-					
-					//War3_ChatMessage(0, "You are on place %i for %s!", place, netprop);
+				
 					reward_multiplier = iAmountOfPlayers + 1 - place;
-					//War3_ChatMessage(client, "Your multiplier is %i", reward_multiplier);
 					addxp = RoundToCeil((iAmount * reward_multiplier) * final_multiplier)
 					
 					if (StrEqual(netprop, "m_checkpointZombieKills"))
@@ -295,7 +290,6 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
 					else if (StrEqual(netprop, "m_checkpointDamageToWitch"))
 						W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, "Witch damage");
 										
-					
 					rewarded_players++;
 					previous_amount = iAmount;
 				}
