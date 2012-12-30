@@ -46,12 +46,12 @@ public OnPluginStart()
 	g_hMaximumBet = CreateConVar("sm_goldbets_maximum","40","Maximum bet value");
 	g_hMinimumBet = CreateConVar("sm_goldbets_minimum","5","Minimum bet value");
 	g_hBetRatio = CreateConVar("sm_goldbets_betratio","5","Defines the amount you can win per gold you bet");
+
+	g_bEnabled = GetConVarBool(g_hSmBet);
 	HookConVarChange(g_hSmBet, ConVarChange_SmBet);
 	
 	RegConsoleCmd("say", Command_Say);
 	RegConsoleCmd("say_team", Command_Say);	
-	
-	g_bEnabled = true;
 	
 	CreateTimer(5.0, Timer_DelayedHooks);
 	
