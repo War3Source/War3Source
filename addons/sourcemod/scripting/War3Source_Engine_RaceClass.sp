@@ -484,14 +484,14 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
 	new Handle:genericSkillData=Handle:GetNativeCell(3);
 	//start from 1
 	for(new i=1;i<=genericskillcount;i++){
-		DP("1 %s %s ]",genskillname,GenericSkill[i][cskillname]);
+		//DP("1 %s %s ]",genskillname,GenericSkill[i][cskillname]);
 		if(StrEqual(genskillname,GenericSkill[i][cskillname])){
-			DP("2");
+			//DP("2");
 			if(raceid>0){
 			
 				
 			
-				DP("3");
+				//DP("3");
 				new String:raceskillname[2001];
 				new String:raceskilldesc[2001];
 				GetNativeString(4,raceskillname,sizeof(raceskillname));
@@ -557,7 +557,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
 			}
 		}
 	}
-	W3LogError("NO GENREIC SKILL FOUND");
+	W3LogError("NO GENERIC SKILL FOUND");
 	return 0;
 }
 public NW3_GenericSkillLevel(Handle:plugin,numParams){

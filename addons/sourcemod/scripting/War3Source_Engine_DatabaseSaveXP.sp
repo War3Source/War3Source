@@ -37,7 +37,6 @@ public Plugin:myinfo=
 
 public bool:InitNativesForwards()
 {
-	PrintToServer("W3 MODE");
 	CreateNative("W3SaveXP" ,NW3SaveXP)
 	CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
 
