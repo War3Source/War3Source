@@ -330,7 +330,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 				SetTrans(client);
 				new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
 				GetMenuItem(menu, selection, sItem, sizeof(sItem));
-				if( StringToInt(sItem) == -1 ) {
+				if( StringToInt(sItem) == -1 || selection == 0 ) {
 					War3Source_ChangeRaceMenu(client,true);			
 				}
 
@@ -413,16 +413,18 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
-			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
-			
+
 			if(race_selected==-1) {
 				War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
 				return;
-			}			
-			else if(allowChooseRace==false){
-				War3Source_ChangeRaceMenu(client);//derpy hooves
 			}
 			
+
+			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyablena	
+			
+			if(allowChooseRace==false){
+				War3Source_ChangeRaceMenu(client);//derpy hooves
+			}
 			
 		/* MOVED TO RESTRICT ENGINE
 			if(allowChooseRace){
