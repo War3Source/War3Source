@@ -140,7 +140,6 @@ enum W3EVENT
 	DatabaseConnected,
 	
 	DoShowSHMenu,
-	DoShowItems2InfoMenu,//MOVE
 	OnBuffChanged, //a buff has changed
 	OnAuraCalculationFinished, //this is after all the OnW3PlayerAuraStateChanged have been sent
 	DoShowPlayerItemsOwnTarget, ///EventArg1 = target = the person whos items is shown, client=SHOW TO

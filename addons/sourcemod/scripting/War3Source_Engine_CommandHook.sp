@@ -43,7 +43,6 @@ public OnPluginStart()
 		RegConsoleCmd("ultimate",War3Source_OldWCSCommand);
 
 		RegConsoleCmd("shopmenu",War3Source_CmdShopmenu);
-		RegConsoleCmd("shopmenu2",War3Source_CmdShopmenu2);
 	}
 }
 
@@ -132,11 +131,6 @@ public Action:War3Source_SayCommand(client,args)
 	else if(CommandCheck(arg1,"itemsinfo")||CommandCheck(arg1,"iteminfo"))
 	{
 		W3CreateEvent(DoShowItemsInfoMenu,client);
-		return returnblocking;
-	}
-	else if(CommandCheck(arg1,"itemsinfo2"))
-	{
-		W3CreateEvent(DoShowItems2InfoMenu,client);
 		return returnblocking;
 	}
 	else if(CommandCheckStartsWith(arg1,"playerinfo"))
