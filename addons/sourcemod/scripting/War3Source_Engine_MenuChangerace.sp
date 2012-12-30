@@ -72,9 +72,9 @@ public Action:Command_ReloadCats(args) {
 
 public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	if(GetEventInt(event,"userid")>0)
+	if(GetEventInt(event,"userid") > 0)
 	{
-		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		new client = GetClientOfUserId(GetEventInt(event, "userid"));
 		if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
 		{
 			bStartingArea[client] = true;
@@ -85,7 +85,13 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
 			}
 			else 
 			{
-				W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here by typing \"changerace\"");
+				decl String:sGameMode[16];
+				
+				GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+				if (!StrEqual(sGameMode, "survival", false))
+				{
+					W3Hint(client, HINT_LOWEST, 1.0, "You can change your race here by typing \"changerace\"");
+				}
 			}
 		}
 	}
@@ -93,12 +99,18 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
 
 public War3Source_LeaveCheckEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	if(GetEventInt(event,"userid")>0)
+	if(GetEventInt(event,"userid") > 0)
 	{
-		new client = GetClientOfUserId(GetEventInt(event,"userid"));
+		new client = GetClientOfUserId(GetEventInt(event, "userid"));
 		if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
 		{
-			W3Hint(client, HINT_LOWEST, 1.0, "You will not be able to change races during the map.");
+			decl String:sGameMode[16];
+			
+			GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+			if (!StrEqual(sGameMode, "survival", false))
+			{
+				W3Hint(client, HINT_LOWEST, 1.0, "You will not be able to change races during the map.");
+			}
 			bStartingArea[client] = false;
 		}
 	}
@@ -413,18 +425,17 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 			new SelectionStyle;
 			GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
 			new race_selected=StringToInt(SelectionInfo);
-
+			
 			if(race_selected==-1) {
 				War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
 				return;
 			}
-			
 
-			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyablena	
-			
+			new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable			
 			if(allowChooseRace==false){
 				War3Source_ChangeRaceMenu(client);//derpy hooves
 			}
+			
 			
 		/* MOVED TO RESTRICT ENGINE
 			if(allowChooseRace){
@@ -533,11 +544,14 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 							decl String:sGameMode[16];
 							
 							GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
-							if (StrEqual(sGameMode, "survival", false) && !bSurvivalStarted)
+							if (StrEqual(sGameMode, "survival", false))
 							{
-								W3SetPendingRace(client,-1);
-								War3_SetRace(client,race_selected);
-								W3DoLevelCheck(client);
+								if (!bSurvivalStarted)
+								{
+									W3SetPendingRace(client,-1);
+									War3_SetRace(client,race_selected);
+									W3DoLevelCheck(client);
+								}
 							}
 							else if (bStartingArea[client])
 							{
