@@ -109,9 +109,6 @@ public W3SetForwarededVar(index,value) {
 	//DP("forwarded %d %d",index,value);
 	W3ForwarededVars[index]=value;
 }
-stock EXT() {
-	return W3ForwarededVars[EXTAvailable];
-}
 
 //INTERFACE ONLY VARIABLES, use for determining game type
 stock tValveGame;
@@ -129,7 +126,7 @@ stock ValveGameEnum:War3_GetGame() {
 
 //Do not manually call this, this determines the game mode and is called internally in the API
 stock DetermineGameMode() {
-	//DETERMIE GAME MODE
+	// DETERMINE GAME MODE
 #if defined WAR3MAIN
 	PrintToServer("[SH] READING shsourcemode.cfg trying to find 'shsource' in the file");
 #endif
@@ -340,23 +337,6 @@ stock GlobalOptionalNatives() {
 	MarkNativeAsOptional("W3GetItemsLoaded");
 	MarkNativeAsOptional("W3IsItemDisabledGlobal");
 	MarkNativeAsOptional("W3IsItemDisabledForRace");
-	MarkNativeAsOptional("War3_CreateShopItem2");
-	MarkNativeAsOptional("War3_CreateShopItem2T");
-	MarkNativeAsOptional("War3_SetItem2Property");
-	MarkNativeAsOptional("War3_GetItem2Property");
-	MarkNativeAsOptional("War3_GetItem2IdByShortname");
-	MarkNativeAsOptional("W3CreateShopItem2");
-	MarkNativeAsOptional("W3GetItem2Name");
-	MarkNativeAsOptional("W3GetItem2Shortname");
-	MarkNativeAsOptional("W3GetItem2Desc");
-	MarkNativeAsOptional("W3GetItem2Cost");
-	MarkNativeAsOptional("W3GetItem2Order");
-	MarkNativeAsOptional("W3Item2HasFlag");
-	MarkNativeAsOptional("W3GetItem2Catagory");
-	MarkNativeAsOptional("W3GetItems2LoadedEXT");
-	MarkNativeAsOptional("W3IsItem2DisabledGlobal");
-	MarkNativeAsOptional("W3IsItem2DisabledForRace");
-	MarkNativeAsOptional("W3SaveItem2ExpireTime");
 	MarkNativeAsOptional("War3_CreateHelpCommand");
 	MarkNativeAsOptional("W3GetLevelsSpent");
 	MarkNativeAsOptional("W3ClearSkillLevels");
@@ -366,11 +346,7 @@ stock GlobalOptionalNatives() {
 	MarkNativeAsOptional("W3GetMaxGold");
 	MarkNativeAsOptional("War3_RestoreItemsFromDeath");
 	MarkNativeAsOptional("War3_GetOwnsItem");
-	MarkNativeAsOptional("War3_GetOwnsItem2");
-	MarkNativeAsOptional("W3GetItem2ExpireTime");
-	MarkNativeAsOptional("W3SetItem2ExpireTime");
 	MarkNativeAsOptional("War3_SetOwnsItem");
-	MarkNativeAsOptional("War3_SetOwnsItem2");
 	MarkNativeAsOptional("War3_GetTargetInViewCone");
 	MarkNativeAsOptional("W3LOS");
 	MarkNativeAsOptional("War3_DealDamage");
@@ -406,7 +382,6 @@ stock GlobalOptionalNatives() {
 	MarkNativeAsOptional("War3_PrintSkillIsNotReady");
 	MarkNativeAsOptional("War3_SetBuff");
 	MarkNativeAsOptional("War3_SetBuffItem");
-	MarkNativeAsOptional("War3_SetBuffItem2");
 	MarkNativeAsOptional("W3ApplyBuffSimple");
 	MarkNativeAsOptional("W3ResetBuffRace");
 	MarkNativeAsOptional("W3ResetAllBuffRace");
@@ -466,11 +441,6 @@ stock GlobalOptionalNatives() {
 	MarkNativeAsOptional("CreateWar3GlobalError");
 	MarkNativeAsOptional("W3CreateEvent");
 
-	MarkNativeAsOptional("War3_SetDiamondsEXT");
-	MarkNativeAsOptional("War3_GetDiamondsEXT");
-	MarkNativeAsOptional("War3_GetOwnsItem2EXT");
-	MarkNativeAsOptional("War3_SetOwnsItem2EXT");
-	MarkNativeAsOptional("W3ExtShowShop2");
 	// L4D
 	MarkNativeAsOptional("War3_L4D_IsHelpless");
 	// Skills
@@ -697,44 +667,6 @@ native W3GetItemsLoaded(); //how many items are loaded?
 native bool:W3IsItemDisabledGlobal(itemid);
 native bool:W3IsItemDisabledForRace(race,itemid);
 
-//Shopmenu 2 item class
-//native War3_CreateShopItem2(String:name[],String:shortname[],String:desc[],cost);
-native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
-//translated
-stock W3CreateShopItem2T(String:shortname[],cost) {
-	return W3CreateShopItem2("",shortname,"",cost,true);
-
-}
-
-native War3_SetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY,value);
-native War3_GetItem2Property(itemid,W3ItemProp:ITEM_PROPERTY);
-
-//returns -1 if not found
-//valid itemid if > 0
-native War3_GetItem2IdByShortname(String:itemshortname[]);
-
-native W3GetItem2Name(itemid,String:ret[],maxlen);
-native W3GetItem2Shortname(itemid,String:ret[],maxlen);
-native W3GetItem2Desc(itemid,String:ret[],maxlen);
-
-native W3GetItem2Cost(itemid);
-//native W3GetItem2Order(itemid);
-native W3Item2HasFlag(itemid,String:flagsearch[]);
-//native W3GetItem2Catagory(itemid,String:retcatagorystr[],maxlen);
-native W3GetItems2LoadedEXT();
-stock W3GetItems2Loaded() { //how many items are loaded?
-	return EXT() ? W3GetItems2LoadedEXT() : 0;
-}
-
-native bool:W3IsItem2DisabledGlobal(itemid);
-native bool:W3IsItem2DisabledForRace(race,itemid);
-
-native W3ExtShowShop2(client);
-
-//Forces a save into database of when the item expires
-//client must own item already
-native W3SaveItem2ExpireTime(client, itemid);
-
 native GetClientItemsOwned(client);
 native GetMaxShopitemsPerPlayer();
 
@@ -796,39 +728,7 @@ native War3_SetOwnsItem(client,item,bool:ownsitem);
  */
 native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
 
-native W3GetItem2ExpireTime(client, item);
-native W3SetItem2ExpireTime(client, item, time); //use full linux time , ie: NOW()+duration
-
 native bool:W3BuyUseCSMoney();
-
-/**
- * Sets if the player owns a specific item.
- * @param client: Client index
- * @param item: The item ID returned from War3_CreateShopItem
- * @param owns: 1 if you want them to own it, 0 if you want them not to own it 
- * @noreturn
- * 
- *	ITEM IS NOT LOST AUTOMATICALLY ON DEATH  
- */
-
-native War3_GetOwnsItem2EXT(client, item);
-
-native War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
-stock War3_GetOwnsItem2(client, item) {
-	if (EXT()) {
-		if (item < 1) {
-			DP("err invalid item id %d client %d", item, client);
-			ThrowError("asdf");
-		}
-		return War3_GetOwnsItem2EXT(client, item);
-	}
-	return 0;
-}
-stock War3_SetOwnsItem2(client,item,bool:ownsitem) {
-	if(EXT()) {
-		War3_SetOwnsItem2EXT(client,item,bool:ownsitem);
-	}
-}
 
 /**
  * Finds the best target within a player's view cone
@@ -1621,21 +1521,6 @@ stock War3_GetGold(client) {
 	return W3GetPlayerProp(client, PlayerGold);
 }
 
-native War3_GetDiamondsEXT(client);
-native War3_SetDiamondsEXT(client, newd);
-
-stock War3_GetDiamonds(client) {
-	if (EXT()) {
-		return War3_GetDiamondsEXT(client);
-	}
-	return 0;
-}
-stock War3_SetDiamonds(client, newd) {
-	if (EXT()) {
-		War3_SetDiamondsEXT(client, newd);
-	}
-}
-
 native W3IsDeveloper(client);
 
 ///use W3GetVar(hDatabase) to get the handle to the database which your xp is saved, so you dont have to connect again for your addon scipts
@@ -1830,7 +1715,6 @@ forward OnAbilityCommand(client,ability,bool:pressed);
  * PLAYER ALREADY HAS OWNERSHIP BY THIS POINT  
  */
 forward OnItemPurchase(client, item);
-forward OnItem2Purchase(client, item);
 
 /**
  * Gets called when a player loses an item. (after death (ownership to false) or traded it back..)
@@ -1839,7 +1723,6 @@ forward OnItem2Purchase(client, item);
  * PLAYER ALREADY HAS LOST OWNERSHIP BY THIS POINT   
  */
 forward OnItemLost(client, item);
-forward OnItem2Lost(client, item);
 
 /**
  * Gets called when a skill level is changed.
