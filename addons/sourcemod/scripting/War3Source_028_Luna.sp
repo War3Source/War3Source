@@ -7,7 +7,6 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
-#include "W3SIncs/revantools"
 new thisRaceID;
 new String:beamsnd[256]; // = "war3source/moonqueen/beam.mp3";
 new String:lunasnd2[256]; // = "weapons/flashbang/flashbang_explode2.wav";
@@ -320,6 +319,60 @@ public OnUltimateCommand( client, race, bool:pressed )
  }
  }
  }*/
+
+public Action:INCTimer_RemoveEntity(Handle:timer, any:edict)
+{
+	if(IsValidEdict(edict))
+	{
+		AcceptEntityInput(edict, "Kill");
+	}
+}
+
+// Glider: Put a improved version of this this into War3Source_Effects sometime
+stock CreateParticles(const client,bool:parentent,Float:fLifetime,Float:fAng[3],Float:BaseSpread,Float:StartSize,Float:EndSize,Float:Twist,String:material[],String:renderclr[],String:SpreadSpeed[],String:JetLength[],String:Speed[],String:Rate[]){
+	new particle = CreateEntityByName("env_smokestack");
+	if(IsValidEdict(particle) && IsClientInGame(client))
+	{
+		decl String:Name[32], Float:fPos[3];
+		Format(Name, sizeof(Name), "W3S_particles_%i", client);
+		GetEntPropVector(client, Prop_Send, "m_vecOrigin", fPos);
+		fPos[2] += 50.0;
+		// Set Key Values
+		DispatchKeyValueVector(particle, "Origin", fPos);
+		DispatchKeyValueVector(particle, "Angles", fAng);
+		DispatchKeyValueFloat(particle, "BaseSpread", BaseSpread);
+		DispatchKeyValueFloat(particle, "StartSize", StartSize);
+		DispatchKeyValueFloat(particle, "EndSize", EndSize);
+		DispatchKeyValueFloat(particle, "Twist", Twist);
+		
+		DispatchKeyValue(particle, "Name", Name);
+		DispatchKeyValue(particle, "SmokeMaterial", material);
+		DispatchKeyValue(particle, "RenderColor", renderclr);
+		DispatchKeyValue(particle, "SpreadSpeed", SpreadSpeed);
+		DispatchKeyValue(particle, "RenderAmt", "255");
+		DispatchKeyValue(particle, "JetLength", JetLength);
+		DispatchKeyValue(particle, "RenderMode", "0");
+		DispatchKeyValue(particle, "Initial", "0");
+		DispatchKeyValue(particle, "Speed", Speed);
+		DispatchKeyValue(particle, "Rate", Rate);
+		DispatchSpawn(particle);
+		
+		// Set Entity Inputs
+		if(parentent)
+		{
+			SetVariantString("!activator");
+			AcceptEntityInput(particle, "SetParent", client, particle, 0);
+		}
+		AcceptEntityInput(particle, "TurnOn");
+		CreateTimer(fLifetime, INCTimer_RemoveEntity, particle);
+		return particle;
+	}
+	else
+	{
+		LogError("Failed to create entity env_smokestack!");
+	}
+	return -1;
+}
 
 public Action:Timer_LunaFX( Handle:timer, any:client )
 {
