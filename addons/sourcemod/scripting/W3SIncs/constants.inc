@@ -153,6 +153,11 @@ enum W3DENY{
 	DN_ShowLevelbank, //can show levelbank
 	DN_CanPlaceWard,
 }
+// Constants for an array, which every War3 Plugin has. When the variables are ready, they will be forwarded to you.
+
+enum W3ForwardedVarsEnum{
+	EXTAvailable,
+}
 
 //Used as constants...identifies why a player was rewarded XP/Gold
 enum W3XPAwardedBy
