@@ -144,7 +144,7 @@ public Action:DeciSecondTimer(Handle:timer)
 				new highestvalue=0;
 				new Float:settime=0.0;
 				
-				new limit=W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded();
+				new limit=W3GetItemsLoaded()+War3_GetRacesLoaded();
 				for(new i=0;i<=limit;i++){
 					if(W3GetBuff(client,iGlowPriority,i)>highestvalue){
 						highestvalue=W3GetBuff(client,iGlowPriority,i);

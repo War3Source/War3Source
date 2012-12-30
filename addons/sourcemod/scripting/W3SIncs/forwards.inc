@@ -55,8 +55,6 @@ new Handle:g_OnSHEventDeathFH;
 new Handle:g_CheckCompatabilityFH;
 new Handle:g_War3InterfaceExecFH;
 
-new Handle:g_hfwdW3SetForwarededVar;
-
 ///END forwards
 
 
@@ -80,7 +78,6 @@ bool:War3Source_InitForwards()
 	g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
 	g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
 	
-	g_hfwdW3SetForwarededVar=CreateGlobalForward("W3SetForwarededVar",ET_Ignore,Param_Cell,Param_Cell);
 	return true;
 }
 
