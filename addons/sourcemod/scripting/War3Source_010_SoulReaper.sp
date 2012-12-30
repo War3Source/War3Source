@@ -14,7 +14,6 @@
 #include <sdktools_tempents_stocks>
 #include <cstrike>
 
-public W3ONLY(){} //unload this?
 new thisRaceID;
 new Handle:ultCooldownCvar;
 

@@ -30,7 +30,7 @@ public OnAllPluginsLoaded()
 }
 
 ConnectDB(){
-	PrintToServer("[W3S/SH] Connecting to Database");
+	PrintToServer("[W3S] Connecting to Database");
 	new String:sCachedDBIName[256];
 	new String:dbErrorMsg[512];
 	

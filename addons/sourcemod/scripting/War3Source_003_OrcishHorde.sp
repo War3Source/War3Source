@@ -15,7 +15,6 @@
 
 #include <cstrike>
 
-public W3ONLY(){} //unload this?
 new thisRaceID;
 new bool:bHasRespawned[MAXPLAYERSCUSTOM]; //cs
 new Handle:RespawnDelayCvar;

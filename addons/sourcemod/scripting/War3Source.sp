@@ -239,10 +239,6 @@ public Action:DeciSecondLoop(Handle:timer)
 
 /*
 
-public Action:cmdwhichmode(args){
-	PrintToServer("W3? %d",W3());
-	PrintToServer("SH? %d",SH());
-}
 public Action:calltest(client,args){
 	new Handle:plugins[100];
 	new Function:funcs[100];
@@ -326,12 +322,10 @@ public Action:CmdLoadRaces(args){
 }*/
 public Action:refreshcooldowns(client,args){
 	if(W3IsDeveloper(client)){
-		if(W3()){
-			new raceid=War3_GetRace(client);
-			if(raceid>0){
-				for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
-					War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
-				}
+		new raceid=War3_GetRace(client);
+		if(raceid>0){
+			for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
+				War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
 			}
 		}
 	}
@@ -472,8 +466,7 @@ public Action:CheckCvars(Handle:timer, any:client)
 
 public Action:OnGetGameDescription(String:gameDesc[64])
 {
-// Lol @ function named W3
-	if(W3()&&GetConVarInt(hChangeGameDescCvar)>0)
+	if(GetConVarInt(hChangeGameDescCvar)>0)
 	{
 		Format(gameDesc,sizeof(gameDesc),"War3Source %s",VERSION_NUM);
 		return Plugin_Changed;
@@ -494,39 +487,25 @@ LoadRacesAndItems()
 	new Float:starttime=GetEngineTime();
 	//ordered loads
 	new res;
-	if(W3())
+	for(new i;i<=MAXRACES*10;i++)
 	{
-		for(new i;i<=MAXRACES*10;i++)
-		{
-			Call_StartForward(g_OnWar3PluginReadyHandle);
-			Call_PushCell(i);		
-			Call_Finish(res);
-		}
-		
-		//orderd loads 2
-		for(new i;i<=MAXRACES*10;i++)
-		{
-			Call_StartForward(g_OnWar3PluginReadyHandle2);
-			Call_PushCell(i);		
-			Call_Finish(res);
-		}
-		
-		//unorderd loads
-		Call_StartForward(g_OnWar3PluginReadyHandle3);
+		Call_StartForward(g_OnWar3PluginReadyHandle);
+		Call_PushCell(i);		
 		Call_Finish(res);
 	}
 	
-	if(SH())
+	//orderd loads 2
+	for(new i;i<=MAXRACES*10;i++)
 	{
-		
-		//SH ordered load
-		for(new i;i<=MAXRACES*10;i++)
-		{
-			Call_StartForward(hOnSHLoadHeroOrItemOrdered);
-			Call_PushCell(i);		
-			Call_Finish(res);
-		}
+		Call_StartForward(g_OnWar3PluginReadyHandle2);
+		Call_PushCell(i);		
+		Call_Finish(res);
 	}
+	
+	//unorderd loads
+	Call_StartForward(g_OnWar3PluginReadyHandle3);
+	Call_Finish(res);
+	
 
 	PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
 	
@@ -536,31 +515,16 @@ LoadRacesAndItems()
 
 DelayedWar3SourceCfgExecute()
 {
-	if(W3())
+	if(FileExists("cfg/war3source.cfg"))
 	{
-		if(FileExists("cfg/war3source.cfg"))
-		{
-			ServerCommand("exec war3source.cfg");
-			PrintToServer("[War3Source] Executing war3source.cfg");
-		}
-		else
-		{
-			PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
-		}
+		ServerCommand("exec war3source.cfg");
+		PrintToServer("[War3Source] Executing war3source.cfg");
 	}
-	
-	if(SH())
+	else
 	{
-		if(FileExists("cfg/superhero.cfg"))
-		{
-			ServerCommand("exec superhero.cfg");
-			PrintToServer("[War3Source] Executing superhero.cfg");
-		}
-		else
-		{
-			PrintToServer("[War3Source] Could not find superhero.cfg, we recommend all servers have this file");
-		}
+		PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
 	}
+
 }
 
 public OnClientPutInServer(client)

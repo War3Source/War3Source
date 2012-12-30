@@ -21,42 +21,37 @@ new Handle:ShowOtherPlayerItemsCvar;
 
 public OnPluginStart()
 {
-	if(W3())
-	{
-		// No Spendskill level restrictions on non-ultimates (Requires mapchange)
-		ShowOtherPlayerItemsCvar=CreateConVar("war3_show_playerinfo_other_player_items","1","0 disables showing other players items using playerinfo. [default 1]");
-	}
+	// No Spendskill level restrictions on non-ultimates (Requires mapchange)
+	ShowOtherPlayerItemsCvar=CreateConVar("war3_show_playerinfo_other_player_items","1","0 disables showing other players items using playerinfo. [default 1]");
 
 }			//War3_playertargetItemMenu
 
 public OnWar3Event(W3EVENT:event,client){
-	if(W3()){
-		if(event==DoShowRaceinfoMenu){
-			ShowMenuRaceinfo(client);
+	if(event==DoShowRaceinfoMenu){
+		ShowMenuRaceinfo(client);
+	}
+	if(event==DoShowPlayerinfoMenu){
+		War3_PlayerInfoMenu(client,"")
+	}
+	if(event==DoShowPlayerinfoEntryWithArg){
+		PlayerInfoMenuEntry(client);
+	}
+	if(event==DoShowParticularRaceInfo){
+		new raceid = W3GetVar(RaceinfoRaceToShow);
+		if(ValidRace(raceid)) {
+			War3_ShowParticularRaceInfoMenu(client,raceid);
 		}
-		if(event==DoShowPlayerinfoMenu){
-			War3_PlayerInfoMenu(client,"")
+	}
+	if(event==DoShowPlayerInfoTarget){
+		new target = W3GetVar(EventArg1);
+		if(ValidPlayer(target,false)) {
+			War3_playertargetMenu(client,target) ;
 		}
-		if(event==DoShowPlayerinfoEntryWithArg){
-			PlayerInfoMenuEntry(client);
-		}
-		if(event==DoShowParticularRaceInfo){
-			new raceid = W3GetVar(RaceinfoRaceToShow);
-			if(ValidRace(raceid)) {
-				War3_ShowParticularRaceInfoMenu(client,raceid);
-			}
-		}
-		if(event==DoShowPlayerInfoTarget){
-			new target = W3GetVar(EventArg1);
-			if(ValidPlayer(target,false)) {
-				War3_playertargetMenu(client,target) ;
-			}
-		}
-		if(event==DoShowPlayerItemsOwnTarget){
-			new target = W3GetVar(EventArg1);
-			if(ValidPlayer(target,false)) {
-				War3_playertargetItemMenu(client,target) ;
-			}
+	}
+	if(event==DoShowPlayerItemsOwnTarget){
+		new target = W3GetVar(EventArg1);
+		if(ValidPlayer(target,false)) {
+			War3_playertargetItemMenu(client,target) ;
 		}
 	}
 }

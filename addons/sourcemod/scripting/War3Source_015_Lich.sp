@@ -13,8 +13,6 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 
-public W3ONLY(){} //unload this?
-
 new thisRaceID;
 
 new SKILL_FROSTNOVA,SKILL_FROSTARMOR,SKILL_DARKRITUAL,ULT_DEATHDECAY;

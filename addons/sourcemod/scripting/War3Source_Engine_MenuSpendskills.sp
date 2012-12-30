@@ -17,11 +17,8 @@ new Handle:NoSpendSkillsLimitCvar;
 
 public OnPluginStart()
 {
-	if(W3())
-    {
-     // No Spendskill level restrictions on non-ultimates (Requires mapchange)
-     NoSpendSkillsLimitCvar=CreateConVar("war3_no_spendskills_limit","0","Set to 1 to require no limit on non-ultimate spendskills");
-    }
+ // No Spendskill level restrictions on non-ultimates (Requires mapchange)
+ NoSpendSkillsLimitCvar=CreateConVar("war3_no_spendskills_limit","0","Set to 1 to require no limit on non-ultimate spendskills");
 }
 
 public OnWar3Event(W3EVENT:event,client){

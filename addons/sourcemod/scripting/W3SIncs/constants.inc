@@ -132,14 +132,9 @@ enum W3EVENT
 	
 
 	
-	SHMyHeroes, //select a race to drop
-	SHClearPowers, //drop all heroes
-	SHSelectHeroesMenu, //sh changerace
-	
 	UNLOADPLUGINSBYMODE,//testing plugin unload
 	DatabaseConnected,
 	
-	DoShowSHMenu,
 	OnBuffChanged, //a buff has changed
 	OnAuraCalculationFinished, //this is after all the OnW3PlayerAuraStateChanged have been sent
 	DoShowPlayerItemsOwnTarget, ///EventArg1 = target = the person whos items is shown, client=SHOW TO

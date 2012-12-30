@@ -46,28 +46,25 @@ public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_ma
 
 public OnPluginStart()
 {
-	if(W3())
-	{
-		HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
-		RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
-		RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing somebody from a closet");
-		HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","50","XP awarded to a player helping somebody get up");
-		SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
-		ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");
-		DeployUpgradeXPCvar=CreateConVar("war3_l4d_upgradeexp","100","XP awarded to a player deploying a upgrade pack");
-		
-		KillTankXPCvar=CreateConVar("war3_l4d_tankexp","500","XP awarded to team surviving a Tank");
-		KillTankSoloXPCvar=CreateConVar("war3_l4d_solotankexp","1000","XP awarded to player soloing a Tank");
-		KillWitchXPCvar=CreateConVar("war3_l4d_witchexp","250","XP awarded to team killing a Witch");
-		KillWitchCrownedXPCvar=CreateConVar("war3_l4d_crownwitchexp","100","XP awarded to player crowning a Witch");
-		
-		InfectedDamageModXPCvar=CreateConVar("war3_l4d_specialdmgexpmod","2.5","Damage * this = XP for a special infected doing damage");
-		PukeEnemyXPCvar=CreateConVar("war3_l4d_pukexp","50","XP awarded to a boomer puking on a survivor");
-		PukeFatalXPCvar=CreateConVar("war3_l4d_pukefatalxp","100","XP awarded to a boomer who pukes on somebody that gets incapped");
-		IncapXPCvar=CreateConVar("war3_l4d_incapxp","100","XP awarded to a infected incapping a survivor");
-		KillSurvivorXPCvar=CreateConVar("war3_l4d_killsurvivorxp","200","XP awarded to a infected killing a survivor");
-	}
+	HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
+	RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
+	RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing somebody from a closet");
+	HelpTeammateXPCvar=CreateConVar("war3_l4d_helpexp","50","XP awarded to a player helping somebody get up");
+	SaveTeammateXPCvar=CreateConVar("war3_l4d_saveexp","25","XP awarded to a player saving somebody from a infected");	
+	ProtectTeammateXPCvar=CreateConVar("war3_l4d_protectexp","5","XP awarded to a player protecting another");
+	DeployUpgradeXPCvar=CreateConVar("war3_l4d_upgradeexp","100","XP awarded to a player deploying a upgrade pack");
 	
+	KillTankXPCvar=CreateConVar("war3_l4d_tankexp","500","XP awarded to team surviving a Tank");
+	KillTankSoloXPCvar=CreateConVar("war3_l4d_solotankexp","1000","XP awarded to player soloing a Tank");
+	KillWitchXPCvar=CreateConVar("war3_l4d_witchexp","250","XP awarded to team killing a Witch");
+	KillWitchCrownedXPCvar=CreateConVar("war3_l4d_crownwitchexp","100","XP awarded to player crowning a Witch");
+	
+	InfectedDamageModXPCvar=CreateConVar("war3_l4d_specialdmgexpmod","2.5","Damage * this = XP for a special infected doing damage");
+	PukeEnemyXPCvar=CreateConVar("war3_l4d_pukexp","50","XP awarded to a boomer puking on a survivor");
+	PukeFatalXPCvar=CreateConVar("war3_l4d_pukefatalxp","100","XP awarded to a boomer who pukes on somebody that gets incapped");
+	IncapXPCvar=CreateConVar("war3_l4d_incapxp","100","XP awarded to a infected incapping a survivor");
+	KillSurvivorXPCvar=CreateConVar("war3_l4d_killsurvivorxp","200","XP awarded to a infected killing a survivor");
+
 	if(War3_IsL4DEngine())
 	{		
 		if(!HookEventEx("heal_success", War3Source_HealSuccessEvent))

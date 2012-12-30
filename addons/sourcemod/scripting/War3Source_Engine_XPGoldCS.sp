@@ -31,44 +31,41 @@ public OnPluginStart()
 	for(new i=0;i<MAXPLAYERSCUSTOM;i++){
 		touchedHostage[i]=CreateArray();
 	}
-	if(W3()){
-		DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
-		PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
-		RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
-		 
-		if(GAMECSANY){
-			if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the bomb_defused event.");
-				
-			}
-			if(!HookEventEx("bomb_planted",War3Source_BombPlantedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the bomb_planted event.");
-				
-			}
-			if(!HookEventEx("hostage_follows",War3Source_HostageFollow))
-			{
-				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
-				
-			}
-			if(!HookEventEx("hostage_rescued",War3Source_HostageRescuedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
-				
-			}
-			if(!HookEventEx("hostage_killed",War3Source_HostageKilled))
-			{
-				PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
-				
-			}
+	DefuseXPCvar=CreateConVar("war3_percent_cs_defusexp","200","Percent of kill XP awarded for defusing the bomb");
+	PlantXPCvar=CreateConVar("war3_percent_cs_plantxp","200","Percent of kill XP awarded for planting the bomb");
+	RescueHostageXPCvar=CreateConVar("war3_percent_cs_hostagerescuexp","100","Percent of kill XP awarded for rescuing a hostage");
+	 
+	if(GAMECSANY){
+		if(!HookEventEx("bomb_defused",War3Source_BombDefusedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the bomb_defused event.");
 			
-			//for clearing hostage touch
-			if(!HookEventEx("round_end",War3Source_RoundOverEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the round_end event.");
-			}
-	
+		}
+		if(!HookEventEx("bomb_planted",War3Source_BombPlantedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the bomb_planted event.");
+			
+		}
+		if(!HookEventEx("hostage_follows",War3Source_HostageFollow))
+		{
+			PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+			
+		}
+		if(!HookEventEx("hostage_rescued",War3Source_HostageRescuedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+			
+		}
+		if(!HookEventEx("hostage_killed",War3Source_HostageKilled))
+		{
+			PrintToServer("[War3Source] Could not hook the hostage_rescued event.");
+			
+		}
+		
+		//for clearing hostage touch
+		if(!HookEventEx("round_end",War3Source_RoundOverEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the round_end event.");
 		}
 	}
 }

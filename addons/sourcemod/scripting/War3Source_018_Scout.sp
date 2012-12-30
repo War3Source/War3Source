@@ -10,8 +10,6 @@
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
 
-public W3ONLY(){} //unload this?
-
 new thisRaceID;
 
 

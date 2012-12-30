@@ -217,11 +217,9 @@ public NWar3_SetRace(Handle:plugin,numParams){
 	return;
 }
 public NWar3_GetRace(Handle:plugin,numParams){
-	if(W3()){
-		new client = GetNativeCell(1);
-		if (client > 0 && client <= MaxClients)
-			return p_properties[client][CurrentRace];
-	}
+	new client = GetNativeCell(1);
+	if (client > 0 && client <= MaxClients)
+		return p_properties[client][CurrentRace];
 	
 	return -2; //return -2 because u usually compare your race
 }

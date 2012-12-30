@@ -68,8 +68,6 @@ public OnPluginStart()
 //silence error
 	skillProp[0][0][0]=0;
 	m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
-	PrintToServer("SH %d",SH());
-	PrintToServer("W3 %d",W3());
 }
 
 
@@ -894,7 +892,7 @@ CreateRaceEnd(raceid){
 				
 				Format(longquery,sizeof(longquery),"INSERT %s IGNORE INTO %s (shortname) VALUES ('%s')",
 					W3GetVar(hDatabaseType)==SQLType_SQLite?"OR":"",
-					W3()?"war3sourceraces":(SH()?"shheroes":"invalidgametype"),
+					"war3sourceraces",
 					shortname
 					);
 				
@@ -917,7 +915,7 @@ public T_CallbackInsertRace1(Handle:owner,Handle:hndl,const String:error[],any:r
 	new String:retstr[2000];
 	new String:escapedstr[2000];
 	new String:longquery[4000];
-	Format(longquery,sizeof(longquery),"UPDATE %s SET ",W3()?"war3sourceraces":(SH()?"shheroes":"invalidgametype"));
+	Format(longquery,sizeof(longquery),"UPDATE %s SET ","war3sourceraces");
 	
 	GetRaceName(raceid,retstr,sizeof(retstr));
 	SQL_EscapeString(hDB,retstr,escapedstr,sizeof(escapedstr));

@@ -37,33 +37,29 @@ public Plugin:myinfo=
 
 public bool:InitNativesForwards()
 {
-	if(W3()){
-		PrintToServer("W3 MODE");
-		CreateNative("W3SaveXP" ,NW3SaveXP)
-		CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
-	}
+	PrintToServer("W3 MODE");
+	CreateNative("W3SaveXP" ,NW3SaveXP)
+	CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
+
 	return true;
 }
 
 public OnPluginStart()
 {
-	if(W3()){
-		m_SaveXPConVar=CreateConVar("war3_savexp","1");
-		W3SetVar(hSaveEnabledCvar,m_SaveXPConVar);
-			
-		hSetRaceOnJoinCvar=CreateConVar("war3_set_race_on_join","1");
-	
-		m_AutosaveTime=CreateConVar("war3_autosavetime","60");
-		hCvarPrintOnSave=CreateConVar("war3_print_on_autosave","0","Print a message to chat when xp is auto saved?");
-	
-		g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
-	
+	m_SaveXPConVar=CreateConVar("war3_savexp","1");
+	W3SetVar(hSaveEnabledCvar,m_SaveXPConVar);
 		
-		
-		
-		CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
-	}
+	hSetRaceOnJoinCvar=CreateConVar("war3_set_race_on_join","1");
+
+	m_AutosaveTime=CreateConVar("war3_autosavetime","60");
+	hCvarPrintOnSave=CreateConVar("war3_print_on_autosave","0","Print a message to chat when xp is auto saved?");
+
+	g_OnWar3PlayerAuthedHandle=CreateGlobalForward("OnWar3PlayerAuthed",ET_Ignore,Param_Cell,Param_Cell);
+
 	
+	
+	
+	CreateTimer(GetConVarFloat(m_AutosaveTime),DoAutosave);
 }
 
 
@@ -86,12 +82,10 @@ public NW3SaveEnabled(Handle:plugin,numParams)
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DatabaseConnected)
 	{
-		if(W3()){
-			hDB=W3GetVar(hDatabase);
-			g_SQLType=W3GetVar(hDatabaseType);
-		
-			Initialize_SQLTable();
-		}
+		hDB=W3GetVar(hDatabase);
+		g_SQLType=W3GetVar(hDatabaseType);
+	
+		Initialize_SQLTable();
 	}
 	//DP("EVENT %d",event);
 }
@@ -283,46 +277,43 @@ War3Source_SavePlayerData(client,race)
 public OnClientPutInServer(client)
 {
 		//DP("PUTIN");
-	if(W3()){
-			//DP("PUTINW3");
-		W3SetPlayerProp(client,xpLoaded,false); //set race 0 may trigger unwanted behavior, block it first
-		W3SetPlayerProp(client,bPutInServer,true); //stateful entry
-		W3CreateEvent(InitPlayerVariables,client); 
-		W3SetPlayerProp(client,xpLoaded,false);
-	
+		//DP("PUTINW3");
+	W3SetPlayerProp(client,xpLoaded,false); //set race 0 may trigger unwanted behavior, block it first
+	W3SetPlayerProp(client,bPutInServer,true); //stateful entry
+	W3CreateEvent(InitPlayerVariables,client); 
+	W3SetPlayerProp(client,xpLoaded,false);
+
 //		W3CreateEvent(ClearPlayerVariables,client); 
-		
-		
-		if(IsFakeClient(client)){
-			W3SetPlayerProp(client,xpLoaded,true);
-		}
-		else
-		{
-			if(W3SaveEnabled())
-			{
-				War3_ChatMessage(client,"%T","Loading player data...",client);
-				War3Source_LoadPlayerData(client);
-			}
-			else{
-				DoForwardOnWar3PlayerAuthed(client);
-			}
-			if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
-				W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
-		}
+	
+	
+	if(IsFakeClient(client)){
+		W3SetPlayerProp(client,xpLoaded,true);
 	}
+	else
+	{
+		if(W3SaveEnabled())
+		{
+			War3_ChatMessage(client,"%T","Loading player data...",client);
+			War3Source_LoadPlayerData(client);
+		}
+		else{
+			DoForwardOnWar3PlayerAuthed(client);
+		}
+		if(!W3SaveEnabled() || hDB==INVALID_HANDLE)
+			W3SetPlayerProp(client,xpLoaded,true); // if db failed , or no save xp
+	}
+
 }
 public OnClientDisconnect(client)
 {
-	if(W3()){
-		if(W3GetPlayerProp(client,bPutInServer)){ //he must have joined (not just connected) server already
-			if(W3SaveEnabled() && W3IsPlayerXPLoaded(client)){
-				War3Source_SavePlayerData(client,War3_GetRace(client));
-			}
-	
-			W3CreateEvent(ClearPlayerVariables,client); 
-			W3SetPlayerProp(client,bPutInServer,false);
-			desiredRaceOnJoin[client]=0;
+	if(W3GetPlayerProp(client,bPutInServer)){ //he must have joined (not just connected) server already
+		if(W3SaveEnabled() && W3IsPlayerXPLoaded(client)){
+			War3Source_SavePlayerData(client,War3_GetRace(client));
 		}
+
+		W3CreateEvent(ClearPlayerVariables,client); 
+		W3SetPlayerProp(client,bPutInServer,false);
+		desiredRaceOnJoin[client]=0;
 	}
 }
 

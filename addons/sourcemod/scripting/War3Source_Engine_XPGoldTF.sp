@@ -36,71 +36,68 @@ new Handle:MvMMedicSharedPowerupXPCvar;
 public OnPluginStart()
 {
 
-	if(W3()) {
+	PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
+	PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
+	CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
+	TeleporterXPCvar=CreateConVar("war3_percent_tf_teleporterxp","10","Percent of kill XP awarded");
+	TeleporterDistanceXPCvar=CreateConVar("war3_tf_teleporter_distance","1000.0","Distance to teleport before awarding XP");
+	ExtinguishXPCvar=CreateConVar("war3_percent_tf_extinguishxp","10","Percent of kill XP awarded");
 
-		PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
-		PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");
-		CaptureFlagXPCvar=CreateConVar("war3_percent_tf_flagcapturexp","100","Percent of kill XP awarded for capturing the flag");
-		TeleporterXPCvar=CreateConVar("war3_percent_tf_teleporterxp","10","Percent of kill XP awarded");
-		TeleporterDistanceXPCvar=CreateConVar("war3_tf_teleporter_distance","1000.0","Distance to teleport before awarding XP");
-		ExtinguishXPCvar=CreateConVar("war3_percent_tf_extinguishxp","10","Percent of kill XP awarded");
+	DestroyedTeleXPCvar = CreateConVar("war3_percent_tf_telexp","25","Percent of kill XP awarded");
+	DestroyedDispenserXPCvar = CreateConVar("war3_percent_tf_dispenserxp","50","Percent of kill XP awarded");
+	DestroyedSentryXPCvar = CreateConVar("war3_percent_tf_sentryxp","125","Percent of kill XP awarded");
+	DestroyedSapperXPCvar = CreateConVar("war3_percent_tf_sentryxp","10","Percent of kill XP awarded");
 
-		DestroyedTeleXPCvar = CreateConVar("war3_percent_tf_telexp","25","Percent of kill XP awarded");
-		DestroyedDispenserXPCvar = CreateConVar("war3_percent_tf_dispenserxp","50","Percent of kill XP awarded");
-		DestroyedSentryXPCvar = CreateConVar("war3_percent_tf_sentryxp","125","Percent of kill XP awarded");
-		DestroyedSapperXPCvar = CreateConVar("war3_percent_tf_sentryxp","10","Percent of kill XP awarded");
+	MvMMoneyXPCvar = CreateConVar("war3_percent_tf_mvm_money_pickup", "100", "How much of the picked up money should be converted to XP");
+	MvMMoneyScoutXPCvar = CreateConVar("war3_percent_tf_mvm_scout_money_pickup", "150", "How much of the picked up money should be converted to XP for a Scout");
+	MvMTankXPCvar = CreateConVar("war3_percent_tf_mvm_tankxp", "1000", "Percent of kill XP awarded for destroying a tank");
+	MvMBombResetXPCvar = CreateConVar("war3_percent_tf_mvm_bombresetxp", "200", "Percent of kill XP awarded for resetting the bomb");
+	MvMMedicSharedPowerupXPCvar = CreateConVar("war3_percent_tf_mvm_sharexp", "200", "Percent of kill XP awarded for sharing a canteen as medic");
 
-		MvMMoneyXPCvar = CreateConVar("war3_percent_tf_mvm_money_pickup", "100", "How much of the picked up money should be converted to XP");
-		MvMMoneyScoutXPCvar = CreateConVar("war3_percent_tf_mvm_scout_money_pickup", "150", "How much of the picked up money should be converted to XP for a Scout");
-		MvMTankXPCvar = CreateConVar("war3_percent_tf_mvm_tankxp", "1000", "Percent of kill XP awarded for destroying a tank");
-		MvMBombResetXPCvar = CreateConVar("war3_percent_tf_mvm_bombresetxp", "200", "Percent of kill XP awarded for resetting the bomb");
-		MvMMedicSharedPowerupXPCvar = CreateConVar("war3_percent_tf_mvm_sharexp", "200", "Percent of kill XP awarded for sharing a canteen as medic");
-
-		if(GameTF())
+	if(GameTF())
+	{
+		//if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
+		//{
+		//	PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
+		//	
+		//}
+		if(!HookEventEx("teamplay_point_captured",War3Source_PointCapturedEvent))
 		{
-			//if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
-			//{
-			//	PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
-			//	
-			//}
-			if(!HookEventEx("teamplay_point_captured",War3Source_PointCapturedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the teamplay_point_captured event.");
+			PrintToServer("[War3Source] Could not hook the teamplay_point_captured event.");
 
-			}
-			if(!HookEventEx("teamplay_capture_blocked",War3Source_PointCapBlockedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the teamplay_capture_blocked event.");
-
-			}
-			if(!HookEventEx("teamplay_flag_event",War3Source_FlagEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the teamplay_flag_event event.");
-			}
-			if(!HookEventEx("object_destroyed", War3Source_ObjectDestroyedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the object_destroyed event.");
-			}
-			if(!HookEventEx("mvm_pickup_currency", War3Source_MvMCurrencyEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the mvm_pickup_currency event.");
-			}
-			if(!HookEventEx("mvm_tank_destroyed_by_players", War3Source_MvMTankBustedEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the mvm_tank_destroyed_by_players event.");
-			}
-			if(!HookEventEx("mvm_bomb_reset_by_player", War3Source_MvMResetBombEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the mvm_bomb_reset_by_player event.");
-			}
-			if(!HookEventEx("mvm_medic_powerup_shared", War3Source_MvMSharedCanteenEvent))
-			{
-				PrintToServer("[War3Source] Could not hook the mvm_medic_powerup_shared event.");
-			}
-
-			HookEvent("player_teleported",TF_XP_teleported);
-			HookEvent("player_extinguished",TF_XP_player_extinguished);
 		}
+		if(!HookEventEx("teamplay_capture_blocked",War3Source_PointCapBlockedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the teamplay_capture_blocked event.");
+
+		}
+		if(!HookEventEx("teamplay_flag_event",War3Source_FlagEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the teamplay_flag_event event.");
+		}
+		if(!HookEventEx("object_destroyed", War3Source_ObjectDestroyedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the object_destroyed event.");
+		}
+		if(!HookEventEx("mvm_pickup_currency", War3Source_MvMCurrencyEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the mvm_pickup_currency event.");
+		}
+		if(!HookEventEx("mvm_tank_destroyed_by_players", War3Source_MvMTankBustedEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the mvm_tank_destroyed_by_players event.");
+		}
+		if(!HookEventEx("mvm_bomb_reset_by_player", War3Source_MvMResetBombEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the mvm_bomb_reset_by_player event.");
+		}
+		if(!HookEventEx("mvm_medic_powerup_shared", War3Source_MvMSharedCanteenEvent))
+		{
+			PrintToServer("[War3Source] Could not hook the mvm_medic_powerup_shared event.");
+		}
+
+		HookEvent("player_teleported",TF_XP_teleported);
+		HookEvent("player_extinguished",TF_XP_player_extinguished);
 	}
 }
 

@@ -8,7 +8,6 @@
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
-public W3ONLY(){} //unload this?
 
 // War3Source stuff
 new thisRaceID;

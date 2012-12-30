@@ -19,8 +19,7 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-	RegConsoleCmd("war3",cmdWar3,"War3 / SH internal variables and commands");
-	RegConsoleCmd("sh",cmdWar3,"War3 / SH internal variables and commands");
+	RegConsoleCmd("war3",cmdWar3,"War3 internal variables and commands");
 }
 
 public bool:InitNativesForwards()
