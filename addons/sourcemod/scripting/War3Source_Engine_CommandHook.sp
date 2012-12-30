@@ -93,11 +93,7 @@ public Action:War3Source_CmdShopmenu(client,args)
 	W3CreateEvent(DoShowShopMenu,client);
 	return Plugin_Handled;
 }
-public Action:War3Source_CmdShopmenu2(client,args)
-{
-	W3CreateEvent(DoShowShopMenu2,client);
-	return Plugin_Handled;
-}
+
 public Action:War3Source_SayCommand(client,args)
 {
 	decl String:arg1[70];
@@ -233,11 +229,6 @@ public Action:War3Source_SayCommand(client,args)
 		else if(CommandCheck(arg1,"shopmenu")||CommandCheck(arg1,"sh1"))
 		{
 			W3CreateEvent(DoShowShopMenu,client);
-			return returnblocking;
-		}
-		else if(CommandCheck(arg1,"shopmenu2")||CommandCheck(arg1,"sh2"))
-		{
-			W3CreateEvent(DoShowShopMenu2,client);
 			return returnblocking;
 		}
 		else if(CommandCheck(arg1,"war3menu")||CommandCheck(arg1,"w3s")||CommandCheck(arg1,"wcs"))

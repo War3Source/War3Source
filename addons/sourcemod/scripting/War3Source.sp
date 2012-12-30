@@ -203,13 +203,11 @@ public OnPluginStart()
 */
 	RegConsoleCmd("war3refresh",refreshcooldowns);
 	RegConsoleCmd("armortest",armortest);
-	RegConsoleCmd("exttest",exttest);
 /*	RegConsoleCmd("calltest",calltest);
 	RegConsoleCmd("calltest2",calltest2);
 	
 	RegServerCmd("whichmode",cmdwhichmode);
 	
-	RegConsoleCmd("diamonds",cmddiamonds);
 	#endif
 	
 */
@@ -240,13 +238,7 @@ public Action:DeciSecondLoop(Handle:timer)
 }
 
 /*
-public Action:cmddiamonds(client,args)
-{
-	if(W3IsDeveloper(client))
-	{
-		War3_SetDiamonds(client,1000);
-	}
-}
+
 public Action:cmdwhichmode(args){
 	PrintToServer("W3? %d",W3());
 	PrintToServer("SH? %d",SH());
@@ -344,11 +336,6 @@ public Action:refreshcooldowns(client,args){
 		}
 	}
 }
-public Action:exttest(client,args){
-	if(W3IsDeveloper(client)){
-		PrintToConsole(client,"EXT() %d",EXT());
-	}
-}
 /*
 public Action:FlashTest(client,args){
 	if(args==6){
@@ -435,11 +422,7 @@ public OnMapStart()
 {
 	PrintToServer("OnMapStart");
 	W3CreateEvent(UNLOADPLUGINSBYMODE,0); // not something that is considered unapprovable but make sure your defines have naming schemas like War3Event_Blah
-		
-		
-	CheckExtensionAvailable();
-	
-		
+				
 	DoWar3InterfaceExecForward();
 	
 	LoadRacesAndItems();

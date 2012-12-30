@@ -83,45 +83,7 @@ bool:War3Source_InitForwards()
 	g_hfwdW3SetForwarededVar=CreateGlobalForward("W3SetForwarededVar",ET_Ignore,Param_Cell,Param_Cell);
 	return true;
 }
-//mapstart
-CheckExtensionAvailable(){
 
-	///check if extension is loaded
-	new bool:available=false;
-	static Handle:found=Handle:-1;	
-	new Handle:pl;
-	if(found==Handle:-1){
-		new Handle:iter = GetPluginIterator();
-		while (MorePlugins(iter))
-		{
-			pl = ReadPlugin(iter);
-			if(GetFunctionByName(pl,"ExtensionAvailable")!=INVALID_FUNCTION){
-				found=pl;
-				new String:name[64];
-				GetPluginFilename(pl,name,sizeof(name));
-				//DP("plugin %d %s %d",pl,name,INVALID_FUNCTION);
-				break;
-			
-			}
-		}
-		CloseHandle(iter);
-	}
-	if(found>Handle:-1){
-		if(PluginStatus:GetPluginStatus(Handle:found)== Plugin_Running){
-			available=true;
-			DP("EXTENSION AVAILABLE");
-		}
-	}
-	else if(found==Handle:-1){
-		//DP("EXTENSION AVAILABLE plugin NOT FOUND");
-		found=Handle:-2;
-	}
-
-	Call_StartForward(g_hfwdW3SetForwarededVar);
-	Call_PushCell(EXTAvailable);
-	Call_PushCell(available);
-	Call_Finish(dummyreturn);
-}
 //mapstart
 OneTimeForwards(){
 	Call_StartForward(g_CheckCompatabilityFH);

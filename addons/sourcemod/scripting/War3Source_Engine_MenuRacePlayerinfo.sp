@@ -536,15 +536,6 @@ War3_playertargetMenu(client,target) {
 			 Format(title,sizeof(title),"%s\n%s",title,itemname);
 			}
 		}
-		new Items2Loaded = W3GetItems2Loaded();
-		for(new itemid=1;itemid<=Items2Loaded;itemid++)
-		{
-			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
-			{
-				W3GetItem2Name(itemid,itemname,sizeof(itemname));
-				Format(title,sizeof(title),"%s\n%s",title,itemname);
-			}
-		}
 	}
 	else if(client==target)
 	{
@@ -559,15 +550,6 @@ War3_playertargetMenu(client,target) {
 			{
 			 W3GetItemName(itemid,itemname,sizeof(itemname));
 			 Format(title,sizeof(title),"%s\n%s",title,itemname);
-			}
-		}
-		new Items2Loaded = W3GetItems2Loaded();
-		for(new itemid=1;itemid<=Items2Loaded;itemid++)
-		{
-			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
-			{
-				W3GetItem2Name(itemid,itemname,sizeof(itemname));
-				Format(title,sizeof(title),"%s\n%s",title,itemname);
 			}
 		}
 	}
@@ -633,15 +615,6 @@ War3_playertargetItemMenu(client,target) {
 		}
 		Format(title,sizeof(title),"%s\n \n",title);
 
-		new Items2Loaded = W3GetItems2Loaded();
-		for(new itemid=1;itemid<=Items2Loaded;itemid++)
-		{
-			if(War3_GetOwnsItem2(target,itemid)&&itemid!=moleitemid)
-			{
-				W3GetItem2Name(itemid,itemname,sizeof(itemname));
-				Format(title,sizeof(title),"%s\n%s",title,itemname);
-			}
-		}
 	//}
 
 		Format(title,sizeof(title),"%s\n \n",title);

@@ -136,12 +136,6 @@ enum W3EVENT
 	SHClearPowers, //drop all heroes
 	SHSelectHeroesMenu, //sh changerace
 	
-	//shopmenu2
-	DoShowShopMenu2,
-	DoTriedToBuyItem2,
-	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
-	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
-	
 	UNLOADPLUGINSBYMODE,//testing plugin unload
 	DatabaseConnected,
 	
@@ -235,7 +229,6 @@ enum W3PlayerProp
 	CurrentRace,
 	PendingRace,
 	PlayerGold,
-	DERPPRERPER,//REMOVE PlayerDiamonds, //DRPECE
 	iMaxHP,
 	bIsDucking,
 	

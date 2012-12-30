@@ -405,12 +405,6 @@ public OnWar3Event(W3EVENT:event,client){
 		if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false)||StrEqual(steamid,"STEAM_0:0:11672517",false)){
 			W3SetPlayerProp(client,isDeveloper,true);
 		}
-		
-		//items 2 remembered in ext, on unload it won't be cleared
-		for(new i=0;i<MAXITEMS2;i++){
-			W3SetVar(TheItemBoughtOrLost,i);
-			W3CreateEvent(DoForwardClientLostItem2,client);
-		}
 	}
 	if(event==ClearPlayerVariables){
 		//set xp loaded first, to block saving xp after race change
@@ -431,15 +425,10 @@ public OnWar3Event(W3EVENT:event,client){
 				W3CreateEvent(DoForwardClientLostItem,client);
 			}
 		}
-		for(new i=0;i<MAXITEMS2;i++){
-			W3SetVar(TheItemBoughtOrLost,i);
-			W3CreateEvent(DoForwardClientLostItem2,client);
-		}
 		
 		W3SetPlayerProp(client,PendingRace,0);
 		War3_SetRace(client,0); //need the race change event fired
 		W3SetPlayerProp(client,PlayerGold,0);
-		War3_SetDiamonds(client,0);
 		//DP("DERP");
 		W3SetPlayerProp(client,iMaxHP,0);
 		W3SetPlayerProp(client,bIsDucking,false);

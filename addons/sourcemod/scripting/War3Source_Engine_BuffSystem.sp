@@ -44,7 +44,6 @@ public bool:InitNativesForwards()
 	
 	CreateNative("War3_SetBuff",Native_War3_SetBuff);//for races
 	CreateNative("War3_SetBuffItem",Native_War3_SetBuffItem);//foritems
-	CreateNative("War3_SetBuffItem2",Native_War3_SetBuffItem2);//foritems
 	
 	CreateNative("W3BuffCustomOFFSET",NW3BuffCustomOFFSET);
 	
@@ -71,11 +70,11 @@ public bool:InitNativesForwards()
 	return true;
 }
 ItemsPlusRacesLoaded(){
-	return W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded()+CUSTOMMODIFIERS;
+	return W3GetItemsLoaded()+War3_GetRacesLoaded()+CUSTOMMODIFIERS;
 }
 public NW3BuffCustomOFFSET(Handle:plugin,numParams)
 {
-	return W3GetItemsLoaded()+War3_GetRacesLoaded()+W3GetItems2Loaded();
+	return W3GetItemsLoaded()+War3_GetRacesLoaded();
 }
 public Native_War3_SetBuff(Handle:plugin,numParams)
 {
@@ -107,23 +106,6 @@ public Native_War3_SetBuffItem(Handle:plugin,numParams) //buff is from an item
 		new String:buf[64];
 		GetPluginFilename(plugin, buf, sizeof(buf));
 		ThrowError("warning, war3_setbuffitem passed zero itemid %s",buf);
-		}*/
-	}
-}
-public Native_War3_SetBuffItem2(Handle:plugin,numParams) //buff is from an item
-{
-	if(numParams==4) //client,race,buffindex,value
-	{
-		new client=GetNativeCell(1);
-		new W3Buff:buffindex=GetNativeCell(2);
-		new itemid=GetNativeCell(3);
-		new any:value=GetNativeCell(4);
-		SetBuff(client,buffindex,W3GetItemsLoaded()+War3_GetRacesLoaded()+itemid,value); //not offseted
-		
-		/*if(itemid==0){
-		new String:buf[64];
-		GetPluginFilename(plugin, buf, sizeof(buf));
-		LogError("warning, war3_setbuffitem2 passed zero itemid %s",buf);
 		}*/
 	}
 }

@@ -151,7 +151,7 @@ Initialize_SQLTable()
 		if(query==INVALID_HANDLE)
 		{   
 			new String:createtable[3000];
-			Format(createtable,sizeof(createtable),"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,    diamonds int,  total_level int,     total_xp int, levelbankV2 int,   last_seen int) %s",War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"" )
+			Format(createtable,sizeof(createtable),"CREATE TABLE war3source (steamid varchar(64) UNIQUE , name varchar(64),   currentrace varchar(16),     gold int,    total_level int,     total_xp int, levelbankV2 int,   last_seen int) %s",War3SQLType:W3GetVar(hDatabaseType)==SQLType_MySQL?"DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci":"" )
 			if(!SQL_FastQueryLogOnError(hDB,createtable))
 			{
 				SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
@@ -175,10 +175,6 @@ Initialize_SQLTable()
 					SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
 					PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
 				}
-			}
-			if(!SQL_FieldNameToNum(query, "diamonds", dummy))
-			{
-				AddColumn(hDB,"diamonds","int","war3source");
 			}
 		
 			CloseHandle(query);
@@ -342,7 +338,7 @@ War3Source_LoadPlayerData(client) //war3source calls this
 		
 		new String:longquery[4000];
 		//Prepare select query for main data
-		Format(longquery,sizeof(longquery),"SELECT currentrace,gold,diamonds,levelbankV2 FROM war3source WHERE steamid='%s'",steamid);
+		Format(longquery,sizeof(longquery),"SELECT currentrace,gold,levelbankV2 FROM war3source WHERE steamid='%s'",steamid);
 		//Pass off to threaded call back at normal prority
 		SQL_TQuery(hDB,T_CallbackSelectPDataMain,longquery,client);
 		
@@ -389,11 +385,7 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 				new cred=W3SQLPlayerInt(hndl,"gold");
 				//Set the gold for player
 				War3_SetGold(client,cred);
-				
-				new diamonds=W3SQLPlayerInt(hndl,"diamonds");
-				//Set the gold for player
-				War3_SetDiamonds(client,diamonds);
-				
+								
 				new levelbankamount=W3SQLPlayerInt(hndl,"levelbankV2");
 				
 				if(W3GetLevelBank(client)>levelbankamount){ //whichever is higher
@@ -411,7 +403,6 @@ public T_CallbackSelectPDataMain(Handle:owner,Handle:hndl,const String:error[],a
 					return;
 				}
 				PrintToConsole(client,"%T","[War3Source] War3 MAIN retrieval: gold {amount} Time {amount}",client,cred,GetGameTime());
-				PrintToConsole(client,"[War3Source] Diamonds %d",diamonds);
 				
 				new raceFound=0; // worst case senario set player to race 0
 				if(GetConVarInt(hSetRaceOnJoinCvar)>0)
@@ -748,7 +739,7 @@ War3_SavePlayerMainData(client){
 			
 			new String:short[16];
 			War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
-			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",szSafeName,short,War3_GetGold(client),War3_GetDiamonds(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
+			Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'",szSafeName,short,War3_GetGold(client),total_level,total_xp,last_seen,W3GetLevelBank(client),steamid);
 			new Handle:querytrie=CreateTrie();
 			SetTrieString(querytrie,"query",longquery);
 			SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,querytrie);
