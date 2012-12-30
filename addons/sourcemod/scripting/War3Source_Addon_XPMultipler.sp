@@ -21,7 +21,7 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	MultiplierCVars[0] = CreateConVar("war3_xp_multipler","1.0","XP multiplier");
+    MultiplierCVars[0] = CreateConVar("war3_xp_multipler","1.0","XP multiplier");
 	MultiplierCVars[1] = CreateConVar("war3_gold_multipler","1.0","Gold multiplier");
 }
 
