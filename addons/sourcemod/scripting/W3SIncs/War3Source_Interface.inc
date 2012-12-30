@@ -40,7 +40,6 @@ stock String:dummystr[32]; //just a dummy string!
  */
 public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 {
-	GlobalOptionalNatives();
 	DetermineGameMode();
 	new Function:func;
 	func=GetFunctionByName(plugin, "InitNativesForwards");
@@ -931,7 +930,6 @@ native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
  * 
  */
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
-native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
 native W3BuffCustomOFFSET(); //get offset for custom buff modifier indexes. use War3_SetBuffItem(client,buffindex,W3BuffCustomOFFSET() + NUMBER,value) (YES, ITEM)
 //not implemented
 //simple buff application which the plugin does internal tracking so you don't have to
