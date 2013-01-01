@@ -1,9 +1,16 @@
 /**
  * File: War3Source_ShopItems.sp
  * Description: The shop items that come with War3Source.
- * Author(s): Anthony Iacono
+ * Author(s): War3Source Team  
  */
- 
+
+public Plugin:myinfo = 
+{
+	name = "W3S - Shopitems",
+	author = "War3Source Team",
+	description = "The shop items that come with War3Source.",
+};
+
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -27,7 +34,7 @@ enum{
 	GLOVES,
 	RING,
 	MOLE,
-	
+	ANTIWARD,
 }
 
 new shopItem[MAXITEMS];//
@@ -54,15 +61,6 @@ new maskSoundDelay[66];
 
 // Offsets
 new OriginOffset,MyWeaponsOffset,AmmoOffset,Clip1Offset;
-
-public Plugin:myinfo = 
-{
-	name = "W3S - Shopitems",
-	author = "PimpinJuice",
-	description = "The shop items that come with War3Source.",
-	version = "1.0.0.0",
-	url = "http://pimpinjuice.net/"
-};
 
 public OnPluginStart()
 {
@@ -95,6 +93,8 @@ public OnPluginStart()
 	for(new i=1;i<=MaxClients;i++){
 		maskSoundDelay[i]=War3_RegisterDelayTracker();
 	}
+	
+	LoadTranslations("w3s.item.antiward.phrases");
 }
 new bool:war3ready;
 public OnWar3LoadRaceOrItemOrdered(num)
@@ -123,6 +123,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		
 		shopItem[RING]=War3_CreateShopItemT("ring",3,1500);
 		
+		shopItem[ANTIWARD] = War3_CreateShopItemT("antiward",3,3000);
 		
 		if(War3_GetGame()!=Game_TF) 
 			shopItem[HEALTH]=War3_CreateShopItemT("health",3,3000);
@@ -131,7 +132,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		War3_SetItemProperty(	shopItem[TOME], ITEM_USED_ON_BUY,true);
 	
 		if(War3_GetGame()!=Game_TF) 
-			shopItem[RESPAWN]=War3_CreateShopItemT("scroll",15,6000);
+			shopItem[RESPAWN]=War3_CreateShopItemT("scroll",15,6000, false);
 		
 		shopItem[SOCK]=War3_CreateShopItemT("sock",2,1500);
 		
@@ -243,12 +244,21 @@ public Action:GrenadeLoop(Handle:timer,any:data)
 
 public OnItemPurchase(client,item)
 {
+	if(!ValidPlayer(client))
+	{
+		return;
+	}
+	
 	if(item==shopItem[BOOTS] /*&& War3_GetGame()!=Game_TF*/) // boots of speed
 	{
 		War3_SetBuffItem(client,fMaxSpeed,shopItem[BOOTS],GetConVarFloat(BootsSpeedCvar));
 		//War3_SetMaxSpeed(client,GetConVarFloat(BootsSpeedCvar),shopItem[1]);
 		if(IsPlayerAlive(client))
 			War3_ChatMessage(client,"%T","You strap on your boots",client);
+	}
+	if(item==shopItem[ANTIWARD])
+	{
+		War3_SetBuffItem(client,bImmunityWards,shopItem[ANTIWARD],true);
 	}
 	if(item==shopItem[SOCK])
 	{
@@ -325,6 +335,10 @@ public OnItemLost(client,item){ //deactivate passives , client may have disconne
 	else if(item==shopItem[BOOTS]){
 		War3_SetBuffItem(client,fMaxSpeed,shopItem[BOOTS],1.0);
 	}
+	else if(item == shopItem[ANTIWARD])
+	{
+		War3_SetBuffItem(client,bImmunityWards,shopItem[ANTIWARD],false);
+	}
 	else if(item==shopItem[CLOAK])
 	{
 		War3_SetBuffItem(client,fInvisibilityItem,shopItem[CLOAK],1.0);
@@ -343,56 +357,10 @@ public OnWar3EventDeath(client){
 	if (ValidPlayer(client))
 	{
 		bDidDie[client]=true;
-		
-		if(War3_GetOwnsItem(client,shopItem[BOOTS])) // boots
-		{
-			War3_SetOwnsItem(client,shopItem[BOOTS],false);
-			War3_SetBuffItem(client,fMaxSpeed,shopItem[BOOTS],1.0);
-		}
-		if(War3_GetOwnsItem(client,shopItem[SOCK]))
-		{
-			War3_SetOwnsItem(client,shopItem[SOCK],false);
-			War3_SetBuffItem(client,fLowGravityItem,shopItem[SOCK],1.0);
-		}
-		if(War3_GetOwnsItem(client,shopItem[CLAW])) // claws
-		{
-			War3_SetOwnsItem(client,shopItem[CLAW],false);
-		}
-		if(War3_GetOwnsItem(client,shopItem[CLOAK]))
-		{
-			War3_SetOwnsItem(client,shopItem[CLOAK],false); // cloak
-			War3_SetBuffItem(client,fInvisibilityItem,shopItem[CLOAK],1.0);
-		}
-		if(War3_GetOwnsItem(client,shopItem[MASK]))
-		{
-			War3_SetOwnsItem(client,shopItem[MASK],false); // mask of death
-		}
-		if(War3_GetOwnsItem(client,shopItem[NECKLACE])) // immunity
-		{
-			War3_SetOwnsItem(client,shopItem[NECKLACE],false);
-		}
-		if(War3_GetOwnsItem(client,shopItem[FROST])) // orb of frost
-		{
-			War3_SetOwnsItem(client,shopItem[FROST],false);
-		}
-		if(War3_GetOwnsItem(client,shopItem[HEALTH]))
-		{
-			War3_SetOwnsItem(client,shopItem[HEALTH],false);
-		}
-		if(War3_GetGame()==Game_CS && War3_GetOwnsItem(client,shopItem[GLOVES])) // gloves
-		{
-			War3_SetOwnsItem(client,shopItem[GLOVES],false);
-		}
-		if(War3_GetOwnsItem(client,shopItem[RING])) // regen
-		{
-			War3_SetOwnsItem(client,shopItem[RING],false);
-			
-		}
 		//dont delete mole
 		if(War3_GetGame()!=Game_TF && War3_GetOwnsItem(client,shopItem[RESPAWN]))//&&!bSpawnedViaScrollRespawn[client])
 		{
 			CreateTimer(1.25,RespawnPlayerViaScrollRespawn,client);  ///default orc is 1.0, 1.25 so orc activates first
-			
 		}
 	}
 }
