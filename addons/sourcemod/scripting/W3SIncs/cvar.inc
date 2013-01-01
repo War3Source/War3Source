@@ -21,7 +21,6 @@ new Handle:hUseMetric;
 
 new Handle:introclannamecvar;
 new Handle:clanurl;
-new Handle:botsetraces;
 /////END CVARS
 ///other cvar handle definitions are in war3source.inc ??
 War3Source_InitCVars()
@@ -37,7 +36,6 @@ War3Source_InitCVars()
 	ChanceModifierSMGSniper=CreateConVar("war3_chancemodifier_smgsniper","0.5","From 0.0 to 1.0 chance modifier for sniper SMG");
 	
 	*/
-	botsetraces=CreateConVar("war3_bot_set_races","1","should bots get races");
 	
 	hRaceLimitEnabled=CreateConVar("war3_racelimit_enable","1","Should race limit restrictions per team be enabled");
 	W3SetVar(hRaceLimitEnabledCvar,hRaceLimitEnabled);

@@ -4,6 +4,7 @@
 * Author(s): Anthony Iacono  
 */
 
+#include "W3SIncs/War3Source_Bots.inc"
 
 new iRoundNumber;
 
@@ -72,26 +73,11 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
 			
 			CheckPendingRace(client);
 			
-			if(IsFakeClient(client)&&W3IsPlayerXPLoaded(client)&&War3_GetRace(client)==0&&GetConVarInt(botsetraces)){ //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
-				new tries=100;
-				if(tries>0){
-					new race=GetRandomInt(1,War3_GetRacesLoaded());
-					if(!W3RaceHasFlag(race,"nobots")){
-						tries=0;
-						//PrintToServer("race to be %d",race);
-						War3_SetRace(client,race);
-						War3_SetLevel(client,race,W3GetRaceMaxLevel(race));
-						for(new i=1;i<=War3_GetRaceSkillCount(race);i++){
-							War3_SetSkillLevelINTERNAL(client,race,i,W3GetRaceSkillMaxLevel(race,i));
-						}
-						W3DoLevelCheck(client);
-					}
-				}
-				//PrintToServer("race %d level %d %d",War3_GetRace(client),War3_GetLevel(client,race),War3_GetSkillLevel(client,race,0));
-			
+			//W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
+			if(IsFakeClient(client) && W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
+			{
+				War3_bots_pickrace(client);		
 			}
-			
-			
 			
 			new raceid=War3_GetRace(client);
 			if(!W3GetPlayerProp(client,SpawnedOnce))

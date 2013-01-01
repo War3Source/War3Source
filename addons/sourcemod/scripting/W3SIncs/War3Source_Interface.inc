@@ -1524,15 +1524,6 @@ native War3_RemoveDependency(iRaceID, iSkill);
  */
 native War3_GetDependency(iRaceID, iSkill, SkillDependency:eInfo=ID);
 
-// BOT THINGS!!
-
-/**
- * Force a fake client to distribute his skillpoints
- *
- * @param client: client index
- */
-native bool:War3_bots_distribute_sp(client);
-
 /**
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
  * FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS FORWARDS
@@ -2755,6 +2746,53 @@ stock Float:AbsoluteTime() {
 }
 
 stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
+
+
+// PUT THIS WHERE IT MAKES SENSE SOMETIME
+
+//check race limit and force re-choose race
+stock CheckRaceTeamLimit(raceid, team){
+
+	new Float:youngest=-1.0;
+	new target=0;
+	for(new i=1;i<=MaxClients;i++){
+	    if(ValidPlayer(i))
+		{
+			if(War3_GetRace(i)==raceid&&!W3IsDeveloper(i))
+			{
+				if(GetClientTeam(i)==team)
+				{
+					if(W3GetPlayerProp(i,LastChangeTeamTime)>youngest){
+						target=i;
+						youngest=W3GetPlayerProp(i,LastChangeTeamTime);
+					}
+				}
+			}
+		}
+	}
+	if(target>0){
+		War3_SetRace(target,0);
+		new String:racename[64];
+		War3_GetRaceName(raceid,racename,sizeof(racename));
+		War3_ChatMessage(target,"%T","{race} race team limit has reached (MAX {amount}), please select a different race",target,racename,W3GetRaceMaxLimitTeam(raceid,team));
+		PrintToConsole(target,"Your race has been set via raceutils.inc");
+		new cvar=W3GetRaceMaxLimitTeamCvar(raceid,team);
+		new String:cvarstr[64];
+		if(cvar>-1){
+			W3GetCvarActualString(cvar,cvarstr,sizeof(cvarstr));
+		}
+		cvar=W3FindCvar(cvarstr);
+		new String:cvarvalue[64];
+		if(cvar>-1){
+			W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
+		}
+		
+		W3Log("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
+		
+		W3CreateEvent(DoShowChangeRaceMenu,target);
+	}
+	
+}
 
 
 #include "W3SIncs/stocks_precache"

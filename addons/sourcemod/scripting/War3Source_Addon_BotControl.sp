@@ -11,20 +11,23 @@ public Plugin:myinfo =
 };
 
 // ########################## BOT EVASION ################################
-new Handle:botEvasionCvar;
+new Handle:botEvasionCvar = INVALID_HANDLE;
 
 // ########################## BOT RACE/LEVEL SCRAMBLER ###################
-new Handle:botLevelCvar;
-new Handle:botScrambleRound;
-new Handle:botAnnounce;
-new Handle:botLevelRandom;
+new g_bEnabled;
+new const MAX_RACE_PICK_ATTEMPTS = 100;
+
+new Handle:g_hGiveBotsRaces = INVALID_HANDLE;
+new Handle:g_hBotLevelCvar = INVALID_HANDLE;
+new Handle:g_hBotScrambleRound = INVALID_HANDLE;
+new Handle:g_hBotAnnounce = INVALID_HANDLE;
+new Handle:g_hBotLevelRandom = INVALID_HANDLE;
 
 // ########################## BOT ITEM CONFIG ############################
-new Handle:botBuysItems;
-new Handle:botBuysRandomChance;
-new Handle:botBuysRandomMultipleChance;
-new Handle:botsetraces;
-
+new Handle:botBuysItems = INVALID_HANDLE;
+new Handle:botBuysRandomChance = INVALID_HANDLE;
+new Handle:botBuysRandomMultipleChance = INVALID_HANDLE;
+ 
 public OnPluginStart()
 {
 
@@ -34,10 +37,14 @@ public OnPluginStart()
 	// ########################## BOT RACE/LEVEL SCRAMBLER ###################
 	RegAdminCmd("war3_botscramble", RaceScrambler, ADMFLAG_SLAY, "war3_botscramble - Scrambles the bots races.");
 	
-	botLevelCvar = CreateConVar("war3_bots_scramble_level", "-1", "The level the bots should be scrambled to.");
-	botLevelRandom = CreateConVar("war3_bots_scramble_random", "1", "Assign bots a random level up to war3_bots_scramble_level or just the defined level?");
-	botScrambleRound = CreateConVar("war3_bots_scramble_on_round", "1", "Scramble bots each round?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
-	botAnnounce = CreateConVar("war3_bots_scramble_announce", "1", "Announce the scrambling?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+	g_hGiveBotsRaces = CreateConVar("war3_bots_use_races", "1", "Enable/Disable races for bots");
+	g_hBotLevelCvar = CreateConVar("war3_bots_scramble_level", "-1", "The level the bots should be scrambled to.");
+	g_hBotLevelRandom = CreateConVar("war3_bots_scramble_random", "1", "Assign bots a random level up to war3_bots_scramble_level or just the defined level?");
+	g_hBotScrambleRound = CreateConVar("war3_bots_scramble_on_round", "1", "Scramble bots each round?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+	g_hBotAnnounce = CreateConVar("war3_bots_scramble_announce", "1", "Announce the scrambling?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+	
+	g_bEnabled = GetConVarBool(g_hGiveBotsRaces);
+	HookConVarChange(g_hGiveBotsRaces, ConVarChange_GiveBotsRaces);
 	
 	switch(War3_GetGame())
 	{
@@ -61,14 +68,21 @@ public OnPluginStart()
 	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance", "0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
 	
 	LoadTranslations ("w3s.addon.botcontrol.phrases");
-	botsetraces=CreateConVar("war3_bot_set_races","1","should bots get races");
 }
 
 public bool:InitNativesForwards()
 {
-	///LIST ALL THESE NATIVES IN INTERFACE
 	CreateNative("War3_bots_distribute_sp", Native_DistributeSkillpoints);
+	CreateNative("War3_bots_pickrace", Native_PickRace);
+
 	return true;
+}
+
+// ########################## CONVARS ######################################
+
+public ConVarChange_GiveBotsRaces(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+	g_bEnabled = StringToInt(newValue);
 }
 
 // ########################## BOT EVASION ################################
@@ -86,13 +100,19 @@ public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
 		
 		// Skill denied?
 		if(W3GetBuffHasTrue(victim, bInvisibilityDenySkill))
+		{
 			fSkillVisibility = 1.0;
+		}
 		
 		// Find the better value
 		if (fSkillVisibility < fItemVisibility)
+		{
 			fVictimVisibility = fSkillVisibility;
+		}
 		else
+		{
 			fVictimVisibility = fItemVisibility;
+		}
 		
 		// 1.0 = Total Visibility
 		// 0.0 = Total Invisibility
@@ -105,17 +125,7 @@ public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
 			new Float: fEvasion = (1.0 - fVictimVisibility) / 2;
 			if(GetRandomFloat(0.0, 1.0) <= fEvasion)
 			{
-				W3FlashScreen(victim, RGBA_COLOR_BLUE);
-				War3_DamageModPercent(0.0);
-				W3MsgEvaded(victim, attacker);
-				
-				if(War3_GetGame() == Game_TF)
-				{
-					decl Float:pos[3];
-					GetClientEyePosition(victim, pos);
-					pos[2] += 4.0;
-					War3_TF_ParticleToClient(0, "miss_text", pos);
-				}
+				EvadeDamage(victim, attacker);
 			}
 		}
 	}
@@ -124,73 +134,99 @@ public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
 // ########################## BOT RACE/LEVEL SCRAMBLER ###################
 public Event_ScrambleNow(Handle:event, const String:name[], bool:dontBroadcast)
 {
-	if(GetConVarBool(botScrambleRound))
+	if(GetConVarBool(g_hBotScrambleRound))
+	{
 		ScrambleBots();
+	}
 }
 
 public Action:RaceScrambler(client, args)
 {
 	ScrambleBots();
+	
 	return Plugin_Handled;
+}
+
+/**
+ * Makes the bot attempt to pick a race
+ */
+public PickRace(client)
+{
+	if (!IsFakeClient(client) || (IsFakeClient(client) && !g_bEnabled))
+	{
+		return;
+	}
+	
+	new attempts = 0;
+	new race = -1;
+	while (attempts <= MAX_RACE_PICK_ATTEMPTS)
+	{
+		race = GetRandomInt(1, War3_GetRacesLoaded());
+		
+		if (!W3RaceHasFlag(race, "nobots"))
+		{
+			break;
+		}	
+		
+		attempts++;
+	}
+
+	
+	new level = 0;
+	new race_max_level = W3GetRaceMaxLevel(race);
+	new bot_level_allowed = GetConVarInt(g_hBotLevelCvar);
+		
+	if(bot_level_allowed == -1) // Give him max level?
+	{
+		level = race_max_level;
+	}
+	else
+	{
+		if (bot_level_allowed > race_max_level) // cvar higher than max for this race?
+		{
+			level = race_max_level;
+		}
+		else // use cvar value
+		{
+			level = bot_level_allowed;
+		}
+	}
+	
+	if(GetConVarInt(g_hBotLevelRandom) == 1)
+	{
+		level = GetRandomInt(0, level);
+	}
+	
+	War3_SetRace(client, race);
+	War3_SetLevel(client, race, level);
+	DistributeSkillPoints(client);
 }
 
 ScrambleBots()
 {
-	new bot_level_allowed = GetConVarInt(botLevelCvar);
-	new level;
-	new race_max_level;
-	new race;
+	if (!g_bEnabled)
+	{
+		return;
+	}
 	
-	if(GetConVarInt(botsetraces)){
-		if(GetConVarBool(botAnnounce))
+	if(GetConVarBool(g_hBotAnnounce))
+	{		
+		for(new players = 1; players <= MaxClients; ++players)
 		{
-			//PrintToChatAll("\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",LANG_SERVER);
-				
-			for(new players = 1; players <= MaxClients; ++players)
+			if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
 			{
-				if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
-				{
-					
-					PrintToChat(players,"\x01\x04[War3Source]\x01 %T","The bots races and levels have been scrambled.",players);
-				}
-			}
-		}
-		
-		for(new client=1; client <= MaxClients; client++)
-		{
-			if(ValidPlayer(client) && IsFakeClient(client))
-			{
-				race = GetRandomInt(1, War3_GetRacesLoaded());
-				
-				while (W3RaceHasFlag(race, "nobots"))
-					race = GetRandomInt(1, War3_GetRacesLoaded());
-				
-				race_max_level = W3GetRaceMaxLevel(race);
-				if(bot_level_allowed == -1) // Give him max level?
-					level = race_max_level;
-				else
-				{
-					if (bot_level_allowed > race_max_level) // cvar higher than max for this race?
-						level = race_max_level;
-					else // use cvar value
-						level = bot_level_allowed;
-				}
-				
-				if(GetConVarInt(botLevelRandom) == 1)
-					level = GetRandomInt(0, level);
-				
-				War3_SetRace(client, race);
-				War3_SetLevel(client, race, level);
-				DistributeSkillPoints(client);
+				War3_ChatMessage(0, "%T", "The bots races and levels have been scrambled.", 0);
 			}
 		}
 	}
-}
-
-public Native_DistributeSkillpoints(Handle:plugin, numParams)
-{
-	new client = GetNativeCell(1);
-	DistributeSkillPoints(client);
+	
+	for(new client=1; client <= MaxClients; client++)
+	{
+		if(ValidPlayer(client) && IsFakeClient(client))
+		{
+			PickRace(client);
+		}
+	}
 }
 
 public DistributeSkillPoints(client)
@@ -202,12 +238,17 @@ public DistributeSkillPoints(client)
 
 	// Subtract already spent skillpoints
 	for(new i=0; i < War3_GetRaceSkillCount(race); i++)
+	{
 		skillpoints -= War3_GetSkillLevel(client, race, i);
+	}
 	
 	if(skillpoints < 0)
 	{
 		for(new i=0; i < War3_GetRaceSkillCount(race); i++)
+		{
 			War3_SetSkillLevelINTERNAL(client, race, i, 0); 	// Reset all skill points to zero
+		}
+		
 		DistributeSkillPoints(client); // Start over
 	}
 	else
@@ -217,7 +258,7 @@ public DistributeSkillPoints(client)
 		new skill_max_level;
 		
 		/* TODO: PUT INTO CVAR */
-		new max_attempts = 15;
+		new max_attempts = 50;
 		new attempts = 0;
 		while skillpoints > 0 && attempts <= max_attempts do
 		{
@@ -258,13 +299,19 @@ public DistributeSkillPoints(client)
 			}
 		}
 	}
+	
+	W3DoLevelCheck(client);
 }
 
 public OnWar3Event(W3EVENT:event, client)
 {
 	if(event == PlayerLeveledUp)
+	{
 		if(IsFakeClient(client))
+		{
 			DistributeSkillPoints(client);
+		}
+	}
 }
 
 // ########################## BOT ITEM CONFIG ############################
@@ -273,8 +320,12 @@ AmountOfItems(client)
 	new amount = 0;
 	
 	for(new x=1; x <= W3GetItemsLoaded(); x++)
+	{
 		if(War3_GetOwnsItem(client, x))
+		{
 			amount++;
+		}
+	}
 	
 	return amount;
 }
@@ -300,4 +351,19 @@ public OnWar3EventSpawn(client)
 			chance *= multipleChance;
 		}
 	}
+}
+
+// ########################## NATIVES ############################
+public Native_PickRace(Handle:plugin, numParams)
+{
+	new client = GetNativeCell(1);
+	
+	PickRace(client);
+}
+
+public Native_DistributeSkillpoints(Handle:plugin, numParams)
+{
+	new client = GetNativeCell(1);
+	
+	DistributeSkillPoints(client);
 }
