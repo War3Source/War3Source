@@ -381,28 +381,6 @@ stock Handle:War3_NearEntByName(client,String:ent_name[],Float:distance)
 	}
 	return INVALID_HANDLE;
 }
-/**
- * Stock, checks if a player is near an engineer building.
- * @param client: Client's index.
- * @param distance: Optional, how far is "near."
- * @return ADT array of results, otherwise INVALID_HANDLE
- * DO NOT FORGET TO CloseHandle() the results if they don't equal INVALID_HANDLE!!! 
- */
-stock Handle:War3_NearBuilding(client,Float:distance=150.0)
-{
-	if(War3_GetGame()==Game_TF)
-	{
-		new Handle:hEnts=CreateDataPack();
-		WritePackString(hEnts,"obj_dispenser");
-		WritePackString(hEnts,"obj_sentrygun");
-		WritePackString(hEnts,"obj_teleporter_entrance");
-		WritePackString(hEnts,"obj_teleporter_exit");
-		new Handle:result=War3_NearEntsByName(client,hEnts,4,distance);
-		CloseHandle(hEnts);
-		return result;
-	}
-	return INVALID_HANDLE;
-}
 
 // THE FOLLOWING NATIVES RETRIEVE DATA CACHED ONGAMEFRAME!
 // THE FUNCTIONS NAMED War3_CachedDead* ARE VALUES SET WHEN THE PLAYER DIES
@@ -487,29 +465,6 @@ native War3_CachedDeadAmmo(client, game_weapon_id);
  * @noreturn
  */
 native War3_CachedDeadWeaponName(client,weapon_iterator,String:output_buffer[],output_size);
-
-/**
- * Is player ubered (TF2)
- * @param client:
- * @return: true false
- */
-
-native bool:War3_IsUbered(client);
-
-/**
- * Is player carrying intellegence
- * @param client:
- * @return: true false
- */
-native bool:War3_HasFlag(client);
-
-/**
- * Is player cloaked
- * @param client:
- * @return: true false
- */
-
-native bool:War3_IsCloaked(client);
 
 //LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
 //we essentially move the cooldown system out of our races into our main plugin
@@ -1632,20 +1587,6 @@ stock W3MsgVengenceWasBlocked(client,String:reason[]) {
 	War3_ChatMessage(client,"%T","Vengence blocked ({reason})",client,reason);
 }
 
-stock bool:Spying(client) {
-	return GameTF()&&( TF2_IsPlayerInCondition(client,TFCond_Disguising)||TF2_IsPlayerInCondition(client,TFCond_Disguised) || TF2_IsPlayerInCondition(client,TFCond_Cloaked));
-}
-//team 2 3 swapped if spying
-stock GetApparentTeam(client) {
-	new team = GetClientTeam(client);
-	if (Spying(client)) {
-		if (team == 2)
-			team++;
-		else if (team == 3)
-			team--;
-	}
-	return team;
-}
 native W3IsBuffInvised(client); //returns true if client alpha is <50
 
 //invisible or cloaked?
@@ -1820,6 +1761,7 @@ stock CheckRaceTeamLimit(raceid, team){
 #include "W3SIncs/stocks_precache"
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/War3Source_CS_Interface"
+#include "W3SIncs/War3Source_TF2_Interface"
 #include "W3SIncs/stocks_misc"
 #include "W3SIncs/War3Source_Notifications"
 #include "W3SIncs/War3Source_Health"
