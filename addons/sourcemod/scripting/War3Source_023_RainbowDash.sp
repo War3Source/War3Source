@@ -238,7 +238,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 					GetArrayArray(data,	0,chances);
 					if(data!=INVALID_HANDLE&& level>0 &&!Hexed(victim,false) && W3Chance(chances[level]) && !W3HasImmunity(attacker,Immunity_Skills))
 					{
-						EvadeDamage();
+						EvadeDamage(victim, attacker);
 					}
 			}
 		}
