@@ -5,6 +5,12 @@
  * 
  */
 
+/** 
+ * Evade incoming damage.
+ * 
+ * Use inside OnW3TakeDmgAllPre or OnW3TakeDmgBulletPre if the victim
+ * should evade the incoming damage.
+ */
 stock EvadeDamage(victim, attacker)
 {
 	W3FlashScreen(victim, RGBA_COLOR_BLUE);
