@@ -32,7 +32,7 @@ new Float:EntangleDuration[5]={0.0,1.25,1.5,1.75,2.0};
 new String:entangleSound[256]; //="war3source/entanglingrootsdecay1.mp3";
 
 // Effects
-new TeleBeam,BeamSprite,HaloSprite;
+new BeamSprite,HaloSprite;
  
 public Plugin:myinfo = 
 {
@@ -58,13 +58,11 @@ public OnMapStart()
 {
 	if(GAMECSGO){
 		strcopy(entangleSound,sizeof(entangleSound),"music/war3source/entanglingrootsdecay1.mp3");
-		TeleBeam=War3_PrecacheBeamSprite();
 	}
 	else
 	{
 		strcopy(entangleSound,sizeof(entangleSound),"war3source/entanglingrootsdecay1.mp3");
-		TeleBeam=PrecacheModel("materials/sprites/tp_beam001.vmt");
-	}
+ 	}
 
 	BeamSprite=War3_PrecacheBeamSprite();
 	HaloSprite=War3_PrecacheHaloSprite();
@@ -283,35 +281,13 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 						{
 							if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL))
 							{
-								decl Float:iVec[3];
-								decl Float:iVec2[3];
-								GetClientAbsOrigin(attacker, iVec);
-								GetClientAbsOrigin(victim, iVec2);
-								iVec[2]+=35.0, iVec2[2]+=40.0;
-								TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
-								TE_SendToAll();
-								iVec2[0]=iVec[0];
-								iVec2[1]=iVec[1];
-								iVec2[2]=80+iVec[2];
-								TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
-								TE_SendToAll();
+								ReturnDamage(victim, attacker);
 							}
 						}
 						else   // For CS Stuff or others:
 						{
 							War3_DealDamageDelayed(attacker,victim,damage_i,"thorns",0.1,true,SKILL_THORNS);
-							decl Float:iVec[3];
-							decl Float:iVec2[3];
-							GetClientAbsOrigin(attacker, iVec);
-							GetClientAbsOrigin(victim, iVec2);
-							iVec[2]+=35.0, iVec2[2]+=40.0;
-							TE_SetupBeamPoints(iVec, iVec2, TeleBeam, TeleBeam, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255,35,15,255}, 30);
-							TE_SendToAll();
-							iVec2[0]=iVec[0];
-							iVec2[1]=iVec[1];
-							iVec2[2]=80+iVec[2];
-							TE_SetupBubbles(iVec, iVec2, HaloSprite, 35.0,GetRandomInt(6,8),8.0);
-							TE_SendToAll();
+							ReturnDamage(victim, attacker); 
 						}
 					}
 				}

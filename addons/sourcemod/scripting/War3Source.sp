@@ -108,6 +108,7 @@ And that’s the art of the test!
 
 #pragma semicolon 1
 
+// BRANCH and BUILD_NUMBER are set through Jenkins :)
 #define BRANCH "{branch}"
 #define BUILD_NUMBER "{build_number}"
 

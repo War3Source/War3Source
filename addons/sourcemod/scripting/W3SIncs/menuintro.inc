@@ -25,7 +25,7 @@ public War3Source_IntroMenu(client)
 	if(strlen(buf)){
 		AddMenuItem(introMenu,"exit",buf);
 	}
-	Format(buf,sizeof(buf),"Www.War3Source.Com");
+	Format(buf,sizeof(buf),"www.war3source.com");
 	AddMenuItem(introMenu,"exit",buf);
 	DisplayMenu(introMenu,client,MENU_TIME_FOREVER);
 }

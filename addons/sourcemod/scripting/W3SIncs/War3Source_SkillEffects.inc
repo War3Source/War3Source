@@ -25,3 +25,32 @@ stock EvadeDamage(victim, attacker)
 		War3_TF_ParticleToClient(0, "miss_text", pos);
 	}
 }
+
+/** 
+ * Stock for skills that return damage, like Thorns Aura.
+ * 
+ * Doesn't actually return any damage, only does the effect :)
+ */
+stock ReturnDamage(victim, attacker)
+{
+	new beamSprite = War3_PrecacheBeamSprite();
+	new haloSprite = War3_PrecacheHaloSprite();
+	
+	decl Float:f_AttackerPos[3];
+	decl Float:f_VictimPos[3];
+	
+	GetClientAbsOrigin(attacker, f_AttackerPos);
+	GetClientAbsOrigin(victim, f_VictimPos);
+	
+	f_AttackerPos[2] += 35.0;
+	f_VictimPos[2] += 40.0;
+	
+	TE_SetupBeamPoints(f_AttackerPos, f_VictimPos, beamSprite, beamSprite, 0, 45, 0.4, 10.0, 10.0, 0, 0.5, {255, 35, 15, 255}, 30);
+	TE_SendToAll();
+	
+	f_VictimPos[0] = f_AttackerPos[0];
+	f_VictimPos[1] = f_AttackerPos[1];
+	f_VictimPos[2] = 80.0 + f_AttackerPos[2];
+	TE_SetupBubbles(f_AttackerPos, f_VictimPos, haloSprite, 35.0, GetRandomInt(6, 8), 8.0);
+	TE_SendToAll();
+}
