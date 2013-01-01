@@ -9,6 +9,7 @@ public Plugin:myinfo =
 	description = "Various tweaks regarding bots in War3Source",
 	version = "1.3",
 };
+
 // ########################## BOT EVASION ################################
 new Handle:botEvasionCvar;
 
@@ -20,16 +21,15 @@ new Handle:botLevelRandom;
 
 // ########################## BOT ITEM CONFIG ############################
 new Handle:botBuysItems;
-new Handle:botBuysRandom;
 new Handle:botBuysRandomChance;
 new Handle:botBuysRandomMultipleChance;
 new Handle:botsetraces;
+
 public OnPluginStart()
 {
-	//SetFailState("BROKEN");
-	
+
 	// ########################## BOT EVASION ################################
-	botEvasionCvar = CreateConVar("war3_bots_invisibility_gives_evasion","1","Should invisibility give evasion against bots?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+	botEvasionCvar = CreateConVar("war3_bots_invisibility_gives_evasion", "1", "Should invisibility give evasion against bots?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
 	
 	// ########################## BOT RACE/LEVEL SCRAMBLER ###################
 	RegAdminCmd("war3_botscramble", RaceScrambler, ADMFLAG_SLAY, "war3_botscramble - Scrambles the bots races.");
@@ -42,18 +42,23 @@ public OnPluginStart()
 	switch(War3_GetGame())
 	{
 		case Game_DOD, Game_CS, Game_CSGO:
+		{
 			HookEvent("round_start", Event_ScrambleNow);
+		}
 		case Game_TF:
+		{
 			HookEvent("teamplay_round_win", Event_ScrambleNow);
+		}
 		case Game_L4D2:
+		{
 			HookEvent("round_end", Event_ScrambleNow);
+		}
 	}
 	
 	// ########################## BOT ITEM CONFIG ############################
-	botBuysItems = CreateConVar("war3_bots_buy_items", "1", "Can bots buy items?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
-	botBuysRandom = CreateConVar("war3_bots_buy_random","1","Bots buy random items when they spawn (Loadout Mode currently disabled!)", FCVAR_PLUGIN, true, 1.0, true, 1.0);
-	botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance","70","Chance a bot will buy an item on spawn.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
-	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance","0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
+	botBuysItems = CreateConVar("war3_bots_buy_items", "1", "Can bots buy random items?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+	botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance", "70","Chance a bot will buy an item on spawn.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
+	botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance", "0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
 	
 	LoadTranslations ("w3s.addon.botcontrol.phrases");
 	botsetraces=CreateConVar("war3_bot_set_races","1","should bots get races");
@@ -276,7 +281,7 @@ AmountOfItems(client)
 
 public OnWar3EventSpawn(client)
 {
-	if(ValidPlayer(client) && IsFakeClient(client) && GetConVarBool(botBuysItems) && GetConVarBool(botBuysRandom))
+	if(ValidPlayer(client) && IsFakeClient(client) && GetConVarBool(botBuysItems))
 	{	
 		new Float:chance = GetConVarFloat(botBuysRandomChance);
 		new Float:multipleChance = GetConVarFloat(botBuysRandomMultipleChance);
