@@ -108,6 +108,8 @@ And that’s the art of the test!
 
 #pragma semicolon 1
 
+#define BRANCH "{branch}"
+#define BUILD_NUMBER "{build_number}"
 
 #define VERSION_NUM "1.2.4.0"
 #define REVISION_NUM 12400 //increment every release
