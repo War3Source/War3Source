@@ -15,6 +15,7 @@ new String:itemDescription[MAXITEMS][512];
 new itemGoldCost[MAXITEMS];
 new itemMoneyCost[MAXITEMS];
 new itemProperty[MAXITEMS][W3ItemProp] ;
+new bool:itemLostOnDeath[MAXITEMS];
 
 new itemOrderCvar[MAXITEMS];
 new itemFlagsCvar[MAXITEMS];
@@ -72,9 +73,10 @@ public NWar3_CreateShopItem(Handle:plugin,numParams)
 	GetNativeString(1,name,sizeof(name));
 	GetNativeString(2,shortname,sizeof(shortname));
 	GetNativeString(3,desc,sizeof(desc));
-	new cost=GetNativeCell(4);
-	new costmoney=GetNativeCell(5);
-	new itemid=CreateNewItem(name,shortname,desc,cost,costmoney);
+	new bool:lost_upon_death = GetNativeCell(4);
+	new cost = GetNativeCell(4);
+	new costmoney = GetNativeCell(5);
+	new itemid = CreateNewItem(name,shortname,desc,cost,costmoney,lost_upon_death);
 	return itemid;
 }
 public NWar3_CreateShopItemT(Handle:plugin,numParams)
@@ -84,13 +86,12 @@ public NWar3_CreateShopItemT(Handle:plugin,numParams)
 	GetNativeString(1,shortname,sizeof(shortname));
 	new cost=GetNativeCell(2);
 	new costmoney=GetNativeCell(3);
-	
+	new bool:lost_upon_death = GetNativeCell(4);
 	
 	Format(name,sizeof(name),"%s_ItemName",shortname);
-	
 	Format(desc,sizeof(desc),"%s_ItemDesc",shortname);
 	
-	new itemid=CreateNewItem(name,shortname,desc,cost,costmoney);
+	new itemid=CreateNewItem(name,shortname,desc,cost,costmoney,lost_upon_death);
 	itemTranslated[itemid]=true;
 	
 	if(StrEqual(shortname,"scroll")){
@@ -205,7 +206,7 @@ public NW3GetItemCategory(Handle:plugin,numParams)
 
 
 
-CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescription[], itemcostgold,itemcostmoney){
+CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescription[], itemcostgold,itemcostmoney,bool:lost_upon_death){
 	
 	if(totalItemsLoaded+1==MAXITEMS){ //make sure we didnt reach our item capacity limit
 		LogError("MAX ITEMS REACHED, CANNOT REGISTER %s",titemname);
@@ -254,6 +255,8 @@ CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescripti
 	Format(cvarstr,sizeof(cvarstr),"%s_itemcategory",titemshortname);
 	itemCategoryCvar[titemid]=W3CreateCvar(cvarstr,"","item category");
 	
+	itemLostOnDeath[titemid] = lost_upon_death;
+	
 	return titemid; //this will be the new item's id / index
 }
 GetItemName(itemid,String:str[],len){
@@ -291,18 +294,13 @@ GetItemProperty(item,W3ItemProp:ITEMproperty){
 	return itemProperty[item][ITEMproperty];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+public OnWar3EventDeath(victim)
+{
+	for(new item=1; item <= W3GetItemsLoaded(); item++)
+	{
+		if(War3_GetOwnsItem(victim, item) && itemLostOnDeath[item])
+		{
+			War3_SetOwnsItem(victim, item, false);
+		}
+	}
+}

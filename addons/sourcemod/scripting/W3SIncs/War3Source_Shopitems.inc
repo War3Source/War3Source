@@ -14,11 +14,12 @@
  * @param shortname: the shortname of the item, must be unique
  * @param desc: The description of the item. 
  * @param cost: The cost of the item 
+ * @param lost_upon_death: If true the item will automatically be removed when the player dies. Defaults to true
  * @return The return value will be the item index or -1 if there was a problem.
  */
-native War3_CreateShopItem(String:name[],String:shortname[],String:desc[],costgold,costmoney);
+native War3_CreateShopItem(String:name[], String:shortname[], String:desc[], costgold, costmoney, bool:lost_upon_death=true);
 //translated
-native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
+native War3_CreateShopItemT(String:shortname[], costgold, costmoney, bool:lost_upon_death=true);
 
 //see W3ItemProp enum for available properties
 native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
