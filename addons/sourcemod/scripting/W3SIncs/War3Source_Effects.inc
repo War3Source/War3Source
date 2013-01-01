@@ -8,6 +8,14 @@
 ///LOOK FURTHER DOWN FOR SIMPLIFIED STOCK FUNCTIONS
 
 
+//=============================================================================
+//                             Raw particle/light methods
+//=============================================================================
+
+//=========================================
+//                 CREATION
+//==========================================
+
 /**
  * CreateW3SParticle
  * 
@@ -78,6 +86,10 @@ stock CreateW3SLight(const Float:fPos[3], const String:color[], const String:sty
 	return -1;
 }
 
+//=========================================
+//                 ATTACHMENT
+//==========================================
+
 /**
  * ModifyEntityAddDeathTimer
  * 
@@ -121,6 +133,21 @@ stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String
 			AcceptEntityInput(entityIndex, "SetParentAttachment", entityIndex, entityIndex, 0);
 		}
 	}
+}
+
+//=============================================================================
+//                                 Temp Entitys
+//=============================================================================
+
+stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIndex,const Float:heightF,count,const Float:speedF)
+{
+	TE_Start("Bubbles");
+	TE_WriteVector("m_vecMins", vecOrigin);
+	TE_WriteVector("m_vecMaxs", vecFinish);
+	TE_WriteFloat("m_fHeight", heightF);
+	TE_WriteNum("m_nModelIndex", modelIndex);
+	TE_WriteNum("m_nCount", count);
+	TE_WriteFloat("m_fSpeed", speedF);
 }
 
 //=============================================================================

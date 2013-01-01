@@ -296,14 +296,3 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 	}
 
 }
-
-stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIndex,const Float:heightF,count,const Float:speedF)
-{
-	TE_Start("Bubbles");
-	TE_WriteVector("m_vecMins", vecOrigin);
-	TE_WriteVector("m_vecMaxs", vecFinish);
-	TE_WriteFloat("m_fHeight", heightF);
-	TE_WriteNum("m_nModelIndex", modelIndex);
-	TE_WriteNum("m_nCount", count);
-	TE_WriteFloat("m_fSpeed", speedF);
-}
