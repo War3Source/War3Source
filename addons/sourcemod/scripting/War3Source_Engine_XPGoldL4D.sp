@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - XP Gold (L4D)"
+	name = "War3Source - Engine - XP Gold (L4D)",
 	author = "War3Source Team",
-	description = "Give XP and Gold specific to Left 4 Dead to those who deserve it",
+	description = "Give XP and Gold specific to Left 4 Dead to those who deserve it"
 };
 
 new Handle:HealPlayerXPCvar;

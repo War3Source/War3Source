@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Cooldown Manager"
+	name = "War3Source - Engine - Cooldown Manager",
 	author = "War3Source Team",
-	description = "Manages Cooldowns and doesn't afraid of anything",
+	description = "Manages Cooldowns and doesn't afraid of anything"
 };
 
 new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];

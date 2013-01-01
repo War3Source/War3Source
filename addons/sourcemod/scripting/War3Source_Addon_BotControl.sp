@@ -6,7 +6,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - Bot Control",
 	author = "War3Source Team",
-	description = "Make Bots integrate better into War3Source",
+	description = "Make Bots integrate better into War3Source"
 };
 
 // ########################## BOT EVASION ################################

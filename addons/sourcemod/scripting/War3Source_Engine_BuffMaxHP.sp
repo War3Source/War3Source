@@ -7,12 +7,10 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Buff Max HP"
+	name = "War3Source - Engine - Buff Max HP",
 	author = "War3Source Team",
-	description = "Controls a players Max HP via Buffs",
+	description = "Controls a players Max HP via Buffs"
 };
-
-
 
 new Handle:mytimer[MAXPLAYERSCUSTOM]; //INVLAID_HHANDLE is default 0
 new Float:LastDamageTime[MAXPLAYERSCUSTOM];

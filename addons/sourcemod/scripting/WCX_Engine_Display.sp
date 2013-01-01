@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - RPG Text Display"
+	name = "War3Source - Warcraft Extended - RPG Text Display",
 	author = "War3Source Team",
-	description="Generic text display",
+	description="Generic text display"
 };
 
 new Handle:g_hCvarEnable = INVALID_HANDLE;

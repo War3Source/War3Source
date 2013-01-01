@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Hammerstorm",
 	author = "War3Source Team",
-	description = "The Hammerstorm race for War3Source.",
+	description = "The Hammerstorm race for War3Source."
 };
 
 new thisRaceID;

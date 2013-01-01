@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Wards"
+	name = "War3Source - Warcraft Extended - Wards",
 	author = "War3Source Team",
-	description="Generic ward skill",
+	description="Generic ward skill"
 };
 
 

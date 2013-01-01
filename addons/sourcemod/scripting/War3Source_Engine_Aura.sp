@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Aura"
+	name = "War3Source - Engine - Aura",
 	author = "War3Source Team",
-	description = "Aura Engine for War3Source",
+	description = "Aura Engine for War3Source"
 };
 
 new bool:AuraOrigin[MAXPLAYERSCUSTOM][MAXAURAS];

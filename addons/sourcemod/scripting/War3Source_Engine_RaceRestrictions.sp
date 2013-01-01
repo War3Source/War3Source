@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Race Restrictions"
+	name = "War3Source - Engine - Race Restrictions",
 	author = "War3Source Team",
-	description = "Restrict players from selecting races",
+	description = "Restrict players from selecting races"
 };
 public OnPluginStart()
 {

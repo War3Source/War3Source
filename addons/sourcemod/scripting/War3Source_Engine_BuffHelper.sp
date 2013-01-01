@@ -14,9 +14,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Buff Tracker (Buff Helper)"
+	name = "War3Source - Engine - Buff Tracker (Buff Helper)",
 	author = "War3Source Team",
-	description = "I track buffs so you don't have to!",
+	description = "I track buffs so you don't have to!"
 };
 
 /*

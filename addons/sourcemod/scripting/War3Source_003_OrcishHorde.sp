@@ -19,7 +19,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Orcish Horde",
 	author = "War3Source Team",
-	description = "The Orcish Horde race for War3Source.",
+	description = "The Orcish Horde race for War3Source."
 };
 
 new thisRaceID;

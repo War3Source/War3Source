@@ -7,9 +7,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Statistics"
+	name = "War3Source - Engine - Statistics",
 	author = "War3Source Team",
-	description = "Collect statistics and send them to Ownz",
+	description = "Collect statistics and send them to Ownz"
 };
 
 new war3statsversion = 2;

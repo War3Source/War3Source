@@ -4,9 +4,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Death Weapons"
+	name = "War3Source - Engine - Death Weapons",
 	author = "War3Source Team",
-	description = "Stores what weapons a player had when he died",
+	description = "Stores what weapons a player had when he died"
 };
 
 ///caching player angles, pos, ducking, weapons etc

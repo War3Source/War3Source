@@ -8,9 +8,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Shopitem - Default Shopitems"
+	name = "War3Source - Shopitem - Default Shopitems",
 	author = "War3Source Team",
-	description = "The default shopitems that come with War3Source",
+	description = "The default shopitems that come with War3Source"
 };
 
 enum{

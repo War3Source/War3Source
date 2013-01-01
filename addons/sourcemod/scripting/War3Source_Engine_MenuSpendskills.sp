@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Menu Spendskills"
+	name = "War3Source - Engine - Menu Spendskills",
 	author = "War3Source Team",
-	description = "Shows the spendskills menu",
+	description = "Shows the spendskills menu"
 };
 
 new Handle:NoSpendSkillsLimitCvar;

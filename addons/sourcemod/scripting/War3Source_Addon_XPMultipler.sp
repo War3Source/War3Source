@@ -6,7 +6,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - XP Multiplier",
 	author = "War3Source Team",
-	description = "Easy XP/Gold rate handling with convars",
+	description = "Easy XP/Gold rate handling with convars"
 };
 
 new Handle:MultiplierCVars[2];

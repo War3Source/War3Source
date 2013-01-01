@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Menu Itemsinfo"
+	name = "War3Source - Engine - Menu Itemsinfo",
 	author = "War3Source Team",
-	description = "Shows the itemsinfo menu",
+	description = "Shows the itemsinfo menu"
 };
 
 public OnWar3Event(W3EVENT:event,client){

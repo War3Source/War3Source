@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Model CS"
+	name = "War3Source - Engine - Model CS",
 	author = "War3Source Team",
-	description = "Custom Models for Counter Strike",
+	description = "Custom Models for Counter Strike"
 };
 
 #define EF_NODRAW 32

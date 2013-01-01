@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Admin Console"
+	name = "War3Source - Engine - Admin Console",
 	author = "War3Source Team",
-	description = "Admin commands for War3Source",
+	description = "Admin commands for War3Source"
 };
 
 public OnPluginStart()

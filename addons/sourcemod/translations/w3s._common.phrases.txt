@@ -1472,7 +1472,7 @@
 	"WelcomeToServer"
 	{
 		"#format"	"{1:s},{2:s},{3:s}"
-		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ Www.War3Source.Com\nVersion: {2} by {3}"
+		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ www.war33ource.com\nVersion: {2} by the War3Source Team"
 	}
 	"ForHelpIntro"
 	{

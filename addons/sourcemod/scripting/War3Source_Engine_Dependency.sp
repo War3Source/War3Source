@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Skill Dependencys"
+	name = "War3Source - Engine - Skill Dependencys",
 	author = "War3Source Team",
-	description = "Make skills depend on each other",
+	description = "Make skills depend on each other"
 };
 
 // holds informations about the skill dependency id(0) and required level(1)

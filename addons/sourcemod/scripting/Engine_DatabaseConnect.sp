@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Engine - Database Connect",
 	author = "War3Source Team",
-	description = "Connects War3Source to the database",
+	description = "Connects War3Source to the database"
 };
 
 new Handle:hDB;

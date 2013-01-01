@@ -11,7 +11,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Lich",
 	author = "War3Source Team",
-	description = "The Lich race for War3Source.",
+	description = "The Lich race for War3Source."
 };
 
 new thisRaceID;

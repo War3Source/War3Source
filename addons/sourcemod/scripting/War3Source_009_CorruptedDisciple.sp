@@ -13,7 +13,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Corrupted Disciple",
 	author = "War3Source Team",
-	description = "The Corrupted Disciple race for War3Source.",
+	description = "The Corrupted Disciple race for War3Source."
 };
 
 new thisRaceID;

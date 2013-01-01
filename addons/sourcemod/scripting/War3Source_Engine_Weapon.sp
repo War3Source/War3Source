@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Weapons"
+	name = "War3Source - Engine - Weapons",
 	author = "War3Source Team",
-	description = "Control Weapon access in CS:S",
+	description = "Control Weapon access in CS:S"
 };
 
 new m_OffsetActiveWeapon;

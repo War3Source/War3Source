@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - HP Regen"
+	name = "War3Source - Engine - HP Regen",
 	author = "War3Source Team",
-	description = "Controls Health regeneration",
+	description = "Controls Health regeneration"
 };
 
 new g_iRegenParticleSkip[MAXPLAYERSCUSTOM];

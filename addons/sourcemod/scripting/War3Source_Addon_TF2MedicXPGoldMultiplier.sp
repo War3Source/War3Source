@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - Additional Medic XP/Gold",
 	author = "War3Source Team",
-	description = "Give medics more XP and gold when they assist someon",
+	description = "Give medics more XP and gold when they assist someon"
 };
 
 public LoadCheck(){

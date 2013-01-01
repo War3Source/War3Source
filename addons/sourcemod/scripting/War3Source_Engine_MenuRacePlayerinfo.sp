@@ -4,9 +4,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Player/Race Info"
+	name = "War3Source - Engine - Player/Race Info",
 	author = "War3Source Team",
-	description = "Shows information about players/races",
+	description = "Shows information about players/races"
 };
 
 new raceinfoshowskillnumber[MAXPLAYERSCUSTOM];

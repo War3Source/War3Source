@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Dodge"
+	name = "War3Source - Warcraft Extended - Dodge",
 	author = "War3Source Team",
-	description="Generic dodge skill",
+	description="Generic dodge skill"
 };
 
 new Handle:FHOnW3DodgePre;

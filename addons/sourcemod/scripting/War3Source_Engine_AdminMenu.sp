@@ -3,14 +3,13 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Admin Menu"
+	name = "War3Source - Engine - Admin Menu",
 	author = "War3Source Team",
-	description = "Admin menu for War3Source",
+	description = "Admin menu for War3Source"
 };
 
 public OnPluginStart()
 {
-
 	RegConsoleCmd("war3admin",War3Source_Admin,"Brings up the War3Source admin panel.");
 
 	RegConsoleCmd("say war3admin",War3Source_Admin,"Brings up the War3Source admin panel.");

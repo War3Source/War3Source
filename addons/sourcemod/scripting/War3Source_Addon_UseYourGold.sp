@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - Use Your Gold",
 	author = "War3Source Team",
-	description = "Makes players automatically buy an item when their gold is full",
+	description = "Makes players automatically buy an item when their gold is full"
 };
 
 

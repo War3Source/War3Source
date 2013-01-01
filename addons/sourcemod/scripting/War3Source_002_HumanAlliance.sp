@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Human Alliance",
 	author = "War3Source Team",
-	description = "The Human Alliance race for War3Source.",
+	description = "The Human Alliance race for War3Source."
 };
 
 new thisRaceID;

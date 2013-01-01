@@ -8,7 +8,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Engine - Hint Display",
 	author = "War3Source Team",
-	description = "Improved HintText functionality",
+	description = "Improved HintText functionality"
 };
 
 

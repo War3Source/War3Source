@@ -13,7 +13,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - No Spy Suicide",
 	author = "War3Source Team",
-	description = "Deny Spy players a unhonorable death",
+	description = "Deny Spy players a unhonorable death"
 };
 
 new Handle:nosuicidecvar;

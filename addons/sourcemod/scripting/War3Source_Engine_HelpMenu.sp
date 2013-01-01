@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Help Menu"
+	name = "War3Source - Engine - Help Menu",
 	author = "War3Source Team",
-	description = "How do I mine for fish?",
+	description = "How do I mine for fish?"
 };
 
 new Handle:vecHelpCommands;

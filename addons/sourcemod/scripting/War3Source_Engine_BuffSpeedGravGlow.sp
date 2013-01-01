@@ -6,9 +6,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Buff Speed Grav Glow"
+	name = "War3Source - Engine - Buff Speed Grav Glow",
 	author = "War3Source Team",
-	description = "Controls the buffs named in the title",
+	description = "Controls the buffs named in the title"
 };
 
 new m_OffsetSpeed=-1;

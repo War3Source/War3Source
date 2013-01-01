@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Shopitem - Shield"
+	name = "War3Source - Shopitem - Shield",
 	author = "War3Source Team",
-	description = "Become immune to abilitys",
+	description = "Become immune to abilitys"
 };
 
 new thisItem;

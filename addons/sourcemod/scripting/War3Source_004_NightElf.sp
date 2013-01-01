@@ -9,7 +9,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Night Elf",
 	author = "War3Source Team",
-	description = "The Night Elf race for War3Source.",
+	description = "The Night Elf race for War3Source."
 };
 
 new bool:bIsEntangled[MAXPLAYERSCUSTOM];

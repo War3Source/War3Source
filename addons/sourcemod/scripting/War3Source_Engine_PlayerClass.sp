@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Player Class"
+	name = "War3Source - Engine - Player Class",
 	author = "War3Source Team",
-	description = "Stores information about a player",
+	description = "Stores information about a player"
 };
 
 new p_xp[MAXPLAYERSCUSTOM][MAXRACES];

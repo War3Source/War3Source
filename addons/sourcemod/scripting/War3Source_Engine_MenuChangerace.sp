@@ -4,9 +4,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Menu Changerace"
+	name = "War3Source - Engine - Menu Changerace",
 	author = "War3Source Team",
-	description = "Responsible for showing the changerace menu",
+	description = "Responsible for showing the changerace menu"
 };
 
 new Handle:g_hGameMode;

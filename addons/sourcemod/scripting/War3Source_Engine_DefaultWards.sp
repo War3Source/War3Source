@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Wards"
+	name = "War3Source - Engine - Default Wards",
 	author = "War3Source Team",
-	description = "The ward engine",
+	description = "Default ward implementations"
 };
 
 enum {

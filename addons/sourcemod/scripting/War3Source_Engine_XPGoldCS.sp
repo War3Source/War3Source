@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - XP Gold (CS)"
+	name = "War3Source - Engine - XP Gold (CS)",
 	author = "War3Source Team",
-	description = "Give XP and Gold specific to Counter Strike to those who deserve it",
+	description = "Give XP and Gold specific to Counter Strike to those who deserve it"
 };
 
 public LoadCheck(){

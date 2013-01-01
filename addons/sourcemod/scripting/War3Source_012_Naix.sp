@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Naix",
 	author = "War3Source Team",
-	description = "The Naix Mage race for War3Source.",
+	description = "The Naix Mage race for War3Source."
 };
 
 // Colors

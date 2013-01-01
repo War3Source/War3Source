@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Levelbank"
+	name = "War3Source - Engine - Levelbank",
 	author = "War3Source Team",
-	description = "Controls the levelbank",
+	description = "Controls the levelbank"
 };
 
 new levelbank[MAXPLAYERSCUSTOM];

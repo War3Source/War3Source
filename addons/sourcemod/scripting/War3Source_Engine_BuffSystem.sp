@@ -4,6 +4,12 @@
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Buff System",
+	author = "War3Source Team",
+	description = "The main controller when it comes to setting/getting buffs"
+};
 
 //for debuff index, see constants, its in an enum
 new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
@@ -11,14 +17,6 @@ new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMM
 new BuffProperties[W3Buff][W3BuffProperties];
 
 new any:BuffCached[MAXPLAYERSCUSTOM][W3Buff];// instead of looping, we cache everything in the last dimension, see enum W3BuffCache
-
-public Plugin:myinfo = 
-{
-	name = "War3Source - Engine - Buff System"
-	author = "War3Source Team",
-	description = "The main controller when it comes to setting/getting buffs",
-};
-
 
 public OnPluginStart()
 {

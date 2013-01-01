@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Main Engine"
+	name = "War3Source - Warcraft Extended - Main Engine",
 	author = "War3Source Team",
-	description="Engine for generic skills",
+	description="Engine for generic skills"
 };
 
 //new String:explosionSound1[]="war3source/particle_suck1.wav";

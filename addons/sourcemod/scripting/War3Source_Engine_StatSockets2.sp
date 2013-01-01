@@ -11,9 +11,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Stats Socket 2"
+	name = "War3Source - Engine - Stats Socket 2",
 	author = "War3Source Team",
-	description = "Collect statistics and send them to Ownz",
+	description = "Collect statistics and send them to Ownz"
 };
 
 new Handle:hShowSocketError;

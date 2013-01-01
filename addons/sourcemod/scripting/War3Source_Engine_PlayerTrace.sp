@@ -3,15 +3,10 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Player Trace"
+	name = "War3Source - Engine - Player Trace",
 	author = "War3Source Team",
-	description = "Some trace utilitys",
+	description = "Some trace utilitys"
 };
-
-public OnPluginStart()
-{
-	
-}
 
 public bool:InitNativesForwards()
 {

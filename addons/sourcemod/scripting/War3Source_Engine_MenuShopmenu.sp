@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Menu Shopmenu"
+	name = "War3Source - Engine - Menu Shopmenu",
 	author = "War3Source Team",
-	description = "Shows the shopmenu",
+	description = "Shows the shopmenu"
 };
 
 new Handle:hBuyItemUseCSMoneCvar;

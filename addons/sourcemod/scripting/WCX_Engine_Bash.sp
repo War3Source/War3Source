@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Bash"
+	name = "War3Source - Warcraft Extended - Bash",
 	author = "War3Source Team",
-	description="Generic bash skill",
+	description="Generic bash skill"
 };
 
 new PlayerRace[MAXPLAYERSCUSTOM];

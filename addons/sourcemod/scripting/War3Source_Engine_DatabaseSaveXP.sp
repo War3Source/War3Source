@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Database Save XP"
+	name = "War3Source - Engine - Database Save XP",
 	author = "War3Source Team",
-	description = "Saves players Experience",
+	description = "Saves players Experience"
 };
 
 new Handle:hDB;

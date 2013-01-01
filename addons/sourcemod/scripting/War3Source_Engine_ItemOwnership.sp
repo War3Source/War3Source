@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Item Ownership"
+	name = "War3Source - Engine - Item Ownership",
 	author = "War3Source Team",
-	description = "Controls who owns what item",
+	description = "Controls who owns what item"
 };
 
 new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];

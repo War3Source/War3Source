@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Events"
+	name = "War3Source - Engine - Events",
 	author = "War3Source Team",
-	description = "Generic War3Source events",
+	description = "Generic War3Source events"
 };
 
 new Handle:g_War3GlobalEventFH; 

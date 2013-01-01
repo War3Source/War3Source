@@ -7,7 +7,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Undead Scourge",
 	author = "War3Source Team",
-	description = "The Undead Scourge race for War3Source",
+	description = "The Undead Scourge race for War3Source"
 };
 
 // War3Source stuff

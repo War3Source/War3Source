@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Left 4 Dead"
+	name = "War3Source - Engine - Left 4 Dead",
 	author = "War3Source Team",
-	description = "Handle Left4Dead specific stuff",
+	description = "Handle Left4Dead specific stuff"
 };
 
 new bool:g_bIsHelpless[MAXPLAYERS+1];

@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Command Hooks"
+	name = "War3Source - Engine - Command Hooks",
 	author = "War3Source Team",
-	description = "Command Hooks for War3Source",
+	description = "Command Hooks for War3Source"
 };
 
 new Handle:Cvar_ChatBlocking;

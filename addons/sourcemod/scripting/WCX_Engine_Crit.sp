@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Crit"
+	name = "War3Source - Warcraft Extended - Crit",
 	author = "War3Source Team",
-	description="Generic crit skill",
+	description="Generic crit skill"
 };
 
 public OnWar3EventPostHurt(victim, attacker, damage)

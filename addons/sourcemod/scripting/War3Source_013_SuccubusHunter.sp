@@ -12,7 +12,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Succubus Hunter",
 	author = "War3Source Team",
-	description = "The Succubus Hunter race for War3Source.",
+	description = "The Succubus Hunter race for War3Source."
 };
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;

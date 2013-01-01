@@ -10,7 +10,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - Level Up Particle",
 	author = "War3Source Team",
-	description = "Display a fancy effect whenever somebody levels up",
+	description = "Display a fancy effect whenever somebody levels up"
 };
 
 public OnPluginStart()

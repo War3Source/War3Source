@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Vampirism"
+	name = "War3Source - Warcraft Extended - Vampirism",
 	author = "War3Source Team",
-	description="Generic vampirism skill",
+	description="Generic vampirism skill"
 };
 
 public OnPluginStart()

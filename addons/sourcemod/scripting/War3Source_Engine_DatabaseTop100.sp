@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Database Top 100"
+	name = "War3Source - Engine - Database Top 100",
 	author = "War3Source Team",
-	description = "Display the top players on your server",
+	description = "Display the top players on your server"
 };
 
 

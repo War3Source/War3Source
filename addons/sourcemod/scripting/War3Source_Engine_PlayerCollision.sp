@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Player Collision"
+	name = "War3Source - Engine - Player Collision",
 	author = "War3Source Team",
-	description = "Figure it out yourself :)",
+	description = "Figure it out yourself :)"
 };
 
 new g_offsCollisionGroup;

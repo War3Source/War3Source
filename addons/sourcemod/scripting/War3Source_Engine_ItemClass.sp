@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Item Class"
+	name = "War3Source - Engine - Item Class",
 	author = "War3Source Team",
-	description = "Saves information about items",
+	description = "Saves information about items"
 };
 
 new totalItemsLoaded=0;  ///USE raceid=1;raceid<=GetRacesLoaded();raceid++ for looping

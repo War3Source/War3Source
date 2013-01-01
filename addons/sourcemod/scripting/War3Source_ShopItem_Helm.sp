@@ -12,9 +12,9 @@ new String:helmSound3[256]; //="physics/metal/metal_solid_impact_bullet4.wav";
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Shopitem - Helm"
+	name = "War3Source - Shopitem - Helm",
 	author = "War3Source Team",
-	description = "Become immune to headshots",
+	description = "Become immune to headshots"
 };
 
 public OnPluginStart()

@@ -11,7 +11,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Race - Blood Mage",
 	author = "War3Source Team",
-	description = "The Blood Mage race for War3Source.",
+	description = "The Blood Mage race for War3Source."
 };
 
 // TODO: Effects

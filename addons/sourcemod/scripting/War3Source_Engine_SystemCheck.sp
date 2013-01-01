@@ -8,9 +8,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - System Check"
+	name = "War3Source - Engine - System Check",
 	author = "War3Source Team",
-	description = "Verify we got some necessary engines",
+	description = "Verify we got some necessary engines"
 };
 
 new String:coreplugins[COREPLUGINSNUM][]={

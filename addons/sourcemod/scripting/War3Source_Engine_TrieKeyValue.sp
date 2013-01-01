@@ -3,9 +3,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Trie Key Value"
+	name = "War3Source - Engine - Trie Key Value",
 	author = "War3Source Team",
-	description = "Convert between cvars and tries",
+	description = "Convert between cvars and tries"
 };
 
 new Handle:Cvartrie;

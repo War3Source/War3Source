@@ -4,9 +4,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Race Class"
+	name = "War3Source - Engine - Race Class",
 	author = "War3Source Team",
-	description = "Information about races",
+	description = "Information about races"
 };
 
 new totalRacesLoaded=0;  ///USE raceid=1;raceid<=GetRacesLoaded();raceid++ for looping

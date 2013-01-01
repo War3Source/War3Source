@@ -5,9 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Warcraft Extended - Progressbar"
+	name = "War3Source - Warcraft Extended - Progressbar",
 	author = "War3Source Team",
-	description="Generic progressbar for CS:S",
+	description="Generic progressbar for CS:S"
 };
 
 new String:g_sPropProgressBarTime[66] = "m_flProgressBarStartTime";

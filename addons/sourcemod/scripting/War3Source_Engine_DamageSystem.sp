@@ -6,9 +6,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Damage System"
+	name = "War3Source - Engine - Damage System",
 	author = "War3Source Team",
-	description = "Responsible for hooking and dealing damage related things",
+	description = "Responsible for hooking and dealing damage related things"
 };
 
 ///would you like to see the damage stack print out?

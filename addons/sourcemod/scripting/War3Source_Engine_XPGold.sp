@@ -6,9 +6,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - XP Gold"
+	name = "War3Source - Engine - XP Gold",
 	author = "War3Source Team",
-	description = "Give XP and Gold to those who deserve it",
+	description = "Give XP and Gold to those who deserve it"
 };
 
 new String:levelupSound[256]; //="war3source/levelupcaster.mp3";

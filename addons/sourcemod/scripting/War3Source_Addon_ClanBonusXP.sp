@@ -10,7 +10,7 @@ public Plugin:myinfo =
 {
 	name = "War3Source - Addon - Clan Bonus XP",
 	author = "War3Source Team",
-	description = "Give members of a specific steamgroup bonus XP",
+	description = "Give members of a specific steamgroup bonus XP"
 };
 
 new Handle:g_hClanVar = INVALID_HANDLE;

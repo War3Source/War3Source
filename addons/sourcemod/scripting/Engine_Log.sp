@@ -4,7 +4,7 @@
 public Plugin:myinfo = 
 {
 	name = "War3Source - Engine - Logging",
-	author = "War3Source Team",
+	author = "War3Source Team"
 };
 
 new Handle:hW3Log;
