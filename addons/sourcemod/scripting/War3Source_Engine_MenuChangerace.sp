@@ -1,9 +1,13 @@
-
-
-
 #pragma dynamic 10000
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Menu Changerace"
+	author = "War3Source Team",
+	description = "Responsible for showing the changerace menu",
+};
 
 new Handle:g_hGameMode;
 new bool:bSurvivalStarted;
@@ -13,15 +17,6 @@ new bool:bStartingArea[MAXPLAYERS];
 new Handle:hUseCategories,Handle:hCanDrawCat;
 new String:strCategories[MAXCATS][64];
 new CatCount;
-
-public Plugin:myinfo= 
-{
-	name="War3Source Menus changerace",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 public OnPluginStart()
 {

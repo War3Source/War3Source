@@ -1,13 +1,11 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo=
+public Plugin:myinfo = 
 {
-	name="W3S Engine HP Regen",
-	author="Ownz (DarkEnergy) - Fixed up by Glider",
-	description="War3Source Core Plugins",
-	version="1.1",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - HP Regen"
+	author = "War3Source Team",
+	description = "Controls Health regeneration",
 };
 
 new g_iRegenParticleSkip[MAXPLAYERSCUSTOM];

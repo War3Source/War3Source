@@ -1,9 +1,3 @@
-/**
- * 
- * Description:   CD from HON
- * Author(s): Ownz (DarkEnergy) and pimpjuice
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -14,6 +8,13 @@
 #include <sdktools_tempents_stocks>
 
 #include <cstrike>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Corrupted Disciple",
+	author = "War3Source Team",
+	description = "The Corrupted Disciple race for War3Source.",
+};
 
 new thisRaceID;
 new Handle:ultCooldownCvar;
@@ -66,15 +67,6 @@ new String:overloadstate[256]; //="war3source/cd/ultstate.mp3";
 
 // Effects
 new BeamSprite,HaloSprite; 
-
-public Plugin:myinfo = 
-{
-	name = "Race - Corrupted Disciple",
-	author = "PimpJuice and Ownz (DarkEnergy)",
-	description = "The Corrupted Disciple race for War3Source.",
-	version = "1.0",
-	url = "http://pimpinjuice.net/"
-};
 
 public OnPluginStart()
 {

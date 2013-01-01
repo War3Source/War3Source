@@ -1,20 +1,13 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="W3S Engine XP Gold L4D",
-	author="Glider",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - XP Gold (L4D)"
+	author = "War3Source Team",
+	description = "Give XP and Gold specific to Left 4 Dead to those who deserve it",
 };
 
-
- 
-// l4d
 new Handle:HealPlayerXPCvar;
 new Handle:DeployUpgradeXPCvar;
 new Handle:RevivePlayerXPCvar;

@@ -1,15 +1,15 @@
-/**
-* File: War3Source_NightElf.sp
-* Description: The Night Elf race for War3Source.
-* Author(s): Anthony Iacono 
-*/
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface" 
-//see u only include this file
 #include <sdktools>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Chronos",
+	author = "War3Source Team",
+	description = "The Chronos race for War3Source.",
+};
 
 new thisRaceID;
 
@@ -52,14 +52,6 @@ new HaloSprite;
 
 stock oldbuttons[MAXPLAYERSCUSTOM];
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
-public Plugin:myinfo = 
-{
-	name = "Race - Chronos",
-	author = "Ownz (DarkEnergy)",
-	description = "Chronos",
-	version = "1.0.0.0",
-	url = "www.ownageclan.com"
-};
 
 public OnPluginStart()
 {

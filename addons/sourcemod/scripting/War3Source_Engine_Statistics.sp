@@ -1,10 +1,16 @@
 #pragma semicolon 1
+#pragma dynamic 10000
 
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
-#pragma dynamic 10000
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Statistics"
+	author = "War3Source Team",
+	description = "Collect statistics and send them to Ownz",
+};
 
 new war3statsversion = 2;
 
@@ -31,16 +37,6 @@ new Handle:hUpdateTimer;
 new Handle:hCollectingStats;
 
 new bool:bCollectStats;
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Statistics",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public OnPluginStart()
 {	

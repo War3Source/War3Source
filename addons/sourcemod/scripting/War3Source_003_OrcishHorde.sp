@@ -15,6 +15,13 @@
 
 #include <cstrike>
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Orcish Horde",
+	author = "War3Source Team",
+	description = "The Orcish Horde race for War3Source.",
+};
+
 new thisRaceID;
 new bool:bHasRespawned[MAXPLAYERSCUSTOM]; //cs
 new Handle:RespawnDelayCvar;
@@ -47,15 +54,6 @@ new String:lightningSound[256]; //="war3source/lightningbolt.mp3";
 new SKILL_CRIT,SKILL_NADE_INVIS,SKILL_RECARN_WARD,ULT_LIGHTNING;
 // Effects
 new BeamSprite,HaloSprite,BloodSpray,BloodDrop; 
-
-public Plugin:myinfo = 
-{
-	name = "Race - Orcish Horde",
-	author = "PimpinJuice",
-	description = "The Orcish Horde race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://war3source.com"
-};
 
 public OnPluginStart()
 {  

@@ -3,6 +3,12 @@
 #include "W3SIncs/War3Source_Interface"
 #include <cstrike>
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Weapons"
+	author = "War3Source Team",
+	description = "Control Weapon access in CS:S",
+};
 
 new m_OffsetActiveWeapon;
 new m_OffsetNextPrimaryAttack;
@@ -13,23 +19,12 @@ new highestPriority[MAXPLAYERSCUSTOM];
 new bool:restrictionEnabled[MAXPLAYERSCUSTOM][MAXRACES]; ///if restriction has length, then this should be true (caching allows quick skipping)
 new bool:hasAnyRestriction[MAXPLAYERSCUSTOM]; //if any of the races said client has restriction, this is true (caching allows quick skipping)
 
-
-
 new g_iWeaponRateQueue[MAXPLAYERSCUSTOM][2]; //ent, client
 new g_iWeaponRateQueueLength;
 
 new timerskip;
 
 new Handle:hweaponFiredFwd;
-public Plugin:myinfo= 
-{
-	name="W3S Engine Weapons",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public OnPluginStart()
 {

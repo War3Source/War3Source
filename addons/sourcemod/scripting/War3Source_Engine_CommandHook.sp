@@ -1,19 +1,17 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Command Hooks"
+	author = "War3Source Team",
+	description = "Command Hooks for War3Source",
+};
+
 new Handle:Cvar_ChatBlocking;
 
 new Handle:g_OnUltimateCommandHandle;
 new Handle:g_OnAbilityCommandHandle;
-
-public Plugin:myinfo=
-{
-	name="W3S Engine Command Hooks",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 public OnPluginStart()
 {

@@ -5,11 +5,11 @@
 
 public Plugin:myinfo = 
 {
-	name = "Race - Sacred Warrior",
-	author = "Glider / modified by Ownz (DarkEnergy)",
+	name = "War3Source - Race - Sacred Warrior",
+	author = "War3Source Team",
 	description = "The Sacred Warrior race for War3Source.",
-	version = "1.1",
 };
+
 new thisRaceID;
 new SKILL_VITALITY, SKILL_SPEAR, SKILL_BLOOD, ULT_BREAK;
 

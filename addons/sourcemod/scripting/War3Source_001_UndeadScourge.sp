@@ -1,13 +1,14 @@
-/**
-* File: War3Source_UndeadScourge.sp
-* Description: The Undead Scourge race for War3Source.
-* Author(s): Anthony Iacono, Necavi 
-*/
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Undead Scourge",
+	author = "War3Source Team",
+	description = "The Undead Scourge race for War3Source",
+};
 
 // War3Source stuff
 new thisRaceID;
@@ -24,15 +25,6 @@ new Float:LevitationGravity[5]={1.0,0.85,0.7,0.6,0.5};
 new Float:VampirePercent[5]={0.0,0.08,0.14,0.20,0.25};
 
 new SKILL_LEECH,SKILL_SPEED,SKILL_LOWGRAV,SKILL_SUICIDE;
-
-public Plugin:myinfo = 
-{
-	name = "Race - Undead Scourge",
-	author = "PimpinJuice, Necavi",
-	description = "The Undead Scourge race for War3Source.",
-	version = "1.0",
-	url = "http://war3source.com"
-};
 
 // War3Source Functions
 public OnPluginStart()

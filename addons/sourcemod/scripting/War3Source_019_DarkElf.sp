@@ -3,16 +3,14 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"  
 
-
-new thisRaceID;
 public Plugin:myinfo = 
 {
-	name = "Race - Dark Elf",
-	author = "Smilax & Glider helped a lot :D", //modified by Ownz
+	name = "War3Source - Race - Dark Elf",
+	author = "War3Source Team",
 	description = "The Dark Elf race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://cgaclan.com/"
 };
+
+new thisRaceID;
 
 new SKILL_FADE,SKILL_SLOWFALL,SKILL_TRIBUNAL,ULTIMATE_DARKORB;
 

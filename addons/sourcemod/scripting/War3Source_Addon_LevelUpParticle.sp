@@ -1,9 +1,3 @@
-/**
- * File: War3Source_Addon_LevelUpParticle.sp
- * Description: Displays particles whenever somebody levels up.
- * Author(s): Glider & xDr.HaaaaaaaXx
- */
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -14,10 +8,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "W3S - Addon - Display Particles on Level Up",
-	author = "Glider & xDr.HaaaaaaaXx",
-	description = "Displays particles whenever somebody levels up",
-	version = "1.2",
+	name = "War3Source - Addon - Level Up Particle",
+	author = "War3Source Team",
+	description = "Display a fancy effect whenever somebody levels up",
 };
 
 public OnPluginStart()

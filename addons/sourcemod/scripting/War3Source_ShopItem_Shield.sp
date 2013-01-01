@@ -3,21 +3,17 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Shopitem - Shield"
+	author = "War3Source Team",
+	description = "Become immune to abilitys",
+};
+
 new thisItem;
 
 new MoneyOffsetCS;
 new Handle:ShieldRestrictionCvar; 
-
-public Plugin:myinfo= 
-{
-	name="War3Source Shop - Shield",
-	author="Vulpone&Revan",
-	description="War3Source item: Holy Shield. Blocks abilities.Thanks to Necavi, Ownz, Glider, Revan & the rest.",
-	version="1.0",
-	url="http://wcs-lagerhaus.de"
-};
-
-
 
 public OnPluginStart()
 {

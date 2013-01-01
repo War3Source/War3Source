@@ -1,10 +1,3 @@
- 	
-
-////BUFF SYSTEM
-
-
-
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -19,15 +12,12 @@ new BuffProperties[W3Buff][W3BuffProperties];
 
 new any:BuffCached[MAXPLAYERSCUSTOM][W3Buff];// instead of looping, we cache everything in the last dimension, see enum W3BuffCache
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Buff System",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Buff System"
+	author = "War3Source Team",
+	description = "The main controller when it comes to setting/getting buffs",
 };
-
 
 
 public OnPluginStart()

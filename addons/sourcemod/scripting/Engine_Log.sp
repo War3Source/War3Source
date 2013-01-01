@@ -1,21 +1,16 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Logging",
+	author = "War3Source Team",
+};
 
 new Handle:hW3Log;
 new Handle:hW3LogError;
 new Handle:hW3LogNotError;
 new Handle:hGlobalErrorFwd;
-public Plugin:myinfo= 
-{
-	name="Engine Log Error",
-	author="Ownz",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {

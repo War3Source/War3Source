@@ -1,11 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-
-
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Database Top 100"
+	author = "War3Source Team",
+	description = "Display the top players on your server",
+};
 
 
 new bool:bRankCached[MAXPLAYERSCUSTOM];
@@ -20,25 +21,6 @@ new String:Top100Steamid[101][64];
 new Top100totallevel[101];
 new Top100totalxp[101];
 
-
-
-
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Database top100",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-public OnPluginStart()
-{
-	
-	
-}
 public OnMapStart(){
 	War3Source_UpdateStats();
 }

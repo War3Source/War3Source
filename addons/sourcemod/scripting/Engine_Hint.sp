@@ -1,23 +1,19 @@
-
 #pragma semicolon 1
 
 #include <profiler>
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Hint Display",
+	author = "War3Source Team",
+	description = "Improved HintText functionality",
+};
+
 
 new UserMsg:umHintText;
-
 new bool:enabled = true; //cvar value
-
-public Plugin:myinfo= 
-{
-	name="Engine Hint Display",
-	author="Ownz",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 new Handle:objarray[MAXPLAYERSCUSTOM][W3HintPriority];
 new bool:updatenextframe[MAXPLAYERSCUSTOM];

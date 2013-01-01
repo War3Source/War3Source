@@ -9,6 +9,13 @@
 #pragma dynamic 100000 //cells.....*4 for bytes
 //#pragma amxram 40960 // 4 KB available for data+stack.
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Stats Socket 2"
+	author = "War3Source Team",
+	description = "Collect statistics and send them to Ownz",
+};
+
 new Handle:hShowSocketError;
 new const MAXSOCKETS=5;
 new const MAXQUEUELEN=3000;
@@ -18,14 +25,6 @@ enum SOCKETTYPE{ RAW,HTTPGET,HTTPPOST};
 
 new backoffcounter;
 new Handle:socketQueue;
-public Plugin:myinfo = {
-	name = "W3S Engine Stats sockets 2",
-	author = "Ownz (DarkEnergy)",
-	description = "statistics collector",
-	version = "1.0",
-	url = "war3source.com"
-};
-
 
 public OnPluginStart() {
 	hShowSocketError=CreateConVar("w3_show_sockets_error","0","show socket errors");

@@ -1,9 +1,3 @@
-/**
- * File: War3Source_Addon_LevelUpParticle.sp
- * Description: Displays particles whenever somebody levels up.
- * Author(s): Glider & xDr.HaaaaaaaXx
- */
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -12,17 +6,16 @@
 #include <sdktools_tempents_stocks>
 #include "W3SIncs/War3Source_Interface"
 
-
 #include <tf2>
 #include <tf2_stocks>
 
 public Plugin:myinfo = 
 {
-	name = "W3S - Addon - No Spy Suicide",
-	author = "ownz - DarkEnergy",
-	description = "",
-	version = "1.0",
+	name = "War3Source - Addon - No Spy Suicide",
+	author = "War3Source Team",
+	description = "Deny Spy players a unhonorable death",
 };
+
 new Handle:nosuicidecvar;
 public OnPluginStart(){
 	LoadTranslations("w3s.addon.nospysuicide.phrases");

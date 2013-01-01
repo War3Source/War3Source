@@ -1,16 +1,15 @@
-
-
-
-//DAMAGE SYSTEM
-
-
-
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Damage System"
+	author = "War3Source Team",
+	description = "Responsible for hooking and dealing damage related things",
+};
 
 ///would you like to see the damage stack print out?
 //#define DEBUG
@@ -47,16 +46,6 @@ new damagestack=0;
 
 new Float:LastDamageDealtTime[MAXPLAYERSCUSTOM];
 new Float:ChanceModifier[MAXPLAYERSCUSTOM];
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Damage",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public OnPluginStart()
 {

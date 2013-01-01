@@ -1,23 +1,15 @@
-/**
- * File: War3Source_Addon_XPMultipler.sp
- * Description: Easy XP/Gold rate handling with convars.
- * Author(s): DonRevan
- */
- 
 #pragma semicolon 1
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"  
 
-new Handle:MultiplierCVars[2];
-
 public Plugin:myinfo = 
 {
-	name = "War3Source Addon - XP Multipler",
-	author = "DonRevan",
+	name = "War3Source - Addon - XP Multiplier",
+	author = "War3Source Team",
 	description = "Easy XP/Gold rate handling with convars",
-	version = "1.0",
-	url = "http://www.war3source.com/"
 };
+
+new Handle:MultiplierCVars[2];
 
 public OnPluginStart()
 {

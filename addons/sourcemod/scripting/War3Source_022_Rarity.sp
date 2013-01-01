@@ -4,15 +4,14 @@
 #include "W3SIncs/War3Source_Interface"  
 //#include "W3SIncs/War3Source_Effects"
 
-new thisRaceID;
 public Plugin:myinfo = 
 {
-	name = "Race - Rarity",
-	author = "OWNAGE",
-	description = "",
-	version = "1.0",
-	url = "http://ownageclan.com/"
+	name = "War3Source - Race - Rarity",
+	author = "War3Source Team",
+	description = "The Rarity race for War3Source.",
 };
+
+new thisRaceID;
 
 new SKILL_SMITTEN,SKILL_HEARTACHE,SKILL_SLEEP,ULTIMATE;
 ///based on succubus HON

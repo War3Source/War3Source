@@ -1,17 +1,11 @@
-/* War3Source Skill Dependency Engine
- * Authors  : Vulpone & DonRevan
- * Version  : 1.0 Public
- */
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Engine Skill Dependency",
-	author="Vulpone & DonRevan",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Skill Dependencys"
+	author = "War3Source Team",
+	description = "Make skills depend on each other",
 };
 
 // holds informations about the skill dependency id(0) and required level(1)

@@ -1,9 +1,3 @@
-/**
- * File: War3Source_CryptLord.sp
- * Description: The Crypt Lord race for War3Source.
- * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -12,6 +6,14 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Crypt Lord",
+	author = "War3Source Team",
+	description = "The Crypt Lord race for War3Source.",
+};
+
 new thisRaceID;
 
 new SKILL_IMPALE,SKILL_SPIKE,SKILL_BEETLES,ULT_LOCUST;

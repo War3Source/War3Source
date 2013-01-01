@@ -1,14 +1,15 @@
-/**
-* File: War3Source_NightElf.sp
-* Description: The Night Elf race for War3Source.
-* Author(s): Anthony Iacono 
-*/
- 
 #pragma semicolon 1
  
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Scout",
+	author = "War3Source Team",
+	description = "The Scout race for War3Source.",
+};
 
 new thisRaceID;
 
@@ -36,14 +37,6 @@ new standStillCount[MAXPLAYERSCUSTOM];
 //new BeamSprite,HaloSprite;
 
 new auras[5];
-public Plugin:myinfo = 
-{
-	name = "Race - Scout",
-	author = "Ownz",
-	description = "The Night Elf race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://pimpinjuice.net/"
-};
 
 public OnPluginStart()
 {

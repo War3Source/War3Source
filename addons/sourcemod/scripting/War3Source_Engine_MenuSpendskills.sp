@@ -1,19 +1,14 @@
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Menu spendskills",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.1",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Menu Spendskills"
+	author = "War3Source Team",
+	description = "Shows the spendskills menu",
 };
 
 new Handle:NoSpendSkillsLimitCvar;
-
-
 
 public OnPluginStart()
 {

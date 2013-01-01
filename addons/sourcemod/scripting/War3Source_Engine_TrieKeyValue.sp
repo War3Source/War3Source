@@ -1,21 +1,16 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Trie Key Value"
+	author = "War3Source Team",
+	description = "Convert between cvars and tries",
+};
 
 new Handle:Cvartrie;
 new Handle:Cvararraylist; //cvar
 new Handle:Cvararraylist2; //cvar definition
-public Plugin:myinfo= 
-{
-	name="W3S Engine Trie Key Value",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
 
 public OnPluginStart()
 {

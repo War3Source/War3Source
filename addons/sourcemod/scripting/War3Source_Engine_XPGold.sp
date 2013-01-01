@@ -4,13 +4,11 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="W3S Engine XP Gold",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - XP Gold"
+	author = "War3Source Team",
+	description = "Give XP and Gold to those who deserve it",
 };
 
 new String:levelupSound[256]; //="war3source/levelupcaster.mp3";

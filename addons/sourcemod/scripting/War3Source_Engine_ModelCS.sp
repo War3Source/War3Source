@@ -2,6 +2,14 @@
 #include <sdktools>
 #include "W3SIncs/War3Source_Interface"
 #include "W3SIncs/sdkhooks"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Model CS"
+	author = "War3Source Team",
+	description = "Custom Models for Counter Strike",
+};
+
 #define EF_NODRAW 32
 //max amount of custom modelchanges this plugin can handle. change value and recompile to change it
 #define CS_WEAPONCOUNT 28
@@ -15,15 +23,6 @@ new CurPos[MAXPLAYERSCUSTOM][2];
 new bool:SpawnCheck[MAXPLAYERSCUSTOM];
 new ClientVM[MAXPLAYERSCUSTOM][2];
 new bool:IsCustom[MAXPLAYERSCUSTOM];
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Model CS",
-	author="blodia, DonRevan",
-	description="War3Source Core Plugins",
-	version="1.2",
-	url="https://forums.alliedmods.net/showthread.php?t=181558"
-};
 
 public bool:InitNativesForwards()
 {

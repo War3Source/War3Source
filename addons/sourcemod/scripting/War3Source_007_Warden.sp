@@ -1,9 +1,3 @@
-/**
- * File: War3Source_Warden.sp
- * Description: The Warden race for War3Source.
- * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -12,6 +6,14 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Warden",
+	author = "War3Source Team",
+	description = "The Warden race for War3Source.",
+};
+
 new thisRaceID;
 
 new String:sOldModel[MAXPLAYERSCUSTOM][256];
@@ -59,15 +61,6 @@ new KnifeModel;
 
 // Offsets
 new MyWeaponsOffset,AmmoOffset;//,Clip1Offset;
-
-public Plugin:myinfo = 
-{
-	name = "Race - Warden",
-	author = "PimpinJuice & Ownz (DarkEnergy)",
-	description = "The Warden race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://Www.OwnageClan.Com"
-};
 
 public OnPluginStart()
 {

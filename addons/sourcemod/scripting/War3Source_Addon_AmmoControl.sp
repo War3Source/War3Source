@@ -1,11 +1,3 @@
-/**
- * File: War3Source_Addon_AmmoControl.sp
- * Description: Ammo Control Addon for War3Source.
- * Author(s): Frenzzy
- * 
- * http://war3source.com/index.php?topic=525.0  
- */
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -14,6 +6,13 @@
 
 #include <cstrike>
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Addon - Ammo Control",
+	author = "War3Source Team",
+	description = "",
+	url = "http://war3source.com/index.php?topic=525.0",
+};
 
 #define PLUGIN_VERSION "1.0"
 
@@ -40,14 +39,6 @@ new g_iWeaponSlot[MAXPLAYERS+1];
 // Convars
 new Handle:g_hCvarEnable = INVALID_HANDLE;
 new bool:g_bCvar_Enable = true;
-
-public Plugin:myinfo = {
-	name = "W3S Addon - Ammo Control",
-	author = "Frenzzy",
-	description = "Ammo Control",
-	version = PLUGIN_VERSION,
-	url = "http://www.war3source.com/"
-};
 
 public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err_max)
 {

@@ -1,21 +1,14 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-new g_offsCollisionGroup;
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="W3S Engine Player Collisions",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Player Collision"
+	author = "War3Source Team",
+	description = "Figure it out yourself :)",
 };
 
-
-
-
+new g_offsCollisionGroup;
 
 public OnPluginStart()
 {

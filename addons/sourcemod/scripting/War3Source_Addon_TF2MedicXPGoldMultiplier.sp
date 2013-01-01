@@ -1,23 +1,20 @@
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 
-
 #include "W3SIncs/War3Source_Interface"  
-
 #include <tf2_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Addon - Additional Medic XP/Gold",
+	author = "War3Source Team",
+	description = "Give medics more XP and gold when they assist someon",
+};
 
 public LoadCheck(){
 	return GameTF();
 }
 new Handle:XPMultiplierCVar;
 new Handle:GoldMultiplierCVar;
-
-public Plugin:myinfo = 
-{
-    name = "W3S - Addon - Additional Medic XP/Gold",
-    author = "Glider",
-    description = "Give medics more XP and gold when they assist someone",
-    version = "1.2",
-};
 
 public OnPluginStart()
 {

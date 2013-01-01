@@ -1,27 +1,17 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Events"
+	author = "War3Source Team",
+	description = "Generic War3Source events",
+};
 
 new Handle:g_War3GlobalEventFH; 
 new Handle:g_hfwddenyable; 
 new dummyreturn;
 new bool:notdenied=true;
-public Plugin:myinfo= 
-{
-	name="War3Source Events",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-
-public OnPluginStart()
-{
-}
 
 public bool:InitNativesForwards()
 {

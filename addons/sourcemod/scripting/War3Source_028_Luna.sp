@@ -1,12 +1,15 @@
-/**
- * File: War3Source_Luna.sp
- * Description: Luna Moonfang for War3Source!
- * Author(s): Jareth(wcs version) & DonRevan(war3source remake)
- */
 #pragma semicolon 1
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Luna Moonfang",
+	author = "War3Source Team",
+	description = "The Luna Moonfang race for War3Source.",
+};
+
 new thisRaceID;
 new String:beamsnd[256]; // = "war3source/moonqueen/beam.mp3";
 new String:lunasnd2[256]; // = "weapons/flashbang/flashbang_explode2.wav";
@@ -32,14 +35,6 @@ new XBeamSprite,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
 //new BlueSprite;
 new Handle:ultCooldownCvar = INVALID_HANDLE;
 new AuraID;
-public Plugin:myinfo =
-{
-	name = "War3Source Race - Luna Moonfang",
-	author = "Jareth&DonRevan",
-	description = "Luna Moonfang",
-	version = "1.0",
-	url = "www.wcs-lagerhaus.de"
-};
 
 public OnPluginStart()
 {

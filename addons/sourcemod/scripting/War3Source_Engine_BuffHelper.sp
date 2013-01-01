@@ -12,6 +12,13 @@
 
 #define MAXBUFFHELPERS 99 /// not the bStunned but how many buffs this helper system can track
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Buff Tracker (Buff Helper)"
+	author = "War3Source Team",
+	description = "I track buffs so you don't have to!",
+};
+
 /*
 enum BuffHelperObject{
 	//String:ExecuteString[1000],
@@ -34,18 +41,6 @@ new Handle:objRace;
 new Handle:objBuffIndex;
 new Handle:objClientAppliedTo;
 new Handle:objExpiration;
-
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Buff Tracker (Buff helper)",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
 
 public OnPluginStart()
 {

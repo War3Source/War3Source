@@ -1,18 +1,12 @@
-
-
-
 //#pragma tabsize 0     // doesn't mess with how you format your lines
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Menus playerinfo raceinfo",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Player/Race Info"
+	author = "War3Source Team",
+	description = "Shows information about players/races",
 };
 
 new raceinfoshowskillnumber[MAXPLAYERSCUSTOM];

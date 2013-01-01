@@ -1,9 +1,3 @@
-/**
- * 
- * Description:   SR FROM HON
- * Author(s): Ownz (DarkEnergy) and pimpjuice
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -13,6 +7,13 @@
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
 #include <cstrike>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Soul Reaper",
+	author = "War3Source Team",
+	description = "The Soul Reaper race for War3Source.",
+};
 
 new thisRaceID;
 new Handle:ultCooldownCvar;
@@ -38,15 +39,6 @@ new String:judgesnd[256]; //="war3source/sr/judgement.mp3";
 new String:ultsnd[256]; //="war3source/sr/ult.mp3";
 
 new AuraID;
-
-public Plugin:myinfo = 
-{
-	name = "Race - Soul Reaper",
-	author = "Ownz (DarkEnergy)",
-	description = "Soul Reaper for War3Source.",
-	version = "1.0",
-	url = "War3Source.com"
-};
 
 public OnPluginStart()
 {

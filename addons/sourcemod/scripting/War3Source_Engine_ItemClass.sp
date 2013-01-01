@@ -1,8 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Item Class"
+	author = "War3Source Team",
+	description = "Saves information about items",
+};
 
 new totalItemsLoaded=0;  ///USE raceid=1;raceid<=GetRacesLoaded();raceid++ for looping
 ///race instance variables
@@ -22,23 +26,6 @@ new itemFlagsCvar[MAXITEMS];
 new itemCategoryCvar[MAXITEMS];
 
 new bool:itemTranslated[MAXITEMS];
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Item Class",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-
-
-public OnPluginStart()
-{
-	
-}
 
 public bool:InitNativesForwards()
 {

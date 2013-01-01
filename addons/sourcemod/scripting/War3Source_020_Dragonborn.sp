@@ -1,7 +1,3 @@
-//////////////////////////////////////
-// 			T F 2   O N L Y         //
-//////////////////////////////////////
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -9,15 +5,15 @@
 #include <tf2_stocks>
 #include "W3SIncs/War3Source_Interface"  
 
-new thisRaceID;
 public Plugin:myinfo = 
 {
-	name = "Race - Dragonborn",
-	author = "Smilax", //with help from Glider
+	name = "War3Source - Race - Dragonborn",
+	author = "War3Source Team",
 	description = "The Dragonborn race for War3Source.",
-	version = "2.0.0.0",
-	url = "http://cgaclan.com/"
 };
+
+new thisRaceID;
+
 public LoadCheck(){
 	return GameTF();
 }

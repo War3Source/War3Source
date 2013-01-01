@@ -1,13 +1,11 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo=
+public Plugin:myinfo = 
 {
-	name="War3Source Menus Shopmenus",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Menu Shopmenu"
+	author = "War3Source Team",
+	description = "Shows the shopmenu",
 };
 
 new Handle:hBuyItemUseCSMoneCvar;

@@ -1,26 +1,14 @@
-/*
-* WCSx Progress Bar Commands
-*/
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-#define PLUGIN_NAME "WCX Progressbar"
-#define PLUGIN_AUTHOR "gothroach"
-#define PLUGIN_DESC "WCX Progressbar"
-#define PLUGIN_VERSION "0.0.5"
-#define PLUGIN_URL "http://wcsx.0xf.org"
-
 public Plugin:myinfo = 
 {
-	name = PLUGIN_NAME,
-	author = PLUGIN_AUTHOR,
-	description = PLUGIN_DESC,
-	version = PLUGIN_VERSION,
-	url = PLUGIN_URL
-}
+	name = "War3Source - Warcraft Extended - Progressbar"
+	author = "War3Source Team",
+	description="Generic progressbar for CS:S",
+};
 
 new String:g_sPropProgressBarTime[66] = "m_flProgressBarStartTime";
 new String:g_sPropProgressBarDur[66] = "m_iProgressBarDuration";

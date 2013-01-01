@@ -1,16 +1,14 @@
-/* ============================================================================ */
-/*										                                        */
-/*   naix.sp									                                */
-/*   (c) 2009 Stinkyfax								                            */
-/*										                                        */
-/*										                                        */
-/* ============================================================================	*/
-
-
 #include <sourcemod>
 #include <sdktools_functions>	//For teleport
 #include <sdktools_sound>		//For sound effect
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Naix",
+	author = "War3Source Team",
+	description = "The Naix Mage race for War3Source.",
+};
 
 // Colors
 #define COLOR_DEFAULT 0x01
@@ -38,17 +36,6 @@ new thisRaceID, SKILL_INFEST, SKILL_BLOODBATH, SKILL_FEAST, ULT_RAGE;
 
 new String:skill1snd[256]; //="war3source/naix/predskill1.mp3";
 new String:ultsnd[256]; //="war3source/naix/predult.mp3";
-
-public Plugin:myinfo = 
-{
-	name = "Race - Lifestealer",
-	author = "Stinkyfax and Ownz (DarkEnergy)",
-	description = "N'aix - the embodiment of lust and greed,\nbent on stealing the life of every living creature he encounters.",
-	version = "1.0",
-	url = "war3source.com"//http://sugardas.lt/~jozh/
-};
-
-
 
 public OnPluginStart()
 {

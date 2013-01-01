@@ -1,4 +1,3 @@
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -6,16 +5,15 @@
 #include <tf2_stocks>
 #include "W3SIncs/War3Source_Interface"  
 
-
-new thisRaceID;
 public Plugin:myinfo = 
 {
-	name = "Race - Fluttershy",
-	author = "OwnageOwnz - RainbowDash", 
-	description = "",
-	version = "0",
-	url = "ownageclan.com"
+	name = "War3Source - Race - Fluttershy",
+	author = "War3Source Team",
+	description = "The Fluttershy race for War3Source.",
 };
+
+new thisRaceID;
+
 public LoadCheck(){
 	return GameTF();
 }

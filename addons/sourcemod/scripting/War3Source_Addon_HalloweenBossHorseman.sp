@@ -5,10 +5,9 @@
 
 public Plugin:myinfo = 
 {
-	name = "W3S - Addon - Halloween Boss Horseman XP/Gold",
-	author = "El Diablo",
+	name = "War3Source - Addon - Halloween Boss Horseman XP/Gold",
+	author = "War3Source Team",
 	description = "Awards players for killing the headless horseman",
-	version = "1.0",
 	url = "http://war3source.com/index.php?topic=1553.0"
 };
 

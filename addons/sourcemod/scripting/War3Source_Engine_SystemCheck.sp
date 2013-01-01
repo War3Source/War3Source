@@ -4,8 +4,15 @@
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
-
 #define COREPLUGINSNUM 9
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - System Check"
+	author = "War3Source Team",
+	description = "Verify we got some necessary engines",
+};
+
 new String:coreplugins[COREPLUGINSNUM][]={
 "War3Source.smx",
 "War3Source_Engine_CooldownMgr",
@@ -20,18 +27,6 @@ new String:coreplugins[COREPLUGINSNUM][]={
 
 
 new Handle:g_War3FailedFH;
-
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine System Check",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
 
 public OnPluginStart()
 {

@@ -1,15 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-
-
-
-
-
-
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Database Save XP"
+	author = "War3Source Team",
+	description = "Saves players Experience",
+};
 
 new Handle:hDB;
 
@@ -24,16 +21,6 @@ new Handle:hCvarPrintOnSave;
 
 new Handle:g_OnWar3PlayerAuthedHandle;
 new desiredRaceOnJoin[MAXPLAYERSCUSTOM];
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Database save xp",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public bool:InitNativesForwards()
 {

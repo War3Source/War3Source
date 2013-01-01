@@ -1,16 +1,15 @@
- 	
-
-////BUFF SYSTEM
-
-
-
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Buff Speed Grav Glow"
+	author = "War3Source Team",
+	description = "Controls the buffs named in the title",
+};
 
 new m_OffsetSpeed=-1;
 new m_OffsetClrRender=-1;
@@ -23,15 +22,6 @@ new Float:gspeedmulti[MAXPLAYERSCUSTOM];
 
 new Float:speedBefore[MAXPLAYERSCUSTOM];
 new Float:speedWeSet[MAXPLAYERSCUSTOM];
-
-public Plugin:myinfo= 
-{
-	name="War3Source Buff Speed",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 public OnPluginStart()
 {

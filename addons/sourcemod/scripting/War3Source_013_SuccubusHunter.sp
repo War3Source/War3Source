@@ -1,12 +1,3 @@
-/**
-* vim: set ai et ts=4 sw=4 :
-* File: War3Source_SuccubusHunter.sp
-* Description: The Succubus Hunter race for SourceCraft.
-* Author(s): DisturbeD 
-* Adapted to TF2 by: -=|JFH|=-Naris (Murray Wilson)
-* Offcially ported to War3Source by Ownz (DarkEnergy)
-*/
-
 #pragma semicolon 1
 #include <sourcemod>
 #include <sdktools_tempents>
@@ -16,6 +7,13 @@
 #include <sdktools_sound>
 
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Succubus Hunter",
+	author = "War3Source Team",
+	description = "The Succubus Hunter race for War3Source.",
+};
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
 new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
@@ -33,15 +31,6 @@ new bool:lastframewasground[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar;
 
 new Float:assaultcooldown=10.0;
-
-public Plugin:myinfo = 
-{
-	name = "Race - Succubus Hunter",
-	author = "DisturbeD",
-	description = "",
-	version = "2.0.6",
-	url = "http://war3source.com/"
-};
 
 public OnMapStart()
 {

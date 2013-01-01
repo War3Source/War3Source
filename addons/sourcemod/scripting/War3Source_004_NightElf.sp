@@ -1,15 +1,16 @@
-/**
-* File: War3Source_NightElf.sp
-* Description: The Night Elf race for War3Source.
-* Author(s): Anthony Iacono 
-*/
- 
 #pragma semicolon 1
  
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 #include <sdktools>
 new thisRaceID;
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Night Elf",
+	author = "War3Source Team",
+	description = "The Night Elf race for War3Source.",
+};
 
 new bool:bIsEntangled[MAXPLAYERSCUSTOM];
 
@@ -34,15 +35,6 @@ new String:entangleSound[256]; //="war3source/entanglingrootsdecay1.mp3";
 // Effects
 new BeamSprite,HaloSprite;
  
-public Plugin:myinfo = 
-{
-	name = "Race - Night Elf",
-	author = "PimpinJuice",
-	description = "The Night Elf race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://pimpinjuice.net/"
-};
-
 public OnPluginStart()
 {
 	

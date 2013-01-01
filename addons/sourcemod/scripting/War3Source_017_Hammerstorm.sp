@@ -5,14 +5,10 @@
 
 public Plugin:myinfo = 
 {
-	name = "Race - Hammerstorm",
-	author = "Glider",
-	description = "Hammerstorm (The Rogue Knight) race for War3Source.",
-	version = "1.2",
+	name = "War3Source - Race - Hammerstorm",
+	author = "War3Source Team",
+	description = "The Hammerstorm race for War3Source.",
 };
-/* Changelog
- * 1.2 - Fixed speed buff not being removed on race switch
- */
 
 new thisRaceID;
 new SKILL_BOLT, SKILL_CLEAVE, SKILL_WARCRY, ULT_STRENGTH;

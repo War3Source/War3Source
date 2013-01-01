@@ -1,14 +1,15 @@
-/**
-* File: War3Source_HumanAlliance.sp
-* Description: The Human Alliance race for War3Source.
-* Author(s): Anthony Iacono, necavi
-* Modified for TF2 Stability: El Diablo
-*/
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Human Alliance",
+	author = "War3Source Team",
+	description = "The Human Alliance race for War3Source.",
+};
+
 new thisRaceID;
 
 new Handle:ultCooldownCvar;
@@ -40,14 +41,6 @@ new bool:inteleportcheck[MAXPLAYERSCUSTOM];
 
 //new String:teleportSound[]="war3source/blinkarrival.wav";
 new String:teleportSound[256];
-public Plugin:myinfo = 
-{
-	name = "Race - Human Alliance",
-	author = "PimpinJuice, necavi",
-	description = "The Human Alliance race for War3Source.",
-	version = "1.0",
-	url = "http://war3source.com"
-};
 
 public OnPluginStart()
 {

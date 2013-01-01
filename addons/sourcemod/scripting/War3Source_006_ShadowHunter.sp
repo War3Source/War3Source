@@ -1,9 +1,4 @@
- /**
- * File: War3Source_ShadowHunter.sp
- * Description: The Shadow Hunter race for War3Source.
- * Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
- */
- 
+
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -12,6 +7,13 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Shadow Hunter",
+	author = "War3Source Team",
+	description = "The Shadow Hunter race for War3Source.",
+};
 
 new thisRaceID;
 
@@ -51,14 +53,6 @@ new bool:particled[MAXPLAYERSCUSTOM]; //heal particle
 
 
 new AuraID;
-public Plugin:myinfo = 
-{
-	name = "Race - Shadow Hunter",
-	author = "PimpinJuice & Ownz (DarkEnergy)",
-	description = "The Shadow Hunter race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://Www.OwnageClan.Com"
-};
 
 public OnPluginStart()
 {

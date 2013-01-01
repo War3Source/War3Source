@@ -1,24 +1,17 @@
-
+#pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-new Handle:hDB;
-
-
-new War3SQLType:g_SQLType; 
-
-
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="W3S Engine Database Connect",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Database Connect",
+	author = "War3Source Team",
+	description = "Connects War3Source to the database",
 };
 
+new Handle:hDB;
+new War3SQLType:g_SQLType; 
 
 public OnPluginStart()
 {

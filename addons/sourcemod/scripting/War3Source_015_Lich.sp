@@ -1,9 +1,3 @@
-/**
- * File: War3Source_Lich.sp
- * Description: The Lich race for War3Source.
- * Author(s): [Oddity]TeacherCreature
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -12,6 +6,13 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Lich",
+	author = "War3Source Team",
+	description = "The Lich race for War3Source.",
+};
 
 new thisRaceID;
 
@@ -39,14 +40,6 @@ new String:ultsnd[256]; //="npc/antlion/attack_single2.wav";
 new String:novasnd[256]; //="npc/combine_gunship/ping_patrol.wav";
 new BeamSprite,HaloSprite; 
 
-public Plugin:myinfo = 
-{
-	name = "Race - Lich",
-	author = "[Oddity]TeacherCreature",
-	description = "The Lich race for War3Source.",
-	version = "1.0.0.0",
-	url = "warcraft-source.net"
-}
 public OnPluginStart()
 {
 	

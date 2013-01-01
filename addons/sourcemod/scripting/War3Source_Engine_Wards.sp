@@ -1,11 +1,12 @@
-/*
-* File: War3Source_Wards.sp
-* Description: Ward Behavior definitions
-* Author(s): Invalid
-*/
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Wards"
+	author = "War3Source Team",
+	description = "The ward engine",
+};
 
 enum {
 	DAMAGE=0,
@@ -16,15 +17,6 @@ new BehaviorIndex[3];
 
 new BeamSprite =-1;
 new HaloSprite =-1;
-
-public Plugin:myinfo = 
-{
-	name = "War3Source - Ward Behavior Definitions",
-	author = "Invalid && necavi",
-	description = "Ward behaviors",
-	version = "1.0",
-	url = "http://necavi.org/"
-};
 
 public OnPluginStart()
 {

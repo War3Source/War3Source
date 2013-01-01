@@ -1,20 +1,17 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - XP Gold (TF)"
+	author = "War3Source Team",
+	description = "Give XP and Gold specific to Team Fortress 2 to those who deserve it",
+};
+
 public LoadCheck() {
 	return GameTF();
 }
 
-public Plugin:myinfo=
-{
-	name="W3S Engine XP Gold TF",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-// tf
 new Handle:PointCaptureXPCvar;
 new Handle:PointCapBlockXPCvar;
 new Handle:CaptureFlagXPCvar;

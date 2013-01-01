@@ -1,8 +1,13 @@
-
 #pragma dynamic 10000
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Race Class"
+	author = "War3Source Team",
+	description = "Information about races",
+};
 
 new totalRacesLoaded=0;  ///USE raceid=1;raceid<=GetRacesLoaded();raceid++ for looping
 ///race instance variables
@@ -51,17 +56,6 @@ new raceCell[MAXRACES][ENUM_RaceObject]
 
 
 //END race instance variables
-
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Race Class",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public OnPluginStart()
 {

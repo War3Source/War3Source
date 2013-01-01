@@ -118,7 +118,7 @@ And that’s the art of the test!
 #define REVISION_SVN "855" //Add 1 to the number of the current SVN before you commit
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
-#define AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
+#define ORIGINAL_AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
 
 //used for some special things in interface
 #define WAR3MAIN
@@ -128,22 +128,13 @@ And that’s the art of the test!
 #include "W3SIncs/War3Source_Interface"
 #include "W3SIncs/War3SourceMain"
 
-
-
-
-
-
-
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source",
-	author=AUTHORS,
+	name = "War3Source"
+	author = "War3Source Team",
 	description="Brings a Warcraft like gamemode to the Source engine.",
 	version=VERSION_NUM,
-	url="http://war3source.com/"
 };
-
-
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {

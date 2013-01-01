@@ -1,15 +1,11 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="W3S Engine XP Gold CS",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - XP Gold (CS)"
+	author = "War3Source Team",
+	description = "Give XP and Gold specific to Counter Strike to those who deserve it",
 };
 
 public LoadCheck(){

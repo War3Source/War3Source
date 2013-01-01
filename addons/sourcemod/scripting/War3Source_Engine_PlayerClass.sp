@@ -1,8 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Player Class"
+	author = "War3Source Team",
+	description = "Stores information about a player",
+};
 
 new p_xp[MAXPLAYERSCUSTOM][MAXRACES];
 new p_level[MAXPLAYERSCUSTOM][MAXRACES];
@@ -27,16 +31,6 @@ new Handle:g_OnSkillLevelChangedHandle;
 new Handle:g_hGameMode;
 new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine player class",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
 
 public OnPluginStart()
 {

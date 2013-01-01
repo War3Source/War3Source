@@ -1,16 +1,3 @@
-/**
- * File: War3Source_ShopItems.sp
- * Description: The shop items that come with War3Source.
- * Author(s): War3Source Team  
- */
-
-public Plugin:myinfo = 
-{
-	name = "W3S - Shopitems",
-	author = "War3Source Team",
-	description = "The shop items that come with War3Source.",
-};
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -18,6 +5,13 @@ public Plugin:myinfo =
 #include <sdktools>
 
 #include <cstrike>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Shopitem - Default Shopitems"
+	author = "War3Source Team",
+	description = "The default shopitems that come with War3Source",
+};
 
 enum{
 	ANKH=0,

@@ -1,8 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Item Ownership"
+	author = "War3Source Team",
+	description = "Controls who owns what item",
+};
 
 new bool:playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS];
 new bool:RestoreItemsFromDeath_playerOwnsItem[MAXPLAYERSCUSTOM][MAXITEMS+1];
@@ -12,18 +16,6 @@ new Handle:g_OnItemLostHandle;
 new Handle:hitemRestrictionCvar;
 
 new Handle:hCvarMaxShopitems;
-public Plugin:myinfo= 
-{
-	name="W3S Engine Item Ownership",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-
-
 
 public OnPluginStart()
 {

@@ -1,17 +1,12 @@
-//Cooldown manager
-//keeps track of all cooldowns
-
-//Delay Tracker:
-//setting an object's state to false for X seconds, manually retrieve the state
-
-
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Cooldown Manager"
+	author = "War3Source Team",
+	description = "Manages Cooldowns and doesn't afraid of anything",
+};
 
 new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];
 new bool:CdOnSpawnPrintOnExpire[MAXRACES][MAXSKILLCOUNT];
@@ -39,29 +34,9 @@ enum CooldownClass
 #define MAXCOOLDOWNS 64*2
 new Cooldown[MAXCOOLDOWNS][CooldownClass];
 
-
-
-
-
-
-
-
 #define MAXTHREADS 2000
 new Float:expireTime[MAXTHREADS];
 new threadsLoaded;
-
-
-public Plugin:myinfo= 
-{
-	name="W3S Engine Cooldown Manager",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-
 
 public OnPluginStart()
 {

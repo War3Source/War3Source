@@ -1,23 +1,15 @@
-/**
- * File: War3Source_Addon_AmmoControl.sp
- * Description: Ammo Control Addon for War3Source.
- * Author(s): Frenzzy
- * 
- * http://war3source.com/index.php?topic=525.0  
- */
-
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo = {
-	name = "W3S Addon - Use Your Damn Gold",
-	author = "Ownz ",
-	description = "",
-	version = "1.0",
-	url = "http://www.ownageclan.com/"
+public Plugin:myinfo = 
+{
+	name = "War3Source - Addon - Use Your Gold",
+	author = "War3Source Team",
+	description = "Makes players automatically buy an item when their gold is full",
 };
+
 
 new Handle:cvaritemtobuy;
 public OnPluginStart()

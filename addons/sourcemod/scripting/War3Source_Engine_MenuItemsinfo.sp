@@ -1,26 +1,12 @@
-
-
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Menus itemsinfo",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Menu Itemsinfo"
+	author = "War3Source Team",
+	description = "Shows the itemsinfo menu",
 };
-
-
-
-public OnPluginStart()
-{
-	
-}
 
 public OnWar3Event(W3EVENT:event,client){
 	if(event==DoShowItemsInfoMenu){

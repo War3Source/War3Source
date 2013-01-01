@@ -1,14 +1,14 @@
-/**
- * 
- * Description:   BH from HON
- * Author(s): Ownz (DarkEnergy) 
- */
- 
 #pragma semicolon 1
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Blood Hunter",
+	author = "War3Source Team",
+	description = "The Blood Hunter race for War3Source.",
+};
 
 new thisRaceID;
 new Handle:ultCooldownCvar;
@@ -36,16 +36,6 @@ new bool:bRuptured[MAXPLAYERSCUSTOM];
 new RupturedBy[MAXPLAYERSCUSTOM];
 
 new String:ultsnd[256]; //="war3source/bh/ult.mp3";
-
-
-public Plugin:myinfo = 
-{
-	name = "Race - Blood Hunter",
-	author = "Ownz (DarkEnergy)",
-	description = "Blood Hunter for War3Source.",
-	version = "1.0",
-	url = "War3Source.com"
-};
 
 public OnPluginStart()
 {

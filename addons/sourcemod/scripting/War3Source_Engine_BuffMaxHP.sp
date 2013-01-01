@@ -1,18 +1,15 @@
- 	
-////BUFF SYSTEM
+ 	////BUFF SYSTEM
 #pragma semicolon 1
 
 #include <sourcemod>
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name="War3Source Buff MAXHP",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.1",
-	url="http://war3source.com/"
+	name = "War3Source - Engine - Buff Max HP"
+	author = "War3Source Team",
+	description = "Controls a players Max HP via Buffs",
 };
 
 

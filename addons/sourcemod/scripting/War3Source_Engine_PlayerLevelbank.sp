@@ -1,8 +1,12 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Levelbank"
+	author = "War3Source Team",
+	description = "Controls the levelbank",
+};
 
 new levelbank[MAXPLAYERSCUSTOM];
 new Handle:hCvar_NewPlayerLevelbank;

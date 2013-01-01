@@ -1,18 +1,13 @@
-// Left4Dead Engine
-// Handles L4D specific stuff 
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
 #include <sdkhooks>
 
-public Plugin:myinfo= 
+public Plugin:myinfo = 
 {
-	name = "W3S Engine Left4Dead",
-	author = "Glider",
-	description = "War3Source Core Plugins",
-	version = "1.0",
-	url = "http://war3source.com/"
+	name = "War3Source - Engine - Left 4 Dead"
+	author = "War3Source Team",
+	description = "Handle Left4Dead specific stuff",
 };
 
 new bool:g_bIsHelpless[MAXPLAYERS+1];

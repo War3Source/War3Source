@@ -1,13 +1,13 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
-
-
-
-
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Death Weapons"
+	author = "War3Source Team",
+	description = "Stores what weapons a player had when he died",
+};
 
 ///caching player angles, pos, ducking, weapons etc
 new Float:pfAngle[MAXPLAYERSCUSTOM][3];

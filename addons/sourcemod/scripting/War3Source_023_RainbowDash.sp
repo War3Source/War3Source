@@ -4,23 +4,15 @@
 #include "W3SIncs/War3Source_Interface"  
 //#include "W3SIncs/War3Source_Effects"
 
-/*
-public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max)
-{
-	if(!GameTF())
-		return APLRes_SilentFailure;
-	return APLRes_Success;
-}
-*/
-new thisRaceID;
 public Plugin:myinfo = 
 {
-	name = "Race - Rainbow Dash",
-	author = "OWNAGE",
-	description = "",
-	version = "1.0",
-	url = "http://ownageclan.com/"
+	name = "War3Source - Race - Rainbow Dash",
+	author = "War3Source Team",
+	description = "The Rainbow Dash race for War3Source.",
 };
+
+new thisRaceID;
+
 new Float:EvadeChance[5]={0.0,0.05,0.10,0.15,0.20};
 new Float:attackspeed[5]={1.0,1.04,1.08,1.12,1.15};
 new Float:abilityspeed[5]={1.0,1.15,1.23,1.32,1.40};

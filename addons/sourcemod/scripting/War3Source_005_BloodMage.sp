@@ -1,10 +1,3 @@
-/**
-* File: War3Source_BloodMage.sp
-* Description: The Blood Mage race for War3Source.
-* Author(s): Anthony Iacono & Ownage | Ownz (DarkEnergy)
-*/
-
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -13,6 +6,14 @@
 #include <sdktools_functions>
 #include <sdktools_tempents>
 #include <sdktools_tempents_stocks>
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Race - Blood Mage",
+	author = "War3Source Team",
+	description = "The Blood Mage race for War3Source.",
+};
+
 // TODO: Effects
 
 new thisRaceID;
@@ -67,15 +68,6 @@ new BloodSpray,BloodDrop;
 
 // CS specific money offset
 new MoneyOffsetCS;
-
-public Plugin:myinfo = 
-{
-	name = "Race - Blood Mage",
-	author = "PimpinJuice & Ownz (DarkEnergy)",
-	description = "The Blood Mage race for War3Source.",
-	version = "1.0.0.0",
-	url = "http://Www.OwnageClan.Com"
-};
 
 public OnPluginStart()
 {

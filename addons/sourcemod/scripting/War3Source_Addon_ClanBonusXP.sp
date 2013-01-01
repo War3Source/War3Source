@@ -1,8 +1,3 @@
-/***************************************
-* Clantags: CS:S and CS:GO only
-* GroupId: Any game; requires steamtools
-***************************************/
-
 #pragma semicolon 1    ///WE RECOMMEND THE SEMICOLON
 #include <sourcemod>
 #undef REQUIRE_EXTENSIONS
@@ -10,6 +5,13 @@
 #include <cstrike>
 #define REQUIRE_EXTENSIONS
 #include "W3SIncs/War3Source_Interface"
+
+public Plugin:myinfo = 
+{
+	name = "War3Source - Addon - Clan Bonus XP",
+	author = "War3Source Team",
+	description = "Give members of a specific steamgroup bonus XP",
+};
 
 new Handle:g_hClanVar = INVALID_HANDLE;
 new Handle:g_hClanID = INVALID_HANDLE;
@@ -20,17 +22,6 @@ new Handle:g_hVarWelcomeMsg = INVALID_HANDLE;
 new bool:g_bSteamTools = false;
 new bool:bIsInGroup[MAXPLAYERSCUSTOM] = false;
 
-public Plugin:myinfo= 
-{
-	name="W3S Addon - ClanBonusXP",
-	author="alex0310 & Revan",
-	description="War3Source Addon Plugin",
-	version="1.1.0.0",
-};
-/*public LoadCheck(){
-	// Allow loading if either steamtools has been loaded or we're running CS:S
-	return (GAMECS || HAS_STEAMTOOLS());
-}*/
 public OnPluginStart()
 {
 	// Revan: I'm using seperate convar names because theese are also separate values and generic clantags might be prefered

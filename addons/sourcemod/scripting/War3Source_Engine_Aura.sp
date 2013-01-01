@@ -1,15 +1,14 @@
-/**********************
- * Aura Engine
- * Made by Ownz 
- */ 
-
-
-
 #pragma dynamic 30000
 
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Aura"
+	author = "War3Source Team",
+	description = "Aura Engine for War3Source",
+};
 
 new bool:AuraOrigin[MAXPLAYERSCUSTOM][MAXAURAS];
 new bool:AuraOriginLevel[MAXPLAYERSCUSTOM][MAXAURAS];
@@ -25,14 +24,6 @@ new AuraCount=0;
 new Handle:g_Forward;
 
 new Float:lastCalcAuraTime;
-public Plugin:myinfo= 
-{
-	name="W3S Engine Aura",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
 
 public OnPluginStart()
 {

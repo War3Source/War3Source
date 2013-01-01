@@ -1,8 +1,3 @@
-
-
-
-
-
 #pragma semicolon 1
 
 #include <sourcemod>
@@ -15,15 +10,12 @@ new String:helmSound1[256]; //="physics/metal/metal_solid_impact_bullet2.wav";
 new String:helmSound2[256]; //="physics/metal/metal_solid_impact_bullet3.wav";
 new String:helmSound3[256]; //="physics/metal/metal_solid_impact_bullet4.wav";
 
-public Plugin:myinfo= {
-	name="War3Source Shop - Helm",
-	author="Ownz (DarkEnergy)",
-	description="War3Source",
-	version="1.0",
-	url="http://war3source.com/"
+public Plugin:myinfo = 
+{
+	name = "War3Source - Shopitem - Helm"
+	author = "War3Source Team",
+	description = "Become immune to headshots",
 };
-
-
 
 public OnPluginStart()
 {

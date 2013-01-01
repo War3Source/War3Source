@@ -1,24 +1,15 @@
-
-
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+public Plugin:myinfo = 
+{
+	name = "War3Source - Engine - Help Menu"
+	author = "War3Source Team",
+	description = "How do I mine for fish?",
+};
 
 new Handle:vecHelpCommands;
 #define HELPCOMMAND_COUNT GetArraySize(vecHelpCommands)
-
-public Plugin:myinfo= 
-{
-	name="War3Source help menu",
-	author="Ownz (DarkEnergy)",
-	description="War3Source Core Plugins",
-	version="1.0",
-	url="http://war3source.com/"
-};
-
-
-
-
 
 public OnPluginStart()
 {
