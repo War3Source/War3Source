@@ -1759,3 +1759,4 @@ stock CheckRaceTeamLimit(raceid, team){
 #include "W3SIncs/War3Source_Shopitems"
 #include "W3SIncs/War3Source_Buffs"
 #include "W3SIncs/War3Source_XP_Gold"
+#include "W3SIncs/War3Source_Config"
