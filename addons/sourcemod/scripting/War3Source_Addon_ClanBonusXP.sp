@@ -36,7 +36,7 @@ public OnPluginStart()
 	// Revan: I'm using seperate convar names because theese are also separate values and generic clantags might be prefered
 	// Problems getting GroupID? see this: http://forums.alliedmods.net/showpost.php?p=1226621&postcount=11 .. example id: 2488793
 	g_hClanID = CreateConVar("war3_bonusclan_id","0","If GroupID is non-zero the plugin will use steamtools to identify clan players(Overrides 'war3_bonusclan_name')");
-	g_hClanVar = CreateConVar("war3_bonusclan_name","War3","Player who are wearing this clantag will gain bonus XP");
+	g_hClanVar = CreateConVar("war3_bonusclan_name","","Player who are wearing this clantag will gain bonus XP");
 	g_hXPMultipler = CreateConVar("war3_bonusclan_xprate","1.2","Bonus XP Multipler", 0, true, 1.0);
 	g_hGOMultipler = CreateConVar("war3_bonusclan_goldrate","1.0","Bonus Gold Multipler", 0, true, 1.0);
 	g_hVarWelcomeMsg = CreateConVar ("war3_bonusclan_welcome", "1.0", "Enable the welcome message", 0, true, 0.0, true, 1.0);
