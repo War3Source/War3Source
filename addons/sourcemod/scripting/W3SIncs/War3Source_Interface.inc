@@ -193,31 +193,6 @@ stock bool:War3_IsCounterStrike() {
 //Called for each category if the user opens the catted cr menu
 forward Action:OnW3DrawCategory(client,categoryindex,String:categoryname[]);
 
-///NOTE: U NEED TO PASS 'YOUR' FACTION/RACE WHATEVER AS THE FIRST PARAM!!!
-//Creates(or just returns the factionid) a (new) faction behavior
-native W3Faction(raceid,String:strFactionName[],bool:bCreateIfNotExist=true);
-
-//Changes(or just returns when using relation == ReturnValue) the relation of 2 factions (by id)
-native any:W3FactionRelation(faction1,faction2,FactionBehavior:relation=ReturnValue);
-
-//Changes(or just returns when using relation == ReturnValue) the relation of 2 factions (by name)
-native any:W3FactionBehaviorByName(String:strFactionName1[],String:strFactionName2[],FactionBehavior:relation=ReturnValue);
-
-//Compares 2 Races and returns the FacitonBehavior id
-native any:W3FactionCompare(race1,race2);
-
-//Returns the factionname of a race
-native W3GetRaceFaction(race,String:strReturn[],maxsize);
-
-stock bool:IsRaceFaction(raceid,String:faction[]) {
-	decl String:factionbuffer[FACTION_LENGTH];
-	W3GetRaceFaction(raceid,factionbuffer,sizeof(factionbuffer));
-	if(StrEqual(factionbuffer,faction,false)) {
-		return true;
-	}
-	return false;
-}
-
 //Warcraft required executions, does common tasks, such as loading translations.
 forward War3InterfaceExec();
 public War3InterfaceExec() {
