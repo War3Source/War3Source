@@ -631,10 +631,6 @@ native W3_GenericSkillLevel(client,g_skill_id,&Handle:genericSkillData,&customer
 native W3SetPlayerProp(client,W3PlayerProp:property,any:value);
 native any:W3GetPlayerProp(client,W3PlayerProp:property);
 
-//nothing happens if you give 0 xp 0 gold
-//automatically prints gained or lost xp/gold
-native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);
-
 //TKV = trie key value , a abstract data storage, emulates cvars for war3
 ///Creates internal war3 cvars. returns a id to your cvar, store it!
 //cvarid of 0 is null null (filled auto)
@@ -701,12 +697,6 @@ stock W3GetPendingRace(client) {
 }
 stock W3SetPendingRace(client, pendrace) {
 	W3SetPlayerProp(client, PendingRace, pendrace);
-}
-stock War3_SetGold(client, newgold) {
-	W3SetPlayerProp(client, PlayerGold, newgold);
-}
-stock War3_GetGold(client) {
-	return W3GetPlayerProp(client, PlayerGold);
 }
 
 native W3IsDeveloper(client);
