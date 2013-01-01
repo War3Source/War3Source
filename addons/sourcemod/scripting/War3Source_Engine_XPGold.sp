@@ -149,8 +149,6 @@ public NW3GetKillXP(Handle:plugin,numParams)
 		
 		if(leveldiff<0) leveldiff=0;
 		
-		hMaxLevelDifferenceBounus
-		
 		new xp_to_give = IsShortTerm() ? XPShortTermKillXP[level] : XPLongTermKillXP[level]);
 		new bonus_xp = GetConVarInt(hLevelDifferenceBounus) * leveldiff;
 		new max_bonus_xp = GetConVarInt(hMaxLevelDifferenceBounus);
