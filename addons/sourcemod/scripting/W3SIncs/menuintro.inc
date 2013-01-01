@@ -14,7 +14,15 @@ public War3Source_IntroMenu(client)
 	//	Format(clanname,sizeof(clanname),"war3_introclanname");
 	//}
 	new String:welcome[512];
-	Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER);
+	
+	if (StrEqual(BRANCH, "{branch}"))
+	{
+		Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, "Developer Version", "-");
+	}
+	else if (StrEqual(BRANCH, "master"))
+	{
+		Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServerMaster", client, clanname, BUILD_NUMBER);
+	}
 	SetMenuTitle(introMenu,welcome);
 	SetMenuExitButton(introMenu,false);
 	new String:buf[64];
