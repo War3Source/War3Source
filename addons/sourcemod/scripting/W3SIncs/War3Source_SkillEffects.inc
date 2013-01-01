@@ -30,8 +30,11 @@ stock EvadeDamage(victim, attacker)
  * Stock for skills that return damage, like Thorns Aura.
  * 
  * Doesn't actually return any damage, only does the effect :)
+ * 
+ * Note that victim is the guy getting shot and attacker the guy
+ * who takes return damage.
  */
-stock ReturnDamage(victim, attacker)
+stock War3_EffectReturnDamage(victim, attacker, damage, skill)
 {
 	new beamSprite = War3_PrecacheBeamSprite();
 	new haloSprite = War3_PrecacheHaloSprite();
@@ -51,6 +54,9 @@ stock ReturnDamage(victim, attacker)
 	f_VictimPos[0] = f_AttackerPos[0];
 	f_VictimPos[1] = f_AttackerPos[1];
 	f_VictimPos[2] = 80.0 + f_AttackerPos[2];
+	
 	TE_SetupBubbles(f_AttackerPos, f_VictimPos, haloSprite, 35.0, GetRandomInt(6, 8), 8.0);
 	TE_SendToAll();
+	
+	War3_PlayerTookDamageFromSkill(victim, attacker, damage, skill);
 }

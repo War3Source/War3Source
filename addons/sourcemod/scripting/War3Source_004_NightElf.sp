@@ -281,13 +281,14 @@ public OnWar3EventPostHurt(victim,attacker,damage)
 						{
 							if(War3_DealDamage(attacker,damage_i,victim,_,"thorns",_,W3DMGTYPE_PHYSICAL))
 							{
-								ReturnDamage(victim, attacker);
+								War3_EffectReturnDamage(victim, attacker, War3_GetWar3DamageDealt(), SKILL_THORNS);
 							}
 						}
 						else   // For CS Stuff or others:
 						{
 							War3_DealDamageDelayed(attacker,victim,damage_i,"thorns",0.1,true,SKILL_THORNS);
-							ReturnDamage(victim, attacker); 
+							
+							War3_EffectReturnDamage(victim, attacker, damage_i, SKILL_THORNS);
 						}
 					}
 				}

@@ -2479,9 +2479,13 @@ public Action:_war3source_Timer_DealDamage(Handle:timer, Handle:pack)
 	new showDamage_skill = ReadPackCell(pack);
 	decl String:classname[32];
 	ReadPackString(pack,classname,sizeof(classname));
-	if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
-		W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
-	}
+	
+	// Glider: I'm commenting this out until I figured out if the notification
+	// 		   engine or the DealDamage methods should be held responsible for this
+	
+	//if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
+	//	W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
+	//}
 	return Plugin_Stop;
 }
 
@@ -2569,3 +2573,4 @@ stock CheckRaceTeamLimit(raceid, team){
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/stocks_misc"
 #include "W3SIncs/War3Source_SkillEffects"
+#include "W3SIncs/War3Source_Notifications"
