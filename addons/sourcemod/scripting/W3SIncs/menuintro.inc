@@ -14,7 +14,7 @@ public War3Source_IntroMenu(client)
 	//	Format(clanname,sizeof(clanname),"war3_introclanname");
 	//}
 	new String:welcome[512];
-	Format(welcome,sizeof(welcome),"%T\n \n","WelcomeToServer",client,clanname,VERSION_NUM);
+	Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER);
 	SetMenuTitle(introMenu,welcome);
 	SetMenuExitButton(introMenu,false);
 	new String:buf[64];
