@@ -2760,4 +2760,4 @@ stock CreateTimer_DEBUG(any:f=0,any:ff=0,any:fff=0,any:ffff=0) {}
 #include "W3SIncs/stocks_precache"
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/stocks_misc"
-
+#include "W3SIncs/War3Source_SkillEffects"

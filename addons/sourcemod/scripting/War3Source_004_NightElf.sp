@@ -223,19 +223,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 				new skill_level_evasion=War3_GetSkillLevel(victim,thisRaceID,SKILL_EVADE);
 				if( skill_level_evasion>0 &&!Hexed(victim,false) && GetRandomFloat(0.0,1.0)<=EvadeChance[skill_level_evasion] && !W3HasImmunity(attacker,Immunity_Skills))
 				{
-					
-					W3FlashScreen(victim,RGBA_COLOR_BLUE);
-					
-					War3_DamageModPercent(0.0); //NO DAMAMGE
-					
-					W3MsgEvaded(victim,attacker);
-					if(War3_GetGame()==Game_TF){
-						decl Float:pos[3];
-						GetClientEyePosition(victim, pos);
-						pos[2] += 4.0;
-						War3_TF_ParticleToClient(0, "miss_text", pos); //to the attacker at the enemy pos
-					}
-						
+					EvadeDamage(victim, attacker);						
 				}
 				
 			/*	//thorns only if he didnt evade

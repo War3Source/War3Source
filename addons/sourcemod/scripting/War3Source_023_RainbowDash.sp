@@ -238,18 +238,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 					GetArrayArray(data,	0,chances);
 					if(data!=INVALID_HANDLE&& level>0 &&!Hexed(victim,false) && W3Chance(chances[level]) && !W3HasImmunity(attacker,Immunity_Skills))
 					{
-						
-						W3FlashScreen(victim,RGBA_COLOR_BLUE);
-						
-						War3_DamageModPercent(0.0); //NO DAMAMGE
-						
-						W3MsgEvaded(victim,attacker);
-						if(War3_GetGame()==Game_TF){
-							decl Float:pos[3];
-							GetClientEyePosition(victim, pos);
-							pos[2] += 4.0;
-							War3_TF_ParticleToClient(0, "miss_text", pos); //to the attacker at the enemy pos
-						}	
+						EvadeDamage();
 					}
 			}
 		}
