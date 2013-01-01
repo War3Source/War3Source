@@ -30,6 +30,7 @@ new Handle:RoundWinXPCvar;
 new Handle:AssistKillXPCvar;
 new Handle:BotIgnoreXPCvar;
 new Handle:hLevelDifferenceBounus;
+new Handle:hMaxLevelDifferenceBounus;
 new Handle:minplayersXP;
 new Handle:NoSpendSkillsLimitCvar;
 
@@ -61,7 +62,9 @@ public OnPluginStart()
 
 	RoundWinXPCvar=CreateConVar("war3_percent_roundwinxp","100","Percent of kill XP awarded for being on the winning team");
 
-	hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bounus Xp awarded per level if victim has a higher level");
+	hLevelDifferenceBounus=CreateConVar("war3_xp_level_difference_bonus","0","Bonus Xp awarded per level if victim has a higher level");
+	hMaxLevelDifferenceBounus = CreateConVar("war3_xp_level_difference_max_bonus", "0","Where to cap the bonus XP at. 0 to disable");
+	
 	minplayersXP=CreateConVar("war3_min_players_xp_gain","2","minimum amount of players needed on teams for people to gain xp");
 	MaxGoldCvar=CreateConVar("war3_maxgold","1000");
 	
@@ -146,7 +149,18 @@ public NW3GetKillXP(Handle:plugin,numParams)
 		
 		if(leveldiff<0) leveldiff=0;
 		
-		return (IsShortTerm()?XPShortTermKillXP[level] :XPLongTermKillXP[level]) + (GetConVarInt(hLevelDifferenceBounus)*leveldiff);
+		hMaxLevelDifferenceBounus
+		
+		new xp_to_give = IsShortTerm() ? XPShortTermKillXP[level] : XPLongTermKillXP[level]);
+		new bonus_xp = GetConVarInt(hLevelDifferenceBounus) * leveldiff;
+		new max_bonus_xp = GetConVarInt(hMaxLevelDifferenceBounus);
+		
+		if ((max_bonus_xp != 0) && (max_bonus_xp > bonus_xp))
+		{
+			bonus_xp = max_bonus_xp;
+		}
+		
+		return xp_to_give + bonus_xp;
 	}
 	return 0;
 }	
