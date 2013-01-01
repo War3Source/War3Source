@@ -1,0 +1,120 @@
+"Games"
+{
+	/* Zombic Panic Source 2.0 */
+	"zps"
+	{
+		"Offsets"
+		{
+			"EndTouch"
+			{
+				"windows"	"95"
+				"linux"		"96"
+			}
+			"FireBullets"
+			{
+				"windows"	"107"
+				"linux"		"108"
+			}
+			"OnTakeDamage"
+			{
+				"windows"	"61"
+				"linux"		"62"
+			}
+			"PreThink"
+			{
+				"windows"	"294"
+				"linux"		"295"
+			}
+			"PostThink"
+			{
+				"windows"	"295"
+				"linux"		"296"
+			}
+			"SetTransmit"
+			{
+				"windows"	"19"
+				"linux"		"20"
+			}
+			"ShouldCollide"
+			{
+				"windows"	"15"
+				"linux"		"16"
+			}
+			"Spawn"
+			{
+				"windows"	"21"
+				"linux"		"22"
+			}
+			"StartTouch"
+			{
+				"windows"	"93"
+				"linux"		"94"
+			}
+			"Think"
+			{
+				"windows"	"46"
+				"linux"		"47"
+			}
+			"Touch"
+			{
+				"windows"	"94"
+				"linux"		"95"
+			}
+			"TraceAttack"
+			{
+				"windows"	"59"
+				"linux"		"60"
+			}
+			"UpdateOnRemove"
+			{
+				"windows"	"100"
+				"linux"		"101"
+			}
+			"Use"
+			{
+				"windows"	"92"
+				"linux"		"93"
+			}
+			"VPhysicsUpdate"
+			{
+				"windows"	"148"
+				"linux"		"149"
+			}
+			"Weapon_CanSwitchTo"
+			{
+				"windows"	"239"
+				"linux"		"240"
+			}
+			"Weapon_CanUse"
+			{
+				"windows"	"233"
+				"linux"		"234"
+			}
+			"Weapon_Drop"
+			{
+				"windows"	"236"
+				"linux"		"237"
+			}
+			"Weapon_Equip"
+			{
+				"windows"	"234"
+				"linux"		"235"
+			}
+			//"Weapon_Switch"
+			//{
+			//	"windows"	"234"
+			//	"linux"		"235"
+			//}
+		}
+		
+		"Signatures"
+		{
+			"IEntityFactoryDictionary"
+			{
+				"library"	"server"
+				"windows"	"\xB8\x01\x00\x00\x00\x84\x2A\x2A\x2A\x2A\x2A\x75\x1D\x09\x2A\x2A\x2A\x2A\x2A\xB9\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x68\x2A\x2A\x2A\x2A\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04\xB8\x2A\x2A\x2A\x2A\xC3"
+				"linux"		"@_Z23EntityFactoryDictionaryv"
+			}
+		}
+	}
+}
