@@ -315,21 +315,6 @@ public OnWar3Event(W3EVENT:event, client)
 }
 
 // ########################## BOT ITEM CONFIG ############################
-AmountOfItems(client)
-{
-	new amount = 0;
-	
-	for(new x=1; x <= W3GetItemsLoaded(); x++)
-	{
-		if(War3_GetOwnsItem(client, x))
-		{
-			amount++;
-		}
-	}
-	
-	return amount;
-}
-
 public OnWar3EventSpawn(client)
 {
 	if(ValidPlayer(client) && IsFakeClient(client) && GetConVarBool(botBuysItems))
@@ -337,7 +322,7 @@ public OnWar3EventSpawn(client)
 		new Float:chance = GetConVarFloat(botBuysRandomChance);
 		new Float:multipleChance = GetConVarFloat(botBuysRandomMultipleChance);
 		new maxItems = GetConVarInt(FindConVar("war3_max_shopitems"));
-		new items_holding = AmountOfItems(client);
+		new items_holding = GetClientItemsOwned(client);
 		
 		while ( (GetRandomFloat(0.0, 100.0) <= chance) && (items_holding < maxItems) )
 		{

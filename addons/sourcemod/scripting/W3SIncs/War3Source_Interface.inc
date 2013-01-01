@@ -18,6 +18,8 @@
 #include "W3SIncs/aura"
 #include "W3SIncs/War3Source_Effects"
 #include "W3SIncs/wards"
+#include "W3SIncs/War3Source_Races"
+
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
@@ -235,76 +237,6 @@ native W3DropWeapon(client, weaponent);
 #pragma deprecated
 native bool:War3_InFreezeTime();
 
-/* BEGIN Race Class */
-
-//creates a new race, returns the race id
-//a valid race is >0
-native War3_CreateNewRace(String:name[],String:shortname[]);
-
-//adds a skill or a ultimate
-native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL);
-
-//translated
-//creates a new race, returns the race id
-native War3_CreateNewRaceT(String:shortname[]);
-
-//translated
-//adds a skill or a ultimate
-//additional parameters replaces #1# #2# ... in the translation string (max 5)
-// % does not need to be escaped
-native War3_AddRaceSkillT(raceid,String:SkillNameIdentifier[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
-
-//ends race creation!!! MUST CALL THIS!!!
-native War3_CreateRaceEnd(raceid);
-
-native War3_GetRaceName(raceid,String:retstr[],maxlen);
-native War3_GetRaceShortname(raceid,String:retstr[],maxlen);
-
-#pragma deprecated Not Fully Implemented, possibly in the future
-native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
-#pragma deprecated Not Fully Implemented, possibly in the future
-native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
-
-native War3_CreateGenericSkill(String:gskillname[]);
-//genericSkillData is an array or trie that modifies behavior of that generic skill
-//if NEW HANDLE is passed, OLD one will be closed (i e during create race call after race has been created like on a map change)
-//this means you CAN recreate new handles and pass them, the old one will be closed
-native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,String:yourskillname[],String:untranslatedSkillDescription[]="ERR: No Skill Description Entered.",bool:translated=false,bool:isUltimate=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
-
-native War3_GetRacesLoaded();
-native W3GetRaceMaxLevel(race);
-
-native War3_IsSkillUltimate(raceid, skillnum);
-native War3_GetRaceSkillCount(raceid);
-native W3GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen);
-native W3GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen);
-native W3GetRaceSkillMaxLevel(raceid, skillnum);
-native W3GetRaceOrder(raceid);
-//Flag is a generic string. We compare the race_flags cvar to the string you passed
-native bool:W3RaceHasFlag(raceid,String:flag[]);
-
-//returns a simple array of race IDs, sorted properly.
-//Does not include "hidden" races
-//pass array of MAXRACES, returns number of races in the array. starts at 0
-//ordered properly
-//returns the size of the array
-native W3GetRaceList(racelist[]);
-
-//a valid race is >0
-native War3_GetRaceIDByShortname(String:raceshortname[]);
-
-native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);
-native W3GetRaceItemRestrictionsStr(raceid,String:ret[],maxlen);
-native W3GetRaceMaxLimitTeam(raceid, team);
-native W3GetRaceMaxLimitTeamCvar(raceid, team); //returns the internal cvar id (int not handle)
-native W3GetRaceMinLevelRequired(raceid);
-native W3IsRaceTranslated(raceid);
-
-native W3GetRaceCell(raceid,ENUM_RaceObject:property);
-native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
-
-/* END RACE CLASS */
-
 /* BEGIN GLOBAL VARS */
 //retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
 //this mostly used for accessing a variable without creating a special native just for it
@@ -318,42 +250,6 @@ native any:W3SetVar(W3Var:variabletoretrieve,any:value);
 /* END GLOBAL VARS */
 
 /**
- * Registers a shop item with the War3Source plugin
- * @param name: The name of the item. 
- * @param shortname: the shortname of the item, must be unique
- * @param desc: The description of the item. 
- * @param cost: The cost of the item 
- * @return The return value will be the item index or -1 if there was a problem.
- */
-native War3_CreateShopItem(String:name[],String:shortname[],String:desc[],costgold,costmoney);
-//translated
-native War3_CreateShopItemT(String:shortname[],costgold,costmoney);
-
-//see W3ItemProp enum for available properties
-native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
-native War3_GetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY);
-
-//remember itemid that is valid is more than 0
-//returns -1 if not found
-native War3_GetItemIdByShortname(String:itemshortname[]);
-
-native W3GetItemName(itemid,String:ret[],maxlen);
-native W3GetItemShortname(itemid,String:ret[],maxlen);
-native W3GetItemDescription(itemid,String:ret[],maxlen);
-
-native W3GetItemCost(itemid,bool:csmoney);
-native W3GetItemOrder(itemid);
-native W3ItemHasFlag(itemid,String:flagsearch[]);
-native W3GetItemCategory(itemid,String:retcatagorystr[],maxlen);
-native W3GetItemsLoaded(); //how many items are loaded?
-
-native bool:W3IsItemDisabledGlobal(itemid);
-native bool:W3IsItemDisabledForRace(race,itemid);
-
-native GetClientItemsOwned(client);
-native GetMaxShopitemsPerPlayer();
-
-/**
  * Registers a help command with the War3Source plugin for war3help
  * @param name: The name of the command. (max 64)
  * @param desc: The description of the command. (max 256) 
@@ -363,55 +259,6 @@ native War3_CreateHelpCommand(String:name[],String:desc[]);
 
 native W3GetLevelsSpent(client, race);
 native W3ClearSkillLevels(client, race);
-
-/**
- * Gets the kill XP for a player depending on his CURRENT level 
- * @param client: Client index
- * adds extra xp per leveldifference if cvar is configured
- */
-native W3GetKillXP(client, leveldifference = 0);
-native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
-
-native W3GetKillGold();
-native W3GetAssistGold();
-
-/**
- * Shows the XP and race message in chat
- * @param client: Client index
- * @noreturn
- */
-native War3_ShowXP(client);
-
-//max gold a player can have (cvar read)
-native W3GetMaxGold();
-
-/**
- * Gets if the player owns a specific item.
- * @param client: Client index
- * @param item: The item ID returned from War3_CreateShopItem
- * @return The return value will be 1 if they own it, if 0 they don't, if -1 then it failed.
- */
-native War3_GetOwnsItem(client, item);
-native War3_SetOwnsItem(client,item,bool:ownsitem);
-
-/**
- * When a player dies, this command record's their shopmenu1 items.
- * When you use this command, you are telling it to restore their items from death.
- * It does all the math as far as taking gold or cs money for items restored.
- * It will let the client know what items are discarded and/or bought.
- * It will also only buy until the client goes broke.
- * If the client already owns some items from the list from death, it will not charge them.
- * It only charges for the items that the client must buy to match the items from death.
- * It discards items that does not match from the previous death list.
- * Note: The no cost method still needs work.
- * @param client: Client index
- * @param payforit: false = no cost, true = charge
- * @param csmoney: true is cs money, false for gold.
- * @return The return value will be true if it is successful.
- */
-native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
-
-native bool:W3BuyUseCSMoney();
 
 /**
  * Finds the best target within a player's view cone
@@ -439,26 +286,6 @@ public bool:SkillFilter(client)
 ///traces from client to target and see if they are in view of each other (Line of Signt - LOS)
 native W3LOS(client, target);
 
-/**
- * Flashes a player's screen a certain color for a duration.
- * @param client: Client's index.
- * @param color[4]: RGBA value of the color, see above for presets.
- * @param duration: Length of flash, optional.
- * @param flags: Flags of Fade user message, optional.
- * @noreturn
- */
-native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
-
-/**
- * Shakes a player's screen at a magnitude and noise for a duration.
- * @param client: Client's index.
- * @param duration: Optional, how long to shake.
- * @param magnitude: Optional magnitude value.
- * @param noise: Optional noise value.
- * @noreturn
- */
-native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
-
 stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=false) {
 	if(client>0 && client<=MaxClients && IsClientConnected(client) && IsClientInGame(client))
 	{
@@ -471,16 +298,6 @@ stock bool:ValidPlayer(client,bool:check_alive=false,bool:alivecheckbyhealth=fal
 		}
 		return true;
 	}
-	return false;
-}
-
-//is a buff index valid? X > 0 and X <  MaxBuffLoopLimitTemp
-stock ValidBuff(W3Buff:buffindex) {
-	if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit) {
-		return true;
-
-	}
-	ThrowError("invalid buff index (%d)",buffindex);
 	return false;
 }
 
@@ -694,74 +511,6 @@ native bool:War3_HasFlag(client);
 
 native bool:War3_IsCloaked(client);
 
-//Sends a particle to client like "miss_text"
-native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);
-
-/**
- * heals with the limit of (warcraft ) max hp
- * @noreturn
- */
-native War3_HealToMaxHP(client, addhp);
-
-/**
- * heals with the limit of your specified HP
- * @noreturn
- */
-stock War3HealToHP(client, addhp, maximumHP) {
-	new currenthp = GetClientHealth(client);
-	new newhp = currenthp + addhp;
-	if (newhp > maximumHP) {
-		newhp = maximumHP;
-	}
-    
-	SetEntityHealth(client, newhp);
-	if (currenthp < newhp)
-	{
-		War3_TFHealingEvent(client, newhp - currenthp);
-	}
-}
-
-/**
- * heals to max hp * 1.5 buff in tf2
- * no extra hp in other games 
- * @noreturn
- */
-native War3_HealToBuffHP(client, addhp);
-
-/** 
- * direcly decreases the player's hp by X amount (Not via damage)
- * this health removal is "non lethal"
- */
-native War3_DecreaseHP(client, decrease);
-
-// This one is actually used by HealToMaxHP, HealToBuffHP aswell as DecreaseHP
-stock nsEntity_SetHealth(entity, health) {
-    new currenthp = GetEntProp(entity, Prop_Data, "m_iHealth");
-    SetEntProp(entity, Prop_Data, "m_iHealth", health);
-    ChangeEdictState(entity, 0);
-    
-    if (currenthp < health)
-    {
-        War3_TFHealingEvent(entity, health - currenthp);
-    }
-}
-
-/** 
- * Creates a event to show a player in the HUD how much HP he has healed
- */
-stock War3_TFHealingEvent(client, amount_healed)
-{
-    if (War3_GetGame() != Game_TF || !ValidPlayer(client, true) || IsFakeClient(client))
-    {
-        return;
-    }
-    
-    new Handle:event = CreateEvent("player_healonhit");
-    SetEventInt(event, "entindex", client);
-    SetEventInt(event, "amount", amount_healed);
-    FireEvent(event);
-}
-
 //LO AND BEHOLD THE COOLDOWN MANAGER, YOUR LIFE SIMPLIFIED!!!
 //we essentially move the cooldown system out of our races into our main plugin
 /**
@@ -805,68 +554,6 @@ native bool:War3_SkillNotInCooldown(client,raceid,skillNum,bool:printTextIfNotRe
  */
 native War3_PrintSkillIsNotReady(client, raceid, skillNum);
 
-////BUFF SYSTEM
-////BUFF SYSTEM
-////BUFF SYSTEM
-////BUFF SYSTEM
-////BUFF SYSTEM
-////BUFF SYSTEM
-
-
-/*
- * set a buff, identified as coming from a race
- * value can be int float bool, but has to be consistant, agreed upon by war3 main plugin
- * 
- */
-native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
-
-/*
- * set a buff, identified as coming from a item
- * 
- */
-native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
-native W3BuffCustomOFFSET(); //get offset for custom buff modifier indexes. use War3_SetBuffItem(client,buffindex,W3BuffCustomOFFSET() + NUMBER,value) (YES, ITEM)
-//not implemented
-//simple buff application which the plugin does internal tracking so you don't have to
-//given a race, buffindex, and its value, applies that buff for a certain duration then calls buffReset 
-//@allowReapplyToExtendDuration if true, means a new call to the same race-buff combination will renew its duration, otherwise it will be blocked and the existing duration is kept
-native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:appliedBuffValue,Float:duration,bool:allowReapplyToExtendDuration=true);
-
-///RESETS a particular buff from your race on this client
-native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
-
-///RESETS ALL BUFFS PERTAINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
-native W3ResetAllBuffRace(client, raceid);
-
-//set player shell glowish color (blood mage, shadow hunter), highest override priority takes effect, all integers
-stock W3SetPlayerColor(client, raceid, r, g, b, a = 255,
-		overridepriority = GLOW_DEFAULT) {
-	War3_SetBuff(client, iGlowRed, raceid, r);
-	War3_SetBuff(client, iGlowGreen, raceid, g);
-	War3_SetBuff(client, iGlowBlue, raceid, b);
-	War3_SetBuff(client, iGlowAlpha, raceid, a);
-	War3_SetBuff(client, iGlowPriority, raceid, overridepriority);
-	War3_SetBuff(client, fGlowSetTime, raceid, GetGameTime());
-}
-stock W3ResetPlayerColor(client, raceid) {
-	W3SetPlayerColor(client, raceid, 255, 255, 255, _, 0);
-}
-
-//getting buffs
-native W3GetBuffLoopLimit(); //buff loop size , item count + race count + others, loop from 0 to <this return value
-native any:W3GetBuff(client,W3Buff:buffindex,RaceIDorItemID,IPassedItemID=false);
-native bool:W3GetBuffHasTrue(client,W3Buff:buffindex); //does this buff have one true (activated?)
-native W3GetBuffSumInt(client,W3Buff:buffindex);
-native Float:W3GetBuffStackedFloat(client,W3Buff:buffindex); //get buff stacked value of an buff, use appropriately
-native Float:W3GetBuffSumFloat(client,W3Buff:buffindex);
-native Float:W3GetBuffMinFloat(client,W3Buff:buffindex);
-native Float:W3GetBuffMaxFloat(client,W3Buff:buffindex);
-native W3GetBuffLastValue(client,W3Buff:buffindex);
-native W3GetBuffMinInt(client,W3Buff:buffindex);
-
-//calculate player speed next frame
-native W3ReapplySpeed(client);
-native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 //DELAY TRACKER
 //DELAY TRACKER
 //DELAY TRACKER
@@ -949,65 +636,6 @@ native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:f
 //for activatable skills only
 stock bool:SkillAvailable(client,yourRaceID,skillnumber,bool:printCooldown=true,bool:checksilenced=true,bool:printSilenced=true) {
 	return War3_SkillNotInCooldown(client,yourRaceID,skillnumber,printCooldown)&& (!checksilenced||!Silenced(client,printSilenced));
-}
-
-//statuses
-stock bool:Stunned(client) {
-	return W3GetBuffHasTrue(client,bStunned);
-}
-stock bool:Silenced(client,printSilenced=true) {
-	new bool:silenced=(W3GetBuffHasTrue(client,bSilenced)||Stunned(client));
-	if(silenced&&printSilenced) {
-		if(IsPlayerAlive(client)) {
-			if(Stunned(client))
-			{
-				PrintHintText(client,"%T","You are stunned",client);
-			}
-			else
-			{
-				PrintHintText(client,"%T","You are silenced",client);
-			}
-		}
-		if(Stunned(client))
-		{
-			PrintToConsole(client,"%T","You are stunned, cannot activate skill",client);
-		}
-		else
-		{
-			PrintToConsole(client,"%T","You are silenced, cannot activate skill",client);
-		}
-	}
-	return silenced;
-}
-stock bool:Hexed(client,printmsg=true) {
-	new bool:status=(W3GetBuffHasTrue(client,bHexed)||W3GetBuffHasTrue(client,bStunned));
-	if(status&&printmsg) {
-
-		if(Stunned(client))
-		{
-			PrintToConsole(client,"%T","You are stunned, cannot proc skill",client);
-		}
-		else
-		{
-			PrintToConsole(client,"%T","You are hexed, cannot proc skill",client);
-		}
-	}
-	return status;
-}
-stock bool:Perplexed(client,printmsg=true) {
-	new bool:perplexed=(W3GetBuffHasTrue(client,bPerplexed)||W3GetBuffHasTrue(client,bStunned));
-	if(perplexed&&printmsg) {
-
-		if(Stunned(client))
-		{
-			PrintToConsole(client,"%T","You are stunned, cannot activate item",client);
-		}
-		else
-		{
-			PrintToConsole(client,"%T","You are perplexed, cannot activate item",client);
-		}
-	}
-	return perplexed;
 }
 
 native War3_GetRace(client);
@@ -1305,22 +933,6 @@ forward OnUltimateCommand(client,race,bool:pressed);
 forward OnAbilityCommand(client,ability,bool:pressed);
 
 /**
- * Gets called when a player purchases an item.
- * @param client: The client's index.
- * @param item: The item that was purchased.
- * PLAYER ALREADY HAS OWNERSHIP BY THIS POINT  
- */
-forward OnItemPurchase(client, item);
-
-/**
- * Gets called when a player loses an item. (after death (ownership to false) or traded it back..)
- * @param client: The client's index.
- * @param item: The item that was purchased.
- * PLAYER ALREADY HAS LOST OWNERSHIP BY THIS POINT   
- */
-forward OnItemLost(client, item);
-
-/**
  * Gets called when a skill level is changed.
  */
 forward OnSkillLevelChanged(client, race, skill, newskilllevel);
@@ -1546,66 +1158,12 @@ stock bool:CvarEmpty(Handle:sourcemod_convar) {
 
 }
 
-stock bool:W3HasImmunity(client,War3Immunity:immunityindex) {
-										 //Immunity_Ability
-	//add magic immunity etc later
-	if(immunityindex==Immunity_Abilities) {
-		return W3GetBuffHasTrue(client,bImmunityAbilities);
-	}
-	if(immunityindex==Immunity_Items) {
-		return W3GetBuffHasTrue(client,bImmunityItems);
-	}
-	if(immunityindex==Immunity_Skills) {
-		return W3GetBuffHasTrue(client,bImmunitySkills);
-	}
-	if(immunityindex==Immunity_Ultimates) {
-		return W3GetBuffHasTrue(client,bImmunityUltimates);
-	}
-	if(immunityindex==Immunity_Wards) {
-		return W3GetBuffHasTrue(client,bImmunityWards)||W3GetBuffHasTrue(client,bImmunitySkills);
-	}
-
-	return false;
-
-}
-stock bool:IsSkillImmune(client) {
-	return W3GetBuffHasTrue(client,bImmunitySkills);
-}
-stock bool:IsUltImmune(client) {
-	return W3GetBuffHasTrue(client,bImmunityUltimates);
-}
-
 //returns true/false on a chance cast. 1.0=100%, 0.1 = 10% chance
 stock bool:War3_Chance(Float:chancepercent=1.0) {
 	return (GetRandomFloat(0.0,1.0)<=chancepercent);
 }
 stock bool:W3Chance(Float:chancepercent=1.0) {
 	return (GetRandomFloat(0.0,1.0)<=chancepercent);
-}
-
-//sets armor, but does not give any helm
-stock War3_SetCSArmor(client, amount) {
-	// Revan: thoose armor properities for CS:GO are the same as in CS:Source
-	new ValveGameEnum:war3Game = War3_GetGame();
-	if (war3Game == Game_CS || war3Game == Game_CSGO) {
-		if (amount > 125) {
-			amount = 125;
-		}
-		SetEntProp(client, Prop_Send, "m_ArmorValue", amount);
-	}
-}
-stock War3_GetCSArmor(client) {
-	new ValveGameEnum:war3Game = War3_GetGame();
-	if (war3Game == Game_CS || war3Game == Game_CSGO) {
-		return GetEntProp(client, Prop_Send, "m_ArmorValue");
-	}
-	return 0;
-}
-stock War3_GetCSArmorHasHelmet(client) {
-return GetEntProp(client, Prop_Send, "m_bHasHelmet")
-}
-stock War3_SetCSArmorHasHelmet(client,bool:hashelmet) {
-	return SetEntProp(client, Prop_Send, "m_bHasHelmet",hashelmet? 1:0, 1);
 }
 
 /**
@@ -1717,137 +1275,6 @@ stock GetRacesOnTeam(raceid, team, ignoreIfAdminSetRace = false) {
 		}
 	}
 	return num;
-}
-
-stock bool:W3IsDamageFromMelee(const String:weapon[])
-{
-	switch (War3_GetGame())
-	{
-		case Game_CS:
-		{
-			return StrEqual(weapon,"knife");
-		}
-		case Game_DOD:
-		{
-			return (StrEqual(weapon,"amerknife") ||
-					StrEqual(weapon,"spade") ||
-					StrEqual(weapon,"punch"));
-		}
-		case Game_TF:
-		{
-			return (// Logfile names
-					StrEqual(weapon, "shovel") ||
-					StrEqual(weapon, "wrench") ||
-					StrEqual(weapon, "bat") ||
-					StrEqual(weapon, "bonesaw") ||
-					StrEqual(weapon, "bottle") ||
-					StrEqual(weapon, "club") ||
-					StrEqual(weapon, "fireaxe") ||
-					StrEqual(weapon, "fists") ||
-					StrEqual(weapon, "sandman") ||
-					StrEqual(weapon, "pickaxe") ||
-					StrEqual(weapon, "sword") ||
-					StrEqual(weapon, "demoshield") ||
-					StrEqual(weapon, "taunt_scout") ||
-					StrEqual(weapon, "taunt_sniper") ||
-					StrEqual(weapon, "taunt_pyro") ||
-					StrEqual(weapon, "taunt_demoman") ||
-					StrEqual(weapon, "taunt_heavy") ||
-					StrEqual(weapon, "taunt_spy") ||
-					StrEqual(weapon, "taunt_soldier")||
-                    StrEqual(weapon, "annihilator") ||
-                    StrEqual(weapon, "ubersaw") ||
-                    StrEqual(weapon, "axtinguisher") ||
-                    StrEqual(weapon, "gloves") ||
-                    StrEqual(weapon, "sandman") ||
-                    StrEqual(weapon, "unique_pickaxe") ||
-                    StrEqual(weapon, "robot_arm") ||
-                    StrEqual(weapon, "sledgehammer") ||
-                    StrEqual(weapon, "paintrain") ||
-                    StrEqual(weapon, "southern_hospitality") ||
-                    StrEqual(weapon, "wrench_golden") ||
-                    StrEqual(weapon, "tribalkukri") ||
-                    StrEqual(weapon, "battleaxe") ||
-                    StrEqual(weapon, "battleneedle") ||
-                    StrEqual(weapon, "powerjack") ||
-                    StrEqual(weapon, "holy_mackerel") ||
-                    StrEqual(weapon, "eternal_reward") ||
-                    StrEqual(weapon, "bushwacka") ||
-                    StrEqual(weapon, "gloves_running_urgently") ||
-                    StrEqual(weapon, "fryingpan") ||
-                    StrEqual(weapon, "headtaker") ||
-                    StrEqual(weapon, "ullapool_caber") ||
-                    StrEqual(weapon, "warrior_spirit") ||
-                    StrEqual(weapon, "candy_cane") ||
-                    StrEqual(weapon, "boston_basher") ||
-                    StrEqual(weapon, "back_scratcher") ||
-                    StrEqual(weapon, "claidheamohmor") ||
-                    StrEqual(weapon, "wrench_jag") ||
-                    StrEqual(weapon, "steel_fists") ||
-                    StrEqual(weapon, "lava_axe") ||
-                    StrEqual(weapon, "lava_bat") ||
-                    StrEqual(weapon, "warfan") ||
-                    StrEqual(weapon, "kunai") ||
-                    StrEqual(weapon, "demokatana") ||
-                    StrEqual(weapon, "shahanshah") ||
-                    StrEqual(weapon, "persian_persuader") ||
-                    StrEqual(weapon, "solemn_vow") ||
-                    StrEqual(weapon, "market_gardener") ||
-                    StrEqual(weapon, "saxxy") ||
-                    StrEqual(weapon, "eviction_notice") ||
-                    StrEqual(weapon, "disciplinary_action") ||
-                    StrEqual(weapon, "atomizer") ||
-                    StrEqual(weapon, "scout_sword") ||
-                    StrEqual(weapon, "mailbox") ||
-                    StrEqual(weapon, "big_earner") ||
-                    StrEqual(weapon, "the_maul") ||
-                    StrEqual(weapon, "nonnonviolent_protest") ||
-                    StrEqual(weapon, "nessieclub") ||
-                    StrEqual(weapon, "unarmed_combat") ||
-                    StrEqual(weapon, "voodoo_pin") ||
-                    StrEqual(weapon, "apocofists") ||
-                    StrEqual(weapon, "eureka_effect") ||
-                    StrEqual(weapon, "thirddegree") ||
-                    StrEqual(weapon, "scotland_shard") ||
-                    StrEqual(weapon, "sharp_dresser") ||
-                    StrEqual(weapon, "wrap_assassin") ||
-                    StrEqual(weapon, "spy_cicle") ||
-                    StrEqual(weapon, "holiday_punch") ||
-                    StrEqual(weapon, "black_rose") ||
-                    StrEqual(weapon, "lollichop") ||
-                    StrEqual(weapon, "unique_pickaxe_escape") ||
-                    StrEqual(weapon, "freedom_staff") ||
-                    // Weapon names
-                    StrEqual(weapon, "tf_weapon_bat") ||
-                    StrEqual(weapon, "tf_weapon_bat_wood") ||
-                    StrEqual(weapon, "tf_weapon_bat_fish") ||
-                    StrEqual(weapon, "tf_weapon_shovel") ||
-                    StrEqual(weapon, "saxxy") ||
-                    StrEqual(weapon, "tf_weapon_bat_giftwrap") ||
-                    StrEqual(weapon, "tf_weapon_fireaxe") ||
-                    StrEqual(weapon, "tf_weapon_sword") ||
-                    StrEqual(weapon, "tf_weapon_bottle") ||
-                    StrEqual(weapon, "tf_weapon_stickbomb") ||
-                    StrEqual(weapon, "tf_weapon_katana") ||
-                    StrEqual(weapon, "tf_weapon_fists") ||
-                    StrEqual(weapon, "tf_weapon_wrench") ||
-                    StrEqual(weapon, "tf_weapon_robot_arm") ||
-                    StrEqual(weapon, "tf_weapon_bonesaw") ||
-                    StrEqual(weapon, "tf_weapon_club") ||
-                    StrEqual(weapon, "tf_weapon_knife")
-                );
-		}
-		case Game_L4D2:
-		{
-			return StrEqual(weapon, "weapon_melee");
-		}
-		case Game_CSGO:
-		{
-			// Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
-			return (StrContains(weapon,"knife",false)!=-1);
-		}
-	}
-	return false;
 }
 
 stock bool:TF2_HasTheFlag(client)
@@ -2392,7 +1819,11 @@ stock CheckRaceTeamLimit(raceid, team){
 
 #include "W3SIncs/stocks_precache"
 #include "W3SIncs/War3Source_L4D_Interface"
+#include "W3SIncs/War3Source_CS_Interface"
 #include "W3SIncs/stocks_misc"
 #include "W3SIncs/War3Source_Notifications"
-#include "W3SIncs/War3Source_Damage"
+#include "W3SIncs/War3Source_Health"
 #include "W3SIncs/War3Source_SkillEffects"
+#include "W3SIncs/War3Source_Shopitems"
+#include "W3SIncs/War3Source_Buffs"
+#include "W3SIncs/War3Source_XP_Gold"

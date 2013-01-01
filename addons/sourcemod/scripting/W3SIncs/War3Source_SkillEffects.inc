@@ -1,8 +1,7 @@
 /**
  * File: War3Source_SkillEffects.inc
  * Description: Provide effects for certain skills so they feel the same across all races
- * Author(s): Glider  
- * 
+ * Author(s): War3Source Team  
  */
 
 /** 

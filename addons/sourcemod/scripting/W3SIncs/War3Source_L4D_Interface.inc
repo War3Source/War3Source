@@ -1,8 +1,7 @@
 /**
  * File: War3Source_L4D_Interface.inc
  * Description: Functions and stuff to make L4D specific races and whatnot
- * Author(s): Glider  
- * 
+ * Author(s): War3Source Team  
  */
 
 #include <sdktools>

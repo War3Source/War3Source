@@ -1,12 +1,8 @@
 /**
  * File: War3Source_Effects.inc
- * Description: Finally collecting some methods I keep copying over and over again
- * Author(s): Glider  
- * 
+ * Description: Stocks to make races flashier
+ * Author(s): War3Source Team  
  */
-
-///LOOK FURTHER DOWN FOR SIMPLIFIED STOCK FUNCTIONS
-
 
 //=============================================================================
 //                             Raw particle/light methods
@@ -149,6 +145,37 @@ stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIn
 	TE_WriteNum("m_nCount", count);
 	TE_WriteFloat("m_fSpeed", speedF);
 }
+
+//=============================================================================
+//                                 Screen effects
+//=============================================================================
+
+/**
+ * Flashes a player's screen a certain color for a duration.
+ * @param client: Client's index.
+ * @param color[4]: RGBA value of the color, see above for presets.
+ * @param duration: Length of flash, optional.
+ * @param flags: Flags of Fade user message, optional.
+ * @noreturn
+ */
+native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
+
+/**
+ * Shakes a player's screen at a magnitude and noise for a duration.
+ * @param client: Client's index.
+ * @param duration: Optional, how long to shake.
+ * @param magnitude: Optional magnitude value.
+ * @param noise: Optional noise value.
+ * @noreturn
+ */
+native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
+
+//=============================================================================
+//                                 Natives
+//=============================================================================
+
+//Sends a particle to client like "miss_text"
+native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);
 
 //=============================================================================
 //                                 One liners...

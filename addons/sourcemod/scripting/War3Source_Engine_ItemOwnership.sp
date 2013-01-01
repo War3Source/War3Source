@@ -282,15 +282,18 @@ public NW3IsItemDisabledForRace(Handle:plugin,numParams)
 
 
 public NGetClientItemsOwned(Handle:h,n){
-	new client=GetNativeCell(1);
-	new num=0;
-	new ItemsLoaded = W3GetItemsLoaded();
-	for(new i=1;i<=ItemsLoaded;i++){
-		if(War3_GetOwnsItem(client,i)){
-			num++;
+	new client = GetNativeCell(1);
+	new amount = 0;
+	
+	for(new x=1; x <= W3GetItemsLoaded(); x++)
+	{
+		if(War3_GetOwnsItem(client, x))
+		{
+			amount++;
 		}
 	}
-	return num;
+	
+	return amount;
 }
 
 public NGetMaxShopitemsPerPlayer(Handle:h,n){

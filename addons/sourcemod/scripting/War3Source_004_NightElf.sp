@@ -85,7 +85,6 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		SKILL_TRUESHOT=War3_AddRaceSkillT(thisRaceID,"TrueshotAura",false,4);
 		ULT_ENTANGLE=War3_AddRaceSkillT(thisRaceID,"EntanglingRoots",true,4); //TEST
 		War3_CreateRaceEnd(thisRaceID);
-		W3Faction(thisRaceID,"Elves",true);
 	}
 }
 

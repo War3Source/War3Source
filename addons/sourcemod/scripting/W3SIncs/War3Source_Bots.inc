@@ -1,8 +1,7 @@
 /**
  * File: War3Source_Bots.inc
  * Description: Methods regarding bots
- * Author(s): Glider  
- * 
+ * Author(s): War3Source Team  
  */
 
 /**

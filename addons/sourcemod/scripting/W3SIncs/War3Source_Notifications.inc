@@ -1,8 +1,7 @@
 /**
  * File: War3Source_Notifications.inc
  * Description: Easier stocks for notification
- * Author(s): Glider  
- * 
+ * Author(s): War3Source Team  
  */
 
 // TODO: Translations
