@@ -113,16 +113,6 @@ public OnItemLost(client, item)
     }
 }
 
-public OnWar3EventDeath(victim)
-{
-	if(War3_GetOwnsItem(victim,thisItem))
-	{
-		War3_SetOwnsItem(victim,thisItem,false);
-		War3_SetBuffItem(victim,bImmunitySkills,thisItem,false);
-	}
-}
-
-
 stock GetMoney(player)
 {
 	return GetEntData(player,MoneyOffsetCS);

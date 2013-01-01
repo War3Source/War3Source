@@ -363,9 +363,7 @@ CheckForRestrictedItemsOnRace(client)
 				
 				W3SetVar(TheItemBoughtOrLost,itemid);
 				W3CreateEvent(DoForwardClientLostItem,client); //old item
-				
 			}
-			
 		}
 	}
 }

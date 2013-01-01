@@ -87,8 +87,3 @@ public Action:SDK_Forwarded_TraceAttack(victim, &attacker, &inflictor, &Float:da
 	}
 	return Plugin_Changed;
 }
-public OnWar3EventDeath(victim){
-	if(War3_GetOwnsItem(victim,thisItem)){
-		War3_SetOwnsItem(victim,thisItem,false);
-	}
-}
