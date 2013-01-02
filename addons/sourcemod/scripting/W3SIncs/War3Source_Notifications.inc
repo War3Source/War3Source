@@ -7,21 +7,9 @@
 // TODO: Translations
 
 /** 
- * Generic stock to show somebody that they took damage from someone
- */
-stock War3_PlayerTookDamage(victim, attacker, damage)
-{
-    new String:sAttackerName[32];
-    GetClientName(attacker, sAttackerName, sizeof(sAttackerName));
-    
-    W3Hint(victim, HINT_DMG_RCVD, 1.0, "{player} did {amount} damage to you", sAttackerName, damage);
-    PrintToConsole(victim, "{player} did {amount} damage to you", sAttackerName, damage);
-}
-
-/** 
  * Show somebody that an enemy skill caused them damage
  */
-stock War3_PlayerTookDamageFromSkill(victim, attacker, damage, skill)
+stock War3_NotifyPlayerTookDamageFromSkill(victim, attacker, damage, skill)
 {
     new String:sAttackerName[32];
     GetClientName(attacker, sAttackerName, sizeof(sAttackerName));
@@ -43,5 +31,4 @@ stock War3_PlayerTookDamageFromSkill(victim, attacker, damage, skill)
     
     W3Hint(attacker, HINT_DMG_RCVD, 1.0, "%s did %i damage to you with %s", sVictimName, damage, sSkillName);
     PrintToConsole(attacker, "%s did %i damage to you with %s", sVictimName, damage, sSkillName);
-
 }

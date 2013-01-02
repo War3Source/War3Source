@@ -80,6 +80,7 @@ public OnPluginStart()
         iMaskSoundDelay[i] = War3_RegisterDelayTracker();
     }
 
+    LoadTranslations("w3s.race.undead.phrases");
     LoadTranslations("w3s.item.antiward.phrases");
 }
 
@@ -307,6 +308,11 @@ public OnWar3EventPostHurt(victim, attacker, damage)
 
             if(War3_GetOwnsItem(attacker, iShopitem[ITEM_MASK]))
             {
+                // Mask should probably apply the fVampirismBuff
+                // But the Vampirism Engine needs a Forward to call when it
+                // leeches HP so mask can still do its sound
+                
+                new iOldHP = GetClientHealth(attacker);
                 new Float:fLeechPercentage = GetConVarFloat(hMaskLeechCvar);
                 if(fLeechPercentage < 0.0)
                 {
@@ -323,7 +329,8 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                     iLeechedHP = 40; 
                 }
                 War3_HealToBuffHP(attacker, iLeechedHP);
-               
+                new iNewHP = GetClientHealth(attacker);
+                
                 if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
                 {
                     EmitSoundToAll(sMaskSound, attacker);
@@ -336,7 +343,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                     War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
                 }
                 
-                PrintToConsole(attacker, "%T", "+{amount} Mask leeched HP", attacker, iLeechedHP);
+                War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
             }
         }
     }

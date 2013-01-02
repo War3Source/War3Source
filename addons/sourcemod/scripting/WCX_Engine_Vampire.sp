@@ -13,22 +13,29 @@ public OnPluginStart()
     LoadTranslations("w3s.race.undead.phrases");
 }
 
-LeechHP(client, damage, Float:percentage, bool:bBuff)
+LeechHP(victim, attacker, damage, Float:percentage, bool:bBuff)
 {
     new leechhealth = RoundToFloor(damage * percentage);
-    if(leechhealth > 40) leechhealth = 40;
+    if(leechhealth > 40)
+    {
+        leechhealth = 40;
+    }
 
-    W3FlashScreen(client, RGBA_COLOR_GREEN);
-
+    new iOldHP = GetClientHealth(attacker);
     if (bBuff)
     {
-        War3_HealToBuffHP(client, leechhealth);
+        War3_HealToBuffHP(attacker, leechhealth);
     }
     else
     {
-        War3_HealToMaxHP(client, leechhealth);
+        War3_HealToMaxHP(attacker, leechhealth);
     }
-    PrintToConsole(client, "%T", "Leeched +{amount} HP", client, leechhealth);
+    new iNewHP = GetClientHealth(attacker);
+    
+    if (iOldHP  != iNewHP)
+    {
+        War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
+    }
 }
 
 public OnWar3EventPostHurt(victim, attacker, damage)
@@ -43,12 +50,12 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             // This one runs first
             if(fVampirePercentageNoBuff > 0.0)
             {
-                LeechHP(attacker, damage, fVampirePercentageNoBuff, false);
+                LeechHP(victim, attacker, damage, fVampirePercentageNoBuff, false);
             }
 
             if(fVampirePercentage > 0.0)
             {
-                LeechHP(attacker, damage, fVampirePercentage, true);
+                LeechHP(victim, attacker, damage, fVampirePercentage, true);
             }
         }
     }
@@ -80,12 +87,12 @@ public OnW3TakeDmgBullet(victim, attacker, Float:damage)
             // This one runs first
             if(fVampireNoBuffPercentage > 0.0)
             {
-                LeechHP(attacker, RoundToFloor(damage), fVampireNoBuffPercentage, false);
+                LeechHP(victim, attacker, RoundToFloor(damage), fVampireNoBuffPercentage, false);
             }
 
             if(fVampirePercentage > 0.0)
             {
-                LeechHP(attacker, RoundToFloor(damage), fVampirePercentage, true);
+                LeechHP(victim, attacker, RoundToFloor(damage), fVampirePercentage, true);
             }
         }
     }

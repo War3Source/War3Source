@@ -5,7 +5,7 @@ public Plugin:myinfo =
 {
     name = "War3Source - Engine - HP Regen",
     author = "War3Source Team",
-    description = "Controls Health regeneration"
+    description = "Controls Health regeneration aswell as Health decay"
 };
 
 new g_iRegenParticleSkip[MAXPLAYERSCUSTOM];
@@ -53,7 +53,7 @@ public OnGameFrame()
                 {
                     War3_HealToMaxHP(client, 1);
 
-                    if(War3_GetGame() == TF)
+                    if(GameTF())
                     {
                         g_iRegenParticleSkip[client]++;
                         if(g_iRegenParticleSkip[client] > 4 && !IsInvis(client))
@@ -70,7 +70,7 @@ public OnGameFrame()
 
                 if(fbuffsum < -0.01)
                 {
-                    if(War3_GetGame() == Game_TF)
+                    if(GameTF())
                     {
                         g_iDecayParticleSkip[client]++;
                         if(g_iDecayParticleSkip[client] > 2 && !IsInvis(client)) 
@@ -78,7 +78,6 @@ public OnGameFrame()
                             GetClientAbsOrigin(client, playervec);
 
                             playervec[2] += 55.0;
-
                             War3_TF_ParticleToClient(0, HEALTH_LOST_PARTICLE, playervec);
 
                             g_iDecayParticleSkip[client] = 0;
@@ -87,8 +86,7 @@ public OnGameFrame()
 
                     if(GetClientHealth(client) > 1)
                     {
-                        SetEntityHealth(client,GetClientHealth(client) - 1);
-
+                        SetEntityHealth(client, GetClientHealth(client) - 1);
                     }
                     else
                     {

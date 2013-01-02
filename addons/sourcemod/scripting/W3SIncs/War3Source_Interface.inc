@@ -1488,10 +1488,6 @@ stock W3MsgNoWardsLeft(client) {
 stock W3MsgNoWardWhenInvis(client) {
     PrintHintText(client, "%T", "No Ward Placement While Invisible", client);
 }
-stock W3MsgEvaded(victim, attacker) {
-    PrintHintText(victim, "%T", "You Evaded a Shot", victim);
-    PrintHintText(attacker, "%T", "Enemy Evaded", attacker);
-}
 stock W3MsgEntangle(victim, attacker) {
     PrintHintText(victim, "%T", "You are Entangled!", victim);
     PrintHintText(attacker, "%T", "Entangled!", attacker);

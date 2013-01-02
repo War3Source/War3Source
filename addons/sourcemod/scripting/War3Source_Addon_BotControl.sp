@@ -124,7 +124,7 @@ public OnW3TakeDmgAllPre(victim, attacker, Float:damage)
             new Float: fEvasion = (1.0 - fVictimVisibility) / 2;
             if(GetRandomFloat(0.0, 1.0) <= fEvasion)
             {
-                EvadeDamage(victim, attacker);
+                War3_EvadeDamage(victim, attacker);
             }
         }
     }
