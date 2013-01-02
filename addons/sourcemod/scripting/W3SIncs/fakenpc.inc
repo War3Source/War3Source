@@ -3,23 +3,23 @@
 // enumerations
 enum NPCDamage
 {
-	MinDamage=0,
-	MaxDamage
+    MinDamage=0,
+    MaxDamage
 };
 enum NPCSpeed
 {
-	MoveSpeed=0,
-	AttackSpeed
+    MoveSpeed=0,
+    AttackSpeed
 };
 enum NPCRange
 {
-	EyeRange=0,
-	AttackRange
+    EyeRange=0,
+    AttackRange
 };
 enum NPCMovement
 {
-	Normal=0, //normal npc walking-like behavior
-	Static //static
+    Normal=0, //normal npc walking-like behavior
+    Static //static
 };
 // Sequence Definitions
 #define SEQUENCE_IDLE 0
@@ -91,12 +91,12 @@ forward OnNPCHurt(entity,attacker,&Float:damage);
 forward OnNPCDied(entity,attacker);
 
 stock bool:IsNPCSourceOfRace(raceID,entity,owner=0) {
-	if(owner==0) {
-		War3_GetOwner(entity);
-	}
-	if(War3_GetRace(owner)==raceID)
-		return true;
-	return false;
+    if(owner==0) {
+        War3_GetOwner(entity);
+    }
+    if(War3_GetRace(owner)==raceID)
+        return true;
+    return false;
 }
 
 //amount of currently spawned npcs

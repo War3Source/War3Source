@@ -27,10 +27,10 @@ native W3GetAssistGold();
 native War3_ShowXP(client);
 
 stock War3_SetGold(client, newgold) {
-	W3SetPlayerProp(client, PlayerGold, newgold);
+    W3SetPlayerProp(client, PlayerGold, newgold);
 }
 stock War3_GetGold(client) {
-	return W3GetPlayerProp(client, PlayerGold);
+    return W3GetPlayerProp(client, PlayerGold);
 }
 
 //nothing happens if you give 0 xp 0 gold

@@ -1,4 +1,4 @@
- 	
+     
 //Buff SET AND FORGET
 
 
@@ -14,18 +14,18 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Engine - Buff Tracker (Buff Helper)",
-	author = "War3Source Team",
-	description = "I track buffs so you don't have to!"
+    name = "War3Source - Engine - Buff Tracker (Buff Helper)",
+    author = "War3Source Team",
+    description = "I track buffs so you don't have to!"
 };
 
 /*
 enum BuffHelperObject{
-	//String:ExecuteString[1000],
-	Race,
-	W3Buff:BuffIndex,
-	ClientAppliedTo,
-	Float:Expiration
+    //String:ExecuteString[1000],
+    Race,
+    W3Buff:BuffIndex,
+    ClientAppliedTo,
+    Float:Expiration
 }
 
 
@@ -44,29 +44,29 @@ new Handle:objExpiration;
 
 public OnPluginStart()
 {
-	CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
-	objRace=CreateArray();
-	objBuffIndex=CreateArray();
-	objClientAppliedTo=CreateArray();
-	objExpiration=CreateArray();
-	PushArrayCell(objRace, -99); 
-	PushArrayCell(objBuffIndex, -99); 
-	PushArrayCell(objClientAppliedTo, -99); 
-	PushArrayCell(objExpiration, -99); 
-	
+    CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
+    objRace=CreateArray();
+    objBuffIndex=CreateArray();
+    objClientAppliedTo=CreateArray();
+    objExpiration=CreateArray();
+    PushArrayCell(objRace, -99); 
+    PushArrayCell(objBuffIndex, -99); 
+    PushArrayCell(objClientAppliedTo, -99); 
+    PushArrayCell(objExpiration, -99); 
+    
 }
 //note, accepts duration, not expiration
 stock SetObject(index,race,buffindex,client,Float:duration){
-	SetArrayCell(objRace,index, race); 
-	SetArrayCell(objBuffIndex,index, _:buffindex); 
-	SetArrayCell(objClientAppliedTo,index, client); 
-	SetArrayCell(objExpiration,index, AbsoluteTime()+duration); 
+    SetArrayCell(objRace,index, race); 
+    SetArrayCell(objBuffIndex,index, _:buffindex); 
+    SetArrayCell(objClientAppliedTo,index, client); 
+    SetArrayCell(objExpiration,index, AbsoluteTime()+duration); 
 }
 GetObject(&index,&race,&buffindex,&client,&Float:expiration){
-	race=GetArrayCell(objRace,index); 
-	buffindex=GetArrayCell(objBuffIndex,index); 
-	client=GetArrayCell(objClientAppliedTo,index ); 
-	expiration=GetArrayCell(objExpiration,index ); 
+    race=GetArrayCell(objRace,index); 
+    buffindex=GetArrayCell(objBuffIndex,index); 
+    client=GetArrayCell(objClientAppliedTo,index ); 
+    expiration=GetArrayCell(objExpiration,index ); 
 }
 
 // use  1 -- < len
@@ -74,89 +74,89 @@ ObjectLen(){
 return GetArraySize(objRace);
 }
 RemoveObject(index){
-	RemoveFromArray(objRace, index); 
-	RemoveFromArray(objBuffIndex, index); 
-	RemoveFromArray(objClientAppliedTo, index); 
-	RemoveFromArray(objExpiration, index); 
+    RemoveFromArray(objRace, index); 
+    RemoveFromArray(objBuffIndex, index); 
+    RemoveFromArray(objClientAppliedTo, index); 
+    RemoveFromArray(objExpiration, index); 
 }
 
 
 public bool:InitNativesForwards()
 {
-	//CreateNative("W3RegisterBuffHelper",NW3ApplyBuff);
-	//CreateNative("W3SetBuffHelper",NW3ApplyBuff);
-	CreateNative("W3ApplyBuffSimple",NW3ApplyBuffSimple);
-	return true;
+    //CreateNative("W3RegisterBuffHelper",NW3ApplyBuff);
+    //CreateNative("W3SetBuffHelper",NW3ApplyBuff);
+    CreateNative("W3ApplyBuffSimple",NW3ApplyBuffSimple);
+    return true;
 }
 
 public NW3ApplyBuffSimple(Handle:plugin,numParams) {
-	new client=GetNativeCell(1);
-	new buffindex=GetNativeCell(2);
-	new race=GetNativeCell(3);
-	new any:initialValue=GetNativeCell(4);
-	new Float:duration=GetNativeCell(5);
-	new bool:allowoverwrite=GetNativeCell(6);
-	
-	if(!ValidPlayer(client)){
-		ThrowError("INVALID CLIENT");
-	}
-	if(! ValidBuff(W3Buff:buffindex)){
-		ThrowError("INVALID BUFF");
-	}
-	if(!ValidRace(race)){
-		ThrowError("INVALID RACE");
-	}
-	new index=FindExisting(race,buffindex,client);
-	//something exists
-	if(allowoverwrite==false && index>0){
-		return;
-	}
-//	DP("set client %d",client);
-	War3_SetBuff(client,W3Buff:buffindex,race,initialValue);
-	
-	
-	if(index>0){ //replace
-		SetObject(index,race,buffindex,client,Float:duration);
-		
-	}
-	else{ //add to end
-		AddToTracker(race,buffindex,client,Float:duration);
-	}
-//	BuffHelperSimpleModifier[client][raceid]=buffindex;
-//	BuffHelperSimpleRemoveTime[client][raceid]=GetGameTime()+duration;
+    new client=GetNativeCell(1);
+    new buffindex=GetNativeCell(2);
+    new race=GetNativeCell(3);
+    new any:initialValue=GetNativeCell(4);
+    new Float:duration=GetNativeCell(5);
+    new bool:allowoverwrite=GetNativeCell(6);
+    
+    if(!ValidPlayer(client)){
+        ThrowError("INVALID CLIENT");
+    }
+    if(! ValidBuff(W3Buff:buffindex)){
+        ThrowError("INVALID BUFF");
+    }
+    if(!ValidRace(race)){
+        ThrowError("INVALID RACE");
+    }
+    new index=FindExisting(race,buffindex,client);
+    //something exists
+    if(allowoverwrite==false && index>0){
+        return;
+    }
+//    DP("set client %d",client);
+    War3_SetBuff(client,W3Buff:buffindex,race,initialValue);
+    
+    
+    if(index>0){ //replace
+        SetObject(index,race,buffindex,client,Float:duration);
+        
+    }
+    else{ //add to end
+        AddToTracker(race,buffindex,client,Float:duration);
+    }
+//    BuffHelperSimpleModifier[client][raceid]=buffindex;
+//    BuffHelperSimpleRemoveTime[client][raceid]=GetGameTime()+duration;
 }
 FindExisting(race,buffindex,client){
-	new len=ObjectLen();
-	for(new i=0;i<len;i++){
-		if(
-		GetArrayCell(objRace,i)==race&&
-		GetArrayCell(objBuffIndex,i)==_:buffindex&&
-		GetArrayCell(objClientAppliedTo,i)==client
-		){
-		return i;
-		}
-	}
-	return 0;
+    new len=ObjectLen();
+    for(new i=0;i<len;i++){
+        if(
+        GetArrayCell(objRace,i)==race&&
+        GetArrayCell(objBuffIndex,i)==_:buffindex&&
+        GetArrayCell(objClientAppliedTo,i)==client
+        ){
+        return i;
+        }
+    }
+    return 0;
 }
 AddToTracker(race,buffindex,client,Float:duration){
-	PushArrayCell(objRace, race); 
-	PushArrayCell(objBuffIndex, _:buffindex); 
-	PushArrayCell(objClientAppliedTo, client); 
-	PushArrayCell(objExpiration, AbsoluteTime()+duration); 
+    PushArrayCell(objRace, race); 
+    PushArrayCell(objBuffIndex, _:buffindex); 
+    PushArrayCell(objClientAppliedTo, client); 
+    PushArrayCell(objExpiration, AbsoluteTime()+duration); 
 }
 public Action:DeciSecondTimer(Handle:h){
-	new Float:now=AbsoluteTime();
-	new limit=ObjectLen();
-	new race,buffindex,client,Float:expiration;
-	for(new index=1;index<limit;index++){
-		GetObject(index,race,buffindex,client,Float:expiration);
-		if(now>expiration){
-		//	DP("expire client %d",client);
-			W3ResetBuffRace(client,W3Buff:buffindex,race);
-			RemoveObject(index);
-			limit=ObjectLen();
-			index--; 
-		}
-	}
+    new Float:now=AbsoluteTime();
+    new limit=ObjectLen();
+    new race,buffindex,client,Float:expiration;
+    for(new index=1;index<limit;index++){
+        GetObject(index,race,buffindex,client,Float:expiration);
+        if(now>expiration){
+        //    DP("expire client %d",client);
+            W3ResetBuffRace(client,W3Buff:buffindex,race);
+            RemoveObject(index);
+            limit=ObjectLen();
+            index--; 
+        }
+    }
 }
 

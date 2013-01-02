@@ -5,44 +5,44 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Addon - Use Your Gold",
-	author = "War3Source Team",
-	description = "Makes players automatically buy an item when their gold is full"
+    name = "War3Source - Addon - Use Your Gold",
+    author = "War3Source Team",
+    description = "Makes players automatically buy an item when their gold is full"
 };
 
 
 new Handle:cvaritemtobuy;
 public OnPluginStart()
 {
-	cvaritemtobuy=CreateConVar("war3_autobuy_on_max_gold","lace","automatically buy this item if their gold is full");
-	LoadTranslations("w3s.addon.useyourgold.phrases");
+    cvaritemtobuy=CreateConVar("war3_autobuy_on_max_gold","lace","automatically buy this item if their gold is full");
+    LoadTranslations("w3s.addon.useyourgold.phrases");
 }
 public OnWar3EventSpawn(client){
-	//DP("1 %d %d %d %d",client,!W3BuyUseCSMoney(),W3GetMaxGold()==War3_GetGold(client),IsPlayerAlive(client));
-	//W3Hint(client,HINT_NORMAL,5.0,"Your gold is maxed out");
-	//W3Hint(client,HINT_NORMAL,5.0,"%s","Your gold is maxed out");
-	//W3Hint(client,HINT_LOWEST,5.0,"Your gold is maxed out");
-	
-	if(!W3BuyUseCSMoney()&&W3GetMaxGold()==War3_GetGold(client)){
-		decl String:itemshort[32];
-		GetConVarString(cvaritemtobuy,itemshort,sizeof(itemshort));
-		new item=War3_GetItemIdByShortname(itemshort);
-		//DP("2 %d",item);
-		if(item>0){
-				//DP("3");
-			if(!War3_GetOwnsItem(client,item) && GetClientItemsOwned(client) == 0 ){
-					//DP("4");
-				W3SetVar(EventArg1,item);
-				W3SetVar(EventArg2,false);
-				W3CreateEvent(DoTriedToBuyItem,client);
-				
-				if(War3_GetOwnsItem(client,item)){
-					
-					War3_ChatMessage(client,"%T","Your gold is maxed out, we bought an item for you. Say shopmenu to use your gold",client);
-					W3Hint(client,_,15.0,"%T","Your gold is maxed out\nSay shopmenu to use your gold!",client);
-					 //blank like forcing refresh after 0.2 sec
-				}
-			}
-		}
-	}
+    //DP("1 %d %d %d %d",client,!W3BuyUseCSMoney(),W3GetMaxGold()==War3_GetGold(client),IsPlayerAlive(client));
+    //W3Hint(client,HINT_NORMAL,5.0,"Your gold is maxed out");
+    //W3Hint(client,HINT_NORMAL,5.0,"%s","Your gold is maxed out");
+    //W3Hint(client,HINT_LOWEST,5.0,"Your gold is maxed out");
+    
+    if(!W3BuyUseCSMoney()&&W3GetMaxGold()==War3_GetGold(client)){
+        decl String:itemshort[32];
+        GetConVarString(cvaritemtobuy,itemshort,sizeof(itemshort));
+        new item=War3_GetItemIdByShortname(itemshort);
+        //DP("2 %d",item);
+        if(item>0){
+                //DP("3");
+            if(!War3_GetOwnsItem(client,item) && GetClientItemsOwned(client) == 0 ){
+                    //DP("4");
+                W3SetVar(EventArg1,item);
+                W3SetVar(EventArg2,false);
+                W3CreateEvent(DoTriedToBuyItem,client);
+                
+                if(War3_GetOwnsItem(client,item)){
+                    
+                    War3_ChatMessage(client,"%T","Your gold is maxed out, we bought an item for you. Say shopmenu to use your gold",client);
+                    W3Hint(client,_,15.0,"%T","Your gold is maxed out\nSay shopmenu to use your gold!",client);
+                     //blank like forcing refresh after 0.2 sec
+                }
+            }
+        }
+    }
 }
