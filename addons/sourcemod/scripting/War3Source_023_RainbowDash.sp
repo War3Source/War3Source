@@ -182,7 +182,9 @@ public OnUltimateCommand(client,race,bool:pressed)
                             
                             GetClientAbsOrigin(i, TargetPos);
                             if (GetVectorDistance(start_pos, TargetPos) <= rainboomradius[skill]) {
-                                TF2_AddCondition(i,TFCond_Buffed,4.0);
+                                if(GameTF()){
+                                    TF2_AddCondition(i,TFCond_Buffed,4.0);
+                                }
                                 War3_ShakeScreen(i,0.5,100.0,80.0);
                             }
                         }
