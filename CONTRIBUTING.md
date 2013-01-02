@@ -28,31 +28,35 @@ Four (4) spaces as indent, no tabs.
 * No space after a opening bracket or before a closing bracket.
 
 Good: 
+
     if (ValidPlayer(attacker))
 
 Bad: 
+
     if ( ValidPlayer(attacker) )
 
 * Put a space after the comma when seperating parameters.
 
 Good: 
+
     native W3CreateShopItem2(String:name[], String:shortname[], String:desc[], cost, translated=false);
 Bad: 
+
     native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
 
 ### Naming conventions ###
 * Enumeration should be prefixed by a descriptive common type name(like COLOR_RED, COLOR_GREEN)
 * War3Source specific methods should have the prefix War3_<name>
 * Give a descriptive name for callback handlers, for example:
-    
-    Event_<eventname without underscores>
-    SQLCallback_<descriptive name>
-    MenuHandler_<menu name>
+ * Event_EventnameWithoutUnderscores
+ * SQLCallback_DescriptiveName
+ * MenuHandler_MenuName
 
 ### Comments ###
 Comments should be relative to their position in the code.
 
 Good:
+
     public void someFunc()
     {
         // good comment
@@ -60,6 +64,7 @@ Good:
     }
     
 Bad:
+
     public void someFunc()
     {
         PrintToServer("Useless function");        //bad comment
