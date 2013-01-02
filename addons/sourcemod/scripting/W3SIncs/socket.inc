@@ -7,9 +7,9 @@
 #include <core>
 
 enum SocketType {
-	SOCKET_TCP = 1,
-	SOCKET_UDP,
-	SOCKET_RAW
+    SOCKET_TCP = 1,
+    SOCKET_UDP,
+    SOCKET_RAW
 }
 
 #define EMPTY_HOST 1
@@ -45,10 +45,10 @@ enum SocketOption {
  * @note don't forget to set your buffer sizes at least to the value passed to this function, but
  *       always at least to 4096
  *
- * @param cell_t	0(=default) to disable or max. chunk size including \0 terminator in bytes
+ * @param cell_t    0(=default) to disable or max. chunk size including \0 terminator in bytes
  * @return bool true on success
  */
-	ConcatenateCallbacks = 1,
+    ConcatenateCallbacks = 1,
 /**
  * If this option is set the socket extension will enforce a mutex lock in the GameFrame() hook.
  *
@@ -59,10 +59,10 @@ enum SocketOption {
  * @note combine this with CallbacksPerFrame for best performance
  * @note this option will affect all sockets from all plugins, use it with caution!
  *
- * @param bool	whether to force locking or not
+ * @param bool    whether to force locking or not
  * @return bool true on success
  */
-	ForceFrameLock,
+    ForceFrameLock,
 /**
  * This will specify the maximum amount of callbacks processed in every gameframe.
  *
@@ -73,118 +73,118 @@ enum SocketOption {
  *
  * @note this option will affect all sockets from all plugins, use it with caution!
  *
- * @param cell_t	maximum amount of callbacks per gameframe
- * @return bool 	true on success
+ * @param cell_t    maximum amount of callbacks per gameframe
+ * @return bool     true on success
  */
-	CallbacksPerFrame,
+    CallbacksPerFrame,
 /**
  * If this option is set the socket will be allowed to send broadcast messages in case the protocol
  * supports it. This is a wrapper for setting SO_BROADCAST.
  *
- * @param bool	whether to allow broadcasting or not
+ * @param bool    whether to allow broadcasting or not
  * @return bool true on success
  */
-	SocketBroadcast,
+    SocketBroadcast,
 /**
  * If this option is set SocketBind() will allow reusing local adresses in case the protocol
  * supports it. This is a wrapper for setting SO_REUSEADDR.
  *
- * @param bool	whether to allow broadcasting or not
+ * @param bool    whether to allow broadcasting or not
  * @return bool true on success
  */
-	SocketReuseAddr,
+    SocketReuseAddr,
 /**
  * If this option is set the socket will try to keep the connection alive by periodically sending
  * messages if the protocol supports it. This is a wrapper for setting SO_KEEPALIVE.
  *
- * @param bool	whether to allow broadcasting or not
+ * @param bool    whether to allow broadcasting or not
  * @return bool true on success
  */
-	SocketKeepAlive,
+    SocketKeepAlive,
 /**
  * This option specifies how long a socket will wait if it's being closed and its send buffer is
  * still filled. This is a wrapper for setting SO_LINGER.
  *
- * @param cell_t	0 (=default) to disable or time in s
- * @return bool		true on success
+ * @param cell_t    0 (=default) to disable or time in s
+ * @return bool        true on success
  */
-	SocketLinger,
+    SocketLinger,
 /**
  * If this option is set out-of-band data will be inlined into the normal receive stream. This is a
  * wrapper for setting SO_OOBINLINE.
  *
- * @param bool	whether to inline out-of-band data or not
+ * @param bool    whether to inline out-of-band data or not
  * @return bool true on success
  */
-	SocketOOBInline,
+    SocketOOBInline,
 /**
  * This option specifies how large the send buffer will be. This is a wrapper for setting
  * SO_SNDBUF.
  *
- * @param cell_t	size in bytes
- * @return bool		true on success
+ * @param cell_t    size in bytes
+ * @return bool        true on success
  */
-	SocketSendBuffer,
+    SocketSendBuffer,
 /**
  * This option specifies how large the receive buffer will be. This is a wrapper for setting
  * SO_RCVBUF.
  *
- * @param cell_t	size in bytes
- * @return bool		true on success
+ * @param cell_t    size in bytes
+ * @return bool        true on success
  */
-	SocketReceiveBuffer,
+    SocketReceiveBuffer,
 /**
  * If this option is set outgoing messages will ignore the default routing facilities if the
  * protocol implementation supports it. The remote site should be directly connected to the sender.
  * This is a wrapper for setting SO_DONTROUTE.
  *
- * @param bool	whether to skip default routing or not
+ * @param bool    whether to skip default routing or not
  * @return bool true on success
  */
-	SocketDontRoute,
+    SocketDontRoute,
 /**
  * This option specifies the minimum amount of data to receive before processing it. This is a
  * wrapper for setting SO_RCVLOWAT.
  *
  * @note this can probably block the extension, use it with caution!
  *
- * @param cell_t	size in bytes
- * @return bool		true on success
+ * @param cell_t    size in bytes
+ * @return bool        true on success
  */
-	SocketReceiveLowWatermark,
+    SocketReceiveLowWatermark,
 /**
  * This option specifies how long a socket will try to receive data before it times out and
  * processes the data. This is a wrapper for setting SO_RCVTIMEO.
  *
- * @param cell_t	0 (=default) to disable or time in ms
- * @return bool		true on success
+ * @param cell_t    0 (=default) to disable or time in ms
+ * @return bool        true on success
  */
-	SocketReceiveTimeout,
+    SocketReceiveTimeout,
 /**
  * This option specifies the minimum amount of data required in the send buffer before starting to
  * send it. This is a wrapper for setting SO_SNDLOWAT.
  *
  * @note this can probably block the extension, use it with caution!
  *
- * @param cell_t	size in bytes
- * @return bool		true on success
+ * @param cell_t    size in bytes
+ * @return bool        true on success
  */
-	SocketSendLowWatermark,
+    SocketSendLowWatermark,
 /**
  * This option specifies how long a socket will try to send data before it times out and
  * retries it later. This is a wrapper for setting SO_SNDTIMEO.
  *
- * @param cell_t	0 (=default) to disable or time in ms
- * @return bool		true on success
+ * @param cell_t    0 (=default) to disable or time in ms
+ * @return bool        true on success
  */
-	SocketSendTimeout,
+    SocketSendTimeout,
 /**
  * If this option is set the socket extension will display debugging messages in the server console/logs.
  *
- * @param bool	whether to enable debugging or not
+ * @param bool    whether to enable debugging or not
  * @return bool true on success
  */
- 	DebugMode
+     DebugMode
 }
 
 
@@ -196,8 +196,8 @@ enum SocketOption {
 /**
  * triggered if a normal sockets finished connecting and is ready to be used
  *
- * @param socket	The socket handle pointing to the calling socket
- * @param arg		The argument set by SocketSetArg()
+ * @param socket    The socket handle pointing to the calling socket
+ * @param arg        The argument set by SocketSetArg()
  * @noreturn
  */
 funcenum SocketConnectCB
@@ -210,10 +210,10 @@ funcenum SocketConnectCB
  *
  * @note The child-socket won't work until receive-, disconnect-, and errorcallback for it are set.
  *
- * @param Handle	socket		The socket handle pointing to the calling listen-socket
- * @param Handle	newSocket	The socket handle to the newly spawned child socket
- * @param String	remoteIP	The remote IP
- * @param any		arg			The argument set by SocketSetArg() for the listen-socket
+ * @param Handle    socket        The socket handle pointing to the calling listen-socket
+ * @param Handle    newSocket    The socket handle to the newly spawned child socket
+ * @param String    remoteIP    The remote IP
+ * @param any        arg            The argument set by SocketSetArg() for the listen-socket
  * @noreturn
  */
 funcenum SocketIncomingCB
@@ -229,10 +229,10 @@ funcenum SocketIncomingCB
  * @note if not set otherwise by SocketSetOption(..., ConcatenateCallbacks, ...) receiveData will
  *       never be longer than 4096 characters including \0 terminator
  *
- * @param Handle	socket		The socket handle pointing to the calling socket
- * @param String	receiveData	The data which arrived, 0-terminated at receiveData[dataSize]
- * @param cell_t	dataSize	The length of the arrived data excluding the 0-termination
- * @param any		arg			The argument set by SocketSetArg() for the socket
+ * @param Handle    socket        The socket handle pointing to the calling socket
+ * @param String    receiveData    The data which arrived, 0-terminated at receiveData[dataSize]
+ * @param cell_t    dataSize    The length of the arrived data excluding the 0-termination
+ * @param any        arg            The argument set by SocketSetArg() for the socket
  * @noreturn
  */
 funcenum SocketReceiveCB
@@ -243,8 +243,8 @@ funcenum SocketReceiveCB
 /**
  * called after a socket sent all items in its send queue successfully
  *
- * @param Handle	socket		The socket handle pointing to the calling socket
- * @param any		arg			The argument set by SocketSetArg() for the socket
+ * @param Handle    socket        The socket handle pointing to the calling socket
+ * @param any        arg            The argument set by SocketSetArg() for the socket
  * @noreturn
  */
 funcenum SocketSendqueueEmptyCB
@@ -257,8 +257,8 @@ funcenum SocketSendqueueEmptyCB
  *
  * @note You should call CloseHandle(socket) or reuse the socket before this function ends
  *
- * @param Handle	socket		The socket handle pointing to the calling socket
- * @param any		arg			The argument set by SocketSetArg() for the socket
+ * @param Handle    socket        The socket handle pointing to the calling socket
+ * @param any        arg            The argument set by SocketSetArg() for the socket
  * @noreturn
  */
 funcenum SocketDisconnectCB
@@ -271,10 +271,10 @@ funcenum SocketDisconnectCB
  *
  * @note You should call CloseHandle(socket) or reuse the socket before this function ends
  *
- * @param Handle	socket		The socket handle pointing to the calling socket
- * @param cell_t	errorType	The error type, see defines above
- * @param cell_t	errorNum	The errno, see errno.h for details
- * @param any		arg			The argument set by SocketSetArg() for the socket
+ * @param Handle    socket        The socket handle pointing to the calling socket
+ * @param cell_t    errorType    The error type, see defines above
+ * @param cell_t    errorNum    The errno, see errno.h for details
+ * @param any        arg            The argument set by SocketSetArg() for the socket
  * @noreturn
  */
 funcenum SocketErrorCB
@@ -291,8 +291,8 @@ funcenum SocketErrorCB
 /**
  * Returns whether a socket is connected or not.
  *
- * @param	socket	Socket handle to check
- * @return	bool	The connection status
+ * @param    socket    Socket handle to check
+ * @return    bool    The connection status
  */
 native bool:SocketIsConnected(Handle:socket);
 
@@ -302,19 +302,19 @@ native bool:SocketIsConnected(Handle:socket);
  *
  * @note this function may be relatively expensive, reuse sockets if possible
  *
- * @param SocketType	protocol	The protocol to use, SOCKET_TCP is default
- * @param SocketErrorCB efunc		The error callback
- * @return Handle					The socket handle. Returns INVALID_HANDLE on failure
+ * @param SocketType    protocol    The protocol to use, SOCKET_TCP is default
+ * @param SocketErrorCB efunc        The error callback
+ * @return Handle                    The socket handle. Returns INVALID_HANDLE on failure
  */
 native Handle:SocketCreate(SocketType:protocol=SOCKET_TCP, SocketErrorCB:efunc);
 
 /**
  * Binds the socket to a local address
  *
- * @param Handle	socket		The handle of the socket to be used.
- * @param String	hostname	The hostname (or IP) to bind the socket to.
- * @param cell_t	port		The port to bind the socket to.
- * @return bool 				true on success
+ * @param Handle    socket        The handle of the socket to be used.
+ * @param String    hostname    The hostname (or IP) to bind the socket to.
+ * @param cell_t    port        The port to bind the socket to.
+ * @return bool                 true on success
  */
 native bool:SocketBind(Handle:socket, const String:hostname[], port);
 
@@ -325,12 +325,12 @@ native bool:SocketBind(Handle:socket, const String:hostname[], port);
  * @note invokes the SocketError callback with errorType = CONNECT_ERROR or EMPTY_HOST if it fails
  * @note invokes the SocketConnect callback if it succeeds
  *
- * @param Handle				socket		The handle of the socket to be used.
- * @param SocketConnectCB		cfunc		The connect callback
- * @param SocketReceiveCB		rfunc		The receive callback
- * @param SocketDisconnectCB	dfunc		The disconnect callback
- * @param String				hostname	The hostname (or IP) to connect to.
- * @param cell_t				port		The port to connect to.
+ * @param Handle                socket        The handle of the socket to be used.
+ * @param SocketConnectCB        cfunc        The connect callback
+ * @param SocketReceiveCB        rfunc        The receive callback
+ * @param SocketDisconnectCB    dfunc        The disconnect callback
+ * @param String                hostname    The hostname (or IP) to connect to.
+ * @param cell_t                port        The port to connect to.
  * @noreturn
  */
 native SocketConnect(Handle:socket, SocketConnectCB:cfunc, SocketReceiveCB:rfunc, SocketDisconnectCB:dfunc, const String:hostname[], port);
@@ -348,9 +348,9 @@ native bool:SocketDisconnect(Handle:socket);
 /**
  * Makes a socket listen for incoming connections
  *
- * @param Handle			socket	The handle of the socket to be used.
- * @param SocketIncomingCB	ifunc	The callback for incoming connections
- * @return bool 					true on success
+ * @param Handle            socket    The handle of the socket to be used.
+ * @param SocketIncomingCB    ifunc    The callback for incoming connections
+ * @return bool                     true on success
  */
 native bool:SocketListen(Handle:socket, SocketIncomingCB:ifunc);
 
@@ -362,10 +362,10 @@ native bool:SocketListen(Handle:socket, SocketIncomingCB:ifunc);
  * @note This native is threaded, it may be still running after it executed (not atomic).
  * @note Use the SendqueueEmpty callback to determine when all data has been successfully sent.
  * @note The socket extension will ensure that the data will be send in the correct order and split
- *			the data if required.
+ *            the data if required.
  *
- * @param Handle	socket	The handle of the socket to be used.
- * @param String	data	The data to send.
+ * @param Handle    socket    The handle of the socket to be used.
+ * @param String    data    The data to send.
  * @noreturn
  */
 native SocketSend(Handle:socket, const String:data[], size=-1);
@@ -378,12 +378,12 @@ native SocketSend(Handle:socket, const String:data[], size=-1);
  * @note This native is threaded, it may be still running after it executed (not atomic).
  * @note Use the SendqueueEmpty callback to determine when all data has been successfully sent.
  * @note The socket extension will ensure that the data will be send in the correct order and split
- *			the data if required.
+ *            the data if required.
  *
- * @param Handle	socket	The handle of the socket to be used.
- * @param String	data	The data to send.
- * @param String	hostname	The hostname (or IP) to send to.
- * @param cell_t	port		The port to send to.
+ * @param Handle    socket    The handle of the socket to be used.
+ * @param String    data    The data to send.
+ * @param String    hostname    The hostname (or IP) to send to.
+ * @param cell_t    port        The port to send to.
  * @noreturn
  */
 native SocketSendTo(Handle:socket, const String:data[], size=-1, const String:hostname[], port);
@@ -391,10 +391,10 @@ native SocketSendTo(Handle:socket, const String:data[], size=-1, const String:ho
 /**
  * Set a socket option.
  *
- * @param Handle		socket	The handle of the socket to be used. May be INVALID_HANDLE if not essential.
- * @param SocketOption	option	The option to modify (see enum SocketOption for details).
- * @param cellt_		value	The value to set the option to.
- * @return cell_t			1 on success.
+ * @param Handle        socket    The handle of the socket to be used. May be INVALID_HANDLE if not essential.
+ * @param SocketOption    option    The option to modify (see enum SocketOption for details).
+ * @param cellt_        value    The value to set the option to.
+ * @return cell_t            1 on success.
  */
 native SocketSetOption(Handle:socket, SocketOption:option, value);
 
@@ -405,8 +405,8 @@ native SocketSetOption(Handle:socket, SocketOption:option, value);
  * @note this is only useful and required for child-sockets spawned by listen-sockets
  *       (otherwise you already set it in SocketConnect())
  *
- * @param Handle			socket	The handle of the socket to be used.
- * @param SocketReceiveCB	rfunc	The receive callback
+ * @param Handle            socket    The handle of the socket to be used.
+ * @param SocketReceiveCB    rfunc    The receive callback
  * @noreturn
  */
 native SocketSetReceiveCallback(Handle:socket, SocketReceiveCB:rfunc);
@@ -418,8 +418,8 @@ native SocketSetReceiveCallback(Handle:socket, SocketReceiveCB:rfunc);
  * @note if no send-data is queued this will fire the callback itself
  * @note the callback is guaranteed to fire
  *
- * @param Handle				socket	The handle of the socket to be used.
- * @param SocketDisconnectCB	dfunc	The disconnect callback
+ * @param Handle                socket    The handle of the socket to be used.
+ * @param SocketDisconnectCB    dfunc    The disconnect callback
  * @noreturn
  */
 native SocketSetSendqueueEmptyCallback(Handle:socket, SocketSendqueueEmptyCB:sfunc);
@@ -430,8 +430,8 @@ native SocketSetSendqueueEmptyCallback(Handle:socket, SocketSendqueueEmptyCB:sfu
  * @note this is only useful and required for child-sockets spawned by listen-sockets
  *       (otherwise you already set it in SocketConnect())
  *
- * @param Handle				socket	The handle of the socket to be used.
- * @param SocketDisconnectCB	dfunc	The disconnect callback
+ * @param Handle                socket    The handle of the socket to be used.
+ * @param SocketDisconnectCB    dfunc    The disconnect callback
  * @noreturn
  */
 native SocketSetDisconnectCallback(Handle:socket, SocketDisconnectCB:dfunc);
@@ -442,8 +442,8 @@ native SocketSetDisconnectCallback(Handle:socket, SocketDisconnectCB:dfunc);
  * @note this is only useful and required for child-sockets spawned by listen-sockets
  *       (otherwise you already set it in SocketCreate())
  *
- * @param Handle		socket	The handle of the socket to be used.
- * @param SocketErrorCB efunc	The error callback
+ * @param Handle        socket    The handle of the socket to be used.
+ * @param SocketErrorCB efunc    The error callback
  * @noreturn
  */
 native SocketSetErrorCallback(Handle:socket, SocketErrorCB:efunc);
@@ -452,8 +452,8 @@ native SocketSetErrorCallback(Handle:socket, SocketErrorCB:efunc);
 /**
  * Sets the argument being passed to callbacks
  *
- * @param Handle	socket	The handle of the socket to be used.
- * @param any		arg		The argument to set
+ * @param Handle    socket    The handle of the socket to be used.
+ * @param any        arg        The argument to set
  * @noreturn
  */
 native SocketSetArg(Handle:socket, any:arg);
@@ -464,7 +464,7 @@ native SocketSetArg(Handle:socket, any:arg);
  * @param dest    Destination string buffer to copy to.
  * @param destLen Destination buffer length (includes null terminator).
  *
- * @return			1 on success
+ * @return            1 on success
  */
 native SocketGetHostName(String:dest[], destLen);
  
@@ -473,16 +473,16 @@ native SocketGetHostName(String:dest[], destLen);
  */
 public Extension:__ext_smsock = 
 {
-	name = "Socket",
-	file = "socket.ext",
+    name = "Socket",
+    file = "socket.ext",
 #if defined AUTOLOAD_EXTENSIONS
-	autoload = 1,
+    autoload = 1,
 #else
-	autoload = 0,
+    autoload = 0,
 #endif
 #if defined REQUIRE_EXTENSIONS
-	required = 1,
+    required = 1,
 #else
-	required = 0,
+    required = 0,
 #endif
 };

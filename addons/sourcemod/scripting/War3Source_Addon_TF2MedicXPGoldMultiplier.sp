@@ -5,24 +5,24 @@
 
 public Plugin:myinfo = 
 {
-	name = "War3Source - Addon - Additional Medic XP/Gold",
-	author = "War3Source Team",
-	description = "Give medics more XP and gold when they assist someon"
+    name = "War3Source - Addon - Additional Medic XP/Gold",
+    author = "War3Source Team",
+    description = "Give medics more XP and gold when they assist someon"
 };
 
 public LoadCheck(){
-	return GameTF();
+    return GameTF();
 }
 new Handle:XPMultiplierCVar;
 new Handle:GoldMultiplierCVar;
 
 public OnPluginStart()
 {
-	
+    
     if(War3_GetGame() == Game_TF){
     
-    	XPMultiplierCVar = CreateConVar("war3_tf2_medic_xp_muli","1.0","XP multiplier when a medic assists in a kill");
-    	GoldMultiplierCVar = CreateConVar("war3_tf2_medic_gold_muli","1.0","Gold multiplier when a medic assists in a kill");
+        XPMultiplierCVar = CreateConVar("war3_tf2_medic_xp_muli","1.0","XP multiplier when a medic assists in a kill");
+        GoldMultiplierCVar = CreateConVar("war3_tf2_medic_gold_muli","1.0","Gold multiplier when a medic assists in a kill");
     }
 }
 

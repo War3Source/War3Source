@@ -6,38 +6,38 @@
 
 // The following are bit-flags for War3_DealDamage
 // Does not appear useful in any way
-#define DMG_GENERIC					0
-#define DMG_CRUSH					(1 << 0)
-#define DMG_BULLET					(1 << 1)
-#define DMG_SLASH					(1 << 2)
-#define DMG_BURN					(1 << 3)
-#define DMG_VEHICLE					(1 << 4)
-#define DMG_FALL					(1 << 5)
-#define DMG_BLAST					(1 << 6)
-#define DMG_CLUB					(1 << 7)
-#define DMG_SHOCK					(1 << 8)
-#define DMG_SONIC					(1 << 9)
-#define DMG_ENERGYBEAM				(1 << 10)
-#define DMG_PREVENT_PHYSICS_FORCE	(1 << 11)
-#define DMG_NEVERGIB				(1 << 12)
-#define DMG_ALWAYSGIB				(1 << 13)
-#define DMG_DROWN					(1 << 14)
-#define DMG_TIMEBASED				(DMG_PARALYZE | DMG_NERVEGAS | DMG_POISON | DMG_RADIATION | DMG_DROWNRECOVER | DMG_ACID | DMG_SLOWBURN)
-#define DMG_PARALYZE				(1 << 15)
-#define DMG_NERVEGAS				(1 << 16)
-#define DMG_POISON					(1 << 17)
-#define DMG_RADIATION				(1 << 18)
-#define DMG_DROWNRECOVER			(1 << 19)
-#define DMG_ACID					(1 << 20)
-#define DMG_SLOWBURN				(1 << 21)
-#define DMG_REMOVENORAGDOLL			(1 << 22)
-#define DMG_PHYSGUN					(1 << 23)
-#define DMG_PLASMA					(1 << 24)
-#define DMG_AIRBOAT					(1 << 25)
-#define DMG_DISSOLVE				(1 << 26)
-#define DMG_BLAST_SURFACE			(1 << 27)
-#define DMG_DIRECT					(1 << 28)
-#define DMG_BUCKSHOT				(1 << 29)
+#define DMG_GENERIC                    0
+#define DMG_CRUSH                    (1 << 0)
+#define DMG_BULLET                    (1 << 1)
+#define DMG_SLASH                    (1 << 2)
+#define DMG_BURN                    (1 << 3)
+#define DMG_VEHICLE                    (1 << 4)
+#define DMG_FALL                    (1 << 5)
+#define DMG_BLAST                    (1 << 6)
+#define DMG_CLUB                    (1 << 7)
+#define DMG_SHOCK                    (1 << 8)
+#define DMG_SONIC                    (1 << 9)
+#define DMG_ENERGYBEAM                (1 << 10)
+#define DMG_PREVENT_PHYSICS_FORCE    (1 << 11)
+#define DMG_NEVERGIB                (1 << 12)
+#define DMG_ALWAYSGIB                (1 << 13)
+#define DMG_DROWN                    (1 << 14)
+#define DMG_TIMEBASED                (DMG_PARALYZE | DMG_NERVEGAS | DMG_POISON | DMG_RADIATION | DMG_DROWNRECOVER | DMG_ACID | DMG_SLOWBURN)
+#define DMG_PARALYZE                (1 << 15)
+#define DMG_NERVEGAS                (1 << 16)
+#define DMG_POISON                    (1 << 17)
+#define DMG_RADIATION                (1 << 18)
+#define DMG_DROWNRECOVER            (1 << 19)
+#define DMG_ACID                    (1 << 20)
+#define DMG_SLOWBURN                (1 << 21)
+#define DMG_REMOVENORAGDOLL            (1 << 22)
+#define DMG_PHYSGUN                    (1 << 23)
+#define DMG_PLASMA                    (1 << 24)
+#define DMG_AIRBOAT                    (1 << 25)
+#define DMG_DISSOLVE                (1 << 26)
+#define DMG_BLAST_SURFACE            (1 << 27)
+#define DMG_DIRECT                    (1 << 28)
+#define DMG_BUCKSHOT                (1 << 29)
 
 //=======================================================================
 //                             NATIVE / STOCKS
@@ -92,77 +92,77 @@ native W3ForceDamageIsBullet();
 native W3GetDamageStack();
 
 stock War3_DealDamageDelayed(victim,attacker,damage,String:classname[32],Float:delay=0.0,bool:showDamage=false,showDamage_skill=0) {
-	new Handle:pack;
-	CreateDataTimer(delay, _war3source_Timer_DealDamage, pack);
-	WritePackCell(pack, victim);
-	WritePackCell(pack, attacker);
-	WritePackCell(pack, damage);
-	WritePackCell(pack, showDamage);
-	WritePackCell(pack, showDamage_skill);
-	WritePackString(pack, classname);
+    new Handle:pack;
+    CreateDataTimer(delay, _war3source_Timer_DealDamage, pack);
+    WritePackCell(pack, victim);
+    WritePackCell(pack, attacker);
+    WritePackCell(pack, damage);
+    WritePackCell(pack, showDamage);
+    WritePackCell(pack, showDamage_skill);
+    WritePackString(pack, classname);
 }
 
 // In csgo killing 2 players in the same frame causes a crash so we use this dirty workaround
 public Action:_war3source_Timer_DealDamage(Handle:timer, Handle:pack)
 {
-	ResetPack(pack); //resolve the package...
-	new victim = ReadPackCell(pack);
-	if(!ValidPlayer(victim,true)) {
-		// immedialety exit!
-		return Plugin_Stop;
-	}
-	//new attacker = ReadPackCell(pack);
-	//new damage = ReadPackCell(pack);
-	//new bool:showDamage = bool:ReadPackCell(pack);
-	//new showDamage_skill = ReadPackCell(pack);
-	decl String:classname[32];
-	ReadPackString(pack,classname,sizeof(classname));
-	
-	// Glider: I'm commenting this out until I figured out if the notification
-	// 		   engine or the DealDamage methods should be held responsible for this
-	
-	//if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
-	//	W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
-	//}
-	return Plugin_Stop;
+    ResetPack(pack); //resolve the package...
+    new victim = ReadPackCell(pack);
+    if(!ValidPlayer(victim,true)) {
+        // immedialety exit!
+        return Plugin_Stop;
+    }
+    //new attacker = ReadPackCell(pack);
+    //new damage = ReadPackCell(pack);
+    //new bool:showDamage = bool:ReadPackCell(pack);
+    //new showDamage_skill = ReadPackCell(pack);
+    decl String:classname[32];
+    ReadPackString(pack,classname,sizeof(classname));
+    
+    // Glider: I'm commenting this out until I figured out if the notification
+    //            engine or the DealDamage methods should be held responsible for this
+    
+    //if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
+    //    W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
+    //}
+    return Plugin_Stop;
 }
 
 stock bool:W3IsDamageFromMelee(const String:weapon[])
 {
-	switch (War3_GetGame())
-	{
-		case Game_CS:
-		{
-			return StrEqual(weapon,"knife");
-		}
-		case Game_DOD:
-		{
-			return (StrEqual(weapon,"amerknife") ||
-					StrEqual(weapon,"spade") ||
-					StrEqual(weapon,"punch"));
-		}
-		case Game_TF:
-		{
-			return (// Logfile names
-					StrEqual(weapon, "shovel") ||
-					StrEqual(weapon, "wrench") ||
-					StrEqual(weapon, "bat") ||
-					StrEqual(weapon, "bonesaw") ||
-					StrEqual(weapon, "bottle") ||
-					StrEqual(weapon, "club") ||
-					StrEqual(weapon, "fireaxe") ||
-					StrEqual(weapon, "fists") ||
-					StrEqual(weapon, "sandman") ||
-					StrEqual(weapon, "pickaxe") ||
-					StrEqual(weapon, "sword") ||
-					StrEqual(weapon, "demoshield") ||
-					StrEqual(weapon, "taunt_scout") ||
-					StrEqual(weapon, "taunt_sniper") ||
-					StrEqual(weapon, "taunt_pyro") ||
-					StrEqual(weapon, "taunt_demoman") ||
-					StrEqual(weapon, "taunt_heavy") ||
-					StrEqual(weapon, "taunt_spy") ||
-					StrEqual(weapon, "taunt_soldier")||
+    switch (War3_GetGame())
+    {
+        case Game_CS:
+        {
+            return StrEqual(weapon,"knife");
+        }
+        case Game_DOD:
+        {
+            return (StrEqual(weapon,"amerknife") ||
+                    StrEqual(weapon,"spade") ||
+                    StrEqual(weapon,"punch"));
+        }
+        case Game_TF:
+        {
+            return (// Logfile names
+                    StrEqual(weapon, "shovel") ||
+                    StrEqual(weapon, "wrench") ||
+                    StrEqual(weapon, "bat") ||
+                    StrEqual(weapon, "bonesaw") ||
+                    StrEqual(weapon, "bottle") ||
+                    StrEqual(weapon, "club") ||
+                    StrEqual(weapon, "fireaxe") ||
+                    StrEqual(weapon, "fists") ||
+                    StrEqual(weapon, "sandman") ||
+                    StrEqual(weapon, "pickaxe") ||
+                    StrEqual(weapon, "sword") ||
+                    StrEqual(weapon, "demoshield") ||
+                    StrEqual(weapon, "taunt_scout") ||
+                    StrEqual(weapon, "taunt_sniper") ||
+                    StrEqual(weapon, "taunt_pyro") ||
+                    StrEqual(weapon, "taunt_demoman") ||
+                    StrEqual(weapon, "taunt_heavy") ||
+                    StrEqual(weapon, "taunt_spy") ||
+                    StrEqual(weapon, "taunt_soldier")||
                     StrEqual(weapon, "annihilator") ||
                     StrEqual(weapon, "ubersaw") ||
                     StrEqual(weapon, "axtinguisher") ||
@@ -244,18 +244,18 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
                     StrEqual(weapon, "tf_weapon_club") ||
                     StrEqual(weapon, "tf_weapon_knife")
                 );
-		}
-		case Game_L4D2:
-		{
-			return StrEqual(weapon, "weapon_melee");
-		}
-		case Game_CSGO:
-		{
-			// Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
-			return (StrContains(weapon,"knife",false)!=-1);
-		}
-	}
-	return false;
+        }
+        case Game_L4D2:
+        {
+            return StrEqual(weapon, "weapon_melee");
+        }
+        case Game_CSGO:
+        {
+            // Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
+            return (StrContains(weapon,"knife",false)!=-1);
+        }
+    }
+    return false;
 }
 
 //=========================================
@@ -273,17 +273,17 @@ native War3_HealToMaxHP(client, addhp);
  * @noreturn
  */
 stock War3HealToHP(client, addhp, maximumHP) {
-	new currenthp = GetClientHealth(client);
-	new newhp = currenthp + addhp;
-	if (newhp > maximumHP) {
-		newhp = maximumHP;
-	}
+    new currenthp = GetClientHealth(client);
+    new newhp = currenthp + addhp;
+    if (newhp > maximumHP) {
+        newhp = maximumHP;
+    }
     
-	SetEntityHealth(client, newhp);
-	if (currenthp < newhp)
-	{
-		War3_TFHealingEvent(client, newhp - currenthp);
-	}
+    SetEntityHealth(client, newhp);
+    if (currenthp < newhp)
+    {
+        War3_TFHealingEvent(client, newhp - currenthp);
+    }
 }
 
 /**

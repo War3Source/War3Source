@@ -9,7 +9,7 @@
 #include <tf2>
 #include <cstrike>
 #include <tf2_stocks>
-	
+    
 #include <sdktools>
 #include <sdktools_functions>
 

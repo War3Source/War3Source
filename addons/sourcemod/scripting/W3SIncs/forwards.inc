@@ -8,15 +8,15 @@ I <3 SourceMod :)
 * 
 * actual parameters passed is defined elsewhere 
 * 
-* 	Call_StartForward(g_OnWar3TakeDamageHandle);
-* 	Call_PushCell(victim);
-* 	Call_PushCell(attacker);
-* 	Call_PushCell(inflictor);
-* 	Call_PushCell(damage);
-* 	Call_PushCell(damagetype);
-* 	new result;
-* 	Call_Finish(result);
-* 	return Action:result;
+*     Call_StartForward(g_OnWar3TakeDamageHandle);
+*     Call_PushCell(victim);
+*     Call_PushCell(attacker);
+*     Call_PushCell(inflictor);
+*     Call_PushCell(damage);
+*     Call_PushCell(damagetype);
+*     new result;
+*     Call_Finish(result);
+*     return Action:result;
 * 
 * 
 *  MUST LIST THE FORWARD IN THE War3Source_Interface!!!!!!!!!!!!!!!!!!!!!!!!!!! 
@@ -53,43 +53,43 @@ new Handle:g_War3InterfaceExecFH;
 
 bool:War3Source_InitForwards()
 {
-	
-	
-	g_OnWar3PluginReadyHandle=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered",ET_Ignore,Param_Cell);//ordered
-	g_OnWar3PluginReadyHandle2=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2",ET_Ignore,Param_Cell);//ordered
-	g_OnWar3PluginReadyHandle3=CreateGlobalForward("OnWar3PluginReady",ET_Ignore); //unodered rest of the items or races. backwards compatable..
-	
-	g_OnWar3EventSpawnFH=CreateGlobalForward("OnWar3EventSpawn",ET_Ignore,Param_Cell);
-	g_OnWar3EventDeathFH=CreateGlobalForward("OnWar3EventDeath",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+    
+    
+    g_OnWar3PluginReadyHandle=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered",ET_Ignore,Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle2=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2",ET_Ignore,Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle3=CreateGlobalForward("OnWar3PluginReady",ET_Ignore); //unodered rest of the items or races. backwards compatable..
+    
+    g_OnWar3EventSpawnFH=CreateGlobalForward("OnWar3EventSpawn",ET_Ignore,Param_Cell);
+    g_OnWar3EventDeathFH=CreateGlobalForward("OnWar3EventDeath",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
 
-	g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
-	g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
-	
-	return true;
+    g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
+    g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
+    
+    return true;
 }
 
 //mapstart
 OneTimeForwards(){
-	Call_StartForward(g_CheckCompatabilityFH);
-	Call_PushString(interfaceVersion);
-	Call_Finish(dummyreturn);
+    Call_StartForward(g_CheckCompatabilityFH);
+    Call_PushString(interfaceVersion);
+    Call_Finish(dummyreturn);
 
 }
 
 DoForward_OnWar3EventSpawn(client){
-	Call_StartForward(g_OnWar3EventSpawnFH);
-	Call_PushCell(client);
-	Call_Finish(dummyreturn);
+    Call_StartForward(g_OnWar3EventSpawnFH);
+    Call_PushCell(client);
+    Call_Finish(dummyreturn);
 }
 DoForward_OnWar3EventDeath(victim,killer,deathrace){
-	Call_StartForward(g_OnWar3EventDeathFH);
-	Call_PushCell(victim);
-	Call_PushCell(killer);
-	Call_PushCell(deathrace);
-	Call_Finish(dummyreturn);
+    Call_StartForward(g_OnWar3EventDeathFH);
+    Call_PushCell(victim);
+    Call_PushCell(killer);
+    Call_PushCell(deathrace);
+    Call_Finish(dummyreturn);
 }
 
 DoWar3InterfaceExecForward(){
-	Call_StartForward(g_War3InterfaceExecFH);
-	Call_Finish(dummyreturn);
+    Call_StartForward(g_War3InterfaceExecFH);
+    Call_Finish(dummyreturn);
 }
