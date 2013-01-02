@@ -29,53 +29,53 @@ public OnWar3EventPostHurt(victim, attacker, damage)
     {
         switch(DamageMode)
         {
-            //1 (all damage qualifies for damage increase)
-            case(1):{
+            //0 (all damage qualifies for damage increase)
+            case(0):{
                 PercentIncrease += DamageMultiplier;
                 DamageIncrease = BonusDamage;
             }
-            //2 (bullet damage damage increase)
-            case(2):{
+            //1 (bullet damage damage increase)
+            case(1):{
                 if(!W3IsDamageFromMelee(weapon) && !StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
                 }
             }
-            //3 (grenade damage damage increase) 
-            case(3):{
+            //2 (grenade damage damage increase) 
+            case(2):{
                 if(StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
                 }
             }
-            //4 (melee damage damage increase)
-            case(4):{
+            //3 (melee damage damage increase)
+            case(3):{
                 if(W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
                 }
             }
-            //5 (melee and bullet damage increase)
-            case(5):{
+            //4 (melee and bullet damage increase)
+            case(4):{
                 if(!StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
                 }
             }
-            //6 (melee and grenade damage increase) 
-            case(6):{
+            //5 (melee and grenade damage increase) 
+            case(5):{
                 if(StrEqual(weapon,"hegrenade",false)||W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
                 }
             }
-            //7 (bullet and grenade damage increase)
-            case(7):{
+            //6 (bullet and grenade damage increase)
+            case(6):{
                 if(StrEqual(weapon,"hegrenade",false)||!W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
