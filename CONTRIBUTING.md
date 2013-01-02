@@ -35,23 +35,8 @@ Four (4) spaces as indent, no tabs.
 
 ### Spaces ###
 * No space after a opening bracket or before a closing bracket.
-
-Good: 
-
-    if (ValidPlayer(attacker))
-
-Bad: 
-
-    if ( ValidPlayer(attacker) )
-
 * Put a space after the comma when seperating parameters.
-
-Good: 
-
-    native W3CreateShopItem2(String:name[], String:shortname[], String:desc[], cost, translated=false);
-Bad: 
-
-    native W3CreateShopItem2(String:name[],String:shortname[],String:desc[],cost,translated=false);
+* Use spaces when assigning values to variables (a = 5)
 
 ### Naming conventions ###
 * Enumeration should be prefixed by a descriptive common type name(like COLOR_RED, COLOR_GREEN)
