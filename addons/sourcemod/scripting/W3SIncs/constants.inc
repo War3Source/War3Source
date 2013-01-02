@@ -723,6 +723,7 @@ stock any:W3GetHintPriorityType(W3HintPriority:priority){
 // Team ID's for the Valve specific game
 //0 == unassigned
 // 1 == spectator
+#define  TEAM_SPECTATOR 1
 #define  TEAM_T 2
 #define  TEAM_CT 3
 #define  TEAM_RED 2
