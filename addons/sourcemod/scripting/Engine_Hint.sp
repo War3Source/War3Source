@@ -128,7 +128,7 @@ public OnGameFrame()
                 if (fLastShown[client] < fCurrentTime - 0.3 || bUpdateNextFrame[client])
                 {
                     bUpdateNextFrame[client] = false;
-                    fLastShown[client] = 0;
+                    fLastShown[client] = 0.0;
                     decl String:sOutput[128];
                     sOutput[0] = 0;
                     for (new W3HintPriority:priority=HINT_NORMAL; priority < HINT_SIZE; priority++)
