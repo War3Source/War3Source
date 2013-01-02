@@ -204,8 +204,8 @@ public StartMole(client)
 {
     new Float:fMoleTime=5.0;
     
-    PrintHintText(client, "%T","WARNING! ITEM_MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
-    War3_ChatMessage(client, "%T","WARNING! ITEM_MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
+    PrintHintText(client, "%T","WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
+    War3_ChatMessage(client, "%T","WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
     
     CreateTimer(0.2 + fMoleTime, DoMole, client);
 }
