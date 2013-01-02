@@ -21,7 +21,16 @@ Four (4) spaces as indent, no tabs.
 
 ### Brackets ###
 * Brackets should be on the next line of a function definition or an if directive. 
-* Brackets should always be on their own line. 
+* Brackets should always be on their own line.
+ * Addendum: Else statements may follow after a closing bracket.
+
+    if (Condition)
+    {
+        foobar();
+    } else {
+        barfoo();
+    }
+    
 * No braceless if directives.
 
 ### Spaces ###
