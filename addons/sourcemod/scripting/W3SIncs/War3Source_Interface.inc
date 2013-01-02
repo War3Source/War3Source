@@ -586,6 +586,7 @@ native War3Failed(String:reason[]);
 native Float:W3ChanceModifier(attacker);
 
 //print via hint engine. format accepts translations
+//maximum duration is 20.0
 native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
 
 //for activatable skills only
