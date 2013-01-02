@@ -12,8 +12,10 @@ native War3_GetRaceConfigInt(raceID, String:key[]);
 native bool:War3_GetRaceConfigBool(raceID, String:key[]);
 native War3_GetRaceConfigArray(raceID, String:key[], any:array[], maxlen, KvDataTypes:type = KvData_Float);
 // Note! Allows you to define arrays that use strings for keys!
-native War3_GetRaceConfigArrayValue(raceID, String:key[], String:array[], String:value[]);
+native War3_GetRaceConfigArrayValue(raceID, String:array[], String:key[], String:value[]);
 native War3_GetRaceConfigString(raceID, String:key[], String:value[]);
+native War3_GotoRaceConfigArray(raceID, String:array[]);
+native bool:War3_GetRaceConfigArrayNextValue(String:value[]);
 
 native War3_SetItemConfigString(ItemID, String:key[], String:value[]);
 native War3_SetItemConfigFloat(ItemID, String:key[], Float:value);
@@ -29,5 +31,7 @@ native War3_GetItemConfigInt(ItemID, String:key[]);
 native bool:War3_GetItemConfigBool(ItemID, String:key[]);
 native War3_GetItemConfigArray(ItemID, String:key[], any:value[], maxlen, KvDataTypes:type = KvData_Float);
 // Note! Allows you to define arrays that use strings for keys!
-native War3_GetItemConfigArrayValue(ItemID, String:key[], String:array[], String:value[]);
+native War3_GetItemConfigArrayValue(ItemID, String:array[], String:key[], String:value[]);
 native War3_GetItemConfigString(ItemID, String:key[], String:value[]);
+native War3_GotoItemConfigArray(raceID, String:array[]);
+native bool:War3_GetItemConfigArrayNextValue(String:value[]);
