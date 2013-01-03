@@ -61,8 +61,9 @@ public bool:InitNativesForwards()
 }
 public OnWar3PluginReady()
 {
-    War3_SetRaceGlobalConfigString("restricted_items","None");
+    War3_SetRaceGlobalConfigString("restricted_items","Some");
     War3_SetRaceGlobalConfigString("restricted_maps","None");
+    War3_SetRaceGlobalConfigString("restricted_other","None");
     ReloadConfig();
 }
 ReloadConfig()
@@ -71,7 +72,7 @@ ReloadConfig()
     {
         CloseHandle(g_hActualRaceValues);
     }
-    g_hActualRaceValues = CreateKeyValues("Race Values");
+    g_hActualRaceValues = CreateKeyValues("Race Config");
     KvRewind(g_hGlobalRaceDefault);
     new String:shortname[SHORTNAMELEN];
     new String:name[FULLNAMELEN];
@@ -80,7 +81,7 @@ ReloadConfig()
         KvRewind(g_hActualRaceValues);
         War3_GetRaceShortname(i, shortname, sizeof(shortname));
         KvJumpToKey(g_hActualRaceValues, shortname, true);
-        KvMergeSubkeys(g_hGlobalRaceDefault,g_hActualRaceValues);
+        KvCopySubkeys(g_hGlobalRaceDefault,g_hActualRaceValues);
         War3_GetRaceName(i, name, sizeof(name));
         KvSetString(g_hActualRaceValues, "name", name);
     }
@@ -92,8 +93,10 @@ ReloadConfig()
     BuildPath(Path_SM, file, sizeof(file), "configs/war3source_races.cfg");
     if(FileExists(file))
     {
+        KvRewind(g_hActualRaceValues);
         kv = CreateKeyValues("Race Config");
         FileToKeyValues(kv, file);
+        KvGotoFirstSubKey(kv);
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
     }
@@ -103,12 +106,13 @@ ReloadConfig()
     BuildPath(Path_SM, file, sizeof(file), "configs/maps/war3source_races_%s.cfg", mapname);
     if(FileExists(file))
     {
+        KvRewind(g_hActualRaceValues);
         kv = CreateKeyValues("Race Config");
         FileToKeyValues(kv, file);
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
     }
-    
+ /*   
     if(g_hActualItemValues != INVALID_HANDLE) 
     {
         CloseHandle(g_hActualItemValues);
@@ -142,7 +146,7 @@ ReloadConfig()
         FileToKeyValues(kv, file);
         KvMergeSubkeys(kv, g_hActualItemValues);
         CloseHandle(kv);
-    }
+    }*/
 }
 
 public Native_War3_GetRaceConfigString(Handle:plugin, numParams)
@@ -694,25 +698,21 @@ GetRealNativeStringLength(index, &length)
 KvMergeSubkeys(Handle:origin, Handle:dest)
 {
     new String:section[256];
-    new String:value[256];
+    PrintToServer("Going to first subkey");
+    KvCopySubkeys(origin, dest);
     do
     {
+        PrintToServer("Success!");
         KvGetSectionName(origin, section, sizeof(section));
-        if(KvGotoFirstSubKey(origin, false))
+        if(KvGotoFirstSubKey(origin))
         {
             KvJumpToKey(dest, section, true);
             PrintToServer("Section: %s", section);
             KvMergeSubkeys(origin, dest);
             KvGoBack(origin);
+            KvGoBack(dest);
         }
-        else
-        {
-            KvGoBack(origin);
-            KvGetString(origin, section, value, sizeof(value));
-            KvSetString(dest, section, value);
-            PrintToServer("Section: %s Value: %s", section, value);
-        }
-    } while (KvGotoNextKey(origin, false));
+    } while (KvGotoNextKey(origin));
 }
 
 

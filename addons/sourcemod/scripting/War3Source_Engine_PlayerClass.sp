@@ -390,14 +390,21 @@ public Action:cmdwar3notdev(client,args){
     return Plugin_Handled;
 }
 
-public OnWar3Event(W3EVENT:event,client){
-    if(event==InitPlayerVariables){
-        new String:steamid[32];
-        GetClientAuthString(client,steamid,sizeof(steamid));
-        if(StrEqual(steamid,"STEAM_0:1:9724315",false)||StrEqual(steamid,"STEAM_0:1:6121386",false)||StrEqual(steamid,"STEAM_0:0:11672517",false)){
-            W3SetPlayerProp(client,isDeveloper,true);
-        }
+public OnClientPostAdminCheck(client)
+{
+    new String:clientName[256];
+    GetClientName(client, clientName, sizeof(clientName));	
+    if(CheckCommandAccess(client, "war3_dev_access", ADMFLAG_ROOT, true)) 
+    {
+        LogMessage("Granted dev access to |%s|",clientName);
+        W3SetPlayerProp(client,isDeveloper,true);
     }
+}
+
+
+
+public OnWar3Event(W3EVENT:event,client)
+{
     if(event==ClearPlayerVariables){
         //set xp loaded first, to block saving xp after race change
         W3SetPlayerProp(client,xpLoaded,false);
