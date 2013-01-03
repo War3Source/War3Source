@@ -331,19 +331,22 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                 War3_HealToBuffHP(attacker, iLeechedHP);
                 new iNewHP = GetClientHealth(attacker);
                 
-                if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
+                if(iNewHP > iOldHP)
                 {
-                    EmitSoundToAll(sMaskSound, attacker);
-                    War3_TrackDelay(iMaskSoundDelay[attacker], 0.25);
+                    if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
+                    {
+                        EmitSoundToAll(sMaskSound, attacker);
+                        War3_TrackDelay(iMaskSoundDelay[attacker], 0.25);
+                    }
+                    
+                    if(War3_TrackDelayExpired(iMaskSoundDelay[victim]))
+                    {
+                        EmitSoundToAll(sMaskSound, victim);
+                        War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
+                    }
+                    
+                    War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
                 }
-                
-                if(War3_TrackDelayExpired(iMaskSoundDelay[victim]))
-                {
-                    EmitSoundToAll(sMaskSound, victim);
-                    War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
-                }
-                
-                War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
             }
         }
     }
