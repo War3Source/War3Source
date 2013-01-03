@@ -212,7 +212,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
                 new skill_level_evasion=War3_GetSkillLevel(victim,thisRaceID,SKILL_EVADE);
                 if( skill_level_evasion>0 &&!Hexed(victim,false) && GetRandomFloat(0.0,1.0)<=EvadeChance[skill_level_evasion] && !W3HasImmunity(attacker,Immunity_Skills))
                 {
-                    EvadeDamage(victim, attacker);                        
+                    War3_EvadeDamage(victim, attacker);                        
                 }
                 
             /*    //thorns only if he didnt evade

@@ -111,19 +111,19 @@ public Action:_war3source_Timer_DealDamage(Handle:timer, Handle:pack)
         // immedialety exit!
         return Plugin_Stop;
     }
-    //new attacker = ReadPackCell(pack);
-    //new damage = ReadPackCell(pack);
-    //new bool:showDamage = bool:ReadPackCell(pack);
-    //new showDamage_skill = ReadPackCell(pack);
+    new attacker = ReadPackCell(pack);
+    new damage = ReadPackCell(pack);
+    new bool:showDamage = bool:ReadPackCell(pack);
+    new showDamage_skill = ReadPackCell(pack);
     decl String:classname[32];
     ReadPackString(pack,classname,sizeof(classname));
     
-    // Glider: I'm commenting this out until I figured out if the notification
-    //            engine or the DealDamage methods should be held responsible for this
+    // Glider: TODO: Figure out if the notification include or the 
+    //               DealDamage methods should be held responsible for this
     
-    //if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
-    //    W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
-    //}
+    if(War3_DealDamage(victim,damage,attacker,DMG_BULLET,classname) && showDamage) {
+        W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),showDamage_skill);
+    }
     return Plugin_Stop;
 }
 

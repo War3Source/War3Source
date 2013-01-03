@@ -8,55 +8,52 @@ public Plugin:myinfo =
     description="Generic bash skill"
 };
 
-new PlayerRace[MAXPLAYERSCUSTOM];
+new g_iPlayerRace[MAXPLAYERSCUSTOM]; // So we unbash the right race
 
 public OnPluginStart()
 {
     LoadTranslations("w3s.race.human.phrases");
 }
 
-public OnWar3EventPostHurt(victim,attacker,damage){
-    if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
+public OnWar3EventPostHurt(victim, attacker, damage)
+{
+    if(ValidPlayer(victim, true) && ValidPlayer(attacker) && victim != attacker &&
+       GetClientTeam(victim) != GetClientTeam(attacker))
     {
         decl String:weapon[64];
-        GetEventString(W3GetVar(SmEvent),"weapon",weapon,63); 
-        if(StrEqual(weapon, "crit",false) || StrEqual(weapon, "bash", false) || StrEqual(weapon, "weapon_crit",false) || StrEqual(weapon, "weapon_bash", false))
-            return;
-        
-        new vteam=GetClientTeam(victim);
-        new ateam=GetClientTeam(attacker);
-        if(vteam!=ateam)
+        GetEventString(W3GetVar(SmEvent), "weapon", weapon, 63); 
+        if(StrEqual(weapon, "crit", false) || StrEqual(weapon, "bash", false) || 
+           StrEqual(weapon, "weapon_crit", false) || StrEqual(weapon, "weapon_bash", false))
         {
-            new Float:percent = W3GetBuffSumFloat(attacker,fBashChance);
-            if((percent > 0.0) && !Hexed(attacker) &&!W3HasImmunity(victim,Immunity_Skills)&&W3ChanceModifier(attacker))
+            return;
+        }
+
+        new Float:fChance = W3GetBuffSumFloat(attacker, fBashChance);
+        new Float:fChanceModifier = W3ChanceModifier(attacker);
+        if((fChance > 0.0) && !Hexed(attacker) && !W3HasImmunity(victim, Immunity_Skills))
+        {
+            if(War3_Chance(fChance * fChanceModifier) && 
+               !W3GetBuffHasTrue(victim, bBashed))
             {
-                // Bash
-                if(War3_Chance(percent) && !W3GetBuffHasTrue(victim,bBashed) && IsPlayerAlive(attacker))
+                new race = War3_GetRace(victim);
+                g_iPlayerRace[victim] = race;
+                War3_SetBuff(victim, bBashed, race, true);
+                new newdamage = W3GetBuffSumInt(attacker, iBashDamage);
+                if(newdamage > 0)
                 {
-                    new race=War3_GetRace(victim);
-                    PlayerRace[victim] = race;
-                    War3_SetBuff(victim,bBashed,race,true);
-                    new newdamage = W3GetBuffSumInt(attacker,iBashDamage);
-                    if(newdamage>0)
-                        War3_DealDamage(victim,newdamage,attacker,_,"weapon_bash");
-                    
-                    W3FlashScreen(victim,RGBA_COLOR_RED);
-                    new Float:duration = W3GetBuffSumFloat(attacker,fBashDuration);
-                    CreateTimer(duration,UnfreezePlayer,victim);
-                    
-                    PrintHintText(victim,"%T","RcvdBash",victim);
-                    PrintHintText(attacker,"%T","Bashed",attacker);
+                    War3_DealDamage(victim, newdamage, attacker, _, "weapon_bash");
                 }
+                
+                new Float:fDuration = W3GetBuffSumFloat(attacker, fBashDuration);
+                CreateTimer(fDuration, Timer_UnfreezePlayer, victim);
+                
+                War3_BashEffect(victim, attacker);
             }
-            
         }
     }
 }
 
-public Action:UnfreezePlayer(Handle:h,any:victim)
+public Action:Timer_UnfreezePlayer(Handle:h, any:victim)
 {
-    War3_SetBuff(victim,bBashed,PlayerRace[victim],false);
+    War3_SetBuff(victim, bBashed, g_iPlayerRace[victim], false);
 }
-
-
-

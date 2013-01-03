@@ -10,11 +10,13 @@
  * Use inside OnW3TakeDmgAllPre or OnW3TakeDmgBulletPre if the victim
  * should evade the incoming damage.
  */
-stock EvadeDamage(victim, attacker)
+stock War3_EvadeDamage(victim, attacker)
 {
     W3FlashScreen(victim, RGBA_COLOR_BLUE);
     War3_DamageModPercent(0.0);
-    W3MsgEvaded(victim, attacker);
+
+    W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "You Evaded a Shot", victim);
+    W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Enemy Evaded", attacker);
     
     if(War3_GetGame() == Game_TF)
     {
@@ -57,5 +59,38 @@ stock War3_EffectReturnDamage(victim, attacker, damage, skill)
     TE_SetupBubbles(f_AttackerPos, f_VictimPos, haloSprite, 35.0, GetRandomInt(6, 8), 8.0);
     TE_SendToAll();
     
-    War3_PlayerTookDamageFromSkill(victim, attacker, damage, skill);
+    War3_NotifyPlayerTookDamageFromSkill(victim, attacker, damage, skill);
+}
+
+/** 
+ * Stock for skills that leech HP
+ * 
+ * Currently does not show any effect for the victim
+ */
+stock War3_VampirismEffect(victim, attacker, leechhealth)
+{
+    if (leechhealth <= 0)
+    {
+        return;
+    }
+    
+    W3FlashScreen(attacker, RGBA_COLOR_GREEN);
+    
+    // Team Fortress shows HP gained in the HUD already
+    if(!GameTF())
+    {
+        W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Leeched +{amount} HP", attacker, leechhealth);
+    }
+    PrintToConsole(attacker, "%T", "Leeched +{amount} HP", attacker, leechhealth);
+}
+
+/** 
+ * Stock for skills that bash
+ */
+stock War3_BashEffect(victim, attacker)
+{
+    W3FlashScreen(victim,RGBA_COLOR_RED);
+
+    W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "RcvdBash", victim);
+    W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Bashed", attacker);
 }
