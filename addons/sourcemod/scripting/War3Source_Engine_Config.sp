@@ -96,7 +96,7 @@ ReloadConfig()
         KvRewind(g_hActualRaceValues);
         kv = CreateKeyValues("Race Config");
         FileToKeyValues(kv, file);
-		KvGotoFirstSubKey(kv);
+        KvGotoFirstSubKey(kv);
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
     }
@@ -698,11 +698,11 @@ GetRealNativeStringLength(index, &length)
 KvMergeSubkeys(Handle:origin, Handle:dest)
 {
     new String:section[256];
-	PrintToServer("Going to first subkey");
+    PrintToServer("Going to first subkey");
     KvCopySubkeys(origin, dest);
     do
     {
-	    PrintToServer("Success!");
+        PrintToServer("Success!");
         KvGetSectionName(origin, section, sizeof(section));
         if(KvGotoFirstSubKey(origin))
         {

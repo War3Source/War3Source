@@ -394,7 +394,7 @@ public OnClientPostAdminCheck(client)
 {
     new String:clientName[256];
     GetClientName(client, clientName, sizeof(clientName));	
-    if(CheckCommandAccess(client, "war3_dev_access", ADMNFLAG_ROOT, true)) 
+    if(CheckCommandAccess(client, "war3_dev_access", ADMFLAG_ROOT, true)) 
     {
         LogMessage("Granted dev access to |%s|",clientName);
         W3SetPlayerProp(client,isDeveloper,true);
