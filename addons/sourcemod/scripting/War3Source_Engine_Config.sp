@@ -702,7 +702,6 @@ KvMergeSubkeys(Handle:origin, Handle:dest)
     KvCopySubkeys(origin, dest);
     do
     {
-        PrintToServer("Success!");
         KvGetSectionName(origin, section, sizeof(section));
         if(KvGotoFirstSubKey(origin))
         {

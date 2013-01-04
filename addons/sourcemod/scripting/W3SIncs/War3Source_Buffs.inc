@@ -73,7 +73,7 @@ native W3GetBuffMinInt(client,W3Buff:buffindex);
 native W3ReapplySpeed(client);
 native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 
-
+native War3_AddSkillBuff(raceID, skill, buff, any:values[], length);
 
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex) {
