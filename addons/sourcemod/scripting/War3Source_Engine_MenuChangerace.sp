@@ -342,8 +342,9 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 				SetTrans(client);
 				new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
 				GetMenuItem(menu, selection, sItem, sizeof(sItem));
-				if( StringToInt(sItem) == -1 || selection == 0 ) {
-					War3Source_ChangeRaceMenu(client,true);			
+				if( StringToInt(sItem) == -1 ) {
+					War3Source_ChangeRaceMenu(client,true);
+					return;
 				}
 
 				new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
