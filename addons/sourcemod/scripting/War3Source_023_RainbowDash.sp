@@ -19,27 +19,19 @@ new Float:abilityspeed[5]={1.0,1.15,1.23,1.32,1.40};
 
 new Float:LastDamageTime[MAXPLAYERSCUSTOM];
 
-new SKILL_GENERIC,SKILL_EVADE,SKILL_SWIFT,SKILL_SPEED,ULTIMATE;
+new SKILL_EVADE,SKILL_SWIFT,SKILL_SPEED,ULTIMATE;
 
 new Float:rainboomradius[5]={0.0,200.0,266.0,333.0,400.0};
 public OnWar3LoadRaceOrItemOrdered(num)
 {    
-    if(num==1)
-    {
-        SKILL_GENERIC=War3_CreateGenericSkill("g_evasion");
-        //DP("registereing gernicsadlfjasf");
-    }
     if(num==230)
     {
-        thisRaceID=War3_CreateNewRace("[MLP:FIM] Rainbow Dash","rainbowdash");
+        thisRaceID = War3_CreateNewRace("[MLP:FIM] Rainbow Dash","rainbowdash");
+        SKILL_EVADE = War3_AddRaceSkill(thisRaceID,"Evasion","20% evasion.");
+        SKILL_SWIFT = War3_AddRaceSkill(thisRaceID,"Swiftness","+ 15% Attack Speed");
+        SKILL_SPEED = War3_AddRaceSkill(thisRaceID,"Speed","(ability) +40% speed for 6 seconds.\nMust not be injured in the last 10 seconds.\nEnds if injured.");
+        ULTIMATE = War3_AddRaceSkill(thisRaceID,"Sonic Rainboom","Buff teammates' damage around you for 4 sec, 200-400 units. Must be in speed (ability) mode to cast.",true); 
         
-        new Handle:evasiondata=CreateArray(5,1);
-        SetArrayArray(evasiondata,0,EvadeChance,sizeof(EvadeChance));
-        SKILL_EVADE=War3_UseGenericSkill(thisRaceID,"g_evasion",evasiondata,"Evasion","20% evasion.");
-        
-        SKILL_SWIFT=War3_AddRaceSkill(thisRaceID,"Swiftness","+ 15% Attack Speed");
-        SKILL_SPEED=War3_AddRaceSkill(thisRaceID,"Speed","(ability) +40% speed for 6 seconds.\nMust not be injured in the last 10 seconds.\nEnds if injured.");
-        ULTIMATE=War3_AddRaceSkill(thisRaceID,"Sonic Rainboom","Buff teammates' damage around you for 4 sec, 200-400 units. Must be in speed (ability) mode to cast.",true); 
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
     }
 }
@@ -218,22 +210,23 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
-    if(ValidPlayer(victim)&&ValidPlayer(attacker)&&attacker!=victim)
+    if(attacker != victim)
     {
-        new vteam=GetClientTeam(victim);
-        new ateam=GetClientTeam(attacker);
-        if(vteam!=ateam)
+        // Evasion
+        if(ValidPlayer(victim) && War3_GetRace(victim) == thisRaceID && damage > 0.0)
         {
-                new Handle:data;
-                new Float:chances[5];
-                
-                new level=W3_GenericSkillLevel(victim,SKILL_GENERIC,data);
-                if(level){
-                    GetArrayArray(data,    0,chances);
-                    if(data!=INVALID_HANDLE&& level>0 &&!Hexed(victim,false) && W3Chance(chances[level]) && !W3HasImmunity(attacker,Immunity_Skills))
-                    {
-                        War3_EvadeDamage(victim, attacker);
-                    }
+            // If friendly fire isn't activated we don't have to try evading ;)
+            if(ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker) && !GetConVarBool(FindConVar("mp_friendlyfire")))
+            {
+                return;
+            }
+            
+            new iEvasionLevel = War3_GetSkillLevel(victim, thisRaceID, SKILL_EVADE);
+            if(iEvasionLevel > 0 && !Hexed(victim, false) && 
+               GetRandomFloat(0.0, 1.0) <= EvadeChance[iEvasionLevel] && 
+               !W3HasImmunity(attacker, Immunity_Skills))
+            {
+                War3_EvadeDamage(victim, attacker);
             }
         }
     }

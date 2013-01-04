@@ -55,14 +55,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
     if(num == 40)
     {
-        thisRaceID=War3_CreateNewRaceT("nightelf");
-        new Handle:evasiondata = CreateArray(5, 1);
-        SetArrayArray(evasiondata, 0, EvadeChance, sizeof(EvadeChance));
-
-        SKILL_EVADE = War3_UseGenericSkill(thisRaceID, "g_evasion", evasiondata, "Evasion", _, true, _, _);
-        SKILL_THORNS = War3_AddRaceSkillT(thisRaceID,"ThornsAura",false,4);
-        SKILL_TRUESHOT = War3_AddRaceSkillT(thisRaceID,"TrueshotAura",false,4);
-        ULT_ENTANGLE = War3_AddRaceSkillT(thisRaceID,"EntanglingRoots",true,4);
+        thisRaceID = War3_CreateNewRaceT("nightelf");
+        SKILL_EVADE = War3_AddRaceSkillT(thisRaceID, "Evasion", false, 4);
+        SKILL_THORNS = War3_AddRaceSkillT(thisRaceID, "ThornsAura", false, 4);
+        SKILL_TRUESHOT = War3_AddRaceSkillT(thisRaceID, "TrueshotAura", false, 4);
+        ULT_ENTANGLE = War3_AddRaceSkillT(thisRaceID, "EntanglingRoots", true, 4);
         
         War3_CreateRaceEnd(thisRaceID);
     }
