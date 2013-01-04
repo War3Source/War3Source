@@ -80,7 +80,6 @@ public OnPluginStart()
         iMaskSoundDelay[i] = War3_RegisterDelayTracker();
     }
 
-    LoadTranslations("w3s.race.undead.phrases");
     LoadTranslations("w3s.item.antiward.phrases");
 }
 

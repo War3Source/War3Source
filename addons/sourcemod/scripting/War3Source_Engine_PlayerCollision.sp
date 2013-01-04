@@ -20,6 +20,6 @@ public bool:InitNativesForwards()
     return true;
 }
 
-stock SetCollidable(client,bool:collidable){
-    SetEntData(entity, g_offsCollisionGroup, collidable?5:2, 4, true);
+stock SetCollidable(client, bool:collidable){
+    SetEntData(entity, g_offsCollisionGroup, collidable ? 5 : 2, 4, true);
 }
