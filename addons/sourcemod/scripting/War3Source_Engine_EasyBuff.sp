@@ -23,7 +23,7 @@ public bool:InitNativesForwards()
 public OnPluginStart()
 {
     g_hBuffs = CreateArray(1);
-    g_hBuffArray = CreateArray(32);
+    g_hBuffArray = CreateArray(32); // If your skill has more than 32 levels you're out of luck 
     g_hBuffRace = CreateArray(1);
     g_hBuffSkill = CreateArray(1);
 }

@@ -12,7 +12,7 @@ public Plugin:myinfo =
 };
 
 //for debuff index, see constants, its in an enum
-new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+MAXITEMS2+CUSTOMMODIFIERS]; ///a race may only modify a property once
+new any:buffdebuff[MAXPLAYERSCUSTOM][W3Buff][MAXITEMS+MAXRACES+CUSTOMMODIFIERS]; ///a race may only modify a property once
 
 new BuffProperties[W3Buff][W3BuffProperties];
 
