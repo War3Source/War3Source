@@ -171,7 +171,7 @@ public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
         if(ValidPlayer(victim) && War3_GetRace(victim) == thisRaceID && damage > 0.0)
         {
             // If friendly fire isn't activated we don't have to try evading ;)
-            if(ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker) && !GetConVarBool(FindConVar("mp_friendlyfire"))
+            if(ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker) && !GetConVarBool(FindConVar("mp_friendlyfire")))
             {
                 return;
             }
