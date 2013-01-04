@@ -21,7 +21,7 @@ new Handle:EntangleCooldownCvar;
 new SKILL_EVADE, SKILL_THORNS, SKILL_TRUESHOT, ULT_ENTANGLE;
 
 // Chance/Data Arrays
-new Float:EvadeChance[5] = {0.0, 0.05, 0.07, 0.13, 0.15};
+new Float:fEvadeChance[5] = {0.0, 0.05, 0.07, 0.13, 0.15};
 new Float:ThornsReturnDamage[5] = {0.0, 0.05, 0.10, 0.15, 0.20};
 new Float:TrueshotDamagePercent[5] = {1.0, 1.05, 1.10, 1.15, 1.20};
 new Float:EntangleDistance = 600.0;
@@ -62,6 +62,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
         ULT_ENTANGLE = War3_AddRaceSkillT(thisRaceID, "EntanglingRoots", true, 4);
         
         War3_CreateRaceEnd(thisRaceID);
+        
+        War3_AddSkillBuff(thisRaceID, SKILL_EVADE, fDodgeChance, fEvadeChance);
     }
 }
 
@@ -164,24 +166,6 @@ public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
 {
     if(attacker != victim)
     {
-        // Evasion
-        if(ValidPlayer(victim) && War3_GetRace(victim) == thisRaceID && damage > 0.0)
-        {
-            // If friendly fire isn't activated we don't have to try evading ;)
-            if(ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker) && !GetConVarBool(FindConVar("mp_friendlyfire")))
-            {
-                return;
-            }
-            
-            new iEvasionLevel = War3_GetSkillLevel(victim, thisRaceID, SKILL_EVADE);
-            if(iEvasionLevel > 0 && !Hexed(victim, false) && 
-               GetRandomFloat(0.0, 1.0) <= EvadeChance[iEvasionLevel] && 
-               !W3HasImmunity(attacker, Immunity_Skills))
-            {
-                War3_EvadeDamage(victim, attacker);
-            }
-        }
-        
         // Trueshot
         if(ValidPlayer(attacker) && War3_GetRace(attacker) == thisRaceID)
         {

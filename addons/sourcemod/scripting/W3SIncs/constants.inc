@@ -337,7 +337,7 @@ enum W3Buff
     iAdditionalMaxHealth,   ///increase / decrease in maxhp
     
     //44
-    fDodgeChance, //Registers a chance to dodge, (Note: 0.7 would equal a 30% chance to dodge)
+    fDodgeChance, //Registers a chance to dodge, (Note: 0.7 would equal a 70% chance to dodge)
     bDodgeMode, //Set 0 for Pre, 1 for post (quick regen)
     
     fVampirePercent, //Sets a % of damage done to give back as health

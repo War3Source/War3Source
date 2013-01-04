@@ -7,9 +7,12 @@ public Plugin:myinfo =
 {
     name = "War3Source - Warcraft Extended - Dodge",
     author = "War3Source Team",
-    description="Generic dodge skill"
+    description = "Generic dodge skill"
 };
 
+new iFriendlyFire;
+
+new Handle:hFriendlyFireCvar;
 new Handle:FHOnW3DodgePre;
 new Handle:FHOnW3DodgePost;
 
@@ -22,6 +25,20 @@ public bool:InitNativesForwards()
     
     return true;
 }
+
+public OnPluginStart()
+{
+    hFriendlyFireCvar = FindConVar("mp_friendlyfire");
+    
+    iFriendlyFire = GetConVarBool(hFriendlyFireCvar);
+    HookConVarChange(hFriendlyFireCvar, ConVarChange_FriendlyFire);
+}
+
+public ConVarChange_FriendlyFire(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+    iFriendlyFire = StringToInt(newValue);
+}
+
 public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
 {
     if (ValidPlayer(victim) && victim != attacker) 
@@ -29,7 +46,13 @@ public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
         new Float:fEvasionChance = W3GetBuffSumFloat(victim, fDodgeChance);
         if(fEvasionChance > 0.0)
         {
-            new Float:chance = GetRandomFloat(0.0,1.0);
+            // If friendly fire isn't activated we don't have to try evading ;)
+            if(!iFriendlyFire && ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker))
+            {
+                return;
+            }
+            
+            new Float:chance = GetRandomFloat(0.0, 1.0);
             
             Call_StartForward(FHOnW3DodgePre);
             Call_PushCell(victim);
