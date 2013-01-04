@@ -38,7 +38,7 @@ public Native_War3_AddSkillBuff(Handle:plugin, numParams)
     PushArrayCell(g_hBuffSkill, iSkill);
     PushArrayCell(g_hBuffs, Buff);
     
-    new iSkillMaxLevel = W3GetRaceSkillMaxLevel(iRace, iSkill);
+    new iSkillMaxLevel = W3GetRaceSkillMaxLevel(iRace, iSkill) + 1;
     
     new any:values[iSkillMaxLevel];
     GetNativeArray(4, values, iSkillMaxLevel);
@@ -80,7 +80,10 @@ InitSkills(client, race)
         if(GetArrayCell(g_hBuffRace, i) == race)
         {
             new skill = War3_GetSkillLevel(client, race, GetArrayCell(g_hBuffSkill, i));
-            War3_SetBuff(client, GetArrayCell(g_hBuffs, i), race, GetArrayCell(g_hBuffArray, i, skill));
+            if(skill > 0)
+            {
+                War3_SetBuff(client, GetArrayCell(g_hBuffs, i), race, GetArrayCell(g_hBuffArray, i, skill));
+            }
         }
     }
 }
