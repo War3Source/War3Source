@@ -38,16 +38,6 @@ new Float:LocustDamagePercent[]={0.0,0.1,0.2,0.3,0.4};
 //new String:ultimateSound[]="war3source/locustswarmloop.wav";
 new String:ultimateSound[256]; //="war3source/locustswarmloop.mp3";
 
-
-public Plugin:myinfo = 
-{
-    name = "Race - Crypt Lord",
-    author = "PimpinJuice & Ownz (DarkEnergy)",
-    description = "The Crypt Lord race for War3Source.",
-    version = "1.0.0.0",
-    url = "http://Www.OwnageClan.Com"
-};
-
 public OnPluginStart()
 {
     

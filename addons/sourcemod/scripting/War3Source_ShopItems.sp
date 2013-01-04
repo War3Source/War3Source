@@ -28,18 +28,21 @@ enum {
     ITEM_RING,
     ITEM_MOLE,
     ITEM_ANTIWARD,
+    ITEM_LAST, // Not a real item, just the last item in the enum!
 }
 
-new iShopitem[MAXITEMS];
-new iActiveWeaponOffset;
-new iMaskSoundDelay[66];
+new iShopitem[ITEM_LAST];
+new iMaskSoundDelay[MAXPLAYERSCUSTOM];
+new iTomeSoundDelay[MAXPLAYERSCUSTOM];
+
 // Offsets
+new iActiveWeaponOffset;
 new iOriginOffset;
 new iMyWeaponsOffset;
 
-new bool:bDidDie[65]; // did they die before spawning?
-new bool:bFrosted[65];// don't frost before Timer_Unfrosted
-new bool:bSpawnedViaScrollRespawn[65];// don't allow multiple scroll respawns
+new bool:bDidDie[MAXPLAYERSCUSTOM]; // did they die before spawning?
+new bool:bFrosted[MAXPLAYERSCUSTOM];// don't frost before Timer_Unfrosted
+new bool:bSpawnedViaScrollRespawn[MAXPLAYERSCUSTOM];// don't allow multiple scroll respawns
 new bool:bItemsLoaded;
 
 new Handle:hOrbSlowCvar;
@@ -51,7 +54,7 @@ new Handle:hSockGravityCvar;
 new Handle:hRegenHPCvar;
 new Handle:hMoleDeathmatchAllowedCvar;
 
-new String:sOldModel[65][256];// reset model after 10 seconds
+new String:sOldModel[MAXPLAYERSCUSTOM][256];// reset model after 10 seconds
 new String:sBuyTomeSound[256];//="war3source/tomes.mp3";
 new String:sMaskSound[256];//="war3source/mask.mp3";
 
@@ -59,17 +62,17 @@ public OnPluginStart()
 {
     HookEvent("round_start", Event_RoundStart);
 
-    iOriginOffset = FindSendPropOffs("CBaseEntity","m_vecOrigin");
+    iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
     iMyWeaponsOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hMyWeapons");
     iActiveWeaponOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hActiveWeapon");
     
-    hBootsSpeedCvar=CreateConVar("war3_shop_boots_speed", "1.2", "Boots speed, 1.2 is default");
-    hClawsDamageCvar=CreateConVar("war3_shop_claws_damage", GameTF() ? "10" : "6", "Claws of attack additional damage per bullet (CS) or per second (TF)");
-    hMaskLeechCvar=CreateConVar("war3_shop_mask_percent", "0.30", "Percent of damage rewarded for Mask of Death, from 0.0 - 1.0");
-    hOrbSlowCvar=CreateConVar("war3_shop_orb_speed","0.6", "Orb of Frost speed, 1.0 is normal speed, 0.6 default for orb.");
-    hTomeXPCvar=CreateConVar("war3_shop_tome_xp","100", "Experience awarded for Tome of Experience.");
-    hSockGravityCvar=CreateConVar("war3_shop_sock_gravity", "0.4", "Gravity used for Sock of Feather, 0.4 is default for sock, 1.0 is normal gravity");
-    hMoleDeathmatchAllowedCvar=CreateConVar("war3_shop_mole_dm", "0", "Set this to 1 if server is deathmatch");
+    hBootsSpeedCvar = CreateConVar("war3_shop_boots_speed", "1.2", "Boots speed, 1.2 is default");
+    hClawsDamageCvar = CreateConVar("war3_shop_claws_damage", GameTF() ? "10" : "6", "Claws of attack additional damage per bullet (CS) or per second (TF)");
+    hMaskLeechCvar = CreateConVar("war3_shop_mask_percent", "0.30", "Percent of damage rewarded for Mask of Death, from 0.0 - 1.0");
+    hOrbSlowCvar = CreateConVar("war3_shop_orb_speed","0.6", "Orb of Frost speed, 1.0 is normal speed, 0.6 default for orb.");
+    hTomeXPCvar = CreateConVar("war3_shop_tome_xp","100", "Experience awarded for Tome of Experience.");
+    hSockGravityCvar = CreateConVar("war3_shop_sock_gravity", "0.4", "Gravity used for Sock of Feather, 0.4 is default for sock, 1.0 is normal gravity");
+    hMoleDeathmatchAllowedCvar = CreateConVar("war3_shop_mole_dm", "0", "Set this to 1 if server is deathmatch");
     hRegenHPCvar = CreateConVar("war3_shop_ring_hp", GameTF() ? "4" : "2", "How much HP is regenerated per second");
 
     CreateTimer(0.1, PointOneSecondLoop, _, TIMER_REPEAT);
@@ -78,6 +81,7 @@ public OnPluginStart()
     for(new i=1; i <= MaxClients; i++)
     {
         iMaskSoundDelay[i] = War3_RegisterDelayTracker();
+        iTomeSoundDelay[i] = War3_RegisterDelayTracker();
     }
 
     LoadTranslations("w3s.item.antiward.phrases");
@@ -88,7 +92,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
     if(num == 10)
     {
         bItemsLoaded=true;
-        for(new i=0; i < MAXITEMS; i++)
+        for(new i=0; i < ITEM_LAST; i++)
         {
             iShopitem[i] = 0;
         }
@@ -422,15 +426,19 @@ public OnItemPurchase(client,item)
         War3_ChatMessage(client, "%T", "+{amount} XP", client, iBonusXP);
         War3_ShowXP(client);
         
-        if(IsPlayerAlive(client))
+        if(War3_TrackDelayExpired(iTomeSoundDelay[client]))
         {
-            EmitSoundToAll(sBuyTomeSound, client);
+            if (IsPlayerAlive(client))
+            {
+                EmitSoundToAll(sBuyTomeSound, client);
+            }
+            else
+            {
+                EmitSoundToClient(client, sBuyTomeSound);
+            }
+            
+            War3_TrackDelay(iTomeSoundDelay[client], 0.25);
         }
-        else
-        {
-            EmitSoundToClient(client, "war3source/tomes.mp3");
-        }
-
     }
     
     if(item == iShopitem[ITEM_RING])
