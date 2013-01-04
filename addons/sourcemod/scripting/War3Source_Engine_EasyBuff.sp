@@ -72,7 +72,11 @@ ResetSkills(client, race)
         }
     }
 }
-
+public OnRaceChanged(client, oldrace, newrace)
+{
+	ResetSkills(client, oldrace);
+	InitSkills(client, newrace);
+}
 InitSkills(client, race)
 {
     for(new i = 0; i < GetArraySize(g_hBuffs); i++)
@@ -87,3 +91,6 @@ InitSkills(client, race)
         }
     }
 }
+
+
+
