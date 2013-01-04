@@ -48,8 +48,7 @@ public Native_War3_AddSkillBuff(Handle:plugin, numParams)
 
 public OnWar3EventSpawn(client)
 {
-    new race = War3_GetRace(client);
-    InitSkills(client, race);
+    InitSkills(client, War3_GetRace(client));
 }
 
 public OnSkillLevelChanged(client, race, skill, newskilllevel)
@@ -68,7 +67,7 @@ ResetSkills(client, race)
     {
         if(GetArrayCell(g_hBuffRace, i) == race)
         {
-            W3ResetBuffRace(client, GetArrayCell(g_hBuffs, i), race);
+            W3ResetBuffRace(client, W3Buff:GetArrayCell(g_hBuffs, i), race);
         }
     }
 }
@@ -84,10 +83,8 @@ InitSkills(client, race)
         if(GetArrayCell(g_hBuffRace, i) == race)
         {
             new skill = War3_GetSkillLevel(client, race, GetArrayCell(g_hBuffSkill, i));
-            if(skill > 0)
-            {
-                War3_SetBuff(client, GetArrayCell(g_hBuffs, i), race, GetArrayCell(g_hBuffArray, i, skill));
-            }
+            
+            War3_SetBuff(client, W3Buff:GetArrayCell(g_hBuffs, i), race, GetArrayCell(g_hBuffArray, i, skill));
         }
     }
 }
