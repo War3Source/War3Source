@@ -86,13 +86,17 @@ public OnWar3LoadRaceOrItemOrdered(num)
         
         War3_CreateRaceEnd(thisRaceID);
         
+        War3_AddSkillBuff(thisRaceID, SKILL_BASH, fBashChance, BashChance);
+        War3_AddSkillBuff(thisRaceID, SKILL_INVIS, fInvisibilitySkill, GameTF() ? InvisibilityAlphaTF : InvisibilityAlphaCS);
+        War3_AddSkillBuff(thisRaceID, SKILL_BASH, iAdditionalMaxHealth, DevotionHealth);
     }
 }
 
 public OnMapStart()
 {
 
-    if(GAMECSGO){
+    if(GAMECSGO)
+    {
         strcopy(teleportSound,sizeof(teleportSound),"music/war3source/blinkarrival.mp3");
     }
     else
@@ -112,17 +116,9 @@ public OnMapStart()
 
 public OnRaceChanged(client,oldrace,newrace)
 {
-    if(newrace!=thisRaceID)
-    {
-        War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0); // if we aren't their race anymore we shouldn't be controlling their alpha
-        War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
-        War3_SetBuff(client,fBashChance,thisRaceID,0.0);
-        
-    }
-    else
+    if(newrace == thisRaceID)
     {
         ActivateSkills(client);
-        
     }
 }
 
@@ -133,7 +129,6 @@ public ActivateSkills(client)
     if(skill_devo)
     {
         // Devotion Aura
-        new hpadd=DevotionHealth[skill_devo];
         new Float:vec[3];
         GetClientAbsOrigin(client,vec);
         vec[2]+=20.0;
@@ -150,18 +145,7 @@ public ActivateSkills(client)
         TE_SetupBeamRingPoint(vec,40.0,10.0,BeamSprite,HaloSprite,0,15,1.0,15.0,0.0,ringColor,10,0);
         TE_SendToAll();
         
-        War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,hpadd);
     }
-    
-    new skilllevel=War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);
-    new Float:alpha=(War3_GetGame()==Game_CS)?InvisibilityAlphaCS[skilllevel]:InvisibilityAlphaTF[skilllevel];
-    
-    War3_SetBuff(client,fInvisibilitySkill,thisRaceID,alpha);
-    
-    new skill_bash=War3_GetSkillLevel(client,thisRaceID,SKILL_BASH);
-    new Float:bash=BashChance[skill_bash];
-    
-    War3_SetBuff(client,fBashChance,thisRaceID,bash);
 }
 
 

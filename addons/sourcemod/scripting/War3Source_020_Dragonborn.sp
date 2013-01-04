@@ -68,6 +68,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_DRAGONBORN=War3_AddRaceSkillT(thisRaceID,"Dragonborn",false,4);
         ULTIMATE_DRAGONBREATH=War3_AddRaceSkillT(thisRaceID,"DragonsBreath",true,4); 
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+        
+        War3_AddSkillBuff(thisRaceID, SKILL_SCALES, fArmorPhysical, ScalesPhysical);
     }
 }
 
@@ -219,10 +221,6 @@ public InitPassiveSkills(client)
 {
     if(War3_GetRace(client)==thisRaceID)
     {
-        //scales
-        new skilllevel_armor=War3_GetSkillLevel(client,thisRaceID,SKILL_SCALES);
-        War3_SetBuff(client,fArmorPhysical,thisRaceID,ScalesPhysical[skilllevel_armor]);
-        
         //dragonborn
         new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_DRAGONBORN);
         new bool:value=(GetRandomFloat(0.0,1.0)<=ImmunityChance&&!Hexed(client,false));

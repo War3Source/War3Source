@@ -58,7 +58,10 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_FROSTARMOR=War3_AddRaceSkillT(thisRaceID,"FrostArmor",false,4);
         SKILL_DARKRITUAL=War3_AddRaceSkillT(thisRaceID,"DarkRitual",false,4);
         ULT_DEATHDECAY=War3_AddRaceSkillT(thisRaceID,"DeathAndDecay",true,4); 
-        War3_CreateRaceEnd(thisRaceID);    
+        War3_CreateRaceEnd(thisRaceID);
+        
+        War3_AddSkillBuff(thisRaceID, SKILL_FROSTARMOR, fArmorPhysical, FrostArmorAmount);
+        War3_AddSkillBuff(thisRaceID, SKILL_FROSTARMOR, fArmorMagic, FrostArmorAmount);
     }
 
 }
@@ -81,26 +84,6 @@ public OnMapStart()
     War3_PrecacheSound(novasnd);
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
-}
-
-public OnRaceChanged(client,oldrace,newrace){
-    InitPassive(client); //checks race inside
-}
-public OnSkillLevelChanged(client,race,skill,level){
-    if(race==thisRaceID){
-        InitPassive(client);
-    }
-}
-InitPassive(client){
-    if(War3_GetRace(client)==thisRaceID){
-        new sklevel=War3_GetSkillLevel(client,thisRaceID,SKILL_FROSTARMOR);
-        War3_SetBuff(client,fArmorPhysical,thisRaceID,FrostArmorAmount[sklevel]);
-        War3_SetBuff(client,fArmorMagic,thisRaceID,FrostArmorAmount[sklevel]);
-    }
-    else{
-        War3_SetBuff(client,fArmorPhysical,thisRaceID,0.0);
-        War3_SetBuff(client,fArmorMagic,thisRaceID,0.0);
-    }
 }
 
 public OnAbilityCommand(client,ability,bool:pressed)

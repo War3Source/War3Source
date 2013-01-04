@@ -56,6 +56,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_WARCRY=War3_AddRaceSkillT(thisRaceID,"Warcry",false,4,"1/2/3/4","6/9/12/15");
         ULT_STRENGTH=War3_AddRaceSkillT(thisRaceID,"GodsStrength",true,4,"20/30/40/50"); 
         War3_CreateRaceEnd(thisRaceID); 
+
+        War3_AddSkillBuff(thisRaceID, SKILL_WARCRY, fMaxSpeed, WarcrySpeed);
+        War3_AddSkillBuff(thisRaceID, SKILL_WARCRY, fArmorPhysical, WarcryArmor);
     }
 }
 
@@ -88,37 +91,9 @@ public OnMapStart()
 
 public OnWar3EventSpawn(client)
 {
-    InitPassiveSkills(client);
-    
     bStrengthActivated[client] = false;
     W3ResetPlayerColor(client, thisRaceID);
 }
-
-public OnSkillLevelChanged(client,race,skilllvl,newskilllvllevel)
-{
-    InitPassiveSkills(client);
-}
-
-public InitPassiveSkills(client)
-{
-    if(War3_GetRace(client)==thisRaceID)
-    {
-        new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_WARCRY);
-        War3_SetBuff(client,fMaxSpeed,thisRaceID,WarcrySpeed[skilllvl]);
-        War3_SetBuff(client,fArmorPhysical,thisRaceID,float(WarcryArmor[skilllvl]));
-        
-    }
-}
-
-public OnRaceChanged(client,oldrace,newrace)
-{
-    if(newrace!=thisRaceID)
-    {
-        War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
-        War3_SetBuff(client,fArmorPhysical,thisRaceID,0.0);
-    }
-}
-
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))

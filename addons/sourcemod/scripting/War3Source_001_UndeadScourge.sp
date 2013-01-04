@@ -42,14 +42,12 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_SUICIDE=War3_AddRaceSkillT(thisRaceID,"SuicideBomber",true,4); 
         
         War3_CreateRaceEnd(thisRaceID);
+        
+        War3_AddSkillBuff(thisRaceID, SKILL_LEECH, fVampirePercent, VampirePercent);
+        War3_AddSkillBuff(thisRaceID, SKILL_SPEED, fMaxSpeed, UnholySpeed);
+        War3_AddSkillBuff(thisRaceID, SKILL_LOWGRAV, fLowGravitySkill, LevitationGravity);
     }
 }
-
-public OnMapStart()
-{
-    
-}
-
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
@@ -65,45 +63,6 @@ public OnUltimateCommand(client,race,bool:pressed)
         //DP("undad ");
             W3MsgUltNotLeveled(client);
         }
-    }
-}
-
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-    InitPassiveSkills(client);
-}
-public InitPassiveSkills(client){
-    if(War3_GetRace(client)==thisRaceID)
-    {
-        new skilllevel_unholy=War3_GetSkillLevel(client,thisRaceID,SKILL_SPEED);
-        new Float:speed=UnholySpeed[skilllevel_unholy];
-        War3_SetBuff(client,fMaxSpeed,thisRaceID,speed);
-        
-        new skilllevel_levi=War3_GetSkillLevel(client,thisRaceID,SKILL_LOWGRAV);
-        new Float:gravity=LevitationGravity[skilllevel_levi];
-        War3_SetBuff(client,fLowGravitySkill,thisRaceID,gravity);
-        
-        new skilllevel_vampire=War3_GetSkillLevel(client,thisRaceID,SKILL_LEECH);
-        new Float:percent=VampirePercent[skilllevel_vampire];
-        War3_SetBuff(client,fVampirePercent,thisRaceID,percent);
-        
-    }
-}
-
-public OnRaceChanged(client,oldrace,newrace)
-{
-    if(newrace!=thisRaceID)
-    {
-        War3_SetBuff(client, fMaxSpeed, thisRaceID, 1.0);
-        War3_SetBuff(client, fLowGravitySkill, thisRaceID, 1.0);
-        War3_SetBuff(client, fVampirePercent, thisRaceID, 0.0);
-    }
-    else
-    {    
-        if(IsPlayerAlive(client)){
-            InitPassiveSkills(client);
-            
-        }    
     }
 }
 
@@ -123,14 +82,4 @@ public OnWar3EventDeath(victim, attacker)
         }
         
     } 
-}
-
-public OnWar3EventSpawn(client)
-{
-    new race=War3_GetRace(client);
-    if(race==thisRaceID)
-    {
-        InitPassiveSkills(client); //sets suicide
-        
-    }
 }

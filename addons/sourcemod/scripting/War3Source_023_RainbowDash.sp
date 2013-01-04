@@ -13,7 +13,7 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
-new Float:EvadeChance[5]={0.0,0.05,0.10,0.15,0.20};
+new Float:fEvadeChance[5]={0.0,0.05,0.10,0.15,0.20};
 new Float:attackspeed[5]={1.0,1.04,1.08,1.12,1.15};
 new Float:abilityspeed[5]={1.0,1.15,1.23,1.32,1.40};
 
@@ -33,6 +33,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
         ULTIMATE = War3_AddRaceSkill(thisRaceID,"Sonic Rainboom","Buff teammates' damage around you for 4 sec, 200-400 units. Must be in speed (ability) mode to cast.",true); 
         
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
+        
+        War3_AddSkillBuff(thisRaceID, SKILL_EVADE, fDodgeChance, fEvadeChance);
     }
 }
 public FOO(){
@@ -188,46 +190,6 @@ public OnUltimateCommand(client,race,bool:pressed)
         else
         {
             W3MsgUltNotLeveled(client);
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
-{
-    if(attacker != victim)
-    {
-        // Evasion
-        if(ValidPlayer(victim) && War3_GetRace(victim) == thisRaceID && damage > 0.0)
-        {
-            // If friendly fire isn't activated we don't have to try evading ;)
-            if(ValidPlayer(attacker) && GetClientTeam(victim) == GetClientTeam(attacker) && !GetConVarBool(FindConVar("mp_friendlyfire")))
-            {
-                return;
-            }
-            
-            new iEvasionLevel = War3_GetSkillLevel(victim, thisRaceID, SKILL_EVADE);
-            if(iEvasionLevel > 0 && !Hexed(victim, false) && 
-               GetRandomFloat(0.0, 1.0) <= EvadeChance[iEvasionLevel] && 
-               !W3HasImmunity(attacker, Immunity_Skills))
-            {
-                War3_EvadeDamage(victim, attacker);
-            }
         }
     }
 }
