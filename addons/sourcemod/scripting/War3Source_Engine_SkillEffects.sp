@@ -28,11 +28,18 @@ public Native_EvadeDamage(Handle:plugin, numParams)
     new victim = GetNativeCell(1);
     new attacker = GetNativeCell(2);
 
-    W3FlashScreen(victim, RGBA_COLOR_BLUE);
     War3_DamageModPercent(0.0);
 
-    W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "You Evaded a Shot", victim);
-    W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Enemy Evaded", attacker);
+    if (ValidPlayer(victim))
+    {
+        W3FlashScreen(victim, RGBA_COLOR_BLUE);
+        W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "You Evaded a Shot", victim);
+    }
+    
+    if (ValidPlayer(attacker))
+    {
+        W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Enemy Evaded", attacker);
+    }
     
     if(War3_GetGame() == Game_TF)
     {

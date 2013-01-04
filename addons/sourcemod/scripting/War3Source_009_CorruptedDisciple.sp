@@ -127,7 +127,7 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-    if(/*War3_GetRace(client)==thisRaceID &&*/ ability==0 && pressed && IsPlayerAlive(client))
+    if(/*War3_GetRace(client)==thisRaceID &&*/ ability==0 && pressed && ValidPlayer(client, true))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_TIDE);
         if(skill_level>0)

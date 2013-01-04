@@ -27,6 +27,11 @@ public Native_NotifyPlayerTookDamageFromSkill(Handle:plugin, numParams)
     new damage = GetNativeCell(3);
     new skill = GetNativeCell(4);
     
+    if (skill == 0)
+    {
+        return;
+    }
+    
     new String:sAttackerName[32];
     GetClientName(attacker, sAttackerName, sizeof(sAttackerName));
         

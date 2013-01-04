@@ -76,8 +76,12 @@ native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 
 
 
-stock bool:W3HasImmunity(client,War3Immunity:immunityindex) {
-                                         //Immunity_Ability
+stock bool:W3HasImmunity(client,War3Immunity:immunityindex) 
+{
+    if(!ValidPlayer(client))
+    {
+        return false;
+    }
     //add magic immunity etc later
     if(immunityindex==Immunity_Abilities) {
         return W3GetBuffHasTrue(client,bImmunityAbilities);
