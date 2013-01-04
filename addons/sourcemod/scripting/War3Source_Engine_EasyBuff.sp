@@ -34,6 +34,16 @@ public Native_War3_AddSkillBuff(Handle:plugin, numParams)
     new iSkill = GetNativeCell(2);
     new W3Buff:Buff = GetNativeCell(3);
     
+    for(new i = 0; i < GetArraySize(g_hBuffs); i++)
+    {
+        if(GetArrayCell(g_hBuffRace, i) == iRace && 
+           GetArrayCell(g_hBuffSkill, i) == iSkill &&
+           GetArrayCell(g_hBuffs, i) == Buff)
+        {
+            return;
+        }
+    }
+    
     PushArrayCell(g_hBuffRace, iRace);
     PushArrayCell(g_hBuffSkill, iSkill);
     PushArrayCell(g_hBuffs, Buff);
@@ -76,6 +86,7 @@ public OnRaceChanged(client, oldrace, newrace)
 	ResetSkills(client, oldrace);
 	InitSkills(client, newrace);
 }
+
 InitSkills(client, race)
 {
     for(new i = 0; i < GetArraySize(g_hBuffs); i++)
@@ -88,6 +99,3 @@ InitSkills(client, race)
         }
     }
 }
-
-
-
