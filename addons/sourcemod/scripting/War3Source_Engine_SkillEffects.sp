@@ -20,7 +20,9 @@ public bool:InitNativesForwards()
 
 public OnPluginStart()
 {
+    // Yes, this should be a "skilleffects" translation file later ;)
     LoadTranslations("w3s.race.undead.phrases");
+    LoadTranslations("w3s.race.human.phrases");
 }
 
 public Native_EvadeDamage(Handle:plugin, numParams)
