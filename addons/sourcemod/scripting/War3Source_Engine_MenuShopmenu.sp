@@ -11,6 +11,8 @@ public Plugin:myinfo =
 new Handle:hBuyItemUseCSMoneCvar;
 new Handle:hUseCategorysCvar;
 
+new String:sBuyItemSound[256]
+
 public bool:InitNativesForwards()
 {
     CreateNative("W3BuyUseCSMoney",NW3BuyUseCSMoney);
@@ -20,6 +22,20 @@ public OnPluginStart()
 {
     hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money and in TF2 use MVM money to buy shopmenu items");
     hUseCategorysCvar=CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
+}
+
+public OnMapStart()
+{
+    if(GAMECSGO)
+    {
+        strcopy(sBuyItemSound, sizeof(sBuyItemSound), "music/war3source/ui/ReceiveGold.mp3");
+    }
+    else
+    {
+        strcopy(sBuyItemSound, sizeof(sBuyItemSound), "war3source/ui/ReceiveGold.mp3");
+    }
+
+    War3_PrecacheSound(sBuyItemSound);
 }
 
 public OnWar3Event(W3EVENT:event,client) {
@@ -254,6 +270,15 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
             }
             War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 
+            if (IsPlayerAlive(client))
+            {
+                EmitSoundToAll(sBuyItemSound, client);
+            }
+            else
+            {
+                EmitSoundToClient(client, sBuyItemSound);
+            }
+            
             W3SetVar(TheItemBoughtOrLost,item);
             W3CreateEvent(DoForwardClientBoughtItem,client); //old item//forward, and set has item true inside
         }

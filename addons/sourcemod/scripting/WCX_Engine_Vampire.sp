@@ -17,7 +17,7 @@ public OnPluginStart()
 
 public bool:InitNativesForwards()
 {
-    h_ForwardOnWar3VampirismPost = CreateGlobalForward("OnWar3VampirismPost", ET_Hook, Param_Cell, Param_Cell);
+    h_ForwardOnWar3VampirismPost = CreateGlobalForward("OnWar3VampirismPost", ET_Hook, Param_Cell, Param_Cell, Param_Cell);
 
     return true;
 }
