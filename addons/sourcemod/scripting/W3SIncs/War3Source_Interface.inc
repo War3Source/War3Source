@@ -18,6 +18,7 @@
 #include "W3SIncs/War3Source_Effects"
 #include "W3SIncs/wards"
 #include "W3SIncs/War3Source_Races"
+#include "W3SIncs/War3Source_Logging"
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
@@ -1751,4 +1752,3 @@ stock CheckRaceTeamLimit(raceid, team){
 #include "W3SIncs/War3Source_Buffs"
 #include "W3SIncs/War3Source_XP_Gold"
 #include "W3SIncs/War3Source_Config"
-#include "W3SIncs/War3Source_Logging"

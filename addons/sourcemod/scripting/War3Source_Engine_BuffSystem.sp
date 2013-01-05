@@ -188,7 +188,7 @@ public Action:cmdbufflist(client,args){
     if(args==1){
         new String:arg[32];
         GetCmdArg(1,arg,sizeof(arg));
-        //new int=StringToInt(arg);
+        new int=StringToInt(arg);
         new ItemsLoaded = W3GetItemsLoaded();
         new RacesPlusItems = ItemsLoaded+War3_GetRacesLoaded();
         for(new i=1;i<=RacesPlusItems;i++){

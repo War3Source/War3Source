@@ -499,8 +499,6 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 new bool:isult=GetNativeCell(7);
                 new tmaxskilllevel=GetNativeCell(8);
                 
-                War3_LogInfo("add skill %s %s",skillname,skilldesc);
-                
                 new newskillnum;
                 newskillnum    = AddRaceSkill(raceid,raceskillname,raceskilldesc,isult,tmaxskilllevel);
                 if(istranaslated){
