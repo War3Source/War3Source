@@ -29,6 +29,11 @@ native War3_EffectReturnDamage(victim, attacker, damage, skill);
  */
 native War3_VampirismEffect(victim, attacker, leechhealth);
 
+/**
+ * Called after health was leeched from a player
+ */
+forward OnWar3VampirismPost(victim, attacker, iHealthLeeched);
+
 /** 
  * Stock for skills that bash
  */
