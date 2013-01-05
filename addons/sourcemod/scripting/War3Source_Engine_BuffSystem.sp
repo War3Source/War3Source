@@ -199,7 +199,7 @@ public Action:cmdbufflist(client,args){
             else{
                 War3_GetRaceShortname(i-ItemsLoaded,name,sizeof(name));
             }
-            //W3Log("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
+            War3_LogInfo("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
             
         }
     }

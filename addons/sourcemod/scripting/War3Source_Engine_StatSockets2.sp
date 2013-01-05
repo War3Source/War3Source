@@ -105,7 +105,7 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
     else{
         if(ShowError())
         {
-            //W3LogNotError("Cannot create more queue tries, %d queued connections reached",MAXQUEUELEN);
+            War3_LogInfo("Cannot create more queue tries, %d queued connections reached",MAXQUEUELEN);
         }
     }    
 }
@@ -117,7 +117,7 @@ InitiateSocket(Handle:trie){
         SocketConnect(socket, OnSocketConnected, OnSocketReceive, OnSocketDisconnected, "ownageclan.com", 80);
     }
     else{
-        //W3LogError("Create Socket Failed");
+        War3_LogInfo("Create Socket Failed");
     }
 }
 public OnGameFrame(){
@@ -200,7 +200,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
     {
         if(ShowError())
         {
-            //W3LogNotError("\r\n\r\n rnrn not found, reset / error / congestion");
+            War3_LogInfo("\r\n\r\n rnrn not found, reset / error / congestion");
         }
     }
     else{
@@ -208,7 +208,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
         ExplodeString(responsestr, "\r\n\r\n", exploded, 2, 2000);
     }
     if(strlen(responsestr)==0&&ShowError()){ //zero length is probably failed, HTTP has 200 OK message at least
-        //W3LogNotError("Zero length socket return disconnect");
+        War3_LogInfo("Zero length socket return disconnect");
     }
     
     new Function:func;
@@ -238,12 +238,12 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
     socketCount--;
     if(ShowError())
     {
-        //W3LogNotError("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
+        War3_LogInfo("Does not affect functionality, do not report this error: socket error %d (errno %d)", errorType, errorNum);
         if(errorNum==10061){
-            //W3LogNotError("Conn Refused");
+            War3_LogInfo("Conn Refused");
         }
         if(errorNum==10060){
-            //W3LogNotError("Timeout");
+            War3_LogInfo("Timeout");
         }
     }
     SetTrieString(trie,"response","");

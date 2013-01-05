@@ -106,7 +106,7 @@ public OnW3Denyable(W3DENY:event,client){
                         W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
                     }
                 
-                    //W3Log("race %d blocked on client %d due to restrictions limit %d  %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
+                    War3_LogInfo("race %d blocked on client %d due to restrictions limit %d  %s %s",race_selected,client,W3GetRaceMaxLimitTeam(race_selected,GetClientTeam(client)),cvarstr,cvarvalue);
                     return W3Deny();
                 //}
                 

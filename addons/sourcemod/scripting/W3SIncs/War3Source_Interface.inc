@@ -1601,13 +1601,13 @@ stock DPP(Plugin:plugin)
 stock PrintPlugin(Handle:plugin) {
     new String:str[100];
     GetPluginFilename(Handle:plugin, str, sizeof(str));
-    //W3LogNotError("%s",str);
+    War3_LogInfo("%s",str);
 }
 stock PrintPluginError(Handle:plugin) {
     new String:str[100];
     GetPluginFilename(Handle:plugin, str, sizeof(str));
     LogError("%s",str);
-    //W3LogError("%s",str);
+    War3_LogError("%s",str);
 }
 
 ///find a "string" in a war3cvar that is delimited by commas "rubbish,string" = true
@@ -1732,7 +1732,7 @@ stock CheckRaceTeamLimit(raceid, team){
             W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
         }
         
-        //W3Log("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
+        War3_LogInfo("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
         
         W3CreateEvent(DoShowChangeRaceMenu,target);
     }

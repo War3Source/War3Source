@@ -126,7 +126,7 @@ public NWar3_CreateNewRace(Handle:plugin,numParams){
     GetNativeString(1,name,sizeof(name));
     GetNativeString(2,shortname,sizeof(shortname));
     
-    //W3Log("add race %s %s",name,shortname);
+    War3_LogInfo("add race %s %s",name,shortname);
     
     return CreateNewRace(name,shortname);
 
@@ -146,7 +146,7 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
         new bool:isult=GetNativeCell(4);
         new tmaxskilllevel=GetNativeCell(5);
         
-        //W3Log("add skill %s %s",skillname,skilldesc);
+        War3_LogInfo("add skill %s %s",skillname,skilldesc);
         
         return AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
     }
@@ -185,7 +185,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
         new tmaxskilllevel=GetNativeCell(4);
         
     
-        //W3Log("add skill T %d %s",raceid,skillname);
+        War3_LogInfo("add skill T %d %s",raceid,skillname);
             
         new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
         skillTranslated[raceid][newskillnum]=true;
@@ -204,7 +204,7 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
 }
 
 public NWar3_CreateRaceEnd(Handle:plugin,numParams){
-    //W3Log("race end %d",GetNativeCell(1));
+    War3_LogInfo("race end %d",GetNativeCell(1));
     CreateRaceEnd(GetNativeCell(1));
 }
 ///this is get raceid, not NAME!
@@ -499,7 +499,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 new bool:isult=GetNativeCell(7);
                 new tmaxskilllevel=GetNativeCell(8);
                 
-                //W3Log("add skill %s %s",skillname,skilldesc);
+                War3_LogInfo("add skill %s %s",skillname,skilldesc);
                 
                 new newskillnum;
                 newskillnum    = AddRaceSkill(raceid,raceskillname,raceskilldesc,isult,tmaxskilllevel);
@@ -552,7 +552,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
             }
         }
     }
-    //W3LogError("NO GENERIC SKILL FOUND");
+    War3_LogError("NO GENERIC SKILL FOUND");
     return 0;
 }
 public NW3_GenericSkillLevel(Handle:plugin,numParams){
@@ -578,7 +578,7 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
         }
     }
     if(found>1){
-        //W3LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
+        War3_LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
         return 0;
     }
     if(found){
