@@ -297,9 +297,9 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                 {
                     fSpeedMult = 0.01; // 0.0 for override removes
                 }
-                if(fSpeedMult>1.0)
+                if(fSpeedMult > 1.0)
                 {
-                    fSpeedMult=1.0;
+                    fSpeedMult = 1.0;
                 }
                 War3_SetBuffItem(victim, fSlow, iShopitem[ITEM_FROST], fSpeedMult);
                 bFrosted[victim] = true;

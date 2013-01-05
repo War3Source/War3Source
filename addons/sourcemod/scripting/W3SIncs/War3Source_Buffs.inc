@@ -40,6 +40,9 @@ native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:appliedBuffValue,Flo
 ///RESETS a particular buff from your race on this client
 native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
 
+// Reset a particular buff from a item on thsi client
+native W3ResetBuffItem(client, W3Buff:buffindex, itemid);
+
 ///RESETS ALL BUFFS PERTAINGIN TO THIS CLIENT AND RACE, basically fully getting rid if all buffs attatched to this player from your race
 native W3ResetAllBuffRace(client, raceid);
 
@@ -74,6 +77,7 @@ native W3ReapplySpeed(client);
 native W3GetSpeedMulti(client); //get the effective speed multipler for TF
 
 native War3_AddSkillBuff(raceID, skill, W3Buff:buff, any:values[]);
+native War3_AddItemBuff(itemID, W3Buff:buff, any:value);
 
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex) 
