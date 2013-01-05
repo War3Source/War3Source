@@ -184,8 +184,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
         g_CurDMGModifierPercent=1.0;
         g_CurDamageIsWarcraft=g_NextDamageIsWarcraftDamage;
         g_CurDamageIsTrueDamage=g_NextDamageIsTrueDamage;
-        
-        
+
         #if defined DEBUG
         DP2("sdktakedamage %d->%d atrace %s damage [%.2f]",attacker,victim,race,damage);
         #endif

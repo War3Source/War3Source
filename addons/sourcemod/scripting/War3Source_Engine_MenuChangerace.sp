@@ -625,7 +625,7 @@ stock bool:W3AddCategory(const String:cat_name[]) {
         CatCount++;
         return true;
     }
-    W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
+    //W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
     return false;
 }
 //Returns a Category Name thing

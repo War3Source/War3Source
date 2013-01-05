@@ -552,7 +552,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
             }
         }
     }
-    W3LogError("NO GENERIC SKILL FOUND");
+    //W3LogError("NO GENERIC SKILL FOUND");
     return 0;
 }
 public NW3_GenericSkillLevel(Handle:plugin,numParams){
@@ -578,7 +578,7 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
         }
     }
     if(found>1){
-        W3LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
+        //W3LogError("ERR FOUND MORE THAN 1 GERNIC SKILL MATCH");
         return 0;
     }
     if(found){

@@ -46,7 +46,7 @@ public OnPluginStart()
     collectwlstats=true;
     collectkdstats=true;
     if(GetExtensionFileStatus("cssdm.ext",dummystr,sizeof(dummystr))>0){
-        W3Log("NO WIN LOSS STATS WHEN CSDM IS RUNNING");
+        //W3Log("NO WIN LOSS STATS WHEN CSDM IS RUNNING");
         collectwlstats=false;
     }
     
@@ -734,7 +734,7 @@ stock URLEncode(String:str[],len)
         ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
     }
     if(strlen(str)>len-1){
-        W3LogError("statistics encode url exceeded length: %s",str);
+        //W3LogError("statistics encode url exceeded length: %s",str);
         War3Failed("statistics encode url exceeded length"); //this should never happen as ReplaceString was fixed not to overwrite its length
     }
 }

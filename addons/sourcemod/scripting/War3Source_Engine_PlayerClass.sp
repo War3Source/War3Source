@@ -123,7 +123,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
     new client=GetNativeCell(1);
     new newrace=GetNativeCell(2);
     if(newrace<0||newrace>War3_GetRacesLoaded()){
-        W3LogError("WARNING SET INVALID RACE for client %d to race %d",client,newrace);
+        //W3LogError("WARNING SET INVALID RACE for client %d to race %d",client,newrace);
         return;
     }
     if (client > 0 && client <= MaxClients)

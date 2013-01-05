@@ -8,6 +8,14 @@
 //just so pigs dont fly when you run a 64 slot server with HLTV
 #define MAXPLAYERSCUSTOM 66   //+2 of real for normal servers, add +X number of HLTV slots
 
+enum War3_LogLevel
+{
+    LOG_LEVEL_OFF,
+    LOG_LEVEL_CRITICAL,
+    LOG_LEVEL_ERROR,
+    LOG_LEVEL_WARNING,
+    LOG_LEVEL_INFO
+};
 
 //dochecking up to <MAXRACES
 //limit check up to >=MAXRACES-1

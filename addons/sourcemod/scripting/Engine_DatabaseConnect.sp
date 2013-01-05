@@ -48,12 +48,10 @@ ConnectDB()
     }
     if(!hDB)
     {
-        LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect.");
-        W3LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect.");
+        War3_LogError("[War3Source] ERROR: hDB invalid handle, Check SourceMod database config, could not connect.");
         Format(dbErrorMsg, sizeof(dbErrorMsg), "ERR: Could not connect to DB. \n%s", sError);
         
-        LogError("ERRMSG: (%s)", sError);
-        W3LogError("ERRMSG: (%s)", sError);
+        War3_LogError("ERRMSG: (%s)", sError);
         CreateWar3GlobalError("ERR: Could not connect to Database");
     }
     else

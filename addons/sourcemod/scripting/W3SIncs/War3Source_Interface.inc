@@ -1,4 +1,3 @@
-
 /**
  * File: War3Source_Interface.inc
  * Description: The file to be included for creating races and whatnot.
@@ -19,7 +18,6 @@
 #include "W3SIncs/War3Source_Effects"
 #include "W3SIncs/wards"
 #include "W3SIncs/War3Source_Races"
-
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
@@ -707,10 +705,6 @@ native W3IsDeveloper(client);
 native bool:W3SaveEnabled();
 native W3SaveXP(client, race);
 
-native W3Log(const String:fmt[],any:...);
-native W3LogError(const String:fmt[],any:...);
-native W3LogNotError(const String:fmt[],any:...);
-
 //Skills
 native War3_SuicideBomber(client, Float:location[], Float:damage, race_skillid, Float:radius, bool:effect=true);
 
@@ -819,7 +813,7 @@ forward CheckWar3Compatability(String:w3mainInterfVersion[]);
 /* interface side implementation, do not use */
 public CheckWar3Compatability(String:w3mainInterfVersion[]) {
     if(!StrEqual(interfaceVersion,w3mainInterfVersion)) {
-        W3LogError("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
+        //War3_LogCritical("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
         SetFailState("FATAL ERROR, PLUGIN COMPILED INTERFACE VERSION (%s) IS DIFFERENT FROM WAR3SOURCE BASE VERSION (%s). Please Compile With Latest Version!!!",interfaceVersion,w3mainInterfVersion);
     }
 }
@@ -1607,13 +1601,13 @@ stock DPP(Plugin:plugin)
 stock PrintPlugin(Handle:plugin) {
     new String:str[100];
     GetPluginFilename(Handle:plugin, str, sizeof(str));
-    W3LogNotError("%s",str);
+    //W3LogNotError("%s",str);
 }
 stock PrintPluginError(Handle:plugin) {
     new String:str[100];
     GetPluginFilename(Handle:plugin, str, sizeof(str));
     LogError("%s",str);
-    W3LogError("%s",str);
+    //W3LogError("%s",str);
 }
 
 ///find a "string" in a war3cvar that is delimited by commas "rubbish,string" = true
@@ -1738,7 +1732,7 @@ stock CheckRaceTeamLimit(raceid, team){
             W3GetCvar(cvar,cvarvalue,sizeof(cvarvalue));
         }
         
-        W3Log("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
+        //W3Log("race %s blocked on client %d due to restrictions limit %d (CheckRaceTeamLimit)  %s %s",racename,target,W3GetRaceMaxLimitTeam(raceid,team),cvarstr,cvarvalue);
         
         W3CreateEvent(DoShowChangeRaceMenu,target);
     }
@@ -1757,3 +1751,4 @@ stock CheckRaceTeamLimit(raceid, team){
 #include "W3SIncs/War3Source_Buffs"
 #include "W3SIncs/War3Source_XP_Gold"
 #include "W3SIncs/War3Source_Config"
+#include "W3SIncs/War3Source_Logging"

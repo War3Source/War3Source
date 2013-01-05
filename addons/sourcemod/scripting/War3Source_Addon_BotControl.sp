@@ -29,7 +29,6 @@ new Handle:botBuysRandomMultipleChance = INVALID_HANDLE;
  
 public OnPluginStart()
 {
-
     // ########################## BOT EVASION ################################
     botEvasionCvar = CreateConVar("war3_bots_invisibility_gives_evasion", "1", "Should invisibility give evasion against bots?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
     
