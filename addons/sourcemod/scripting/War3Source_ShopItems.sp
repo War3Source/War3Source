@@ -32,7 +32,6 @@ enum {
 }
 
 new iShopitem[ITEM_LAST];
-new iMaskSoundDelay[MAXPLAYERSCUSTOM];
 new iTomeSoundDelay[MAXPLAYERSCUSTOM];
 
 // Offsets
@@ -56,7 +55,6 @@ new Handle:hMoleDeathmatchAllowedCvar;
 
 new String:sOldModel[MAXPLAYERSCUSTOM][256];// reset model after 10 seconds
 new String:sBuyTomeSound[256];//="war3source/tomes.mp3";
-new String:sMaskSound[256];//="war3source/mask.mp3";
 
 public OnPluginStart()
 {
@@ -80,7 +78,6 @@ public OnPluginStart()
 
     for(new i=1; i <= MaxClients; i++)
     {
-        iMaskSoundDelay[i] = War3_RegisterDelayTracker();
         iTomeSoundDelay[i] = War3_RegisterDelayTracker();
     }
 
@@ -117,6 +114,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
         {
             iShopitem[ITEM_HEALTH] = War3_CreateShopItemT("health", 3, 3000);
             iShopitem[ITEM_RESPAWN] = War3_CreateShopItemT("scroll", 15, 6000, false);
+            
+            War3_AddItemBuff(iShopitem[ITEM_HEALTH], iAdditionalMaxHealth, 50);
         }
 
         iShopitem[ITEM_TOME] = War3_CreateShopItemT("tome", 10, 10000);
@@ -127,9 +126,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
         War3_AddItemBuff(iShopitem[ITEM_ANTIWARD], bImmunityWards, true);
         War3_AddItemBuff(iShopitem[ITEM_SOCK], fLowGravityItem, GetConVarFloat(hSockGravityCvar));
         War3_AddItemBuff(iShopitem[ITEM_NECKLACE], bImmunityUltimates, true);
-        War3_AddItemBuff(iShopitem[ITEM_HEALTH], iAdditionalMaxHealth, 50);
         War3_AddItemBuff(iShopitem[ITEM_RING], fHPRegen, GetConVarFloat(hRegenHPCvar));
         War3_AddItemBuff(iShopitem[ITEM_BOOTS], fMaxSpeed, GetConVarFloat(hBootsSpeedCvar));
+        War3_AddItemBuff(iShopitem[ITEM_MASK], fVampirePercent, GetConVarFloat(hMaskLeechCvar));
     }
 }
 
@@ -138,16 +137,13 @@ public OnMapStart()
     if(GAMECSGO)
     {
         strcopy(sBuyTomeSound, sizeof(sBuyTomeSound), "music/war3source/tomes.mp3");
-        strcopy(sMaskSound, sizeof(sMaskSound), "music/war3source/mask.mp3");
     }
     else
     {
         strcopy(sBuyTomeSound, sizeof(sBuyTomeSound), "war3source/tomes.mp3");
-        strcopy(sMaskSound, sizeof(sMaskSound), "war3source/mask.mp3");
     }
 
     War3_PrecacheSound(sBuyTomeSound);
-    War3_PrecacheSound(sMaskSound);
     
     if(GAMECSGO)
     {
@@ -215,8 +211,8 @@ public StartMole(client)
 {
     new Float:fMoleTime=5.0;
     
-    PrintHintText(client, "%T","WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
-    War3_ChatMessage(client, "%T","WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
+    PrintHintText(client, "%T", "WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
+    War3_ChatMessage(client, "%T", "WARNING! MOLE IN {amount} SECONDS (item)!", client, fMoleTime);
     
     CreateTimer(0.2 + fMoleTime, DoMole, client);
 }
@@ -314,49 +310,6 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                 PrintToConsole(attacker, "%T", "ORB OF ITEM_FROST!", attacker);
                 PrintToConsole(victim, "%T", "Frosted, reducing your speed", victim);
                 CreateTimer(2.0, Timer_Unfrost, victim);
-            }
-
-            if(War3_GetOwnsItem(attacker, iShopitem[ITEM_MASK]))
-            {
-                // Mask should probably apply the fVampirismBuff
-                // But the Vampirism Engine needs a Forward to call when it
-                // leeches HP so mask can still do its sound
-                
-                new iOldHP = GetClientHealth(attacker);
-                new Float:fLeechPercentage = GetConVarFloat(hMaskLeechCvar);
-                if(fLeechPercentage < 0.0)
-                {
-                    fLeechPercentage = 0.0;
-                }
-                if(fLeechPercentage > 1.0)
-                {
-                    fLeechPercentage = 1.0;
-                }
-                new iLeechedHP = RoundFloat(FloatMul(float(damage), fLeechPercentage));
-                if(iLeechedHP > 40)
-                {
-                    // awp or any other weapon, just limit it
-                    iLeechedHP = 40; 
-                }
-                War3_HealToBuffHP(attacker, iLeechedHP);
-                new iNewHP = GetClientHealth(attacker);
-                
-                if(iNewHP > iOldHP)
-                {
-                    if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
-                    {
-                        EmitSoundToAll(sMaskSound, attacker);
-                        War3_TrackDelay(iMaskSoundDelay[attacker], 0.25);
-                    }
-                    
-                    if(War3_TrackDelayExpired(iMaskSoundDelay[victim]))
-                    {
-                        EmitSoundToAll(sMaskSound, victim);
-                        War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
-                    }
-                    
-                    War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
-                }
             }
         }
     }

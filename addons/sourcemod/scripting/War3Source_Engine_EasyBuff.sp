@@ -73,7 +73,7 @@ public Native_War3_AddItemBuff(Handle:plugin, numParams)
     new iItem = GetNativeCell(1);
     new W3Buff:buff = GetNativeCell(2);
     
-    for(new i = 0; i < GetArraySize(g_hSkillBuffs); i++)
+    for(new i = 0; i < GetArraySize(g_hItemBuffs); i++)
     {
         if(GetArrayCell(g_hBuffItem, i) == iItem && 
            GetArrayCell(g_hItemBuffs, i) == buff)
