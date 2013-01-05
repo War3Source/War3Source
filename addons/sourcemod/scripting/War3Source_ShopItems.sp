@@ -123,6 +123,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
         War3_SetItemProperty(iShopitem[ITEM_TOME], ITEM_USED_ON_BUY, true);
 
         iShopitem[ITEM_SOCK] = War3_CreateShopItemT("sock", 2, 1500);
+        
+        War3_AddItemBuff(iShopitem[ITEM_ANTIWARD], bImmunityWards, true);
+        War3_AddItemBuff(iShopitem[ITEM_SOCK], fLowGravityItem, GetConVarFloat(hSockGravityCvar));
+        War3_AddItemBuff(iShopitem[ITEM_NECKLACE], bImmunityUltimates, true);
+        War3_AddItemBuff(iShopitem[ITEM_HEALTH], iAdditionalMaxHealth, 50);
+        War3_AddItemBuff(iShopitem[ITEM_RING], fHPRegen, GetConVarFloat(hRegenHPCvar));
+        War3_AddItemBuff(iShopitem[ITEM_BOOTS], fMaxSpeed, GetConVarFloat(hBootsSpeedCvar));
     }
 }
 
@@ -375,38 +382,24 @@ public OnItemPurchase(client,item)
     }
 
     if(item == iShopitem[ITEM_BOOTS])
-    {
-        War3_SetBuffItem(client, fMaxSpeed, iShopitem[ITEM_BOOTS], GetConVarFloat(hBootsSpeedCvar));
-        
+    {       
         if(IsPlayerAlive(client))
         {
             War3_ChatMessage(client, "%T", "You strap on your boots", client);
         }
     }
     
-    if(item == iShopitem[ITEM_ANTIWARD])
-    {
-        War3_SetBuffItem(client, bImmunityWards, iShopitem[ITEM_ANTIWARD], true);
-    }
-    
     if(item == iShopitem[ITEM_SOCK])
     {
-        War3_SetBuffItem(client, fLowGravityItem, iShopitem[ITEM_SOCK], GetConVarFloat(hSockGravityCvar));
-        
+       
         if(IsPlayerAlive(client))
         {
             War3_ChatMessage(client, "%T", "You pull on your socks", client);
         }
     }
     
-    if(item == iShopitem[ITEM_NECKLACE])
-    {
-        War3_SetBuffItem(client, bImmunityUltimates, iShopitem[ITEM_NECKLACE], true);
-    }
-    
     if(War3_GetGame() != Game_TF && item == iShopitem[ITEM_HEALTH] && IsPlayerAlive(client))
     {
-        War3_SetBuffItem(client, iAdditionalMaxHealth, iShopitem[ITEM_HEALTH], 50);
         War3_ChatMessage(client, "%T", "+50 HP", client);
     }
     
@@ -441,12 +434,6 @@ public OnItemPurchase(client,item)
         }
     }
     
-    if(item == iShopitem[ITEM_RING])
-    {
-        new Float:fHPToRegen = GetConVarFloat(hRegenHPCvar);
-        War3_SetBuffItem(client, fHPRegen, iShopitem[ITEM_RING], fHPToRegen);
-    }
-    
     if(War3_GetGame() != Game_TF && item == iShopitem[ITEM_RESPAWN])
     {
         bSpawnedViaScrollRespawn[client]=false;
@@ -470,38 +457,16 @@ public OnItemLost(client, item)
         return;
     }
 
-    if(item == iShopitem[ITEM_SOCK])
-    {
-        War3_SetBuffItem(client, fLowGravityItem, iShopitem[ITEM_SOCK], 1.0);
-    }
     else if(item == iShopitem[ITEM_HEALTH])
     {
-        War3_SetBuffItem(client, iAdditionalMaxHealth, iShopitem[ITEM_HEALTH], 0);
-
         if(GetClientHealth(client) > War3_GetMaxHP(client))
         {
             SetEntityHealth(client, War3_GetMaxHP(client));
         }
     }
-    else if(item == iShopitem[ITEM_BOOTS])
-    {
-        War3_SetBuffItem(client, fMaxSpeed, iShopitem[ITEM_BOOTS], 1.0);
-    }
-    else if(item == iShopitem[ITEM_ANTIWARD])
-    {
-        War3_SetBuffItem(client, bImmunityWards, iShopitem[ITEM_ANTIWARD], false);
-    }
     else if(item == iShopitem[ITEM_CLOAK])
     {
         War3_SetBuffItem(client, fInvisibilityItem, iShopitem[ITEM_CLOAK], 1.0);
-    }
-    if(item == iShopitem[ITEM_NECKLACE]) 
-    {
-        War3_SetBuffItem(client, bImmunityUltimates, iShopitem[ITEM_NECKLACE], false);
-    }
-    if(item == iShopitem[ITEM_RING])
-    {
-        War3_SetBuffItem(client, fHPRegen, iShopitem[ITEM_RING], 0.0);
     }
 }
 
