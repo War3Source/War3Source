@@ -9,16 +9,23 @@ public Plugin:myinfo =
 };
 
 new War3_LogLevel:iLogLevel;
+new iPrintToConsole;
+
 new Handle:g_hLogLevel = INVALID_HANDLE;
+new Handle:g_hPrintToServer = INVALID_HANDLE;
 new Handle:hW3Log = INVALID_HANDLE;
 new Handle:hGlobalErrorFwd = INVALID_HANDLE;
 
 public OnPluginStart()
 {
     g_hLogLevel = CreateConVar("war3_log_level", "1", "Set the log level for War3Source", FCVAR_PLUGIN, true, 0.0, true, 4.0); // 0 and 4? I know, ugly :(
+    g_hPrintToServer = CreateConVar("war3_log_print_to_server", "1", "Toggle logging to the server console", FCVAR_PLUGIN, true, 0.0, true, 1.0);
     
     iLogLevel = War3_LogLevel:GetConVarInt(g_hLogLevel);
     HookConVarChange(g_hLogLevel, ConVarChange_LogLevel);
+    
+    iPrintToConsole = GetConVarInt(g_hPrintToServer);
+    HookConVarChange(g_hPrintToServer, ConVarChange_PrintToServer)
 }
 
 public ConVarChange_LogLevel(Handle:convar, const String:oldValue[], const String:newValue[])
@@ -26,18 +33,21 @@ public ConVarChange_LogLevel(Handle:convar, const String:oldValue[], const Strin
     iLogLevel = War3_LogLevel:StringToInt(newValue);
 }
 
+public ConVarChange_PrintToServer(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+    iPrintToConsole = StringToInt(newValue);
+}
+
 public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err_max)
 {
-
     new String:sLogPath[1024];
-    BuildPath(Path_SM, sLogPath, sizeof(sLogPath), "logs/war3source.log");
-    new Handle:hFile = OpenFile(sLogPath, "a+");
-    if(hFile)
-    {
-        CloseHandle(hFile);
-        DeleteFile(sLogPath);
-    }
-
+    
+    decl String:sLogfilePath[64];
+    decl String:sDate[32];
+    FormatTime(sDate, sizeof(sDate), "%Y%m%d");
+    Format(sLogfilePath, sizeof(sLogfilePath), "logs/war3source_%s.log", sDate)
+    
+    BuildPath(Path_SM, sLogPath, sizeof(sLogPath), sLogfilePath);
     hW3Log = OpenFile(sLogPath, "a+");
 
     return APLRes_Success;
@@ -66,9 +76,13 @@ War3_LogGeneric(String:sMessage[])
         FormatTime(sDate, sizeof(sDate), "%c");
         Format(sOutput, sizeof(sOutput), "[%s] %s", sDate, sMessage);
         
-        PrintToServer(sOutput);
         WriteFileLine(hW3Log, sOutput);
         FlushFile(hW3Log);
+        
+        if(iPrintToConsole)
+        {
+            PrintToServer(sOutput);
+        }
     }
 }
 
