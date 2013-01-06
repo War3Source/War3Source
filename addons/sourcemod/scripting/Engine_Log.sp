@@ -36,7 +36,7 @@ new Handle:hRegexID = INVALID_HANDLE;
 public OnPluginStart()
 {
     g_hLogLevel = CreateConVar("war3_log_level", "1", "Set the log level for War3Source", FCVAR_PLUGIN, true, 0.0, true, 4.0); // 0 and 4? I know, ugly :(
-    g_hPrintToServer = CreateConVar("war3_log_print_to_server", "1", "Toggle logging to the server console", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+    g_hPrintToServer = CreateConVar("war3_log_print_to_server", "1", "Toggle logging to the server console. Note that critical errors are always printed to the console", FCVAR_PLUGIN, true, 0.0, true, 1.0);
     
     iLogLevel = War3_LogLevel:GetConVarInt(g_hLogLevel);
     HookConVarChange(g_hLogLevel, ConVarChange_LogLevel);
@@ -210,7 +210,7 @@ War3_LogGeneric(String:sMessage[], maxlength, Handle:hSourcePlugin, War3_LogSeve
         WriteFileLine(hW3Log, sOutput);
         FlushFile(hW3Log);
         
-        if(iPrintToConsole)
+        if(iPrintToConsole || logSeverity == SEVERITY_CRITICAL)
         {
             PrintToServer(sOutput);
         }
