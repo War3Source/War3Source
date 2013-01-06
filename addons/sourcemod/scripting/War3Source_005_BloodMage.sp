@@ -103,13 +103,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(reviveSound,sizeof(reviveSound),"music/war3source/reincarnation.mp3");
-    }
-    else
-    {
-        strcopy(reviveSound,sizeof(reviveSound),"war3source/reincarnation.mp3");
-    }
+    War3_AddSoundFolder(reviveSound, sizeof(reviveSound), "reincarnation.mp3");
+
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     //we gonna use theese bloodsprite as "money blood"(change color)

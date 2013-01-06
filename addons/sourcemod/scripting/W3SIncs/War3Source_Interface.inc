@@ -1737,7 +1737,31 @@ stock CheckRaceTeamLimit(raceid, team){
         
         W3CreateEvent(DoShowChangeRaceMenu,target);
     }
+}
+
+/**
+ * Extends the path to a sound clip with the correct prefix
+ */
+stock War3_AddSoundFolder(String:sBaseString[], maxlength, String:sSoundFile[])
+{
+    Format(sBaseString, maxlength, GAMECSGO ? "music/war3source/%s" : "war3source/%s", sSoundFile);
     
+    War3_LogInfo("Constructed sound path: \"%s\"", sBaseString);
+}
+
+/**
+ * Get the hint sound effect for the current game
+ */
+stock War3_GetHintSound(String:sSoundFile[], maxlength)
+{
+    if(GAMECSGO)
+    {
+        strcopy(sSoundFile, maxlength, "music/war3source/csgo/ui/hint.mp3");
+    }
+    else
+    {
+        strcopy(sSoundFile, maxlength, "UI/hint.wav");
+    }
 }
 
 #include "W3SIncs/stocks_precache"

@@ -35,15 +35,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(sMaskSound, sizeof(sMaskSound), "music/war3source/mask.mp3");
-    }
-    else
-    {
-        strcopy(sMaskSound, sizeof(sMaskSound), "war3source/mask.mp3");
-    }
-
+    War3_AddSoundFolder(sMaskSound, sizeof(sMaskSound), "mask.mp3");
     War3_PrecacheSound(sMaskSound);
 }
 

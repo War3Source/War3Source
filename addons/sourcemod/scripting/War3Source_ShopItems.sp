@@ -54,7 +54,7 @@ new Handle:hRegenHPCvar;
 new Handle:hMoleDeathmatchAllowedCvar;
 
 new String:sOldModel[MAXPLAYERSCUSTOM][256];// reset model after 10 seconds
-new String:sBuyTomeSound[256];//="war3source/tomes.mp3";
+new String:sBuyTomeSound[256];
 
 public OnPluginStart()
 {
@@ -134,15 +134,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(sBuyTomeSound, sizeof(sBuyTomeSound), "music/war3source/tomes.mp3");
-    }
-    else
-    {
-        strcopy(sBuyTomeSound, sizeof(sBuyTomeSound), "war3source/tomes.mp3");
-    }
-
+    War3_AddSoundFolder(sBuyTomeSound, sizeof(sBuyTomeSound), "tomes.mp3");
     War3_PrecacheSound(sBuyTomeSound);
     
     if(GAMECSGO)

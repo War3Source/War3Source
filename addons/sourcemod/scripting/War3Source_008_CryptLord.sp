@@ -63,14 +63,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/locustswarmloop.mp3");
-    }
-    else
-    {
-        strcopy(ultimateSound,sizeof(ultimateSound),"war3source/locustswarmloop.mp3");
-    }
-
+    War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "locustswarmloop.mp3");
     War3_PrecacheSound(ultimateSound);
 }
 

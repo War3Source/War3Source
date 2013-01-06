@@ -57,16 +57,8 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(tribunal,sizeof(tribunal),"music/war3source/darkelf/tribunal.mp3");
-        strcopy(darkorb,sizeof(darkorb),"music/war3source/darkelf/darkorb.mp3");
-    }
-    else
-    {
-        strcopy(tribunal,sizeof(tribunal),"war3source/darkelf/tribunal.mp3");
-        strcopy(darkorb,sizeof(darkorb),"war3source/darkelf/darkorb.mp3");
-    }
+    War3_AddSoundFolder(tribunal, sizeof(tribunal), "darkelf/tribunal.mp3");
+    War3_AddSoundFolder(darkorb, sizeof(darkorb), "darkelf/darkorb.mp3");
 
     //Only precache them on TF2
     if(War3_GetGame()==Game_TF)

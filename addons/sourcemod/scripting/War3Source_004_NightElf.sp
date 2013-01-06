@@ -36,14 +36,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(entangleSound, sizeof(entangleSound), "music/war3source/entanglingrootsdecay1.mp3");
-    }
-    else
-    {
-        strcopy(entangleSound, sizeof(entangleSound), "war3source/entanglingrootsdecay1.mp3");
-    }
+    War3_AddSoundFolder(entangleSound, sizeof(entangleSound), "entanglingrootsdecay1.mp3");
 
     BeamSprite = War3_PrecacheBeamSprite();
     HaloSprite = War3_PrecacheHaloSprite();

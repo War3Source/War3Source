@@ -100,15 +100,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(shadowstrikestr,sizeof(shadowstrikestr),"music/war3source/shadowstrikebirth.mp3");
-        strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/MiniSpiritPissed1.mp3");
-    }
-    else
-    {
-        strcopy(shadowstrikestr,sizeof(shadowstrikestr),"war3source/shadowstrikebirth.mp3");
-        strcopy(ultimateSound,sizeof(ultimateSound),"war3source/MiniSpiritPissed1.mp3");
-    }
+    War3_AddSoundFolder(shadowstrikestr, sizeof(shadowstrikestr), "shadowstrikebirth.mp3");
+    War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "MiniSpiritPissed1.mp3");
 
     War3_PrecacheSound(shadowstrikestr);
     War3_PrecacheSound(ultimateSound);

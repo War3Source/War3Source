@@ -26,15 +26,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(sBuyItemSound, sizeof(sBuyItemSound), "music/war3source/ui/ReceiveGold.mp3");
-    }
-    else
-    {
-        strcopy(sBuyItemSound, sizeof(sBuyItemSound), "war3source/ui/ReceiveGold.mp3");
-    }
-
+    War3_AddSoundFolder(sBuyItemSound, sizeof(sBuyItemSound), "ui/ReceiveGold.mp3");
     War3_PrecacheSound(sBuyItemSound);
 }
 

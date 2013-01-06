@@ -65,19 +65,10 @@ stock bool:IsOurRace(client) {
 }
 
 
-public OnMapStart() { //some precaches
-  //PrecacheSound("npc/zombie/zombie_pain2.wav");
-    if(GAMECSGO)
-    {
-        strcopy(skill1snd,sizeof(skill1snd),"music/war3source/naix/predskill1.mp3");
-        strcopy(ultsnd,sizeof(ultsnd),"music/war3source/naix/predult.mp3");
-    }
-    else
-    {
-        strcopy(skill1snd,sizeof(skill1snd),"war3source/naix/predskill1.mp3");
-        strcopy(ultsnd,sizeof(ultsnd),"war3source/naix/predult.mp3");
-    }
-
+public OnMapStart() 
+{ 
+    War3_AddSoundFolder(skill1snd, sizeof(skill1snd), "naix/predskill1.mp3");
+    War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "naix/predult.mp3");
 
     War3_PrecacheSound(skill1snd);
     War3_PrecacheSound(ultsnd);

@@ -70,13 +70,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(ultsnd,sizeof(ultsnd),"music/war3source/bh/ult.mp3");
-    }
-    else
-    {
-        strcopy(ultsnd,sizeof(ultsnd),"war3source/bh/ult.mp3");
-    }
+    War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "bh/ult.mp3");
 
     War3_PrecacheSound(ultsnd);
 }

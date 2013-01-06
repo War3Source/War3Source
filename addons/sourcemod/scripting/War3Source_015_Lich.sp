@@ -68,18 +68,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(ultsnd,sizeof(ultsnd),"music/war3source/lich/attack_single2.mp3");
-        strcopy(novasnd,sizeof(novasnd),"music/war3source/lich/ping_patrol.mp3");
-    }
-    else
-    {
-        strcopy(ultsnd,sizeof(ultsnd),"war3source/lich/attack_single2.mp3");
-        strcopy(novasnd,sizeof(novasnd),"war3source/lich/ping_patrol.mp3");
-    }
+    War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "lich/attack_single2.mp3");
+    War3_AddSoundFolder(novasnd, sizeof(novasnd), "lich/ping_patrol.mp3");
 
-    
     War3_PrecacheSound(ultsnd);
     War3_PrecacheSound(novasnd);
     BeamSprite=War3_PrecacheBeamSprite();

@@ -19,21 +19,10 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(helmSound0,sizeof(helmSound0),"music/war3source/helm/metal_solid_impact_bullet1.mp3");
-        strcopy(helmSound1,sizeof(helmSound1),"music/war3source/helm/metal_solid_impact_bullet2.mp3");
-        strcopy(helmSound2,sizeof(helmSound2),"music/war3source/helm/metal_solid_impact_bullet3.mp3");
-        strcopy(helmSound3,sizeof(helmSound3),"music/war3source/helm/metal_solid_impact_bullet4.mp3");
-    }
-    else
-    {
-        strcopy(helmSound0,sizeof(helmSound0),"war3source/helm/metal_solid_impact_bullet1.mp3");
-        strcopy(helmSound1,sizeof(helmSound1),"war3source/helm/metal_solid_impact_bullet2.mp3");
-        strcopy(helmSound2,sizeof(helmSound2),"war3source/helm/metal_solid_impact_bullet3.mp3");
-        strcopy(helmSound3,sizeof(helmSound3),"war3source/helm/metal_solid_impact_bullet4.mp3");
-    }
-
+    War3_AddSoundFolder(helmSound0, sizeof(helmSound0), "helm/metal_solid_impact_bullet1.mp3");
+    War3_AddSoundFolder(helmSound1, sizeof(helmSound1), "helm/metal_solid_impact_bullet2.mp3");
+    War3_AddSoundFolder(helmSound2, sizeof(helmSound2), "helm/metal_solid_impact_bullet3.mp3");
+    War3_AddSoundFolder(helmSound3, sizeof(helmSound3), "helm/metal_solid_impact_bullet4.mp3");
 
     War3_PrecacheSound(helmSound0);
     War3_PrecacheSound(helmSound1);

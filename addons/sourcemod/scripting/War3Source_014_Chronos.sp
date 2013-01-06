@@ -75,16 +75,8 @@ public Action:Cmdbashme(client,args){
 new glowsprite;
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(leapsnd,sizeof(leapsnd),"music/war3source/chronos/timeleap.mp3");
-        strcopy(spheresnd,sizeof(spheresnd),"music/war3source/chronos/sphere.mp3");
-    }
-    else
-    {
-        strcopy(leapsnd,sizeof(leapsnd),"war3source/chronos/timeleap.mp3");
-        strcopy(spheresnd,sizeof(spheresnd),"war3source/chronos/sphere.mp3");
-    }
+    War3_AddSoundFolder(leapsnd, sizeof(leapsnd), "chronos/timeleap.mp3");
+    War3_AddSoundFolder(spheresnd, sizeof(spheresnd), "chronos/sphere.mp3");
 
     War3_PrecacheSound(leapsnd);
     War3_PrecacheSound(spheresnd);

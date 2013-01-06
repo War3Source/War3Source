@@ -105,14 +105,7 @@ public OnPluginStart()
 }
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(levelupSound,sizeof(levelupSound),"music/war3source/levelupcaster.mp3");
-    }
-    else
-    {
-        strcopy(levelupSound,sizeof(levelupSound),"war3source/levelupcaster.mp3");
-    }
-
+    War3_AddSoundFolder(levelupSound, sizeof(levelupSound), "levelupcaster.mp3");
     War3_PrecacheSound(levelupSound);
 }
 public bool:InitNativesForwards()

@@ -95,23 +95,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(taunt1,sizeof(taunt1),"music/war3source/cd/feeltheburn2.mp3");
-        strcopy(taunt2,sizeof(taunt2),"music/war3source/cd/feeltheburn3.mp3");
-        strcopy(overload1,sizeof(overload1),"music/war3source/cd/overload2.mp3");
-        strcopy(overloadzap,sizeof(overloadzap),"music/war3source/cd/overloadzap.mp3");
-        strcopy(overloadstate,sizeof(overloadstate),"music/war3source/cd/ultstate.mp3");
-    }
-    else
-    {
-        strcopy(taunt1,sizeof(taunt1),"war3source/cd/feeltheburn2.mp3");
-        strcopy(taunt2,sizeof(taunt2),"war3source/cd/feeltheburn3.mp3");
-        strcopy(overload1,sizeof(overload1),"war3source/cd/overload2.mp3");
-        strcopy(overloadzap,sizeof(overloadzap),"war3source/cd/overloadzap.mp3");
-        strcopy(overloadstate,sizeof(overloadstate),"war3source/cd/ultstate.mp3");
-    }
-
+    War3_AddSoundFolder(taunt1, sizeof(taunt1), "cd/feeltheburn2.mp3");
+    War3_AddSoundFolder(taunt2, sizeof(taunt2), "cd/feeltheburn3.mp3");
+    War3_AddSoundFolder(overload1, sizeof(overload1), "cd/overload2.mp3");
+    War3_AddSoundFolder(overloadzap, sizeof(overloadzap), "cd/overloadzap.mp3");
+    War3_AddSoundFolder(overloadstate, sizeof(overloadstate), "cd/ultstate.mp3");
 
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();

@@ -45,15 +45,8 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO) {
-        strcopy(beamsnd,sizeof(beamsnd),"music/war3source/moonqueen/beam.mp3");
-        strcopy(lunasnd2,sizeof(lunasnd2),"music/war3source/flashbang_explode2.mp3");
-    }
-    else
-    {
-        strcopy(beamsnd,sizeof(beamsnd),"war3source/moonqueen/beam.mp3");
-        strcopy(lunasnd2,sizeof(lunasnd2),"weapons/flashbang/flashbang_explode2.wav");
-    }
+    War3_AddSoundFolder(beamsnd, sizeof(beamsnd), "moonqueen/beam.mp3");
+    War3_AddSoundFolder(lunasnd2, sizeof(lunasnd2), "flashbang_explode2.mp3");
 
     War3_PrecacheSound( beamsnd );
     if(GameCS()) {

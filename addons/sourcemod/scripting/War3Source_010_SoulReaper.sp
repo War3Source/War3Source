@@ -66,16 +66,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(judgesnd,sizeof(judgesnd),"music/war3source/sr/judgement.mp3");
-        strcopy(ultsnd,sizeof(ultsnd),"music/war3source/sr/ult.mp3");
-    }
-    else
-    {
-        strcopy(judgesnd,sizeof(judgesnd),"war3source/sr/judgement.mp3");
-        strcopy(ultsnd,sizeof(ultsnd),"war3source/sr/ult.mp3");
-    }
+    War3_AddSoundFolder(judgesnd, sizeof(judgesnd), "sr/judgement.mp3");
+    War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "sr/ult.mp3");
 
     War3_PrecacheSound(judgesnd);
     War3_PrecacheSound(ultsnd);
