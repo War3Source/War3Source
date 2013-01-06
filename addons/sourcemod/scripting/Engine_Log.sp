@@ -59,6 +59,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_LogWarning", Native_War3_LogWarning);
     CreateNative("War3_LogError", Native_War3_LogError);
     CreateNative("War3_LogCritical", Native_War3_LogCritical);
+    CreateNative("War3_GetLogLevel", Native_War3_GetLogLevel);
 
     CreateNative("CreateWar3GlobalError", NCreateWar3GlobalError);
     hGlobalErrorFwd = CreateGlobalForward("OnWar3GlobalError", ET_Ignore, Param_String);
@@ -142,8 +143,14 @@ public Native_War3_LogInfo(Handle:plugin, numParams)
     }
 }
 
+public Native_War3_GetLogLevel(Handle:plugin, numParams)
+{
+    return _:iLogLevel;
+}
+
 // what is this even good for
-public NCreateWar3GlobalError(Handle:plugin, numParams){
+public NCreateWar3GlobalError(Handle:plugin, numParams)
+{
     decl String:outstr[1000];
     
     FormatNativeString(0, 1, 2, sizeof(outstr), _, outstr);

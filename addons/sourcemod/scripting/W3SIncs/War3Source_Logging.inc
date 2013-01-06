@@ -23,3 +23,8 @@ native War3_LogError(const String:fmt[], any:...);
  * Log a critical message. Something has gone very wrong and we're unable to handle it.
  */
 native War3_LogCritical(const String:fmt[], any:...);
+
+/**
+ * Get the current log level
+ */
+native War3_LogLevel:War3_GetLogLevel();
