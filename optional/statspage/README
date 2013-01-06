@@ -1,0 +1,4 @@
+Installation Guide:
+* Compile War3Source_Addon_Statspage and put it in your plugins directory
+* Move the content of the php folder to your webhost
+* Edit config.php to reflect the correct settings
