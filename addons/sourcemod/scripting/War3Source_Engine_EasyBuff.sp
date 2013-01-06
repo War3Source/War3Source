@@ -51,7 +51,7 @@ public Native_War3_AddSkillBuff(Handle:plugin, numParams)
            GetArrayCell(g_hBuffSkill, i) == iSkill &&
            GetArrayCell(g_hSkillBuffs, i) == buff)
         {
-            War3_LogInfo("EasyBuff: Skipping buff %i for skill \"{skill %i}\" in \"{race %i}\": Already exists!", buff, iSkill, iRace);
+            War3_LogInfo("Skipping buff %i for skill \"{skill %i}\" in \"{race %i}\": Already exists!", buff, iSkill, iRace);
             return;
         }
     }
@@ -78,7 +78,7 @@ public Native_War3_AddItemBuff(Handle:plugin, numParams)
         if(GetArrayCell(g_hBuffItem, i) == iItem && 
            GetArrayCell(g_hItemBuffs, i) == buff)
         {
-            War3_LogInfo("EasyBuff: Skipping buff %i for item \"{item %i}\": Already exists!", buff, iItem);
+            War3_LogInfo("Skipping buff %i for item \"{item %i}\": Already exists!", buff, iItem);
             return;
         }
     }
@@ -120,7 +120,7 @@ ResetSkills(client, race)
         if(GetArrayCell(g_hBuffRace, i) == race)
         {
             new W3Buff:buff = W3Buff:GetArrayCell(g_hSkillBuffs, i);
-            War3_LogInfo("EasyBuff: Resetting the buff %i from race {race %i} on \"{client %i}\"", buff, race, client);
+            War3_LogInfo("Resetting the buff %i from race {race %i} on \"{client %i}\"", buff, race, client);
 
             W3ResetBuffRace(client, buff, race);
         }
@@ -137,7 +137,7 @@ InitSkills(client, race)
             new iLevel = War3_GetSkillLevel(client, race, iSkill);
             new W3Buff:buff = W3Buff:GetArrayCell(g_hSkillBuffs, i);
             new any:value = GetArrayCell(g_hBuffSkillValues, i, iLevel);
-            War3_LogInfo("EasyBuff: Giving buff %i with a magnitude of %f to player \"{client %i}\" (Playing race \"{race %i}\" with skill \"{skill %i}\" at level %i", buff, value, client, race, iSkill, iLevel);
+            War3_LogInfo("Giving buff %i with a magnitude of %f to player \"{client %i}\" (Playing race \"{race %i}\" with skill \"{skill %i}\" at level %i", buff, value, client, race, iSkill, iLevel);
 
             War3_SetBuff(client, buff, race, value);
         }
@@ -163,7 +163,7 @@ ResetItems(client, item)
         if(GetArrayCell(g_hBuffItem, i) == item)
         {
             new W3Buff:buff = W3Buff:GetArrayCell(g_hItemBuffs, i);
-            War3_LogInfo("EasyBuff: Resetting the buff %i from item {item %i} on \"{client %i}\"", buff, item, client);
+            War3_LogInfo("Resetting the buff %i from item {item %i} on \"{client %i}\"", buff, item, client);
 
             W3ResetBuffItem(client, buff, item);
         }
@@ -179,7 +179,7 @@ InitItems(client, item)
             new any:value = GetArrayCell(g_hItemBuffValue, i);
             new W3Buff:buff = W3Buff:GetArrayCell(g_hItemBuffs, i);
             
-            War3_LogInfo("EasyBuff: Giving buff %i with a magnitude of %f to player \"{client %i}\" (Owning item \"{item %i}\"", buff, value, client, item);
+            War3_LogInfo("Giving buff %i with a magnitude of %f to player \"{client %i}\" (Owning item \"{item %i}\"", buff, value, client, item);
             War3_SetBuffItem(client, buff, item, value);
         }
     }

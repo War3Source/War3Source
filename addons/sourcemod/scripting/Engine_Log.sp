@@ -9,6 +9,14 @@ public Plugin:myinfo =
     description = "Log messages to a file"
 };
 
+enum War3_LogSeverity
+{
+    SEVERITY_CRITICAL,
+    SEVERITY_ERROR,
+    SEVERITY_WARNING,
+    SEVERITY_INFO
+};
+
 new War3_LogLevel:iLogLevel;
 new iPrintToConsole;
 
@@ -165,17 +173,39 @@ MakeReadable(String:sUnreadable[], maxlength)
     }
 }
 
-War3_LogGeneric(String:sMessage[], maxlength)
+War3_LogGeneric(String:sMessage[], maxlength, Handle:hSourcePlugin, War3_LogSeverity:logSeverity)
 {
     if(hW3Log != INVALID_HANDLE)
     {
         MakeReadable(sMessage, maxlength);
         
-        decl String:sOutput[256];
+        decl String:sOutput[1000];
+        decl String:sFileName[256];
         decl String:sDate[32];
         
         FormatTime(sDate, sizeof(sDate), "%c");
-        Format(sOutput, sizeof(sOutput), "[%s] %s", sDate, sMessage);
+        GetPluginFilename(hSourcePlugin, sFileName, sizeof(sFileName)); 
+        Format(sOutput, sizeof(sOutput), "[%s] <%s>: %s", sDate, sFileName, sMessage);
+        
+        switch (logSeverity)
+        {
+            case SEVERITY_CRITICAL:
+            {
+                Format(sOutput, sizeof(sOutput), "CRITICAL: %s", sOutput);
+            }
+            case SEVERITY_ERROR:
+            {
+                Format(sOutput, sizeof(sOutput), "ERROR: %s", sOutput);
+            }
+            case SEVERITY_WARNING:
+            {
+                Format(sOutput, sizeof(sOutput), "WARNING: %s", sOutput);
+            }
+            case SEVERITY_INFO:
+            {
+                Format(sOutput, sizeof(sOutput), "INFO: %s", sOutput);
+            }
+        }
         
         WriteFileLine(hW3Log, sOutput);
         FlushFile(hW3Log);
@@ -194,10 +224,7 @@ public Native_War3_LogCritical(Handle:plugin, numParams)
         decl String:sMessage[1000];
         FormatNativeString(0, 1, 2, sizeof(sMessage), _, sMessage);
         
-        decl String:sOutput[256];
-        Format(sOutput, sizeof(sOutput), "CRITICAL: %s", sMessage);
-        
-        War3_LogGeneric(sOutput, sizeof(sOutput));
+        War3_LogGeneric(sMessage, sizeof(sMessage), plugin, SEVERITY_CRITICAL);
     }
 }
 
@@ -208,10 +235,7 @@ public Native_War3_LogError(Handle:plugin, numParams)
         decl String:sMessage[1000];
         FormatNativeString(0, 1, 2, sizeof(sMessage), _, sMessage);
         
-        decl String:sOutput[256];
-        Format(sOutput, sizeof(sOutput), "ERROR: %s", sMessage);
-        
-        War3_LogGeneric(sOutput, sizeof(sOutput));
+        War3_LogGeneric(sMessage, sizeof(sMessage), plugin, SEVERITY_ERROR);
     }
 }
 
@@ -222,10 +246,7 @@ public Native_War3_LogWarning(Handle:plugin, numParams)
         decl String:sMessage[1000];
         FormatNativeString(0, 1, 2, sizeof(sMessage), _, sMessage);
         
-        decl String:sOutput[256];
-        Format(sOutput, sizeof(sOutput), "WARNING: %s", sMessage);
-        
-        War3_LogGeneric(sOutput, sizeof(sOutput));
+        War3_LogGeneric(sMessage, sizeof(sMessage), plugin, SEVERITY_WARNING);
     }
 }
 
@@ -236,10 +257,7 @@ public Native_War3_LogInfo(Handle:plugin, numParams)
         decl String:sMessage[1000];
         FormatNativeString(0, 1, 2, sizeof(sMessage), _, sMessage);
         
-        decl String:sOutput[256];
-        Format(sOutput, sizeof(sOutput), "INFO: %s", sMessage);
-        
-        War3_LogGeneric(sOutput, sizeof(sOutput));
+        War3_LogGeneric(sMessage, sizeof(sMessage), plugin, SEVERITY_INFO);
     }
 }
 
