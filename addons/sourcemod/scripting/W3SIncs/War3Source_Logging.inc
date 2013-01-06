@@ -4,6 +4,27 @@
  * Author(s): War3Source Team  
  */
 
+enum War3_LogLevel
+{
+    LOG_LEVEL_OFF,
+    LOG_LEVEL_CRITICAL,
+    LOG_LEVEL_ERROR,
+    LOG_LEVEL_WARNING,
+    LOG_LEVEL_INFO
+};
+
+/**
+ * General logging documentation:
+ * 
+ * When you print log messages there's certain keywords that will get replaced
+ * to make the log more readable. The keywords are the following:
+ * 
+ * {race <raceid>} - replaced with the full name of the race.
+ * {item <itemid>} - replaced with the full name of the item.
+ * {client <clientid>} - replaced with the name of the client.
+ * 
+ */
+
 /**
  * Log a info message. Info messages are mainly for debugging.
  */

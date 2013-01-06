@@ -1,4 +1,5 @@
 #include <sourcemod>
+#include <regex>
 #include "W3SIncs/War3Source_Interface"
 
 public Plugin:myinfo = 
@@ -16,6 +17,14 @@ new Handle:g_hPrintToServer = INVALID_HANDLE;
 new Handle:hW3Log = INVALID_HANDLE;
 new Handle:hGlobalErrorFwd = INVALID_HANDLE;
 
+// Log prettifier
+new Handle:hRegexRace = INVALID_HANDLE;
+new Handle:hRegexItem = INVALID_HANDLE;
+new Handle:hRegexSkill = INVALID_HANDLE;
+new Handle:hRegexClient = INVALID_HANDLE;
+new Handle:hRegexID = INVALID_HANDLE;
+
+
 public OnPluginStart()
 {
     g_hLogLevel = CreateConVar("war3_log_level", "1", "Set the log level for War3Source", FCVAR_PLUGIN, true, 0.0, true, 4.0); // 0 and 4? I know, ugly :(
@@ -25,7 +34,7 @@ public OnPluginStart()
     HookConVarChange(g_hLogLevel, ConVarChange_LogLevel);
     
     iPrintToConsole = GetConVarInt(g_hPrintToServer);
-    HookConVarChange(g_hPrintToServer, ConVarChange_PrintToServer)
+    HookConVarChange(g_hPrintToServer, ConVarChange_PrintToServer);
 }
 
 public ConVarChange_LogLevel(Handle:convar, const String:oldValue[], const String:newValue[])
@@ -67,13 +76,104 @@ public bool:InitNativesForwards()
     return true;
 }
 
+ReadRawFromString(String:sInput[], maxlength, Handle:hRegex)
+{
+    GetRegexSubString(hRegex, 0, sInput, maxlength);
 
-War3_LogGeneric(String:sMessage[])
+    decl String:sDummy[128];
+    MatchRegex(hRegexID, sInput);
+    GetRegexSubString(hRegexID, 0, sDummy, sizeof(sDummy));
+
+    return StringToInt(sDummy);
+}
+
+MakeReadable(String:sUnreadable[], maxlength)
+{
+    // Sadly sourcemod doesn't handle regex groups x_X
+    if(hRegexRace == INVALID_HANDLE)
+    {
+        hRegexRace = CompileRegex("{race (\\d+)}");
+    }
+    if(hRegexItem == INVALID_HANDLE)
+    {
+        hRegexItem = CompileRegex("{item (\\d+)}");
+    }
+    if(hRegexSkill == INVALID_HANDLE)
+    {
+        hRegexSkill = CompileRegex("{skill (\\d+)}");
+    }
+    if(hRegexClient == INVALID_HANDLE)
+    {
+        hRegexClient = CompileRegex("{client (\\d+)}");
+    }
+    
+    if(hRegexID == INVALID_HANDLE)
+    {
+        hRegexID = CompileRegex("\\d+");
+    }
+    
+    // Replace race ids with their name
+    if(MatchRegex(hRegexRace, sUnreadable) > 0)
+    {
+        decl String:sRaceRaw[64];
+        new iRaceID = ReadRawFromString(sRaceRaw, sizeof(sRaceRaw), hRegexRace);
+        
+        decl String:sRaceName[FULLNAMELEN];
+        War3_GetRaceName(iRaceID, sRaceName, sizeof(sRaceName));
+        
+        ReplaceString(sUnreadable, maxlength, sRaceRaw, sRaceName, true);
+    }
+    
+    // Replace item ids with the name
+    if(MatchRegex(hRegexItem, sUnreadable) > 0)
+    {
+        decl String:sItemRaw[64];
+        new iItemID = ReadRawFromString(sItemRaw, sizeof(sItemRaw), hRegexItem);
+        
+        decl String:sItemName[FULLNAMELEN];
+        W3GetItemName(iItemID, sItemName, sizeof(sItemName));
+        
+        ReplaceString(sUnreadable, maxlength, sItemRaw, sItemName, true);
+    }
+    
+    // TODO: Make skill IDs unique :|
+    
+    /*
+    // Replace skill ids with the name
+    if(MatchRegex(hRegexSkill, sUnreadable) > 0)
+    {
+        decl String:sSkillRaw[64];
+        new iSkillID = ReadRawFromString(sSkillRaw, sizeof(sSkillRaw), hRegexSkill);
+        
+        decl String:sSkillName[FULLNAMELEN];
+        W3GetRaceSkillName(iSkillID, sSkillName, sizeof(sSkillName));
+        
+        ReplaceString(sUnreadable, maxlength, sSkillRaw, sSkillName, true);
+    }
+    */
+    
+    // Replace client ids with the name
+    if(MatchRegex(hRegexClient, sUnreadable) > 0)
+    {
+        decl String:sNameRaw[64];
+        new iClientID = ReadRawFromString(sNameRaw, sizeof(sNameRaw), hRegexClient);
+        
+        decl String:sPlayerName[FULLNAMELEN];
+        GetClientName(iClientID, sPlayerName, sizeof(sPlayerName));
+        
+        ReplaceString(sUnreadable, maxlength, sNameRaw, sPlayerName, true);
+    }
+}
+
+War3_LogGeneric(String:sMessage[], maxlength)
 {
     if(hW3Log != INVALID_HANDLE)
     {
+        MakeReadable(sMessage, maxlength);
+        
         decl String:sOutput[256];
         decl String:sDate[32];
+        
         FormatTime(sDate, sizeof(sDate), "%c");
         Format(sOutput, sizeof(sOutput), "[%s] %s", sDate, sMessage);
         
@@ -97,7 +197,7 @@ public Native_War3_LogCritical(Handle:plugin, numParams)
         decl String:sOutput[256];
         Format(sOutput, sizeof(sOutput), "CRITICAL: %s", sMessage);
         
-        War3_LogGeneric(sOutput);
+        War3_LogGeneric(sOutput, sizeof(sOutput));
     }
 }
 
@@ -111,7 +211,7 @@ public Native_War3_LogError(Handle:plugin, numParams)
         decl String:sOutput[256];
         Format(sOutput, sizeof(sOutput), "ERROR: %s", sMessage);
         
-        War3_LogGeneric(sOutput);
+        War3_LogGeneric(sOutput, sizeof(sOutput));
     }
 }
 
@@ -125,7 +225,7 @@ public Native_War3_LogWarning(Handle:plugin, numParams)
         decl String:sOutput[256];
         Format(sOutput, sizeof(sOutput), "WARNING: %s", sMessage);
         
-        War3_LogGeneric(sOutput);
+        War3_LogGeneric(sOutput, sizeof(sOutput));
     }
 }
 
@@ -139,7 +239,7 @@ public Native_War3_LogInfo(Handle:plugin, numParams)
         decl String:sOutput[256];
         Format(sOutput, sizeof(sOutput), "INFO: %s", sMessage);
         
-        War3_LogGeneric(sOutput);
+        War3_LogGeneric(sOutput, sizeof(sOutput));
     }
 }
 
