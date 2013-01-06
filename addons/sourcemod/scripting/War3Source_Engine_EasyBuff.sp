@@ -120,7 +120,7 @@ ResetSkills(client, race)
         if(GetArrayCell(g_hBuffRace, i) == race)
         {
             new W3Buff:buff = W3Buff:GetArrayCell(g_hSkillBuffs, i);
-            War3_LogInfo("Resetting the buff %i from race {race %i} on \"{client %i}\"", buff, race, client);
+            War3_LogInfo("Resetting the buff %i from race \"{race %i}\" on \"{client %i}\"", buff, race, client);
 
             W3ResetBuffRace(client, buff, race);
         }
@@ -163,7 +163,7 @@ ResetItems(client, item)
         if(GetArrayCell(g_hBuffItem, i) == item)
         {
             new W3Buff:buff = W3Buff:GetArrayCell(g_hItemBuffs, i);
-            War3_LogInfo("Resetting the buff %i from item {item %i} on \"{client %i}\"", buff, item, client);
+            War3_LogInfo("Resetting the buff %i from item \"{item %i}\" on \"{client %i}\"", buff, item, client);
 
             W3ResetBuffItem(client, buff, item);
         }
