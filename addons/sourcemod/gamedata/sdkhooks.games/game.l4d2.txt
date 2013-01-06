@@ -39,18 +39,18 @@
 			}
 			"PreThink"
 			{
-				"windows"	"354"
-				"linux"		"355"
-			}
-			"PostThink"
-			{
 				"windows"	"355"
 				"linux"		"356"
 			}
+			"PostThink"
+			{
+				"windows"	"356"
+				"linux"		"357"
+			}
 			"Reload"
 			{
-				"windows"	"279"
-				"linux"		"280"
+				"windows"	"280"
+				"linux"		"281"
 			}
 			"SetTransmit"
 			{
@@ -104,28 +104,28 @@
 			}
 			"Weapon_CanSwitchTo"
 			{
-				"windows"	"284"
-				"linux"		"285"
+				"windows"	"285"
+				"linux"		"286"
 			}
 			"Weapon_CanUse"
-			{
-				"windows"	"278"
-				"linux"		"279"
-			}
-			"Weapon_Drop"
-			{
-				"windows"	"281"
-				"linux"		"282"
-			}
-			"Weapon_Equip"
 			{
 				"windows"	"279"
 				"linux"		"280"
 			}
-			"Weapon_Switch"
+			"Weapon_Drop"
 			{
 				"windows"	"282"
 				"linux"		"283"
+			}
+			"Weapon_Equip"
+			{
+				"windows"	"280"
+				"linux"		"281"
+			}
+			"Weapon_Switch"
+			{
+				"windows"	"283"
+				"linux"		"284"
 			}
 		}
 		

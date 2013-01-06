@@ -144,4 +144,19 @@
 	{
 		"game"		"cstrike"
 	}
+	
+	"game.nmrih.txt"
+	{
+		"game"		"nmrih"
+	}
+	
+	"game.gesource.txt"
+	{
+		"game"		"gesource"
+	}
+	
+	"game.synergy.txt"
+	{
+		"game"		"synergy"
+	}
 }

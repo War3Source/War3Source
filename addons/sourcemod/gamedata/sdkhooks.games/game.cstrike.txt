@@ -43,12 +43,12 @@
 			"PostThink"
 			{
 				"windows"	"329"
-				"linux"		"329"
+				"linux"		"330"
 				"mac"		"330"
 			}
 			"Reload"
 			{
-				"windows"	"275"
+				"windows"	"270"
 				"linux"		"276"
 				"mac"		"276"
 			}
