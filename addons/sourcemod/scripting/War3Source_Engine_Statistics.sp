@@ -565,7 +565,7 @@ public Action:ExecOnceTimer(Handle:h){
         URLEncode(raceshort,sizeof(raceshort));
         StrCat(longquery,sizeof(longquery),raceshort);
         StrCat(longquery,sizeof(longquery),",");
-        War3_LogInfo("%d",RacesLoaded);
+        //War3_LogInfo("%d",RacesLoaded);
     }
     W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
     
