@@ -206,14 +206,28 @@ ScrambleBots()
     {
         return;
     }
-    
-    if(GetConVarBool(g_hBotAnnounce))
-    {        
-        for(new players = 1; players <= MaxClients; ++players)
+    new bool:bNoBots = true;
+    for(new client=1; client <= MaxClients; client++)
+    {
+        if(ValidPlayer(client) && IsFakeClient(client))
         {
-            if (IsClientConnected(players) && IsClientInGame(players)&& !IsFakeClient(players))
+            bNoBots = false;
+            break;
+        }
+    }
+    
+    if(bNoBots)
+    {
+        return;
+    }
+
+    if(GetConVarBool(g_hBotAnnounce))
+    {
+        for(new client = 1; client <= MaxClients; ++client)
+        {
+            if (IsClientConnected(client) && IsClientInGame(client)&& !IsFakeClient(client))
             {
-                War3_ChatMessage(0, "%T", "The bots races and levels have been scrambled.", 0);
+                War3_ChatMessage(client, "%T", "The bots races and levels have been scrambled.", client);
             }
         }
     }
