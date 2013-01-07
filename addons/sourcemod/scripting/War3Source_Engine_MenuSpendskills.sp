@@ -70,7 +70,7 @@ War3Source_SkillMenu(client)
             new skillcount=W3GetLevelsSpent(client,race_num);
             new level=War3_GetLevel(client,race_num);
             SetMenuExitButton(sMenu,true);
-            SetMenuTitle(sMenu,"%T\n \n","[War3Source] Select your desired skill. ({amount}/{amount})",client,skillcount,level);
+            SetSafeMenuTitle(sMenu,"%T\n \n","[War3Source] Select your desired skill. ({amount}/{amount})",client,skillcount,level);
             decl String:skillname[64];
             new curskilllevel;
             

@@ -111,6 +111,19 @@ public War3InterfaceExec() {
  * Natives and misc stocks
  */
 
+stock SetSafeMenuTitle(Handle:menu, const String:fmt[], any:...)
+{
+    decl String:menuTitle[4096];
+    VFormat(menuTitle, sizeof(menuTitle), fmt, 3);
+
+    if(GameL4DAny() && menuTitle[0] == '[')
+    {
+        Format(menuTitle, sizeof(menuTitle), " %s", menuTitle);
+    }
+    
+    SetMenuTitle(menu, menuTitle);
+}
+
 native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
 native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
 

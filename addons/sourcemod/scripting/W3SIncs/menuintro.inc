@@ -27,7 +27,7 @@ public War3Source_IntroMenu(client)
     {
         Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER); 
     }
-    SetMenuTitle(introMenu,welcome);
+    SetSafeMenuTitle(introMenu,welcome);
     SetMenuExitButton(introMenu,false);
     new String:buf[64];
     Format(buf,sizeof(buf),"%T","ForHelpIntro",client);

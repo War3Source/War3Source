@@ -23,7 +23,7 @@ public Action:War3Source_Admin(client,args)
     {
         new Handle:adminMenu=CreateMenu(War3Source_Admin_Selected);
         SetMenuExitButton(adminMenu,true);
-        SetMenuTitle(adminMenu,"%T","[War3Source] Select a player to administrate",client);
+        SetSafeMenuTitle(adminMenu,"%T","[War3Source] Select a player to administrate",client);
         
         decl String:playername[64];
         decl String:war3playerbuf[4];
@@ -69,7 +69,7 @@ public War3Source_Admin_Player(client,target)
     decl String:playername[64];
     GetClientName(target,playername,sizeof(playername));
     
-    SetMenuTitle(adminMenu_Player,"%T","[War3Source] Administration options for {player}",client,playername);
+    SetSafeMenuTitle(adminMenu_Player,"%T","[War3Source] Administration options for {player}",client,playername);
     
     decl String:buf[4];
     Format(buf,sizeof(buf),"%d",target);
@@ -207,7 +207,7 @@ public War3Source_Admin_PlayerInfo(client,target)
         new xp=War3_GetXP(target,race);
         new level=War3_GetLevel(target,race);
         new lvlbank=W3GetLevelBank(target);
-        SetMenuTitle(playerInfo,"%T","[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}",client,playername,race_name,gold,xp,level,lvlbank);
+        SetSafeMenuTitle(playerInfo,"%T","[War3Source] Info for {player}. Race: {racename} Gold: {amount} XP: {amount} Level: {amount} Levelbank: {amount}",client,playername,race_name,gold,xp,level,lvlbank);
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
         
@@ -254,7 +254,7 @@ public War3Source_Admin_XP(client,target)
         decl String:playername[64];
         GetClientName(target,playername,sizeof(playername));
         
-        SetMenuTitle(menu,"%T","[War3Source] Select an option for {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","[War3Source] Select an option for {player}",client,playername);
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
         
@@ -361,7 +361,7 @@ public War3Source_Admin_GiveShopItem(client,target)
         SetMenuExitButton(menu,true);
         decl String:playername[64];
         GetClientName(target,playername,sizeof(playername));
-        SetMenuTitle(menu,"%T","[War3Source] Select an item to give to {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","[War3Source] Select an item to give to {player}",client,playername);
         decl String:itemname[64];
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
@@ -432,7 +432,7 @@ public War3Source_Admin_SetRace(client,target)
         decl String:playername[64];
 
         GetClientName(target,playername,sizeof(playername));
-        SetMenuTitle(menu,"%T","[War3Source] Select a race for {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","[War3Source] Select a race for {player}",client,playername);
         
         decl String:racename[64];
         decl String:buf[4];
@@ -497,7 +497,7 @@ public War3Source_Admin_Level(client,target)
         SetMenuExitButton(menu,true);
         decl String:playername[64];
         GetClientName(target,playername,sizeof(playername));
-        SetMenuTitle(menu,"%T","&[War3Source] Select an option for {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","&[War3Source] Select an option for {player}",client,playername);
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
         
@@ -585,7 +585,7 @@ public War3Source_Admin_Gold(client,target)
         SetMenuExitButton(menu,true);
         decl String:playername[64];
         GetClientName(target,playername,sizeof(playername));
-        SetMenuTitle(menu,"%T","&&[War3Source] Select an option for {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","&&[War3Source] Select an option for {player}",client,playername);
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
         
@@ -691,7 +691,7 @@ public War3Source_Admin_Lvlbank(client,target)
         SetMenuExitButton(menu,true);
         decl String:playername[64];
         GetClientName(target,playername,sizeof(playername));
-        SetMenuTitle(menu,"%T","&&&[War3Source] Select an option for {player}",client,playername);
+        SetSafeMenuTitle(menu,"%T","&&&[War3Source] Select an option for {player}",client,playername);
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
         

@@ -53,7 +53,7 @@ ShowMenuRaceinfo(client){
     SetTrans(client);
     new Handle:hMenu=CreateMenu(War3_raceinfoSelected);
     SetMenuExitButton(hMenu,true);
-    SetMenuTitle(hMenu,"%T\n ","[War3Source] Select a race for more info",client);
+    SetSafeMenuTitle(hMenu,"%T\n ","[War3Source] Select a race for more info",client);
     // Iteriate through the races and print them out
     
     decl String:rbuf[4];
@@ -157,7 +157,7 @@ public War3_ShowParticularRaceInfoMenu(client,raceid){
     new String:selectioninfo[32];
     
     
-    SetMenuTitle(hMenu,"%T\n \n","[War3Source] Information for race: {racename} (LVL {amount}/{amount})",client,racename,War3_GetLevel(client,raceid),W3GetRaceMaxLevel(raceid));
+    SetSafeMenuTitle(hMenu,"%T\n \n","[War3Source] Information for race: {racename} (LVL {amount}/{amount})",client,racename,War3_GetLevel(client,raceid),W3GetRaceMaxLevel(raceid));
         
 
     
@@ -296,7 +296,7 @@ War3_playersWhoAreThisRaceMenu(client,raceid){
     new String:racename[64];
     War3_GetRaceName(raceid,racename,sizeof(racename));
     
-    SetMenuTitle(hMenu,"%T\n \n","[War3Source] People who are race: {racename}",client,racename);
+    SetSafeMenuTitle(hMenu,"%T\n \n","[War3Source] People who are race: {racename}",client,racename);
     
     decl String:playername[64];
     decl String:war3playerbuf[4];
@@ -379,7 +379,7 @@ War3_PlayerInfoMenu(client,String:arg[]){
             //redundant code..maybe we should optmize?
             new Handle:hMenu=CreateMenu(War3_playerinfoSelected1);
             SetMenuExitButton(hMenu,true);
-            SetMenuTitle(hMenu,"%T\n ","[War3Source] Select a player to view its information",client);
+            SetSafeMenuTitle(hMenu,"%T\n ","[War3Source] Select a player to view its information",client);
             // Iteriate through the players and print them out
             decl String:playername[32];
             decl String:war3playerbuf[4];
@@ -414,7 +414,7 @@ War3_PlayerInfoMenu(client,String:arg[]){
         
         new Handle:hMenu=CreateMenu(War3_playerinfoSelected1);
         SetMenuExitButton(hMenu,true);
-        SetMenuTitle(hMenu,"%T\n ","[War3Source] Select a player to view its information",client);
+        SetSafeMenuTitle(hMenu,"%T\n ","[War3Source] Select a player to view its information",client);
         // Iteriate through the players and print them out
         decl String:playername[32];
         decl String:war3playerbuf[4];
@@ -551,7 +551,7 @@ War3_playertargetMenu(client,target) {
     Format(title,sizeof(title),"%s\n \n",title);
     
     
-    SetMenuTitle(hMenu,"%s",title);
+    SetSafeMenuTitle(hMenu,"%s",title);
     // Iteriate through the races and print them out
     
     
@@ -608,7 +608,7 @@ War3_playertargetItemMenu(client,target) {
 
         Format(title,sizeof(title),"%s\n \n",title);
 
-        SetMenuTitle(hMenu,"%s",title);
+        SetSafeMenuTitle(hMenu,"%s",title);
 
         new String:buf[3];
 
