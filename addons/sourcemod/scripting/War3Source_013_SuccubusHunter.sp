@@ -162,7 +162,7 @@ public OnWar3EventSpawn(client)
                 
                 new old_credits=War3_GetGold(client);
                 //PrintToChat(client,"dollar %d",dollar);
-                dollar /= (max/6);
+                dollar /= 16;
                 //PrintToChat(client,"dollar %d",dollar);
                 new new_credits = old_credits + dollar;
                 if (new_credits > max)
