@@ -72,31 +72,8 @@ Initialize_SQLTable()
         //non threading operations here, done once on plugin load only, not map change
         SQL_LockDatabase(hDB);
 
-        //war3sourceraces
-        new Handle:query = SQL_Query(hDB, "SELECT * from war3sourceraces LIMIT 1");
-        if(query != INVALID_HANDLE)//table exists
-        {
-            PrintToServer("[War3Source] Dropping TABLE war3sourceraces and recreating it (normal)");
-            SQL_FastQueryLogOnError(hDB,"DROP TABLE war3sourceraces");
-        }
-
-        //always create new table
-        new String:longquery[4000];
-        Format(longquery, sizeof(longquery), "CREATE TABLE war3sourceraces (");
-        Format(longquery, sizeof(longquery), "%s %s", longquery,"shortname varchar(16) UNIQUE,");
-        Format(longquery, sizeof(longquery), "%s %s", longquery, "name varchar(32)");
-
-        for(new i=1; i < MAXSKILLCOUNT; i++)
-        {
-            Format(longquery, sizeof(longquery), "%s, skill%d varchar(32)", longquery, i);
-            Format(longquery, sizeof(longquery), "%s, skilldesc%d varchar(2000)", longquery, i);
-        }
-
-        Format(longquery, sizeof(longquery), "%s ) %s", longquery, War3SQLType:W3GetVar(hDatabaseType) == SQLType_MySQL ? "DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci" : "");
-        SQL_FastQueryLogOnError(hDB, longquery);
-
         //main table
-        query = SQL_Query(hDB, "SELECT * from war3source LIMIT 1");
+        new Handle:query = SQL_Query(hDB, "SELECT * from war3source LIMIT 1");
 
         if(query == INVALID_HANDLE)
         {

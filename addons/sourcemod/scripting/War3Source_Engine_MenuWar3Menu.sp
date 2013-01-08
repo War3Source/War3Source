@@ -16,7 +16,7 @@ public OnWar3Event(W3EVENT:event,client){
 
 ShowWar3Menu(client){    
     new Handle:war3Menu=CreateMenu(War3Source_War3Menu_Select);
-    SetMenuTitle(war3Menu,"%T","[War3Source] Choose a task",client);
+    SetSafeMenuTitle(war3Menu,"%T","[War3Source] Choose a task",client);
     new limit=9;
     new String:transbuf[32];
     new String:menustr[100];

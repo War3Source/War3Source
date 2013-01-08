@@ -81,18 +81,9 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(roarsound,sizeof(roarsound),"music/war3source/dragonborn/roar.mp3");
-        strcopy(ultsndblue,sizeof(ultsndblue),"music/war3source/dragonborn/ultblue.mp3");
-        strcopy(ultsndred,sizeof(ultsndred),"music/war3source/dragonborn/ultred.mp3");
-    }
-    else
-    {
-        strcopy(roarsound,sizeof(roarsound),"war3source/dragonborn/roar.mp3");
-        strcopy(ultsndblue,sizeof(ultsndblue),"war3source/dragonborn/ultblue.mp3");
-        strcopy(ultsndred,sizeof(ultsndred),"war3source/dragonborn/ultred.mp3");
-    }
+    War3_AddSoundFolder(roarsound, sizeof(roarsound), "dragonborn/roar.mp3");
+    War3_AddSoundFolder(ultsndblue, sizeof(ultsndblue), "dragonborn/ultblue.mp3");
+    War3_AddSoundFolder(ultsndred, sizeof(ultsndred), "dragonborn/ultred.mp3");
 
     War3_PrecacheParticle("explosion_trailSmoke");//ultimate trail
     War3_PrecacheParticle("burningplayer_flyingbits"); //Red Team foot effect

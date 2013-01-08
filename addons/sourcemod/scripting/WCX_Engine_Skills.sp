@@ -53,13 +53,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(explosionSound1,sizeof(explosionSound1),"music/war3source/particle_suck1.mp3");
-    }
-    else
-    {
-        strcopy(explosionSound1,sizeof(explosionSound1),"war3source/particle_suck1.mp3");
-    }
+    War3_AddSoundFolder(explosionSound1, sizeof(explosionSound1), "particle_suck1.mp3");
 
     if(GAMETF)
     {

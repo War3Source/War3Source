@@ -81,7 +81,7 @@ public CmdShowLevelBankMenu(client){
     if(W3Denyable(DN_ShowLevelbank,client)) {
         SetTrans(client);
         new Handle:hMenu=CreateMenu(OnSelectShowLevelBankMenu);
-        SetMenuTitle(hMenu,"%T","You have {amount} levels in your levelbank",client,W3GetLevelBank(client));
+        SetSafeMenuTitle(hMenu,"%T","You have {amount} levels in your levelbank",client,W3GetLevelBank(client));
         SetMenuExitButton(hMenu,true);
         
         new String:str[1000],String:racename[64];

@@ -16,8 +16,8 @@
 			}
 			"GroundEntChanged"
 			{
-				"windows"	"165"
-				"linux"		"166"
+				"windows"	"167"
+				"linux"		"168"
 			}
 			"OnTakeDamage"
 			{
@@ -81,8 +81,8 @@
 			}
 			"VPhysicsUpdate"
 			{
-				"windows"	"145"
-				"linux"		"146"
+				"windows"	"147"
+				"linux"		"148"
 			}
 			"Weapon_CanSwitchTo"
 			{

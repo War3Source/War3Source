@@ -44,7 +44,6 @@ new String:teleportSound[256];
 
 public OnPluginStart()
 {
-    
     ultCooldownCvar=CreateConVar("war3_human_teleport_cooldown","20.0","Cooldown between teleports");
     
     LoadTranslations("w3s.race.human.phrases");
@@ -94,24 +93,12 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-
-    if(GAMECSGO)
-    {
-        strcopy(teleportSound,sizeof(teleportSound),"music/war3source/blinkarrival.mp3");
-    }
-    else
-    {
-        strcopy(teleportSound,sizeof(teleportSound),"war3source/blinkarrival.mp3");
-    }
+    War3_AddSoundFolder(teleportSound, sizeof(teleportSound), "blinkarrival.mp3");
 
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     
     War3_PrecacheSound(teleportSound);
-    
-    
-    
-    
 }
 
 public OnRaceChanged(client,oldrace,newrace)

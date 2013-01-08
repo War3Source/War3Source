@@ -221,7 +221,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             if(W3GetLevelBank(client)>0){
                 Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
             }
-            SetMenuTitle(crMenu,"%s\n \n",title);
+            SetSafeMenuTitle(crMenu,"%s\n \n",title);
             decl String:strCat[64];
             //Prepend 'All Races' entry.
             AddMenuItem(crMenu,"-1","All Races");
@@ -252,7 +252,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             if(W3GetLevelBank(client)>0){
                 Format(title,sizeof(title),"%s\n%T\n",title,"You Have {amount} levels in levelbank. Say levelbank to use it",GetTrans(), W3GetLevelBank(client));
             }
-            SetMenuTitle(crMenu,"%s\n \n",title);
+            SetSafeMenuTitle(crMenu,"%s\n \n",title);
             // Iteriate through the races and print them out
             decl String:rname[64];
             decl String:rdisp[128];
@@ -342,7 +342,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                 new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
                 SetMenuExitButton(crMenu,true);
                 Format(title,sizeof(title),"%T","[War3Source] Select your desired race",GetTrans());
-                SetMenuTitle(crMenu,"%s\nCategory: %s\n",title,sItem);
+                SetSafeMenuTitle(crMenu,"%s\nCategory: %s\n",title,sItem);
                 // Iteriate through the races and print them out                
                 new racelist[MAXRACES];
                 new racedisplay=W3GetRaceList(racelist);
@@ -625,7 +625,7 @@ stock bool:W3AddCategory(const String:cat_name[]) {
         CatCount++;
         return true;
     }
-    //W3Log("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
+    War3_LogError("Too much categories!!! (%i/%i) - failed to add new category",CatCount,MAXCATS);
     return false;
 }
 //Returns a Category Name thing

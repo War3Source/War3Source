@@ -8,9 +8,18 @@ public Plugin:myinfo =
     description="Generic vampirism skill"
 };
 
+new Handle:h_ForwardOnWar3VampirismPost = INVALID_HANDLE;
+
 public OnPluginStart()
 {
     LoadTranslations("w3s.race.undead.phrases");
+}
+
+public bool:InitNativesForwards()
+{
+    h_ForwardOnWar3VampirismPost = CreateGlobalForward("OnWar3VampirismPost", ET_Hook, Param_Cell, Param_Cell, Param_Cell);
+
+    return true;
 }
 
 LeechHP(victim, attacker, damage, Float:percentage, bool:bBuff)
@@ -22,19 +31,21 @@ LeechHP(victim, attacker, damage, Float:percentage, bool:bBuff)
     }
 
     new iOldHP = GetClientHealth(attacker);
-    if (bBuff)
-    {
-        War3_HealToBuffHP(attacker, leechhealth);
-    }
-    else
-    {
-        War3_HealToMaxHP(attacker, leechhealth);
-    }
+    
+    bBuff ? War3_HealToBuffHP(attacker, leechhealth) : War3_HealToMaxHP(attacker, leechhealth);
+    
     new iNewHP = GetClientHealth(attacker);
     
     if (iOldHP  != iNewHP)
     {
-        War3_VampirismEffect(victim, attacker, iNewHP - iOldHP);
+        new iHealthLeeched = iNewHP - iOldHP;
+        War3_VampirismEffect(victim, attacker, iHealthLeeched);
+        
+        Call_StartForward(h_ForwardOnWar3VampirismPost);
+        Call_PushCell(victim);
+        Call_PushCell(attacker);
+        Call_PushCell(iHealthLeeched);
+        Call_Finish();
     }
 }
 

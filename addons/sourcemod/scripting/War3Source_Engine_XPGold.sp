@@ -27,6 +27,7 @@ new Handle:MeleeXPCvar;
 new Handle:RoundWinXPCvar;
 new Handle:AssistKillXPCvar;
 new Handle:BotIgnoreXPCvar;
+new Handle:hBotXPRate;
 new Handle:hLevelDifferenceBounus;
 new Handle:hMaxLevelDifferenceBounus;
 new Handle:minplayersXP;
@@ -52,8 +53,8 @@ new Handle:AssistGoldCvar;
 
 public OnPluginStart()
 {
-    
     BotIgnoreXPCvar=CreateConVar("war3_ignore_bots_xp","0","Set to 1 to not award XP for killing bots");
+    hBotXPRate = CreateConVar("war3_bot_xp_modifier", "1.0", "The XP gained from killing bots is multiplied with this value");
     HeadshotXPCvar=CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
     MeleeXPCvar=CreateConVar("war3_percent_meleexp","120","Percent of kill XP awarded additionally for melee/knife kills");
     AssistKillXPCvar=CreateConVar("war3_percent_assistkillxp","75","Percent of kill XP awarded for an assist kill.");
@@ -105,14 +106,7 @@ public OnPluginStart()
 }
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(levelupSound,sizeof(levelupSound),"music/war3source/levelupcaster.mp3");
-    }
-    else
-    {
-        strcopy(levelupSound,sizeof(levelupSound),"war3source/levelupcaster.mp3");
-    }
-
+    War3_AddSoundFolder(levelupSound, sizeof(levelupSound), "levelupcaster.mp3");
     War3_PrecacheSound(levelupSound);
 }
 public bool:InitNativesForwards()
@@ -487,7 +481,7 @@ public OnWar3EventDeath(victim,attacker){
                     
             if(assister>=0 && War3_GetRace(assister)>0)
             {
-                GiveAssistKillXP(assister);
+                GiveAssistKillXP(assister, victim);
             }
             
             GiveKillXPCreds(attacker,victim,is_hs,is_melee);
@@ -621,8 +615,11 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
         new addxp=killxp;
         if(headshot)    addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
         if(melee)        addxp+=((killxp*GetConVarInt(MeleeXPCvar))/100);
-        
-    
+
+        if(IsFakeClient(playerkilled))
+        {
+            addxp = RoundToCeil(addxp * GetConVarFloat(hBotXPRate));
+        }
         
         new String:killaward[64];
         Format(killaward,sizeof(killaward),"%T","a kill",client);
@@ -630,10 +627,15 @@ GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
     }
 }
 
-public GiveAssistKillXP(client)
+public GiveAssistKillXP(client, playerkilled)
 {
-
     new addxp=((W3GetKillXP(client)*GetConVarInt(AssistKillXPCvar))/100);
+    
+    if(IsFakeClient(playerkilled))
+    {
+        addxp = RoundToCeil(addxp * GetConVarFloat(hBotXPRate));
+    }
+
     
     new String:helpkillaward[64];
     Format(helpkillaward,sizeof(helpkillaward),"%T","assisting a kill",client);

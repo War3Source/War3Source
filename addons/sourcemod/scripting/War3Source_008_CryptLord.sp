@@ -63,14 +63,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/locustswarmloop.mp3");
-    }
-    else
-    {
-        strcopy(ultimateSound,sizeof(ultimateSound),"war3source/locustswarmloop.mp3");
-    }
-
+    War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "locustswarmloop.mp3");
     War3_PrecacheSound(ultimateSound);
 }
 
@@ -228,7 +221,7 @@ public OnWar3EventPostHurt(victim,attacker,damage)
             skill_level = War3_GetSkillLevel(attacker,thisRaceID,SKILL_IMPALE);
             if(skill_level>0&&!Hexed(attacker,false)&&GetRandomFloat(0.0,1.0)<=ImpaleChanceArr[skill_level]) //spike always activates except chancemod reduction
             {
-                if(W3HasImmunity(attacker,Immunity_Skills)){
+                if(W3HasImmunity(victim,Immunity_Skills)){
                     PrintHintText(victim,"%T","Blocked Impale",victim);
                     PrintHintText(attacker,"%T","Enemy Blocked Impale",attacker);
                 }

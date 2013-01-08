@@ -153,7 +153,7 @@ War3Source_Stats(client)
     
     new Handle:statsMenu=CreateMenu(War3Source_Stats_Selected);
     SetMenuExitButton(statsMenu,true);
-    SetMenuTitle(statsMenu,"%T","[War3Source] Select a player to view stats",client);
+    SetSafeMenuTitle(statsMenu,"%T","[War3Source] Select a player to view stats",client);
     decl String:playername[64];
     decl String:war3playerbuf[4];
 
@@ -214,7 +214,7 @@ public War3Source_Stats_Player(client,target)
         decl String:race_name[64];
         War3_GetRaceName(War3_GetRace(target),race_name,sizeof(race_name));
         new gold=War3_GetGold(target);
-        SetMenuTitle(playerInfo,"%T\n","[War3Source] Info for {player}. Current Race: {racename} gold: {amount}",client,playername,race_name,gold);
+        SetSafeMenuTitle(playerInfo,"%T\n","[War3Source] Info for {player}. Current Race: {racename} gold: {amount}",client,playername,race_name,gold);
         DisplayMenu(playerInfo,client,20);
     }
     else
@@ -283,7 +283,7 @@ public War3Source_Stats_Player_Race(client,target,race_num)
         new String:menuback[32];
         Format(menuback,sizeof(menuback),"%T","Back",client);
         
-        SetMenuTitle(playerInfo,"%s\n \n",longbuf);
+        SetSafeMenuTitle(playerInfo,"%s\n \n",longbuf);
         decl String:target_str[8];
         Format(target_str,sizeof(target_str),"%d",target);
         AddMenuItem(playerInfo,target_str,menuback);
@@ -349,7 +349,7 @@ War3Source_War3Top(client,top_num,cur_place=0)
         
         // PrintToServer("1");
     }
-    SetMenuTitle(topMenu,menuText);
+    SetSafeMenuTitle(topMenu,menuText);
     new String:data_str[18];
     new String:menuexit[32];
     new String:menunext[32];

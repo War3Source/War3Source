@@ -8,6 +8,9 @@ public Plugin:myinfo =
     description = "Centralize some notifications"
 };
 
+new iMaskSoundDelay[MAXPLAYERSCUSTOM];
+new String:sMaskSound[256];
+
 public bool:InitNativesForwards()
 {
     CreateNative("War3_EvadeDamage", Native_EvadeDamage);
@@ -23,6 +26,17 @@ public OnPluginStart()
     // Yes, this should be a "skilleffects" translation file later ;)
     LoadTranslations("w3s.race.undead.phrases");
     LoadTranslations("w3s.race.human.phrases");
+    
+    for(new i=1; i <= MaxClients; i++)
+    {
+        iMaskSoundDelay[i] = War3_RegisterDelayTracker();
+    }
+}
+
+public OnMapStart()
+{
+    War3_AddSoundFolder(sMaskSound, sizeof(sMaskSound), "mask.mp3");
+    War3_PrecacheSound(sMaskSound);
 }
 
 public Native_EvadeDamage(Handle:plugin, numParams)
@@ -102,6 +116,18 @@ public Native_VampirismEffect(Handle:plugin, numParams)
     if(!GameTF())
     {
         W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Leeched +{amount} HP", attacker, leechhealth);
+    }
+    
+    if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
+    {
+        EmitSoundToAll(sMaskSound, attacker);
+        War3_TrackDelay(iMaskSoundDelay[attacker], 0.25);
+    }
+    
+    if(War3_TrackDelayExpired(iMaskSoundDelay[victim]))
+    {
+        EmitSoundToAll(sMaskSound, victim);
+        War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
     }
     
     PrintToConsole(attacker, "%T", "Leeched +{amount} HP", attacker, leechhealth);

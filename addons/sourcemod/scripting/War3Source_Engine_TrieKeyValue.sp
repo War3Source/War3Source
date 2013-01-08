@@ -212,7 +212,7 @@ SetCvar(client){
     new cvar=W3FindCvar(arg1);
     if(cvar==-1){
         ReplyToCommand(client,"W3CVAR \"%s\" not found, please fix/clean up your config",arg1);
-        //W3Log("W3CVAR (internal)  \"%s\" not found, please fix/clean up your config",arg1);
+        War3_LogWarning("W3CVAR (internal)  \"%s\" not found, please fix/clean up your config",arg1);
         return;
     }
     

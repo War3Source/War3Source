@@ -100,14 +100,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO)
-    {
-        strcopy(lightningSound,sizeof(lightningSound),"music/war3source/lightningbolt.mp3");
-    }
-    else
-    {
-        strcopy(lightningSound,sizeof(lightningSound),"war3source/lightningbolt.mp3");
-    }
+    War3_AddSoundFolder(lightningSound, sizeof(lightningSound), "lightningbolt.mp3");
 
     BeamSprite=War3_PrecacheBeamSprite(); 
     HaloSprite=War3_PrecacheHaloSprite(); 

@@ -12,8 +12,9 @@ new bool:CooldownOnSpawn[MAXRACES][MAXSKILLCOUNT];
 new bool:CdOnSpawnPrintOnExpire[MAXRACES][MAXSKILLCOUNT];
 new Float:CooldownOnSpawnDuration[MAXRACES][MAXSKILLCOUNT];
 
-new String:ultimateReadySound[256]; //="war3source/ult_ready.mp3";
-new String:abilityReadySound[256]; //="war3source/ability_refresh.mp3";
+new String:sHintSound[256];
+new String:ultimateReadySound[256];
+new String:abilityReadySound[256];
 
 new Handle:g_CooldownExpiredForwardHandle;
 
@@ -45,22 +46,15 @@ public OnPluginStart()
 }
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(ultimateReadySound,sizeof(ultimateReadySound),"music/war3source/ult_ready.mp3");
-        strcopy(abilityReadySound,sizeof(abilityReadySound),"music/war3source/ability_refresh.mp3");
-        War3_PrecacheSound("music/war3source/csgo/ui/hint.mp3");
-    }
-    else
-    {
-        strcopy(ultimateReadySound,sizeof(ultimateReadySound),"war3source/ult_ready.mp3");
-        strcopy(abilityReadySound,sizeof(abilityReadySound),"war3source/ability_refresh.mp3");
-        War3_PrecacheSound("UI/hint.wav");
-    }
+    War3_AddSoundFolder(ultimateReadySound, sizeof(ultimateReadySound), "ult_ready.mp3");
+    War3_AddSoundFolder(abilityReadySound, sizeof(abilityReadySound), "ability_refresh.mp3");
+    War3_GetHintSound(sHintSound, sizeof(sHintSound));
 
     for(new i=0;i<MAXTHREADS;i++){
         expireTime[i]=0.0;
     }
     
+    War3_PrecacheSound(sHintSound);
     War3_PrecacheSound(abilityReadySound);
     War3_PrecacheSound(ultimateReadySound);
 

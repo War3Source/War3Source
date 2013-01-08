@@ -11,6 +11,8 @@ public Plugin:myinfo =
 new Handle:hBuyItemUseCSMoneCvar;
 new Handle:hUseCategorysCvar;
 
+new String:sBuyItemSound[256]
+
 public bool:InitNativesForwards()
 {
     CreateNative("W3BuyUseCSMoney",NW3BuyUseCSMoney);
@@ -20,6 +22,12 @@ public OnPluginStart()
 {
     hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money and in TF2 use MVM money to buy shopmenu items");
     hUseCategorysCvar=CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
+}
+
+public OnMapStart()
+{
+    War3_AddSoundFolder(sBuyItemSound, sizeof(sBuyItemSound), "ui/ReceiveGold.mp3");
+    War3_PrecacheSound(sBuyItemSound);
 }
 
 public OnWar3Event(W3EVENT:event,client) {
@@ -53,7 +61,7 @@ ShowMenuShopCategory(client)
         Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold", GetTrans(), gold);
     }
 
-    SetMenuTitle(shopMenu, title);
+    SetSafeMenuTitle(shopMenu, title);
 
     new Handle:h_ItemCategorys = CreateArray(ByteCountToCells(64));
     decl String:category[64];
@@ -102,7 +110,7 @@ ShowMenuShop(client, const String:category[]="") {
     else {
         Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold",GetTrans(),gold);
     }
-    SetMenuTitle(shopMenu,title);
+    SetSafeMenuTitle(shopMenu,title);
     decl String:itemname[64];
     decl String:itembuf[4];
     decl String:linestr[96];
@@ -254,6 +262,15 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
             }
             War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 
+            if (IsPlayerAlive(client))
+            {
+                EmitSoundToAll(sBuyItemSound, client);
+            }
+            else
+            {
+                EmitSoundToClient(client, sBuyItemSound);
+            }
+            
             W3SetVar(TheItemBoughtOrLost,item);
             W3CreateEvent(DoForwardClientBoughtItem,client); //old item//forward, and set has item true inside
         }
@@ -269,7 +286,7 @@ War3M_ExceededMaxItemsMenuBuy(client)
     decl String:itemname[64];
     W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
 
-    SetMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get gold back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
+    SetSafeMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get gold back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
 
     decl String:itembuf[4];
     decl String:linestr[96];

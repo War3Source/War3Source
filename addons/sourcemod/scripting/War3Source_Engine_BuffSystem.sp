@@ -53,6 +53,7 @@ public bool:InitNativesForwards()
     
     CreateNative("W3ResetAllBuffRace",NW3ResetAllBuffRace);
     CreateNative("W3ResetBuffRace",NW3ResetBuffRace);
+    CreateNative("W3ResetBuffItem",NW3ResetBuffItem);
     
     CreateNative("W3GetBuffLoopLimit",NW3GetBuffLoopLimit);
     return true;
@@ -169,6 +170,7 @@ public NW3ResetAllBuffRace(Handle:plugin,numParams) {
     //SOME NEEDS TO BE SET AGAIN TO REFRESH
     
 }
+
 public NW3ResetBuffRace(Handle:plugin,numParams) {
     new client=GetNativeCell(1);
     new W3Buff:buffindex=W3Buff:GetNativeCell(2);
@@ -176,6 +178,15 @@ public NW3ResetBuffRace(Handle:plugin,numParams) {
     
     ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,W3GetItemsLoaded()+race);    
 }
+
+public NW3ResetBuffItem(Handle:plugin,numParams) {
+    new client=GetNativeCell(1);
+    new W3Buff:buffindex=W3Buff:GetNativeCell(2);
+    new item=GetNativeCell(3);
+    
+    ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,item);    
+}
+
 public NW3GetBuffLoopLimit(Handle:plugin,numParams) {
     return BuffLoopLimit();
 }
@@ -188,7 +199,7 @@ public Action:cmdbufflist(client,args){
     if(args==1){
         new String:arg[32];
         GetCmdArg(1,arg,sizeof(arg));
-        //new int=StringToInt(arg);
+        new int=StringToInt(arg);
         new ItemsLoaded = W3GetItemsLoaded();
         new RacesPlusItems = ItemsLoaded+War3_GetRacesLoaded();
         for(new i=1;i<=RacesPlusItems;i++){
@@ -199,7 +210,7 @@ public Action:cmdbufflist(client,args){
             else{
                 War3_GetRaceShortname(i-ItemsLoaded,name,sizeof(name));
             }
-            //W3Log("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
+            War3_LogInfo("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
             
         }
     }

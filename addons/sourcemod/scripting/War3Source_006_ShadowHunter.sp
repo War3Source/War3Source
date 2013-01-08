@@ -83,15 +83,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnMapStart()
 {
-    if(GAMECSGO){
-        strcopy(ultimateSound,sizeof(ultimateSound),"music/war3source/divineshield.mp3");
-        strcopy(wardDamageSound,sizeof(wardDamageSound),"music/war3source/thunder_clap.mp3");
-    }
-    else
-    {
-        strcopy(ultimateSound,sizeof(ultimateSound),"war3source/divineshield.mp3");
-        strcopy(wardDamageSound,sizeof(wardDamageSound),"war3source/thunder_clap.mp3");
-    }
+    War3_AddSoundFolder(wardDamageSound, sizeof(wardDamageSound), "thunder_clap.mp3");
+    War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "divineshield.mp3");
 
     War3_PrecacheSound(ultimateSound);
     War3_PrecacheSound(wardDamageSound);
