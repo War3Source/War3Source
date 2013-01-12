@@ -20,7 +20,7 @@ stock DetermineGameMode() {
     if (StrContains(gameDir, "cstrike", false) == 0) {
         tValveGame=_:Game_CS;
 #if defined WAR3MAIN
-        PrintToServer("[War3Source] Game set: Counter-Strike Source ValveGame %d",tValveGame);
+        PrintToServer("[War3Source] Game set: Counter-Strike Source");
 #endif
         ServerCommand("sv_allowminmodels 0");
     } else if (StrContains(gameDir, "dod", false) == 0) {
@@ -53,7 +53,7 @@ stock DetermineGameMode() {
     else if(StrContains(gameDir,"csgo",false)==0)
     {
 #if defined WAR3MAIN
-        PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
+        PrintToServer("[War3Source] Game set: Counter-Strike Global Offensive");
 #endif
         tValveGame=_:Game_CSGO;
     }
