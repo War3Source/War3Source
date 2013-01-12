@@ -503,8 +503,10 @@ public Action:GivePlayerCachedDeathWPNFull(Handle:h,any:client)
             }
         }
         
-        War3_SetCSArmor(client, 100);
-        War3_SetCSArmorHasHelmet(client, true);
+        if( GAMECSANY )
+        {
+            War3_RestoreCachedCSArmor(client);
+        }
     }
 }
 

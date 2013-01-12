@@ -19,21 +19,12 @@ new piWeaponAmmo[MAXPLAYERSCUSTOM][32]; //32 types of ammo?
 new piWeaponDeadClip[MAXPLAYERSCUSTOM][10]; 
 new piWeaponDeadAmmo[MAXPLAYERSCUSTOM][32]; 
 new String:psWeaponName[MAXPLAYERSCUSTOM][10][32];//cached weapon name
+new iCachedArmor[MAXPLAYERSCUSTOM];
+new bool:bCachedHelmet[MAXPLAYERSCUSTOM];
 
 new MyWeaponsOffset; //get weapon per slot
 new Clip1Offset;
 new AmmoOffset;
-
-public Plugin:myinfo= 
-{
-    name="W3S Engine Death Weapons",
-    author="Ownz (DarkEnergy)",
-    description="War3Source Core Plugins",
-    version="1.0",
-    url="http://war3source.com/"
-};
-
-
 
 public OnPluginStart()
 {
@@ -65,6 +56,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_CachedDeadClip1",Native_War3_CachedDeadClip1);
     CreateNative("War3_CachedDeadAmmo",Native_War3_CachedDeadAmmo);
     CreateNative("War3_CachedDeadWeaponName",Native_War3_CDWN);
+    CreateNative("War3_RestoreCachedCSArmor",Native_War3_CachedCSArmor);
     return true;
 }
 
@@ -151,21 +143,18 @@ public Native_War3_CDWN(Handle:plugin,numParams) //cached weapon name?
         SetNativeString(3,psWeaponName[client][iter],GetNativeCell(4));
     }
 }
-public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
-{    
 
-    //PrintToServer("2");
-    //SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", Float:{0.0,0.0,0.0});
-}
-public OnClientPutInServer(client)
+public Native_War3_CachedCSArmor(Handle:plugin,numParams)
 {
-    SDKHook(client, SDKHook_PreThink, OnPreThink);
-    SDKHook(client, SDKHook_PostThinkPost, OnPreThink);
-}
-public OnPreThink(client)
-{
-    //PrintToServer("prethink");
-    //SetEntPropVector(client, Prop_Send, "m_vecPunchAngle", Float:{10.0,0.0,0.0});
+    new client = GetNativeCell(1);
+    if( !GAMECSANY )
+    {
+        return ThrowNativeError(SP_ERROR_NATIVE,"Invoked on a unsupported game!");
+    }
+    // Restore them now
+    War3_SetCSArmor(client, iCachedArmor[client]);
+    War3_SetCSArmorHasHelmet(client, bCachedHelmet[client]);
+    return 0;
 }
 
 new skipaframe;
@@ -216,8 +205,11 @@ public OnGameFrame()
         }
     }
 }
-public OnWar3EventDeath(victim){
-    if(ValidPlayer(victim)){
+
+public OnWar3EventDeath(victim)
+{
+    if(ValidPlayer(victim))
+    {
         for(new slot=0;slot<10;slot++)
         {
             strcopy(psWeaponName[victim][slot],64,"");
@@ -231,12 +223,27 @@ public OnWar3EventDeath(victim){
                 }
             }
         }
+
         for(new ammotype=0;ammotype<32;ammotype++)
         {
             piWeaponDeadAmmo[victim][ammotype]=GetEntData(victim,AmmoOffset+(ammotype*4),4);
-        }    
+        }
     }
 }
 
+public OnW3TakeDmgAllPre(client, attacker, Float:damage)
+{
+    DP("OnTakeDmgAllPre fired!\n");
+    // Revan: We need to track armor here because player_death get's fired too late.
+    if( GAMECSANY )
+    {
+        if( damage >= GetClientHealth(client) )
+        {
+            iCachedArmor[client] = War3_GetCSArmor(client);
+            bCachedHelmet[client] = bool:War3_GetCSArmorHasHelmet(client);
+            DP("cached armor: %d (helmet:%d)",iCachedArmor[client],bCachedHelmet[client]);
+        }
+    }
+}
 
 
