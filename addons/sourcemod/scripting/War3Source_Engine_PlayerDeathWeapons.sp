@@ -233,7 +233,6 @@ public OnWar3EventDeath(victim)
 
 public OnW3TakeDmgAllPre(client, attacker, Float:damage)
 {
-    DP("OnTakeDmgAllPre fired!\n");
     // Revan: We need to track armor here because player_death get's fired too late.
     if( GAMECSANY )
     {
@@ -241,7 +240,6 @@ public OnW3TakeDmgAllPre(client, attacker, Float:damage)
         {
             iCachedArmor[client] = War3_GetCSArmor(client);
             bCachedHelmet[client] = bool:War3_GetCSArmorHasHelmet(client);
-            DP("cached armor: %d (helmet:%d)",iCachedArmor[client],bCachedHelmet[client]);
         }
     }
 }
