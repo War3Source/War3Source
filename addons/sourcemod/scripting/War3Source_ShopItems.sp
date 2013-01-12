@@ -58,7 +58,10 @@ new String:sBuyTomeSound[256];
 
 public OnPluginStart()
 {
-    HookEvent("round_start", Event_RoundStart);
+    if(GameCSANY())
+    {
+        HookEvent("round_start", Event_RoundStart);
+    }
 
     iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
     iMyWeaponsOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hMyWeapons");
@@ -183,17 +186,14 @@ public OnWar3EventDeath(client)
 
 public Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
 {
-    if(GameCSANY())
+    if(!GetConVarBool(hMoleDeathmatchAllowedCvar))
     {
-        if(!GetConVarBool(hMoleDeathmatchAllowedCvar))
+        for(new x=1; x <= MaxClients; x++)
         {
-            for(new x=1; x <= MaxClients; x++)
+            if(ValidPlayer(x, true) && GetClientTeam(x) > TEAM_SPECTATOR && 
+               War3_GetOwnsItem(x, iShopitem[ITEM_MOLE]))
             {
-                if(ValidPlayer(x, true) && GetClientTeam(x) > TEAM_SPECTATOR && 
-                   War3_GetOwnsItem(x, iShopitem[ITEM_MOLE]))
-                {
-                    StartMole(x);
-                }
+                StartMole(x);
             }
         }
     }

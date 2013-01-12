@@ -150,7 +150,8 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
     CreateConVar("war3_svn",revision,"War3Source SVN.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("a_war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     
-    
+    CreateNative("W3GetW3Version",NW3GetW3Version);
+    CreateNative("W3GetW3Revision",NW3GetW3Revision);
 
     if(!War3Source_InitNatives())
     {
@@ -178,9 +179,6 @@ public OnPluginStart()
         SetFailState("[War3Source] There was a failure in initiating event hooks.");
     if(!War3Source_InitCVars()) //especially sdk hooks
         SetFailState("[War3Source] There was a failure in initiating console variables.");
-
-    if(!War3Source_InitOffset())
-        SetFailState("[War3Source] There was a failure in finding the offsets required.");
 
     CreateTimer(0.1,DeciSecondLoop,_,TIMER_REPEAT);
         
@@ -527,8 +525,11 @@ public OnClientPutInServer(client)
     //DatabaseSaveXP now handles clearing of vars and triggering retrieval
 }
 
-public OnClientDisconnect(client)
+public NW3GetW3Revision(Handle:plugin,numParams)
 {
-    //DatabaseSaveXP now handles clearing of vars and triggering retrieval
+    return REVISION_NUM;
 }
-
+public NW3GetW3Version(Handle:plugin,numParams)
+{    
+    SetNativeString(1,VERSION_NUM,GetNativeCell(2));
+}

@@ -14,12 +14,6 @@ Author(s): Anthony Iacono
 
 
 
-public NW3GetW3Revision(Handle:plugin,numParams){
-    return REVISION_NUM;
-}
-public NW3GetW3Version(Handle:plugin,numParams){    
-    SetNativeString(1,VERSION_NUM,GetNativeCell(2));
-}
 public Native_War3_InFreezeTime(Handle:plugin,numParams)
 {
     return (bInFreezeTime)?1:0;
@@ -75,15 +69,6 @@ public Native_War3_ShakeScreen(Handle:plugin,numParams)
     }
 }
 
-public Native_War3_SpawnPlayer(Handle:plugin,numParams)
-{
-    new client=GetNativeCell(1);
-    new ignore_check=GetNativeCell(2);
-    if(ValidPlayer(client,false) && (ignore_check!=0 || !IsPlayerAlive(client)))
-    {
-        War3Respawn(client);
-    }
-}
 
 
 
@@ -247,57 +232,10 @@ Float:delay=0.0)
 }    
 
 
-public Native_War3_HTMHP(Handle:plugin,numParams)
-{
-    new client = GetNativeCell(1);
-    new addhp = GetNativeCell(2);
-    new maxhp=War3_GetMaxHP(client);
-    new currenthp=GetClientHealth(client);
-    if(currenthp<maxhp){ ///do not make hp lower
-        new newhp=GetClientHealth(client)+addhp;
-        if (newhp>maxhp){
-            newhp=maxhp;
-        }
-        nsEntity_SetHealth(client,newhp);
-    }
-    return 0;
-}
-public Native_War3_HTBHP(Handle:plugin,numParams)
-{
-    new client = GetNativeCell(1);
-    new addhp = GetNativeCell(2);
-    new maxhp=(War3_GetGame()==Game_TF)?RoundFloat(float(War3_GetMaxHP(client))*1.5):War3_GetMaxHP(client);
-    new currenthp=GetClientHealth(client);
-    if(currenthp<maxhp){ ///do not make hp lower
-        new newhp=GetClientHealth(client)+addhp;
-        if (newhp>maxhp){
-            newhp=maxhp;
-        }
-        nsEntity_SetHealth(client,newhp);
-    }
-}
-
-public Native_War3_DecreaseHP(Handle:plugin,numParams)
-{
-    new client = GetNativeCell(1);
-    new dechp = GetNativeCell(2);
-    new newhp=GetClientHealth(client)-dechp;
-    if(newhp<1){
-        newhp=1;
-    }
-    nsEntity_SetHealth(client,newhp);
-}
-
-
-
-
 
 bool:War3Source_InitNatives()
 {
     ///LIST ALL THESE NATIVES IN INTERFACE
-    
-    CreateNative("W3GetW3Version",NW3GetW3Version);
-    CreateNative("W3GetW3Revision",NW3GetW3Revision);
     
     CreateNative("War3_InFreezeTime",Native_War3_InFreezeTime);
     
@@ -306,7 +244,6 @@ bool:War3Source_InitNatives()
     CreateNative("W3FlashScreen",Native_W3FlashScreen);
     CreateNative("War3_ShakeScreen",Native_War3_ShakeScreen);
 
-    CreateNative("War3_SpawnPlayer",Native_War3_SpawnPlayer);
 
 
     CreateNative("War3_IsUbered",Native_War3_IsUbered);
@@ -319,12 +256,7 @@ bool:War3Source_InitNatives()
     CreateNative("War3_TF_ParticleToClient",Native_War3_TF_PTC);
     
     
-    CreateNative("War3_HealToMaxHP",Native_War3_HTMHP);
-    CreateNative("War3_HealToBuffHP",Native_War3_HTBHP);
-    CreateNative("War3_DecreaseHP",Native_War3_DecreaseHP);
 
-    
-    CreateNative("W3IsDeveloper",NW3IsDeveloper);
 
     CreateNative("W3GetVar",NW3GetVar);
     CreateNative("W3SetVar",NW3SetVar);
@@ -334,14 +266,6 @@ bool:War3Source_InitNatives()
 }
 
 
-public NW3IsDeveloper(Handle:plugin,numParams)
-{
-    new client=GetNativeCell(1); //offical W3 developers
-    if(ValidPlayer(client)){
-        return W3GetPlayerProp(client,isDeveloper);
-    }
-    return false;
-}
 
 
 public NW3GetVar(Handle:plugin,numParams){

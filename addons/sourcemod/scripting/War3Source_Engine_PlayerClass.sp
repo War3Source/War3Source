@@ -107,6 +107,8 @@ public bool:InitNativesForwards()
     CreateNative("W3GetTotalLevels",NW3GetTotalLevels);
     CreateNative("W3GetLevelsSpent",NW3GetLevelsSpent);
     CreateNative("W3ClearSkillLevels",NW3ClearSkillLevels);
+    
+    CreateNative("War3_SpawnPlayer",NWar3_SpawnPlayer);
     return true;
 }
 
@@ -367,6 +369,32 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
     return ret;
 }
 
+public NWar3_SpawnPlayer(Handle:plugin,numParams)
+{
+    new client=GetNativeCell(1);
+    new ignore_check=GetNativeCell(2);
+    if(ValidPlayer(client,false) && (ignore_check!=0 || !IsPlayerAlive(client)))
+    {
+        switch(War3_GetGame())
+        {
+            case Game_CS:
+            {
+                CS_RespawnPlayer(client);
+            }
+            case Game_CSGO:
+            {
+                CS_RespawnPlayer(client);
+            }
+            case Game_TF:
+            {
+                TF2_RespawnPlayer(client);
+            }
+            default:
+                return ThrowNativeError(SP_ERROR_NATIVE,"Game does not support respawning");
+        }
+    }
+    return 0;
+}
 
 public Event_PlayerTeam(Handle:event,  const String:name[], bool:dontBroadcast)
 {
@@ -594,4 +622,3 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
     }
     return Plugin_Continue;
 }
-

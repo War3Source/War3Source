@@ -11,6 +11,7 @@
 #include <sdktools>
 #include <tf2>
 #include <tf2_stocks>
+#include <cstrike>
 
 #include "W3SIncs/constants"
 #include "W3SIncs/colors"
@@ -609,8 +610,13 @@ stock W3SetPendingRace(client, pendrace) {
     W3SetPlayerProp(client, PendingRace, pendrace);
 }
 
-native W3IsDeveloper(client);
-
+stock W3IsDeveloper(client)
+{
+    if(ValidPlayer(client)){
+        return W3GetPlayerProp(client,isDeveloper);
+    }
+    return false;
+}
 ///use W3GetVar(hDatabase) to get the handle to the database which your xp is saved, so you dont have to connect again for your addon scipts
 
 native bool:W3SaveEnabled();

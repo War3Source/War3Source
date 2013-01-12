@@ -266,7 +266,18 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
  * heals with the limit of (warcraft ) max hp
  * @noreturn
  */
-native War3_HealToMaxHP(client, addhp);
+stock War3_HealToMaxHP(client, health)
+{
+    new maxhp = War3_GetMaxHP(client);
+    new currenthp = GetClientHealth(client);
+    if(currenthp < maxhp){
+        new newhp = GetClientHealth(client) + health;
+        if (newhp > maxhp){
+            newhp = maxhp;
+        }
+        nsEntity_SetHealth(client, newhp);
+    }
+}
 
 /**
  * heals with the limit of your specified HP
@@ -291,13 +302,32 @@ stock War3HealToHP(client, addhp, maximumHP) {
  * no extra hp in other games 
  * @noreturn
  */
-native War3_HealToBuffHP(client, addhp);
+stock War3_HealToBuffHP(client, health)
+{
+    new maxhp = (War3_GetGame()==Game_TF)?RoundFloat(float(War3_GetMaxHP(client))*1.5):War3_GetMaxHP(client);
+    new currenthp = GetClientHealth(client);
+    if(currenthp < maxhp){
+        new newhp = GetClientHealth(client) + health;
+        if (newhp > maxhp){
+            newhp = maxhp;
+        }
+        nsEntity_SetHealth(client, newhp);
+    }
+}
+
 
 /** 
  * direcly decreases the player's hp by X amount (Not via damage)
  * this health removal is "non lethal"
  */
-native War3_DecreaseHP(client, decrease);
+stock War3_DecreaseHP(client, amount)
+{
+    new iHealth = GetClientHealth(client)-amount;
+    if(iHealth<1){
+        iHealth = 1;
+    }
+    nsEntity_SetHealth(client, iHealth);
+}
 
 // This one is actually used by HealToMaxHP, HealToBuffHP aswell as DecreaseHP
 stock nsEntity_SetHealth(entity, health) {
