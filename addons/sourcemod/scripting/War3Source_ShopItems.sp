@@ -217,7 +217,7 @@ public OnWar3EventSpawn(client)
         War3_SetBuffItem(client, fSlow, iShopitem[ITEM_FROST], 1.0);
     }
 
-    if(War3_GetGame() == Game_CS && 
+    if(GAMECSANY && 
        War3_GetOwnsItem(client, iShopitem[ITEM_ANKH]) && bDidDie[client])
     {
         if(!bSpawnedViaScrollRespawn[client])
