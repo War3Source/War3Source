@@ -90,7 +90,11 @@ public OnPluginStart()
 	
 	CreateTimer(1.0,SecondLoop,_,TIMER_REPEAT);
 	CreateTimer(0.1,PointOneSecondLoop,_,TIMER_REPEAT);
-	CreateTimer(10.0,GrenadeLoop,_,TIMER_REPEAT);
+    
+    if(GAMECSANY)
+    {
+        CreateTimer(10.0,GrenadeLoop,_,TIMER_REPEAT);
+    }
 	
 	for(new i=1;i<=MaxClients;i++){
 		maskSoundDelay[i]=War3_RegisterDelayTracker();
@@ -104,7 +108,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		war3ready=true;
 		for(new x=0;x<MAXITEMS;x++)
 			shopItem[x]=0;
-		if(War3_GetGame()==Game_CS) 
+		if(GAMECSANY) 
 			shopItem[ANKH]=War3_CreateShopItemT("ankh",3,2000);
 		
 		shopItem[BOOTS]=War3_CreateShopItemT("boot",3,2500);
@@ -135,7 +139,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 		
 		shopItem[SOCK]=War3_CreateShopItemT("sock",2,1500);
 		
-		if(War3_GetGame()==Game_CS) 
+		if(GAMECSANY) 
 			shopItem[GLOVES]=War3_CreateShopItemT("glove",5,3000);
 		
 		
@@ -209,7 +213,7 @@ public doCloak() //this loop should detec weapon chnage and add a new alpha
 //gloves giving nades
 public Action:GrenadeLoop(Handle:timer,any:data)
 {
-	if(war3ready&&War3_GetGame()==Game_CS){
+	if(war3ready){
 		
 		for(new x=1;x<=MaxClients;x++)
 		{
@@ -289,7 +293,7 @@ public OnItemPurchase(client,item)
 	}
 	if(item==shopItem[RING]) 
 	{
-		new Float:regen_hp=GetConVarFloat((War3_GetGame()==Game_CS)?RegenHPCSCvar:RegenHPTFCvar);
+		new Float:regen_hp=GetConVarFloat((GAMECSANY)?RegenHPCSCvar:RegenHPTFCvar);
 		War3_SetBuffItem(client,fHPRegen,shopItem[RING],regen_hp);
 	}
 	if(War3_GetGame()!=Game_TF && item==shopItem[RESPAWN])
@@ -379,7 +383,7 @@ public OnWar3EventDeath(client){
 		{
 			War3_SetOwnsItem(client,shopItem[HEALTH],false);
 		}
-		if(War3_GetGame()==Game_CS && War3_GetOwnsItem(client,shopItem[GLOVES])) // gloves
+		if(GAMECSANY && War3_GetOwnsItem(client,shopItem[GLOVES])) // gloves
 		{
 			War3_SetOwnsItem(client,shopItem[GLOVES],false);
 		}
@@ -594,7 +598,7 @@ public OnWar3EventSpawn(client){
 		bFrosted[client]=false;
 		War3_SetBuffItem(client,fSlow,shopItem[FROST],1.0);
 	}
-	if(War3_GetGame()==Game_CS && (War3_GetOwnsItem(client,shopItem[ANKH])||W3IsDeveloper(client)) && bDidDie[client])
+	if(GAMECSANY && (War3_GetOwnsItem(client,shopItem[ANKH])||W3IsDeveloper(client)) && bDidDie[client])
 	{
 		if(!bSpawnedViaScrollRespawn[client]){ //only if he didnt already respawn from the "respawn item" cuz that gives items too
 
