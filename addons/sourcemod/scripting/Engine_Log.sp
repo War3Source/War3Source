@@ -167,7 +167,14 @@ MakeReadable(String:sUnreadable[], maxlength)
         new iClientID = ReadRawFromString(sNameRaw, sizeof(sNameRaw), hRegexClient);
         
         decl String:sPlayerName[FULLNAMELEN];
-        GetClientName(iClientID, sPlayerName, sizeof(sPlayerName));
+        if (ValidPlayer(iClientID))
+        {
+            GetClientName(iClientID, sPlayerName, sizeof(sPlayerName));
+        }
+        else
+        {
+            strcopy(sPlayerName, sizeof(sPlayerName), "invalidplayer");
+        }
         
         ReplaceString(sUnreadable, maxlength, sNameRaw, sPlayerName, true);
     }

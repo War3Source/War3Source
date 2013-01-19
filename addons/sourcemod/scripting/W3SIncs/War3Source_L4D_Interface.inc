@@ -7,12 +7,12 @@
 #include <sdktools>
 
 static const    ASSAULT_RIFLE_OFFSET_IAMMO        = 12;
-static const    SMG_OFFSET_IAMMO                = 20;
-static const    PUMPSHOTGUN_OFFSET_IAMMO        = 28;
-static const    AUTO_SHOTGUN_OFFSET_IAMMO        = 32;
+static const    SMG_OFFSET_IAMMO                  = 20;
+static const    PUMPSHOTGUN_OFFSET_IAMMO          = 28;
+static const    AUTO_SHOTGUN_OFFSET_IAMMO         = 32;
 static const    HUNTING_RIFLE_OFFSET_IAMMO        = 36;
-static const    MILITARY_SNIPER_OFFSET_IAMMO    = 40;
-static const    GRENADE_LAUNCHER_OFFSET_IAMMO    = 68;
+static const    MILITARY_SNIPER_OFFSET_IAMMO      = 40;
+static const    GRENADE_LAUNCHER_OFFSET_IAMMO     = 68;
 
 /* Weapon upgrade bit flags */
 #define L4D2_WEPUPGFLAG_NONE            (0 << 0)
@@ -455,7 +455,6 @@ stock bool:IsWeapon(const String:weaponName[])
             StrEqual(weaponName, "weapon_melee", false) ||
             StrEqual(weaponName, "weapon_pistol", false) ||
             StrEqual(weaponName, "weapon_pistol_magnum", false));
-        
 }
 
 stock CreateProgressBar(client, Float:fTimeDur)

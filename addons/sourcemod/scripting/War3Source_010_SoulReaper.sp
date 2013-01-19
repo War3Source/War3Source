@@ -38,8 +38,6 @@ new Float:ultiDamageMulti[5]={0.0,0.4,0.6,0.8,1.0};
 new String:judgesnd[256]; //="war3source/sr/judgement.mp3";
 new String:ultsnd[256]; //="war3source/sr/ult.mp3";
 
-new AuraID;
-
 public OnPluginStart()
 {
     HookEvent("player_death",PlayerDeathEvent);
@@ -59,8 +57,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_INHUMAN=War3_AddRaceSkillT(thisRaceID,"InhumanNature",false,4);
         ULT_EXECUTE=War3_AddRaceSkillT(thisRaceID,"DemonicExecution",true,4); 
         War3_CreateRaceEnd(thisRaceID);
+
+        War3_AddAuraSkillBuff(thisRaceID, SKILL_PRESENCE, fHPDecay, PresenseAmount, 
+                              "witheringpresense", PresenceRange, 
+                              true);
         
-        AuraID=W3RegisterAura("witheringpresense",PresenceRange,true);
     }
 }
 
@@ -160,30 +161,6 @@ public OnUltimateCommand(client,race,bool:pressed)
     }
 }
 
-
-
-CheckAura(client){
-    new level=War3_GetSkillLevel(client,thisRaceID,SKILL_PRESENCE);
-    W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
-}
-public OnRaceChanged(client,oldrace,newrace)
-{
-    if(newrace==thisRaceID)
-    {
-        CheckAura(client);
-    }
-    else if(oldrace==thisRaceID){
-        W3SetAuraFromPlayer(AuraID,client,false);
-    }
-}
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-    if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
-    {
-        CheckAura(client);
-    }
-}
-
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
     new userid=GetEventInt(event,"userid");
@@ -216,14 +193,5 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
         //}
 
         
-    }
-}
-
-public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
-{
-    if(aura==AuraID)
-    {
-        War3_SetBuff(client,fHPDecay,thisRaceID,inAura?PresenseAmount[level]:0.0);
-        //DP("%d %f",inAura,HealingWaveAmountArr[level]);
     }
 }

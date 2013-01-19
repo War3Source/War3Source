@@ -8,6 +8,13 @@
 //                             NATIVE / STOCKS
 //=======================================================================
 
+// Easy natives to apply a W3Buff based on a skill/item
+native War3_AddSkillBuff(raceID, skill, W3Buff:buff, any:values[]);
+native War3_AddItemBuff(itemID, W3Buff:buff, any:value);
+native War3_AddAuraSkillBuff(raceID, skill, W3Buff:buff, any:values[], 
+                             String:auraShortName[], Float:distance, 
+                             bool:trackotherteam);
+
 //is a buff index valid? X > 0 and X <  MaxBuffLoopLimitTemp
 stock ValidBuff(W3Buff:buffindex) {
     if(_:buffindex>=0&&_:buffindex<MaxBuffLoopLimit) {
@@ -75,10 +82,6 @@ native W3GetBuffMinInt(client,W3Buff:buffindex);
 //calculate player speed next frame
 native W3ReapplySpeed(client);
 native W3GetSpeedMulti(client); //get the effective speed multipler for TF
-
-native War3_AddSkillBuff(raceID, skill, W3Buff:buff, any:values[]);
-native War3_AddItemBuff(itemID, W3Buff:buff, any:value);
-
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex) 
 {

@@ -7,37 +7,37 @@
 // The following are bit-flags for War3_DealDamage
 // Does not appear useful in any way
 #define DMG_GENERIC                    0
-#define DMG_CRUSH                    (1 << 0)
-#define DMG_BULLET                    (1 << 1)
-#define DMG_SLASH                    (1 << 2)
-#define DMG_BURN                    (1 << 3)
+#define DMG_CRUSH                      (1 << 0)
+#define DMG_BULLET                     (1 << 1)
+#define DMG_SLASH                      (1 << 2)
+#define DMG_BURN                       (1 << 3)
 #define DMG_VEHICLE                    (1 << 4)
-#define DMG_FALL                    (1 << 5)
-#define DMG_BLAST                    (1 << 6)
-#define DMG_CLUB                    (1 << 7)
-#define DMG_SHOCK                    (1 << 8)
-#define DMG_SONIC                    (1 << 9)
-#define DMG_ENERGYBEAM                (1 << 10)
-#define DMG_PREVENT_PHYSICS_FORCE    (1 << 11)
-#define DMG_NEVERGIB                (1 << 12)
-#define DMG_ALWAYSGIB                (1 << 13)
-#define DMG_DROWN                    (1 << 14)
-#define DMG_TIMEBASED                (DMG_PARALYZE | DMG_NERVEGAS | DMG_POISON | DMG_RADIATION | DMG_DROWNRECOVER | DMG_ACID | DMG_SLOWBURN)
-#define DMG_PARALYZE                (1 << 15)
-#define DMG_NERVEGAS                (1 << 16)
-#define DMG_POISON                    (1 << 17)
-#define DMG_RADIATION                (1 << 18)
-#define DMG_DROWNRECOVER            (1 << 19)
-#define DMG_ACID                    (1 << 20)
-#define DMG_SLOWBURN                (1 << 21)
+#define DMG_FALL                       (1 << 5)
+#define DMG_BLAST                      (1 << 6)
+#define DMG_CLUB                       (1 << 7)
+#define DMG_SHOCK                      (1 << 8)
+#define DMG_SONIC                      (1 << 9)
+#define DMG_ENERGYBEAM                 (1 << 10)
+#define DMG_PREVENT_PHYSICS_FORCE      (1 << 11)
+#define DMG_NEVERGIB                   (1 << 12)
+#define DMG_ALWAYSGIB                  (1 << 13)
+#define DMG_DROWN                      (1 << 14)
+#define DMG_TIMEBASED                  (DMG_PARALYZE | DMG_NERVEGAS | DMG_POISON | DMG_RADIATION | DMG_DROWNRECOVER | DMG_ACID | DMG_SLOWBURN)
+#define DMG_PARALYZE                   (1 << 15)
+#define DMG_NERVEGAS                   (1 << 16)
+#define DMG_POISON                     (1 << 17)
+#define DMG_RADIATION                  (1 << 18)
+#define DMG_DROWNRECOVER               (1 << 19)
+#define DMG_ACID                       (1 << 20)
+#define DMG_SLOWBURN                   (1 << 21)
 #define DMG_REMOVENORAGDOLL            (1 << 22)
 #define DMG_PHYSGUN                    (1 << 23)
-#define DMG_PLASMA                    (1 << 24)
+#define DMG_PLASMA                     (1 << 24)
 #define DMG_AIRBOAT                    (1 << 25)
-#define DMG_DISSOLVE                (1 << 26)
-#define DMG_BLAST_SURFACE            (1 << 27)
-#define DMG_DIRECT                    (1 << 28)
-#define DMG_BUCKSHOT                (1 << 29)
+#define DMG_DISSOLVE                   (1 << 26)
+#define DMG_BLAST_SURFACE              (1 << 27)
+#define DMG_DIRECT                     (1 << 28)
+#define DMG_BUCKSHOT                   (1 << 29)
 
 //=======================================================================
 //                             NATIVE / STOCKS
@@ -133,13 +133,13 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
     {
         case Game_CS:
         {
-            return StrEqual(weapon,"knife");
+            return StrEqual(weapon, "knife");
         }
         case Game_DOD:
         {
-            return (StrEqual(weapon,"amerknife") ||
-                    StrEqual(weapon,"spade") ||
-                    StrEqual(weapon,"punch"));
+            return (StrEqual(weapon, "amerknife") ||
+                    StrEqual(weapon, "spade") ||
+                    StrEqual(weapon, "punch"));
         }
         case Game_TF:
         {
@@ -252,7 +252,7 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
         case Game_CSGO:
         {
             // Revan: Seems only to be weapon_knife (normal knife) and weapon_knifegg (golden knife)
-            return (StrContains(weapon,"knife",false)!=-1);
+            return (StrContains(weapon,"knife",false) != -1);
         }
     }
     return false;
@@ -270,9 +270,11 @@ stock War3_HealToMaxHP(client, health)
 {
     new maxhp = War3_GetMaxHP(client);
     new currenthp = GetClientHealth(client);
-    if(currenthp < maxhp){
+    if(currenthp < maxhp)
+    {
         new newhp = GetClientHealth(client) + health;
-        if (newhp > maxhp){
+        if (newhp > maxhp)
+        {
             newhp = maxhp;
         }
         nsEntity_SetHealth(client, newhp);
@@ -286,7 +288,8 @@ stock War3_HealToMaxHP(client, health)
 stock War3HealToHP(client, addhp, maximumHP) {
     new currenthp = GetClientHealth(client);
     new newhp = currenthp + addhp;
-    if (newhp > maximumHP) {
+    if (newhp > maximumHP) 
+    {
         newhp = maximumHP;
     }
     
@@ -304,13 +307,16 @@ stock War3HealToHP(client, addhp, maximumHP) {
  */
 stock War3_HealToBuffHP(client, health)
 {
-    new maxhp = (War3_GetGame()==Game_TF)?RoundFloat(float(War3_GetMaxHP(client))*1.5):War3_GetMaxHP(client);
+    new maxhp = (War3_GetGame() == Game_TF) ? RoundFloat(float(War3_GetMaxHP(client)) * 1.5) : War3_GetMaxHP(client);
     new currenthp = GetClientHealth(client);
-    if(currenthp < maxhp){
+    if(currenthp < maxhp)
+    {
         new newhp = GetClientHealth(client) + health;
-        if (newhp > maxhp){
+        if (newhp > maxhp)
+        {
             newhp = maxhp;
         }
+        
         nsEntity_SetHealth(client, newhp);
     }
 }
@@ -323,14 +329,16 @@ stock War3_HealToBuffHP(client, health)
 stock War3_DecreaseHP(client, amount)
 {
     new iHealth = GetClientHealth(client)-amount;
-    if(iHealth<1){
+    if(iHealth < 1)
+    {
         iHealth = 1;
     }
     nsEntity_SetHealth(client, iHealth);
 }
 
 // This one is actually used by HealToMaxHP, HealToBuffHP aswell as DecreaseHP
-stock nsEntity_SetHealth(entity, health) {
+stock nsEntity_SetHealth(entity, health) 
+{
     new currenthp = GetEntProp(entity, Prop_Data, "m_iHealth");
     SetEntProp(entity, Prop_Data, "m_iHealth", health);
     ChangeEdictState(entity, 0);

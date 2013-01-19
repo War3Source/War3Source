@@ -45,22 +45,30 @@ public NW3RegisterAura(Handle:plugin,numParams)
 {
     new String:taurashort[32];
     GetNativeString(1,taurashort,32);
-    for(new aura=1;aura<=AuraCount;aura++){
-        if(StrEqual(taurashort, AuraShort[aura], false)){
+    
+    for(new aura=1; aura <= AuraCount; aura++)
+    {
+        if(StrEqual(taurashort, AuraShort[aura], false))
+        {
             return aura; //already registered
         }
     }
-    if(AuraCount+1<MAXAURAS){
+    if(AuraCount + 1 < MAXAURAS)
+    {
         AuraCount++;
-        strcopy(AuraShort[AuraCount],32,taurashort);
+        strcopy(AuraShort[AuraCount], 32, taurashort);
         
-        AuraDistance[AuraCount]=Float:GetNativeCell(2);
-        AuraTrackOtherTeam[AuraCount]=bool:GetNativeCell(3);
+        AuraDistance[AuraCount] = Float:GetNativeCell(2);
+        AuraTrackOtherTeam[AuraCount] = bool:GetNativeCell(3);
+        
+        War3_LogInfo("Registered aura \"%s\" with a distance of \"%f\". TrackOtherTeam: %i", AuraShort[AuraCount], AuraDistance[AuraCount], AuraTrackOtherTeam[AuraCount]);
         return AuraCount;
     }
-    else{
+    else
+    {
         ThrowError("CANNOT REGISTER ANY MORE AURAS");
     }
+    
     return -1;
 }
 public NW3SetAuraFromPlayer(Handle:plugin,numParams)
