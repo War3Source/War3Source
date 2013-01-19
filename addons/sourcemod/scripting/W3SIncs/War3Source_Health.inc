@@ -6,6 +6,8 @@
 
 // The following are bit-flags for War3_DealDamage
 // Does not appear useful in any way
+#if !defined DMG_GENERIC
+
 #define DMG_GENERIC                    0
 #define DMG_CRUSH                      (1 << 0)
 #define DMG_BULLET                     (1 << 1)
@@ -38,6 +40,8 @@
 #define DMG_BLAST_SURFACE              (1 << 27)
 #define DMG_DIRECT                     (1 << 28)
 #define DMG_BUCKSHOT                   (1 << 29)
+
+#endif
 
 //=======================================================================
 //                             NATIVE / STOCKS
