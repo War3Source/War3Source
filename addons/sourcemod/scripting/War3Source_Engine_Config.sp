@@ -65,6 +65,7 @@ public OnWar3PluginReady()
     War3_SetRaceGlobalConfigString("restricted_other","Some");
     War3_SetRaceGlobalConfigString("restricted_hugalug","None");
     War3_SetRaceGlobalConfigString("restricted_blah","Some");
+    War3_SetRaceGlobalConfigString("restricted_blah23","Some");
     ReloadConfig();
 }
 
@@ -76,6 +77,7 @@ ReloadConfig()
     }
     g_hActualRaceValues = CreateKeyValues("Race Config");
     KvRewind(g_hGlobalRaceDefault);
+	// Adds global defaults to each race's KV section
     new String:shortname[SHORTNAMELEN];
     new String:name[FULLNAMELEN];
     for(new i = 1; i < War3_GetRacesLoaded(); i++) 
@@ -90,6 +92,7 @@ ReloadConfig()
     KvRewind(g_hActualRaceValues);
     KvRewind(g_hDefaultRaceValues);
     KvGotoFirstSubKey(g_hDefaultRaceValues);
+	// Merges specific race defaults to the global KV
     KvMergeSubkeys(g_hDefaultRaceValues, g_hActualRaceValues);
     new String:file[PLATFORM_MAX_PATH];
     new Handle:kv;
@@ -100,11 +103,13 @@ ReloadConfig()
         kv = CreateKeyValues("Race Config");
         FileToKeyValues(kv, file);
         KvGotoFirstSubKey(kv);
+		// Merges in the server specific race config (ideally overriding only keys 
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
     }
     KvRewind(g_hActualRaceValues);
     KeyValuesToFile(g_hActualRaceValues, file);
+	/*
     new String:mapname[32];
     GetCurrentMap(mapname, sizeof(mapname));
     BuildPath(Path_SM, file, sizeof(file), "configs/maps/war3source_races_%s.cfg", mapname);
@@ -115,7 +120,7 @@ ReloadConfig()
         FileToKeyValues(kv, file);
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
-    }
+    } */
  /*   
     if(g_hActualItemValues != INVALID_HANDLE) 
     {
@@ -726,34 +731,15 @@ GetRealNativeStringLength(index, &length)
 KvMergeSubkeys(Handle:origin, Handle:dest)
 {
     new String:section[256];
-    new String:value[256];
-    PrintToServer("Testing!");
     do
     {
         KvGetSectionName(origin, section, sizeof(section));
-        PrintToServer("Merging race: %s", section);
-        
-        KvGotoFirstSubKey(origin, false);
-        do
-        {
-            KvGetSectionName(origin, section, sizeof(section));
-            KvGetString(origin, section, value, sizeof(value));
-            PrintToServer("Origin: key: %s value: %s", section, value);
-        } while (KvGotoNextKey(origin, false));
-        
-        KvGoBack(origin);
         KvJumpToKey(dest, section, true);
-        KvCopySubkeys(dest, origin);
-        KvGotoFirstSubKey(dest, false);
-        
-        do
-        {
-            KvGetSectionName(dest, section, sizeof(section));
-            KvGetString(dest, section, value, sizeof(value));
-            PrintToServer("Destination: key: %s value: %s", section, value);
-        } while (KvGotoNextKey(dest, false));
-        
-        KvRewind(dest);
+        KvCopySubkeys(origin, dest);
+        PrintToServer("Merging: %s", section);
         
     } while (KvGotoNextKey(origin));
 }
+
+
+
