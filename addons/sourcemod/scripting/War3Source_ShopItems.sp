@@ -299,7 +299,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                 War3_SetBuffItem(victim, fSlow, iShopitem[ITEM_FROST], fSpeedMult);
                 bFrosted[victim] = true;
 
-                PrintToConsole(attacker, "%T", "ORB OF ITEM_FROST!", attacker);
+                PrintToConsole(attacker, "%T", "ORB OF FROST!", attacker);
                 PrintToConsole(victim, "%T", "Frosted, reducing your speed", victim);
                 CreateTimer(2.0, Timer_Unfrost, victim);
             }
