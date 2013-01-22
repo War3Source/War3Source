@@ -4,6 +4,8 @@
 */
 
 
+#define ATTACKER_WORLD 0
+
 //for all war3source or SH plugins, we define MAXPlAYERS as 66
 //just so pigs dont fly when you run a 64 slot server with HLTV
 #define MAXPLAYERSCUSTOM 66   //+2 of real for normal servers, add +X number of HLTV slots

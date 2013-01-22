@@ -50,36 +50,56 @@ public Native_EvadeDamage(Handle:plugin, numParams)
     {
         W3FlashScreen(victim, RGBA_COLOR_BLUE);
         W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "You Evaded a Shot", victim);
+
+        if(War3_GetGame() == Game_TF)
+        {
+            decl Float:pos[3];
+            GetClientEyePosition(victim, pos);
+            pos[2] += 4.0;
+            War3_TF_ParticleToClient(0, "miss_text", pos);
+        }
     }
     
     if (ValidPlayer(attacker))
     {
         W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Enemy Evaded", attacker);
     }
-    
-    if(War3_GetGame() == Game_TF)
-    {
-        decl Float:pos[3];
-        GetClientEyePosition(victim, pos);
-        pos[2] += 4.0;
-        War3_TF_ParticleToClient(0, "miss_text", pos);
-    }
 }
 
 public Native_EffectReturnDamage(Handle:plugin, numParams)
 {
+    // Victim: The guy getting shot
+    // Attacker: The guy who takes damage
     new victim = GetNativeCell(1);
     new attacker = GetNativeCell(2);
     new damage = GetNativeCell(3);
     new skill = GetNativeCell(4);
+
+    if (attacker == ATTACKER_WORLD)
+    {
+        return;
+    }
     
     new beamSprite = War3_PrecacheBeamSprite();
     new haloSprite = War3_PrecacheHaloSprite();
     
     decl Float:f_AttackerPos[3];
     decl Float:f_VictimPos[3];
+
+    if (ValidPlayer(attacker))
+    {
+        GetClientAbsOrigin(attacker, f_AttackerPos);
+    }
+    else if (IsValidEntity(attacker))
+    {
+        GetEntPropVector(attacker, Prop_Send, "m_vecOrigin", f_AttackerPos);
+    }
+    else
+    {
+        War3_LogError("Invalid attacker for EffectReturnDamage: %i", attacker);
+        return;
+    }
     
-    GetClientAbsOrigin(attacker, f_AttackerPos);
     GetClientAbsOrigin(victim, f_VictimPos);
     
     f_AttackerPos[2] += 35.0;
