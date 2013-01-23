@@ -339,9 +339,25 @@ stock CFindRandomPlayerByTeam(color_team)
 stock CSayText2(client, author, const String:szMessage[])
 {
     new Handle:hBuffer = StartMessageOne("SayText2", client);
-    BfWriteByte(hBuffer, author);
-    BfWriteByte(hBuffer, true);
-    BfWriteString(hBuffer, szMessage);
+    if (GetUserMessageType() == UM_Protobuf)
+    {
+        // http://forums.alliedmods.net/showpost.php?p=1878490&postcount=18
+        PbSetInt(hBuffer, "ent_idx", author);
+
+        PbSetBool(hBuffer, "chat", false);
+
+        PbSetString(hBuffer, "msg_name", szMessage);
+        PbAddString(hBuffer, "params", "");
+        PbAddString(hBuffer, "params", "");
+        PbAddString(hBuffer, "params", "");
+        PbAddString(hBuffer, "params", "");
+    }
+    else
+    {
+        BfWriteByte(hBuffer, author);
+        BfWriteByte(hBuffer, true);
+        BfWriteString(hBuffer, szMessage);
+    }
     EndMessage();
 }
 

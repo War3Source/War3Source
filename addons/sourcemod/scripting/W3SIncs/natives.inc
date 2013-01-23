@@ -37,13 +37,23 @@ public Native_W3FlashScreen(Handle:plugin,numParams)
         new Handle:hBf=StartMessageOne("Fade",client);
         if(hBf!=INVALID_HANDLE)
         {
-            BfWriteShort(hBf,RoundFloat(255.0*fadeduration));
-            BfWriteShort(hBf,RoundFloat(255.0*holdduration)); //holdtime
-            BfWriteShort(hBf,flags);
-            BfWriteByte(hBf,color[0]);
-            BfWriteByte(hBf,color[1]);
-            BfWriteByte(hBf,color[2]);
-            BfWriteByte(hBf,color[3]);
+            if (GetUserMessageType() == UM_Protobuf)
+            {
+                PbSetInt(hBf, "duration", RoundFloat(255.0*fadeduration));
+                PbSetInt(hBf, "hold_time", RoundFloat(255.0*holdduration));
+                PbSetInt(hBf, "flags", flags);
+                PbSetColor(hBf, "clr", color);
+            }
+            else
+            {
+                BfWriteShort(hBf,RoundFloat(255.0*fadeduration));
+                BfWriteShort(hBf,RoundFloat(255.0*holdduration)); //holdtime
+                BfWriteShort(hBf,flags);
+                BfWriteByte(hBf,color[0]);
+                BfWriteByte(hBf,color[1]);
+                BfWriteByte(hBf,color[2]);
+                BfWriteByte(hBf,color[3]);
+            }
             EndMessage();
         }
     }
@@ -60,10 +70,20 @@ public Native_War3_ShakeScreen(Handle:plugin,numParams)
         new Handle:hBf=StartMessageOne("Shake",client);
         if(hBf!=INVALID_HANDLE)
         {
-            BfWriteByte(hBf,0);
-            BfWriteFloat(hBf,magnitude);
-            BfWriteFloat(hBf,noise);
-            BfWriteFloat(hBf,duration);
+            if (GetUserMessageType() == UM_Protobuf)
+            {
+                PbSetInt(hBf, "command", 0);
+                PbSetFloat(hBf, "local_amplitude", magnitude);
+                PbSetFloat(hBf, "frequency", noise);
+                PbSetFloat(hBf, "duration", duration);
+            }
+            else
+            {
+                BfWriteByte(hBf,0);
+                BfWriteFloat(hBf,magnitude);
+                BfWriteFloat(hBf,noise);
+                BfWriteFloat(hBf,duration);
+            }
             EndMessage();
         }
     }

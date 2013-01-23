@@ -233,8 +233,15 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
     
     if(bEnabled)
     {
-        new String:str[128];
-        BfReadString(Handle:bf, str, sizeof(str), false);
+        decl String:str[128];
+        if (GetUserMessageType() == UM_Protobuf)
+        {
+            BfReadString(Handle:bf, str, sizeof(str), false);
+        }
+        else
+        {
+            PbReadString(bf, "text", str, sizeof(str));
+        }
 
         if(str[0] != ' ' && str[0] != '#')
         {
