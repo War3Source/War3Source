@@ -272,8 +272,14 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
 	if(enabled)
 	{
 		new String:str[128];
-		BfReadString(Handle:bf, str, sizeof(str), false);
-		//PrintToServer("[W3Hint] recieved \"%s\"",str);
+		if (GetUserMessageType() == UM_Protobuf)
+        {            
+            PbReadString(bf, "text", str, sizeof(str));
+        }
+        else
+        {
+            BfReadString(Handle:bf, str, sizeof(str), false);
+        }
 
 		if(str[0]!=' '&&str[0]!='#')
 		{
