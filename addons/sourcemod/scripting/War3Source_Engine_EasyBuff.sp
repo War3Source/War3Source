@@ -208,18 +208,19 @@ public OnW3PlayerAuraStateChanged(client, tAuraID, bool:inAura, level)
         {
             new race = GetArrayCell(g_hBuffRace, i);
             new W3Buff:buff = W3Buff:GetArrayCell(g_hSkillBuffs, i);
+            new iSkill = GetArrayCell(g_hBuffSkill, i);
             
             if(inAura)
             {
                 new any:value = GetArrayCell(g_hBuffSkillValues, i, level);
                 
                 War3_SetBuff(client, buff, race, value);
-                War3_LogInfo("[AURA] Giving buff %i with a magnitude of %f to player \"{client %i}\" (Aura from skill \"{skill %i}\" of race \"{race %i}\" at level %i)", buff, value, client, race, level);
+                War3_LogInfo("[AURA] Giving buff %i with a magnitude of %f to player \"{client %i}\" (Aura from skill \"{skill %i}\" of race \"{race %i}\" at level %i)", buff, value, client, iSkill, race, level);
             }
             else
             {
                 W3ResetBuffRace(client, buff, race);
-                War3_LogInfo("[AURA] Resetting the buff %i caused by skill \"{skill %i}\" of race \"{race %i}\" on \"{client %i}\"", buff, race, client);
+                War3_LogInfo("[AURA] Resetting the buff %i caused by skill \"{skill %i}\" of race \"{race %i}\" on \"{client %i}\"", buff, iSkill, race, client);
             }
         }
     }

@@ -1701,3 +1701,4 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_Buffs"
 #include "W3SIncs/War3Source_XP_Gold"
 #include "W3SIncs/War3Source_Config"
+#include "W3SIncs/War3Source_Attributes"

@@ -30,6 +30,7 @@ new Handle:hRegexRace = INVALID_HANDLE;
 new Handle:hRegexItem = INVALID_HANDLE;
 new Handle:hRegexSkill = INVALID_HANDLE;
 new Handle:hRegexClient = INVALID_HANDLE;
+new Handle:hRegexAttribute = INVALID_HANDLE;
 new Handle:hRegexID = INVALID_HANDLE;
 
 
@@ -114,6 +115,10 @@ MakeReadable(String:sUnreadable[], maxlength)
     {
         hRegexClient = CompileRegex("{client (\\d+)}");
     }
+    if(hRegexAttribute == INVALID_HANDLE)
+    {
+        hRegexAttribute = CompileRegex("{attribute (\\d+)}");
+    }
     
     if(hRegexID == INVALID_HANDLE)
     {
@@ -173,6 +178,18 @@ MakeReadable(String:sUnreadable[], maxlength)
         }
 
         ReplaceString(sUnreadable, maxlength, sNameRaw, sPlayerName, true);
+    }
+    
+    // Replace attribute ids with the name
+    if(MatchRegex(hRegexAttribute, sUnreadable) > 0)
+    {
+        decl String:sAttributeRaw[64];
+        new iAttributeId = ReadRawFromString(sAttributeRaw, sizeof(sAttributeRaw), hRegexAttribute);
+        
+        decl String:sAttributeName[FULLNAMELEN];
+        War3_GetAttributeName(iAttributeId, sAttributeName, sizeof(sAttributeName));
+        
+        ReplaceString(sUnreadable, maxlength, sAttributeRaw, sAttributeName, true);
     }
 }
 
