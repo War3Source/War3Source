@@ -234,7 +234,7 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
     if(bEnabled)
     {
         decl String:str[128];
-        if (GetUserMessageType() == UM_Protobuf)
+        if (GetUserMessageType() != UM_Protobuf)
         {
             BfReadString(Handle:bf, str, sizeof(str), false);
         }
