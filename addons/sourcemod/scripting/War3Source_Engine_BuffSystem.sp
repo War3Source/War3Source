@@ -194,7 +194,7 @@ public NW3GetBuffLoopLimit(Handle:plugin,numParams) {
 
 
 
-public Action:cmdbufflist(client,args){
+public Action:cmdbufflist(client, args){
     
     if(args==1){
         new String:arg[32];

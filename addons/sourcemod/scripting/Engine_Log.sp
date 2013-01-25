@@ -28,9 +28,10 @@ new Handle:hGlobalErrorFwd = INVALID_HANDLE;
 // Log prettifier
 new Handle:hRegexRace = INVALID_HANDLE;
 new Handle:hRegexItem = INVALID_HANDLE;
-new Handle:hRegexSkill = INVALID_HANDLE;
+//new Handle:hRegexSkill = INVALID_HANDLE;
 new Handle:hRegexClient = INVALID_HANDLE;
 new Handle:hRegexID = INVALID_HANDLE;
+new Handle:hRegexTag = INVALID_HANDLE;
 
 
 public OnPluginStart()
@@ -72,6 +73,14 @@ public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err
 
 public bool:InitNativesForwards()
 {
+    // Sadly sourcemod doesn't handle regex groups x_X
+    hRegexRace = CompileRegex("{race (\\d+)}");
+    hRegexItem = CompileRegex("{item (\\d+)}");
+    //hRegexSkill = CompileRegex("{skill (\\d+)}");
+    hRegexClient = CompileRegex("{client (\\d+)}");
+    hRegexID = CompileRegex("\\d+");
+    hRegexTag = CompileRegex("{tag}");
+    LoadTranslations("w3s._common.phrases.txt");
     CreateNative("War3_LogInfo", Native_War3_LogInfo);
     CreateNative("War3_LogWarning", Native_War3_LogWarning);
     CreateNative("War3_LogError", Native_War3_LogError);
@@ -97,28 +106,6 @@ ReadRawFromString(String:sInput[], maxlength, Handle:hRegex)
 
 MakeReadable(String:sUnreadable[], maxlength)
 {
-    // Sadly sourcemod doesn't handle regex groups x_X
-    if(hRegexRace == INVALID_HANDLE)
-    {
-        hRegexRace = CompileRegex("{race (\\d+)}");
-    }
-    if(hRegexItem == INVALID_HANDLE)
-    {
-        hRegexItem = CompileRegex("{item (\\d+)}");
-    }
-    if(hRegexSkill == INVALID_HANDLE)
-    {
-        hRegexSkill = CompileRegex("{skill (\\d+)}");
-    }
-    if(hRegexClient == INVALID_HANDLE)
-    {
-        hRegexClient = CompileRegex("{client (\\d+)}");
-    }
-    
-    if(hRegexID == INVALID_HANDLE)
-    {
-        hRegexID = CompileRegex("\\d+");
-    }
     
     // Replace race ids with their name
     if(MatchRegex(hRegexRace, sUnreadable) > 0)
@@ -159,6 +146,14 @@ MakeReadable(String:sUnreadable[], maxlength)
         ReplaceString(sUnreadable, maxlength, sSkillRaw, sSkillName, true);
     }
     */
+    // Replace tag with war3source tag
+    if(MatchRegex(hRegexTag, sUnreadable) > 0)
+    {
+        decl String:sTag[64];
+        Format(sTag, sizeof(sTag), "%T", "[war3source]", LANG_SERVER);
+        
+        ReplaceString(sUnreadable, maxlength, "{tag}", sTag, true);
+    }
     
     // Replace client ids with the name
     if(MatchRegex(hRegexClient, sUnreadable) > 0)

@@ -6,7 +6,7 @@
  * 
  * LISTS NATIVES AND FORWARDS, BUT NOT ACTUALLY DEFINES THE CODE
  */
-
+#pragma semicolon 1
 #undef REQUIRE_EXTENSIONS
 #include <sdktools>
 #include <tf2>
@@ -21,6 +21,7 @@
 #include "W3SIncs/War3Source_Races"
 #include "W3SIncs/War3Source_Logging"
 #include "W3SIncs/War3Source_Gamecheck"
+#include "W3SIncs/easy_commands"
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
