@@ -37,7 +37,7 @@ public Action:Print_Level(Handle:timer, any:data)
     {
         if(ValidPlayer(i,true))
         {
-            Client_PrintKeyHintText(i,"%s",hintstring);
+            War3_KeyHintText(i, hintstring);
         }
     }
     return Plugin_Continue;
@@ -120,35 +120,6 @@ public Action:Print_Level(Handle:timer,any:data)
         }
     }
 } */
-
-//Thanks, SMLIB! :D
-stock bool:Client_PrintKeyHintText(client, const String:format[], any:...)
-{
-    new Handle:userMessage = StartMessageOne("KeyHintText", client);
-    
-    if (userMessage == INVALID_HANDLE) {
-        return false;
-    }
-    
-    decl String:buffer[254];
-    
-    SetGlobalTransTarget(client);
-    VFormat(buffer, sizeof(buffer), format, 3);
-    
-    if (GetUserMessageType() == UM_Protobuf)
-	{
-        PbSetString(userMessage, "hints", format);
-    }
-    else
-    {
-        BfWriteByte(userMessage, 1);
-        BfWriteString(userMessage, buffer);
-    }
-    
-    EndMessage();
-    
-    return true;
-}
 
 
 

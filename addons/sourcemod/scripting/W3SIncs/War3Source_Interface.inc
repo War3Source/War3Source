@@ -495,6 +495,15 @@ native War3Failed(String:reason[]);
 //helper, directly uses last inflictor and damagetype
 native Float:W3ChanceModifier(attacker);
 
+/**
+ * Prints a message to the right-hand display
+ *
+ * @param   client      Client index.
+ * @param   szFormat    Formatting rules.
+ * @param   ...         Variable number of format parameters.
+ */
+native War3_KeyHintText(client, const String:szFormat[], any:...);
+
 //print via hint engine. format accepts translations
 //maximum duration is 20.0
 native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
