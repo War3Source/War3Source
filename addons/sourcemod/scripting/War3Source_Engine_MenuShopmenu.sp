@@ -11,7 +11,7 @@ public Plugin:myinfo =
 new Handle:hBuyItemUseCSMoneCvar;
 new Handle:hUseCategorysCvar;
 
-new String:sBuyItemSound[256]
+new String:sBuyItemSound[256];
 
 public bool:InitNativesForwards()
 {
@@ -290,7 +290,7 @@ War3M_ExceededMaxItemsMenuBuy(client)
 
     decl String:itembuf[4];
     decl String:linestr[96];
-    new ItemsLoaded = W3GetItemsLoaded()
+    new ItemsLoaded = W3GetItemsLoaded();
     for(new x=1;x<=ItemsLoaded;x++)
     {
         if(War3_GetOwnsItem(client,x)) {
@@ -341,7 +341,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
                     }
                     War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 
-                    W3SetVar(TheItemBoughtOrLost,WantsToBuy[client])
+                    W3SetVar(TheItemBoughtOrLost,WantsToBuy[client]);
                     W3CreateEvent(DoForwardClientBoughtItem,client); //old item
                 }
             }

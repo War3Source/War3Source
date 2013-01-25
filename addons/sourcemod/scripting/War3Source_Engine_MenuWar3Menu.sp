@@ -10,7 +10,7 @@ public Plugin:myinfo =
 
 public OnWar3Event(W3EVENT:event,client){
     if(event==DoShowWar3Menu){
-        ShowWar3Menu(client)
+        ShowWar3Menu(client);
     }
 }
 
@@ -20,7 +20,8 @@ ShowWar3Menu(client){
     new limit=9;
     new String:transbuf[32];
     new String:menustr[100];
-    for(new i=0;i<=limit;i++){
+    for(new i=0;i<=limit;i++)
+	{
     
         Format(transbuf,sizeof(transbuf),"War3Menu_Item%d",i);
         Format(menustr,sizeof(menustr),"%T",transbuf,client);

@@ -28,7 +28,7 @@ new Handle:hGlobalErrorFwd = INVALID_HANDLE;
 // Log prettifier
 new Handle:hRegexRace = INVALID_HANDLE;
 new Handle:hRegexItem = INVALID_HANDLE;
-//new Handle:hRegexSkill = INVALID_HANDLE;
+new Handle:hRegexSkill = INVALID_HANDLE;
 new Handle:hRegexClient = INVALID_HANDLE;
 new Handle:hRegexAttribute = INVALID_HANDLE;
 new Handle:hRegexID = INVALID_HANDLE;
@@ -64,7 +64,7 @@ public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err
     decl String:sLogfilePath[64];
     decl String:sDate[32];
     FormatTime(sDate, sizeof(sDate), "%Y%m%d");
-    Format(sLogfilePath, sizeof(sLogfilePath), "logs/war3source_%s.log", sDate)
+    Format(sLogfilePath, sizeof(sLogfilePath), "logs/war3source_%s.log", sDate);
     
     BuildPath(Path_SM, sLogPath, sizeof(sLogPath), sLogfilePath);
     hW3Log = OpenFile(sLogPath, "a+");

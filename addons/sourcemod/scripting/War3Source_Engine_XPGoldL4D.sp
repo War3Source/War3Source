@@ -23,9 +23,10 @@ new Handle:InfectedDamageModXPCvar;
 new Handle:PukeEnemyXPCvar;
 new Handle:PukeFatalXPCvar;
 new Handle:IncapXPCvar;
-new Handle:KillSurvivorXPCvar
+new Handle:KillSurvivorXPCvar;
 
-public LoadCheck(){
+public LoadCheck()
+{
     return GameL4DAny();
 }
 
@@ -257,7 +258,7 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
                 if (iAmount == 0)
                 {
                     rewarded_players++;
-                    continue
+                    continue;
                 }
                 
                 // Player has as much!
@@ -271,7 +272,7 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
                     }
                 
                     reward_multiplier = iAmountOfPlayers + 1 - place;
-                    addxp = RoundToCeil((iAmount * reward_multiplier) * final_multiplier)
+                    addxp = RoundToCeil((iAmount * reward_multiplier) * final_multiplier);
                     
                     if (StrEqual(netprop, "m_checkpointZombieKills"))
                         W3GiveXPGold(client, XPAwardByGeneric, addxp, 0, "Zombie kills");
@@ -292,7 +293,7 @@ RewardInOrder(const String:netprop[], Float:final_multiplier)
 public War3Source_SurvivorRevivedEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
     /*Help someone get up*/
-    new reviver = GetClientOfUserId(GetEventInt(event, "userid"))    
+    new reviver = GetClientOfUserId(GetEventInt(event, "userid")); 
     if(GetClientTeam(reviver) == TEAM_SURVIVORS)
     {
         new addxp = GetConVarInt(HelpTeammateXPCvar);

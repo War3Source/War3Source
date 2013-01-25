@@ -72,10 +72,10 @@ doVisualEffect(wardindex,beamcolor[4]) {
     AddVectors(location,tempVec1,start_pos);
     AddVectors(location,tempVec2,end_pos);
     TE_SetupBeamPoints(start_pos,end_pos,BeamSprite,HaloSprite,0,GetRandomInt(30,100),interval,70.0,70.0,0,30.0,beamcolor,10);
-    TE_SendToAll()
+    TE_SendToAll();
     
     new Float:StartRadius = radius/2.0;
-    new Speed = RoundToFloor((radius-StartRadius)/interval)
+    new Speed = RoundToFloor((radius-StartRadius)/interval);
     
     TE_SetupBeamRingPoint(location,StartRadius,float(radius),BeamSprite,HaloSprite,0,1,interval,20.0,1.5,beamcolor,Speed,0);
     TE_SendToAll();

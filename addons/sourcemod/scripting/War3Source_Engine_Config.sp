@@ -254,7 +254,7 @@ public Native_War3_GetRaceConfigArray(Handle:plugin, numParams)
                 break;
             }
             index ++;
-        } while(KvGotoNextKey(g_hDefaultRaceValues, false))
+        } while(KvGotoNextKey(g_hDefaultRaceValues, false));
     }
     SetNativeArray(3, array, arraylen);
     return 1;
@@ -536,7 +536,7 @@ public Native_War3_GetItemConfigArray(Handle:plugin, numParams)
                 break;
             }
             index ++;
-        } while(KvGotoNextKey(g_hDefaultItemValues, false))
+        } while(KvGotoNextKey(g_hDefaultItemValues, false));
     }
     SetNativeArray(3, array, arraylen);
     return 1;

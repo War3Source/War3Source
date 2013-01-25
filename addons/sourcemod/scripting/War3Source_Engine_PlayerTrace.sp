@@ -34,7 +34,7 @@ public NWar3_GetAimEndPoint(Handle:plugin,numParams)
     TR_TraceRayFilter(startpos,angle,MASK_ALL,RayType_Infinite,AimTargetFilter);
     TR_GetEndPosition(endpos);
     
-    SetNativeArray(2,endpos,3)
+    SetNativeArray(2,endpos,3);
 }
 public NWar3_GetAimTraceMaxLen(Handle:plugin,numParams)
 {
@@ -55,7 +55,7 @@ public NWar3_GetAimTraceMaxLen(Handle:plugin,numParams)
     
     TR_GetEndPosition(endpos); //overwrites to actual end pos
     
-    SetNativeArray(2,endpos,3)
+    SetNativeArray(2,endpos,3);
 }
 public bool:AimTargetFilter(entity,mask)
 {
@@ -215,7 +215,7 @@ public NW3LOS(Handle:plugin,numParams)
 {
     new client=GetNativeCell(1);
     new target=GetNativeCell(2);
-    los_target=target
+    los_target=target;
     if(ValidPlayer(client,true)&&ValidPlayer(target,true))
     {
         new Float:PlayerEyePos[3];

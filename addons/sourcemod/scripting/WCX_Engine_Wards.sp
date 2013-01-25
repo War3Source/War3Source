@@ -44,7 +44,7 @@ public OnPluginStart()
 {
     g_hWardOwner = CreateArray(1);
     g_hWardRadius = CreateArray(1);
-    g_hWardLocation = CreateArray(3)
+    g_hWardLocation = CreateArray(3);
     g_hWardDuration = CreateArray(1);
     g_hWardTimerInterval = CreateArray(1);
     g_hWardTimerDuration = CreateArray(1);
@@ -108,12 +108,12 @@ public Native_War3_GetWardSkill(Handle:plugin, numParams) {
 public Native_War3_GetWardColor2(Handle:plugin, numParams) {
     new color[4];
     GetArrayArray(g_hWardColor2, GetNativeCell(1), color);
-    SetNativeArray(2, color, sizeof(color))
+    SetNativeArray(2, color, sizeof(color));
 }
 public Native_War3_GetWardColor3(Handle:plugin, numParams) {
     new color[4];
     GetArrayArray(g_hWardColor3, GetNativeCell(1), color);
-    SetNativeArray(2, color, sizeof(color))
+    SetNativeArray(2, color, sizeof(color));
 }
 public Native_War3_CreateWardBehavior(Handle:plugin,numParams)
 {
@@ -181,7 +181,7 @@ public Native_War3_CreateWard(Handle:plugin,numParams)
         new String:behavior[WARDSNAMELEN];
         GetNativeString(6,behavior,sizeof(behavior));
         PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(behavior));
-        PushArrayCell(g_hWardSkill, GetNativeCell(7))
+        PushArrayCell(g_hWardSkill, GetNativeCell(7));
         new any:data[MAXWARDDATA];
         GetNativeArray(8,data,MAXWARDDATA);
         PushArrayArray(g_hWardData, data);
@@ -190,11 +190,12 @@ public Native_War3_CreateWard(Handle:plugin,numParams)
         PushArrayCell(g_hWardTimerInterval, CreateTimer(GetArrayCell(g_hWardInterval, id),WardPulse,id,TIMER_REPEAT));
         PushArrayCell(g_hWardUseDefaultColors, GetNativeCell(11));
         new color[4];
-        GetNativeArray(12, color, sizeof(color))
+        GetNativeArray(12, color, sizeof(color));
         PushArrayArray(g_hWardColor2, color);
-        GetNativeArray(13, color, sizeof(color))
+        GetNativeArray(13, color, sizeof(color));
         PushArrayArray(g_hWardColor3, color);
-        if (GetArrayCell(g_hWardDuration,id) > 0) {
+        if (GetArrayCell(g_hWardDuration,id) > 0) 
+		{
             PushArrayCell(g_hWardTimerDuration, CreateTimer(GetArrayCell(g_hWardDuration,id),TimedRemoveWard,id));
         } else {
             PushArrayCell(g_hWardTimerDuration, INVALID_HANDLE);
@@ -241,7 +242,7 @@ public Native_War3_GetWardOwner(Handle:plugin,numParams)
 public Native_War3_GetWardData(Handle:plugin,numParams)
 {
     new data[MAXWARDDATA];
-    GetArrayArray(g_hWardData, GetNativeCell(1), data)
+    GetArrayArray(g_hWardData, GetNativeCell(1), data);
     SetNativeArray(2,data,MAXWARDDATA);
 }
 

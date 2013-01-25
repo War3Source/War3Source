@@ -381,8 +381,8 @@ CooldownResetByCRS(client,raceid,skillnum){
 }
 CooldownExpired(i,bool:expiredByTimer)
 {    
-    new client=Cooldown[i][cclient]
-    new raceid=Cooldown[i][crace]
+    new client=Cooldown[i][cclient];
+    new raceid=Cooldown[i][crace];
     new skillNum=Cooldown[i][cskill];
     CooldownPointer[client][raceid][skillNum]=-1;
 
@@ -445,7 +445,7 @@ public Internal_PrintSkillNotAvailable(cooldownindex){
 public OnWar3EventSpawn(client){
     
 
-    CheckCooldownsForExpired(true,client)
+    CheckCooldownsForExpired(true,client);
 
     new race=War3_GetRace(client);
     for(new i=1;i<MAXSKILLCOUNT;i++){

@@ -22,8 +22,8 @@ new desiredRaceOnJoin[MAXPLAYERSCUSTOM];
 
 public bool:InitNativesForwards()
 {
-    CreateNative("W3SaveXP" ,NW3SaveXP)
-    CreateNative("W3SaveEnabled" ,NW3SaveEnabled)
+    CreateNative("W3SaveXP" ,NW3SaveXP);
+    CreateNative("W3SaveEnabled" ,NW3SaveEnabled);
 
     return true;
 }
@@ -47,7 +47,7 @@ public NW3SaveXP(Handle:plugin,numParams)
     new race = GetNativeCell(2);
 
     //saves main also
-    War3Source_SavePlayerData(client,race)
+    War3Source_SavePlayerData(client,race);
 }
 
 public NW3SaveEnabled(Handle:plugin,numParams)
@@ -78,7 +78,7 @@ Initialize_SQLTable()
         if(query == INVALID_HANDLE)
         {
             new String:createtable[3000];
-            Format(createtable, sizeof(createtable), "CREATE TABLE war3source (steamid varchar(64) UNIQUE, name varchar(64), currentrace varchar(16), gold int, total_level int, total_xp int, levelbankV2 int, last_seen int) %s", War3SQLType:W3GetVar(hDatabaseType) == SQLType_MySQL ? "DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci" : "" )
+            Format(createtable, sizeof(createtable), "CREATE TABLE war3source (steamid varchar(64) UNIQUE, name varchar(64), currentrace varchar(16), gold int, total_level int, total_xp int, levelbankV2 int, last_seen int) %s", War3SQLType:W3GetVar(hDatabaseType) == SQLType_MySQL ? "DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci" : "" );
             if(!SQL_FastQueryLogOnError(hDB, createtable) ||
                !SQL_FastQueryLogOnError(hDB, "CREATE UNIQUE INDEX war3_steamid ON war3source (steamid)"))
             {
@@ -543,7 +543,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
         }
 
         new inserts;
-        new RacesLoaded = War3_GetRacesLoaded()
+        new RacesLoaded = War3_GetRacesLoaded();
         for(new raceid=1; raceid <= RacesLoaded; raceid++)
         {
             if(raceloaded[raceid] == false)

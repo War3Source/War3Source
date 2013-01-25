@@ -25,7 +25,7 @@ public OnWar3Event(W3EVENT:event,client){
         ShowMenuRaceinfo(client);
     }
     if(event==DoShowPlayerinfoMenu){
-        War3_PlayerInfoMenu(client,"")
+        War3_PlayerInfoMenu(client,"");
     }
     if(event==DoShowPlayerinfoEntryWithArg){
         PlayerInfoMenuEntry(client);

@@ -73,7 +73,7 @@ GetCurrentWeaponEnt(client){
 
 public NW3DropWeapon(Handle:plugin,numParams)
 {
-    new client = GetNativeCell(1)
+    new client = GetNativeCell(1);
     new wpent = GetNativeCell(2);
     if (ValidPlayer(client,true) && IsValidEdict(wpent)){
         CS_DropWeapon(client,wpent,true);

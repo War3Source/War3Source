@@ -593,7 +593,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 stock bool:W3IsCategory(const String:cat_name[]) {
     for(new i=0;i<CatCount;i++) {
         if(strcmp(strCategories[i], cat_name, false)==0) {
-            return true //cat exist
+            return true; //cat exist
         }
     }
     return false;//no cat founded that is named X

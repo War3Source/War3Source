@@ -21,12 +21,7 @@ new RaceIDToReset[MAXPLAYERSCUSTOM];
 
 new String:levelupSound[256]; //="war3source/levelupcaster.mp3";
 
-/**********************
- * prevent double kills if the same player in the same frame, 
- * like killed by skill damage is one kill message, killed by original damge is another death message, 
- * woudl cause double xp kill, because skill damage is actually dealt first (nested)
- */ 
-new bHasDiedThisFrame[MAXPLAYERSCUSTOM];
+
 
 new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
@@ -114,9 +109,6 @@ public bool:InitNativesForwards()
     CreateNative("W3ClearSkillLevels",NW3ClearSkillLevels);
     
     CreateNative("War3_SpawnPlayer",NWar3_SpawnPlayer);
-
-    CreateNative("W3HasDiedThisFrame",NWar3_HasDiedThisFrame);
-
     return true;
 }
 
@@ -358,8 +350,9 @@ public NW3ClearSkillLevels(Handle:plugin,numParams){
     if (client > 0 && client <= MaxClients)
     {
         new race=GetNativeCell(2);
-        new raceSkillCount = War3_GetRaceSkillCount(race)
-        for(new i=1;i<=raceSkillCount;i++){
+        new raceSkillCount = War3_GetRaceSkillCount(race);
+        for(new i=1;i<=raceSkillCount;i++)
+		{
             War3_SetSkillLevelINTERNAL(client,race,i,0);            
         }
     }
@@ -372,7 +365,9 @@ public NW3GetLevelsSpent(Handle:plugin,numParams){
     {
         new raceSkillCount = War3_GetRaceSkillCount(race);
         for(new i=1;i<=raceSkillCount;i++)
+		{
             ret+=War3_GetSkillLevelINTERNAL(client,race,i);
+		}
     }
     return ret;
 }
@@ -402,12 +397,6 @@ public NWar3_SpawnPlayer(Handle:plugin,numParams)
         }
     }
     return 0;
-}
-
-public NWar3_HasDiedThisFrame(Handle:plugin,numParams)
-{
-    new client = GetNativeCell(1);
-    return IS_PLAYER(client) && bHasDiedThisFrame[client];
 }
 
 public Event_PlayerTeam(Handle:event,  const String:name[], bool:dontBroadcast)
@@ -560,12 +549,6 @@ public ResetSkillsAndSetVar(client)
     }
 }
 
-public OnGameFrame(){
-    for(new i=1;i<MAXPLAYERSCUSTOM;i++){
-        bHasDiedThisFrame[i]=0;
-    }
-}
-
 public OnWar3EventSpawn(client)
 {
     ResetSkillsAndSetVar(client);
@@ -573,10 +556,6 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventDeath(victim, attacker)
 {
-    if(bHasDiedThisFrame[victim]){
-        return;
-    }
-    bHasDiedThisFrame[victim]++;
     ResetSkillsAndSetVar(victim);
 }
 

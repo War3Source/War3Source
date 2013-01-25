@@ -43,8 +43,8 @@ new skillProp[MAXRACES][MAXSKILLCOUNT][W3SkillProp];
 new MinLevelCvar[MAXRACES];
 new AccessFlagCvar[MAXRACES];
 new RaceOrderCvar[MAXRACES];
-new RaceFlagsCvar[MAXRACES]
-new RestrictItemsCvar[MAXRACES]
+new RaceFlagsCvar[MAXRACES];
+new RestrictItemsCvar[MAXRACES];
 new RestrictLimitCvar[MAXRACES][2];
 
 new Handle:m_MinimumUltimateLevel;
@@ -52,7 +52,7 @@ new Handle:m_MinimumUltimateLevel;
 new bool:racecreationended=true;
 new String:creatingraceshortname[16];
 
-new raceCell[MAXRACES][ENUM_RaceObject]
+new raceCell[MAXRACES][ENUM_RaceObject];
 
 
 //END race instance variables
@@ -301,7 +301,7 @@ public NW3GetRaceSkillName(Handle:plugin,numParams)
         ThrowNativeError(1,"bad skillid %d",skill);
     }
     new String:buf[32];
-    GetRaceSkillName(race,skill,buf,sizeof(buf))
+    GetRaceSkillName(race,skill,buf,sizeof(buf));
     SetNativeString(3,buf,maxlen);
 }
 public NW3GetRaceSkillDesc(Handle:plugin,numParams)
@@ -311,7 +311,7 @@ public NW3GetRaceSkillDesc(Handle:plugin,numParams)
     new maxlen=GetNativeCell(4);
     
     new String:longbuf[1000];
-    GetRaceSkillDesc(race,skill,longbuf,sizeof(longbuf))
+    GetRaceSkillDesc(race,skill,longbuf,sizeof(longbuf));
     SetNativeString(3,longbuf,maxlen);
 }
 public NWar3_GetRaceIDByShortname(Handle:plugin,numParams)
@@ -357,7 +357,7 @@ public NW3GetRaceList(Handle:plugin,numParams){
         if(!W3RaceHasFlag(raceid,"hidden")){
         //    DP("not hidden %d",raceid);
             PushArrayCell(hdynamicarray, raceid);
-            listcount++
+            listcount++;
         }
         else{
         //    DP("hidden %d",raceid);
@@ -563,12 +563,11 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     new reallevel=0;
     new customernumber=0;
     new clientrace=War3_GetRace(client);
-    //DP("customer count %d genericskill %d",count,genericskill);
     for(new i=0;i<count;i++){
         if(clientrace==GenericSkill[genericskill][redirectedfromrace][i]){
-            level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]) 
-            //DP("real skill %d %d %d",GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i],level);
-            if(level){ 
+            level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]);
+            if(level)
+			{ 
                 found++;
                 reallevel=level;
                 customernumber=i;
@@ -646,7 +645,7 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     
     if(racecreationended==false){
         new String:error[512];
-        Format(error,sizeof(error),"CreateNewRace was called before previous race creation was ended!!! first race not ended: %s second race: %s ",creatingraceshortname,traceshortname)
+        Format(error,sizeof(error),"CreateNewRace was called before previous race creation was ended!!! first race not ended: %s second race: %s ",creatingraceshortname,traceshortname);
         War3Failed(error);
     }
     
