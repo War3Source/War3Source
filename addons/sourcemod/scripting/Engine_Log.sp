@@ -30,6 +30,7 @@ new Handle:hRegexRace = INVALID_HANDLE;
 new Handle:hRegexItem = INVALID_HANDLE;
 //new Handle:hRegexSkill = INVALID_HANDLE;
 new Handle:hRegexClient = INVALID_HANDLE;
+new Handle:hRegexAttribute = INVALID_HANDLE;
 new Handle:hRegexID = INVALID_HANDLE;
 new Handle:hRegexTag = INVALID_HANDLE;
 
@@ -106,6 +107,32 @@ ReadRawFromString(String:sInput[], maxlength, Handle:hRegex)
 
 MakeReadable(String:sUnreadable[], maxlength)
 {
+    // Sadly sourcemod doesn't handle regex groups x_X
+    if(hRegexRace == INVALID_HANDLE)
+    {
+        hRegexRace = CompileRegex("{race (\\d+)}");
+    }
+    if(hRegexItem == INVALID_HANDLE)
+    {
+        hRegexItem = CompileRegex("{item (\\d+)}");
+    }
+    if(hRegexSkill == INVALID_HANDLE)
+    {
+        hRegexSkill = CompileRegex("{skill (\\d+)}");
+    }
+    if(hRegexClient == INVALID_HANDLE)
+    {
+        hRegexClient = CompileRegex("{client (\\d+)}");
+    }
+    if(hRegexAttribute == INVALID_HANDLE)
+    {
+        hRegexAttribute = CompileRegex("{attribute (\\d+)}");
+    }
+    
+    if(hRegexID == INVALID_HANDLE)
+    {
+        hRegexID = CompileRegex("\\d+");
+    }
     
     // Replace race ids with their name
     if(MatchRegex(hRegexRace, sUnreadable) > 0)
@@ -168,6 +195,18 @@ MakeReadable(String:sUnreadable[], maxlength)
         }
 
         ReplaceString(sUnreadable, maxlength, sNameRaw, sPlayerName, true);
+    }
+    
+    // Replace attribute ids with the name
+    if(MatchRegex(hRegexAttribute, sUnreadable) > 0)
+    {
+        decl String:sAttributeRaw[64];
+        new iAttributeId = ReadRawFromString(sAttributeRaw, sizeof(sAttributeRaw), hRegexAttribute);
+        
+        decl String:sAttributeName[FULLNAMELEN];
+        War3_GetAttributeName(iAttributeId, sAttributeName, sizeof(sAttributeName));
+        
+        ReplaceString(sUnreadable, maxlength, sAttributeRaw, sAttributeName, true);
     }
 }
 
