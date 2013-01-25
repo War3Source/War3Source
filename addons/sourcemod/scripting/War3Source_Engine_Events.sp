@@ -13,6 +13,7 @@ new Handle:g_hfwddenyable;
 new dummyreturn;
 new bool:notdenied=true;
 new W3VarArr[W3Var];
+new bInFreezeTime;
 
 public bool:InitNativesForwards()
 {
