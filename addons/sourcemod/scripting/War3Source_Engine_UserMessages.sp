@@ -33,7 +33,7 @@ public OnPluginStart()
         LogError("This game doesn't support Fade!");
     }
 
-    g_umsgFade = GetUserMessageId("Shake");
+    g_umsgShake = GetUserMessageId("Shake");
     if (g_umsgShake == INVALID_MESSAGE_ID)
     {
         LogError("This game doesn't support Shake!");
@@ -46,6 +46,8 @@ public bool:InitNativesForwards()
     CreateNative("War3_ShakeScreen",Native_War3_ShakeScreen);
 
     CreateNative("War3_KeyHintText",Native_War3_KeyHintText);
+
+    return true;
 }
 
 public Native_W3FlashScreen(Handle:plugin,numParams)
