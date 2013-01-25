@@ -171,13 +171,6 @@ native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0
 native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
 
 //=============================================================================
-//                                 Natives
-//=============================================================================
-
-//Sends a particle to client like "miss_text"
-native War3_TF_ParticleToClient(clienttoshowto,String:particlestr[],Float:pos[3]);
-
-//=============================================================================
 //                                 One liners...
 //=============================================================================
 

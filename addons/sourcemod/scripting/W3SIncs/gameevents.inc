@@ -165,10 +165,6 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
         }
     }
     
-    if(bHasDiedThisFrame[victimIndex]>0){
-        return Plugin_Handled;
-    }
-    bHasDiedThisFrame[victimIndex]++;
     //lastly
     //DP("died? %d",bHasDiedThisFrame[victimIndex]);
     if(victimIndex&&!deadringereath) //forward to all other plugins last
@@ -196,11 +192,7 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
     }
     return Plugin_Continue;
 }
-public OnGameFrame(){
-    for(new i=1;i<MAXPLAYERSCUSTOM;i++){
-        bHasDiedThisFrame[i]=0;
-    }
-}
+
 public Action:EndFreezeTime(Handle:timer,any:roundNum)
 {
     if(roundNum==iRoundNumber)

@@ -12,6 +12,7 @@ new Handle:g_War3GlobalEventFH;
 new Handle:g_hfwddenyable; 
 new dummyreturn;
 new bool:notdenied=true;
+new W3VarArr[W3Var];
 
 public bool:InitNativesForwards()
 {
@@ -19,6 +20,10 @@ public bool:InitNativesForwards()
     
     CreateNative("W3Denied",NW3Denied);
     CreateNative("W3Deny",NW3Deny);
+
+    CreateNative("W3GetVar",NW3GetVar);
+    CreateNative("W3SetVar",NW3SetVar);
+
     g_War3GlobalEventFH=CreateGlobalForward("OnWar3Event",ET_Ignore,Param_Cell,Param_Cell);
     g_hfwddenyable=CreateGlobalForward("OnW3Denyable",ET_Ignore,Param_Cell,Param_Cell);
     return true;
@@ -53,15 +58,9 @@ public NW3Deny(Handle:plugin,numParams){
     notdenied=false;
 }
 
-public OnWar3Event(W3EVENT:event,client){
-    if(event==DoShowHelpMenu){
-        //War3Source_War3Help(client);
-    }
+public NW3GetVar(Handle:plugin,numParams){
+    return _:W3VarArr[War3Var:GetNativeCell(1)];
 }
-public OnW3Denyable(W3DENY:event,client){
-    //if(event==ChangeRace){
-//        W3Deny();
-//        DP("blocked chancerace %d",client);
-        //War3Source_War3Help(client);
-//    }
+public NW3SetVar(Handle:plugin,numParams){
+    W3VarArr[War3Var:GetNativeCell(1)]=GetNativeCell(2);
 }
