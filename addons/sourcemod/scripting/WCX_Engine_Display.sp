@@ -18,12 +18,12 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	// Revan: keyhinttext works with CS:S but weird symbols will be displayed.. probably because that message string(not a cs:go issue)
-	g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame()==Game_CSGO)?"0":"1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
-	if(g_hCvarEnable == INVALID_HANDLE) {
-		SetFailState("could not create convar");
-	}
-	RegConsoleCmd("sm_display",SetHint,"Sets the hintstring");
+    // Revan: keyhinttext works with CS:GO but weird symbols will be displayed
+    g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame()==Game_CSGO)?"0":"1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
+    if(g_hCvarEnable == INVALID_HANDLE) {
+        SetFailState("could not create convar");
+    }
+    RegConsoleCmd("sm_display",SetHint,"Sets the hintstring");
 }
 
 public OnMapStart()
@@ -128,23 +128,30 @@ public Action:Print_Level(Handle:timer,any:data)
 //Thanks, SMLIB! :D
 stock bool:Client_PrintKeyHintText(client, const String:format[], any:...)
 {
-	new Handle:userMessage = StartMessageOne("KeyHintText", client);
-	
-	if (userMessage == INVALID_HANDLE) {
-		return false;
-	}
-	
-	decl String:buffer[254];
-	
-	SetGlobalTransTarget(client);
-	VFormat(buffer, sizeof(buffer), format, 3);
-	
-	BfWriteByte(userMessage, 1); 
-	BfWriteString(userMessage, buffer); 
-	
-	EndMessage();
-	
-	return true;
+    new Handle:userMessage = StartMessageOne("KeyHintText", client);
+    
+    if (userMessage == INVALID_HANDLE) {
+        return false;
+    }
+    
+    decl String:buffer[254];
+    
+    SetGlobalTransTarget(client);
+    VFormat(buffer, sizeof(buffer), format, 3);
+    
+    if (GetUserMessageType() == UM_Protobuf)
+	{
+        PbSetString(userMessage, "hints", format);
+    }
+    else
+    {
+        BfWriteByte(userMessage, 1);
+        BfWriteString(userMessage, buffer);
+    }
+    
+    EndMessage();
+    
+    return true;
 }
 
 
