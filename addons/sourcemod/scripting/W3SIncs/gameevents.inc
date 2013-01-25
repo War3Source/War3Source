@@ -127,7 +127,8 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
     
     if (War3_IsL4DEngine() && War3_IsCommonInfected(uid_entity))
     {
-        W3VarArr[DeathRace]=War3_GetRace(victimIndex);
+        new death_race = War3_GetRace(victimIndex);
+        W3SetVar(DeathRace,death_race);
         new Handle:oldevent=W3GetVar(SmEvent);
         W3SetVar(SmEvent,event); //stacking on stack 
         
@@ -135,7 +136,7 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
         //W3CreateEvent(OnDeathPre, uid_entity);
         
         //post death event actual forward
-        DoForward_OnWar3EventDeath(uid_entity, attackerIndex,W3VarArr[DeathRace]);
+        DoForward_OnWar3EventDeath(uid_entity, attackerIndex, death_race);
         
         W3SetVar(SmEvent,oldevent); //restore on stack , if any
         return Plugin_Continue;
@@ -169,8 +170,8 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
     //DP("died? %d",bHasDiedThisFrame[victimIndex]);
     if(victimIndex&&!deadringereath) //forward to all other plugins last
     {
-
-        W3VarArr[DeathRace]=War3_GetRace(victimIndex);
+        new death_race = War3_GetRace(victimIndex);
+        W3SetVar(DeathRace,death_race);
         
         new Handle:oldevent=W3GetVar(SmEvent);
     //    DP("new event %d",event);
@@ -181,7 +182,7 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
         W3CreateEvent(OnDeathPre,victimIndex);
         
         //post death event actual forward
-        DoForward_OnWar3EventDeath(victimIndex,attackerIndex,W3VarArr[DeathRace]);
+        DoForward_OnWar3EventDeath(victimIndex, attackerIndex, death_race);
         
         W3SetVar(SmEvent,oldevent); //restore on stack , if any
         //DP("restore event %d",event);
