@@ -4,13 +4,13 @@
  * Author(s): War3Source Team  
  */
 
-enum War3_LogLevel
+;enum War3_LogLevel
 {
     LOG_LEVEL_OFF,
     LOG_LEVEL_CRITICAL,
     LOG_LEVEL_ERROR,
     LOG_LEVEL_WARNING,
-    LOG_LEVEL_INFO
+    LOG_LEVEL_INFO 
 };
 
 /**
@@ -22,7 +22,7 @@ enum War3_LogLevel
  * {race <raceid>} - replaced with the full name of the race.
  * {item <itemid>} - replaced with the full name of the item.
  * {client <clientid>} - replaced with the name of the client.
- * 
+ * {attribute <attributeid>} - replaced with the name of the attribute.
  */
 
 /**

@@ -38,11 +38,6 @@ native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
  */
 native War3_SetBuffItem(client,W3Buff:buffindex,itemid,any:value);
 native W3BuffCustomOFFSET(); //get offset for custom buff modifier indexes. use War3_SetBuffItem(client,buffindex,W3BuffCustomOFFSET() + NUMBER,value) (YES, ITEM)
-//not implemented
-//simple buff application which the plugin does internal tracking so you don't have to
-//given a race, buffindex, and its value, applies that buff for a certain duration then calls buffReset 
-//@allowReapplyToExtendDuration if true, means a new call to the same race-buff combination will renew its duration, otherwise it will be blocked and the existing duration is kept
-native W3ApplyBuffSimple(client,W3Buff:buffindex,raceid,any:appliedBuffValue,Float:duration,bool:allowReapplyToExtendDuration=true);
 
 ///RESETS a particular buff from your race on this client
 native W3ResetBuffRace(client,W3Buff:buffindex,raceid);
@@ -174,7 +169,3 @@ stock bool:Perplexed(client,printmsg=true) {
     }
     return perplexed;
 }
-
-//=======================================================================
-//                             FORWARDS
-//=======================================================================

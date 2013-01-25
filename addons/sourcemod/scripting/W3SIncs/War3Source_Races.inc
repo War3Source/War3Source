@@ -72,8 +72,4 @@ native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
 native W3GetRaceCell(raceid,ENUM_RaceObject:property);
-native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
-
-//=======================================================================
-//                             FORWARDS
-//=======================================================================
+native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue)
