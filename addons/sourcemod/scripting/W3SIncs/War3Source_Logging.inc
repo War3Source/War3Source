@@ -23,6 +23,8 @@
  * {item <itemid>} - replaced with the full name of the item.
  * {client <clientid>} - replaced with the name of the client.
  * {attribute <attributeid>} - replaced with the name of the attribute.
+ * 
+ * {tag} - replaced with [War3Source]
  */
 
 /**

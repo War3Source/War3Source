@@ -34,7 +34,6 @@ new Handle:hRegexAttribute = INVALID_HANDLE;
 new Handle:hRegexID = INVALID_HANDLE;
 new Handle:hRegexTag = INVALID_HANDLE;
 
-
 public OnPluginStart()
 {
     g_hLogLevel = CreateConVar("war3_log_level", "1", "Set the log level for War3Source", FCVAR_PLUGIN, true, 0.0, true, 4.0); // 0 and 4? I know, ugly :(
@@ -45,6 +44,36 @@ public OnPluginStart()
     
     iPrintToConsole = GetConVarInt(g_hPrintToServer);
     HookConVarChange(g_hPrintToServer, ConVarChange_PrintToServer);
+    
+    // Sadly sourcemod doesn't handle regex groups x_X
+    if(hRegexRace == INVALID_HANDLE)
+    {
+        hRegexRace = CompileRegex("{race (\\d+)}");
+    }
+    if(hRegexItem == INVALID_HANDLE)
+    {
+        hRegexItem = CompileRegex("{item (\\d+)}");
+    }
+    if(hRegexSkill == INVALID_HANDLE)
+    {
+        hRegexSkill = CompileRegex("{skill (\\d+)}");
+    }
+    if(hRegexClient == INVALID_HANDLE)
+    {
+        hRegexClient = CompileRegex("{client (\\d+)}");
+    }
+    if(hRegexID == INVALID_HANDLE)
+    {
+        hRegexID = CompileRegex("\\d+");
+    }
+    if(hRegexTag == INVALID_HANDLE)
+    {
+        hRegexTag = CompileRegex("{tag}");
+    }
+    if(hRegexAttribute == INVALID_HANDLE)
+    {
+        hRegexAttribute = CompileRegex("{attribute (\\d+)}");
+    }
 }
 
 public ConVarChange_LogLevel(Handle:convar, const String:oldValue[], const String:newValue[])
@@ -74,14 +103,8 @@ public APLRes:AskPluginLoad2Custom(Handle:myself, bool:late, String:error[], err
 
 public bool:InitNativesForwards()
 {
-    // Sadly sourcemod doesn't handle regex groups x_X
-    hRegexRace = CompileRegex("{race (\\d+)}");
-    hRegexItem = CompileRegex("{item (\\d+)}");
-    //hRegexSkill = CompileRegex("{skill (\\d+)}");
-    hRegexClient = CompileRegex("{client (\\d+)}");
-    hRegexID = CompileRegex("\\d+");
-    hRegexTag = CompileRegex("{tag}");
     LoadTranslations("w3s._common.phrases.txt");
+    
     CreateNative("War3_LogInfo", Native_War3_LogInfo);
     CreateNative("War3_LogWarning", Native_War3_LogWarning);
     CreateNative("War3_LogError", Native_War3_LogError);
@@ -107,33 +130,6 @@ ReadRawFromString(String:sInput[], maxlength, Handle:hRegex)
 
 MakeReadable(String:sUnreadable[], maxlength)
 {
-    // Sadly sourcemod doesn't handle regex groups x_X
-    if(hRegexRace == INVALID_HANDLE)
-    {
-        hRegexRace = CompileRegex("{race (\\d+)}");
-    }
-    if(hRegexItem == INVALID_HANDLE)
-    {
-        hRegexItem = CompileRegex("{item (\\d+)}");
-    }
-    if(hRegexSkill == INVALID_HANDLE)
-    {
-        hRegexSkill = CompileRegex("{skill (\\d+)}");
-    }
-    if(hRegexClient == INVALID_HANDLE)
-    {
-        hRegexClient = CompileRegex("{client (\\d+)}");
-    }
-    if(hRegexAttribute == INVALID_HANDLE)
-    {
-        hRegexAttribute = CompileRegex("{attribute (\\d+)}");
-    }
-    
-    if(hRegexID == INVALID_HANDLE)
-    {
-        hRegexID = CompileRegex("\\d+");
-    }
-    
     // Replace race ids with their name
     if(MatchRegex(hRegexRace, sUnreadable) > 0)
     {
