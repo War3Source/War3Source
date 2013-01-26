@@ -327,18 +327,18 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
 
 public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
 {
-	switch(action) {
-	case MenuAction_Select:
-		{
-			if(ValidPlayer(client))
-			{
-				SetTrans(client);
-				new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
-				GetMenuItem(menu, selection, sItem, sizeof(sItem));
-				if( StringToInt(sItem) == -1 ) {
-					War3Source_ChangeRaceMenu(client,true);
-					return;
-				}
+    switch(action) {
+    case MenuAction_Select:
+        {
+            if(ValidPlayer(client))
+            {
+                SetTrans(client);
+                new String:sItem[64],String:title[512],String:rbuf[4],String:rname[64],String:rdisp[128];
+                GetMenuItem(menu, selection, sItem, sizeof(sItem));
+                if( StringToInt(sItem) == -1 ) {
+                    War3Source_ChangeRaceMenu(client,true);
+                    return;
+                }
 
                 new Handle:crMenu=CreateMenu(War3Source_CRMenu_Selected);
                 SetMenuExitButton(crMenu,true);
