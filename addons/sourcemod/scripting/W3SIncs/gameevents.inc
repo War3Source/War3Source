@@ -4,7 +4,7 @@
 * Author(s): Anthony Iacono  
 */
 
-//#include "W3SIncs/War3Source_Bots.inc"
+#include "W3SIncs/War3Source_Bots.inc"
 
 new iRoundNumber;
 
