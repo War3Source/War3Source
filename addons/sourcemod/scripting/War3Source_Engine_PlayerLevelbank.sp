@@ -14,16 +14,6 @@ new Handle:hCvar_NewPlayerLevelbank;
 new Handle:hCvarPrintLevelBank;
 new Handle:hLevelup;
 
-public Plugin:myinfo= 
-{
-    name="W3S Engine LevelBank",
-    author="Ownz (DarkEnergy)",
-    description="War3Source Core Plugins",
-    version="1.0",
-    url="http://war3source.com/"
-};
-
-
 public OnPluginStart()
 {
     hCvar_NewPlayerLevelbank=CreateConVar("war3_new_player_levelbank","30","The amount of free levels a person gets that is new to the server (no xp record)");
