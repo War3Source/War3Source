@@ -116,21 +116,35 @@ stock Handle:War3_NearBuilding(client,Float:distance=150.0)
 
 stock Float:TF2_GetUberLevel(client)
 {
-    new index = GetPlayerWeaponSlot(client, 1);
-    if (index > 0)
+    if (TF2_GetPlayerClass(client) == TFClass_Medic)
     {
-        return GetEntPropFloat(index, Prop_Send, "m_flChargeLevel");
+        new index = GetPlayerWeaponSlot(client, 1);
+        if (index > 0)
+        {
+            return GetEntPropFloat(index, Prop_Send, "m_flChargeLevel");
+        }
+        else
+        {
+            return 0.0;
+        }
     }
-
-    return 0.0;
+    else {
+        return fUberCharge[client];
+    }
 }
 
 stock TF2_SetUberLevel(client, Float:uberlevel)
 {
-    new index = GetPlayerWeaponSlot(client, 1);
-    if (index > 0)
+    if (TF2_GetPlayerClass(client) == TFClass_Medic)
     {
-        SetEntPropFloat(index, Prop_Send, "m_flChargeLevel", uberlevel);
+        new index = GetPlayerWeaponSlot(client, 1);
+        if (index > 0)
+        {
+            SetEntPropFloat(index, Prop_Send, "m_flChargeLevel", uberlevel);
+        }
+    }
+    else {
+        fUberCharge[client] = uberlevel;
     }
 }
 
