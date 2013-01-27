@@ -42,7 +42,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetAttributeShortname", Native_War3_GetAttributeShortname);
     CreateNative("War3_GetAttributeIDByShortname", Native_War3_GetAttributeIDByShortname);
     CreateNative("War3_GetAttributeValue", Native_War3_GetAttributeValue);
-    CreateNative("War3_ModifyAttribute", Native_War3_ModifyAttribute);
+    CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
         
     return true;
 }
@@ -109,13 +109,13 @@ public Native_War3_GetAttributeValue(Handle:plugin, numParams)
     return any:GetAttributeValue(client, iAttributeId);
 }
 
-public Native_War3_ModifyAttribute(Handle:plugin, numParams)
+public Native_War3_SetAttribute(Handle:plugin, numParams)
 {
     new client = GetNativeCell(1);
     new iAttributeId = GetNativeCell(2);
     new any:value = GetNativeCell(3);
     
-    ModifyAttribute(client, iAttributeId, value);
+    SetAttribute(client, iAttributeId, value);
 }
 
 /* ACTUAL IMPLEMENTATIONS FOR THE NATIVES TO CALL */
@@ -194,9 +194,8 @@ AddNewAttributes(client)
     War3_LogInfo("Adding new attributes on \"{client %i}\" - %i attributes registered, %i on client", client, iRegisteredAttributes, iAttributes);
     for(new i = iAttributes; i < iRegisteredAttributes; i++)
     {
-        PushArrayCell(g_hAttributeValue[client], GetArrayCell(g_hAttributeDefault, i));
-        
         War3_LogInfo("Adding attribute \"{attribute %i}\" on client \"{client %i}\" with default value", i, client);
+        PushArrayCell(g_hAttributeValue[client], GetArrayCell(g_hAttributeDefault, i));
     }
 }
 
@@ -212,11 +211,8 @@ ResetAttributesForPlayer(client)
     War3_LogInfo("Resetting Attributes on \"{client %i}\"", client);
     for(new i = 0; i < GetArraySize(g_hAttributeDefault); i++)
     {
-        new any:DefaultVal = GetArrayCell(g_hAttributeDefault, i);
-
-        SetArrayCell(g_hAttributeValue[client], i, DefaultVal);
-
         War3_LogInfo("Changing attribute \"{attribute %i}\" on client \"{client %i}\" to default value", i, client);
+        SetArrayCell(g_hAttributeValue[client], i, any:GetArrayCell(g_hAttributeDefault, i));
     }
 }
 
@@ -230,27 +226,18 @@ any:GetAttributeValue(client, attributeId)
     return GetArrayCell(g_hAttributeValue[client], attributeId);
 }
 
-ModifyAttribute(client, attributeId, Float:value)
+SetAttribute(client, attributeId, any:value)
 {
     if(!ValidPlayer(client))
     {
         return;
     }
     
-    War3_LogInfo("ModifyAttribute called with a value of %f", value);
-    
-    new Float:CurrentValue = GetAttributeValue(client, attributeId);
-    new Float:NewValue = CurrentValue + value;
-    
-    War3_LogInfo("ModifyAttribute: CurrentValue %f Newvalue %f", CurrentValue, NewValue);
-    
-    SetArrayCell(g_hAttributeValue[client], attributeId, NewValue);
-
     Call_StartForward(g_War3_OnAttributeChanged);
     Call_PushCell(client);
     Call_PushCell(attributeId);
-    Call_PushCell(CurrentValue);
-    Call_PushCell(NewValue);
+    Call_PushCell(any:GetAttributeValue(client, attributeId));
+    Call_PushCell(value);
     Call_Finish();
 }
 
@@ -266,14 +253,15 @@ public OnClientPutInServer(client)
 
 /* TEST THINGS */
 
-
+/*
 public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
 {
     if (ValidPlayer(victim))
     {
         War3_LogInfo("Damage dealt was %f", damage);
         ResetAttributesForPlayer(victim);
-        ModifyAttribute(victim, AttributeId_Speed, damage);
+        
+        SetAttribute(victim, AttributeId_Speed, damage);
         War3_LogInfo("Player \"{client %i}\" has a speed of %f", victim, GetAttributeValue(victim, AttributeId_Speed));
     }
 }
@@ -285,3 +273,4 @@ public War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue)
     
     War3_LogInfo("Player \"{client %i}\" changed attribute {attribute %i} from %f to %f", client, attributeId, oldSpeed, newSpeed);
 }
+*/

@@ -9,6 +9,6 @@ native War3_GetAttributeName(attributeId, String:sName[], iBufferSize);
 native War3_GetAttributeShortname(attributeId, String:sShortname[], iBufferSize);
 native War3_GetAttributeIDByShortname(String:sAttributeShortName[]);
 native War3_GetAttributeValue(client, attributeId);
-native War3_ModifyAttribute(client, attributeId, value);
+native War3_SetAttribute(client, attributeId, value);
 
 forward War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue);
