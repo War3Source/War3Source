@@ -100,8 +100,10 @@ public OnWar3Event(W3EVENT:event,client)
 
 public OnClientPutInServer(client)
 {
-    if (IsFakeClient (client))
-    return;
+    if (!ValidPlayer(client) || IsFakeClient (client))
+    {
+        return;
+    }
 
     if(GetConVarBool (g_hVarWelcomeMsg)) {
         CreateTimer (30.0, WelcomeAdvertTimer, client);
