@@ -47,15 +47,6 @@ public bool:InitNativesForwards()
     return true;
 }
 
-new AttributeId_Speed;
-
-public OnMapStart()
-{
-    AttributeId_Speed = RegisterAttribute("speed", "speed", 1.0);
-    RegisterAttribute("gravity", "gravity", 1.0);
-    RegisterAttribute("maxHP", "maxHP", 100);
-}
-
 /* NATIVES */
 
 public Native_War3_RegisterAttribute(Handle:plugin, numParams)
@@ -250,27 +241,3 @@ public OnClientPutInServer(client)
 {
     ResetAttributesForPlayer(client);
 }
-
-/* TEST THINGS */
-
-/*
-public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
-{
-    if (ValidPlayer(victim))
-    {
-        War3_LogInfo("Damage dealt was %f", damage);
-        ResetAttributesForPlayer(victim);
-        
-        SetAttribute(victim, AttributeId_Speed, damage);
-        War3_LogInfo("Player \"{client %i}\" has a speed of %f", victim, GetAttributeValue(victim, AttributeId_Speed));
-    }
-}
-
-public War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue)
-{
-    new Float:oldSpeed = oldValue;
-    new Float:newSpeed = newValue;
-    
-    War3_LogInfo("Player \"{client %i}\" changed attribute {attribute %i} from %f to %f", client, attributeId, oldSpeed, newSpeed);
-}
-*/
