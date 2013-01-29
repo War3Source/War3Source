@@ -31,26 +31,27 @@ public War3_OnAttributeDescriptionRequested(client, attributeId, any:value, Stri
 {
     if(attributeId == aSpeed)
     {
-        // load translations for client and stuff
+        LoadTranslations("w3s.attributes.speed.phrases");
+        SetTrans(client);
         
         new Float:fSpeed = value;
         decl String:sBuffer[iBufferSize];
         
         if (fSpeed == 1.0)
         {
-            strcopy(sDescription, iBufferSize, "You move at regular speed");
+            Format(sBuffer, iBufferSize, "%T", "You move at regular speed", GetTrans());
         }
         else if (fSpeed > 1.0)
         {
             new percentage = RoundToFloor((fSpeed - 1.0) * 100.0);
-            Format(sBuffer, iBufferSize, "You move %i percent faster", percentage);
-            strcopy(sDescription, iBufferSize, sBuffer);
+            Format(sBuffer, iBufferSize, "%T", "You move %i percent faster", GetTrans(), percentage);
         }
         else if (fSpeed < 1.0)
         {
             new percentage = RoundToFloor((1.0 - fSpeed) * 100.0);
-            Format(sBuffer, iBufferSize, "You move %i percent slower", percentage);
-            strcopy(sDescription, iBufferSize, sBuffer);
+            Format(sBuffer, iBufferSize, "%T", "You move %i percent slower", GetTrans(), percentage);
         }
+        
+        strcopy(sDescription, iBufferSize, sDescription);
     }
 }
