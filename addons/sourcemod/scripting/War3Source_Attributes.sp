@@ -52,6 +52,6 @@ public War3_OnAttributeDescriptionRequested(client, attributeId, any:value, Stri
             Format(sBuffer, iBufferSize, "%T", "You move %i percent slower", GetTrans(), percentage);
         }
         
-        strcopy(sDescription, iBufferSize, sDescription);
+        strcopy(sDescription, iBufferSize, sBuffer);
     }
 }
