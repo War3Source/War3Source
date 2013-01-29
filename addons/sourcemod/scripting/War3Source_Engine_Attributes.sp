@@ -18,8 +18,9 @@ new Handle:g_hAttributeDefault = INVALID_HANDLE;
 // Stores the attributes of a player
 new Handle:g_hAttributeValue[MAXPLAYERS] = INVALID_HANDLE;
 
-// Forward handle
+// Forward handles
 new Handle:g_War3_OnAttributeChanged = INVALID_HANDLE;
+new Handle:g_War3_OnAttributeDescriptionRequested = INVALID_HANDLE;
 
 public OnPluginStart()
 {
@@ -36,13 +37,15 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
     g_War3_OnAttributeChanged = CreateGlobalForward("War3_OnAttributeChanged", ET_Ignore, Param_Cell, Param_Cell, Param_Any, Param_Any);
-    
+    g_War3_OnAttributeDescriptionRequested = CreateGlobalForward("War3_OnAttributeDescriptionRequested", ET_Ignore, Param_Cell, Param_Cell, Param_Any, Param_String, Param_Cell);
+        
     CreateNative("War3_RegisterAttribute", Native_War3_RegisterAttribute);
     CreateNative("War3_GetAttributeName", Native_War3_GetAttributeName);
     CreateNative("War3_GetAttributeShortname", Native_War3_GetAttributeShortname);
     CreateNative("War3_GetAttributeIDByShortname", Native_War3_GetAttributeIDByShortname);
     CreateNative("War3_GetAttributeValue", Native_War3_GetAttributeValue);
     CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
+    CreateNative("War3_GetAttributeDescription", Native_War3_GetAttributeDescription);
         
     return true;
 }
@@ -107,6 +110,33 @@ public Native_War3_SetAttribute(Handle:plugin, numParams)
     new any:value = GetNativeCell(3);
     
     SetAttribute(client, iAttributeId, value);
+}
+
+public Native_War3_GetAttributeDescription(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+    new iAttributeId = GetNativeCell(2);
+    new any:Value = GetNativeCell(3);
+    new iBufferSize = GetNativeCell(5);
+    
+    new String:sDescription[iBufferSize];
+   
+    // GetAttributeDescription(client, attributeId, any:value, String:sDescription[], iBufferSize);
+    Call_StartForward(g_War3_OnAttributeDescriptionRequested);
+    Call_PushCell(client);
+    Call_PushCell(iAttributeId);
+    Call_PushCell(Value);
+    Call_PushStringEx(sDescription, iBufferSize, SM_PARAM_STRING_COPY, SM_PARAM_COPYBACK);
+    Call_PushCell(iBufferSize);
+    Call_Finish();
+    
+    // Nobody wanted to take care of our attributes description :(
+    if(StrEqual(sDescription, ""))
+    {
+        strcopy(sDescription, iBufferSize, "No description");
+    }
+    
+    SetNativeString(4, sDescription, iBufferSize);
 }
 
 /* ACTUAL IMPLEMENTATIONS FOR THE NATIVES TO CALL */

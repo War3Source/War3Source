@@ -26,3 +26,31 @@ public War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue)
         //SetEntDataFloat(client, m_OffsetSpeed, newSpeed);
     }
 }
+
+public War3_OnAttributeDescriptionRequested(client, attributeId, any:value, String:sDescription[], iBufferSize)
+{
+    if(attributeId == aSpeed)
+    {
+        // load translations for client and stuff
+        
+        new Float:fSpeed = value;
+        decl String:sBuffer[iBufferSize];
+        
+        if (fSpeed == 1.0)
+        {
+            strcopy(sDescription, iBufferSize, "You move at regular speed");
+        }
+        else if (fSpeed > 1.0)
+        {
+            new percentage = RoundToFloor((fSpeed - 1.0) * 100.0);
+            Format(sBuffer, iBufferSize, "You move %i percent faster", percentage);
+            strcopy(sDescription, iBufferSize, sBuffer);
+        }
+        else if (fSpeed < 1.0)
+        {
+            new percentage = RoundToFloor((1.0 - fSpeed) * 100.0);
+            Format(sBuffer, iBufferSize, "You move %i percent slower", percentage);
+            strcopy(sDescription, iBufferSize, sBuffer);
+        }
+    }
+}
