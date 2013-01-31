@@ -9,17 +9,19 @@ public Plugin:myinfo =
 };
 
 new Handle:g_hCvarEnable = INVALID_HANDLE;
+new Handle:g_hHudSynchronizer = INVALID_HANDLE;
 
 new String:hintstring[4096];
 
 public OnPluginStart()
 {
     // Revan: keyhinttext works with CS:GO but weird symbols will be displayed
-    g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame()==Game_CSGO)?"0":"1","Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
-    if(g_hCvarEnable == INVALID_HANDLE) {
-        SetFailState("could not create convar");
+    g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame() == Game_CSGO) ? "0" : "1", "Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
+    g_hHudSynchronizer = CreateHudSynchronizer();
+    if(g_hHudSynchronizer == INVALID_HANDLE && GameCSANY()) {
+        SetFailState("This game does not support Hud Synchronizers or KeyHintText.");
     }
-    RegConsoleCmd("sm_display",SetHint,"Sets the hintstring");
+    RegAdminCmd("sm_display", SetHint, ADMFLAG_ROOT, "Sets the hintstring");
 }
 
 public OnMapStart()
@@ -37,13 +39,19 @@ public Action:Print_Level(Handle:timer, any:data)
     {
         if(ValidPlayer(i,true))
         {
-            War3_KeyHintText(i, hintstring);
+            if(GameCSANY())
+            {
+                War3_KeyHintText(i, hintstring);
+            } else {
+                SetHudTextParams(1.0, -1.0, 1.5, 255, 255 ,255, 255);
+                ShowSyncHudText(i, g_hHudSynchronizer, hintstring);
+            }
         }
     }
     return Plugin_Continue;
 }
 
-public Action:SetHint(client,args)
+public Action:SetHint(client, args)
 {
     if(GetConVarBool(g_hCvarEnable) == false) {
         return Plugin_Continue;
