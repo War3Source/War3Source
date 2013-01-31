@@ -112,8 +112,8 @@ And that's the art of the test!
 #define BRANCH "{branch}"
 #define BUILD_NUMBER "{build_number}"
 
-#define VERSION_NUM "1.2.4.0"
-#define REVISION_NUM 12400 //increment every release
+#define VERSION_NUM "2.0.0.1"
+#define REVISION_NUM 20001 //increment every release
 //ownz: im not going to bother updating this every time, i can't tell what the next rev is. revision_num was intended for this purpose
 #define REVISION_SVN "855" //Add 1 to the number of the current SVN before you commit
 
