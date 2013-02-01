@@ -40,10 +40,13 @@ public OnW3Denyable(W3DENY:event,client){
         GetClientAuthString(client,steamid,sizeof(steamid));
         if(!StrEqual(steamid,"STEAM_0:1:9724315",false))
         {
-            if(min_level!=0&&min_level>total_level)
+           if(min_level!=0&&min_level>total_level)
             {
-                War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
-                return W3Deny();
+                if(!W3GetPlayerProp(client,RaceSetByAdmin))
+                {
+                    War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
+                    return W3Deny();
+                }
             }
         
         
