@@ -42,9 +42,9 @@
 	{
 		"ru"		"Админ \"{1}\" забрал у вас {2} опыта"
 	}
-	"[War3Source] The syntax of the command is: war3_War3_SetLevel <player> <level>"
+	"[War3Source] The syntax of the command is: war3_setlevel <player> <level>"
 	{
-		"ru"		"[War3Source] Синтаксис команды: war3_War3_SetLevel <игрок> <уровень>"
+		"en"		"[War3Source] The syntax of the command is: war3_setlevel <player> <level>"
 	}
 	"[War3Source] You just set player {player} level to {amount}"
 	{

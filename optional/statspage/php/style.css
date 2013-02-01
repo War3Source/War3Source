@@ -1,0 +1,168 @@
+/**
+ * Stylesheet for War3Source PHP Plugin
+ * Customize how ever you'd like.
+ */
+  
+a
+{
+	font-family: Arial;
+	font-size: 12pt;
+	color: #00ff00;
+}
+
+html
+{
+	margin:0px;
+	padding:0px;
+}
+
+body
+{
+	margin:0px;
+	padding:0px;
+	font-family:Arial;
+	font-size: 12pt;
+	color: #ffffff;
+	background: #000000;
+}
+
+#page_table
+{
+	width:100%;
+}
+
+.main_desc
+{
+	padding-top:15px;
+	width:100%;
+}
+
+.player_info
+{
+  padding-top:15px;
+  width:100%;
+  text-align:center;
+}
+
+table.players_table
+{
+	margin-left: auto;
+	margin-right: auto;
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: #000;
+	border-collapse: collapse;
+	color: #000;
+}
+
+table.players_table a
+{
+  text-decoration: none;
+}
+
+table.players_table th
+{
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #000;
+}
+
+table.players_table td
+{
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #000;
+}
+
+table.race_player
+{
+	width:80%;
+	text-align:left;
+	margin-left: auto;
+	margin-right: auto;
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: #000;
+	color: #000;
+	border-collapse: collapse;
+}
+
+table.race_player th
+{
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #000;
+}
+
+table.race_player td
+{
+	border-width: 1px;
+	padding: 2px;
+	border-style: solid;
+	border-color: #000;
+}
+
+.rp_left
+{
+	width:200px;
+} 
+
+.player_row
+{
+	background-color: #ABAEB9;
+}
+
+.player_row a
+{
+  color:#000033;
+}
+
+.off_color_row
+{
+	background-color: #9A9DA8;
+}
+
+.off_color_row a
+{
+  color:#000033;
+}
+
+.td_rank
+{
+	width: 60px;
+}
+
+.td_name
+{
+	width: 250px;
+}
+
+.td_steam
+{
+	width: 200px;
+}
+
+.td_level
+{
+	width: 100px;
+}
+
+.td_xp
+{
+	width: 100px;
+}
+
+.td_race
+{
+	width: 100px;
+}
+
+.page_footer
+{
+	text-align:center;
+}

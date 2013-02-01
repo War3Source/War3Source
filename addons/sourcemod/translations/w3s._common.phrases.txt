@@ -48,9 +48,9 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"Admin \"{1}\" removed {2} XP from you."
 	}
-	"[War3Source] The syntax of the command is: war3_War3_SetLevel <player> <level>"
+	"[War3Source] The syntax of the command is: war3_setlevel <player> <level>"
 	{
-		"en"		"[War3Source] The syntax of the command is: war3_War3_SetLevel <player> <level>"
+		"en"		"[War3Source] The syntax of the command is: war3_setlevel <player> <level>"
 	}
 	"[War3Source] You just set player {player} level to {amount}"
 	{
@@ -1472,7 +1472,12 @@
 	"WelcomeToServer"
 	{
 		"#format"	"{1:s},{2:s},{3:s}"
-		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ Www.War3Source.Com\nVersion: {2} by {3}"
+		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ www.war3source.com\nBranch: {2} - Build: {3}."
+	}
+	"WelcomeToServerMaster"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"Welcome to {1} War3Source server!\nYou get XP and gold for kills and objectives.\nEach level gained, you may choose a skill to level up.\n \nVisit the mod website @ www.war3source.com\nBuild: {2}."
 	}
 	"ForHelpIntro"
 	{

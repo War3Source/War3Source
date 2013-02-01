@@ -1,18 +1,9 @@
-Source is now available on Subversion
+Source is now available on github: 
+https://github.com/War3Source/War3Source/tree/War3Source-2
 
 We encourage you to contribute to the code because 
-others have worked their asses off to make this mod available to you.
-We wish you give something back in return.
-
-For those of you that know Subversion:
-Checkout URL: http://ownageclan.com/svn/war3source
-
-For those of you that don't know Subversion:
-tutorial:
-http://www.ownageclan.com/wiki/index.php/Development:SVN
-
-
-
+others have worked to make this mod available to you.
+We wish for you to give something back in return.
 
 -----------------------
 CREDITS
@@ -23,6 +14,11 @@ Anthony Iacono (AKA "pimpinjuice")
 LEAD DEVELOPER
 OwnageOwnz (Aka "DarkEnergy")
 
+DEVELOPERS
+Glider
+Necavi
+Revan
+
 TRANSLATIONS + RUSSIAN SUPPORT
 [RUS] Schmarotzer
 [RUS] Frenzzy
@@ -30,7 +26,5 @@ TRANSLATIONS + RUSSIAN SUPPORT
 
 L4D compatibility
 Glider
-
-AND ALL OTHERS CREDITS GIVEN WITHIN THE PLUGIN SOURCE FILE
 
 

@@ -1,17 +1,14 @@
-/* ============================================================================ */
-/*										                                        */
-/*   naix.sp									                                */
-/*   (c) 2009 Stinkyfax								                            */
-/*										                                        */
-/*										                                        */
-/* ============================================================================	*/
-
-
 #include <sourcemod>
-#include <sdktools_functions>	//For teleport
-#include <sdktools_sound>		//For sound effect
+#include <sdktools_functions>    //For teleport
+#include <sdktools_sound>        //For sound effect
 #include "W3SIncs/War3Source_Interface"
-public W3ONLY(){} //unload this?
+
+public Plugin:myinfo = 
+{
+    name = "War3Source - Race - Naix",
+    author = "War3Source Team",
+    description = "The Naix Mage race for War3Source."
+};
 
 // Colors
 #define COLOR_DEFAULT 0x01
@@ -40,151 +37,131 @@ new thisRaceID, SKILL_INFEST, SKILL_BLOODBATH, SKILL_FEAST, ULT_RAGE;
 new String:skill1snd[256]; //="war3source/naix/predskill1.mp3";
 new String:ultsnd[256]; //="war3source/naix/predult.mp3";
 
-public Plugin:myinfo = 
-{
-	name = "Race - Lifestealer",
-	author = "Stinkyfax and Ownz (DarkEnergy)",
-	description = "N'aix - the embodiment of lust and greed,\nbent on stealing the life of every living creature he encounters.",
-	version = "1.0",
-	url = "war3source.com"//http://sugardas.lt/~jozh/
-};
-
-
-
 public OnPluginStart()
 {
-	ultCooldownCvar=CreateConVar("war3_naix_ult_cooldown","20","Cooldown time for Rage.");
-	
-	LoadTranslations("w3s.race.naix.phrases");
+    ultCooldownCvar=CreateConVar("war3_naix_ult_cooldown","20","Cooldown time for Rage.");
+    
+    LoadTranslations("w3s.race.naix.phrases");
 }
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-	if(num==120)
-	{
-		thisRaceID=War3_CreateNewRaceT("naix");
+    if(num==120)
+    {
+        thisRaceID=War3_CreateNewRaceT("naix");
 
 
-		SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false,4,"5-20%");
-		SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false,4,"10-40");
-		SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false,4,"4-10%");
-		ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true,4,"15-40%","3-6");
-		
-		War3_CreateRaceEnd(thisRaceID);
-	}
+        SKILL_INFEST = War3_AddRaceSkillT(thisRaceID, "Infest", false,4,"5-20%");
+        SKILL_BLOODBATH = War3_AddRaceSkillT(thisRaceID, "BloodBath", false,4,"10-40");
+        SKILL_FEAST = War3_AddRaceSkillT(thisRaceID, "Feast", false,4,"4-10%");
+        ULT_RAGE = War3_AddRaceSkillT(thisRaceID, "Rage", true,4,"15-40%","3-6");
+        
+        War3_CreateRaceEnd(thisRaceID);
+    }
 }
 
 stock bool:IsOurRace(client) {
 
-  return W3()&&(War3_GetRace(client)==thisRaceID);
+  return (War3_GetRace(client)==thisRaceID);
 }
 
 
-public OnMapStart() { //some precaches
-  //PrecacheSound("npc/zombie/zombie_pain2.wav");
-	if(GAMECSGO)
-	{
-		strcopy(skill1snd,sizeof(skill1snd),"music/war3source/naix/predskill1.mp3");
-		strcopy(ultsnd,sizeof(ultsnd),"music/war3source/naix/predult.mp3");
-	}
-	else
-	{
-		strcopy(skill1snd,sizeof(skill1snd),"war3source/naix/predskill1.mp3");
-		strcopy(ultsnd,sizeof(ultsnd),"war3source/naix/predult.mp3");
-	}
+public OnMapStart() 
+{ 
+    War3_AddSoundFolder(skill1snd, sizeof(skill1snd), "naix/predskill1.mp3");
+    War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "naix/predult.mp3");
 
-
-	War3_PrecacheSound(skill1snd);
-	War3_PrecacheSound(ultsnd);
+    War3_PrecacheSound(skill1snd);
+    War3_PrecacheSound(ultsnd);
 }
 
 public OnWar3EventPostHurt(victim,attacker,amount){
-	if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
-		new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
-		if(level>0&&!Hexed(attacker,false)&&W3Chance(W3ChanceModifier(attacker))){
-			if(!W3HasImmunity(victim,Immunity_Skills)){	
-				new targetHp = GetClientHealth(victim)+amount;
-				new restore = RoundToNearest( float(targetHp) * feastPercent[level] );
+    if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
+        new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
+        if(level>0&&!Hexed(attacker,false)&&W3Chance(W3ChanceModifier(attacker))){
+            if(!W3HasImmunity(victim,Immunity_Skills)){    
+                new targetHp = GetClientHealth(victim)+amount;
+                new restore = RoundToNearest( float(targetHp) * feastPercent[level] );
 
-				War3HealToHP(attacker,restore,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
-			
-				PrintToConsole(attacker,"%T","Feast +{amount} HP",attacker,restore);
-			}
-		}
-	}
+                War3HealToHP(attacker,restore,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
+            
+                PrintToConsole(attacker,"%T","Feast +{amount} HP",attacker,restore);
+            }
+        }
+    }
 }
 public OnWar3EventSpawn(client){
-	if(IsOurRace(client)){
-		new level = War3_GetSkillLevel(client, thisRaceID, SKILL_BLOODBATH);
-		if(level>=0){ //zeroth level passive
-			//War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,HPIncrease[level]);
-			
-			//War3_SetMaxHP(client, War3_GetMaxHP(client) + );
-			War3_ChatMessage(client,"%T","Your Maximum HP Increased by {amount}",client,HPIncrease[level]);    
-		}
-	}
+    if(IsOurRace(client)){
+        new level = War3_GetSkillLevel(client, thisRaceID, SKILL_BLOODBATH);
+        if(level>=0){ //zeroth level passive
+            //War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,HPIncrease[level]);
+            
+            //War3_SetMaxHP(client, War3_GetMaxHP(client) + );
+            War3_ChatMessage(client,"%T","Your Maximum HP Increased by {amount}",client,HPIncrease[level]);    
+        }
+    }
 }
 /*
 public OnRaceChanged(client,oldrace,newrace)
 {
-	if(oldrace==thisRaceID){
-		War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
-	}
+    if(oldrace==thisRaceID){
+        War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
+    }
 
 }*/
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
-	
-	bDucking[client]=(buttons & IN_DUCK)?true:false;
-	return Plugin_Continue;
+    
+    bDucking[client]=(buttons & IN_DUCK)?true:false;
+    return Plugin_Continue;
 }
 //new Float:teleportTo[66][3];
 public OnWar3EventDeath(victim,attacker){
-	if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)){
-		new iSkillLevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_INFEST);
-		if (iSkillLevel>0)
-		{
-			
-			if (Hexed(attacker,false))  
-			{	
-				//decl String:name[50];
-				//GetClientName(victim, name, sizeof(name));
-				PrintHintText(attacker,"%T","Could not infest, you are hexed",attacker);
-			}
-			else if (W3HasImmunity(victim,Immunity_Skills))  
-			{	
-				//decl String:name[50];
-				//GetClientName(victim, name, sizeof(name));
-				PrintHintText(attacker,"%T","Could not infest, enemy immunity",attacker);
-			}
-			else{
-				
-				
-				if(bDucking[attacker]){
-					decl Float:location[3];
-					GetClientAbsOrigin(victim,location);
-					//.PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
-					War3_CachedPosition(victim,location);
-					//PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
-					
-					
-					//CreateTimer(0.1,setlocation,attacker);
-					
-					TeleportEntity(attacker, location, NULL_VECTOR, NULL_VECTOR);
-				}
-				
-				new addHealth = RoundFloat(FloatMul(float(War3_GetMaxHP(victim)),HPPercentHealPerKill[iSkillLevel]));
-				
-				War3HealToHP(attacker,addHealth,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
-				//Effects?
-				//EmitAmbientSound("npc/zombie/zombie_pain2.wav",location);
-				W3EmitSoundToAll(skill1snd,attacker);
-			}
-		}
-	}
+    if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)){
+        new iSkillLevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_INFEST);
+        if (iSkillLevel>0)
+        {
+            
+            if (Hexed(attacker,false))  
+            {    
+                //decl String:name[50];
+                //GetClientName(victim, name, sizeof(name));
+                PrintHintText(attacker,"%T","Could not infest, you are hexed",attacker);
+            }
+            else if (W3HasImmunity(victim,Immunity_Skills))  
+            {    
+                //decl String:name[50];
+                //GetClientName(victim, name, sizeof(name));
+                PrintHintText(attacker,"%T","Could not infest, enemy immunity",attacker);
+            }
+            else{
+                
+                
+                if(bDucking[attacker]){
+                    decl Float:location[3];
+                    GetClientAbsOrigin(victim,location);
+                    //.PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
+                    War3_CachedPosition(victim,location);
+                    //PrintToChatAll("%f %f %f",teleportTo[attacker][0],teleportTo[attacker][1],teleportTo[attacker][2]);
+                    
+                    
+                    //CreateTimer(0.1,setlocation,attacker);
+                    
+                    TeleportEntity(attacker, location, NULL_VECTOR, NULL_VECTOR);
+                }
+                
+                new addHealth = RoundFloat(FloatMul(float(War3_GetMaxHP(victim)),HPPercentHealPerKill[iSkillLevel]));
+                
+                War3HealToHP(attacker,addHealth,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);
+                //Effects?
+                //EmitAmbientSound("npc/zombie/zombie_pain2.wav",location);
+                W3EmitSoundToAll(skill1snd,attacker);
+            }
+        }
+    }
 }
 /*
 public Action:setlocation(Handle:t,any:attacker){
-	TeleportEntity(attacker, teleportTo[attacker], NULL_VECTOR, NULL_VECTOR);
+    TeleportEntity(attacker, teleportTo[attacker], NULL_VECTOR, NULL_VECTOR);
 }*/
 
 public OnUltimateCommand(client,race,bool:pressed)
@@ -193,39 +170,39 @@ public OnUltimateCommand(client,race,bool:pressed)
     {
         new ultLevel=War3_GetSkillLevel(client,thisRaceID,ULT_RAGE);
         if(ultLevel>0)
-        {	
-			//PrintToChatAll("level %d %f %f",ultLevel,RageDuration[ultLevel],RageAttackSpeed[ultLevel]);
-			if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_RAGE,true ))
-			{
-				War3_ChatMessage(client,"%T","You rage for {amount} seconds, {amount} percent attack speed",client,
-				COLOR_LIGHTGREEN, 
-				RageDuration[ultLevel],
-				COLOR_DEFAULT, 
-				COLOR_LIGHTGREEN, 
-				(RageAttackSpeed[ultLevel]-1.0)*100.0 ,
-				COLOR_DEFAULT
-				);
+        {    
+            //PrintToChatAll("level %d %f %f",ultLevel,RageDuration[ultLevel],RageAttackSpeed[ultLevel]);
+            if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_RAGE,true ))
+            {
+                War3_ChatMessage(client,"%T","You rage for {amount} seconds, {amount} percent attack speed",client,
+                COLOR_LIGHTGREEN, 
+                RageDuration[ultLevel],
+                COLOR_DEFAULT, 
+                COLOR_LIGHTGREEN, 
+                (RageAttackSpeed[ultLevel]-1.0)*100.0 ,
+                COLOR_DEFAULT
+                );
 
-				War3_SetBuff(client,fAttackSpeed,thisRaceID,RageAttackSpeed[ultLevel]);
-				
-				CreateTimer(RageDuration[ultLevel],stopRage,client);
-				W3EmitSoundToAll(ultsnd,client);
-				W3EmitSoundToAll(ultsnd,client);
-				War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RAGE,_,_);
-				
-			}
-			
-			
+                War3_SetBuff(client,fAttackSpeed,thisRaceID,RageAttackSpeed[ultLevel]);
+                
+                CreateTimer(RageDuration[ultLevel],stopRage,client);
+                W3EmitSoundToAll(ultsnd,client);
+                W3EmitSoundToAll(ultsnd,client);
+                War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_RAGE,_,_);
+                
+            }
+            
+            
         }
-		else{
-			PrintHintText(client,"%T","No Ultimate Leveled",client);
-		}
+        else{
+            PrintHintText(client,"%T","No Ultimate Leveled",client);
+        }
 
     }
 }
 public Action:stopRage(Handle:t,any:client){
-	War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0);
-	if(ValidPlayer(client,true)){
-		PrintHintText(client,"%T","You are no longer in rage mode",client);
-	}
+    War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0);
+    if(ValidPlayer(client,true)){
+        PrintHintText(client,"%T","You are no longer in rage mode",client);
+    }
 }

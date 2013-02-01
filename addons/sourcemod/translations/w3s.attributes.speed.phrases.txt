@@ -1,0 +1,19 @@
+"Phrases"
+{
+	"AttributeName"
+	{
+		"en"		"Speed"
+	}
+	"You move at regular speed"
+	{
+		"en"		"You move at regular speed"
+	}
+	"You move %i percent faster"
+	{
+		"en"		"You move %i percent faster"
+	}
+	"You move %i percent slower"
+	{
+		"en"		"You move %i percent slower"
+	}
+}
