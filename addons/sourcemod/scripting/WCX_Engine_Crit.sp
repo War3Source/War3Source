@@ -10,10 +10,18 @@ public Plugin:myinfo =
 
 public OnWar3EventPostHurt(victim, attacker, damage)
 {
+    // not written to be compatible with left4dead
+    if((victim == attacker) || (!ValidPlayer(victim) || !ValidPlayer(attacker)) || (GetClientTeam(victim) == GetClientTeam(attacker)))
+    {
+        return;
+    }
+    
     decl String:weapon[64];
-    GetEventString(W3GetVar(SmEvent),"weapon",weapon,sizeof(weapon)); 
+    GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon)); 
     if(StrEqual(weapon, "crit",false) || StrEqual(weapon, "bash", false) || StrEqual(weapon, "weapon_crit",false) || StrEqual(weapon, "weapon_bash", false))
         return;
+    
+    War3_LogInfo("PostHurt called with weapon \"%s\"", weapon);
     
     new Float:CritChance = W3GetBuffSumFloat(attacker, fCritChance);
     new Float:CritMultiplier = W3GetBuffSumFloat(attacker,fCritModifier);
@@ -130,7 +138,9 @@ public OnWar3EventPostHurt(victim, attacker, damage)
     new newdamage = RoundToFloor(PercentIncrease * damage);
     newdamage = newdamage + DamageIncrease;
     if(newdamage > 0)
-        War3_DealDamage(victim,newdamage,attacker,_,"weapon_crit");
-    
+    {
+        War3_LogInfo("Dealing crit damage %i of player \"{client %i}\" to victim \"{client %i}\"", newdamage, attacker, victim);
+        War3_DealDamage(victim, newdamage, attacker, _, "weapon_crit");
+    }
 }
 
