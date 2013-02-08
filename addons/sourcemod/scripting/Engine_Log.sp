@@ -131,7 +131,7 @@ ReadRawFromString(String:sInput[], maxlength, Handle:hRegex)
 MakeReadable(String:sUnreadable[], maxlength)
 {
     // Replace race ids with their name
-    if(MatchRegex(hRegexRace, sUnreadable) > 0)
+    while (MatchRegex(hRegexRace, sUnreadable) > 0)
     {
         decl String:sRaceRaw[64];
         new iRaceID = ReadRawFromString(sRaceRaw, sizeof(sRaceRaw), hRegexRace);
@@ -143,7 +143,7 @@ MakeReadable(String:sUnreadable[], maxlength)
     }
     
     // Replace item ids with the name
-    if(MatchRegex(hRegexItem, sUnreadable) > 0)
+    while (MatchRegex(hRegexItem, sUnreadable) > 0)
     {
         decl String:sItemRaw[64];
         new iItemID = ReadRawFromString(sItemRaw, sizeof(sItemRaw), hRegexItem);
@@ -170,7 +170,7 @@ MakeReadable(String:sUnreadable[], maxlength)
     }
     */
     // Replace tag with war3source tag
-    if(MatchRegex(hRegexTag, sUnreadable) > 0)
+    while (MatchRegex(hRegexTag, sUnreadable) > 0)
     {
         decl String:sTag[64];
         Format(sTag, sizeof(sTag), "%T", "[war3source]", LANG_SERVER);
@@ -179,22 +179,26 @@ MakeReadable(String:sUnreadable[], maxlength)
     }
     
     // Replace client ids with the name
-    if(MatchRegex(hRegexClient, sUnreadable) > 0)
+    while (MatchRegex(hRegexClient, sUnreadable) > 0)
     {
         decl String:sNameRaw[64];
         new iClientID = ReadRawFromString(sNameRaw, sizeof(sNameRaw), hRegexClient);
         
-        new String:sPlayerName[FULLNAMELEN] = "invalidplayer";
+        new String:sPlayerName[FULLNAMELEN];
         if (ValidPlayer(iClientID))
         {
             GetClientName(iClientID, sPlayerName, sizeof(sPlayerName));
+        }
+        else
+        {
+            strcopy(sPlayerName, sizeof(sPlayerName), "invalidplayer");
         }
 
         ReplaceString(sUnreadable, maxlength, sNameRaw, sPlayerName, true);
     }
     
     // Replace attribute ids with the name
-    if(MatchRegex(hRegexAttribute, sUnreadable) > 0)
+    while (MatchRegex(hRegexAttribute, sUnreadable) > 0)
     {
         decl String:sAttributeRaw[64];
         new iAttributeId = ReadRawFromString(sAttributeRaw, sizeof(sAttributeRaw), hRegexAttribute);
