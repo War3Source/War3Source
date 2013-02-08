@@ -31,7 +31,7 @@ new EclipseAmount[5]= {0,4,6,8,10};
 
 new SKILL_MOONBEAM,SKILL_BOUNCE,SKILL_AURA,ULT;
 new LightModel;
-new XBeamSprite,CoreSprite,MoonSprite,BeamSprite,HaloSprite;
+new XBeamSprite,CoreSprite,MoonSprite,HaloSprite;
 //new BlueSprite;
 new Handle:ultCooldownCvar = INVALID_HANDLE;
 new AuraID;
@@ -82,60 +82,30 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_AURA=War3_AddRaceSkillT(thisRaceID,"LunarBlessing",false,4);
         ULT=War3_AddRaceSkillT(thisRaceID,"Eclipse",true,4);
         War3_CreateRaceEnd(thisRaceID);
-        AuraID=W3RegisterAura("luna_blessing",BlessingRadius);
-    }
-}
-
-//Purpose: Applies/Removes the Aura from player that actually changed from/to this race..
-public OnRaceChanged(client,oldrace,newrace)
-{
-    if(newrace==thisRaceID) {
-        new level=War3_GetSkillLevel(client,thisRaceID,SKILL_AURA);
-        W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
-    }
-    if(oldrace==thisRaceID) {
-        War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
-        W3SetAuraFromPlayer(AuraID,client,false);
-    }
-}
-
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-    //The Skill level changed, probably lunar blessing - check for that..
-    if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
-    {
-        if(skill==SKILL_AURA)
-        {
-            //Updates Lunar Blessing Aura Info...
-            W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
-        }
+        
+        War3_AddAuraSkillBuff(thisRaceID, SKILL_AURA, iDamageBonus, BlessingIncrease, 
+                              "luna_blessing", BlessingRadius, 
+                              true);
+        
+        // since we cant look up aura ids by shortname right now, do it this way ;)
+        AuraID = W3RegisterAura("luna_blessing", BlessingRadius);
     }
 }
 
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
-    //Is that our aura?
-    if(aura==AuraID)
+    if(aura == AuraID)
     {
-        //Yes, to let mod our damage done
-        War3_SetBuff(client,iDamageBonus,thisRaceID,inAura?BlessingIncrease[level]:0);
-        if(War3_GetGame() != Game_CSGO) {
-            if(inAura==true&&IsPlayerAlive(client)) {
+        if(War3_GetGame() != Game_CSGO) 
+        {
+            if(inAura == true && ValidPlayer(client, true)) 
+            {
                 decl Float:client_pos[3];
-                GetClientAbsOrigin(client,client_pos);
+                GetClientAbsOrigin(client, client_pos);
                 TE_SetupGlowSprite(client_pos, LightModel, 2.0, 1.0, 255);
                 TE_SendToAll();
             }
         }
-    }
-}
-
-public OnWar3EventSpawn(client)
-{
-    if(War3_GetRace(client)==thisRaceID) {
-        //new skill_level = War3_GetSkillLevel( client, thisRaceID, SKILL_AURA );
-        //if(skill_level>0)
-        //CreateTimer( 0.1, Timer_LunaFX, client);
     }
 }
 
@@ -262,115 +232,6 @@ public OnUltimateCommand( client, race, bool:pressed )
         else
         W3MsgUltNotLeveled( client );
     }
-}
-
-// Old Aura - replaced with new aura engine(now a damage aura instead of a healing wave)
-/*public W3DoLunarBlessing(client)
- {
- //assuming client exists and has this race
- new skill = War3_GetSkillLevel(client,thisRaceID,SKILL_AURA);
- if(skill>0&&!Hexed(client,false))
- {
- new HealerTeam = GetClientTeam(client);
- new Float:HealerPos[3];
- GetClientAbsOrigin(client,HealerPos);
- new Float:VecPos[3];
-
- for(new i=1;i<=MaxClients;i++)
- {
- if(ValidPlayer(i,true)&&GetClientTeam(i)==HealerTeam)
- {
- GetClientAbsOrigin(i,VecPos);
- if(GetVectorDistance(HealerPos,VecPos)<=BlessingRadius)
- {
- War3_HealToMaxHP(i,skill);
- //VecPos[2]+=80.0;
- TE_SetupGlowSprite(VecPos, LightModel, 2.0, 1.0, 255);
- TE_SendToAll();
- }
- }
- }
- }
- }
-
- public Action:CalcBlessing(Handle:timer,any:userid)
- {
- if(thisRaceID>0)
- for(new i=1;i<=MaxClients;i++)
- {
- if(ValidPlayer(i,true))
- {
- if(War3_GetRace(i)==thisRaceID)
- {
- W3DoLunarBlessing(i);
- }
- }
- }
- }*/
-
-public Action:INCTimer_RemoveEntity(Handle:timer, any:edict)
-{
-    if(IsValidEdict(edict))
-    {
-        AcceptEntityInput(edict, "Kill");
-    }
-}
-
-// Glider: Put a improved version of this this into War3Source_Effects sometime
-stock CreateParticles(const client,bool:parentent,Float:fLifetime,Float:fAng[3],Float:BaseSpread,Float:StartSize,Float:EndSize,Float:Twist,String:material[],String:renderclr[],String:SpreadSpeed[],String:JetLength[],String:Speed[],String:Rate[]){
-    new particle = CreateEntityByName("env_smokestack");
-    if(IsValidEdict(particle) && IsClientInGame(client))
-    {
-        decl String:Name[32], Float:fPos[3];
-        Format(Name, sizeof(Name), "W3S_particles_%i", client);
-        GetEntPropVector(client, Prop_Send, "m_vecOrigin", fPos);
-        fPos[2] += 50.0;
-        // Set Key Values
-        DispatchKeyValueVector(particle, "Origin", fPos);
-        DispatchKeyValueVector(particle, "Angles", fAng);
-        DispatchKeyValueFloat(particle, "BaseSpread", BaseSpread);
-        DispatchKeyValueFloat(particle, "StartSize", StartSize);
-        DispatchKeyValueFloat(particle, "EndSize", EndSize);
-        DispatchKeyValueFloat(particle, "Twist", Twist);
-        
-        DispatchKeyValue(particle, "Name", Name);
-        DispatchKeyValue(particle, "SmokeMaterial", material);
-        DispatchKeyValue(particle, "RenderColor", renderclr);
-        DispatchKeyValue(particle, "SpreadSpeed", SpreadSpeed);
-        DispatchKeyValue(particle, "RenderAmt", "255");
-        DispatchKeyValue(particle, "JetLength", JetLength);
-        DispatchKeyValue(particle, "RenderMode", "0");
-        DispatchKeyValue(particle, "Initial", "0");
-        DispatchKeyValue(particle, "Speed", Speed);
-        DispatchKeyValue(particle, "Rate", Rate);
-        DispatchSpawn(particle);
-        
-        // Set Entity Inputs
-        if(parentent)
-        {
-            SetVariantString("!activator");
-            AcceptEntityInput(particle, "SetParent", client, particle, 0);
-        }
-        AcceptEntityInput(particle, "TurnOn");
-        CreateTimer(fLifetime, INCTimer_RemoveEntity, particle);
-        return particle;
-    }
-    else
-    {
-        LogError("Failed to create entity env_smokestack!");
-    }
-    return -1;
-}
-
-public Action:Timer_LunaFX( Handle:timer, any:client )
-{
-    new Float:Angles[3] = {90.0,90.0,90.0};
-    CreateParticles(client,false,5.0,Angles,15.0,15.0,25.0,15.0,"particle/fire.vmt","128 0 255","100","900","5","200");
-    decl Float:client_pos[3];
-    GetClientAbsOrigin(client,client_pos);
-    client_pos[2]+=35.0;
-    TE_SetupBeamRingPoint(client_pos,80.0,300.0,BeamSprite,HaloSprite,0,20,5.0,80.0,1.0, {128,0,255,255},10,0);
-    TE_SendToAll();
 }
 
 public Action:Timer_EclipseLoop( Handle:timer, any:attacker )
