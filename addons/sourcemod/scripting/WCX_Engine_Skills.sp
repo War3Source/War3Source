@@ -68,7 +68,7 @@ public OnMapStart()
     else if(GAMECSGO)
     {
         ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
-        War3_PrecacheSound("music/war3source/csgo/weapons/explode5.mp3");
+        //War3_PrecacheSound("music/war3source/csgo/weapons/explode5.mp3");
         //PrecacheSound("music/war3source/csgo/weapons/explode5.mp3",false);
     }
 
