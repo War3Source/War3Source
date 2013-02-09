@@ -75,7 +75,7 @@ public OnPluginStart()
     HookEvent("player_spawn",PlayerSpawnEvent);
     HookEvent("round_start",RoundStartEvent);
     ultCooldownCvar=CreateConVar("war3_mage_fire_strike_cooldown","20","Cooldown between fire strikes (ultimate)");
-    g_hUltReviveLocationCvar=CreateConVar("war3_mage_revive_location", "0", "0 : at death position / 1 : at spawn");
+    g_hUltReviveLocationCvar=CreateConVar("war3_mage_revive_at_spawn", "0", "0 : at death position / 1 : at spawn");
     hrevivalDelayCvar=CreateConVar("war3_mage_revive_delay","2.0","Delay when reviving a teammate (since death)");
     
     MoneyOffsetCS=FindSendPropInfo("CCSPlayer","m_iAccount");
