@@ -59,7 +59,7 @@ public OnPluginStart()
         }
         
         //for clearing hostage touch
-        if(!HookEventEx("round_end",War3Source_RoundOverEvent))
+        if(!HookEventEx("round_start",War3Source_RoundOverEvent))
         {
             PrintToServer("[War3Source] Could not hook the round_end event.");
         }
