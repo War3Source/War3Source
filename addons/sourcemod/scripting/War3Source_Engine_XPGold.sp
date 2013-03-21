@@ -383,7 +383,17 @@ public OnWar3EventDeath(victim,attacker){
             }                
             else if (StrEqual(victimclass, "Spitter"))
             {
-                PrintToChatAll("WHAT THE FUCK?");
+                new addxp = GetConVarInt(KillSpitterXPCvar);
+                new addgold = GetConVarInt(KillGoldCvar);
+                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                
+                new String:killaward[64];
+                Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
+
+                if (ValidPlayer(victim) && IsFakeClient(victim))
+                    W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
+                else
+                    GiveKillXPCreds(attacker, victim, false, false);
             }
             else if (StrEqual(victimclass, "Jockey"))
             {
@@ -401,34 +411,17 @@ public OnWar3EventDeath(victim,attacker){
             }
             else if (StrEqual(victimclass, "Charger"))
             {
-                if (EventZombieClass == 4)
-                {
-                    new addxp = GetConVarInt(KillSpitterXPCvar);
-                    new addgold = GetConVarInt(KillGoldCvar);
-                    if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
-                    
-                    new String:killaward[64];
-                    Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
+                new addxp = GetConVarInt(KillChargerXPCvar);
+                new addgold = GetConVarInt(KillGoldCvar);
+                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                
+                new String:killaward[64];
+                Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
 
-                    if (ValidPlayer(victim) && IsFakeClient(victim))
-                        W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
-                    else
-                        GiveKillXPCreds(attacker, victim, false, false);
-                }
+                if (ValidPlayer(victim) && IsFakeClient(victim))
+                    W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
                 else
-                {
-                    new addxp = GetConVarInt(KillChargerXPCvar);
-                    new addgold = GetConVarInt(KillGoldCvar);
-                    if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
-                    
-                    new String:killaward[64];
-                    Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
-    
-                    if (ValidPlayer(victim) && IsFakeClient(victim))
-                        W3GiveXPGold(attacker,XPAwardByKill,addxp,addgold,killaward);
-                    else
-                        GiveKillXPCreds(attacker, victim, false, false);
-                }
+                    GiveKillXPCreds(attacker, victim, false, false);
             }
         }
         // finished with l4d xp stuff, everything else is related to other games
