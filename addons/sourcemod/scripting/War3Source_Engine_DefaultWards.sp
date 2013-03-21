@@ -18,7 +18,7 @@ new BehaviorIndex[3];
 new BeamSprite =-1;
 new HaloSprite =-1;
 
-public OnPluginStart()
+public OnMapStart()
 {
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
@@ -28,38 +28,53 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 {
     if (num==0)
     {
-        BehaviorIndex[DAMAGE]=War3_CreateWardBehavior("damage","Damage ward","Deals damage to targets");
-        BehaviorIndex[HEAL]=War3_CreateWardBehavior("heal","Healing ward","Heals targets");
+        BehaviorIndex[DAMAGE] = War3_CreateWardBehavior("damage","Damage ward","Deals damage to targets");
+        BehaviorIndex[HEAL] = War3_CreateWardBehavior("heal","Healing ward","Heals targets");
     }
 }
 
-public OnWardPulse(wardindex, behavior) {
+public OnWardPulse(wardindex, behavior) 
+{
     new beamcolor[4];
-    if(War3_GetWardUseDefaultColor(wardindex)) {
-        if(behavior == BehaviorIndex[DAMAGE]) {
-            if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
+    if(War3_GetWardUseDefaultColor(wardindex)) 
+	{
+        if(behavior == BehaviorIndex[DAMAGE]) 
+		{
+            if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) 
+			{
                 beamcolor = {0,0,255,255};
-            } else {
+            } 
+			else 
+			{
                 beamcolor = {255,0,0,255};
             }
-        } else {
-            if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
+        } 
+		else 
+		{
+            if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) 
+			{
                 beamcolor = {0,255,128,255};
-            } else {
+            } 
+			else 
+			{
                 beamcolor = {128,255,0,255};
             }
         }
     } else {
-        if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) {
+        if(GetClientTeam(War3_GetWardOwner(wardindex)) == 3) 
+		{
             War3_GetWardColor2(wardindex, beamcolor);
-        } else {
+        } 
+		else 
+		{
             War3_GetWardColor3(wardindex, beamcolor);
         }
     }
-    doVisualEffect(wardindex,beamcolor);
+    doVisualEffect(wardindex, beamcolor);
 }
 
-doVisualEffect(wardindex,beamcolor[4]) {
+doVisualEffect(wardindex, beamcolor[4]) 
+{
     decl Float:location[3];
     War3_GetWardLocation(wardindex,location);
     new Float:interval = War3_GetWardInterval(wardindex);
@@ -81,7 +96,8 @@ doVisualEffect(wardindex,beamcolor[4]) {
     TE_SendToAll();
 }
 
-public OnWardTrigger(wardindex,victim,owner,behavior) {
+public OnWardTrigger(wardindex,victim,owner,behavior) 
+{
     decl data[MAXWARDDATA];
     decl Float:VictimPos[3];
     
@@ -94,18 +110,22 @@ public OnWardTrigger(wardindex,victim,owner,behavior) {
         VictimPos[2]+=65.0;
         War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
     }
-    else if (behavior==BehaviorIndex[HEAL]) {
+    else if (behavior==BehaviorIndex[HEAL]) 
+	{
         new healamt = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
         
         new cur_hp=GetClientHealth(victim);
         new new_hp=cur_hp+healamt;
         new max_hp=War3_GetMaxHP(victim);
-        if(new_hp>max_hp)    new_hp=max_hp;
-        if(cur_hp<new_hp)
+        if(new_hp > max_hp)
+		{
+			new_hp=max_hp;
+		}
+        if(cur_hp < new_hp)
         {
             War3_HealToMaxHP(victim,healamt);
             VictimPos[2]+=65.0;
-            War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
+            War3_TF_ParticleToClient(0, GetClientTeam(victim) == 2 ? "healthgained_red" : "healthgained_blu", VictimPos);
         }
     }
 }
