@@ -59,7 +59,7 @@ new raceCell[MAXRACES][ENUM_RaceObject];
 
 public OnPluginStart()
 {
-//silence error
+    //silence error
     skillProp[0][0][0]=0;
     m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
 }
@@ -67,7 +67,7 @@ public OnPluginStart()
 
 public bool:InitNativesForwards()
 {
-
+    
     CreateNative("War3_CreateNewRace",NWar3_CreateNewRace);
     CreateNative("War3_AddRaceSkill",NWar3_AddRaceSkill);
     
@@ -129,14 +129,14 @@ public NWar3_CreateNewRace(Handle:plugin,numParams){
     War3_LogInfo("add race %s %s",name,shortname);
     
     return CreateNewRace(name,shortname);
-
+    
 }
 
 
 public NWar3_AddRaceSkill(Handle:plugin,numParams){
     
-
-
+    
+    
     new raceid=GetNativeCell(1);
     if(raceid>0){
         new String:skillname[32];
@@ -155,7 +155,7 @@ public NWar3_AddRaceSkill(Handle:plugin,numParams){
 
 //translated
 public NWar3_CreateNewRaceT(Handle:plugin,numParams){
-
+    
     
     
     decl String:name[64],String:shortname[32];
@@ -169,11 +169,11 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
         LoadTranslations(buf);
     }
     return newraceid;
-
+    
 }
 //translated
 public NWar3_AddRaceSkillT(Handle:plugin,numParams){
-
+    
     
     new raceid=GetNativeCell(1);
     if(raceid>0)
@@ -184,9 +184,9 @@ public NWar3_AddRaceSkillT(Handle:plugin,numParams){
         new bool:isult=GetNativeCell(3);
         new tmaxskilllevel=GetNativeCell(4);
         
-    
+        
         War3_LogInfo("add skill T %d %s",raceid,skillname);
-            
+        
         new newskillnum=AddRaceSkill(raceid,skillname,skilldesc,isult,tmaxskilllevel);
         skillTranslated[raceid][newskillnum]=true;
         
@@ -282,7 +282,7 @@ public NW3GetRaceSkillString(Handle:plugin,numParams)
     new skill=GetNativeCell(2);
     new SkillString:raceskillstringid=GetNativeCell(3);
     
-
+    
     new String:longbuf[1000];
     Format(longbuf,sizeof(longbuf),raceSkillString[race][skill][raceskillstringid]);
     SetNativeString(4,longbuf,GetNativeCell(5));
@@ -323,7 +323,7 @@ public NWar3_GetRaceIDByShortname(Handle:plugin,numParams)
 public NW3GetRaceAccessFlagStr(Handle:plugin,numParams)
 {
     new String:buf[32];
-
+    
     new raceid=GetNativeCell(1);
     W3GetCvar(AccessFlagCvar[raceid],buf,sizeof(buf));
     SetNativeString(2,buf,GetNativeCell(3));
@@ -346,38 +346,34 @@ public NW3RaceHasFlag(Handle:plugin,numParams)
     GetNativeString(2,flagsearch,sizeof(flagsearch));
     return (StrContains(buf,flagsearch)>-1);
 }
-public NW3GetRaceList(Handle:plugin,numParams){
-
+public NW3GetRaceList(Handle:plugin,numParams)
+{
     new listcount=0;
     new RacesLoaded = War3_GetRacesLoaded();
-    new Handle:hdynamicarray=CreateArray(1); //1 cell
+    new Handle:racesAvailable = CreateArray(1); //1 cell
     
-    for(new raceid=1;raceid<=RacesLoaded;raceid++){
+    for(new raceid = 1; raceid <= RacesLoaded; raceid++){
         
-        if(!W3RaceHasFlag(raceid,"hidden")){
-        //    DP("not hidden %d",raceid);
-            PushArrayCell(hdynamicarray, raceid);
+        if(!W3RaceHasFlag(raceid,"hidden"))
+        {
+            PushArrayCell(racesAvailable, raceid);
             listcount++;
-        }
-        else{
-        //    DP("hidden %d",raceid);
         }
     }
     new racelist[MAXRACES];
-    new Handle:result=MergeSort(hdynamicarray); //closes hdynamicarray
-    for(new i=0;i<listcount;i++){
-        racelist[i]=GetArrayCell(result, i);
+    SortADTArrayCustom(racesAvailable, SortRacesByRaceOrder);
+    for(new i = 0; i < listcount; i++)
+    {
+        racelist[i] = GetArrayCell(racesAvailable, i);
     }
-    //printArray("",result); 
-    //PrintToServer("result array size %d/%d", GetArraySize(result),War3_GetRacesLoaded());
-    CloseHandle(result);
-
+    CloseHandle(racesAvailable);
+    
     SetNativeArray(1, racelist, MAXRACES);
     return listcount;
 }
 public NW3GetRaceItemRestrictionsStr(Handle:plugin,numParams)
 {
-
+    
     new raceid=GetNativeCell(1);
     new String:buf[64];
     W3GetCvar(RestrictItemsCvar[raceid],buf,sizeof(buf));
@@ -483,9 +479,9 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
         if(StrEqual(genskillname,GenericSkill[i][cskillname])){
             //DP("2");
             if(raceid>0){
-            
                 
-            
+                
+                
                 //DP("3");
                 new String:raceskillname[2001];
                 new String:raceskilldesc[2001];
@@ -495,7 +491,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 new bool:istranaslated=GetNativeCell(6);
                 
                 //native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,String:yourskillname[],String:untranslatedSkillDescription[],bool:translated=false,bool:isUltimate=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
-
+                
                 new bool:isult=GetNativeCell(7);
                 new tmaxskilllevel=GetNativeCell(8);
                 
@@ -528,7 +524,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 {
                     //variable args start at 8
                     for(new arg=9;arg<=numParams;arg++){
-                    
+                        
                         GetNativeString(arg,raceSkillDescReplace[raceid][newskillnum][raceSkillDescReplaceNum[raceid][newskillnum]],64);
                         raceSkillDescReplaceNum[raceid][newskillnum]++;
                     }
@@ -546,7 +542,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 }
                 
                 return newskillnum;
-                    
+                
             }
         }
     }
@@ -554,7 +550,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
     return 0;
 }
 public NW3_GenericSkillLevel(Handle:plugin,numParams){
-
+    
     new client=GetNativeCell(1);
     new genericskill=GetNativeCell(2);
     new count=GenericSkill[genericskill][redirectedcount];
@@ -567,7 +563,7 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
         if(clientrace==GenericSkill[genericskill][redirectedfromrace][i]){
             level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]);
             if(level)
-			{ 
+            { 
                 found++;
                 reallevel=level;
                 customernumber=i;
@@ -590,41 +586,6 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     return reallevel;
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
@@ -688,7 +649,7 @@ GetRaceSkillMaxLevel(raceid,skill){
     return skillMaxLevel[raceid][skill];
 }
 GetRaceName(raceid,String:retstr[],maxlen){
-
+    
     if(raceTranslated[raceid]){
         new String:buf[64];
         new String:longbuf[1000];
@@ -708,12 +669,12 @@ GetRaceSkillName(raceid,skillindex,String:retstr[],maxlen){
     if(skillTranslated[raceid][skillindex]){
         new String:buf[64];
         new String:longbuf[512];
-    
+        
         Format(buf,sizeof(buf),"%s_skill_%s",raceShortname[raceid],raceSkillName[raceid][skillindex]);
         Format(longbuf,sizeof(longbuf),"%T",buf,GetTrans());
         return strcopy(retstr, maxlen,longbuf);
     }
-
+    
     new num=strcopy(retstr, maxlen, raceSkillName[raceid][skillindex]);
     return num;
 }
@@ -731,10 +692,10 @@ GetRaceSkillDesc(raceid,skillindex,String:retstr[],maxlen){
             Format(find,sizeof(find),"#%d#",i+1);
             ReplaceString(longbuf,sizeof(longbuf),find,raceSkillDescReplace[raceid][skillindex][i]);
         }
-
+        
         return strcopy(retstr, maxlen,longbuf);
     }
-
+    
     new num=strcopy(retstr, maxlen, raceSkillDescription[raceid][skillindex]);
     return num;
 }
@@ -842,7 +803,7 @@ CreateRaceEnd(raceid){
             new String:cvarstr[64];
             Format(cvarstr,sizeof(cvarstr),"%s_minlevel",shortname);
             MinLevelCvar[raceid]=W3CreateCvar(cvarstr,"0","Minimum level for race");
-    
+            
             Format(cvarstr,sizeof(cvarstr),"%s_accessflag",shortname);
             AccessFlagCvar[raceid]=W3CreateCvar(cvarstr,"0","Admin access flag required for race");
             
@@ -902,103 +863,23 @@ GetRaceIDByShortname(String:shortname[]){
     }
     return -1;
 }
-
-
-
-Handle:MergeSort(Handle:array){
-    
-    new len=GetArraySize(array);
-    if(len==1){
-        return array;
+public SortRacesByRaceOrder(race1, race2, Handle:races, Handle:hndl)
+{
+	PrintToServer("race1: %d race2: %d", race1, race2);
+	if(race1 > 0 && race2 > 0)
+	{
+		new order1 = W3GetRaceOrder(race1);
+		new order2 = W3GetRaceOrder(race2);
+		if(order1 < order2)
+		{
+			return -1;
+		} 
+		else if(order2 < order1)
+		{
+			return 1;
+		}
     }
-    new cut=len/2;
-    
-    new Handle:smallerarrayleft=CreateArray(1,cut);
-    new Handle:smallerarrayright=CreateArray(1,len-cut);
-    
-    for(new i=0;i<cut;i++){
-        SetArrayCell(smallerarrayleft, i, GetArrayCell(array, i));
-    
-    }
-    for(new i=cut;i<len;i++){
-        SetArrayCell(smallerarrayright, i-cut, GetArrayCell(array, i ));
-    
-    }
-    CloseHandle(array);
-    
-    
-    new Handle:leftresult=    MergeSort(smallerarrayleft);
-    new Handle:rightresult=    MergeSort(smallerarrayright);
-    
-    new Handle:resultarray=CreateArray(1,0);
-    new index=0;
-    while(GetArraySize(leftresult)>0&&GetArraySize(rightresult)>0){
-        new leftval=W3GetRaceOrder( GetArrayCell(leftresult, 0));
-        new rightval=W3GetRaceOrder( GetArrayCell(rightresult, 0));
-        //PrintToServer("left %d vs right %d",leftval,rightval);
-        
-        if(leftval<=rightval){
-            PushArrayCell(resultarray,-1); //add index 
-            SetArrayCell(resultarray, index, GetArrayCell(leftresult, 0));
-        
-            RemoveFromArray(leftresult, 0);
-            
-            //printArray("took left" ,resultarray);
-        }
-        else{
-            PushArrayCell(resultarray,-1); //add index 
-            SetArrayCell(resultarray, index, GetArrayCell(rightresult, 0));
-        
-            RemoveFromArray(rightresult, 0);
-            //printArray("took right" ,resultarray);
-        }
-        index++;
-    }
-    
-    new bool:closeleft,bool:closeright;
-    if(GetArraySize(leftresult)>0){ 
-        resultarray=append(resultarray,leftresult);
-        closeright=true;
-    }
-    else if(GetArraySize(rightresult)>0){ 
-        resultarray=append(resultarray,rightresult);
-        closeleft=true;
-    }
-    
-    
-    if(closeleft){
-        CloseHandle(leftresult);
-    }
-    if(closeright){
-        CloseHandle(rightresult);
-    }
-
-    return resultarray;
-    
+    return 0;
 }
-Handle:append(Handle:leftarr,Handle:rightarr){
-    new leftindex=GetArraySize(leftarr);
-    new rigthlen=GetArraySize(rightarr);
-    
-    for(new i=0;i<rigthlen;i++){
-        //append right
-        PushArrayCell(leftarr,-1); //add index to left
-        SetArrayCell(leftarr, leftindex, GetArrayCell(rightarr, 0));
-    
-        RemoveFromArray(rightarr, 0);
-        leftindex++;
-    }
-    CloseHandle(rightarr);
-    //printArray("appended" ,leftarr);
-    return leftarr;
-}
-stock printArray(String:prepend[]="",Handle:arr){
-    new len=GetArraySize(arr);
-    new String:print[100];
-    Format(print,sizeof(print),"%s {",prepend);
-    for(new i=0;i<len;i++){
-        Format(print,sizeof(print),"%s %d",print,GetArrayCell(arr,i));
-    }
-    Format(print,sizeof(print),"%s}",print);
-    PrintToServer(print);
-}
+
+
