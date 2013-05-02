@@ -19,7 +19,7 @@ public OnPluginStart()
 
 public Action:War3Source_Admin(client,args)
 {
-    if(HasSMAccess(client,ADMFLAG_ROOT))
+    if(ValidPlayer(client) && HasSMAccess(client, ADMFLAG_ROOT))
     {
         new Handle:adminMenu=CreateMenu(War3Source_Admin_Selected);
         SetMenuExitButton(adminMenu,true);
@@ -39,6 +39,7 @@ public Action:War3Source_Admin(client,args)
         }
         DisplayMenu(adminMenu,client,20);
     }
+    
     return Plugin_Handled;
 }
 

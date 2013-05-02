@@ -594,7 +594,7 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     
     if(RaceExistsByShortname(traceshortname)){
         new oldraceid=GetRaceIDByShortname(traceshortname);
-        PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
+        //PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
         ignoreRaceEnd=true;
         return oldraceid;
     }
