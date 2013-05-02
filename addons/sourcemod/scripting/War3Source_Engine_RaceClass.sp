@@ -865,19 +865,19 @@ GetRaceIDByShortname(String:shortname[]){
 }
 public SortRacesByRaceOrder(race1, race2, Handle:races, Handle:hndl)
 {
-	PrintToServer("race1: %d race2: %d", race1, race2);
-	if(race1 > 0 && race2 > 0)
-	{
-		new order1 = W3GetRaceOrder(race1);
-		new order2 = W3GetRaceOrder(race2);
-		if(order1 < order2)
-		{
-			return -1;
-		} 
-		else if(order2 < order1)
-		{
-			return 1;
-		}
+    PrintToServer("race1: %d race2: %d", race1, race2);
+    if(race1 > 0 && race2 > 0)
+    {
+        new order1 = W3GetRaceOrder(race1);
+        new order2 = W3GetRaceOrder(race2);
+        if(order1 < order2)
+        {
+            return -1;
+        } 
+        else if(order2 < order1)
+        {
+            return 1;
+        }
     }
     return 0;
 }
