@@ -42,7 +42,6 @@ new Handle:KillSpitterXPCvar;
 new Handle:KillChargerXPCvar;
 new Handle:KillCommonXPCvar;
 new Handle:KillUncommonXPCvar;
-new MZombieClass;
 
 //gold 
 new Handle:MaxGoldCvar;
@@ -98,10 +97,6 @@ public OnPluginStart()
             PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
             
         }
-    }
-    else if(War3_IsL4DEngine())
-    {        
-        MZombieClass = FindSendPropInfo("CTerrorPlayer", "m_zombieClass");
     }
 }
 public OnMapStart()
@@ -308,7 +303,6 @@ public OnWar3EventDeath(victim,attacker){
             decl String:victimclass[32];
             GetEventString(event, "victimname", victimclass, sizeof(victimclass));
             
-            new EventZombieClass = GetEntData(victim, MZombieClass);
             
             if (StrEqual(victimclass, "Infected"))
             {
