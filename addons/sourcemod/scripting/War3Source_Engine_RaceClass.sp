@@ -594,7 +594,7 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     
     if(RaceExistsByShortname(traceshortname)){
         new oldraceid=GetRaceIDByShortname(traceshortname);
-        PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
+        //PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
         ignoreRaceEnd=true;
         return oldraceid;
     }
@@ -865,7 +865,6 @@ GetRaceIDByShortname(String:shortname[]){
 }
 public SortRacesByRaceOrder(race1, race2, Handle:races, Handle:hndl)
 {
-    PrintToServer("race1: %d race2: %d", race1, race2);
     if(race1 > 0 && race2 > 0)
     {
         new order1 = W3GetRaceOrder(race1);
