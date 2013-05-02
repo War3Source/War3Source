@@ -16,8 +16,21 @@ public OnWar3EventPostHurt(victim, attacker, damage)
         return;
     }
     
-    decl String:weapon[64];
-    GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon)); 
+    new String:weapon[64];
+    if(War3_GetGame()==Game_TF)
+    {
+        GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon));     
+        new entity = GetEventInt(W3GetVar(SmEvent), "weaponid");
+        if(entity == -1)
+        {
+            return;
+        }
+        GetEntityClassname(entity, weapon, sizeof(weapon));
+    }
+    else
+    {
+        GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon)); 
+    }
     if(StrEqual(weapon, "crit",false) || StrEqual(weapon, "bash", false) || StrEqual(weapon, "weapon_crit",false) || StrEqual(weapon, "weapon_bash", false))
         return;
     
