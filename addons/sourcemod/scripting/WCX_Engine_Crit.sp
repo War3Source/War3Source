@@ -1,4 +1,4 @@
-#include <sourcemod>
+#include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
 public Plugin:myinfo = 
@@ -8,34 +8,43 @@ public Plugin:myinfo =
     description="Generic crit skill"
 };
 
-public OnWar3EventPostHurt(victim, attacker, damage)
+public OnClientPutInServer(client)
+{
+    SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook);
+}
+public OnClientDisconnect(client)
+{
+    SDKUnhook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook); 
+}
+
+public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetype, weapon, const Float:damageForce[3], const Float:damagePosition[3])
 {
     // not written to be compatible with left4dead
     if((victim == attacker) || (!ValidPlayer(victim) || !ValidPlayer(attacker)) || (GetClientTeam(victim) == GetClientTeam(attacker)))
     {
         return;
     }
-    
-    new String:weapon[64];
-    if(War3_GetGame()==Game_TF)
+
+    // It appears we were attacked by a GHOST!
+    if (weapon == -1 && inflictor == -1)
     {
-        GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon));     
-        new entity = GetEventInt(W3GetVar(SmEvent), "weaponid");
-        if(entity == -1)
-        {
-            return;
-        }
-        GetEntityClassname(entity, weapon, sizeof(weapon));
-    }
-    else
-    {
-        GetEventString(W3GetVar(SmEvent), "weapon", weapon, sizeof(weapon)); 
-    }
-    if(StrEqual(weapon, "crit",false) || StrEqual(weapon, "bash", false) || StrEqual(weapon, "weapon_crit",false) || StrEqual(weapon, "weapon_bash", false))
         return;
+    }
     
-    War3_LogInfo("PostHurt called with weapon \"%s\"", weapon);
-    
+    // Figure out what really hit us. A weapon? A sentry gun?
+    new String:weaponName[64];
+    new realWeapon = weapon == -1 ? inflictor : weapon;
+    GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
+
+    War3_LogInfo("PostHurt called with weapon \"%s\"", weaponName);
+
+    // Typical cases of War3Source damage
+    if(StrEqual(weaponName, "crit", false) || StrEqual(weaponName, "bash", false) || 
+       StrEqual(weaponName, "weapon_crit", false) || StrEqual(weaponName, "weapon_bash", false))
+    {
+        return;
+    }
+
     new Float:CritChance = W3GetBuffSumFloat(attacker, fCritChance);
     new Float:CritMultiplier = W3GetBuffSumFloat(attacker,fCritModifier);
     new CritMode = W3GetBuffLastValue(attacker, iCritMode);
@@ -57,7 +66,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //1 (bullet damage damage increase)
             case(1):{
-                if(!W3IsDamageFromMelee(weapon) && !StrEqual(weapon,"hegrenade",false))
+                if(!W3IsDamageFromMelee(weaponName) && !StrEqual(weaponName,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -65,7 +74,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //2 (grenade damage damage increase) 
             case(2):{
-                if(StrEqual(weapon,"hegrenade",false))
+                if(StrEqual(weaponName,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -73,7 +82,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //3 (melee damage damage increase)
             case(3):{
-                if(W3IsDamageFromMelee(weapon))
+                if(W3IsDamageFromMelee(weaponName))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -81,7 +90,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //4 (melee and bullet damage increase)
             case(4):{
-                if(!StrEqual(weapon,"hegrenade",false))
+                if(!StrEqual(weaponName,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -89,7 +98,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //5 (melee and grenade damage increase) 
             case(5):{
-                if(StrEqual(weapon,"hegrenade",false)||W3IsDamageFromMelee(weapon))
+                if(StrEqual(weaponName,"hegrenade",false)||W3IsDamageFromMelee(weaponName))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -97,7 +106,7 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             }
             //6 (bullet and grenade damage increase)
             case(6):{
-                if(StrEqual(weapon,"hegrenade",false)||!W3IsDamageFromMelee(weapon))
+                if(StrEqual(weaponName,"hegrenade",false)||!W3IsDamageFromMelee(weaponName))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -117,32 +126,32 @@ public OnWar3EventPostHurt(victim, attacker, damage)
                 }
                 //2 (bullet damage damage increase)
                 case(2):{
-                    if(!W3IsDamageFromMelee(weapon) && !StrEqual(weapon,"hegrenade",false))
+                    if(!W3IsDamageFromMelee(weaponName) && !StrEqual(weaponName,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //3 (grenade damage damage increase) 
                 case(3):{
-                    if(StrEqual(weapon,"hegrenade",false))
+                    if(StrEqual(weaponName,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //4 (melee damage damage increase)
                 case(4):{
-                    if(W3IsDamageFromMelee(weapon))
+                    if(W3IsDamageFromMelee(weaponName))
                         CritMultiplier += DamageMultiplier;
                 }
                 //5 (melee and bullet damage increase)
                 case(5):{
-                    if(!StrEqual(weapon,"hegrenade",false))
+                    if(!StrEqual(weaponName,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //6 (melee and grenade damage increase) 
                 case(6):{
-                    if(StrEqual(weapon,"hegrenade",false)||W3IsDamageFromMelee(weapon))
+                    if(StrEqual(weaponName,"hegrenade",false)||W3IsDamageFromMelee(weaponName))
                         CritMultiplier += DamageMultiplier;
                 }
                 //7 (bullet and grenade damage increase)
                 case(7):{
-                    if(StrEqual(weapon,"hegrenade",false)||!W3IsDamageFromMelee(weapon))
+                    if(StrEqual(weaponName,"hegrenade",false)||!W3IsDamageFromMelee(weaponName))
                         CritMultiplier += DamageMultiplier;
                 }
             }
@@ -156,4 +165,3 @@ public OnWar3EventPostHurt(victim, attacker, damage)
         War3_DealDamage(victim, newdamage, attacker, _, "weapon_crit");
     }
 }
-
