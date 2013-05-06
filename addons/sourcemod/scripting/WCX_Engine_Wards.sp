@@ -12,17 +12,17 @@ public Plugin:myinfo =
 new Handle:g_hWardOwner = INVALID_HANDLE; // Who owns this ward?
 new Handle:g_hWardRadius = INVALID_HANDLE; // How big is the ward radius?
 new Handle:g_hWardLocation = INVALID_HANDLE; // Where is this ward?
-new Handle:g_hWardAffinity = INVALID_HANDLE;
-new Handle:g_hWardInterval = INVALID_HANDLE;
-new Handle:g_hWardNextTick = INVALID_HANDLE;
-new Handle:g_hWardExpireTime = INVALID_HANDLE;
-new Handle:g_hWardBehavior = INVALID_HANDLE;
-new Handle:g_hWardSkill = INVALID_HANDLE;
-new Handle:g_hWardData = INVALID_HANDLE;
-new Handle:g_hWardUseDefaultColors = INVALID_HANDLE;
-new Handle:g_hWardColor2 = INVALID_HANDLE;
-new Handle:g_hWardColor3 = INVALID_HANDLE;
-new Handle:g_hWardEnabled = INVALID_HANDLE;
+new Handle:g_hWardTarget = INVALID_HANDLE; // What does this ward target?
+new Handle:g_hWardInterval = INVALID_HANDLE; // In which interval does this ward pulse?
+new Handle:g_hWardBehavior = INVALID_HANDLE; // What is the ward behavior ID?
+new Handle:g_hWardSkill = INVALID_HANDLE; // What skill does this ward come from?
+new Handle:g_hWardData = INVALID_HANDLE; // Optional array of data to go with the ward
+new Handle:g_hWardUseDefaultColors = INVALID_HANDLE; // Bool: Should the ward use the default colors?
+new Handle:g_hWardColor2 = INVALID_HANDLE; // Alternate colors for Team 2
+new Handle:g_hWardColor3 = INVALID_HANDLE; // Alternate colors for Team 3
+new Handle:g_hWardNextTick = INVALID_HANDLE; // Internal: When is the next ward pulse?
+new Handle:g_hWardExpireTime = INVALID_HANDLE; // Internal: When will the ward expire?
+new Handle:g_hWardEnabled = INVALID_HANDLE; // Internal: Is this ward enabled?
 
 // Ward behavior data structure
 new Handle:g_hBehaviorName = INVALID_HANDLE;
@@ -79,7 +79,7 @@ public bool:InitNativesForwards()
     g_hWardOwner = CreateArray(1);
     g_hWardRadius = CreateArray(1);
     g_hWardLocation = CreateArray(3);
-    g_hWardAffinity = CreateArray(1);
+    g_hWardTarget = CreateArray(1);
     g_hWardInterval = CreateArray(1);
     g_hWardNextTick = CreateArray(1);
     g_hWardExpireTime = CreateArray(1);
@@ -269,8 +269,8 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         GetNativeArray(8, data ,MAXWARDDATA);
         PushArrayArray(g_hWardData, data);
         
-        new iAffinity = GetNativeCell(9);
-        PushArrayCell(g_hWardAffinity, iAffinity);
+        new iTarget = GetNativeCell(9);
+        PushArrayCell(g_hWardTarget, iTarget);
 
         new bool:bUseDefaultColors = GetNativeCell(10);
         PushArrayCell(g_hWardUseDefaultColors, bUseDefaultColors);
@@ -376,20 +376,20 @@ public WardPulse(id)
     new Float:VictimPos[3];
     new Float:tempZ;
 
-    new affinity = GetArrayCell(g_hWardAffinity, id);
+    new iWardTarget = GetArrayCell(g_hWardTarget, id);
     for(new i=1; i <= MaxClients; i++)
     {
         if(ValidPlayer(i, true))
         {
-            if ((i == owner) && !(affinity & WARD_TARGET_SELF))
+            if ((i == owner) && !(iWardTarget & WARD_TARGET_SELF))
             {
                 continue;
             }
-            else if ((GetClientTeam(i) == GetClientTeam(owner)) && !(affinity & WARD_TARGET_ALLIES))
+            else if ((GetClientTeam(i) == GetClientTeam(owner)) && !(iWardTarget & WARD_TARGET_ALLIES))
             {
                 continue;
             }
-            else if ((GetClientTeam(i) != GetClientTeam(owner)) && !(affinity & WARD_TARGET_ENEMYS))
+            else if ((GetClientTeam(i) != GetClientTeam(owner)) && !(iWardTarget & WARD_TARGET_ENEMYS))
             {
                 continue;
             }
@@ -476,7 +476,7 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardOwner);
     ClearArray(g_hWardRadius);
     ClearArray(g_hWardLocation);
-    ClearArray(g_hWardAffinity);
+    ClearArray(g_hWardTarget);
     ClearArray(g_hWardInterval);
     ClearArray(g_hWardNextTick);
     ClearArray(g_hWardExpireTime);

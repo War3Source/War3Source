@@ -12,17 +12,12 @@
 #define WARDABOVE 160.0
 
 // Bit flags for what a ward should target
-// You can pass this to CreateWard like this:
-//     WARD_TARGET_SELF & WARD_TARGET_ALLIES -> Ward that targets the owner and his allies
-//     WARD_TARGET_ALLIES & WARD_TARGET_ENEMYS -> Ward that targets the allies and enemys of the owner, but not himself
-//     etc.
-
 #define WARD_TARGET_SELF            (1 << 0)
 #define WARD_TARGET_ALLIES          (1 << 1)
 #define WARD_TARGET_ENEMYS          (1 << 2)
 
 // For lazy people.. since this is a pretty obvious thing to do ;)
-#define WARD_TARGET_TEAMMATES       WARD_TARGET_SELF & WARD_TARGET_ALLIES
+#define WARD_TARGET_TEAMMATES       WARD_TARGET_SELF | WARD_TARGET_ALLIES
 
 /**
  * Creates a new ward behavior. This will allow us to make ward effects modular, so people
