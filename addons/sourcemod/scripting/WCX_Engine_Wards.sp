@@ -13,11 +13,11 @@ new Handle:g_hWardOwner = INVALID_HANDLE;
 new Handle:g_hWardRadius = INVALID_HANDLE;
 new Handle:g_hWardLocation = INVALID_HANDLE;
 new Handle:g_hWardDuration = INVALID_HANDLE;
-new Handle:g_hWardTimerInterval = INVALID_HANDLE;
 new Handle:g_hWardTimerDuration = INVALID_HANDLE;
 new Handle:g_hWardSelfInflict = INVALID_HANDLE;
 new Handle:g_hWardAffinity = INVALID_HANDLE;
 new Handle:g_hWardInterval = INVALID_HANDLE;
+new Handle:g_hWardNextTick = INVALID_HANDLE;
 new Handle:g_hWardBehavior = INVALID_HANDLE;
 new Handle:g_hWardSkill = INVALID_HANDLE;
 new Handle:g_hWardData = INVALID_HANDLE;
@@ -82,11 +82,11 @@ public bool:InitNativesForwards()
     g_hWardRadius = CreateArray(1);
     g_hWardLocation = CreateArray(3);
     g_hWardDuration = CreateArray(1);
-    g_hWardTimerInterval = CreateArray(1);
     g_hWardTimerDuration = CreateArray(1);
     g_hWardSelfInflict = CreateArray(1);
     g_hWardAffinity = CreateArray(1);
     g_hWardInterval = CreateArray(1);
+    g_hWardNextTick = CreateArray(1);
     g_hWardBehavior = CreateArray(1);
     g_hWardSkill = CreateArray(1);
     g_hWardUseDefaultColors = CreateArray(1);
@@ -265,7 +265,6 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         PushArrayArray(g_hWardData, data);
         PushArrayCell(g_hWardAffinity, GetNativeCell(9));
         PushArrayCell(g_hWardSelfInflict, GetNativeCell(10));
-        PushArrayCell(g_hWardTimerInterval, CreateTimer(GetArrayCell(g_hWardInterval, id),WardPulse,id,TIMER_REPEAT));
         PushArrayCell(g_hWardUseDefaultColors, GetNativeCell(11));
         new color[4];
         GetNativeArray(12, color, sizeof(color));
@@ -285,6 +284,10 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         Call_PushCell(GetArrayCell(g_hWardBehavior, id));
         Call_Finish();
         PushArrayCell(g_hWardEnabled, 1);
+        
+        // This ward starts NOW!
+        PushArrayCell(g_hWardNextTick, GetEngineTime());
+        
         return id;
 
     }
@@ -326,7 +329,7 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
     return PushArrayString(g_hBehaviorDescription, desc);
 }
 
-public Action:WardPulse(Handle:timer,any:id)
+public WardPulse(id)
 {
     if(!bool:GetArrayCell(g_hWardEnabled, id))
     {
@@ -432,12 +435,7 @@ public bool:RemoveWard(id)
 
         g_iPlayerWardCount[GetArrayCell(g_hWardOwner,id)]--;
         SetArrayCell(g_hWardEnabled,id, 0);
-        if (GetArrayCell(g_hWardTimerInterval,id) != INVALID_HANDLE)
-        {
-            TriggerTimer(GetArrayCell(g_hWardTimerInterval,id));
-            KillTimer(GetArrayCell(g_hWardTimerInterval,id));
-            SetArrayCell(g_hWardTimerInterval, id, INVALID_HANDLE);
-        }
+
         if(GetArrayCell(g_hWardTimerDuration, id) != INVALID_HANDLE)
         {
             TriggerTimer(GetArrayCell(g_hWardTimerDuration,id));
@@ -470,7 +468,7 @@ public OnWar3EventSpawn(client)
 }
 public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 {
-    for(new i=0;i<GetArraySize(g_hWardOwner);i++)
+    for(new i=0; i < GetArraySize(g_hWardOwner); i++)
     {
         RemoveWard(i);
     }
@@ -479,11 +477,11 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardRadius);
     ClearArray(g_hWardLocation);
     ClearArray(g_hWardDuration);
-    ClearArray(g_hWardTimerInterval);
     ClearArray(g_hWardTimerDuration);
     ClearArray(g_hWardSelfInflict);
     ClearArray(g_hWardAffinity);
     ClearArray(g_hWardInterval);
+    ClearArray(g_hWardNextTick);
     ClearArray(g_hWardBehavior);
     ClearArray(g_hWardSkill);
     ClearArray(g_hWardData);
@@ -491,4 +489,27 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardColor2);
     ClearArray(g_hWardColor3);
     ClearArray(g_hWardEnabled);
+}
+
+// FOR GALLIFREY, err, OnGameFrame, I mean...
+
+public OnGameFrame()
+{
+    new Float:now = GetEngineTime();
+    new Float:fNextTick;
+    new Float:fInterval;
+    
+    for(new i = 0; i < GetArraySize(g_hWardOwner); i++)
+    {
+        fNextTick = GetArrayCell(g_hWardNextTick, i);
+        
+        if (fNextTick <= now)
+        {
+            WardPulse(i);
+            
+            fInterval = GetARrayCell(g_hWardInterval, i);
+            
+            SetArrayCell(g_hWardNextTick, i, fNextTick + fInterval);
+        }
+    }
 }

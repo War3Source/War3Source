@@ -17,7 +17,7 @@
 #include "W3SIncs/colors"
 #include "W3SIncs/aura"
 #include "W3SIncs/War3Source_Effects"
-#include "W3SIncs/wards"
+#include "W3SIncs/War3Source_Wards"
 #include "W3SIncs/War3Source_Races"
 #include "W3SIncs/War3Source_Logging"
 #include "W3SIncs/War3Source_Gamecheck"
