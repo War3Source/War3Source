@@ -399,7 +399,7 @@ public  OnWar3EventDeath(victim, attacker)
     new bool:bDisableWard;
     for(new i=0; i < GetArraySize(g_hWardOwner); i++)
     {
-        if (i == victim)
+        if (GetArrayCell(g_hWardOwner, i) == victim)
         {
             bDisableWard = GetArrayCell(g_hWardDisableOnDeath, i);
             if (bDisableWard)
