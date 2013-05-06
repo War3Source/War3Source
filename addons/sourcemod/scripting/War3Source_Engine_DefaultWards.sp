@@ -11,8 +11,7 @@ public Plugin:myinfo =
 enum {
     BEHAVIOR_DAMAGE=0,
     BEHAVIOR_HEAL,
-    BEHAVIOR_LAST,
-    
+    BEHAVIOR_LAST, // not a real ward behavior, just for indexing
 }
 
 new BehaviorIndex[BEHAVIOR_LAST];

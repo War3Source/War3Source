@@ -4,12 +4,12 @@
  * Author(s): War3Source Team  
  */
 
-#define WARDNAMELEN 32
-#define WARDSNAMELEN 16
-#define WARDDESCLEN 128
-#define MAXWARDDATA 64
-#define WARDBELOW -2.0
-#define WARDABOVE 160.0
+#define WARDNAMELEN                 32
+#define WARDSNAMELEN                16
+#define WARDDESCLEN                 128
+#define MAXWARDDATA                 64
+#define WARDBELOW                   -2.0
+#define WARDABOVE                   160.0
 
 // Bit flags for what a ward should target
 #define WARD_TARGET_SELF            (1 << 0)
@@ -18,6 +18,83 @@
 
 // For lazy people.. since this is a pretty obvious thing to do ;)
 #define WARD_TARGET_TEAMMATES       WARD_TARGET_SELF | WARD_TARGET_ALLIES
+
+#define INVALID_BEHAVIOR            -1
+#define INVALID_WARD                -1
+
+/**
+ * Creates a simple ward. 
+ * 
+ * This is the function you'd use if you want to implement wards with custom logic in your race.
+ * This function only creates the ward data structure and keeps track of it internally, allowing you
+ * to interact with it via the events and getters. 
+ * 
+ * @param client: The id of the client that places this wards
+ * @param location: The location where the ward should go
+ * @param radius: The radius of effect this ward has
+ * @param duration: How long this ward should stay. Pass 0 for no expire time.
+ * @param disableOnDeath: Disables the ward when the owner dies
+ * @param pulseInterval: time between effect triggerings
+ * @param wardTarget: What clients this ward should affect. Check the bitflags at the top
+
+ * @return ID for the ward created or INVALID_WARD if the ward was not created
+ */
+native War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, wardTarget=WARD_TARGET_ENEMYS, bool:disableOnDeath=true);
+
+// WARD EVENTS
+
+//Fired every time a ward is created
+forward OnWardCreated(wardindex, behaviorID);
+
+//Fired every time a ward "pulses". Only enabled wards pulse
+forward OnWardPulse(wardindex, behaviorID);
+
+//Fired every time a ward "pulses" when a valid target is in range
+forward OnWardTrigger(wardindex, victim, owner, behaviorID);
+
+//Fired every time a ward is removed
+forward OnWardExpire(wardindex, owner, behaviorID);
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// If you're a bit lazy you can reuse different ward implementations that come with War3Source :-)
+
+/**
+ * Creates a modular ward.
+ * 
+ * The main logic of this ward is already implemented somewhere and can be reused
+ * as long as you know the "behavior" id of the ward implementation. This function
+ * comes with a few additional parameters to customize the ward to your liking
+ * 
+ * @param client: The id of the client that places this wards
+ * @param location: The location where the ward should go
+ * @param radius: The radius of effect this ward has
+ * @param duration: How long this ward should stay. Pass 0 for no expire time.
+ * @param disableOnDeath: Disables the ward when the owner dies
+ * @param pulseInterval: time between effect triggerings
+ * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
+ * @param skillNum: Skill number of the ward skill (used for determining damage/healing in the data array)
+ * @param data: Array of data to pass to the ward. This is used by the ward behavior for things like damage per skill level.
+ * @param affinity: the targeting affinity for this ward. Check the bitflags at the top
+ * @param useDefaultColors: Chooses whether to use the behaviour's built-in colors or substitute your own
+ * @param customColor2: Custom color to use on team 2 (terrorists in CS:S)
+ * @param customColor3: Custom color to use on team 3 (counter-terrorists in CS:S)
+ * @return ID for the ward created or -1 if the ward was not created
+ */
+native War3_CreateWardMod(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], skillNum, any:data[], affinity=WARD_TARGET_ENEMYS, bool:disableOnDeath=true, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// If you're really brave (or a core developer) these are the functions you need
+// to implement ward logic that can be reused by other plugins
+
+
+
+
 
 /**
  * Creates a new ward behavior. This will allow us to make ward effects modular, so people
@@ -51,26 +128,6 @@ native War3_GetWardBehaviorDesc(id,String:retstr[],maxlen);
 native War3_GetWardBehaviorByShortname(String:shortname[]);
 
 /**
- * Creates a ward.
- * 
- * @param client: The id of the client that places this wards
- * @param location: The location where the ward should go
- * @param radius: The radius of effect this ward has
- * @param duration: How long this ward should stay. Pass 0 for no expire time.
- * @param disableOnDeath: Disables the ward when the owner dies
- * @param pulseInterval: time between effect triggerings
- * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
- * @param skillNum: Skill number of the ward skill (used for determining damage/healing in the data array)
- * @param data: Array of data to pass to the ward. This is used by the ward behavior for things like damage per skill level.
- * @param affinity: the targeting affinity for this ward. Check the bitflags at the top
- * @param useDefaultColors: Chooses whether to use the behaviour's built-in colors or substitute your own
- * @param customColor2: Custom color to use on team 2 (terrorists in CS:S)
- * @param customColor3: Custom color to use on team 3 (counter-terrorists in CS:S)
- * @return ID for the ward created or -1 if the ward was not created
- */
-native War3_CreateWard(client, Float:location[], radius, Float:duration, bool:disableOnDeath, Float:pulseInterval, String:behavior[], skillNum, any:data[], affinity=WARD_TARGET_ENEMYS, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
-
-/**
  * Gets a specific ward's behavior.
  *
  * Important: This refers to a specific instance of a ward. That is, if you know the index of a
@@ -97,16 +154,3 @@ native War3_GetWardColor2(wardindex, color[]);
 native War3_GetWardColor3(wardindex, color[]);
 native War3_GetWardSkill(wardindex);
 native War3_GetWardCount(client);
-
-
-//Fired every time a ward is created
-forward OnWardCreated(wardindex, behaviorID);
-
-//Fired every time a ward "pulses". Only enabled wards pulse
-forward OnWardPulse(wardindex, behaviorID);
-
-//Fired every time a ward "pulses" when a valid target is in range
-forward OnWardTrigger(wardindex, victim, owner, behaviorID);
-
-//Fired every time a ward is removed
-forward OnWardExpire(wardindex, owner, behaviorID);

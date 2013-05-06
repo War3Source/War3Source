@@ -8,19 +8,23 @@ public Plugin:myinfo =
     description="Generic ward skill"
 };
 
-// Ward data structure... NO COMMENTS~
+// Ward data structure
 new Handle:g_hWardOwner = INVALID_HANDLE; // Who owns this ward?
 new Handle:g_hWardRadius = INVALID_HANDLE; // How big is the ward radius?
 new Handle:g_hWardLocation = INVALID_HANDLE; // Where is this ward?
 new Handle:g_hWardTarget = INVALID_HANDLE; // What does this ward target?
 new Handle:g_hWardInterval = INVALID_HANDLE; // In which interval does this ward pulse?
 new Handle:g_hWardDisableOnDeath = INVALID_HANDLE; // Bool: Should this ward be disabled when the owner dies?
+
+// Modular ward data
 new Handle:g_hWardBehavior = INVALID_HANDLE; // What is the ward behavior ID?
 new Handle:g_hWardSkill = INVALID_HANDLE; // What skill does this ward come from?
 new Handle:g_hWardData = INVALID_HANDLE; // Optional array of data to go with the ward
 new Handle:g_hWardUseDefaultColors = INVALID_HANDLE; // Bool: Should the ward use the default colors?
 new Handle:g_hWardColor2 = INVALID_HANDLE; // Alternate colors for Team 2
 new Handle:g_hWardColor3 = INVALID_HANDLE; // Alternate colors for Team 3
+
+// Internal ward data
 new Handle:g_hWardNextTick = INVALID_HANDLE; // Internal: When is the next ward pulse?
 new Handle:g_hWardExpireTime = INVALID_HANDLE; // Internal: When will the ward expire?
 new Handle:g_hWardEnabled = INVALID_HANDLE; // Internal: Is this ward enabled?
@@ -63,6 +67,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetWardBehaviorByShortname", Native_War3_GetWardBehaviorByShortname);
 
     CreateNative("War3_CreateWard", Native_War3_CreateWard);
+    CreateNative("War3_CreateWardMod", Native_War3_CreateWardMod);
     CreateNative("War3_GetWardBehavior", Native_War3_GetWardBehavior);
     CreateNative("War3_GetWardLocation", Native_War3_GetWardLocation);
     CreateNative("War3_GetWardInterval", Native_War3_GetWardInterval);
@@ -256,27 +261,87 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         PushArrayCell(g_hWardRadius, iRadius);
         
         new Float:fDuration = GetNativeCell(4);
-        
-        new bool:bDisableOnDeath = GetNativeCell(5);
-        PushArrayCell(g_hWardDisableOnDeath, bDisableOnDeath);
-        
-        new Float:fPulseInterval = GetNativeCell(6);
+               
+        new Float:fPulseInterval = GetNativeCell(5);
         PushArrayCell(g_hWardInterval, fPulseInterval);
 
+        new iTarget = GetNativeCell(6);
+        PushArrayCell(g_hWardTarget, iTarget);
+
+        new bool:bDisableOnDeath = GetNativeCell(7);
+        PushArrayCell(g_hWardDisableOnDeath, bDisableOnDeath);
+
+        g_iPlayerWardCount[client]++;
+        Call_StartForward(g_OnWardCreatedHandle);
+        Call_PushCell(id);
+        Call_PushCell(INVALID_BEHAVIOR);
+        Call_Finish();
+        PushArrayCell(g_hWardEnabled, 1);
+        
+        // This ward starts NOW!
+        PushArrayCell(g_hWardNextTick, GetEngineTime());
+        
+        if (fDuration >= 0.0)
+        {
+            PushArrayCell(g_hWardExpireTime, GetEngineTime() + fDuration);
+        }
+        else
+        {
+            PushArrayCell(g_hWardExpireTime, 0.0);
+        }
+        
+        // Modular ward settings we don't use
+        PushArrayCell(g_hWardBehavior, INVALID_BEHAVIOR);
+        PushArrayCell(g_hWardSkill, -1);
+        PushArrayCell(g_hWardData, -1);
+        PushArrayCell(g_hWardUseDefaultColors, false);
+        PushArrayCell(g_hWardColor2, -1);
+        PushArrayCell(g_hWardColor3, -1);
+                
+                
+        return id;
+    }
+    
+    return INVALID_WARD;
+}
+
+public Native_War3_CreateWardMod(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+
+    if(W3Denyable(DN_CanPlaceWard, client))
+    {
+        new id = PushArrayCell(g_hWardOwner, client);
+
+        new Float:fWardLocation[3];
+        GetNativeArray(2, fWardLocation, 3);
+        PushArrayArray(g_hWardLocation, fWardLocation);
+        
+        new iRadius = GetNativeCell(3);
+        PushArrayCell(g_hWardRadius, iRadius);
+        
+        new Float:fDuration = GetNativeCell(4);
+               
+        new Float:fPulseInterval = GetNativeCell(5);
+        PushArrayCell(g_hWardInterval, fPulseInterval);
+        
         new String:sBehavior[WARDSNAMELEN];
-        GetNativeString(7, sBehavior, sizeof(sBehavior));
+        GetNativeString(6, sBehavior, sizeof(sBehavior));
         PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(sBehavior));
         
-        new iWardSkill = GetNativeCell(8);
+        new iWardSkill = GetNativeCell(7);
         PushArrayCell(g_hWardSkill, iWardSkill);
 
         new any:data[MAXWARDDATA];
-        GetNativeArray(9, data ,MAXWARDDATA);
+        GetNativeArray(8, data ,MAXWARDDATA);
         PushArrayArray(g_hWardData, data);
         
-        new iTarget = GetNativeCell(10);
+        new iTarget = GetNativeCell(9);
         PushArrayCell(g_hWardTarget, iTarget);
 
+        new bool:bDisableOnDeath = GetNativeCell(10);
+        PushArrayCell(g_hWardDisableOnDeath, bDisableOnDeath);
+        
         new bool:bUseDefaultColors = GetNativeCell(11);
         PushArrayCell(g_hWardUseDefaultColors, bUseDefaultColors);
         
@@ -307,9 +372,9 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         }
         
         return id;
-
     }
-    return -1;
+    
+    return INVALID_WARD;
 }
 
 bool:BehaviorExistsByShortname(String:shortname[])
