@@ -12,7 +12,6 @@ public Plugin:myinfo =
 new Handle:g_hWardOwner = INVALID_HANDLE; // Who owns this ward?
 new Handle:g_hWardRadius = INVALID_HANDLE; // How big is the ward radius?
 new Handle:g_hWardLocation = INVALID_HANDLE; // Where is this ward?
-new Handle:g_hWardSelfInflict = INVALID_HANDLE;
 new Handle:g_hWardAffinity = INVALID_HANDLE;
 new Handle:g_hWardInterval = INVALID_HANDLE;
 new Handle:g_hWardNextTick = INVALID_HANDLE;
@@ -80,7 +79,6 @@ public bool:InitNativesForwards()
     g_hWardOwner = CreateArray(1);
     g_hWardRadius = CreateArray(1);
     g_hWardLocation = CreateArray(3);
-    g_hWardSelfInflict = CreateArray(1);
     g_hWardAffinity = CreateArray(1);
     g_hWardInterval = CreateArray(1);
     g_hWardNextTick = CreateArray(1);
@@ -247,29 +245,43 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
     if(W3Denyable(DN_CanPlaceWard, client))
     {
         new id = PushArrayCell(g_hWardOwner, client);
-        new Float:location[3];
-        new Float:Duration = GetNativeCell(4);
-        
-        GetNativeArray(2,location,3);
-        PushArrayArray(g_hWardLocation, location);
-        PushArrayCell(g_hWardRadius, GetNativeCell(3));
-        PushArrayCell(g_hWardInterval, GetNativeCell(5));
 
-        new String:behavior[WARDSNAMELEN];
-        GetNativeString(6,behavior,sizeof(behavior));
-        PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(behavior));
-        PushArrayCell(g_hWardSkill, GetNativeCell(7));
+        new Float:fWardLocation[3];
+        GetNativeArray(2, fWardLocation, 3);
+        PushArrayArray(g_hWardLocation, fWardLocation);
+        
+        new iRadius = GetNativeCell(3);
+        PushArrayCell(g_hWardRadius, iRadius);
+        
+        new Float:fDuration = GetNativeCell(4);
+        
+        new Float:fPulseInterval = GetNativeCell(5);
+        PushArrayCell(g_hWardInterval, fPulseInterval);
+
+        new String:sBehavior[WARDSNAMELEN];
+        GetNativeString(6, sBehavior, sizeof(sBehavior));
+        PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(sBehavior));
+        
+        new iWardSkill = GetNativeCell(7);
+        PushArrayCell(g_hWardSkill, iWardSkill);
+
         new any:data[MAXWARDDATA];
-        GetNativeArray(8,data,MAXWARDDATA);
+        GetNativeArray(8, data ,MAXWARDDATA);
         PushArrayArray(g_hWardData, data);
-        PushArrayCell(g_hWardAffinity, GetNativeCell(9));
-        PushArrayCell(g_hWardSelfInflict, GetNativeCell(10));
-        PushArrayCell(g_hWardUseDefaultColors, GetNativeCell(11));
+        
+        new iAffinity = GetNativeCell(9);
+        PushArrayCell(g_hWardAffinity, iAffinity);
+
+        new bool:bUseDefaultColors = GetNativeCell(10);
+        PushArrayCell(g_hWardUseDefaultColors, bUseDefaultColors);
+        
         new color[4];
-        GetNativeArray(12, color, sizeof(color));
+        GetNativeArray(11, color, sizeof(color));
         PushArrayArray(g_hWardColor2, color);
-        GetNativeArray(13, color, sizeof(color));
+        
+        GetNativeArray(12, color, sizeof(color));
         PushArrayArray(g_hWardColor3, color);
+
         g_iPlayerWardCount[client]++;
         Call_StartForward(g_OnWardCreatedHandle);
         Call_PushCell(id);
@@ -280,9 +292,9 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         // This ward starts NOW!
         PushArrayCell(g_hWardNextTick, GetEngineTime());
         
-        if (Duration >= 0.0)
+        if (fDuration >= 0.0)
         {
-            PushArrayCell(g_hWardExpireTime, GetEngineTime() + Duration);
+            PushArrayCell(g_hWardExpireTime, GetEngineTime() + fDuration);
         }
         else
         {
@@ -364,29 +376,22 @@ public WardPulse(id)
     new Float:VictimPos[3];
     new Float:tempZ;
 
+    new affinity = GetArrayCell(g_hWardAffinity, id);
     for(new i=1; i <= MaxClients; i++)
     {
-        // Brace for clusterfuck :x
         if(ValidPlayer(i, true))
         {
-            if (i == owner)
+            if ((i == owner) && !(affinity & WARD_TARGET_SELF))
             {
-                if (!bool:GetArrayCell(g_hWardSelfInflict, id))
-                {
-                    continue;
-                }
-            } else if (GetClientTeam(i) == GetClientTeam(owner))
+                continue;
+            }
+            else if ((GetClientTeam(i) == GetClientTeam(owner)) && !(affinity & WARD_TARGET_ALLIES))
             {
-                if (GetArrayCell(g_hWardAffinity, id) == ENEMIES || GetArrayCell(g_hWardAffinity, id) == SELF_ONLY)
-                {
-                    continue;
-                }
-            } else
+                continue;
+            }
+            else if ((GetClientTeam(i) != GetClientTeam(owner)) && !(affinity & WARD_TARGET_ENEMYS))
             {
-                if (GetArrayCell(g_hWardAffinity, id) == ALLIES || GetArrayCell(g_hWardAffinity, id) == SELF_ONLY)
-                {
-                    continue;
-                }
+                continue;
             }
 
             GetClientAbsOrigin(i, VictimPos);
@@ -471,7 +476,6 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardOwner);
     ClearArray(g_hWardRadius);
     ClearArray(g_hWardLocation);
-    ClearArray(g_hWardSelfInflict);
     ClearArray(g_hWardAffinity);
     ClearArray(g_hWardInterval);
     ClearArray(g_hWardNextTick);

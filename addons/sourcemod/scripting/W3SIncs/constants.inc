@@ -642,15 +642,6 @@ enum War3SQLType
     SQLType_SQLite,
 }
 
-// Ward targeting affinities
-enum War3WardAffinity
-{
-    ENEMIES,
-    ALLIES,
-    ALL,
-    SELF_ONLY
-}
-
 enum SkillDependency {
     ID=0, //on which other skill does this depends on?
     LVL //what level i must be to be able to level this?

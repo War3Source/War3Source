@@ -212,7 +212,7 @@ public OnUltimateCommand(client,race,bool:pressed)
             }
         }
         else
-        {
+        { 
             W3MsgUltNotLeveled(client);
         }
     }
@@ -230,7 +230,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
             {
                 new Float:location[3];
                 GetClientAbsOrigin(client, location);
-                War3_CreateWard(client, location, 70, 300.0, 1.0, "heal", SKILL_RECARN_WARD, HealAmount, ALLIES, true);
+                War3_CreateWard(client, location, 70, 300.0, 1.0, "heal", SKILL_RECARN_WARD, HealAmount, WARD_TARGET_SELF | WARD_TARGET_ALLIES);
                 
                 W3MsgCreatedWard(client,War3_GetWardCount(client),MaximumWards[skill_level]);
             }

@@ -11,6 +11,18 @@
 #define WARDBELOW -2.0
 #define WARDABOVE 160.0
 
+// Bit flags for what a ward should target
+// You can pass this to CreateWard like this:
+//     WARD_TARGET_SELF & WARD_TARGET_ALLIES -> Ward that targets the owner and his allies
+//     WARD_TARGET_ALLIES & WARD_TARGET_ENEMYS -> Ward that targets the allies and enemys of the owner, but not himself
+//     etc.
+
+#define WARD_TARGET_SELF            (1 << 0)
+#define WARD_TARGET_ALLIES          (1 << 1)
+#define WARD_TARGET_ENEMYS          (1 << 2)
+
+// For lazy people.. since this is a pretty obvious thing to do ;)
+#define WARD_TARGET_TEAMMATES       WARD_TARGET_SELF & WARD_TARGET_ALLIES
 
 /**
  * Creates a new ward behavior. This will allow us to make ward effects modular, so people
@@ -58,14 +70,13 @@ native War3_GetWardBehaviorByShortname(String:shortname[]);
  * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
  * @param skillNum: Skill number of the ward skill (used for determining damage/healing in the data array)
  * @param data: Array of data to pass to the ward. This is used by the ward behavior for things like damage per skill level.
- * @param affinity: the targeting affinity for this ward. ENEMIES, ALLIES, ALL, or SELF_ONLY
- * @param selfInflict: whether or not this ward applies effects to its owner
+ * @param affinity: the targeting affinity for this ward. Check the bitflags at the top
  * @param useDefaultColors: Chooses whether to use the behaviour's built-in colors or substitute your own
  * @param customColor2: Custom color to use on team 2 (terrorists in CS:S)
  * @param customColor3: Custom color to use on team 3 (counter-terrorists in CS:S)
  * @return ID for the ward created or -1 if the ward was not created
  */
-native War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], skillNum, any:data[], War3WardAffinity:affinity=ENEMIES, bool:selfInflict=false, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
+native War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], skillNum, any:data[], affinity=WARD_TARGET_ENEMYS, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
 
 /**
  * Gets a specific ward's behavior.
