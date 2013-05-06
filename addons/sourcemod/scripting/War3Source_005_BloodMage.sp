@@ -45,6 +45,7 @@ new Float:TFCreditStealPercent=0.1;  //how much to steal
 //ultimate
 new Handle:ultCooldownCvar;
 new Handle:hrevivalDelayCvar;
+new Handle:g_hUltReviveLocationCvar = INVALID_HANDLE;
 
 new Float:UltimateMaxDistance[]={0.0,500.0,500.0,500.0,500.0}; //max distance u can target your ultimate
 new UltimateDamageDuration[]={0,4,6,8,10}; ///how many times damage is taken (like pyro's fire)
@@ -74,6 +75,7 @@ public OnPluginStart()
     HookEvent("player_spawn",PlayerSpawnEvent);
     HookEvent("round_start",RoundStartEvent);
     ultCooldownCvar=CreateConVar("war3_mage_fire_strike_cooldown","20","Cooldown between fire strikes (ultimate)");
+    g_hUltReviveLocationCvar=CreateConVar("war3_mage_revive_at_spawn", "0", "0 : at death position / 1 : at spawn");
     hrevivalDelayCvar=CreateConVar("war3_mage_revive_delay","2.0","Delay when reviving a teammate (since death)");
     
     MoneyOffsetCS=FindSendPropInfo("CCSPlayer","m_iAccount");
@@ -484,8 +486,10 @@ public Action:DoRevival(Handle:timer,any:userid)
                 
                 
                 
-                
-                TeleportEntity(client, VecPos, Angles, NULL_VECTOR);
+                if (GetConVarInt(g_hUltReviveLocationCvar) == 0)
+                {
+                    TeleportEntity(client, VecPos, Angles, NULL_VECTOR);
+                }
                 if(War3_GetGame()==Game_CS){
                     //give weapons CS
                     for(new s=0;s<10;s++)
