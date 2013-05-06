@@ -1,3 +1,9 @@
+/**
+ * File: War3Source_Wards.inc
+ * Description: Interface to the ward engine
+ * Author(s): War3Source Team  
+ */
+
 #define WARDNAMELEN 32
 #define WARDSNAMELEN 16
 #define WARDDESCLEN 128
