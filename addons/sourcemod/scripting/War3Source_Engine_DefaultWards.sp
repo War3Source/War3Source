@@ -37,6 +37,11 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 
 public OnWardPulse(wardindex, behavior)
 {
+    if(behavior != BehaviorIndex[BEHAVIOR_DAMAGE] && behavior != BehaviorIndex[BEHAVIOR_HEAL])
+    {
+        return;
+    }
+    
     new beamcolor[4];
     new team = GetClientTeam(War3_GetWardOwner(wardindex));
 
@@ -68,11 +73,11 @@ doVisualEffect(wardindex, beamcolor[4])
 
     new Float:fStartPos[3];
     new Float:fEndPos[3];
-    new Float:tempVec1[]={0.0, 0.0, WARDBELOW};
-    new Float:tempVec2[]={0.0, 0.0, WARDABOVE};
+    new Float:tempVec1[] = {0.0, 0.0, WARDBELOW};
+    new Float:tempVec2[] = {0.0, 0.0, WARDABOVE};
     
-    AddVectors(fWardLocation, tempVec1,fStartPos);
-    AddVectors(fWardLocation, tempVec2,fEndPos);
+    AddVectors(fWardLocation, tempVec1, fStartPos);
+    AddVectors(fWardLocation, tempVec2, fEndPos);
 
     TE_SetupBeamPoints(fStartPos, fEndPos, BeamSprite, HaloSprite, 0, GetRandomInt(30, 100), fInterval, 70.0, 70.0, 0, 30.0, beamcolor, 10);
     TE_SendToAll();
