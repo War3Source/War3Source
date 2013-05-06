@@ -107,6 +107,7 @@ public OnWardTrigger(wardindex, victim, owner, behavior)
             War3_TF_ParticleToClient(0, GetApparentTeam(victim) == TEAM_RED ? "healthlost_red" : "healthlost_blu", VictimPos);
         }
     }
+    
     else if (behavior == BehaviorIndex[BEHAVIOR_HEAL]) 
     {
         new healAmount = data[War3_GetSkillLevel(owner, War3_GetRace(owner), War3_GetWardSkill(wardindex))];
