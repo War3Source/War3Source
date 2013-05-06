@@ -270,7 +270,7 @@ stock bool:W3IsDamageFromMelee(const String:weapon[])
  * heals with the limit of (warcraft ) max hp
  * @noreturn
  */
-stock War3_HealToMaxHP(client, health)
+stock bool:War3_HealToMaxHP(client, health)
 {
     new maxhp = War3_GetMaxHP(client);
     new currenthp = GetClientHealth(client);
@@ -281,15 +281,17 @@ stock War3_HealToMaxHP(client, health)
         {
             newhp = maxhp;
         }
-        nsEntity_SetHealth(client, newhp);
+        return nsEntity_SetHealth(client, newhp);
     }
+    
+    return false;
 }
 
 /**
  * heals with the limit of your specified HP
  * @noreturn
  */
-stock War3HealToHP(client, addhp, maximumHP) {
+stock bool:War3HealToHP(client, addhp, maximumHP) {
     new currenthp = GetClientHealth(client);
     new newhp = currenthp + addhp;
     if (newhp > maximumHP) 
@@ -301,7 +303,9 @@ stock War3HealToHP(client, addhp, maximumHP) {
     if (currenthp < newhp)
     {
         War3_TFHealingEvent(client, newhp - currenthp);
+        return true;
     }
+    return false;
 }
 
 /**
@@ -309,7 +313,7 @@ stock War3HealToHP(client, addhp, maximumHP) {
  * no extra hp in other games 
  * @noreturn
  */
-stock War3_HealToBuffHP(client, health)
+stock bool:War3_HealToBuffHP(client, health)
 {
     new maxhp = (War3_GetGame() == Game_TF) ? RoundFloat(float(War3_GetMaxHP(client)) * 1.5) : War3_GetMaxHP(client);
     new currenthp = GetClientHealth(client);
@@ -321,8 +325,10 @@ stock War3_HealToBuffHP(client, health)
             newhp = maxhp;
         }
         
-        nsEntity_SetHealth(client, newhp);
+        return nsEntity_SetHealth(client, newhp);
     }
+    
+    return false;
 }
 
 
@@ -330,27 +336,37 @@ stock War3_HealToBuffHP(client, health)
  * direcly decreases the player's hp by X amount (Not via damage)
  * this health removal is "non lethal"
  */
-stock War3_DecreaseHP(client, amount)
+stock bool:War3_DecreaseHP(client, amount)
 {
     new iHealth = GetClientHealth(client)-amount;
     if(iHealth < 1)
     {
         iHealth = 1;
     }
-    nsEntity_SetHealth(client, iHealth);
+    
+    return nsEntity_SetHealth(client, iHealth);
 }
 
-// This one is actually used by HealToMaxHP, HealToBuffHP aswell as DecreaseHP
-stock nsEntity_SetHealth(entity, health) 
+// The actual internal setHealth function. Returns if the health has changed
+stock bool:nsEntity_SetHealth(entity, health) 
 {
     new currenthp = GetEntProp(entity, Prop_Data, "m_iHealth");
+    
+    if (currenthp == health)
+    {
+        return false;
+    }
+    
     SetEntProp(entity, Prop_Data, "m_iHealth", health);
     ChangeEdictState(entity, 0);
     
     if (currenthp < health)
     {
         War3_TFHealingEvent(entity, health - currenthp);
+        return true;
     }
+    
+    return false;
 }
 
 /** 
