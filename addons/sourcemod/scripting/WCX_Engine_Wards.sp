@@ -9,15 +9,14 @@ public Plugin:myinfo =
 };
 
 // Ward data structure... NO COMMENTS~
-new Handle:g_hWardOwner = INVALID_HANDLE;
-new Handle:g_hWardRadius = INVALID_HANDLE;
-new Handle:g_hWardLocation = INVALID_HANDLE;
-new Handle:g_hWardDuration = INVALID_HANDLE;
-new Handle:g_hWardTimerDuration = INVALID_HANDLE;
+new Handle:g_hWardOwner = INVALID_HANDLE; // Who owns this ward?
+new Handle:g_hWardRadius = INVALID_HANDLE; // How big is the ward radius?
+new Handle:g_hWardLocation = INVALID_HANDLE; // Where is this ward?
 new Handle:g_hWardSelfInflict = INVALID_HANDLE;
 new Handle:g_hWardAffinity = INVALID_HANDLE;
 new Handle:g_hWardInterval = INVALID_HANDLE;
 new Handle:g_hWardNextTick = INVALID_HANDLE;
+new Handle:g_hWardExpireTime = INVALID_HANDLE;
 new Handle:g_hWardBehavior = INVALID_HANDLE;
 new Handle:g_hWardSkill = INVALID_HANDLE;
 new Handle:g_hWardData = INVALID_HANDLE;
@@ -81,12 +80,11 @@ public bool:InitNativesForwards()
     g_hWardOwner = CreateArray(1);
     g_hWardRadius = CreateArray(1);
     g_hWardLocation = CreateArray(3);
-    g_hWardDuration = CreateArray(1);
-    g_hWardTimerDuration = CreateArray(1);
     g_hWardSelfInflict = CreateArray(1);
     g_hWardAffinity = CreateArray(1);
     g_hWardInterval = CreateArray(1);
     g_hWardNextTick = CreateArray(1);
+    g_hWardExpireTime = CreateArray(1);
     g_hWardBehavior = CreateArray(1);
     g_hWardSkill = CreateArray(1);
     g_hWardUseDefaultColors = CreateArray(1);
@@ -250,10 +248,11 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
     {
         new id = PushArrayCell(g_hWardOwner, client);
         new Float:location[3];
+        new Float:Duration = GetNativeCell(4);
+        
         GetNativeArray(2,location,3);
         PushArrayArray(g_hWardLocation, location);
         PushArrayCell(g_hWardRadius, GetNativeCell(3));
-        PushArrayCell(g_hWardDuration, GetNativeCell(4));
         PushArrayCell(g_hWardInterval, GetNativeCell(5));
 
         new String:behavior[WARDSNAMELEN];
@@ -271,13 +270,6 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         PushArrayArray(g_hWardColor2, color);
         GetNativeArray(13, color, sizeof(color));
         PushArrayArray(g_hWardColor3, color);
-        if (GetArrayCell(g_hWardDuration,id) > 0)
-        {
-            PushArrayCell(g_hWardTimerDuration, CreateTimer(GetArrayCell(g_hWardDuration,id),TimedRemoveWard,id));
-        } else
-        {
-            PushArrayCell(g_hWardTimerDuration, INVALID_HANDLE);
-        }
         g_iPlayerWardCount[client]++;
         Call_StartForward(g_OnWardCreatedHandle);
         Call_PushCell(id);
@@ -287,6 +279,15 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         
         // This ward starts NOW!
         PushArrayCell(g_hWardNextTick, GetEngineTime());
+        
+        if (Duration >= 0.0)
+        {
+            PushArrayCell(g_hWardExpireTime, GetEngineTime() + Duration);
+        }
+        else
+        {
+            PushArrayCell(g_hWardExpireTime, 0.0);
+        }
         
         return id;
 
@@ -333,14 +334,14 @@ public WardPulse(id)
 {
     if(!bool:GetArrayCell(g_hWardEnabled, id))
     {
-        return Plugin_Continue;
+        return;
     }
     new owner = GetArrayCell(g_hWardOwner, id);
 
     if (!ValidPlayer(owner, true))
     {
         RemoveWards(owner);
-        return Plugin_Continue;
+        return;
     }
 
     Call_StartForward(g_OnWardPulseHandle);
@@ -403,7 +404,7 @@ public WardPulse(id)
             }
         }
     }
-    return Plugin_Continue;
+    return;
 }
 
 // Cleanup
@@ -411,16 +412,6 @@ public WardPulse(id)
 public Native_War3_RemoveWard(Handle:plugin, numParams)
 {
     return bool:RemoveWard(GetNativeCell(1));
-}
-
-public Action:TimedRemoveWard(Handle:timer,any:id)
-{
-    if(!bool:GetArrayCell(g_hWardEnabled, id))
-    {
-        return Plugin_Continue;
-    }
-    RemoveWard(id);
-    return Plugin_Continue;
 }
 
 public bool:RemoveWard(id)
@@ -436,11 +427,6 @@ public bool:RemoveWard(id)
         g_iPlayerWardCount[GetArrayCell(g_hWardOwner,id)]--;
         SetArrayCell(g_hWardEnabled,id, 0);
 
-        if(GetArrayCell(g_hWardTimerDuration, id) != INVALID_HANDLE)
-        {
-            TriggerTimer(GetArrayCell(g_hWardTimerDuration,id));
-            SetArrayCell(g_hWardTimerDuration, id, INVALID_HANDLE);
-        }
         return true;
     }
     return false;
@@ -476,12 +462,11 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardOwner);
     ClearArray(g_hWardRadius);
     ClearArray(g_hWardLocation);
-    ClearArray(g_hWardDuration);
-    ClearArray(g_hWardTimerDuration);
     ClearArray(g_hWardSelfInflict);
     ClearArray(g_hWardAffinity);
     ClearArray(g_hWardInterval);
     ClearArray(g_hWardNextTick);
+    ClearArray(g_hWardExpireTime);
     ClearArray(g_hWardBehavior);
     ClearArray(g_hWardSkill);
     ClearArray(g_hWardData);
@@ -498,18 +483,29 @@ public OnGameFrame()
     new Float:now = GetEngineTime();
     new Float:fNextTick;
     new Float:fInterval;
+    new Float:fExpires;
     
     for(new i = 0; i < GetArraySize(g_hWardOwner); i++)
     {
-        fNextTick = GetArrayCell(g_hWardNextTick, i);
+        fExpires = GetArrayCell(g_hWardExpireTime, i);
         
-        if (fNextTick <= now)
+        if (fExpires > 0.0 && fExpires <= now)
         {
-            WardPulse(i);
+            RemoveWard(i);
+            continue;
+        }
+        else
+        {
+            fNextTick = GetArrayCell(g_hWardNextTick, i);
             
-            fInterval = GetARrayCell(g_hWardInterval, i);
-            
-            SetArrayCell(g_hWardNextTick, i, fNextTick + fInterval);
+            if (fNextTick <= now)
+            {
+                WardPulse(i);
+                
+                fInterval = GetArrayCell(g_hWardInterval, i);
+                
+                SetArrayCell(g_hWardNextTick, i, fNextTick + fInterval);
+            }
         }
     }
 }
