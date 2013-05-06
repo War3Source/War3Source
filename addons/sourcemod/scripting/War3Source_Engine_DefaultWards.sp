@@ -20,11 +20,16 @@ new HaloSprite =-1;
 
 public OnPluginStart()
 {
-	BeamSprite=War3_PrecacheBeamSprite();
-	HaloSprite=War3_PrecacheHaloSprite();
 	BehaviorIndex[DAMAGE]=War3_CreateWardBehavior("damage","Damage ward","Deals damage to targets");
 	BehaviorIndex[HEAL]=War3_CreateWardBehavior("heal","Healing ward","Heals targets");
 } 
+
+public OnMapStart()
+{
+    BeamSprite = War3_PrecacheBeamSprite();
+    HaloSprite = War3_PrecacheHaloSprite();
+}
+
 public OnWardPulse(wardindex, behavior) 
 {
 	new beamcolor[4];
