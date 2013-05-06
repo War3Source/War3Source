@@ -48,7 +48,7 @@ native War3_GetWardBehaviorByShortname(String:shortname[]);
  * 
  * Odd/special cases:
  * If a ward is created with selfInflict=false, but affinity=SELF_ONLY, you get a ward that does nothing, essentially.
- * If a ward is created with a negative/zero duration, it will last until round end or until it is removed manually.
+ * If a ward is created with a negative/zero duration, it will last until round end/manual remove or until the caster is dead
  * 
  * @param client: owner id
  * @param location: ward location
@@ -99,7 +99,7 @@ native War3_GetWardCount(client);
 //Fired every time a ward is created
 forward OnWardCreated(wardindex, behaviorID);
 
-//Fired every time a ward "pulses"
+//Fired every time a ward "pulses". Only enabled wards pulse
 forward OnWardPulse(wardindex, behaviorID);
 
 //Fired every time a ward "pulses" when a valid target is in range

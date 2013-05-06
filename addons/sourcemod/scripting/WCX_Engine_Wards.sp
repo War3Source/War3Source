@@ -330,14 +330,12 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
     return PushArrayString(g_hBehaviorDescription, desc);
 }
 
+// WardPulse is only called for enabled wards
 public WardPulse(id)
 {
-    if(!bool:GetArrayCell(g_hWardEnabled, id))
-    {
-        return;
-    }
     new owner = GetArrayCell(g_hWardOwner, id);
 
+    // Dead or disconnected owner? Kill the ward
     if (!ValidPlayer(owner, true))
     {
         RemoveWards(owner);
@@ -349,22 +347,27 @@ public WardPulse(id)
     Call_PushCell(GetArrayCell(g_hWardBehavior, id));
     Call_Finish();
 
-    new Float:start_pos[3];
-    new Float:vec[3];
-    GetArrayArray(g_hWardLocation, id, vec);
-    new Float:tempvec[3] =
-    {   0.0,0.0,WARDBELOW};
-    AddVectors(vec,tempvec,start_pos);
+    new Float:fStartPos[3];
+    new Float:fWardLocation[3];
+    GetArrayArray(g_hWardLocation, id, fWardLocation);
+
+    new Float:tempvec[3] = {0.0, 0.0, WARDBELOW};
+    AddVectors(fWardLocation, tempvec, fStartPos);
+    
     new Float:BeamXY[3];
-    for(new x=0;x<3;x++) BeamXY[x]=start_pos[x]; //only compare xy
+    for(new x=0; x < 3; x++)
+    {
+        BeamXY[x] = fStartPos[x]; //only compare xy
+    }
     new Float:BeamZ= BeamXY[2];
-    BeamXY[2]=0.0;
+    BeamXY[2] = 0.0;
     new Float:VictimPos[3];
     new Float:tempZ;
 
-    for(new i=1;i<=MaxClients;i++)
+    for(new i=1; i <= MaxClients; i++)
     {
-        if(ValidPlayer(i,true))
+        // Brace for clusterfuck :x
+        if(ValidPlayer(i, true))
         {
             if (i == owner)
             {
@@ -386,13 +389,13 @@ public WardPulse(id)
                 }
             }
 
-            GetClientAbsOrigin(i,VictimPos);
-            tempZ=VictimPos[2];
-            VictimPos[2]=0.0; //no Z
-            if(RoundToFloor(GetVectorDistance(BeamXY,VictimPos)) < GetArrayCell(g_hWardRadius, id))////ward RADIUS
+            GetClientAbsOrigin(i, VictimPos);
+            tempZ = VictimPos[2];
+            VictimPos[2] = 0.0; //no Z
+            if(RoundToFloor(GetVectorDistance(BeamXY, VictimPos)) < GetArrayCell(g_hWardRadius, id))
             {
                 // now compare z
-                if(tempZ>BeamZ+WARDBELOW && tempZ < BeamZ+WARDABOVE)
+                if(tempZ > BeamZ + WARDBELOW && tempZ < BeamZ + WARDABOVE)
                 {
                     Call_StartForward(g_OnWardTriggerHandle);
                     Call_PushCell(id);
@@ -416,30 +419,30 @@ public Native_War3_RemoveWard(Handle:plugin, numParams)
 
 public bool:RemoveWard(id)
 {
+    // Disable the ward. We can't clean up the arrays here, as their index
+    // is the ward identifier and we can't shift that around after different
+    // plugins already stored the id on their side ;)
+    
     if(GetArrayCell(g_hWardEnabled, id))
     {
         Call_StartForward(g_OnWardExpireHandle);
         Call_PushCell(id);
-        Call_PushCell(GetArrayCell(g_hWardOwner,id));
+        Call_PushCell(GetArrayCell(g_hWardOwner, id));
         Call_PushCell(GetArrayCell(g_hWardBehavior, id));
         Call_Finish();
 
-        g_iPlayerWardCount[GetArrayCell(g_hWardOwner,id)]--;
-        SetArrayCell(g_hWardEnabled,id, 0);
+        g_iPlayerWardCount[GetArrayCell(g_hWardOwner, id)]--;
+        SetArrayCell(g_hWardEnabled, id, 0);
 
         return true;
     }
+    
     return false;
-}
-
-public OnClientDisconnect(client)
-{
-    RemoveWards(client);
 }
 
 public RemoveWards(client)
 {
-    for(new id=0;id<GetArraySize(g_hWardOwner);id++)
+    for(new id=0; id < GetArraySize(g_hWardOwner); id++)
     {
         if(GetArrayCell(g_hWardOwner, id) == client)
         {
@@ -448,10 +451,16 @@ public RemoveWards(client)
     }
 }
 
+public OnClientDisconnect(client)
+{
+    RemoveWards(client);
+}
+
 public OnWar3EventSpawn(client)
 {
     RemoveWards(client);
 }
+
 public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 {
     for(new i=0; i < GetArraySize(g_hWardOwner); i++)
@@ -481,12 +490,19 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
 public OnGameFrame()
 {
     new Float:now = GetEngineTime();
+    new bool:bEnabled;
     new Float:fNextTick;
     new Float:fInterval;
     new Float:fExpires;
     
     for(new i = 0; i < GetArraySize(g_hWardOwner); i++)
     {
+        bEnabled = GetArrayCell(g_hWardEnabled, i);
+        if (!bEnabled)
+        {
+            continue;
+        }
+        
         fExpires = GetArrayCell(g_hWardExpireTime, i);
         
         if (fExpires > 0.0 && fExpires <= now)
