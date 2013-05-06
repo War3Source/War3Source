@@ -119,24 +119,27 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 {
     if(BehaviorExistsByShortname(shortname))
     {
-        new oldid=GetWardBehaviorByShortname(shortname);
-        PrintToServer("Ward Behavior already exists: %s, returning old behavior id %d",shortname,oldid);
+        new oldid = GetWardBehaviorByShortname(shortname);
+
+        War3_LogInfo("Ward Behavior already exists: %s, returning old behavior id %d", shortname, oldid);
+        
         return oldid;
     }
 
     if (strlen(name) > WARDNAMELEN)
     {
-        LogError("[War3] Ward Behavior (%s) name exceeds max length; truncated to %d characters",name,WARDNAMELEN);
+        War3_LogError("[War3] Ward Behavior (%s) name exceeds max length; truncated to %d characters",name,WARDNAMELEN);
     }
     if (strlen(shortname) > WARDSNAMELEN)
     {
-        LogError("[War3] Ward Behavior (%s) shortname exceeds max length; truncated to %d characters",shortname,WARDSNAMELEN);
+        War3_LogError("[War3] Ward Behavior (%s) shortname exceeds max length; truncated to %d characters",shortname,WARDSNAMELEN);
     }
     if (strlen(desc) > WARDDESCLEN)
     {
-        LogError("[War3] Ward Behavior (%s) description exceeds max length; truncated to %d characters",desc,WARDDESCLEN);
+        War3_LogError("[War3] Ward Behavior (%s) description exceeds max length; truncated to %d characters",desc,WARDDESCLEN);
     }
     PushArrayString(g_hBehaviorName, name);
     PushArrayString(g_hBehaviorShortname, shortname);
+    
     return PushArrayString(g_hBehaviorDescription, desc);
 }

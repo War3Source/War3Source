@@ -3,7 +3,7 @@
 
 public Plugin:myinfo = 
 {
-    name = "War3Source - Engine - Default Wards",
+    name = "War3Source - Warcraft Extended - Generic ward skills",
     author = "War3Source Team",
     description = "Default ward implementations"
 };
