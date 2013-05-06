@@ -14,6 +14,7 @@ new Handle:g_hWardRadius = INVALID_HANDLE; // How big is the ward radius?
 new Handle:g_hWardLocation = INVALID_HANDLE; // Where is this ward?
 new Handle:g_hWardTarget = INVALID_HANDLE; // What does this ward target?
 new Handle:g_hWardInterval = INVALID_HANDLE; // In which interval does this ward pulse?
+new Handle:g_hWardDisableOnDeath = INVALID_HANDLE; // Bool: Should this ward be disabled when the owner dies?
 new Handle:g_hWardBehavior = INVALID_HANDLE; // What is the ward behavior ID?
 new Handle:g_hWardSkill = INVALID_HANDLE; // What skill does this ward come from?
 new Handle:g_hWardData = INVALID_HANDLE; // Optional array of data to go with the ward
@@ -81,6 +82,7 @@ public bool:InitNativesForwards()
     g_hWardLocation = CreateArray(3);
     g_hWardTarget = CreateArray(1);
     g_hWardInterval = CreateArray(1);
+    g_hWardDisableOnDeath = CreateArray(1);
     g_hWardNextTick = CreateArray(1);
     g_hWardExpireTime = CreateArray(1);
     g_hWardBehavior = CreateArray(1);
@@ -255,31 +257,34 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         
         new Float:fDuration = GetNativeCell(4);
         
-        new Float:fPulseInterval = GetNativeCell(5);
+        new bool:bDisableOnDeath = GetNativeCell(5);
+        PushArrayCell(g_hWardDisableOnDeath, bDisableOnDeath);
+        
+        new Float:fPulseInterval = GetNativeCell(6);
         PushArrayCell(g_hWardInterval, fPulseInterval);
 
         new String:sBehavior[WARDSNAMELEN];
-        GetNativeString(6, sBehavior, sizeof(sBehavior));
+        GetNativeString(7, sBehavior, sizeof(sBehavior));
         PushArrayCell(g_hWardBehavior, GetWardBehaviorByShortname(sBehavior));
         
-        new iWardSkill = GetNativeCell(7);
+        new iWardSkill = GetNativeCell(8);
         PushArrayCell(g_hWardSkill, iWardSkill);
 
         new any:data[MAXWARDDATA];
-        GetNativeArray(8, data ,MAXWARDDATA);
+        GetNativeArray(9, data ,MAXWARDDATA);
         PushArrayArray(g_hWardData, data);
         
-        new iTarget = GetNativeCell(9);
+        new iTarget = GetNativeCell(10);
         PushArrayCell(g_hWardTarget, iTarget);
 
-        new bool:bUseDefaultColors = GetNativeCell(10);
+        new bool:bUseDefaultColors = GetNativeCell(11);
         PushArrayCell(g_hWardUseDefaultColors, bUseDefaultColors);
         
         new color[4];
-        GetNativeArray(11, color, sizeof(color));
+        GetNativeArray(12, color, sizeof(color));
         PushArrayArray(g_hWardColor2, color);
         
-        GetNativeArray(12, color, sizeof(color));
+        GetNativeArray(13, color, sizeof(color));
         PushArrayArray(g_hWardColor3, color);
 
         g_iPlayerWardCount[client]++;
@@ -346,13 +351,6 @@ CreateWardBehavior(String:shortname[], String:name[], String:desc[])
 public WardPulse(id)
 {
     new owner = GetArrayCell(g_hWardOwner, id);
-
-    // Dead or disconnected owner? Kill the ward
-    if (!ValidPlayer(owner, true))
-    {
-        RemoveWards(owner);
-        return;
-    }
 
     Call_StartForward(g_OnWardPulseHandle);
     Call_PushCell(id);
@@ -456,6 +454,22 @@ public RemoveWards(client)
     }
 }
 
+public  OnWar3EventDeath(victim, attacker)
+{
+    new bool:bDisableWard;
+    for(new i=0; i < GetArraySize(g_hWardOwner); i++)
+    {
+        if (i == victim)
+        {
+            bDisableWard = GetArrayCell(g_hWardDisableOnDeath, i);
+            if (bDisableWard)
+            {
+                RemoveWard(i);
+            }
+        }
+    }
+}
+
 public OnClientDisconnect(client)
 {
     RemoveWards(client);
@@ -487,6 +501,7 @@ public Event_RoundEnd(Handle:event, const String:name[], bool:dontBroadcast)
     ClearArray(g_hWardColor2);
     ClearArray(g_hWardColor3);
     ClearArray(g_hWardEnabled);
+    ClearArray(g_hWardDisableOnDeath);
 }
 
 // FOR GALLIFREY, err, OnGameFrame, I mean...

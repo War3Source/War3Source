@@ -53,14 +53,11 @@ native War3_GetWardBehaviorByShortname(String:shortname[]);
 /**
  * Creates a ward.
  * 
- * Odd/special cases:
- * If a ward is created with selfInflict=false, but affinity=SELF_ONLY, you get a ward that does nothing, essentially.
- * If a ward is created with a negative/zero duration, it will last until round end/manual remove or until the caster is dead
- * 
- * @param client: owner id
- * @param location: ward location
- * @param radius: ward effect radius
- * @param duration: ward duration. If negative or zero, duration is infinite (until map change). Don't forget to remove the ward!
+ * @param client: The id of the client that places this wards
+ * @param location: The location where the ward should go
+ * @param radius: The radius of effect this ward has
+ * @param duration: How long this ward should stay. Pass 0 for no expire time.
+ * @param disableOnDeath: Disables the ward when the owner dies
  * @param pulseInterval: time between effect triggerings
  * @param behavior: ward behavior short name. Every time a ward is triggered, this behavior is called on
  * @param skillNum: Skill number of the ward skill (used for determining damage/healing in the data array)
@@ -71,7 +68,7 @@ native War3_GetWardBehaviorByShortname(String:shortname[]);
  * @param customColor3: Custom color to use on team 3 (counter-terrorists in CS:S)
  * @return ID for the ward created or -1 if the ward was not created
  */
-native War3_CreateWard(client, Float:location[], radius, Float:duration, Float:pulseInterval, String:behavior[], skillNum, any:data[], affinity=WARD_TARGET_ENEMYS, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
+native War3_CreateWard(client, Float:location[], radius, Float:duration, bool:disableOnDeath, Float:pulseInterval, String:behavior[], skillNum, any:data[], affinity=WARD_TARGET_ENEMYS, bool:useDefaultColors = true, customColor2[] = {0,0,0,0}, customColor3[] = {0,0,0,0});
 
 /**
  * Gets a specific ward's behavior.

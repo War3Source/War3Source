@@ -206,7 +206,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
                     }
                     new Float:location[3];
                     GetClientAbsOrigin(client, location);
-                    War3_CreateWard(client, location, 60, 300.0, 0.5, "damage", SKILL_WARD, WardDamage);
+                    War3_CreateWard(client, location, 60, 300.0, true, 0.5, "damage", SKILL_WARD, WardDamage);
                     W3MsgCreatedWard(client,War3_GetWardCount(client),MaximumWards[skill_level]);
                 }
             }
