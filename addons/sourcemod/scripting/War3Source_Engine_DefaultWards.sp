@@ -103,12 +103,20 @@ public OnWardTrigger(wardindex,victim,owner,behavior)
     
     War3_GetWardData(wardindex,data);
     GetClientAbsOrigin(victim,VictimPos);
-    if (behavior==BehaviorIndex[DAMAGE]) {
-        new damage = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
-        
-        War3_DealDamage(victim,damage,owner,_,"weapon_wards");
-        VictimPos[2]+=65.0;
-        War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
+    if (behavior==BehaviorIndex[DAMAGE]) 
+    {
+        if(W3HasImmunity(victim, Immunity_Wards) || W3HasImmunity(victim, Immunity_Skills))
+        {
+            W3MsgSkillBlocked(victim, _, "Wards");
+        }
+        else
+        {
+            new damage = data[War3_GetSkillLevel(owner,War3_GetRace(owner),War3_GetWardSkill(wardindex))];
+            
+            War3_DealDamage(victim,damage,owner,_,"weapon_wards");
+            VictimPos[2]+=65.0;
+            War3_TF_ParticleToClient(0, GetClientTeam(victim)==2?"healthgained_red":"healthgained_blu", VictimPos);
+        }
     }
     else if (behavior==BehaviorIndex[HEAL]) 
 	{
