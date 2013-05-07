@@ -11,21 +11,6 @@
  * Some documentation can be found here: https://github.com/War3Source/War3Source/issues/48
  */
 
-enum W3AttributeModificationSourceType {
-    MODIFICATION_SKILL,
-    MODIFICATION_ITEM,
-};
-
-enum W3AttributeModificationType {
-    MODIFICATION_TYPE_BUFF,
-    MODIFICATION_TYPE_DEBUFF,
-};
-
-#define MODIFICATION_EXPIRES_ON_DEATH      (0 << 0)
-#define MODIFICATION_EXPIRES_ON_SPAWN      (1 << 0)
-#define MODIFICATION_EXPIRES_ON_ROUNDEND   (1 << 1)
-#define MODIFICATION_EXPIRES_ON_TIMER      (1 << 2)
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Create new attributes
@@ -43,14 +28,6 @@ native War3_GetAttributeDescription(client, attributeId, any:value, String:sDesc
 native any:War3_GetAttributeValue(client, attributeId);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-// Natives for modifying
-
-native War3_ModifyAttributeTimed(client, attributeId, any:value, Float:fDuration, 
-                                 W3AttributeModificationSourceType:sourceType, source, expireFlag, 
-                                 W3AttributeModificationType:modificationType, bool:bCanStack);
 
 // This adds the given value to the current value of the attribute
 // So passing -5 to the function would reduce the current value by 5, etc.
