@@ -12,6 +12,7 @@
 #define WARDABOVE                   160.0
 
 // Bit flags for what a ward should target
+#define WARD_TARGET_NOBODY          (0 << 0)
 #define WARD_TARGET_SELF            (1 << 0)
 #define WARD_TARGET_ALLIES          (1 << 1)
 #define WARD_TARGET_ENEMYS          (1 << 2)
