@@ -11,6 +11,7 @@ public Plugin:myinfo =
 enum {
     BEHAVIOR_DAMAGE=0,
     BEHAVIOR_HEAL,
+    BEHAVIOR_SLOW,
     BEHAVIOR_LAST, // not a real ward behavior, just for indexing
 }
 
@@ -22,12 +23,13 @@ public OnWar3LoadRaceOrItemOrdered2(num)
     {
         BehaviorIndex[BEHAVIOR_DAMAGE] = War3_CreateWardBehavior("damage", "Damage ward", "Deals damage to targets");
         BehaviorIndex[BEHAVIOR_HEAL] = War3_CreateWardBehavior("heal", "Healing ward", "Heals targets");
+        BehaviorIndex[BEHAVIOR_SLOW] = War3_CreateWardBehavior("slow", "Slowing ward", "Slows players");
     }
 }
 
 public OnWardPulse(wardindex, behavior)
 {
-    if(behavior != BehaviorIndex[BEHAVIOR_DAMAGE] && behavior != BehaviorIndex[BEHAVIOR_HEAL])
+    if(behavior != BehaviorIndex[BEHAVIOR_DAMAGE] && behavior != BehaviorIndex[BEHAVIOR_HEAL] && behavior != BehaviorIndex[BEHAVIOR_SLOW])
     {
         return;
     }
@@ -45,6 +47,11 @@ public OnWardPulse(wardindex, behavior)
         {
             beamcolor = team == TEAM_BLUE ? {0, 255, 128, 255} : {128, 255, 0, 255};
         }
+        else if (behavior == BehaviorIndex[BEHAVIOR_SLOW])
+        {
+            beamcolor = team == TEAM_BLUE ? {0, 200, 63, 255} : {255, 89, 246, 255};
+        }
+        
     } 
     else 
     {
@@ -86,6 +93,21 @@ public OnWardTrigger(wardindex, victim, owner, behavior)
         {
             VictimPos[2] += 65.0;
             War3_TF_ParticleToClient(0, GetApparentTeam(victim) == TEAM_RED ? "healthgained_red" : "healthgained_blu", VictimPos);
+        }
+    }
+    
+    else if (behavior == BehaviorIndex[BEHAVIOR_SLOW])
+    {
+        if(W3HasImmunity(victim, Immunity_Wards) || W3HasImmunity(victim, Immunity_Skills))
+        {
+            W3MsgSkillBlocked(victim, _, "Wards");
+        }
+        else
+        {
+            new wardskill = War3_GetWardSkill(wardindex);
+            new slow = data[War3_GetSkillLevel(owner, War3_GetRace(owner), wardskill)];
+            
+            // do actual slowing
         }
     }
 }
