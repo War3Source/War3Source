@@ -38,3 +38,8 @@ forward OnWar3VampirismPost(victim, attacker, iHealthLeeched);
  * Stock for skills that bash
  */
 native War3_BashEffect(victim, attacker);
+
+/**
+ * Stock for wards
+ */
+native War3_WardVisualEffect(wardindex, beamcolor[4]);

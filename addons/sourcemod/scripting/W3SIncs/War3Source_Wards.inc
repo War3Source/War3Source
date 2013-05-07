@@ -64,7 +64,6 @@ forward OnWardTrigger(wardindex, victim, owner, behaviorID);
 //Fired every time a ward is removed
 forward OnWardExpire(wardindex, owner, behaviorID);
 
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // If you're a bit lazy you can reuse different ward implementations that come with War3Source :-)

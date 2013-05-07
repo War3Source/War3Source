@@ -16,15 +16,6 @@ enum {
 
 new BehaviorIndex[BEHAVIOR_LAST];
 
-new BeamSprite = -1;
-new HaloSprite = -1;
-
-public OnMapStart()
-{
-    BeamSprite = War3_PrecacheBeamSprite();
-    HaloSprite = War3_PrecacheHaloSprite();
-}
-
 public OnWar3LoadRaceOrItemOrdered2(num)
 {
     if (num == 0)
@@ -60,32 +51,7 @@ public OnWardPulse(wardindex, behavior)
         team == TEAM_BLUE ? War3_GetWardColor2(wardindex, beamcolor) : War3_GetWardColor3(wardindex, beamcolor);
     }
     
-    doVisualEffect(wardindex, beamcolor);
-}
-
-doVisualEffect(wardindex, beamcolor[4]) 
-{
-    decl Float:fWardLocation[3];
-    War3_GetWardLocation(wardindex, fWardLocation);
-    new Float:fInterval = War3_GetWardInterval(wardindex);
-    new wardRadius = War3_GetWardRadius(wardindex);
-
-    new Float:fStartPos[3];
-    new Float:fEndPos[3];
-    new Float:tempVec1[] = {0.0, 0.0, WARDBELOW};
-    new Float:tempVec2[] = {0.0, 0.0, WARDABOVE};
-    
-    AddVectors(fWardLocation, tempVec1, fStartPos);
-    AddVectors(fWardLocation, tempVec2, fEndPos);
-
-    TE_SetupBeamPoints(fStartPos, fEndPos, BeamSprite, HaloSprite, 0, GetRandomInt(30, 100), fInterval, 70.0, 70.0, 0, 30.0, beamcolor, 10);
-    TE_SendToAll();
-    
-    new Float:StartRadius = wardRadius / 2.0;
-    new Speed = RoundToFloor((wardRadius - StartRadius) / fInterval);
-    
-    TE_SetupBeamRingPoint(fWardLocation, StartRadius, float(wardRadius), BeamSprite, HaloSprite, 0,1, fInterval, 20.0, 1.5, beamcolor, Speed, 0);
-    TE_SendToAll();
+    War3_WardVisualEffect(wardindex, beamcolor);
 }
 
 public OnWardTrigger(wardindex, victim, owner, behavior) 

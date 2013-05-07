@@ -11,12 +11,17 @@ public Plugin:myinfo =
 new iMaskSoundDelay[MAXPLAYERSCUSTOM];
 new String:sMaskSound[256];
 
+
+new BeamSprite = -1;
+new HaloSprite = -1;
+
 public bool:InitNativesForwards()
 {
     CreateNative("War3_EvadeDamage", Native_EvadeDamage);
     CreateNative("War3_EffectReturnDamage", Native_EffectReturnDamage);
     CreateNative("War3_VampirismEffect", Native_VampirismEffect);
     CreateNative("War3_BashEffect", Native_BashEffect);
+    CreateNative("War3_WardVisualEffect", Native_WardVisualEffect);
 
     return true;
 }
@@ -37,6 +42,9 @@ public OnMapStart()
 {
     War3_AddSoundFolder(sMaskSound, sizeof(sMaskSound), "mask.mp3");
     War3_PrecacheSound(sMaskSound);
+    
+    BeamSprite = War3_PrecacheBeamSprite();
+    HaloSprite = War3_PrecacheHaloSprite();
 }
 
 public Native_EvadeDamage(Handle:plugin, numParams)
@@ -162,4 +170,33 @@ public Native_BashEffect(Handle:plugin, numParams)
 
     W3Hint(victim, HINT_SKILL_STATUS, 1.0, "%T", "RcvdBash", victim);
     W3Hint(attacker, HINT_SKILL_STATUS, 1.0, "%T", "Bashed", attacker);
+}
+
+public Native_WardVisualEffect(Handle:plugin, numParams)
+{
+    new wardindex = GetNativeCell(1);
+    decl beamcolor[4];
+    GetNativeArray(2, beamcolor, sizeof(beamcolor));
+    
+    decl Float:fWardLocation[3];
+    War3_GetWardLocation(wardindex, fWardLocation);
+    new Float:fInterval = War3_GetWardInterval(wardindex);
+    new wardRadius = War3_GetWardRadius(wardindex);
+
+    new Float:fStartPos[3];
+    new Float:fEndPos[3];
+    new Float:tempVec1[] = {0.0, 0.0, WARDBELOW};
+    new Float:tempVec2[] = {0.0, 0.0, WARDABOVE};
+    
+    AddVectors(fWardLocation, tempVec1, fStartPos);
+    AddVectors(fWardLocation, tempVec2, fEndPos);
+
+    TE_SetupBeamPoints(fStartPos, fEndPos, BeamSprite, HaloSprite, 0, GetRandomInt(30, 100), fInterval, 70.0, 70.0, 0, 30.0, beamcolor, 10);
+    TE_SendToAll();
+    
+    new Float:StartRadius = wardRadius / 2.0;
+    new Speed = RoundToFloor((wardRadius - StartRadius) / fInterval);
+    
+    TE_SetupBeamRingPoint(fWardLocation, StartRadius, float(wardRadius), BeamSprite, HaloSprite, 0,1, fInterval, 20.0, 1.5, beamcolor, Speed, 0);
+    TE_SendToAll();
 }
