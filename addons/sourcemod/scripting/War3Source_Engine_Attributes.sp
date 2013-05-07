@@ -18,15 +18,43 @@ new Handle:g_hAttributeDefault = INVALID_HANDLE;
 // Stores the attributes of a player
 new Handle:g_hAttributeValue[MAXPLAYERS] = INVALID_HANDLE;
 
+// Stores timed attribute modifications
+new Handle:g_hAttributeModificationID = INVALID_HANDLE; // this stores the id to the attribute that is modified
+new Handle:g_hAttributeModificationClient = INVALID_HANDLE; // this stores the id of the client this effect is on
+new Handle:g_hAttributeModificationSource = INVALID_HANDLE; // this stores the id of the source of the modification
+new Handle:g_hAttributeModificationSourceType = INVALID_HANDLE; // this stores the type of the source (see W3AttributeModificationSourceType)
+new Handle:g_hAttributeModificationValue = INVALID_HANDLE; // how big the modification is
+new Handle:g_hAttributeModificationDuration = INVALID_HANDLE; // how long the modification lasts
+new Handle:g_hAttributeModificationExpireFlag = INVALID_HANDLE; // what kind of events make this modification expire
+new Handle:g_hAttributeModificationType = INVALID_HANDLE; // if this is a buff or debuff
+new Handle:g_hAttributeModificationCanStack = INVALID_HANDLE; // bool: Can this modification stack
+
+
+// Internal timed attribute data
+new Handle:g_hAttributeModificationExpireTime = INVALID_HANDLE; // Internal: When this modification expires
+
 // Forward handles
 new Handle:g_War3_OnAttributeChanged = INVALID_HANDLE;
 new Handle:g_War3_OnAttributeDescriptionRequested = INVALID_HANDLE;
 
 public OnPluginStart()
 {
+    // Attribute data storage
     g_hAttributeName = CreateArray(FULLNAMELEN);
     g_hAttributeDefault = CreateArray(1);
     g_hAttributeShortname = CreateArray(SHORTNAMELEN);
+    
+    // Attribute modifications
+    g_hAttributeModificationID = CreateArray(1);
+    g_hAttributeModificationClient = CreateArray(1);
+    g_hAttributeModificationSource = CreateArray(1);
+    g_hAttributeModificationSourceType = CreateArray(1);
+    g_hAttributeModificationValue = CreateArray(1);
+    g_hAttributeModificationDuration = CreateArray(1);
+    g_hAttributeModificationExpireTime = CreateArray(1);
+    g_hAttributeModificationExpireFlag = CreateArray(1);
+    g_hAttributeModificationType = CreateArray(1);
+    g_hAttributeModificationCanStack = CreateArray(1);
     
     for (new i=0; i < MAXPLAYERS; i++)
     {
@@ -40,15 +68,20 @@ public bool:InitNativesForwards()
     g_War3_OnAttributeDescriptionRequested = CreateGlobalForward("War3_OnAttributeDescriptionRequested", ET_Ignore, Param_Cell, Param_Cell, Param_Any, Param_String, Param_Cell);
         
     CreateNative("War3_RegisterAttribute", Native_War3_RegisterAttribute);
+    
     CreateNative("War3_GetAttributeName", Native_War3_GetAttributeName);
     CreateNative("War3_GetAttributeShortname", Native_War3_GetAttributeShortname);
     CreateNative("War3_GetAttributeIDByShortname", Native_War3_GetAttributeIDByShortname);
     CreateNative("War3_GetAttributeValue", Native_War3_GetAttributeValue);
-    CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
     CreateNative("War3_GetAttributeDescription", Native_War3_GetAttributeDescription);
-        
+
+    CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
+    CreateNative("War3_ModifyAttribute", Native_War3_ModifyAttribute);
+    CreateNative("War3_ModifyAttributeTimed", Native_War3_ModifyAttributeTimed); 
+
     return true;
-}
+} 
+
 
 /* NATIVES */
 
@@ -112,6 +145,63 @@ public Native_War3_SetAttribute(Handle:plugin, numParams)
     SetAttribute(client, iAttributeId, value);
 }
 
+public Native_War3_ModifyAttribute(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+    new iAttributeId = GetNativeCell(2);
+    new any:value = GetNativeCell(3);
+    
+    ModifyAttribute(client, iAttributeId, value);
+}
+
+public Native_War3_ModifyAttributeTimed(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+    new iAttributeId = GetNativeCell(2);
+    new any:value = GetNativeCell(3);
+    new Float:fDuration = GetNativeCell(4);
+    new W3AttributeModificationSourceType:sourceType = GetNativeCell(5);
+    new source = GetNativeCell(6);
+    new expireFlag = GetNativeCell(7);
+    new W3AttributeModificationType:modificationType = GetNativeCell(8);
+    new bool:bCanStack = GetNativeCell(9);
+    
+    // Check if the client already has this buff and if he has check if it's stackable
+    if (!bCanStack)
+    {
+        for(new i = 0; i < GetArraySize(g_hAttributeModificationClient); i++)
+        {
+            new buffedclient = GetArrayCell(g_hAttributeModificationClient, i);
+            
+            if (buffedclient == client)
+            {
+                new buffedSource = GetArrayCell(g_hAttributeModificationSource, i);
+                new W3AttributeModificationSourceType:buffedSourceType = GetArrayCell(g_hAttributeModificationSourceType, i);
+                new bool:bBuffedCanStack = GetArrayCell(g_hAttributeModificationCanStack, i);
+                
+                if ((buffedSource != source) || (buffedSourceType != sourceType) || !bBuffedCanStack)
+                {
+                    return;
+                }
+            }
+        }
+    }
+    
+    PushArrayCell(g_hAttributeModificationClient, client);
+    PushArrayCell(g_hAttributeModificationID, iAttributeId);
+    PushArrayCell(g_hAttributeModificationValue, value);
+    PushArrayCell(g_hAttributeModificationDuration, fDuration);
+    PushArrayCell(g_hAttributeModificationSource, source);
+    PushArrayCell(g_hAttributeModificationSourceType, sourceType);
+    PushArrayCell(g_hAttributeModificationExpireFlag, expireFlag);
+    PushArrayCell(g_hAttributeModificationType, modificationType);
+    PushArrayCell(g_hAttributeModificationCanStack, bCanStack);
+    
+    PushArrayCell(g_hAttributeModificationExpireTime, GetEngineTime() + fDuration);
+    
+    ModifyAttribute(client, iAttributeId, value);
+}
+
 public Native_War3_GetAttributeDescription(Handle:plugin, numParams)
 {
     new client = GetNativeCell(1);
@@ -165,6 +255,14 @@ RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], any:De
     }
     
     return attributeId;
+}
+
+ModifyAttribute(client, attributeID, value)
+{
+    new oldValue = GetAttributeValue(client, attributeID);
+    SetAttribute(client, attributeID, oldValue - value);
+    
+    War3_LogInfo("Modifying attribute %i for client %i by value %f", attributeID, client, value);
 }
 
 GetAttributeName(attributeId, String:sName[], iBufferSize)
@@ -262,7 +360,33 @@ SetAttribute(client, attributeId, any:value)
     Call_Finish();
 }
 
-/* MANAGEMENT THINGS */
+// FOR GALLIFREY, err, OnGameFrame, I mean...
+
+public OnGameFrame()
+{
+    new Float:now = GetEngineTime();
+    
+    new expireFlag;
+    new Float:fExpires;
+    for(new i = 0; i < GetArraySize(g_hAttributeModificationExpireFlag); i++)
+    {
+        expireFlag = GetArrayCell(g_hAttributeModificationExpireFlag, i);
+        if (!(expireFlag & MODIFICATION_EXPIRES_ON_TIMER))
+        {
+            continue;
+        }
+        
+        fExpires = GetArrayCell(g_hAttributeModificationExpireTime, i);
+        
+        if (fExpires > 0.0 && fExpires <= now)
+        {
+            RemoveModification(i);
+            continue;
+        }
+    }
+}
+
+// Cleanup
 
 /**
  * Revert the attributes to the default values whenever a player connects
@@ -270,4 +394,27 @@ SetAttribute(client, attributeId, any:value)
 public OnClientPutInServer(client)
 {
     ResetAttributesForPlayer(client);
+}
+
+RemoveModification(modificationIndex)
+{
+    new client = GetArrayCell(g_hAttributeModificationClient, modificationIndex);
+    new iAttributeId = GetArrayCell(g_hAttributeModificationID, modificationIndex);
+    
+    // implement
+    War3_LogInfo("Removing modification %i for attribute %i on client %i", modificationIndex, iAttributeId, client);
+    
+    new any:value = GetArrayCell(g_hAttributeModificationValue, modificationIndex);
+    ModifyAttribute(client, iAttributeId, -value);
+    
+    RemoveFromArray(g_hAttributeModificationID, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationClient, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationSource, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationSourceType, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationValue, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationDuration, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationExpireTime, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationExpireFlag, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationType, modificationIndex);
+    RemoveFromArray(g_hAttributeModificationCanStack, modificationIndex);
 }

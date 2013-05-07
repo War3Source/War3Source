@@ -208,7 +208,6 @@ public Native_War3_CreateWard(Handle:plugin, numParams)
         PushArrayCell(g_hWardColor2, -1);
         PushArrayCell(g_hWardColor3, -1);
                 
-                
         return id;
     }
     
