@@ -21,19 +21,26 @@ enum W3BuffType {
     BUFFTYPE_DEBUFF,
 };
 
-#define BUFF_EXPIRES_ON_DEATH       (0 << 0)
-#define BUFF_EXPIRES_ON_SPAWN       (1 << 0)
-#define BUFF_EXPIRES_ON_ROUNDEND    (1 << 1)
-#define BUFF_EXPIRES_ON_TIMER       (1 << 2)
-#define BUFF_EXPIRES_ON_RACECHANGE  (1 << 3)
+#define BUFF_EXPIRES_MANUALLY       (0 << 0)
+#define BUFF_EXPIRES_ON_DEATH       (1 << 0)
+#define BUFF_EXPIRES_ON_SPAWN       (1 << 1)
+#define BUFF_EXPIRES_ON_ROUNDEND    (1 << 2)
+#define BUFF_EXPIRES_ON_TIMER       (1 << 3)
+#define BUFF_EXPIRES_ON_RACECHANGE  (1 << 4)
+
+#define INVALID_BUFF                -1
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Returns the buff index
 
 native War3_ApplyTimedBuff(client, attributeId, any:value, Float:fDuration, 
-                           W3BuffSource:sourceType, source, expireFlag, 
-                           bool:bCanStack);
+                           W3BuffSource:sourceType, source, expireFlag, bool:bCanStack);
 
 native War3_ApplyTimedDebuff(client, attributeId, any:value, Float:fDuration, 
-                             W3BuffSource:sourceType, source, expireFlag, 
-                             bool:bCanStack);
+                             W3BuffSource:sourceType, source, expireFlag, bool:bCanStack);
+
+native War3_ApplyRaceBuff(client, attributeId, any:value, raceID, W3BuffSource:sourceType, source);
+native War3_ApplyRaceDebuff(client, attributeId, any:value, raceID, W3BuffSource:sourceType, source);
+
+native War3_RemoveBuff(buffIndex);

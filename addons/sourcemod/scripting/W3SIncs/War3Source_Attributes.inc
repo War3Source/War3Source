@@ -29,6 +29,9 @@ native any:War3_GetAttributeValue(client, attributeId);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Functions to modify the values of an attribute. You usually don't want to use these,
+// instead have a look at War3Source_AttributeBuffs.inc on how to make buffs that modify a attribute!
+
 // This adds the given value to the current value of the attribute
 // So passing -5 to the function would reduce the current value by 5, etc.
 // this is permanent, so handle with care!
@@ -43,4 +46,3 @@ native War3_SetAttribute(client, attributeId, any:value);
 
 forward War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue);
 forward War3_OnAttributeDescriptionRequested(client, attributeId, any:value, String:sDescription[], iBufferSize);
-
