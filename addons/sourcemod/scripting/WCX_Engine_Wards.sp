@@ -104,8 +104,8 @@ public OnWardTrigger(wardindex, victim, owner, behavior)
         }
         else
         {
-            new wardskill = War3_GetWardSkill(wardindex);
-            new slow = data[War3_GetSkillLevel(owner, War3_GetRace(owner), wardskill)];
+            //new wardskill = War3_GetWardSkill(wardindex);
+            //new slow = data[War3_GetSkillLevel(owner, War3_GetRace(owner), wardskill)];
             
             // do actual slowing
         }
