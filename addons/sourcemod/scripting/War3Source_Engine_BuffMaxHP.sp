@@ -113,11 +113,14 @@ public Action:CheckHPBuffChange(Handle:h,any:client){
     }
 }
 
-public OnWar3EventPostHurt(victim,attacker,damage){
-    if (ValidPlayer(victim)) {
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
+    if (ValidPlayer(victim)) 
+    {
         LastDamageTime[victim]=GetEngineTime();
     }
 }
+
 public Action:TFHPBuff(Handle:h,any:data){
 
 

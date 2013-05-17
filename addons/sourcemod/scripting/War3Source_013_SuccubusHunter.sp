@@ -183,20 +183,18 @@ public OnWar3EventSpawn(client)
         }
     }
 }
-public OnWar3EventPostHurt(victim,attacker,damage){
-    if(W3GetDamageIsBullet()&&ValidPlayer(victim,true,true)&&ValidPlayer(attacker,true)&&victim!=attacker){
-        //DP("bullet succ vic alive %d",ValidPlayer(victim,true));
-        new skilllevelheadhunter = War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEADHUNTER);
-        if (skilllevelheadhunter > 0 && !W3HasImmunity(victim,Immunity_Skills)&&!Hexed(attacker))
+
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
+    if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker)
+    {
+        new skilllevelheadhunter = War3_GetSkillLevel(attacker, thisRaceID, SKILL_HEADHUNTER);
+        if (skilllevelheadhunter > 0 && !W3HasImmunity(victim, Immunity_Skills) && !Hexed(attacker))
         {
-            //DP("health %d",GetClientHealth(victim));
-            new xdamage= RoundFloat(0.2*float(damage) * skulls[attacker]/20 );
-            War3_DealDamage(victim,xdamage,attacker,_,"headhunter",W3DMGORIGIN_SKILL,W3DMGTYPE_PHYSICAL);
-            
+            new xdamage= RoundFloat(0.2 * damage * skulls[attacker] / 20);
+            War3_DealDamage(victim, xdamage, attacker, _, "headhunter", W3DMGORIGIN_SKILL, W3DMGTYPE_PHYSICAL);
             W3PrintSkillDmgConsole(victim,attacker,War3_GetWar3DamageDealt(),SKILL_HEADHUNTER);
-            //DP("deal %d",xdamage);
         }
-        
     }
 }
 /*

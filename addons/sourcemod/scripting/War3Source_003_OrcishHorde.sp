@@ -322,7 +322,8 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 }
 
 //need event for weapon string
-public OnWar3EventPostHurt(victim,attacker,dmg){
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
     if(victim>0&&attacker>0&&victim!=attacker)
     {
         new race_attacker=War3_GetRace(attacker);
@@ -331,7 +332,7 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
         {
             if(damagestackcritmatch==W3GetDamageStack()){
                 damagestackcritmatch=-1;
-                W3PrintSkillDmgHintConsole(victim,attacker,RoundFloat(float(dmg)*critpercent/(critpercent+1.0)),SKILL_CRIT);    
+                W3PrintSkillDmgHintConsole(victim,attacker,RoundFloat(damage*critpercent/(critpercent+1.0)),SKILL_CRIT);    
                 W3FlashScreen(victim,RGBA_COLOR_RED);    
             }
         }
@@ -376,13 +377,11 @@ public OnWar3EventPostHurt(victim,attacker,dmg){
                 }
                 else
                 {
-                    decl String:weapon[64];
-                    GetEventString(W3GetVar(SmEvent),"weapon",weapon,63);
                     if(StrEqual(weapon,"hegrenade",false) && !W3HasImmunity(victim,Immunity_Skills))
                     {
                         new Float:percent=CriticalGrenadePercent[skill_cg_attacker];
-                        new originaldamage=dmg;
-                        new health_take=RoundFloat((float(dmg)*percent));
+                        new originaldamage=RoundToFloor(damage);
+                        new health_take=RoundFloat((damage*percent));
                         
                         new onehp=false;
                         ///you cannot die from orc nade unless the usual nade damage kills you

@@ -8,16 +8,7 @@ public Plugin:myinfo =
     description="Generic crit skill"
 };
 
-public OnClientPutInServer(client)
-{
-    SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook);
-}
-public OnClientDisconnect(client)
-{
-    SDKUnhook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook); 
-}
-
-public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetype, weapon, const Float:damageForce[3], const Float:damagePosition[3])
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
     // not written to be compatible with left4dead
     if((victim == attacker) || (!ValidPlayer(victim) || !ValidPlayer(attacker)) || (GetClientTeam(victim) == GetClientTeam(attacker)))
@@ -25,22 +16,9 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
         return;
     }
 
-    // It appears we were attacked by a GHOST!
-    if (weapon == -1 && inflictor == -1)
-    {
-        return;
-    }
-    
-    // Figure out what really hit us. A weapon? A sentry gun?
-    new String:weaponName[64];
-    new realWeapon = weapon == -1 ? inflictor : weapon;
-    GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
-
-    War3_LogInfo("PostHurt called with weapon \"%s\"", weaponName);
-
     // Typical cases of War3Source damage
-    if(StrEqual(weaponName, "crit", false) || StrEqual(weaponName, "bash", false) || 
-       StrEqual(weaponName, "weapon_crit", false) || StrEqual(weaponName, "weapon_bash", false))
+    if(StrEqual(weapon, "crit", false) || StrEqual(weapon, "bash", false) || 
+       StrEqual(weapon, "weapon_crit", false) || StrEqual(weapon, "weapon_bash", false))
     {
         return;
     }
@@ -66,7 +44,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //1 (bullet damage damage increase)
             case(1):{
-                if(!W3IsDamageFromMelee(weaponName) && !StrEqual(weaponName,"hegrenade",false))
+                if(!W3IsDamageFromMelee(weapon) && !StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -74,7 +52,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //2 (grenade damage damage increase) 
             case(2):{
-                if(StrEqual(weaponName,"hegrenade",false))
+                if(StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -82,7 +60,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //3 (melee damage damage increase)
             case(3):{
-                if(W3IsDamageFromMelee(weaponName))
+                if(W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -90,7 +68,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //4 (melee and bullet damage increase)
             case(4):{
-                if(!StrEqual(weaponName,"hegrenade",false))
+                if(!StrEqual(weapon,"hegrenade",false))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -98,7 +76,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //5 (melee and grenade damage increase) 
             case(5):{
-                if(StrEqual(weaponName,"hegrenade",false)||W3IsDamageFromMelee(weaponName))
+                if(StrEqual(weapon,"hegrenade",false)||W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -106,7 +84,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
             //6 (bullet and grenade damage increase)
             case(6):{
-                if(StrEqual(weaponName,"hegrenade",false)||!W3IsDamageFromMelee(weaponName))
+                if(StrEqual(weapon,"hegrenade",false)||!W3IsDamageFromMelee(weapon))
                 {
                     PercentIncrease += DamageMultiplier;
                     DamageIncrease = BonusDamage;
@@ -126,32 +104,32 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
                 }
                 //2 (bullet damage damage increase)
                 case(2):{
-                    if(!W3IsDamageFromMelee(weaponName) && !StrEqual(weaponName,"hegrenade",false))
+                    if(!W3IsDamageFromMelee(weapon) && !StrEqual(weapon,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //3 (grenade damage damage increase) 
                 case(3):{
-                    if(StrEqual(weaponName,"hegrenade",false))
+                    if(StrEqual(weapon,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //4 (melee damage damage increase)
                 case(4):{
-                    if(W3IsDamageFromMelee(weaponName))
+                    if(W3IsDamageFromMelee(weapon))
                         CritMultiplier += DamageMultiplier;
                 }
                 //5 (melee and bullet damage increase)
                 case(5):{
-                    if(!StrEqual(weaponName,"hegrenade",false))
+                    if(!StrEqual(weapon,"hegrenade",false))
                         CritMultiplier += DamageMultiplier;
                 }
                 //6 (melee and grenade damage increase) 
                 case(6):{
-                    if(StrEqual(weaponName,"hegrenade",false)||W3IsDamageFromMelee(weaponName))
+                    if(StrEqual(weapon,"hegrenade",false)||W3IsDamageFromMelee(weapon))
                         CritMultiplier += DamageMultiplier;
                 }
                 //7 (bullet and grenade damage increase)
                 case(7):{
-                    if(StrEqual(weaponName,"hegrenade",false)||!W3IsDamageFromMelee(weaponName))
+                    if(StrEqual(weapon,"hegrenade",false)||!W3IsDamageFromMelee(weapon))
                         CritMultiplier += DamageMultiplier;
                 }
             }
@@ -159,9 +137,10 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
     }
     new newdamage = RoundToFloor(PercentIncrease * damage);
     newdamage = newdamage + DamageIncrease;
-    if(newdamage > 0)
+    if(newdamage > 0 && ValidPlayer(victim, true))
     {
-        War3_LogInfo("Dealing crit damage %i of player \"{client %i}\" to victim \"{client %i}\"", newdamage, attacker, victim);
+        new victimHealth = GetClientHealth(victim);
+        War3_LogInfo("Dealing crit damage %i of player \"{client %i}\" to victim \"{client %i}\" (%i hp)", newdamage, attacker, victim, victimHealth);
         War3_DealDamage(victim, newdamage, attacker, _, "weapon_crit");
     }
 }

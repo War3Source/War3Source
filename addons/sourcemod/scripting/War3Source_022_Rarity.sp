@@ -107,15 +107,16 @@ public Action:UnSmitten(Handle:timer,any:client)
 
 
 
-public OnWar3EventPostHurt(victim,attacker,dmgamount){
-    if(W3GetDamageIsBullet() && War3_GetRace(attacker)==thisRaceID ){
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
+    if(!isWarcraft && War3_GetRace(attacker)==thisRaceID ){
         new lvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEARTACHE);
         if(lvl > 0  )
         {
             if(W3Chance(heartacheChance[lvl]*W3ChanceModifier(attacker))    && !IsSkillImmune(victim)  ){
             
-                War3_HealToBuffHP(attacker,dmgamount);
-                PrintToConsole(attacker,"Heartache +%d HP",dmgamount);
+                War3_HealToBuffHP(attacker, RoundToFloor(damage));
+                PrintToConsole(attacker,"Heartache +%d HP", RoundToFloor(damage));
             }
         }
         

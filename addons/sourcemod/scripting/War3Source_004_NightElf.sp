@@ -178,9 +178,9 @@ public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
     }
 }
 
-public OnWar3EventPostHurt(victim, attacker, damage)
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(W3GetDamageIsBullet() && ValidPlayer(victim) && victim != attacker && War3_GetRace(victim) == thisRaceID)
+    if(!isWarcraft && ValidPlayer(victim) && victim != attacker && War3_GetRace(victim) == thisRaceID)
     {
         new iThornsLevel = War3_GetSkillLevel(victim, thisRaceID, iThornsLevel);
         if(iThornsLevel > 0 && !Hexed(victim, false))

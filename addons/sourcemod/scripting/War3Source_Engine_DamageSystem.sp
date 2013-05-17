@@ -47,15 +47,6 @@ new damagestack=0;
 new Float:LastDamageDealtTime[MAXPLAYERSCUSTOM];
 new Float:ChanceModifier[MAXPLAYERSCUSTOM];
 
-public OnPluginStart()
-{
-    HookEvent("player_hurt", EventPlayerHurt);
-    if(War3_IsL4DEngine())
-    {
-        HookEvent("infected_hurt", EventInfectedHurt);
-    }
-}
-
 //cvar handle
 new Handle:ChanceModifierSentry;
 new Handle:ChanceModifierSentryRocket;
@@ -81,8 +72,7 @@ public bool:InitNativesForwards()
     FHOnW3TakeDmgAll=CreateGlobalForward("OnW3TakeDmgAll",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
     FHOnW3TakeDmgBullet=CreateGlobalForward("OnW3TakeDmgBullet",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 
-    
-    g_OnWar3EventPostHurtFH=CreateGlobalForward("OnWar3EventPostHurt",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
+    g_OnWar3EventPostHurtFH = CreateGlobalForward("OnWar3EventPostHurt", ET_Ignore, Param_Cell, Param_Cell, Param_Float, Param_String, Param_Cell);
 
 
     ChanceModifierSentry=CreateConVar("war3_chancemodifier_sentry","","None to use attack rate dependent chance modifier. Set from 0.0 to 1.0 chance modifier for sentry, this will override time dependent chance modifier");
@@ -131,17 +121,25 @@ public NW3GetDamageStack(Handle:plugin,numParams){
 
 public OnEntityCreated(entity, const String:classname[])
 {
-    if (StrEqual(classname, CLASSNAME_INFECTED, false) || StrEqual(classname, CLASSNAME_WITCH, false))
+    if(War3_IsL4DEngine())
     {
-        SDKHook(entity, SDKHook_OnTakeDamage, SDK_Forwarded_OnTakeDamage);
+        if (StrEqual(classname, CLASSNAME_INFECTED, false) || StrEqual(classname, CLASSNAME_WITCH, false))
+        {
+            SDKHook(entity, SDKHook_OnTakeDamage, SDK_Forwarded_OnTakeDamage);
+            SDKHook(entity, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook);
+        }
     }
 }
 
-public OnClientPutInServer(client){
-    SDKHook(client,SDKHook_OnTakeDamage,SDK_Forwarded_OnTakeDamage);
+public OnClientPutInServer(client)
+{
+    SDKHook(client, SDKHook_OnTakeDamage, SDK_Forwarded_OnTakeDamage);
+    SDKHook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook);
 }
-public OnClientDisconnect(client){
-    SDKUnhook(client,SDKHook_OnTakeDamage,SDK_Forwarded_OnTakeDamage); 
+public OnClientDisconnect(client)
+{
+    SDKUnhook(client, SDKHook_OnTakeDamage, SDK_Forwarded_OnTakeDamage);
+    SDKUnhook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook); 
 }
 
 
@@ -300,94 +298,41 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
     return Plugin_Changed;
 }
 
-
-public EventPlayerHurt(Handle:event,const String:name[],bool:dontBroadcast)
+public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetype, weapon, const Float:damageForce[3], const Float:damagePosition[3])
 {
+    // GHOSTS!!
+    if (weapon == -1 && inflictor == -1)
+    {
+        return;
+    }
     
-    new victim_userid=GetEventInt(event,"userid");
-    new attacker_userid=GetEventInt(event,"attacker");
-    new damage=GetEventInt(event,"dmg_health");
-    if(War3_GetGame()==Game_TF)
-        damage=GetEventInt(event,"damageamount");
-    
-    new victim=GetClientOfUserId(victim_userid);
-    
-    new attacker=GetClientOfUserId(attacker_userid);
-    
-    
-    
-    #if defined DEBUG
-    DP2("PlayerHurt %d->%d  dmg [%d] ",attacker,victim,damage);
-    #endif
     damagestack++;
     
     new bool:old_CanDealDamage=g_CanDealDamage;
     g_CanSetDamageMod=true;
     
-    new Handle:oldevent=W3GetVar(SmEvent);
-    W3SetVar(SmEvent,event); //stacking on stack 
+    g_CurInflictor = inflictor;
     
-    //do the forward
+    // Figure out what really hit us. A weapon? A sentry gun?
+    new String:weaponName[64];
+    new realWeapon = weapon == -1 ? inflictor : weapon;
+    GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
+
+    War3_LogInfo("OnTakeDamagePostHook called with weapon \"%s\"", weaponName);
+
     Call_StartForward(g_OnWar3EventPostHurtFH);
     Call_PushCell(victim);
     Call_PushCell(attacker);
-    Call_PushCell(damage);
+    Call_PushFloat(damage);
+    Call_PushString(weaponName);
     Call_PushCell(g_CurDamageIsWarcraft);
     Call_Finish(dummyresult);
     
-
-    
-    W3SetVar(SmEvent,oldevent); //restore on stack , if any
     g_CanDealDamage=old_CanDealDamage;
-    
     
     damagestack--;
-    #if defined DEBUG
     
-    DP2("PlayerHurt %d->%d  dmg [%d] END ",attacker,victim,damage);
-    
-    if(    damagestack==0){
-    
-    PrintToServer("   ");
-    PrintToChatAll("   ");
-    PrintToServer("   ");
-    PrintToChatAll("   ");
-    }
-    #endif
-    
-    g_CurLastActualDamageDealt=damage;
-}
-
-
-public EventInfectedHurt(Handle:event,const String:name[],bool:dontBroadcast)
-{
-    //PrintToChatAll("Infected Hurt called!");
-    new victim_userid = GetEventInt(event, "entityid");
-    new attacker_userid = GetEventInt(event, "attacker");
-    new damage = GetEventInt(event, "amount");
-    
-    new attacker = GetClientOfUserId(attacker_userid);
-    
-    damagestack++;
-    
-    new bool:old_CanDealDamage = g_CanDealDamage;
-    g_CanSetDamageMod = true;
-    
-    new Handle:oldevent = W3GetVar(SmEvent);
-    W3SetVar(SmEvent, event); //stacking on stack 
-    
-    //do the forward
-    Call_StartForward(g_OnWar3EventPostHurtFH);
-    Call_PushCell(victim_userid); // THIS IS A ENTITY ID NOT A PLAYER ID!
-    Call_PushCell(attacker);
-    Call_PushCell(damage);
-    Call_Finish(dummyresult);
-    
-    W3SetVar(SmEvent,oldevent); //restore on stack , if any
-    g_CanDealDamage=old_CanDealDamage;
-    
-    damagestack--;    
-    g_CurLastActualDamageDealt=damage;
+    g_CurLastActualDamageDealt = RoundToFloor(damage);
 }
 
 
@@ -595,6 +540,8 @@ public Native_War3_DealDamage(Handle:plugin,numParams)
         
         g_NextDamageIsWarcraftDamage=old_NextDamageIsWarcraftDamage; 
         g_NextDamageIsTrueDamage=old_NextDamageIsTrueDamage;
+        
+        War3_LogInfo("War3_DealDamage from attacker \"{client %i}\" to victim \"{client %i}\" (%i dmg)", attacker, victim, damage);
     }
     else{
         //player is already dead

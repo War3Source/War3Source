@@ -197,8 +197,9 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 }
 
 
-public OnWar3EventPostHurt(victim,attacker,damage){
-    if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
+    if(!isWarcraft && ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {    
         if(War3_GetRace(attacker)==thisRaceID)
         {

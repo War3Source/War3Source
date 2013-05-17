@@ -853,11 +853,6 @@ forward OnWar3EventSpawn(client);
 //when player dies, fires only in war3 mode
 forward OnWar3EventDeath(victim, attacker, deathrace);
 
-//very generic damage event
-//derrived from the game engine's posthurt event
-//FRIENDLY FIRE IS NOT FILTERED
-forward OnWar3EventPostHurt(victim,attacker,dmgamount,bool:isWarcraft);
-
 //Fired after a player dodges, useful primarily for attaching effects
 forward OnW3DodgePost(victim, attacker);
 
@@ -1704,3 +1699,4 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_Config"
 #include "W3SIncs/War3Source_Attributes"
 #include "W3SIncs/War3Source_AttributeBuffs"
+#include "W3SIncs/War3Source_Events"

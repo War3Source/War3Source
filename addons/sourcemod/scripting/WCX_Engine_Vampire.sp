@@ -49,9 +49,9 @@ LeechHP(victim, attacker, damage, Float:percentage, bool:bBuff)
     }
 }
 
-public OnWar3EventPostHurt(victim, attacker, damage)
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(W3GetDamageIsBullet() && ValidPlayer(victim) && ValidPlayer(attacker, true) && attacker != victim && GetClientTeam(victim) != GetClientTeam(attacker))
+    if(!isWarcraft && ValidPlayer(victim) && ValidPlayer(attacker, true) && attacker != victim && GetClientTeam(victim) != GetClientTeam(attacker))
     {
         new Float:fVampirePercentage = W3GetBuffSumFloat(attacker, fVampirePercent);
         new Float:fVampirePercentageNoBuff = W3GetBuffSumFloat(attacker, fVampirePercentNoBuff);
@@ -61,12 +61,12 @@ public OnWar3EventPostHurt(victim, attacker, damage)
             // This one runs first
             if(fVampirePercentageNoBuff > 0.0)
             {
-                LeechHP(victim, attacker, damage, fVampirePercentageNoBuff, false);
+                LeechHP(victim, attacker, RoundToFloor(damage), fVampirePercentageNoBuff, false);
             }
 
             if(fVampirePercentage > 0.0)
             {
-                LeechHP(victim, attacker, damage, fVampirePercentage, true);
+                LeechHP(victim, attacker, RoundToFloor(damage), fVampirePercentage, true);
             }
         }
     }

@@ -145,9 +145,9 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
         }    
     }
 }
-public OnWar3EventPostHurt(victim,attacker,damage)
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(W3GetDamageIsBullet()&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
+    if(!isWarcraft&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
     
         if(War3_GetRace(victim)==thisRaceID &&W3Chance(W3ChanceModifier(attacker)) )
@@ -165,7 +165,7 @@ public OnWar3EventPostHurt(victim,attacker,damage)
                         
                         
                     }
-                    new returndmg=RoundFloat(FloatMul(SpikeReturnDmgArr[skill_level],float(damage)));
+                    new returndmg=RoundFloat(FloatMul(SpikeReturnDmgArr[skill_level],damage));
                     returndmg=returndmg<40?returndmg:40;
                     if(GAMETF)  // Team Fortress 2 is stable with code below:
                     {

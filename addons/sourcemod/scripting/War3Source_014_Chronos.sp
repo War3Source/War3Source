@@ -391,7 +391,8 @@ IsInOwnSphere(client){
     }
     return false;
 }
-public OnWar3EventPostHurt(victim,attacker,dmgamount)
+
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true))
     {    
@@ -401,8 +402,8 @@ public OnWar3EventPostHurt(victim,attacker,dmgamount)
         // allow self damage rewind
         if(War3_GetRace(victim)==thisRaceID && skilllevel>0&& War3_Chance(RewindChance[skilllevel]) && !W3HasImmunity(attacker,Immunity_Skills)&&!Hexed(victim)) //chance roll, and attacker isnt immune to skills
         {
-            RewindHPAmount[victim]+=dmgamount;//we create this variable
-            PrintHintText(victim,"%T","Rewind +{amount} HP!",victim,dmgamount);
+            RewindHPAmount[victim]+= RoundToFloor(damage);//we create this variable
+            PrintHintText(victim,"%T","Rewind +{amount} HP!",victim, RoundToFloor(damage));
             W3FlashScreen(victim,RGBA_COLOR_GREEN);
         }
         

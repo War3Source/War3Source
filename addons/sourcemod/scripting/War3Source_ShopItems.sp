@@ -249,9 +249,9 @@ public OnWar3EventSpawn(client)
     bDidDie[client] = false;
 }
 
-public OnWar3EventPostHurt(victim, attacker, damage)
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(W3GetDamageIsBullet() && ValidPlayer(victim) && 
+    if(!isWarcraft && ValidPlayer(victim) && 
        ValidPlayer(attacker, true) && 
        ValidPlayer(victim, true, true) && 
        GetClientTeam(victim) != GetClientTeam(attacker))

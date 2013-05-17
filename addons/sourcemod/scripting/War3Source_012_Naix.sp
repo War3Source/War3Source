@@ -74,12 +74,13 @@ public OnMapStart()
     War3_PrecacheSound(ultsnd);
 }
 
-public OnWar3EventPostHurt(victim,attacker,amount){
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
     if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
         new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
         if(level>0&&!Hexed(attacker,false)&&W3Chance(W3ChanceModifier(attacker))){
             if(!W3HasImmunity(victim,Immunity_Skills)){    
-                new targetHp = GetClientHealth(victim)+amount;
+                new targetHp = GetClientHealth(victim)+ RoundToFloor(damage);
                 new restore = RoundToNearest( float(targetHp) * feastPercent[level] );
 
                 War3HealToHP(attacker,restore,War3_GetMaxHP(attacker)+HPIncrease[War3_GetSkillLevel(attacker,thisRaceID,SKILL_BLOODBATH)]);

@@ -122,7 +122,8 @@ public OnWar3EventDeath(client){
         TriggerTimer(speedendtimer[client]);
     }
 }
-public OnWar3EventPostHurt(victim,attacker,damage){
+public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
+{
     LastDamageTime[victim]=GetEngineTime();
     if(speedendtimer[victim]!=INVALID_HANDLE){
         TriggerTimer(speedendtimer[victim]);
