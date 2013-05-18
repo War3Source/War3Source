@@ -46,6 +46,7 @@ public OnWar3EventDeath(victim, attacker)
         if (TF2_GetPlayerClass(attacker) == TFClass_DemoMan)
         {
             // We hook player_death in PreMode and I'm too lazy to add a new forward for post right now :|
+            // Note the ATTACKER is being checked
             CreateTimer(0.1, checkHeadsTimer, EntIndexToEntRef(attacker));
         }
     }
@@ -61,6 +62,7 @@ public Action:checkHeadsTimer(Handle:h, any:attackerRef)
     }
     
     // Increase the internally stored max health 
+    // There is a limit to how many heads that can be counted toward health
     new heads = GetEntProp(attacker, Prop_Send, "m_iDecapitations");
     if (heads > 0 && heads <= 4)
     {
