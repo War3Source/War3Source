@@ -26,13 +26,6 @@ native W3GetAssistGold();
  */
 native War3_ShowXP(client);
 
-stock War3_SetGold(client, newgold) {
-    W3SetPlayerProp(client, PlayerGold, newgold);
-}
-stock War3_GetGold(client) {
-    return W3GetPlayerProp(client, PlayerGold);
-}
-
 //nothing happens if you give 0 xp 0 gold
 //automatically prints gained or lost xp/gold
 native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);

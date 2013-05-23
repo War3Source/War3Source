@@ -17,9 +17,9 @@
  * @param lost_upon_death: If true the item will automatically be removed when the player dies. Defaults to true
  * @return The return value will be the item index or -1 if there was a problem.
  */
-native War3_CreateShopItem(String:name[], String:shortname[], String:desc[], costgold, costmoney, bool:lost_upon_death=true);
+native War3_CreateShopItem(String:name[], String:shortname[], String:desc[], cost, bool:lost_upon_death=true);
 //translated
-native War3_CreateShopItemT(String:shortname[], costgold, costmoney, bool:lost_upon_death=true);
+native War3_CreateShopItemT(String:shortname[], cost, bool:lost_upon_death=true);
 
 //see W3ItemProp enum for available properties
 native War3_SetItemProperty(itemid,W3ItemProp:ITEM_PROPERTY,value);
@@ -33,7 +33,7 @@ native W3GetItemName(itemid,String:ret[],maxlen);
 native W3GetItemShortname(itemid,String:ret[],maxlen);
 native W3GetItemDescription(itemid,String:ret[],maxlen);
 
-native W3GetItemCost(itemid,bool:csmoney);
+native W3GetItemCost(itemid);
 native W3GetItemOrder(itemid);
 native W3ItemHasFlag(itemid,String:flagsearch[]);
 native W3GetItemCategory(itemid,String:retcatagorystr[],maxlen);
@@ -60,7 +60,7 @@ native War3_SetOwnsItem(client,item,bool:ownsitem);
 /**
  * When a player dies, this command record's their shopmenu1 items.
  * When you use this command, you are telling it to restore their items from death.
- * It does all the math as far as taking gold or cs money for items restored.
+ * It does all the math as far as removing currency for items regained.
  * It will let the client know what items are discarded and/or bought.
  * It will also only buy until the client goes broke.
  * If the client already owns some items from the list from death, it will not charge them.
@@ -72,9 +72,7 @@ native War3_SetOwnsItem(client,item,bool:ownsitem);
  * @param csmoney: true is cs money, false for gold.
  * @return The return value will be true if it is successful.
  */
-native War3_RestoreItemsFromDeath(client,bool:payforit=true,bool:csmoney=false);
-
-native bool:W3BuyUseCSMoney();
+native War3_RestoreItemsFromDeath(client,bool:payforit=true);
 
 //=======================================================================
 //                             FORWARDS

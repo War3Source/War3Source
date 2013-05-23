@@ -8,19 +8,12 @@ public Plugin:myinfo =
     description = "Shows the shopmenu"
 };
 
-new Handle:hBuyItemUseCSMoneCvar;
 new Handle:hUseCategorysCvar;
 
 new String:sBuyItemSound[256];
 
-public bool:InitNativesForwards()
-{
-    CreateNative("W3BuyUseCSMoney",NW3BuyUseCSMoney);
-    return true;
-}
 public OnPluginStart()
 {
-    hBuyItemUseCSMoneCvar=CreateConVar("war3_buyitems_csmoney","0","In CS, use cs money and in TF2 use MVM money to buy shopmenu items");
     hUseCategorysCvar=CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
 }
 
@@ -347,11 +340,4 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
             }
         }
     }
-}
-
-///quick cvar access functions
-public NW3BuyUseCSMoney(Handle:plugin,numParams)
-{
-    //return ((War3_GetGame()==CS || (War3_GetGame() == TF))&&GetConVarInt(hBuyItemUseCSMoneCvar)>0)?true:false;
-    return ((GAMECSANY || GAMETF)&&GetConVarInt(hBuyItemUseCSMoneCvar)>0)?true:false;
 }
