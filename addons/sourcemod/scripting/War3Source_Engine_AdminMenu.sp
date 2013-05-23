@@ -645,7 +645,7 @@ public War3Source_Admin_Gold_Select(Handle:menu,MenuAction:action,client,selecti
                         credadd=10;
                 }
                 new newcred=War3_GetGold(target)+credadd;
-                new maxgold=W3GetMaxGold();
+                new maxgold=War3_GetMaxCurrency();
                 if(newcred>maxgold)
                     newcred=maxgold;
                 War3_SetGold(target,newcred);

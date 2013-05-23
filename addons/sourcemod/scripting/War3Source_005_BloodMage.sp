@@ -332,7 +332,7 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
                     skill_level=War3_GetSkillLevel(attacker,thisRaceID,SKILL_MONEYSTEAL);
                     if(skill_level>0&&!Hexed(attacker,false))
                     {
-                        if(War3_GetGame()==Game_CS)
+                        if(GAMECSANY)
                         {
                             if(GetRandomFloat(0.0,1.0)<=chance_mod) //normally this is always true in cs
                             {

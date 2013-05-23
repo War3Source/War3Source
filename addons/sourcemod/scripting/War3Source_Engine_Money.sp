@@ -59,46 +59,46 @@ public Native_War3_GetMaxCurrency(Handle:plugin, numParams)
 
 public Native_War3_GetCurrency(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
+    new client = GetNativeCell(1);
     
     return GetCurrency(client);
 }
 
 public Native_War3_SetCurrency(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
-    new newCurrency = GetNativeCell(1);
+    new client = GetNativeCell(1);
+    new newCurrency = GetNativeCell(2);
     
     return SetCurrency(client, newCurrency, g_CurrencyMode);
 }
 
 public Native_War3_AddCurrency(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
-    new currencyToAdd = GetNativeCell(1);
+    new client = GetNativeCell(1);
+    new currencyToAdd = GetNativeCell(2);
     
     return SetCurrency(client, GetCurrency(client) + currencyToAdd, g_CurrencyMode);
 }
 
 public Native_War3_SubstractCurrency(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
-    new currencyToSubstract = GetNativeCell(1);
+    new client = GetNativeCell(1);
+    new currencyToSubstract = GetNativeCell(2);
     
     return SetCurrency(client, GetCurrency(client) - currencyToSubstract, g_CurrencyMode);
 }
 
 public Native_War3_GetGold(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
+    new client = GetNativeCell(1);
     
     return W3GetPlayerProp(client, PlayerGold);
 }
 
 public Native_War3_SetGold(Handle:plugin, numParams)
 {
-    new client = GetNativeCell(0);
-    new newGold = GetNativeCell(1);
+    new client = GetNativeCell(1);
+    new newGold = GetNativeCell(2);
     
     return SetCurrency(client, newGold, CURRENCY_MODE_WAR3_GOLD);
 }
