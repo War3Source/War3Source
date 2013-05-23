@@ -1110,30 +1110,30 @@
 		"#format"	"{1:d},{2:d}"
 		"en"		"(War3Source) Select an item category to browse. You have {1}/{2} items"
 	}
-	"You have {amount} Gold"
+	"You have {amount} money"
 	{
 		"#format"	"{1:d}"
-		"en"		"You have {1} Gold" ///THIS IS MENU DO NOT ADD COLOR
+		"en"		"You have {1} money" ///THIS IS MENU DO NOT ADD COLOR
 	}
 	">{itemname} - ${amount}"
 	{
 		"#format"	"{1:s},{2:d}"
 		"en"		">{1} - ${2}"
 	}
-	">{itemname} - {amount} Gold"
+	">{itemname} - {amount} money"
 	{
 		"#format"	"{1:s},{2:d}"
-		"en"		">{1} - {2} Gold"
+		"en"		">{1} - {2} money"
 	}
 	"{itemname} - ${amount}"
 	{
 		"#format"	"{1:s},{2:d}"
 		"en"		"{1} - ${2}"
 	}
-	"{itemname} - {amount} Gold"
+	"{itemname} - {amount} money"
 	{
 		"#format"	"{1:s},{2:d}"
-		"en"		"{1} - {2} Gold"
+		"en"		"{1} - {2} money"
 	}
 	"{itemname} is disabled"
 	{
@@ -1160,10 +1160,10 @@
 		"#format"	"{1:s}"
 		"en"		"You have successfully purchased {green}{1}{default}."
 	}
-	"[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get gold back"
+	"[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get money back"
 	{
 		"#format"	"{1:d},{2:s}"
-		"en"		"[War3Source] You already have a max of {1} items.\nChoose an item to replace with {2}.\nYou will not get gold back."
+		"en"		"[War3Source] You already have a max of {1} items.\nChoose an item to replace with {2}.\nYou will not get money back."
 	}
 
 	//War3Source_Engine_Statistics.sp

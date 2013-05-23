@@ -16,8 +16,7 @@ new String:itemName[MAXITEMS][64];
 new String:itemShortname[MAXITEMS][16];
 new String:itemDescription[MAXITEMS][512];
 
-new itemGoldCost[MAXITEMS];
-new itemMoneyCost[MAXITEMS];
+new itemCost[MAXITEMS];
 new itemProperty[MAXITEMS][W3ItemProp] ;
 new bool:itemLostOnDeath[MAXITEMS];
 
@@ -60,10 +59,9 @@ public NWar3_CreateShopItem(Handle:plugin,numParams)
     GetNativeString(1,name,sizeof(name));
     GetNativeString(2,shortname,sizeof(shortname));
     GetNativeString(3,desc,sizeof(desc));
-    new bool:lost_upon_death = GetNativeCell(4);
     new cost = GetNativeCell(4);
-    new costmoney = GetNativeCell(5);
-    new itemid = CreateNewItem(name,shortname,desc,cost,costmoney,lost_upon_death);
+    new bool:lost_upon_death = GetNativeCell(5);
+    new itemid = CreateNewItem(name,shortname,desc,cost,lost_upon_death);
     return itemid;
 }
 public NWar3_CreateShopItemT(Handle:plugin,numParams)
@@ -72,13 +70,12 @@ public NWar3_CreateShopItemT(Handle:plugin,numParams)
     decl String:name[64],String:shortname[16],String:desc[512];
     GetNativeString(1,shortname,sizeof(shortname));
     new cost=GetNativeCell(2);
-    new costmoney=GetNativeCell(3);
-    new bool:lost_upon_death = GetNativeCell(4);
+    new bool:lost_upon_death = GetNativeCell(3);
     
     Format(name,sizeof(name),"%s_ItemName",shortname);
     Format(desc,sizeof(desc),"%s_ItemDesc",shortname);
     
-    new itemid=CreateNewItem(name,shortname,desc,cost,costmoney,lost_upon_death);
+    new itemid=CreateNewItem(name,shortname,desc,cost,lost_upon_death);
     itemTranslated[itemid]=true;
     
     if(StrEqual(shortname,"scroll")){
@@ -154,8 +151,7 @@ public Native_GetItemsLoaded(Handle:plugin,numParams)
 public NW3GetItemCost(Handle:plugin,numParams)
 {
     new itemid=GetNativeCell(1);
-    new bool:csmoney=bool:GetNativeCell(2);
-    return csmoney?W3GetCvarInt(itemMoneyCost[itemid]):W3GetCvarInt(itemGoldCost[itemid]);
+    return W3GetCvarInt(itemCost[itemid]);
 }
 
 
@@ -193,7 +189,7 @@ public NW3GetItemCategory(Handle:plugin,numParams)
 
 
 
-CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescription[], itemcostgold,itemcostmoney,bool:lost_upon_death){
+CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescription[], cost,bool:lost_upon_death){
     
     if(totalItemsLoaded+1==MAXITEMS){ //make sure we didnt reach our item capacity limit
         LogError("MAX ITEMS REACHED, CANNOT REGISTER %s",titemname);
@@ -227,12 +223,9 @@ CreateNewItem(String:titemname[] ,String:titemshortname[] ,String:titemdescripti
     strcopy(itemDescription[titemid], 511, titemdescription);
     
     new String:cvarstr[32];
-    Format(cvarstr,sizeof(cvarstr),"%s_goldcost",titemshortname);
-    itemGoldCost[titemid]=W3CreateCvarInt(cvarstr,itemcostgold,"item cost with gold");
+    Format(cvarstr,sizeof(cvarstr),"%s_cost",titemshortname);
+    itemCost[titemid]=W3CreateCvarInt(cvarstr, cost,"How much this item costs");
     
-    Format(cvarstr,sizeof(cvarstr),"%s_moneycost",titemshortname);
-    itemMoneyCost[titemid]=W3CreateCvarInt(cvarstr,itemcostmoney,"item cost with cs money");
-
     Format(cvarstr,sizeof(cvarstr),"%s_itemorder",titemshortname);
     itemOrderCvar[titemid]=W3CreateCvarInt(cvarstr,titemid*100,"item order");
     

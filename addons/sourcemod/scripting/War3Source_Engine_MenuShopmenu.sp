@@ -42,17 +42,11 @@ ShowMenuShopCategory(client)
     SetTrans(client);
     new Handle:shopMenu = CreateMenu(War3Source_ShopMenuCategory_Sel);
     SetMenuExitButton(shopMenu, true);
-    new gold = War3_GetGold(client);
+    new currency = War3_GetCurrency(client);
 
     new String:title[300];
     Format(title,sizeof(title),"%T\n","[War3Source] Select an item category to browse. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-
-    if(W3BuyUseCSMoney()) {
-        Format(title,sizeof(title),"%s \n",title);
-    }
-    else {
-        Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold", GetTrans(), gold);
-    }
+    Format(title, sizeof(title), "%s%T\n \n",title,"You have {amount} money", GetTrans(), currency);
 
     SetSafeMenuTitle(shopMenu, title);
 
@@ -93,16 +87,12 @@ ShowMenuShop(client, const String:category[]="") {
     new Handle:shopMenu=CreateMenu(War3Source_ShopMenu_Selected);
     SetMenuExitButton(shopMenu,true);
 
-    new gold=War3_GetGold(client);
+    new currency = War3_GetCurrency(client);
 
     new String:title[300];
     Format(title,sizeof(title),"%T\n","[War3Source] Select an item to buy. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-    if(W3BuyUseCSMoney()) {
-        Format(title,sizeof(title),"%s \n",title);
-    }
-    else {
-        Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} Gold",GetTrans(),gold);
-    }
+    Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} money",GetTrans(), currency);
+
     SetSafeMenuTitle(shopMenu,title);
     decl String:itemname[64];
     decl String:itembuf[4];
@@ -121,23 +111,15 @@ ShowMenuShop(client, const String:category[]="") {
             if ((!StrEqual(category, "") && StrEqual(category, itemcategory)) || (StrEqual(category, "")))
             {
                 Format(itembuf,sizeof(itembuf),"%d",x);
-                W3GetItemName(x,itemname,sizeof(itemname));
-                cost=W3GetItemCost(x,W3BuyUseCSMoney());
-                if(War3_GetOwnsItem(client,x)) {
-                    if(W3BuyUseCSMoney()) {
-                        Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
-                    }
-                    else {
-                        Format(linestr,sizeof(linestr),"%T",">{itemname} - {amount} Gold",client,itemname,cost);
-                    }
+                W3GetItemName(x, itemname, sizeof(itemname));
+                cost = W3GetItemCost(x);
+                if(War3_GetOwnsItem(client,x)) 
+                {
+                    Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
                 }
-                else {
-                    if(W3BuyUseCSMoney()) {
-                        Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
-                    }
-                    else {
-                        Format(linestr,sizeof(linestr),"%T","{itemname} - {amount} Gold",client,itemname,cost);
-                    }
+                else 
+                {
+                    Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
                 }
                 AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(War3_GetRace(client),x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
             }
@@ -195,9 +177,8 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
         decl String:itemname[64];
         W3GetItemName(item,itemname,sizeof(itemname));
 
-        new cred=War3_GetGold(client);
-        new money=GetCSMoney(client);
-        new cost_num=W3GetItemCost(item,W3BuyUseCSMoney());
+        new currency = War3_GetCurrency(client);
+        new cost = W3GetItemCost(item);
 
         new bool:canbuy=true;
     
@@ -222,7 +203,7 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
             War3_ChatMessage(client,"%T","You already own {itemname}",GetTrans(),itemname);
             canbuy=false;
         }
-        else if((W3BuyUseCSMoney()?money:cred)<cost_num) {
+        else if(currency < cost) {
             War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
             if(reshowmenu) {
                 ShowMenuShop(client);
@@ -247,12 +228,7 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
         }
 
         if(canbuy) {
-            if(W3BuyUseCSMoney()) {
-                SetCSMoney(client,money-cost_num);
-            }
-            else {
-                War3_SetGold(client,cred-cost_num);
-            }
+            War3_SubstractCurrency(client, cost);
             War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 
             if (IsPlayerAlive(client))
@@ -279,7 +255,7 @@ War3M_ExceededMaxItemsMenuBuy(client)
     decl String:itemname[64];
     W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
 
-    SetSafeMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get gold back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
+    SetSafeMenuTitle(hMenu,"%T\n","[War3Source] You already have a max of {amount} items. Choose an item to replace with {itemname}. You will not get money back",GetTrans(),GetMaxShopitemsPerPlayer(),itemname);
 
     decl String:itembuf[4];
     decl String:linestr[96];
@@ -311,13 +287,12 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
             if(itemtolose>0&&itemtolose<=W3GetItemsLoaded())
             {
                 //check he can afford new item
-                new cred=War3_GetGold(client);
-                new money=GetCSMoney(client);
-                new cost_num=W3GetItemCost(WantsToBuy[client],W3BuyUseCSMoney());
+                new currency = War3_GetCurrency(client);
+                new cost = W3GetItemCost(WantsToBuy[client]);
                 decl String:itemname[64];
                 W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
 
-                if((W3BuyUseCSMoney()?money:cred)<cost_num) {
+                if(currency < currency) {
                     War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
                     ShowMenuShop(client);
                 }
@@ -325,13 +300,7 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
                     W3SetVar(TheItemBoughtOrLost,itemtolose);
                     W3CreateEvent(DoForwardClientLostItem,client); //old item
 
-
-                    if(W3BuyUseCSMoney()) {
-                        SetCSMoney(client,money-cost_num);
-                    }
-                    else {
-                        War3_SetGold(client,cred-cost_num);
-                    }
+                    War3_SubstractCurrency(client, cost);
                     War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
 
                     W3SetVar(TheItemBoughtOrLost,WantsToBuy[client]);
