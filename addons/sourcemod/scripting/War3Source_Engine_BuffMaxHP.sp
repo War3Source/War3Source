@@ -1,8 +1,11 @@
-     ////BUFF SYSTEM
 #pragma semicolon 1
 
+#undef REQUIRE_EXTENSIONS 
 #include <tf2>
 #include <tf2_stocks>
+#define REQUIRE_EXTENSIONS
+
+#include <sourcemod>
 #include <sdkhooks>
 #include "W3SIncs/War3Source_Interface"
 
@@ -21,7 +24,7 @@ new Handle:mytimer2[MAXPLAYERSCUSTOM];
 
 public OnPluginStart()
 {
-    if(War3_GetGame() == Game_TF)
+    if(GAMETF)
     {
         CreateTimer(0.1, TFHPBuff, _, TIMER_REPEAT);
     }
@@ -31,16 +34,17 @@ public OnWar3EventSpawn(client)
 {
     ORIGINALHP[client]=GetClientHealth(client);
     
-    if(mytimer[client]!=INVALID_HANDLE){
+    if(mytimer[client]!=INVALID_HANDLE)
+    {
         CloseHandle(mytimer[client]);
     }
 
-    mytimer[client]=CreateTimer(0.01,CheckHP,client);
+    mytimer[client] = CreateTimer(0.01, CheckHP, client);
 }
 
 public OnWar3EventDeath(victim, attacker)
 {
-    if(War3_GetGame() == Game_TF)
+    if(GAMETF)
     {
         // This isn't written for randomizer or TF2Items shenanigans in general, sorry :-)
         if (TF2_GetPlayerClass(attacker) == TFClass_DemoMan)
@@ -50,6 +54,7 @@ public OnWar3EventDeath(victim, attacker)
             CreateTimer(0.1, checkHeadsTimer, EntIndexToEntRef(attacker));
         }
     }
+    
     bHealthAddedThisSpawn[victim] = false;
 }
 
