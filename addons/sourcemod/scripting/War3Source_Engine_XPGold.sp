@@ -537,9 +537,9 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     }
     
     War3_SetXP(client, race, War3_GetXP(client, War3_GetRace(client)) + XPToAdd);
-    War3_AddCurrency(client, currencyToAdd);
+    new bool:bAddedCurrency = War3_AddCurrency(client, currencyToAdd);
 
-    if(XPToAdd > 0 && currencyToAdd > 0)
+    if(XPToAdd > 0 && bAddedCurrency)
     {
         War3_ChatMessage(client, "%T", "You have gained {amount} XP and {amount} money for {award}", client, XPToAdd, currencyToAdd, awardedprintstring);
     }
@@ -547,12 +547,12 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     {
         War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client,XPToAdd,awardedprintstring);
     }
-    else if(currencyToAdd > 0)
+    else if(bAddedCurrency)
     {
         War3_ChatMessage(client, "%T", "You have gained {amount} money for {award}", client, currencyToAdd, awardedprintstring);
     }
     
-    else if(XPToAdd < 0 && currencyToAdd < 0)
+    else if(XPToAdd < 0 && bAddedCurrency)
     {
         War3_ChatMessage(client, "%T","You have lost {amount} XP and {amount} money for {award}", client, XPToAdd, currencyToAdd, awardedprintstring);
     }
@@ -560,7 +560,7 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     {
         War3_ChatMessage(client, "%T", "You have lost {amount} XP for {award}", client, XPToAdd, awardedprintstring);
     }
-    else if(currencyToAdd < 0)
+    else if(bAddedCurrency)
     {
         War3_ChatMessage(client, "%T", "You have lost {amount} money for {award}", client, currencyToAdd, awardedprintstring);
     }
@@ -736,16 +736,8 @@ LevelCheck(client){
 
 ClearSkillLevels(client,race){
     new SkillCount =War3_GetRaceSkillCount(race); 
-    for(new i=1;i<=SkillCount;i++){
-        War3_SetSkillLevelINTERNAL(client,race,i,0);
+    for(new i=1; i <= SkillCount; i++)
+    {
+        War3_SetSkillLevelINTERNAL(client, race, i, 0);
     }
 }
-
-
-
-
-
-
-
-
- 
