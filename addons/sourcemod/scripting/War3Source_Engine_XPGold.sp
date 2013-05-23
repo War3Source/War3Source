@@ -40,8 +40,8 @@ new Handle:KillCommonXPCvar;
 new Handle:KillUncommonXPCvar;
 
 //gold 
-new Handle:KillGoldCvar;
-new Handle:AssistGoldCvar;
+new Handle:g_hKillCurrencyCvar;
+new Handle:g_hAssistCurrencyCvar;
 
 public OnPluginStart()
 {
@@ -58,8 +58,8 @@ public OnPluginStart()
     
     minplayersXP = CreateConVar("war3_min_players_xp_gain", "2", "minimum amount of players needed on teams for people to gain xp");
     
-    KillGoldCvar = CreateConVar("war3_killgold","2");
-    AssistGoldCvar = CreateConVar("war3_assistgold","1");
+    g_hKillCurrencyCvar = CreateConVar("war3_currency_per_kill", "2");
+    g_hAssistCurrencyCvar = CreateConVar("war3_currency_per_assist", "1");
     
     ParseXPSettingsFile();
     
@@ -101,20 +101,24 @@ public bool:InitNativesForwards()
     CreateNative("War3_ShowXP",Native_War3_ShowXP);
     CreateNative("W3GetKillXP",NW3GetKillXP);
 
-    CreateNative("W3GetKillGold",NW3GetKillGold);
-    CreateNative("W3GetAssistGold",NW3GetAssistGold);
+    CreateNative("War3_GetKillCurrency", Native_War3_GetKillCurrency);
+    CreateNative("War3_GetAssistCurrency",Native_War3_GetAssistCurrency);
     CreateNative("W3GiveXPGold",NW3GiveXPGold);
     
     return true;
 }
-public NW3GetReqXP(Handle:plugin,numParams)
+
+public NW3GetReqXP(Handle:plugin, numParams)
 {
-    new level=GetNativeCell(1);
-    if(level>MAXLEVELXPDEFINED)
-        level=MAXLEVELXPDEFINED;
-    return IsShortTerm()?XPShortTermREQXP[level] :XPLongTermREQXP[level];
+    new level = GetNativeCell(1);
+    if(level > MAXLEVELXPDEFINED)
+    {
+        level = MAXLEVELXPDEFINED;
+    }
+    return IsShortTerm() ? XPShortTermREQXP[level] : XPLongTermREQXP[level];
 }
-public NW3GetKillXP(Handle:plugin,numParams)
+
+public NW3GetKillXP(Handle:plugin, numParams)
 {
     new client=GetNativeCell(1);
     new race=War3_GetRace(client);
@@ -154,12 +158,15 @@ public NW3GiveXPGold(Handle:plugin,args){
     
 }
 
-
-public NW3GetKillGold(Handle:plugin,args){
-    return GetConVarInt(KillGoldCvar);
+// Todo, Hook convar changed
+public Native_War3_GetKillCurrency(Handle:plugin, args)
+{
+    return GetConVarInt(g_hKillCurrencyCvar);
 }
-public NW3GetAssistGold(Handle:plugin,args){
-    return GetConVarInt(AssistGoldCvar);
+
+public Native_War3_GetAssistCurrency(Handle:plugin, args)
+{
+    return GetConVarInt(g_hAssistCurrencyCvar);
 }
 
 ParseXPSettingsFile(){
@@ -314,7 +321,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Smoker"))
             {
                 new addxp = GetConVarInt(KillSmokerXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -328,7 +335,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Boomer"))
             {
                 new addxp = GetConVarInt(KillBoomerXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -350,7 +357,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Hunter"))
             {
                 new addxp = GetConVarInt(KillHunterXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -364,7 +371,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Spitter"))
             {
                 new addxp = GetConVarInt(KillSpitterXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -378,7 +385,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Jockey"))
             {
                 new addxp = GetConVarInt(KillJockeyXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -392,7 +399,7 @@ public OnWar3EventDeath(victim,attacker){
             else if (StrEqual(victimclass, "Charger"))
             {
                 new addxp = GetConVarInt(KillChargerXPCvar);
-                new currencyToAdd = GetConVarInt(KillGoldCvar);
+                new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
                 if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
@@ -539,6 +546,7 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     War3_SetXP(client, race, War3_GetXP(client, War3_GetRace(client)) + XPToAdd);
     new bool:bAddedCurrency = War3_AddCurrency(client, currencyToAdd);
 
+    // This needs to be redone at some point, so you can GAIN experience and at the same time LOSE money without it looking awkward
     if(XPToAdd > 0 && bAddedCurrency)
     {
         War3_ChatMessage(client, "%T", "You have gained {amount} XP and {amount} money for {award}", client, XPToAdd, currencyToAdd, awardedprintstring);
@@ -570,37 +578,38 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     W3CreateEvent(OnPostGiveXPGold, client);
 }
 
-
-
-
-
-
-
-
-
-GiveKillXPCreds(client,playerkilled,bool:headshot,bool:melee)
+GiveKillXPCreds(client, playerkilled, bool:headshot, bool:melee)
 {
-    //PrintToChatAll("1");
-    new race=War3_GetRace(client);
-    if(race>0){
-        new killerlevel=War3_GetLevel(client,War3_GetRace(client));
-        new victimlevel=War3_GetLevel(playerkilled,War3_GetRace(playerkilled));
-        
-        new killxp=W3GetKillXP(client,victimlevel-killerlevel);
-        
-        new addxp=killxp;
-        if(headshot)    addxp+=((killxp*GetConVarInt(HeadshotXPCvar))/100);
-        if(melee)        addxp+=((killxp*GetConVarInt(MeleeXPCvar))/100);
-
-        if(IsFakeClient(playerkilled))
-        {
-            addxp = RoundToCeil(addxp * GetConVarFloat(hBotXPRate));
-        }
-        
-        new String:killaward[64];
-        Format(killaward,sizeof(killaward),"%T","a kill",client);
-        W3GiveXPGold(client,XPAwardByKill,addxp,W3GetKillGold(),killaward);
+    new race = War3_GetRace(client);
+    if(race <= 0)
+    {
+        ShowChangeRaceMenu(client);
+        return;
     }
+    
+    new killerlevel = War3_GetLevel(client, War3_GetRace(client));
+    new victimlevel = War3_GetLevel(playerkilled, War3_GetRace(playerkilled));
+    
+    new killxp = W3GetKillXP(client, victimlevel - killerlevel);
+    
+    new addxp = killxp;
+    if(headshot)
+    {
+        addxp += ((killxp * GetConVarInt(HeadshotXPCvar)) / 100);
+    }
+    if(melee)
+    {
+        addxp += ((killxp * GetConVarInt(MeleeXPCvar)) / 100);
+    }
+
+    if(IsFakeClient(playerkilled))
+    {
+        addxp = RoundToCeil(addxp * GetConVarFloat(hBotXPRate));
+    }
+    
+    new String:killaward[64];
+    Format(killaward, sizeof(killaward), "%T", "a kill", client);
+    W3GiveXPGold(client, XPAwardByKill, addxp, War3_GetKillCurrency(), killaward);
 }
 
 public GiveAssistKillXP(client, playerkilled)
@@ -614,8 +623,8 @@ public GiveAssistKillXP(client, playerkilled)
 
     
     new String:helpkillaward[64];
-    Format(helpkillaward,sizeof(helpkillaward),"%T","assisting a kill",client);
-    W3GiveXPGold(client,XPAwardByAssist,addxp,W3GetAssistGold(),helpkillaward);
+    Format(helpkillaward, sizeof(helpkillaward), "%T","assisting a kill", client);
+    W3GiveXPGold(client ,XPAwardByAssist, addxp, War3_GetAssistCurrency(), helpkillaward);
 }
 
 bool:IsShortTerm(){

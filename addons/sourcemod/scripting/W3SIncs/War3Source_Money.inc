@@ -5,6 +5,7 @@
  */
 
 enum W3CurrencyMode {
+    CURRENCY_MODE_INVALID   = -1,
     CURRENCY_MODE_WAR3_GOLD = 0,
     CURRENCY_MODE_DORRAR    = 1
 };
@@ -23,16 +24,18 @@ native W3CurrencyMode:War3_GetCurrencyMode();
 native War3_GetMaxCurrency();
 
 /**
+ * Retrieve the amount of currency gained per kill as defined by the cvar war3_currency_per_kill
+ * or the amount of currency gained per assist as defined by the cvar war3_currency_per_assist
+ */
+native War3_GetKillCurrency();
+native War3_GetAssistCurrency();
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/**
  * Retrieve the amount of currency this player has
  */
 native War3_GetCurrency(client);
-
-/**
- * Change the currency of this player to a new value
- * 
- * @returns If the currency was changed or not
- */
-native bool:War3_SetCurrency(client, newCurrency);
 
 /**
  * Give currency to a player, respecting the maximum 
@@ -47,3 +50,21 @@ native bool:War3_AddCurrency(client, currencyToAdd);
  * @returns If the currency was changed or not
  */
 native bool:War3_SubstractCurrency(client, currencyToSubstract);
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// These cater more towards internal usage
+
+/**
+ * Change the currency of this player to a new value
+ * 
+ * @returns If the currency was changed or not
+ */
+native bool:War3_SetCurrency(client, newCurrency);
+
+
+/** 
+ * Gets/Sets the War3Source internal gold currency value for this player
+ */
+//native War3_GetGold(client);
+//native War3_SetGold(client, newGold);

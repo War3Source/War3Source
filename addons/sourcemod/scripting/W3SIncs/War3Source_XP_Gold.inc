@@ -16,9 +16,6 @@
 native W3GetKillXP(client, leveldifference = 0);
 native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
-native W3GetKillGold();
-native W3GetAssistGold();
-
 /**
  * Shows the XP and race message in chat
  * @param client: Client index

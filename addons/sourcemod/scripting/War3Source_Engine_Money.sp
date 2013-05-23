@@ -31,6 +31,9 @@ public bool:InitNativesForwards()
     CreateNative("War3_AddCurrency", Native_War3_AddCurrency);
     CreateNative("War3_SubstractCurrency", Native_War3_SubstractCurrency);
     
+    CreateNative("War3_GetGold", Native_War3_GetGold);
+    CreateNative("War3_SetGold", Native_War3_SetGold);
+    
     return true;
 }
 
@@ -66,7 +69,7 @@ public Native_War3_SetCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new newCurrency = GetNativeCell(1);
     
-    return SetCurrency(client, newCurrency);
+    return SetCurrency(client, newCurrency, g_CurrencyMode);
 }
 
 public Native_War3_AddCurrency(Handle:plugin, numParams)
@@ -74,7 +77,7 @@ public Native_War3_AddCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new currencyToAdd = GetNativeCell(1);
     
-    return SetCurrency(client, GetCurrency(client) + currencyToAdd);
+    return SetCurrency(client, GetCurrency(client) + currencyToAdd, g_CurrencyMode);
 }
 
 public Native_War3_SubstractCurrency(Handle:plugin, numParams)
@@ -82,7 +85,22 @@ public Native_War3_SubstractCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new currencyToSubstract = GetNativeCell(1);
     
-    return SetCurrency(client, GetCurrency(client) - currencyToSubstract);
+    return SetCurrency(client, GetCurrency(client) - currencyToSubstract, g_CurrencyMode);
+}
+
+public Native_War3_GetGold(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(0);
+    
+    return W3GetPlayerProp(client, PlayerGold);
+}
+
+public Native_War3_SetGold(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(0);
+    new newGold = GetNativeCell(1);
+    
+    return SetCurrency(client, newGold, CURRENCY_MODE_WAR3_GOLD);
 }
 
 GetCurrency(client)
@@ -106,9 +124,9 @@ GetCurrency(client)
     return 0;
 }
 
-bool:SetCurrency(client, newCurrency)
+bool:SetCurrency(client, newCurrency, W3CurrencyMode:currencyMode)
 {
-    oldCurrency = GetCurrency(client);
+    new oldCurrency = GetCurrency(client);
     if(newCurrency > g_MaxCurrency)
     {
         newCurrency = g_MaxCurrency;
@@ -125,11 +143,11 @@ bool:SetCurrency(client, newCurrency)
     }
     
     War3_LogInfo("Setting the currency of player \"{client %i}\" to %i", client, newCurrency);
-    if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
+    if (currencyMode == CURRENCY_MODE_WAR3_GOLD)
     {
         W3SetPlayerProp(client, PlayerGold, newCurrency);
     }
-    else if (g_CurrencyMode == CURRENCY_MODE_DORRAR)
+    else if (currencyMode == CURRENCY_MODE_DORRAR)
     {
         if(GAMECSANY)
         {

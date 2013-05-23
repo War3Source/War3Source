@@ -580,10 +580,10 @@
 	{
 		"en"		"The player you selected has left the server."
 	}
-	"[War3Source] Info for {player}. Current Race: {racename} gold: {amount}"
+	"[War3Source] Info for {player}. Current Race: {racename} money: {amount}"
 	{
 		"#format"	"{1:s},{2:s},{3:d}"
-		"en"		"[War3Source] Info for {1}.\nCurrent Race: {2}\ngold: {3}"
+		"en"		"[War3Source] Info for {1}.\nCurrent Race: {2}\nmoney: {3}"
 	}
 	"The player has disconnected from the server"
 	{

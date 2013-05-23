@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"Your money is maxed out, we bought an item for you. Say shopmenu to use your money"
+	{
+		"en" 		"Your money is maxed out, we bought an item for you. Say shopmenu to use your money"
+	}
+	"Your money is maxed out\nSay shopmenu to use your money!"
+	{
+		"en"		"Your money is maxed out\nSay shopmenu to use your money!"
+	}
+}
