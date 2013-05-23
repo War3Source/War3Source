@@ -29,15 +29,21 @@ native War3_GetCurrency(client);
 
 /**
  * Change the currency of this player to a new value
+ * 
+ * @returns If the currency was changed or not
  */
-native War3_SetCurrency(client, newCurrency);
+native bool:War3_SetCurrency(client, newCurrency);
 
 /**
  * Give currency to a player, respecting the maximum 
+ * 
+ * @returns If the currency was changed or not
  */
-native War3_AddCurrency(client, currencyToAdd);
+native bool:War3_AddCurrency(client, currencyToAdd);
 
 /**
  * Remove currency from a player, respecting the minimum
+ * 
+ * @returns If the currency was changed or not
  */
-native War3_SubstractCurrency(client, currencyToSubstract);
+native bool:War3_SubstractCurrency(client, currencyToSubstract);

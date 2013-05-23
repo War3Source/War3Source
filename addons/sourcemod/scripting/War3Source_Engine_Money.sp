@@ -66,7 +66,7 @@ public Native_War3_SetCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new newCurrency = GetNativeCell(1);
     
-    SetCurrency(client, newCurrency);
+    return SetCurrency(client, newCurrency);
 }
 
 public Native_War3_AddCurrency(Handle:plugin, numParams)
@@ -74,7 +74,7 @@ public Native_War3_AddCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new currencyToAdd = GetNativeCell(1);
     
-    SetCurrency(client, GetCurrency(client) + currencyToAdd);
+    return SetCurrency(client, GetCurrency(client) + currencyToAdd);
 }
 
 public Native_War3_SubstractCurrency(Handle:plugin, numParams)
@@ -82,7 +82,7 @@ public Native_War3_SubstractCurrency(Handle:plugin, numParams)
     new client = GetNativeCell(0);
     new currencyToSubstract = GetNativeCell(1);
     
-    SetCurrency(client, GetCurrency(client) - currencyToSubstract);
+    return SetCurrency(client, GetCurrency(client) - currencyToSubstract);
 }
 
 GetCurrency(client)
@@ -106,8 +106,9 @@ GetCurrency(client)
     return 0;
 }
 
-SetCurrency(client, newCurrency)
+bool:SetCurrency(client, newCurrency)
 {
+    oldCurrency = GetCurrency(client);
     if(newCurrency > g_MaxCurrency)
     {
         newCurrency = g_MaxCurrency;
@@ -115,6 +116,12 @@ SetCurrency(client, newCurrency)
     else if (newCurrency < 0)
     {
         newCurrency = 0;
+    }
+    
+    // Oops, nothing to do here~!
+    if(oldCurrency == newCurrency)
+    {
+        return false;
     }
     
     War3_LogInfo("Setting the currency of player \"{client %i}\" to %i", client, newCurrency);
@@ -130,7 +137,14 @@ SetCurrency(client, newCurrency)
         } 
         else if (GAMETF) 
         {
+            if(newCurrency > oldCurrency)
+            {
+                War3_LogWarning("Not giving money to player \"{client %i}\" due to a MVM bug", client);
+                return false;
+            }
             SetEntProp(client, Prop_Send, "m_nCurrency", newCurrency);
         }
     }
+    
+    return true;
 }
