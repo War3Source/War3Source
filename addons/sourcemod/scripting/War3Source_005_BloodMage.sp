@@ -368,16 +368,17 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
                                 }
                                 else 
                                 {
-                                    new stolen=RoundFloat(float(War3_GetGold(victim))*TFCreditStealPercent);
-                                    if(stolen<=0&&War3_GetGold(victim)>0)
+                                    new stolen=RoundFloat(float(War3_GetCurrency(victim))*TFCreditStealPercent);
+                                    if(stolen<=0&&War3_GetCurrency(victim)>0)
                                     {
                                         stolen=1;
                                     }
                                     if(stolen>0) // no need to do anything otherwise
                                     {
-                                        War3_SetGold(attacker,War3_GetGold(attacker)+stolen);
-                                        War3_SetGold(victim,War3_GetGold(victim)-stolen);
-                                        W3MsgStoleGold(victim,attacker,stolen);
+                                        War3_AddCurrency(attacker, stolen);
+                                        War3_SubstractCurrency(victim, stolen);
+
+                                        W3MsgStoleGold(victim, attacker, stolen);
                                         W3FlashScreen(attacker,RGBA_COLOR_BLUE);
                                         siphonsfx(victim);
                                     }

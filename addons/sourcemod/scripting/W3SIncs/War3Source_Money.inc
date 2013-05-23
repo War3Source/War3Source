@@ -10,27 +10,9 @@ enum W3CurrencyMode {
     CURRENCY_MODE_DORRAR    = 1
 };
 
-/**
- * Retrieve the currently set currency mode as defined by the cvar war3_currency_mode
- * 
- * CURRENCY_MODE_WAR3_GOLD  War3 Gold
- * CURRENCY_MODE_DORRAR     $ in Counter-Strike Source or Team Fortress 2 MVM mode
- */
-native W3CurrencyMode:War3_GetCurrencyMode();
-
-/**
- * Retrieve the maximum amount of currency a player can hold as defined by the cvar war3_max_currency
- */
-native War3_GetMaxCurrency();
-
-/**
- * Retrieve the amount of currency gained per kill as defined by the cvar war3_currency_per_kill
- * or the amount of currency gained per assist as defined by the cvar war3_currency_per_assist
- */
-native War3_GetKillCurrency();
-native War3_GetAssistCurrency();
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// These are most interesting to a plugin author ;)
 
 /**
  * Retrieve the amount of currency this player has
@@ -66,5 +48,29 @@ native bool:War3_SetCurrency(client, newCurrency);
 /** 
  * Gets/Sets the War3Source internal gold currency value for this player
  */
-//native War3_GetGold(client);
-//native War3_SetGold(client, newGold);
+native War3_GetGold(client);
+native War3_SetGold(client, newGold);
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Working on the core? You might have to touch these
+
+/**
+ * Retrieve the currently set currency mode as defined by the cvar war3_currency_mode
+ * 
+ * CURRENCY_MODE_WAR3_GOLD  War3 Gold
+ * CURRENCY_MODE_DORRAR     $ in Counter-Strike Source or Team Fortress 2 MVM mode
+ */
+native W3CurrencyMode:War3_GetCurrencyMode();
+
+/**
+ * Retrieve the maximum amount of currency a player can hold as defined by the cvar war3_max_currency
+ */
+native War3_GetMaxCurrency();
+
+/**
+ * Retrieve the amount of currency gained per kill as defined by the cvar war3_currency_per_kill
+ * or the amount of currency gained per assist as defined by the cvar war3_currency_per_assist
+ */
+native War3_GetKillCurrency();
+native War3_GetAssistCurrency();
