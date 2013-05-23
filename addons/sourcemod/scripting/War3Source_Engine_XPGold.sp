@@ -44,7 +44,6 @@ new Handle:KillCommonXPCvar;
 new Handle:KillUncommonXPCvar;
 
 //gold 
-new Handle:MaxGoldCvar;
 new Handle:KillGoldCvar;
 new Handle:AssistGoldCvar;
 
@@ -64,7 +63,6 @@ public OnPluginStart()
     hMaxLevelDifferenceBounus = CreateConVar("war3_xp_level_difference_max_bonus", "0","Where to cap the bonus XP at. 0 to disable");
     
     minplayersXP=CreateConVar("war3_min_players_xp_gain","2","minimum amount of players needed on teams for people to gain xp");
-    MaxGoldCvar=CreateConVar("war3_maxgold","1000");
     
     KillGoldCvar=CreateConVar("war3_killgold","2");
     AssistGoldCvar=CreateConVar("war3_assistgold","1");
@@ -545,7 +543,7 @@ TryToGiveXPGold(client,W3XPAwardedBy:awardedfromevent,xp,gold,String:awardedprin
         
         War3_SetXP(client,race,War3_GetXP(client,War3_GetRace(client))+addxp);
     
-        new oldgold=War3_GetGold(client);
+        new oldgold=War3_GetCurrency(client);
         new newgold=oldgold+addgold;
         new maxgold=GetConVarInt(MaxGoldCvar);
         if(newgold>maxgold)

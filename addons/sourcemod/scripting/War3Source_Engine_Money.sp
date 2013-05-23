@@ -10,19 +10,22 @@ public Plugin:myinfo =
 new Handle:g_hCurrencyMode;
 new W3CurrencyMode:g_CurrencyMode;
 
-
-
+new Handle:g_hMaxCurrency;
+new g_MaxCurrency;
 
 public OnPluginStart()
 {
     g_hCurrencyMode = CreateConVar("war3_currency_mode", "0", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
+    g_hMaxCurrency = CreateConVar("war3_max_currency", GAMECSANY ? "16000" : "100", "Configure the maximum amount of currency a player can hold.");
     
     HookConVarChange(g_hCurrencyMode, OnCurrencyModeChanged);
+    HookConVarChange(g_hMaxCurrency, OnMaxCurrencyChanged);
 }
 
 public bool:InitNativesForwards()
 {
     CreateNative("War3_GetCurrencyMode", Native_War3_GetCurrencyMode);
+    CreateNative("War3_GetMaxCurrency", Native_War3_GetMaxCurrency);
     CreateNative("War3_GetCurrency", Native_War3_GetCurrency);
     CreateNative("War3_SetCurrency", Native_War3_SetCurrency);
     
@@ -34,9 +37,19 @@ public OnCurrencyModeChanged(Handle:convar, const String:oldValue[], const Strin
     g_CurrencyMode = W3CurrencyMode:StringToInt(newValue);
 }
 
+public OnMaxCurrencyChanged(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+    g_MaxCurrency = StringToInt(newValue);
+}
+
 public Native_War3_GetCurrencyMode(Handle:plugin, numParams)
 {
     return _:g_CurrencyMode;
+}
+
+public Native_War3_GetMaxCurrency(Handle:plugin, numParams)
+{
+    return g_MaxCurrency;
 }
 
 public Native_War3_GetCurrency(Handle:plugin, numParams)
@@ -77,6 +90,11 @@ GetCurrency(client)
 
 SetCurrency(client, newCurrency)
 {
+    if(newCurrency > g_MaxCurrency)
+    {
+        newCurrency = g_MaxCurrency;
+    }
+    
     if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
     {
         W3SetPlayerProp(client, PlayerGold, newCurrency);

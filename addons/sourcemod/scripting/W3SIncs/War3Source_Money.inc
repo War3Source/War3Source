@@ -18,6 +18,11 @@ enum W3CurrencyMode {
 native W3CurrencyMode:War3_GetCurrencyMode();
 
 /**
+ * Retrieve the maximum amount of currency a player can hold as defined by the cvar war3_max_currency
+ */
+native War3_GetMaxCurrency();
+
+/**
  * Retrieve the amount of currency this player has
  */
 native War3_GetCurrency(client);
