@@ -27,8 +27,17 @@ native War3_GetMaxCurrency();
  */
 native War3_GetCurrency(client);
 
-
 /**
  * Change the currency of this player to a new value
  */
 native War3_SetCurrency(client, newCurrency);
+
+/**
+ * Give currency to a player, respecting the maximum 
+ */
+native War3_AddCurrency(client, currencyToAdd);
+
+/**
+ * Remove currency from a player, respecting the minimum
+ */
+native War3_SubstractCurrency(client, currencyToSubstract);

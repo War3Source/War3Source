@@ -16,7 +16,7 @@ new g_MaxCurrency;
 public OnPluginStart()
 {
     g_hCurrencyMode = CreateConVar("war3_currency_mode", "0", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
-    g_hMaxCurrency = CreateConVar("war3_max_currency", GAMECSANY ? "16000" : "100", "Configure the maximum amount of currency a player can hold.");
+    g_hMaxCurrency = CreateConVar("war3_max_currency", "100", "Configure the maximum amount of currency a player can hold.");
     
     HookConVarChange(g_hCurrencyMode, OnCurrencyModeChanged);
     HookConVarChange(g_hMaxCurrency, OnMaxCurrencyChanged);
@@ -28,6 +28,8 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetMaxCurrency", Native_War3_GetMaxCurrency);
     CreateNative("War3_GetCurrency", Native_War3_GetCurrency);
     CreateNative("War3_SetCurrency", Native_War3_SetCurrency);
+    CreateNative("War3_AddCurrency", Native_War3_AddCurrency);
+    CreateNative("War3_SubstractCurrency", Native_War3_SubstractCurrency);
     
     return true;
 }
@@ -67,6 +69,22 @@ public Native_War3_SetCurrency(Handle:plugin, numParams)
     SetCurrency(client, newCurrency);
 }
 
+public Native_War3_AddCurrency(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(0);
+    new currencyToAdd = GetNativeCell(1);
+    
+    SetCurrency(client, GetCurrency(client) + currencyToAdd);
+}
+
+public Native_War3_SubstractCurrency(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(0);
+    new currencyToSubstract = GetNativeCell(1);
+    
+    SetCurrency(client, GetCurrency(client) - currencyToSubstract);
+}
+
 GetCurrency(client)
 {
     if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
@@ -94,7 +112,12 @@ SetCurrency(client, newCurrency)
     {
         newCurrency = g_MaxCurrency;
     }
+    else if (newCurrency < 0)
+    {
+        newCurrency = 0;
+    }
     
+    War3_LogInfo("Setting the currency of player \"{client %i}\" to %i", client, newCurrency);
     if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
     {
         W3SetPlayerProp(client, PlayerGold, newCurrency);

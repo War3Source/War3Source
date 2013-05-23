@@ -1216,35 +1216,35 @@
 		"#format"	"{1:d}"
 		"en"		"No XP is given when less than {1} players are playing"
 	}
-	"You have gained {amount} XP and {amount} gold for {award}"
+	"You have gained {amount} XP and {amount} money for {award}"
 	{
 		"#format"	"{1:d},{2:d},{3:s}"
-		"en"		"You have gained {1} XP and {2} gold for {3}."
+		"en"		"You have gained {1} XP and {2} money for {3}."
 	}
 	"You have gained {amount} XP for {award}"
 	{
 		"#format"	"{1:d},{2:s}"
 		"en"		"You have gained {1} XP for {2}."
 	}
-	"You have gained {amount} gold for {award}"
+	"You have gained {amount} money for {award}"
 	{
 		"#format"	"{1:d},{2:s}"
-		"en"		"You have gained {1} gold for {2}."
+		"en"		"You have gained {1} money for {2}."
 	}
-	"You have lost {amount} XP and {amount} gold for {award}"
+	"You have lost {amount} XP and {amount} money for {award}"
 	{
 		"#format"	"{1:d},{2:d},{3:s}"
-		"en"		"You have lost {1} XP and {2} gold for {3}."
+		"en"		"You have lost {1} XP and {2} money for {3}."
 	}
 	"You have lost {amount} XP for {award}"
 	{
 		"#format"	"{1:d},{2:s}"
 		"en"		"You have lost {1} XP for {2}."
 	}
-	"You have lost {amount} gold for {award}"
+	"You have lost {amount} money for {award}"
 	{
 		"#format"	"{1:d},{2:s}"
-		"en"		"You have lost {1} gold for {2}."
+		"en"		"You have lost {1} money for {2}."
 	}
 	"being on the winning team"
 	{
