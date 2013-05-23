@@ -126,7 +126,7 @@ enum W3DENY{
     DN_ShowChangeRace, //can show the menu
     DN_Suicide, //can undead suicide
     DN_CanSelectRace, //can select a race, use EventArg1
-    DN_CanBuyItem1, //can buy shopmenu1 items, use EventArg1
+    DN_CanBuyItem1, //can buy shopmenu items, use EventArg1
     DN_ShowLevelbank, //can show levelbank
     DN_CanPlaceWard,
 }
