@@ -31,13 +31,13 @@ public OnWar3EventSpawn(client)
             return;
         }
         
-        if(!War3_GetOwnsItem(client, item) && GetClientItemsOwned(client) == 0 ){
-
+        if(!War3_GetOwnsItem(client, item) && GetClientItemsOwned(client) == 0 )
+        {
             W3SetVar(EventArg1, item);
             W3SetVar(EventArg2, false);
-            W3CreateEvent(DoTriedToBuyItem,client);
+            W3CreateEvent(DoTriedToBuyItem, client);
             
-            if(War3_GetOwnsItem(client,item))
+            if(War3_GetOwnsItem(client, item))
             {
                 War3_ChatMessage(client,"%T","Your money is maxed out, we bought an item for you. Say shopmenu to use your money", client);
                 W3Hint(client, HINT_LOWEST, 5.0, "%T", "Your money is maxed out\nSay shopmenu to use your money!", client);
