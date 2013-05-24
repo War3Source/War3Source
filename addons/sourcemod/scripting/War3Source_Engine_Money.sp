@@ -20,6 +20,9 @@ public OnPluginStart()
     
     HookConVarChange(g_hCurrencyMode, OnCurrencyModeChanged);
     HookConVarChange(g_hMaxCurrency, OnMaxCurrencyChanged);
+    
+    g_CurrencyMode = W3CurrencyMode:GetConVarInt(g_hCurrencyMode);
+    g_MaxCurrency = GetConVarInt(g_hMaxCurrency);
 }
 
 public bool:InitNativesForwards()
@@ -40,11 +43,15 @@ public bool:InitNativesForwards()
 public OnCurrencyModeChanged(Handle:convar, const String:oldValue[], const String:newValue[])
 {
     g_CurrencyMode = W3CurrencyMode:StringToInt(newValue);
+    
+    War3_LogInfo("CurrencyMode was changed to %i", g_CurrencyMode);
 }
 
 public OnMaxCurrencyChanged(Handle:convar, const String:oldValue[], const String:newValue[])
 {
     g_MaxCurrency = StringToInt(newValue);
+
+    War3_LogInfo("MaxCurrency was changed to %i", g_MaxCurrency);
 }
 
 public Native_War3_GetCurrencyMode(Handle:plugin, numParams)
@@ -105,27 +112,36 @@ public Native_War3_SetGold(Handle:plugin, numParams)
 
 GetCurrency(client)
 {
+    new currency = -1;
     if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
     {
-        return W3GetPlayerProp(client, PlayerGold);
+        currency = W3GetPlayerProp(client, PlayerGold);
     }
     else if (g_CurrencyMode == CURRENCY_MODE_DORRAR)
     {
         if(GAMECSANY)
         {
-            return GetEntProp(client, Prop_Send, "m_iAccount");
+            currency =  GetEntProp(client, Prop_Send, "m_iAccount");
         } 
         else if (GAMETF) 
         {
-            return GetEntProp(client, Prop_Send, "m_nCurrency");
+            currency =  GetEntProp(client, Prop_Send, "m_nCurrency");
         }
     }
-
-    return 0;
+    
+    if (currency == -1)
+    {
+        War3_LogError("Player \"{client %i}\" has a invalid money amount!", client);
+    }
+    
+    War3_LogInfo("Player \"{client %i}\" has %i money", client, currency);
+    return currency;
 }
 
 bool:SetCurrency(client, newCurrency, W3CurrencyMode:currencyMode)
 {
+    War3_LogInfo("SetCurrency called for player \"{client %i}\" with amount %i", client, newCurrency);
+    
     new oldCurrency = GetCurrency(client);
     if(newCurrency > g_MaxCurrency)
     {
@@ -139,6 +155,7 @@ bool:SetCurrency(client, newCurrency, W3CurrencyMode:currencyMode)
     // Oops, nothing to do here~!
     if(oldCurrency == newCurrency)
     {
+        War3_LogInfo("Refusing to change the currency of player \"{client %i}\" - no change!", client);
         return false;
     }
     

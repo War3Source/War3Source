@@ -155,7 +155,6 @@ public NW3GiveXPGold(Handle:plugin,args){
     new String:strreason[64];
     GetNativeString(5,strreason,sizeof(strreason));
     TryToGiveXPGold(client,awardby,xp,gold,strreason);
-    
 }
 
 // Todo, Hook convar changed
