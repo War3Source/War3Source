@@ -15,14 +15,51 @@ new g_MaxCurrency;
 
 public OnPluginStart()
 {
-    g_hCurrencyMode = CreateConVar("war3_currency_mode", "0", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
-    g_hMaxCurrency = CreateConVar("war3_max_currency", "100", "Configure the maximum amount of currency a player can hold.");
+    g_hCurrencyMode = CreateConVar("war3_currency_mode", "-1", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
+    g_hMaxCurrency = CreateConVar("war3_max_currency", "-1", "Configure the maximum amount of currency a player can hold.");
     
     HookConVarChange(g_hCurrencyMode, OnCurrencyModeChanged);
     HookConVarChange(g_hMaxCurrency, OnMaxCurrencyChanged);
     
+    InitializeGlobals();
+}
+
+InitializeGlobals()
+{
+    // Apply some sensible default values if these cvars are unset
     g_CurrencyMode = W3CurrencyMode:GetConVarInt(g_hCurrencyMode);
     g_MaxCurrency = GetConVarInt(g_hMaxCurrency);
+    
+    if(g_CurrencyMode == CURRENCY_MODE_INVALID)
+    {
+        if(GAMECSANY)
+        {
+            g_CurrencyMode = CURRENCY_MODE_DORRAR;
+        }
+        else
+        {
+            g_CurrencyMode = CURRENCY_MODE_WAR3_GOLD;
+        }
+    }
+    
+    if(g_MaxCurrency == -1)
+    {
+        if(g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
+        {
+            g_MaxCurrency = 100;
+        }
+        else if(g_CurrencyMode == CURRENCY_MODE_DORRAR)
+        {
+            if(GAMECSANY)
+            {
+                g_MaxCurrency = 16000;
+            }
+            else if(GAMETF)
+            {
+                g_MaxCurrency = 32767;
+            }
+        }
+    }
 }
 
 public bool:InitNativesForwards()
