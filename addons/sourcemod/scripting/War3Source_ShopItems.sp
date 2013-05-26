@@ -438,14 +438,11 @@ public Action:RespawnPlayerViaScrollRespawn(Handle:h, any:client)
     {
         // prevent ankh from activating
         bSpawnedViaScrollRespawn[client] = true;
+        War3_SpawnPlayer(client);
+        
         if(GAMECSANY)
         {
-            CS_RespawnPlayer(client);
             CreateTimer(0.2, GivePlayerCachedDeathWPNFull, client);
-        }
-        else if (GAMETF)
-        {
-            TF2_RespawnPlayer(client);
         }
         PrintCenterText(client, "%T", "RESPAWNED!", client);
 
