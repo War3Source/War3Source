@@ -9,12 +9,14 @@ public Plugin:myinfo =
 };
 
 new Handle:hUseCategorysCvar;
-
 new String:sBuyItemSound[256];
+new WantsToBuy[MAXPLAYERSCUSTOM];
 
 public OnPluginStart()
 {
-    hUseCategorysCvar=CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
+    LoadTranslations("w3s.engine.menushopmenu.txt");
+    
+    hUseCategorysCvar = CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
 }
 
 public OnMapStart()
@@ -23,32 +25,47 @@ public OnMapStart()
     War3_PrecacheSound(sBuyItemSound);
 }
 
-public OnWar3Event(W3EVENT:event,client) {
-    if(event==DoShowShopMenu) {
+public OnWar3Event(W3EVENT:event,client)
+{
+    if(event == DoShowShopMenu) 
+    {
         new bool:useCategory = GetConVarBool(hUseCategorysCvar);
         if (useCategory)
-        ShowMenuShopCategory(client);
+        {
+            ShowMenuShopCategory(client);
+        }
         else
-        ShowMenuShop(client);
+        {
+            ShowMenuShop(client);
+        }
     }
-    if(event==DoTriedToBuyItem) { //via say?
-        War3_TriedToBuyItem(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
+    if(event == DoTriedToBuyItem) 
+    {
+        War3_TriedToBuyItem(client, W3GetVar(EventArg1), W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
     }
 }
-new WantsToBuy[MAXPLAYERSCUSTOM];
+
+SetShopMenuTitle(client, Handle:menu)
+{
+    new itemsOwned = GetClientItemsOwned(client);
+    new maxItems = GetMaxShopitemsPerPlayer();
+    
+    new currency = War3_GetCurrency(client);
+    new maxCurrency = War3_GetMaxCurrency();
+    
+    new String:title[300];
+    Format(title, sizeof(title), "%T\n", "[War3Source] Browse the itemshop. You have {amount}/{amount} items", GetTrans(), itemsOwned, maxItems);
+    Format(title, sizeof(title), "%s%T", title, "Your current balance: {amount}/{maxamount}", GetTrans(), currency, maxCurrency);
+
+    SetSafeMenuTitle(menu, title);
+}
 
 ShowMenuShopCategory(client)
 {
     SetTrans(client);
     new Handle:shopMenu = CreateMenu(War3Source_ShopMenuCategory_Sel);
     SetMenuExitButton(shopMenu, true);
-    new currency = War3_GetCurrency(client);
-
-    new String:title[300];
-    Format(title,sizeof(title),"%T\n","[War3Source] Select an item category to browse. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-    Format(title, sizeof(title), "%s%T\n \n",title,"You have {amount} money", GetTrans(), currency);
-
-    SetSafeMenuTitle(shopMenu, title);
+    SetShopMenuTitle(client, shopMenu);
 
     new Handle:h_ItemCategorys = CreateArray(ByteCountToCells(64));
     decl String:category[64];
@@ -57,14 +74,18 @@ ShowMenuShopCategory(client)
     // find all possible categorys and fill the menu
     for(new x=1; x <= ItemsLoaded; x++)
     {
-        if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x,"hidden"))
+        if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x, "hidden"))
         {
             W3GetItemCategory(x, category, sizeof(category));
 
             if ((FindStringInArray(h_ItemCategorys, category) >= 0) || StrEqual(category, ""))
-            continue;
+            {
+                continue;
+            }
             else
-            PushArrayString(h_ItemCategorys, category);
+            {
+                PushArrayString(h_ItemCategorys, category);
+            }
         }
     }
 
@@ -77,73 +98,76 @@ ShowMenuShopCategory(client)
         RemoveFromArray(h_ItemCategorys, 0);
     }
 
-    CloseHandle( h_ItemCategorys);
+    CloseHandle(h_ItemCategorys);
 
-    DisplayMenu(shopMenu,client,20);
+    DisplayMenu(shopMenu, client, 20);
 }
 
-ShowMenuShop(client, const String:category[]="") {
+ShowMenuShop(client, const String:category[]="") 
+{
     SetTrans(client);
-    new Handle:shopMenu=CreateMenu(War3Source_ShopMenu_Selected);
-    SetMenuExitButton(shopMenu,true);
+    new Handle:shopMenu = CreateMenu(War3Source_ShopMenu_Selected);
+    SetMenuExitButton(shopMenu, true);
+    SetShopMenuTitle(client, shopMenu);
 
-    new currency = War3_GetCurrency(client);
-
-    new String:title[300];
-    Format(title,sizeof(title),"%T\n","[War3Source] Select an item to buy. You have {amount}/{amount} items",GetTrans(),GetClientItemsOwned(client),GetMaxShopitemsPerPlayer());
-    Format(title,sizeof(title),"%s%T\n \n",title,"You have {amount} money",GetTrans(), currency);
-
-    SetSafeMenuTitle(shopMenu,title);
     decl String:itemname[64];
     decl String:itembuf[4];
     decl String:linestr[96];
     decl String:itemcategory[64];
     decl cost;
     new ItemsLoaded = W3GetItemsLoaded();
-    for(new x=1;x<=ItemsLoaded;x++)
+    for(new x=1; x <= ItemsLoaded; x++)
     {
-        //if(W3RaceHasFlag(x,"hidden")){
-        //    PrintToServer("hidden %d",x);
-        //}
-        if(!W3IsItemDisabledGlobal(x)&&!W3ItemHasFlag(x,"hidden")) {
+        if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x, "hidden")) 
+        {
             W3GetItemCategory(x, itemcategory, sizeof(itemcategory));
 
             if ((!StrEqual(category, "") && StrEqual(category, itemcategory)) || (StrEqual(category, "")))
             {
-                Format(itembuf,sizeof(itembuf),"%d",x);
+                Format(itembuf, sizeof(itembuf), "%d" ,x);
                 W3GetItemName(x, itemname, sizeof(itemname));
                 cost = W3GetItemCost(x);
+                
+                Format(linestr, sizeof(linestr), "%T", "{itemname} - Cost: {amount}", client, itemname, cost);
+                
                 if(War3_GetOwnsItem(client,x)) 
                 {
-                    Format(linestr,sizeof(linestr),"%T",">{itemname} - ${amount}",client,itemname,cost);
+                    Format(linestr, sizeof(linestr),">%s", linestr);
                 }
-                else 
+                new itemdraw;
+                if (W3IsItemDisabledForRace(War3_GetRace(client), x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))
                 {
-                    Format(linestr,sizeof(linestr),"%T","{itemname} - ${amount}",client,itemname,cost);
+                    itemdraw = ITEMDRAW_DISABLED;
                 }
-                AddMenuItem(shopMenu,itembuf,linestr,(W3IsItemDisabledForRace(War3_GetRace(client),x) || W3IsItemDisabledGlobal(x) || War3_GetOwnsItem(client,x))?ITEMDRAW_DISABLED:ITEMDRAW_DEFAULT);
+                else
+                {
+                    itemdraw = ITEMDRAW_DEFAULT;
+                }
+                
+                AddMenuItem(shopMenu, itembuf, linestr, itemdraw);
             }
         }
     }
-    DisplayMenu(shopMenu,client,20);
+    DisplayMenu(shopMenu, client, 20);
 }
 
 public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selection)
 {
-    if(action==MenuAction_Select)
+    if(action == MenuAction_Select)
     {
         if(ValidPlayer(client))
         {
             decl String:SelectionInfo[4];
             decl String:SelectionDispText[256];
             new SelectionStyle;
-            GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
-            new item=StringToInt(SelectionInfo);
-            War3_TriedToBuyItem(client,item,true);
-
+            
+            GetMenuItem(menu, selection, SelectionInfo, sizeof(SelectionInfo), SelectionStyle, SelectionDispText, sizeof(SelectionDispText));
+            new item = StringToInt(SelectionInfo);
+            
+            War3_TriedToBuyItem(client, item, true);
         }
     }
-    if(action==MenuAction_End)
+    if(action == MenuAction_End)
     {
         CloseHandle(menu);
     }
@@ -151,7 +175,7 @@ public War3Source_ShopMenu_Selected(Handle:menu,MenuAction:action,client,selecti
 
 public War3Source_ShopMenuCategory_Sel(Handle:menu, MenuAction:action, client, selection)
 {
-    if(action==MenuAction_Select)
+    if(action == MenuAction_Select)
     {
         if(ValidPlayer(client))
         {
@@ -163,14 +187,15 @@ public War3Source_ShopMenuCategory_Sel(Handle:menu, MenuAction:action, client, s
             ShowMenuShop(client, SelectionInfo);
         }
     }
-    if(action==MenuAction_End)
+    if(action == MenuAction_End)
     {
         CloseHandle(menu);
     }
 }
 
-War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
-    if(item>0&&item<=W3GetItemsLoaded())
+War3_TriedToBuyItem(client, item, bool:reshowmenu=true)
+{
+    if(item > 0 && item <= W3GetItemsLoaded())
     {
         SetTrans(client);
 
@@ -179,57 +204,63 @@ War3_TriedToBuyItem(client,item,bool:reshowmenu=true) {
 
         new currency = War3_GetCurrency(client);
         new cost = W3GetItemCost(item);
-
-        new bool:canbuy=true;
     
-        W3SetVar(EventArg1,item);
-        canbuy=W3Denyable(DN_CanBuyItem1,client);
+        W3SetVar(EventArg1, item);
+        new bool:bCanBuy = W3Denyable(DN_CanBuyItem1, client);
 
         new race=War3_GetRace(client);
-        if(W3IsItemDisabledGlobal(item)) {
-            War3_ChatMessage(client,"%T","{itemname} is disabled",GetTrans(),itemname);
-            canbuy=false;
+        if(W3IsItemDisabledGlobal(item)) 
+        {
+            War3_ChatMessage(client, "%T", "{itemname} is disabled", GetTrans(), itemname);
+            bCanBuy = false;
         }
 
-        else if(W3IsItemDisabledForRace(race,item)) {
-
+        else if(W3IsItemDisabledForRace(race,item)) 
+        {
             new String:racename[64];
-            War3_GetRaceName(race,racename,sizeof(racename));
-            War3_ChatMessage(client,"%T","You may not purchase {itemname} when you are {racename}",GetTrans(),itemname,racename);
-            canbuy=false;
+            War3_GetRaceName(race, racename, sizeof(racename));
+            War3_ChatMessage(client, "%T", "You may not purchase {itemname} when you are {racename}", GetTrans(), itemname, racename);
+            bCanBuy = false;
         }
-
-        else if(War3_GetOwnsItem(client,item)) {
-            War3_ChatMessage(client,"%T","You already own {itemname}",GetTrans(),itemname);
-            canbuy=false;
+        else if(War3_GetOwnsItem(client, item)) 
+        {
+            War3_ChatMessage(client ,"%T", "You already own {itemname}", GetTrans(), itemname);
+            bCanBuy = false;
         }
-        else if(currency < cost) {
-            War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
-            if(reshowmenu) {
+        else if(currency < cost) 
+        {
+            War3_ChatMessage(client, "%T", "You cannot afford {itemname}", GetTrans(), itemname);
+            if(reshowmenu) 
+            {
                 ShowMenuShop(client);
             }
-            canbuy=false;
+            bCanBuy = false;
         }
-        if(canbuy) {
-            W3SetVar(EventArg1,item);
-            W3SetVar(EventArg2,1);
-            W3CreateEvent(CanBuyItem,client);
-            if(W3GetVar(EventArg2)==0) {
-                canbuy=false;
+        
+        if(bCanBuy) 
+        {
+            W3SetVar(EventArg1, item);
+            W3SetVar(EventArg2, 1);
+            W3CreateEvent(CanBuyItem, client);
+            if(W3GetVar(EventArg2) == 0) 
+            {
+                bCanBuy = false;
             }
         }
         //if its use instantly then let them buy it
         //items maxed out
-        if(canbuy&&!War3_GetItemProperty(item,ITEM_USED_ON_BUY)&&GetClientItemsOwned(client)>=GetMaxShopitemsPerPlayer()) {
-            canbuy=false;
-            WantsToBuy[client]=item;
+        if(bCanBuy && !War3_GetItemProperty(item, ITEM_USED_ON_BUY) && GetClientItemsOwned(client) >= GetMaxShopitemsPerPlayer()) 
+        {
+            bCanBuy = false;
+            WantsToBuy[client] = item;
             War3M_ExceededMaxItemsMenuBuy(client);
 
         }
 
-        if(canbuy) {
+        if(bCanBuy) 
+        {
             War3_SubstractCurrency(client, cost);
-            War3_ChatMessage(client,"%T","You have successfully purchased {itemname}",GetTrans(),itemname);
+            War3_ChatMessage(client, "%T", "You have successfully purchased {itemname}", GetTrans(), itemname);
 
             if (IsPlayerAlive(client))
             {

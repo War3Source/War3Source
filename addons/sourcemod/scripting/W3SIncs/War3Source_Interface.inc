@@ -118,7 +118,9 @@ stock SetSafeMenuTitle(Handle:menu, const String:fmt[], any:...)
     decl String:menuTitle[4096];
     VFormat(menuTitle, sizeof(menuTitle), fmt, 3);
 
-    if(GameL4DAny() && menuTitle[0] == '[')
+    // There's a silly bug with the Left4Dead engine where menus won't
+    // show up if the title starts with [ :(
+    if(GAMEL4DAny && menuTitle[0] == '[')
     {
         Format(menuTitle, sizeof(menuTitle), " %s", menuTitle);
     }
@@ -1700,4 +1702,4 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_Attributes"
 #include "W3SIncs/War3Source_AttributeBuffs"
 #include "W3SIncs/War3Source_Events"
-#include "W3SIncs/War3Source_Money"
+#include "W3SIncs/War3Source_Currency"
