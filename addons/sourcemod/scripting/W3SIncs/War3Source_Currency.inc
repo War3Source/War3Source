@@ -1,5 +1,5 @@
 /**
- * File: War3Source_Money.inc
+ * File: War3Source_Currency.inc
  * Description: Interface to the currency system
  * Author(s): War3Source Team  
  */

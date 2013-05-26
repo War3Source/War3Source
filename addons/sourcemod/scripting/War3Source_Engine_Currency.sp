@@ -2,7 +2,7 @@
 
 public Plugin:myinfo = 
 {
-    name = "War3Source - Engine - Money",
+    name = "War3Source - Engine - Currency",
     author = "War3Source Team",
     description = "Handle money related things"
 };
@@ -214,6 +214,7 @@ bool:SetCurrency(client, newCurrency, W3CurrencyMode:currencyMode)
                 War3_LogWarning("Not giving money to player \"{client %i}\" due to a MVM bug", client);
                 return false;
             }
+            
             SetEntProp(client, Prop_Send, "m_nCurrency", newCurrency);
         }
     }
