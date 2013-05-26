@@ -86,6 +86,17 @@ public OnCurrencyModeChanged(Handle:convar, const String:oldValue[], const Strin
     g_CurrencyMode = W3CurrencyMode:StringToInt(newValue);
     
     War3_LogInfo("CurrencyMode was changed to %i", g_CurrencyMode);
+    
+    if(g_CurrencyMode == CURRENCY_MODE_DORRAR)
+    {
+        if(!GAMECSANY && !GAMETF)
+        {
+            War3_LogInfo("Refusing to change to dorrar mode");
+            SetConVarInt(g_hCurrencyMode, _:CURRENCY_MODE_WAR3_GOLD);
+        }
+    }
+    
+    InitializeGlobals();
 }
 
 public OnMaxCurrencyChanged(Handle:convar, const String:oldValue[], const String:newValue[])
