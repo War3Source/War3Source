@@ -13,6 +13,8 @@ new W3CurrencyMode:g_CurrencyMode;
 new Handle:g_hMaxCurrency;
 new g_MaxCurrency;
 
+new Handle:g_hOnCurrencyChanged;
+
 public OnPluginStart()
 {
     g_hCurrencyMode = CreateConVar("war3_currency_mode", "-1", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
@@ -64,6 +66,8 @@ InitializeGlobals()
 
 public bool:InitNativesForwards()
 {
+    g_hOnCurrencyChanged = CreateGlobalForward("OnCurrencyChanged", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
+    
     CreateNative("War3_GetCurrencyMode", Native_War3_GetCurrencyMode);
     CreateNative("War3_GetMaxCurrency", Native_War3_GetMaxCurrency);
     CreateNative("War3_GetCurrency", Native_War3_GetCurrency);
@@ -218,6 +222,12 @@ bool:SetCurrency(client, newCurrency, W3CurrencyMode:currencyMode)
             SetEntProp(client, Prop_Send, "m_nCurrency", newCurrency);
         }
     }
+    
+    Call_StartForward(g_hOnCurrencyChanged);
+    Call_PushCell(client);
+    Call_PushCell(oldCurrency);
+    Call_PushCell(newCurrency);
+    Call_Finish();
     
     return true;
 }

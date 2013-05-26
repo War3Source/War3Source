@@ -10,6 +10,11 @@ enum W3CurrencyMode {
     CURRENCY_MODE_DORRAR    = 1
 };
 
+// Forwards
+
+// Fired everytime somebodys currency changes
+forward OnCurrencyChanged(client, oldCurrency, newCurrency);
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // These are most interesting to a plugin author ;)
