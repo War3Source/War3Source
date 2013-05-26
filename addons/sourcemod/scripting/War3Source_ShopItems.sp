@@ -174,7 +174,7 @@ public OnWar3EventDeath(client)
     {
         bDidDie[client]=true;
 
-        if(War3_GetGame() != Game_TF && War3_GetOwnsItem(client, iShopitem[ITEM_RESPAWN]))
+        if(War3_GetOwnsItem(client, iShopitem[ITEM_RESPAWN]))
         {
             CreateTimer(1.25, RespawnPlayerViaScrollRespawn, client); // default orc is 1.0, 1.25 so orc activates first
         }
@@ -376,11 +376,11 @@ public OnItemPurchase(client,item)
         }
     }
     
-    if(War3_GetGame() != Game_TF && item == iShopitem[ITEM_RESPAWN])
+    if(item == iShopitem[ITEM_RESPAWN])
     {
         bSpawnedViaScrollRespawn[client]=false;
 
-        if(!IsPlayerAlive(client)&&GetClientTeam(client)>1)
+        if(!IsPlayerAlive(client) && GetClientTeam(client) > 1)
         {
             War3_ChatMessage(client, "%T", "You will be respawned", client);
             CreateTimer(0.2, RespawnPlayerViaScrollRespawn, client);
@@ -438,10 +438,17 @@ public Action:RespawnPlayerViaScrollRespawn(Handle:h, any:client)
     {
         // prevent ankh from activating
         bSpawnedViaScrollRespawn[client] = true;
-        CS_RespawnPlayer(client);
+        if(GAMECSANY)
+        {
+            CS_RespawnPlayer(client);
+            CreateTimer(0.2, GivePlayerCachedDeathWPNFull, client);
+        }
+        else if (GAMETF)
+        {
+            TF2_RespawnPlayer(client);
+        }
         PrintCenterText(client, "%T", "RESPAWNED!", client);
 
-        CreateTimer(0.2, GivePlayerCachedDeathWPNFull, client);
         bSpawnedViaScrollRespawn[client] = false;
         
         War3_SetOwnsItem(client, iShopitem[ITEM_RESPAWN], false);
