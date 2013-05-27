@@ -17,6 +17,8 @@ new Handle:g_hOnCurrencyChanged;
 
 public OnPluginStart()
 {
+    LoadTranslations("w3s.engine.currency.txt");
+    
     g_hCurrencyMode = CreateConVar("war3_currency_mode", "-1", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
     g_hMaxCurrency = CreateConVar("war3_max_currency", "-1", "Configure the maximum amount of currency a player can hold.");
     
@@ -70,6 +72,7 @@ public bool:InitNativesForwards()
     
     CreateNative("War3_GetCurrencyMode", Native_War3_GetCurrencyMode);
     CreateNative("War3_GetMaxCurrency", Native_War3_GetMaxCurrency);
+    CreateNative("War3_GetCurrencyName", Native_War3_GetCurrencyName);
     CreateNative("War3_GetCurrency", Native_War3_GetCurrency);
     CreateNative("War3_SetCurrency", Native_War3_SetCurrency);
     CreateNative("War3_AddCurrency", Native_War3_AddCurrency);
@@ -114,6 +117,38 @@ public Native_War3_GetCurrencyMode(Handle:plugin, numParams)
 public Native_War3_GetMaxCurrency(Handle:plugin, numParams)
 {
     return g_MaxCurrency;
+}
+
+public Native_War3_GetCurrencyName(Handle:plugin, numParams)
+{
+    new amount = GetNativeCell(1);
+    new stringBuffer = GetNativeCell(3);
+
+    decl String:currencyName[stringBuffer];
+    if (g_CurrencyMode == CURRENCY_MODE_WAR3_GOLD)
+    {
+        if (amount >= -1 && amount <= 1)
+        {
+            Format(currencyName, stringBuffer, "%T", "War3_Currency_Singular");
+        }
+        else
+        {
+            Format(currencyName, stringBuffer, "%T", "War3_Currency_Plural");
+        }
+    }
+    else if (g_CurrencyMode == CURRENCY_MODE_DORRAR)
+    {
+        if (amount >= -1 && amount <= 1)
+        {
+            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Singular");
+        }
+        else
+        {
+            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Plural");
+        }
+    }
+    
+    SetNativeString(2, currencyName, stringBuffer);
 }
 
 public Native_War3_GetCurrency(Handle:plugin, numParams)

@@ -10,6 +10,8 @@ enum W3CurrencyMode {
     CURRENCY_MODE_DORRAR    = 1
 };
 
+#define MAX_CURRENCY_NAME     64
+
 // Forwards
 
 // Fired everytime somebodys currency changes
@@ -49,12 +51,16 @@ native bool:War3_SubstractCurrency(client, currencyToSubstract);
  */
 native bool:War3_SetCurrency(client, newCurrency);
 
-
 /** 
  * Gets/Sets the War3Source internal gold currency value for this player
  */
 native War3_GetGold(client);
 native War3_SetGold(client, newGold);
+
+/**
+ * Get the name of the currency for the given amount of units
+ */
+native War3_GetCurrencyName(amount, String:currencyName[], maxLength);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
