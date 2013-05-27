@@ -1,0 +1,185 @@
+Phrases
+{
+    "You must first select a race with changerace!"
+    {
+        "en"        "You must first select a race with changerace!"
+    }
+    "{racename} - Level {amount} - {amount} XP / {amount} XP"
+    {
+        "#format"   "{1:s},{2:d},{3:d},{4:d}"
+        "en"        "{1} - Level {2} - {3} / {4} XP."
+    }
+    "{racename} - Level {amount} - {amount} XP"
+    {
+        "#format"   "{1:s},{2:d},{3:d}"
+        "en"        "{1} - Level {2} - {3} XP."
+    }
+    "No XP is given when less than {amount} players are playing"
+    {
+        "#format"   "{1:d}"
+        "en"        "No XP is given when less than {1} players are playing"
+    }
+    "You have gained {amount} XP and {amount} {currencyName} for {award}"
+    {
+        "#format"   "{1:d},{2:d},{3:s},{4:s}"
+        "en"        "You have gained {1} XP and {2} {3} for {4}."
+    }
+    "You have gained {amount} XP for {award}"
+    {
+        "#format"   "{1:d},{2:s}"
+        "en"        "You have gained {1} XP for {2}."
+    }
+    "You have gained {amount} {currencyName} for {award}"
+    {
+        "#format"   "{1:d},{2:s},{3:s}"
+        "en"        "You have gained {1} {2} for {3}."
+    }
+    "You have lost {amount} XP and {amount} {currencyName} for {award}"
+    {
+        "#format"   "{1:d},{2:d},{3:s},{4:s}"
+        "en"        "You have lost {1} XP and {2} {3} for {4}."
+    }
+    "You have lost {amount} XP for {award}"
+    {
+        "#format"   "{1:d},{2:s}"
+        "en"        "You have lost {1} XP for {2}."
+    }
+    "You have lost {amount} {currencyName} for {award}"
+    {
+        "#format"   "{1:d},{2:s},{3:s}"
+        "en"        "You have lost {1} {2} for {3}."
+    }
+    "being on the winning team"
+    {
+        "en"        "being on the winning team"
+    }
+    "being on the capturing team"
+    {
+        "en"        "being on the capturing team"
+    }
+    "blocking point capture"
+    {
+        "en"        "blocking point capture"
+    }
+    "a kill"
+    {
+        "en"        "a kill"
+    }
+    "assisting a kill"
+    {
+        "en"        "assisting a kill"
+    }
+    "defusing the bomb"
+    {
+        "en"        "defusing the bomb"
+    }
+    "being near bomb defuse"
+    {
+        "en"        "being near bomb defuse"
+    }
+    "planting the bomb"
+    {
+        "en"        "planting the bomb"
+    }
+    "being near bomb plant"
+    {
+        "en"        "being near bomb plant"
+    }
+    "rescuing a hostage"
+    {
+        "en"        "rescuing a hostage"
+    }
+    "touching a hostage"
+    {
+        "en"        "touching a hostage"
+    }
+    "killing a hostage"
+    {
+        "en"        "killing a hostage"
+    }
+    "healing a player"
+    {
+        "en"        "healing a player"
+    }
+    "reviving a player"
+    {
+        "en"        "reviving a player"
+    }
+    "rescueing a player"
+    {
+        "en"        "rescueing a player"
+    }
+    "protecting a player"
+    {
+        "en"        "protecting a player"
+    }
+    "sharing ammo"
+    {
+        "en"        "sharing ammo"
+    }
+    "killing a Smoker"
+    {
+        "en"        "killing a Smoker"
+    }
+    "killing a Boomer"
+    {
+        "en"        "killing a Boomer"
+    }
+    "killing a Hunter"
+    {
+        "en"        "killing a Hunter"
+    }
+    "killing a Spitter"
+    {
+        "en"        "killing a Spitter"
+    }
+    "killing a Charger"
+    {
+        "en"        "killing a Charger"
+    }
+    "killing a Jockey"
+    {
+        "en"        "killing a Jockey"
+    }
+    "surviving a Tank"
+    {
+        "en"        "surviving a Tank"
+    }
+    "soloing a Tank"
+    {
+        "en"        "soloing a Tank"
+    }
+    "surviving a Witch"
+    {
+        "en"        "surviving a Witch"
+    }
+    "crowning a Witch"
+    {
+        "en"        "crowning a Witch"
+    }
+    "killing a common infected"
+    {
+        "en"        "killing a common infected"
+    }
+    "killing a uncommon infected"
+    {
+        "en"        "killing a uncommon infected"
+    }
+    "helping a teammate"
+    {
+        "en"        "helping a teammate"
+    }
+    "A skill is over the maximum level allowed for your current level, please reselect your skills"
+    {
+        "en"        "A skill is over the maximum level allowed for your current level, please reselect your skills"
+    }
+    "A ultimate is over the maximum level allowed for your current level, please reselect your skills"
+    {
+        "en"        "A ultimate is over the maximum level allowed for your current level, please reselect your skills"
+    }
+    "You are now level {amount}"
+    {
+        "#format"   "{1:d}"
+        "en"        "You are now level {1}."
+    }
+}

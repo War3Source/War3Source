@@ -59,6 +59,8 @@ native War3_SetGold(client, newGold);
 
 /**
  * Get the name of the currency for the given amount of units
+ * 
+ * Uses the value stored with SetTrans() for translating!
  */
 native War3_GetCurrencyName(amount, String:currencyName[], maxLength);
 

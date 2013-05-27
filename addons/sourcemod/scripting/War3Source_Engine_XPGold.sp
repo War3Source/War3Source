@@ -45,6 +45,8 @@ new Handle:g_hAssistCurrencyCvar;
 
 public OnPluginStart()
 {
+    LoadTranslations("w3s.engine.xpgold.txt");
+    
     BotIgnoreXPCvar = CreateConVar("war3_ignore_bots_xp", "0", "Set to 1 to not award XP for killing bots");
     hBotXPRate = CreateConVar("war3_bot_xp_modifier", "1.0", "The XP gained from killing bots is multiplied with this value");
     HeadshotXPCvar = CreateConVar("war3_percent_headshotxp","20","Percent of kill XP awarded additionally for headshots");
@@ -516,6 +518,7 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 
 TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToAdd, String:awardedprintstring[])
 {
+    SetTrans(client);
     new race = War3_GetRace(client);
     if(race <= 0)
     {
@@ -544,24 +547,27 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     
     War3_SetXP(client, race, War3_GetXP(client, War3_GetRace(client)) + XPToAdd);
     new bool:bAddedCurrency = War3_AddCurrency(client, currencyToAdd);
+    
+    decl String:currencyName[MAX_CURRENCY_NAME];
+    War3_GetCurrencyName(currencyToAdd, currencyName, sizeof(currencyName));
 
     // This needs to be redone at some point, so you can GAIN experience and at the same time LOSE money without it looking awkward
     if(XPToAdd > 0 && bAddedCurrency)
     {
-        War3_ChatMessage(client, "%T", "You have gained {amount} XP and {amount} money for {award}", client, XPToAdd, currencyToAdd, awardedprintstring);
+        War3_ChatMessage(client, "%T", "You have gained {amount} XP and {amount} {currencyName} for {award}", client, XPToAdd, currencyToAdd, currencyName, awardedprintstring);
     }
     else if(XPToAdd > 0)
     {
-        War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client,XPToAdd,awardedprintstring);
+        War3_ChatMessage(client,"%T","You have gained {amount} XP for {award}",client, XPToAdd, awardedprintstring);
     }
     else if(bAddedCurrency)
     {
-        War3_ChatMessage(client, "%T", "You have gained {amount} money for {award}", client, currencyToAdd, awardedprintstring);
+        War3_ChatMessage(client, "%T", "You have gained {amount} {currencyName} for {award}", client, currencyToAdd, currencyName, awardedprintstring);
     }
     
     else if(XPToAdd < 0 && bAddedCurrency)
     {
-        War3_ChatMessage(client, "%T","You have lost {amount} XP and {amount} money for {award}", client, XPToAdd, currencyToAdd, awardedprintstring);
+        War3_ChatMessage(client, "%T","You have lost {amount} XP and {amount} {currencyName} for {award}", client, XPToAdd, currencyToAdd, currencyName, awardedprintstring);
     }
     else if(XPToAdd < 0)
     {
@@ -569,7 +575,7 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     }
     else if(bAddedCurrency)
     {
-        War3_ChatMessage(client, "%T", "You have lost {amount} money for {award}", client, currencyToAdd, awardedprintstring);
+        War3_ChatMessage(client, "%T", "You have lost {amount} {currencyName} for {award}", client, currencyToAdd, currencyName, awardedprintstring);
     }
     
     // in case they didn't level any skills
