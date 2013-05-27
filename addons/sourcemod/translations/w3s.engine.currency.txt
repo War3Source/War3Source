@@ -10,10 +10,10 @@ Phrases
     }
     "War3_DollarCurrency_Singular"
     {
-        "en"        "dollar"
+        "en"        "$"
     }
     "War3_DollarCurrency_Plural"
     {
-        "en"        "dollars"
+        "en"        "$"
     }
-
+}

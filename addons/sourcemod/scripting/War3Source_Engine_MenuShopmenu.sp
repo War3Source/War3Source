@@ -53,10 +53,14 @@ SetShopMenuTitle(client, Handle:menu)
     new currency = War3_GetCurrency(client);
     new maxCurrency = War3_GetMaxCurrency();
     
-    new String:title[300];
+    decl String:title[300];
+    decl String:currencyName[MAX_CURRENCY_NAME];
+    War3_GetCurrencyName(currency, currencyName, sizeof(currencyName));
+    
     Format(title, sizeof(title), "%T\n", "[War3Source] Browse the itemshop. You have {amount}/{amount} items", GetTrans(), itemsOwned, maxItems);
-    Format(title, sizeof(title), "%s%T", title, "Your current balance: {amount}/{maxamount}", GetTrans(), currency, maxCurrency);
-
+    Format(title, sizeof(title), "%s%T", title, "Your current balance: {amount}/{maxamount} ", GetTrans(), currency, maxCurrency);
+    Format(title, sizeof(title), "%s%s", title, currencyName);
+    
     SetSafeMenuTitle(menu, title);
 }
 
@@ -114,8 +118,9 @@ ShowMenuShop(client, const String:category[]="")
     decl String:itembuf[4];
     decl String:linestr[96];
     decl String:itemcategory[64];
+    decl String:currencyName[MAX_CURRENCY_NAME];
     decl cost;
-    new ItemsLoaded = W3GetItemsLoaded();
+    new ItemsLoaded = W3GetItemsLoaded(); 
     for(new x=1; x <= ItemsLoaded; x++)
     {
         if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x, "hidden")) 
@@ -127,8 +132,10 @@ ShowMenuShop(client, const String:category[]="")
                 Format(itembuf, sizeof(itembuf), "%d" ,x);
                 W3GetItemName(x, itemname, sizeof(itemname));
                 cost = W3GetItemCost(x);
+                War3_GetCurrencyName(cost, currencyName, sizeof(currencyName));
                 
-                Format(linestr, sizeof(linestr), "%T", "{itemname} - Cost: {amount}", client, itemname, cost);
+                Format(linestr, sizeof(linestr), "%T", "{itemname} - {amount} ", client, itemname, cost);
+                Format(linestr, sizeof(linestr), "%s%s", linestr, currencyName);
                 
                 if(War3_GetOwnsItem(client,x)) 
                 {

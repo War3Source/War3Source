@@ -129,22 +129,22 @@ public Native_War3_GetCurrencyName(Handle:plugin, numParams)
     {
         if (amount >= -1 && amount <= 1)
         {
-            Format(currencyName, stringBuffer, "%T", "War3_Currency_Singular");
+            Format(currencyName, stringBuffer, "%T", "War3_Currency_Singular", GetTrans());
         }
         else
         {
-            Format(currencyName, stringBuffer, "%T", "War3_Currency_Plural");
+            Format(currencyName, stringBuffer, "%T", "War3_Currency_Plural", GetTrans());
         }
     }
     else if (g_CurrencyMode == CURRENCY_MODE_DORRAR)
     {
         if (amount >= -1 && amount <= 1)
         {
-            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Singular");
+            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Singular", GetTrans());
         }
         else
         {
-            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Plural");
+            Format(currencyName, stringBuffer, "%T", "War3_DollarCurrency_Plural", GetTrans());
         }
     }
     
