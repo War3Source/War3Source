@@ -1,4 +1,4 @@
-====== War3Source (W3S) ======
+# War3Source (W3S) #
 
 War3Source  brings the Warcraft 3 leveling style and races into the game.
 It is originally based on the amxmodx (AMX) version War3FT.
@@ -29,33 +29,5 @@ An internal event system for inter-plugin communication.
 W3S came first to the source engine, WCS came later and matured faster under the nature of ES/Python prototyping 
 languages, but reached its limit in performance and features compared to W3S. 
 
-W3S was originally founded by Anthony Iacono (AKA "pimpinjuice") and is also the founder of superhero mod (SH).
-Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) is the second developer of War3Source 
-and took over primary development after march 2010.
-
------------------------
-CREDITS
------------------------
-FOUNDER
-Anthony Iacono (AKA "pimpinjuice") 
-
-LEAD DEVELOPER
-OwnageOwnz (Aka "DarkEnergy")
-
-CONTRIBUTORS
-Revan
-Glider
-
-
-TRANSLATIONS + RUSSIAN SUPPORT
-[RUS] Schmarotzer
-[RUS] Frenzzy
-[RUS] Namolem
-[RUS] Arturius
-
-L4D compatibility
-Glider
-
-AND ALL OTHERS CREDITS GIVEN WITHIN THE PLUGIN SOURCE FILE
-
-
+The mod was originally founded by Anthony Iacono (AKA "pimpinjuice") who passed it on to Yi (Derek) Luo AKA Ownage | Ownz (DarkEnergy) who then
+passed it on to the community. To see a list of contributors since we've moved to Github check https://github.com/War3Source/War3Source/contributors
