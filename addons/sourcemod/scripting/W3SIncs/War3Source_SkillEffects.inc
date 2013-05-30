@@ -43,3 +43,35 @@ native War3_BashEffect(victim, attacker);
  * Stock for wards
  */
 native War3_WardVisualEffect(wardindex, beamcolor[4]);
+
+/**
+ * Stock for displaying the healthlost particle in TF2
+ */
+stock War3_ShowHealthLostParticle(client)
+{
+    if(ValidPlayer(client, true) && War3_GetGame() == Game_TF)
+    {
+        decl Float:fPlayerPos[3];
+        GetClientAbsOrigin(client, fPlayerPos);
+
+        fPlayerPos[2] += 55.0;
+        
+        War3_TF_ParticleToClient(0, GetApparentTeam(client) == TEAM_RED ? "healthlost_red" : "healthlost_blu", fPlayerPos);
+    }
+}
+
+/**
+ * Stock for displaying the healthgained particle in TF2
+ */
+stock War3_ShowHealthGainedParticle(client)
+{
+    if(ValidPlayer(client, true) && War3_GetGame() == Game_TF)
+    {
+        decl Float:fPlayerPos[3];
+        GetClientAbsOrigin(client, fPlayerPos);
+
+        fPlayerPos[2] += 55.0;
+        
+        War3_TF_ParticleToClient(0, GetApparentTeam(client) == TEAM_RED ? "healthgained_red" : "healthgained_blu", fPlayerPos);
+    }
+}
