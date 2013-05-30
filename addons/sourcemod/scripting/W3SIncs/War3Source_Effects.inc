@@ -21,12 +21,12 @@
  * 
  * @returns entity index for the particle or -1 if no particle was spawned
  */
-stock CreateW3SParticle(const String:effectName[], const Float:fPos[3])
+stock CreateW3SParticle(const String:effectName[], const Float:fPos[3], const Float:fAngles[3])
 {
     new particle = CreateEntityByName("info_particle_system");
     if (IsValidEdict(particle))
     {
-        TeleportEntity(particle, fPos, NULL_VECTOR, NULL_VECTOR);
+        TeleportEntity(particle, fPos, fAngles, NULL_VECTOR);
         DispatchKeyValue(particle, "effect_name", effectName);
         DispatchSpawn(particle);
         
@@ -178,27 +178,27 @@ native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noi
 //                 PARTICLES
 //==========================================
 
-stock ThrowAwayParticle(const String:effectName[], const Float:fPos[3], const Float:lifetime)
+stock ThrowAwayParticle(const String:effectName[], const Float:fPos[3], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
 {    
-    new particle = CreateW3SParticle(effectName, fPos);
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
     ModifyEntityAddDeathTimer(particle, lifetime);
     
     return particle;
 }
 
 // If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[]="")
+stock AttachParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[]="", const Float:fAngles[3]=NULL_VECTOR)
 {    
-    new particle = CreateW3SParticle(effectName, fPos);
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
     ModifyEntityAttach(particle, client, attachTo);
     
     return particle;
 }
 
 // If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachThrowAwayParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[], const Float:lifetime)
+stock AttachThrowAwayParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
 {    
-    new particle = CreateW3SParticle(effectName, fPos);
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
     ModifyEntityAttach(particle, client, attachTo);
     ModifyEntityAddDeathTimer(particle, lifetime);
     

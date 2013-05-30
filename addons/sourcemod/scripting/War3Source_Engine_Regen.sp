@@ -12,8 +12,6 @@ new g_iRegenParticleSkip[MAXPLAYERSCUSTOM];
 new g_iDecayParticleSkip[MAXPLAYERSCUSTOM];
 new Float:g_fLastTick[MAXPLAYERSCUSTOM];
 
-#define HEALTH_GAINED_PARTICLE GetApparentTeam(client) == TEAM_RED ? "healthgained_red" : "healthgained_blu"
-#define HEALTH_LOST_PARTICLE GetApparentTeam(client) == TEAM_RED ? "healthlost_red" : "healthlost_blu"
 #define KILL_NAME GameTF() ? "bleed_kill" : "damageovertime"
 
 public OnWar3EventSpawn(client)
@@ -23,7 +21,6 @@ public OnWar3EventSpawn(client)
 
 public OnGameFrame()
 {
-    decl Float:playervec[3];
     new Float:now = GetEngineTime();
 
     for(new client=1; client <= MaxClients; client++)
@@ -58,10 +55,7 @@ public OnGameFrame()
                         g_iRegenParticleSkip[client]++;
                         if(g_iRegenParticleSkip[client] > 4 && !IsInvis(client))
                         {
-                            GetClientAbsOrigin(client, playervec);
-
-                            playervec[2] += 55.0;
-                            War3_TF_ParticleToClient(0, HEALTH_GAINED_PARTICLE, playervec);
+                            War3_ShowHealthGainedParticle(client);
 
                             g_iRegenParticleSkip[client] = 0;
                         }
@@ -75,10 +69,7 @@ public OnGameFrame()
                         g_iDecayParticleSkip[client]++;
                         if(g_iDecayParticleSkip[client] > 2 && !IsInvis(client)) 
                         {
-                            GetClientAbsOrigin(client, playervec);
-
-                            playervec[2] += 55.0;
-                            War3_TF_ParticleToClient(0, HEALTH_LOST_PARTICLE, playervec);
+                            War3_ShowHealthLostParticle(client);
 
                             g_iDecayParticleSkip[client] = 0;
                         }

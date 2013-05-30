@@ -35,14 +35,16 @@ public OnWar3LoadRaceOrItemOrdered2(num)
 {
     if(num==100){
     
-        thisItem=War3_CreateShopItemT("helm",10,3500);
+        thisItem = War3_CreateShopItemT("helm", 10, true);
     }    
 }
-public OnClientPutInServer(client){
-    SDKHook(client,SDKHook_TraceAttack,SDK_Forwarded_TraceAttack);
+public OnClientPutInServer(client)
+{
+    SDKHook(client, SDKHook_TraceAttack, SDK_Forwarded_TraceAttack);
 }
-public OnClientDisconnect(client){
-    SDKUnhook(client,SDKHook_TraceAttack,SDK_Forwarded_TraceAttack); 
+public OnClientDisconnect(client)
+{
+    SDKUnhook(client, SDKHook_TraceAttack, SDK_Forwarded_TraceAttack); 
 }
 
 public Action:SDK_Forwarded_TraceAttack(victim, &attacker, &inflictor, &Float:damage, &damagetype, &ammotype, hitbox, hitgroup)

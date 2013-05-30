@@ -1,7 +1,0 @@
-"Phrases"
-{
-	"{player} has leveled {racename} to {amount}"
-	{
-		"ru"		"Игрок {1} прокачал расу {lightgreen}{2} {default}до {lightgreen}{3} {default}уровня."
-	}
-}

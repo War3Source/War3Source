@@ -16,22 +16,12 @@
 native W3GetKillXP(client, leveldifference = 0);
 native W3GetReqXP(level); //get required xp for leveling to the level, use (level+1) for xp required for next level
 
-native W3GetKillGold();
-native W3GetAssistGold();
-
 /**
  * Shows the XP and race message in chat
  * @param client: Client index
  * @noreturn
  */
 native War3_ShowXP(client);
-
-stock War3_SetGold(client, newgold) {
-    W3SetPlayerProp(client, PlayerGold, newgold);
-}
-stock War3_GetGold(client) {
-    return W3GetPlayerProp(client, PlayerGold);
-}
 
 //nothing happens if you give 0 xp 0 gold
 //automatically prints gained or lost xp/gold

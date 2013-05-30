@@ -415,7 +415,7 @@ public Action:War3Source_CMD_War3_SetGold(client,args)
         GetCmdArg(1,match,sizeof(match));
         decl String:buf[32];
         GetCmdArg(2,buf,sizeof(buf));
-        new maxgold=W3GetMaxGold();
+        new maxgold=War3_GetMaxCurrency();
         new String:adminname[64];
         if(client!=0)
             GetClientName(client,adminname,sizeof(adminname));
@@ -469,7 +469,7 @@ public Action:War3Source_CMD_GiveGold(client,args)
         if(gold<0)
             gold=0;
         
-        new maxgold=W3GetMaxGold();
+        new maxgold=War3_GetMaxCurrency();
         
         new playerlist[66];
         new results=War3Source_PlayerParse(match,playerlist);
@@ -518,7 +518,7 @@ public Action:War3Source_CMD_RemoveGold(client,args)
         if(gold<0)
             gold=0;
         
-        new maxgold=W3GetMaxGold();
+        new maxgold=War3_GetMaxCurrency();
         
         new playerlist[66];
         new results=War3Source_PlayerParse(match,playerlist);

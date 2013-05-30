@@ -16,6 +16,7 @@ public Plugin:myinfo =
 
 new Handle:FHOnW3TakeDmgAllPre;
 new Handle:FHOnW3TakeDmgBulletPre;
+new Handle:FHOnW3EnemyTakeDmgBulletPre;
 new Handle:FHOnW3TakeDmgAll;
 new Handle:FHOnW3TakeDmgBullet;
 
@@ -69,6 +70,7 @@ public bool:InitNativesForwards()
 
     FHOnW3TakeDmgAllPre=CreateGlobalForward("OnW3TakeDmgAllPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
     FHOnW3TakeDmgBulletPre=CreateGlobalForward("OnW3TakeDmgBulletPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
+    FHOnW3EnemyTakeDmgBulletPre=CreateGlobalForward("OnW3EnemyTakeDmgBulletPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
     FHOnW3TakeDmgAll=CreateGlobalForward("OnW3TakeDmgAll",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
     FHOnW3TakeDmgBullet=CreateGlobalForward("OnW3TakeDmgBullet",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
 
@@ -250,6 +252,15 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
             Call_PushCell(attacker);
             Call_PushCell(damage);
             Call_Finish(dummyresult); //this will be returned to
+            
+            if(ValidPlayer(victim, true) && ValidPlayer(attacker) && victim != attacker && GetClientTeam(victim) != GetClientTeam(attacker))
+            {
+                Call_StartForward(FHOnW3EnemyTakeDmgBulletPre);
+                Call_PushCell(victim);
+                Call_PushCell(attacker);
+                Call_PushCell(damage);
+                Call_Finish(dummyresult); //this will be returned to
+            }
             
         }
         g_CanSetDamageMod=false;

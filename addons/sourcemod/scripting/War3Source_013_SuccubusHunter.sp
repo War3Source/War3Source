@@ -16,7 +16,7 @@ public Plugin:myinfo =
 };
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
-new m_iAccount = -1, m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
+new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 
 //new bool:hurt_flag = true;
@@ -65,7 +65,6 @@ public OnPluginStart()
     if(GAMECSANY)
     {
         HookEvent("player_jump",PlayerJumpEvent);
-        m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
         m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
         m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
     }
@@ -148,37 +147,15 @@ public OnWar3EventSpawn(client)
                 War3_SetXP(client,thisRaceID,old_XP+xp);
             }
             
-            if (m_iAccount>0) //game with money
+            dollar /= 16;
+            //PrintToChat(client,"new_credits %d",new_credits);
+            if(W3GetPlayerProp(client,bStatefulSpawn))
             {
-                new old_cash=GetEntData(client, m_iAccount);
-                SetEntData(client, m_iAccount, old_cash + dollar);
-                if(W3GetPlayerProp(client,bStatefulSpawn)){
-                    PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,dollar,xp);
-                }
-            }
-            else
-            {
-                new max=W3GetMaxGold();
+                new oldCash = War3_GetCurrency(client);
+                War3_AddCurrency(client, dollar);
+                new newCash = War3_GetCurrency(client);
                 
-                new old_credits=War3_GetGold(client);
-                //PrintToChat(client,"dollar %d",dollar);
-                dollar /= 16;
-                //PrintToChat(client,"dollar %d",dollar);
-                new new_credits = old_credits + dollar;
-                if (new_credits > max)
-                new_credits = max;
-                //PrintToChat(client,"new_credits %d",new_credits);
-                if(W3GetPlayerProp(client,bStatefulSpawn)){
-                    War3_SetGold(client,new_credits);
-                }
-                new_credits = War3_GetGold(client);
-                
-                if (new_credits > 0){
-                    dollar = new_credits-old_credits;
-                }
-                if(W3GetPlayerProp(client,bStatefulSpawn)){
-                    PrintToChat(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,dollar,xp);
-                }
+                War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
             }
         }
     }

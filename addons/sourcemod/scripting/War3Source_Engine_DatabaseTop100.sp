@@ -213,8 +213,8 @@ public War3Source_Stats_Player(client,target)
         
         decl String:race_name[64];
         War3_GetRaceName(War3_GetRace(target),race_name,sizeof(race_name));
-        new gold=War3_GetGold(target);
-        SetSafeMenuTitle(playerInfo,"%T\n","[War3Source] Info for {player}. Current Race: {racename} gold: {amount}",client,playername,race_name,gold);
+        new money = War3_GetCurrency(target);
+        SetSafeMenuTitle(playerInfo,"%T\n","[War3Source] Info for {player}. Current Race: {racename} money: {amount}",client,playername,race_name,money);
         DisplayMenu(playerInfo,client,20);
     }
     else
