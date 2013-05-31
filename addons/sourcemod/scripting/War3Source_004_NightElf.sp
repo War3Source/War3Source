@@ -41,7 +41,7 @@ public OnMapStart()
     BeamSprite = War3_PrecacheBeamSprite();
     HaloSprite = War3_PrecacheHaloSprite();
 
-    War3_PrecacheSound(entangleSound);
+    War3_AddCustomSound(entangleSound);
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

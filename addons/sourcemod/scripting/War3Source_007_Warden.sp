@@ -103,8 +103,8 @@ public OnMapStart()
     War3_AddSoundFolder(shadowstrikestr, sizeof(shadowstrikestr), "shadowstrikebirth.mp3");
     War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "MiniSpiritPissed1.mp3");
 
-    War3_PrecacheSound(shadowstrikestr);
-    War3_PrecacheSound(ultimateSound);
+    War3_AddCustomSound(shadowstrikestr);
+    War3_AddCustomSound(ultimateSound);
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     if(GAMECSANY){

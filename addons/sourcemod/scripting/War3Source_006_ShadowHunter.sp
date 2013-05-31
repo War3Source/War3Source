@@ -86,8 +86,8 @@ public OnMapStart()
     War3_AddSoundFolder(wardDamageSound, sizeof(wardDamageSound), "thunder_clap.mp3");
     War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "divineshield.mp3");
 
-    War3_PrecacheSound(ultimateSound);
-    War3_PrecacheSound(wardDamageSound);
+    War3_AddCustomSound(ultimateSound);
+    War3_AddCustomSound(wardDamageSound);
 }
 
 public OnWar3PlayerAuthed(client)

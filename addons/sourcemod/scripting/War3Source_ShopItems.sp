@@ -135,7 +135,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnMapStart()
 {
     War3_AddSoundFolder(sBuyTomeSound, sizeof(sBuyTomeSound), "tomes.mp3");
-    War3_PrecacheSound(sBuyTomeSound);
+    War3_AddCustomSound(sBuyTomeSound);
     
     if(GAMECSGO)
     {

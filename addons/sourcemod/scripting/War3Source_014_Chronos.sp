@@ -78,8 +78,8 @@ public OnMapStart()
     War3_AddSoundFolder(leapsnd, sizeof(leapsnd), "chronos/timeleap.mp3");
     War3_AddSoundFolder(spheresnd, sizeof(spheresnd), "chronos/sphere.mp3");
 
-    War3_PrecacheSound(leapsnd);
-    War3_PrecacheSound(spheresnd);
+    War3_AddCustomSound(leapsnd);
+    War3_AddCustomSound(spheresnd);
     glowsprite=PrecacheModel("sprites/strider_blackball.spr");
     
     BeamSprite=War3_PrecacheBeamSprite();

@@ -114,7 +114,7 @@ public OnMapStart()
         BloodDrop = PrecacheModel("sprites/blood.vmt");
     }
 
-    War3_PrecacheSound(lightningSound);
+    War3_AddCustomSound(lightningSound);
 }
 
 public OnRaceChanged(client,oldrace,newrace)

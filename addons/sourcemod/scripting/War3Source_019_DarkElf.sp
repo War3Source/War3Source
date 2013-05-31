@@ -67,8 +67,8 @@ public OnMapStart()
         War3_PrecacheParticle("teleporter_blue_entrance");
         War3_PrecacheParticle("ghost_smoke");
     }
-    //War3_PrecacheSound(tribunal);
-    //War3_PrecacheSound(darkorb);
+    //War3_AddCustomSound(tribunal);
+    //War3_AddCustomSound(darkorb);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)

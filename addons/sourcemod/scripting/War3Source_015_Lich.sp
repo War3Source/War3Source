@@ -71,8 +71,8 @@ public OnMapStart()
     War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "lich/attack_single2.mp3");
     War3_AddSoundFolder(novasnd, sizeof(novasnd), "lich/ping_patrol.mp3");
 
-    War3_PrecacheSound(ultsnd);
-    War3_PrecacheSound(novasnd);
+    War3_AddCustomSound(ultsnd);
+    War3_AddCustomSound(novasnd);
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
 }

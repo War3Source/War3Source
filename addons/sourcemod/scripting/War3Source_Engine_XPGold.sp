@@ -94,7 +94,7 @@ public OnPluginStart()
 public OnMapStart()
 {
     War3_AddSoundFolder(levelupSound, sizeof(levelupSound), "levelupcaster.mp3");
-    War3_PrecacheSound(levelupSound);
+    War3_AddCustomSound(levelupSound);
 }
 
 public bool:InitNativesForwards()

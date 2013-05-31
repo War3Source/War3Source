@@ -122,7 +122,7 @@ public OnMapStart()
         FireSprite     = PrecacheModel("materials/sprites/fireburst.vmt");
     }
     
-    War3_PrecacheSound(reviveSound);
+    War3_AddCustomSound(reviveSound);
 
     // Reset Can Player Revive
     for(new i=1;i<=MAXPLAYERSCUSTOM;i++)

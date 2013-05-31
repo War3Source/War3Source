@@ -54,9 +54,9 @@ public OnMapStart()
         expireTime[i]=0.0;
     }
     
-    War3_PrecacheSound(sHintSound);
-    War3_PrecacheSound(abilityReadySound);
-    War3_PrecacheSound(ultimateReadySound);
+    War3_AddCustomSound(sHintSound);
+    War3_AddCustomSound(abilityReadySound);
+    War3_AddCustomSound(ultimateReadySound);
 
 
     ClearAllCooldowns();

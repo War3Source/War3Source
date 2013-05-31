@@ -93,9 +93,9 @@ public OnMapStart()
     War3_PrecacheParticle("yikes_text");//Roar Effect Victim
     War3_PrecacheParticle("particle_nemesis_burst_red");//Red Team Roar Caster
     War3_PrecacheParticle("particle_nemesis_burst_blue");//Blue Team Roar Caster
-    War3_PrecacheSound(roarsound);
-    War3_PrecacheSound(ultsndblue);
-    War3_PrecacheSound(ultsndred);
+    War3_AddCustomSound(roarsound);
+    War3_AddCustomSound(ultsndblue);
+    War3_AddCustomSound(ultsndred);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)

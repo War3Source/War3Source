@@ -41,7 +41,7 @@ public OnPluginStart()
 public OnMapStart()
 {
     War3_AddSoundFolder(sMaskSound, sizeof(sMaskSound), "mask.mp3");
-    War3_PrecacheSound(sMaskSound);
+    War3_AddCustomSound(sMaskSound);
     
     BeamSprite = War3_PrecacheBeamSprite();
     HaloSprite = War3_PrecacheHaloSprite();

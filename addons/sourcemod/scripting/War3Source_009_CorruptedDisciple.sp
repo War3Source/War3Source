@@ -104,11 +104,11 @@ public OnMapStart()
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     
-    War3_PrecacheSound(taunt1);
-    War3_PrecacheSound(taunt2);
-    War3_PrecacheSound(overload1);
-    War3_PrecacheSound(overloadzap);
-    War3_PrecacheSound(overloadstate);
+    War3_AddCustomSound(taunt1);
+    War3_AddCustomSound(taunt2);
+    War3_AddCustomSound(overload1);
+    War3_AddCustomSound(overloadzap);
+    War3_AddCustomSound(overloadstate);
 }
 
 

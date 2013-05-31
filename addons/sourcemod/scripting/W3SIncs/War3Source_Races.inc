@@ -73,3 +73,19 @@ native W3IsRaceTranslated(raceid);
 
 native W3GetRaceCell(raceid,ENUM_RaceObject:property);
 native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue)
+
+//probably usefull since it allready gots a getbyshortname brother
+stock War3_GetRaceIDByName(const String:racename[64]) {
+    new RacesLoaded = War3_GetRacesLoaded();
+    decl String:buffer[64],id;
+    id=-1;//so.. -1 means invalid/not found
+    for(new x=1;x<=RacesLoaded;x++)
+    {
+        War3_GetRaceName(x,buffer,sizeof(buffer));
+        if(StrEqual(buffer,racename)) {
+            id=x;
+            break;
+        }
+    }
+    return id;
+}

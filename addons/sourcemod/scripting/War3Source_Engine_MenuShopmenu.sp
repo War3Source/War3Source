@@ -22,7 +22,7 @@ public OnPluginStart()
 public OnMapStart()
 {
     War3_AddSoundFolder(sBuyItemSound, sizeof(sBuyItemSound), "ui/ReceiveGold.mp3");
-    War3_PrecacheSound(sBuyItemSound);
+    War3_AddCustomSound(sBuyItemSound);
 }
 
 public OnWar3Event(W3EVENT:event,client)

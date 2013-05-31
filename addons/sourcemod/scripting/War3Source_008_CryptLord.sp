@@ -64,7 +64,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnMapStart()
 {
     War3_AddSoundFolder(ultimateSound, sizeof(ultimateSound), "locustswarmloop.mp3");
-    War3_PrecacheSound(ultimateSound);
+    War3_AddCustomSound(ultimateSound);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)

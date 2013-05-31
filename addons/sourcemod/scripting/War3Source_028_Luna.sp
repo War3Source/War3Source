@@ -48,10 +48,10 @@ public OnMapStart()
     War3_AddSoundFolder(beamsnd, sizeof(beamsnd), "moonqueen/beam.mp3");
     War3_AddSoundFolder(lunasnd2, sizeof(lunasnd2), "flashbang_explode2.mp3");
 
-    War3_PrecacheSound( beamsnd );
+    War3_AddCustomSound( beamsnd );
     if(GameCS()) {
 
-        War3_PrecacheSound( lunasnd2 );
+        War3_AddCustomSound( lunasnd2 );
     }
     //BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();

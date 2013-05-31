@@ -68,16 +68,16 @@ public OnMapStart()
     else if(GAMECSGO)
     {
         ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
-        //War3_PrecacheSound("music/war3source/csgo/weapons/explode5.mp3");
+        //War3_AddCustomSound("music/war3source/csgo/weapons/explode5.mp3");
         //PrecacheSound("music/war3source/csgo/weapons/explode5.mp3",false);
     }
 
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
 
-    War3_PrecacheSound(explosionSound1);
+    War3_AddCustomSound(explosionSound1);
     
-//    War3_PrecacheSound(teleportSound);
+//    War3_AddCustomSound(teleportSound);
 }
 public OnWar3EventSpawn(client)
 {

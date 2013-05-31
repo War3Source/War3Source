@@ -70,8 +70,8 @@ public OnMapStart()
     War3_AddSoundFolder(judgesnd, sizeof(judgesnd), "sr/judgement.mp3");
     War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "sr/ult.mp3");
 
-    War3_PrecacheSound(judgesnd);
-    War3_PrecacheSound(ultsnd);
+    War3_AddCustomSound(judgesnd);
+    War3_AddCustomSound(ultsnd);
 }
 
 

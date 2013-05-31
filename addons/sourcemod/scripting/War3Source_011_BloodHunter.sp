@@ -60,7 +60,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnMapStart()
 {
     War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "bh/ult.mp3");
-    War3_PrecacheSound(ultsnd);
+    War3_AddCustomSound(ultsnd);
 }
 
 

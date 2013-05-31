@@ -77,8 +77,8 @@ public OnMapStart()
     g_BeamSprite = War3_PrecacheBeamSprite();
     g_HaloSprite = War3_PrecacheHaloSprite(); 
     //Sounds
-    War3_PrecacheSound(hammerboltsound);
-    War3_PrecacheSound(ultsnd);
+    War3_AddCustomSound(hammerboltsound);
+    War3_AddCustomSound(ultsnd);
 }
 
 public OnWar3EventSpawn(client)

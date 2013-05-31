@@ -23,10 +23,10 @@ public OnPluginStart()
     War3_AddSoundFolder(helmSound2, sizeof(helmSound2), "helm/metal_solid_impact_bullet3.mp3");
     War3_AddSoundFolder(helmSound3, sizeof(helmSound3), "helm/metal_solid_impact_bullet4.mp3");
 
-    War3_PrecacheSound(helmSound0);
-    War3_PrecacheSound(helmSound1);
-    War3_PrecacheSound(helmSound2);
-    War3_PrecacheSound(helmSound3);
+    War3_AddCustomSound(helmSound0);
+    War3_AddCustomSound(helmSound1);
+    War3_AddCustomSound(helmSound2);
+    War3_AddCustomSound(helmSound3);
     
     LoadTranslations("w3s.item.helm.phrases");
 }

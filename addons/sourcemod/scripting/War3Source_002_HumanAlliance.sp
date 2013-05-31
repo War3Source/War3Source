@@ -98,7 +98,7 @@ public OnMapStart()
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     
-    War3_PrecacheSound(teleportSound);
+    War3_AddCustomSound(teleportSound);
 }
 
 public OnRaceChanged(client,oldrace,newrace)

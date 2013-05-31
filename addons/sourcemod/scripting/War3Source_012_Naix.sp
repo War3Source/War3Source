@@ -70,8 +70,8 @@ public OnMapStart()
     War3_AddSoundFolder(skill1snd, sizeof(skill1snd), "naix/predskill1.mp3");
     War3_AddSoundFolder(ultsnd, sizeof(ultsnd), "naix/predult.mp3");
 
-    War3_PrecacheSound(skill1snd);
-    War3_PrecacheSound(ultsnd);
+    War3_AddCustomSound(skill1snd);
+    War3_AddCustomSound(ultsnd);
 }
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)

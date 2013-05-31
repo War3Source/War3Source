@@ -1,10 +1,7 @@
 /**
  * File: War3Source_Interface.inc
- * Description: The file to be included for creating races and whatnot.
- * Author(s): Anthony Iacono  
- * 
- * 
- * LISTS NATIVES AND FORWARDS, BUT NOT ACTUALLY DEFINES THE CODE
+ * Description: The big one that includes everything else
+ * Author(s): War3Source Team  
  */
 #pragma semicolon 1
 #undef REQUIRE_EXTENSIONS
@@ -1688,7 +1685,6 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/War3Source_CS_Interface"
 #include "W3SIncs/War3Source_TF2_Interface"
-#include "W3SIncs/stocks_misc"
 #include "W3SIncs/War3Source_Notifications"
 #include "W3SIncs/War3Source_Health"
 #include "W3SIncs/War3Source_SkillEffects"
@@ -1701,3 +1697,4 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_Events"
 #include "W3SIncs/War3Source_Currency"
 #include "W3SIncs/War3Source_Effects"
+#include "W3SIncs/War3Source_PrecacheDownload"
