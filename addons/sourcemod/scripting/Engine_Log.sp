@@ -1,4 +1,3 @@
-#include <sourcemod>
 #include <regex>
 #include "W3SIncs/War3Source_Interface"
 
@@ -250,6 +249,11 @@ War3_LogGeneric(String:sMessage[], maxlength, Handle:hSourcePlugin, War3_LogSeve
         if(iPrintToConsole || logSeverity == SEVERITY_CRITICAL)
         {
             PrintToServer(sOutput);
+        }
+        
+        if (logSeverity == SEVERITY_CRITICAL)
+        {
+            LogError(sOutput);
         }
     }
 }

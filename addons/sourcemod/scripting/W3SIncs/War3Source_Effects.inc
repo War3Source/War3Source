@@ -3,6 +3,142 @@
  * Description: Stocks to make races flashier
  * Author(s): War3Source Team  
  */
+#define BEAMSPRITE_CSGO      "materials/sprites/laserbeam.vmt"
+#define BEAMSPRITE_SOURCE    "materials/sprites/lgtning.vmt"
+
+#define HALOSPRITE_CSGO     "materials/sprites/halo.vmt"
+#define HALOSPRITE_SOURCE   "materials/sprites/halo01.vmt"
+
+//=============================================================================
+//                                 One liners...
+//=============================================================================
+
+//=========================================
+//                 PARTICLES
+//==========================================
+
+stock ThrowAwayParticle(const String:effectName[], const Float:fPos[3], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
+{    
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
+    ModifyEntityAddDeathTimer(particle, lifetime);
+    
+    return particle;
+}
+
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[]="", const Float:fAngles[3]=NULL_VECTOR)
+{    
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
+    ModifyEntityAttach(particle, client, attachTo);
+    
+    return particle;
+}
+
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachThrowAwayParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
+{    
+    new particle = CreateW3SParticle(effectName, fPos, fAngles);
+    ModifyEntityAttach(particle, client, attachTo);
+    ModifyEntityAddDeathTimer(particle, lifetime);
+    
+    return particle;
+}
+
+//=========================================
+//                 LIGHTS
+//==========================================
+
+stock ThrowAwayLightEmitter(const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const Float:lifetime)
+{    
+    new light = CreateW3SLight(fPos, color, style, distance);
+    ModifyEntityAddDeathTimer(light, lifetime);
+}
+
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[])
+{    
+    new light = CreateW3SLight(fPos, color, style, distance);
+    ModifyEntityAttach(light, client, attachTo);
+    
+    return light;
+}
+
+// If you have an attachment point you can pass NULL_VECTOR to fPos
+stock AttachThrowAwayLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
+{    
+    new light = CreateW3SLight(fPos, color, style, distance);
+    ModifyEntityAttach(light, client, attachTo);
+    ModifyEntityAddDeathTimer(light, lifetime);
+    
+    return light;
+}
+
+//=============================================================================
+//                                 Temp Entitys
+//=============================================================================
+
+stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIndex,const Float:heightF,count,const Float:speedF)
+{
+    TE_Start("Bubbles");
+    TE_WriteVector("m_vecMins", vecOrigin);
+    TE_WriteVector("m_vecMaxs", vecFinish);
+    TE_WriteFloat("m_fHeight", heightF);
+    TE_WriteNum("m_nModelIndex", modelIndex);
+    TE_WriteNum("m_nCount", count);
+    TE_WriteFloat("m_fSpeed", speedF);
+}
+
+//=============================================================================
+//                                 Screen effects
+//=============================================================================
+
+/**
+ * Flashes a player's screen a certain color for a duration.
+ * @param client: Client's index.
+ * @param color[4]: RGBA value of the color, see above for presets.
+ * @param duration: Length of flash, optional.
+ * @param flags: Flags of Fade user message, optional.
+ * @noreturn
+ */
+native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
+
+/**
+ * Shakes a player's screen at a magnitude and noise for a duration.
+ * @param client: Client's index.
+ * @param duration: Optional, how long to shake.
+ * @param magnitude: Optional magnitude value.
+ * @param noise: Optional noise value.
+ * @noreturn
+ */
+native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
+
+//=============================================================================
+//                             Precaching
+//=============================================================================
+
+stock War3_PrecacheBeamSprite() 
+{
+    new spriteIndex = PrecacheModel(GAMECSGO ? BEAMSPRITE_CSGO : BEAMSPRITE_SOURCE);
+
+    if(spriteIndex == -1) 
+    {
+        War3_LogCritical("Failed to precache BeamSprite material \"%s\"", GAMECSGO ? BEAMSPRITE_CSGO : BEAMSPRITE_SOURCE);
+    }
+    
+    return spriteIndex;
+}
+
+stock War3_PrecacheHaloSprite() 
+{
+    new spriteIndex = PrecacheModel(GAMECSGO ? HALOSPRITE_CSGO : HALOSPRITE_SOURCE);
+
+    if(spriteIndex == -1) 
+    {
+        War3_LogCritical("Failed to precache HaloSprite material \"%s\"", GAMECSGO ? HALOSPRITE_CSGO : HALOSPRITE_SOURCE);
+    }
+    
+    return spriteIndex;
+}
 
 //=============================================================================
 //                             Raw particle/light methods
@@ -130,107 +266,3 @@ stock ModifyEntityAttach(const entityIndex, const otherEntityIndex, const String
         }
     }
 }
-
-//=============================================================================
-//                                 Temp Entitys
-//=============================================================================
-
-stock TE_SetupBubbles(const Float:vecOrigin[3], const Float:vecFinish[3],modelIndex,const Float:heightF,count,const Float:speedF)
-{
-    TE_Start("Bubbles");
-    TE_WriteVector("m_vecMins", vecOrigin);
-    TE_WriteVector("m_vecMaxs", vecFinish);
-    TE_WriteFloat("m_fHeight", heightF);
-    TE_WriteNum("m_nModelIndex", modelIndex);
-    TE_WriteNum("m_nCount", count);
-    TE_WriteFloat("m_fSpeed", speedF);
-}
-
-//=============================================================================
-//                                 Screen effects
-//=============================================================================
-
-/**
- * Flashes a player's screen a certain color for a duration.
- * @param client: Client's index.
- * @param color[4]: RGBA value of the color, see above for presets.
- * @param duration: Length of flash, optional.
- * @param flags: Flags of Fade user message, optional.
- * @noreturn
- */
-native W3FlashScreen(client,color[4],Float:holdduration=0.1,Float:fadeduration=0.2,flags=FFADE_IN);
-
-/**
- * Shakes a player's screen at a magnitude and noise for a duration.
- * @param client: Client's index.
- * @param duration: Optional, how long to shake.
- * @param magnitude: Optional magnitude value.
- * @param noise: Optional noise value.
- * @noreturn
- */
-native War3_ShakeScreen(client,Float:duration=1.0,Float:magnitude=40.0,Float:noise=30.0);
-
-//=============================================================================
-//                                 One liners...
-//=============================================================================
-
-//=========================================
-//                 PARTICLES
-//==========================================
-
-stock ThrowAwayParticle(const String:effectName[], const Float:fPos[3], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
-{    
-    new particle = CreateW3SParticle(effectName, fPos, fAngles);
-    ModifyEntityAddDeathTimer(particle, lifetime);
-    
-    return particle;
-}
-
-// If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[]="", const Float:fAngles[3]=NULL_VECTOR)
-{    
-    new particle = CreateW3SParticle(effectName, fPos, fAngles);
-    ModifyEntityAttach(particle, client, attachTo);
-    
-    return particle;
-}
-
-// If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachThrowAwayParticle(const client, const String:effectName[], const Float:fPos[3], const String:attachTo[], const Float:lifetime, const Float:fAngles[3]=NULL_VECTOR)
-{    
-    new particle = CreateW3SParticle(effectName, fPos, fAngles);
-    ModifyEntityAttach(particle, client, attachTo);
-    ModifyEntityAddDeathTimer(particle, lifetime);
-    
-    return particle;
-}
-
-//=========================================
-//                 LIGHTS
-//==========================================
-
-stock ThrowAwayLightEmitter(const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const Float:lifetime)
-{    
-    new light = CreateW3SLight(fPos, color, style, distance);
-    ModifyEntityAddDeathTimer(light, lifetime);
-}
-
-// If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[])
-{    
-    new light = CreateW3SLight(fPos, color, style, distance);
-    ModifyEntityAttach(light, client, attachTo);
-    
-    return light;
-}
-
-// If you have an attachment point you can pass NULL_VECTOR to fPos
-stock AttachThrowAwayLight(const client, const Float:fPos[3], const String:color[], const String:style[], const Float:distance, const String:attachTo[], const Float:lifetime)
-{    
-    new light = CreateW3SLight(fPos, color, style, distance);
-    ModifyEntityAttach(light, client, attachTo);
-    ModifyEntityAddDeathTimer(light, lifetime);
-    
-    return light;
-}
-

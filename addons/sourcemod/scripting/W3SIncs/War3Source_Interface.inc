@@ -16,12 +16,10 @@
 #include "W3SIncs/constants"
 #include "W3SIncs/colors"
 #include "W3SIncs/aura"
-#include "W3SIncs/War3Source_Effects"
 #include "W3SIncs/War3Source_Wards"
 #include "W3SIncs/War3Source_Races"
 #include "W3SIncs/War3Source_Logging"
 #include "W3SIncs/War3Source_Gamecheck"
-#include "W3SIncs/easy_commands"
 
 //Interface version, change this when the API requirement changes to force a recompile
 //There will be a system check to make sure all plugins are compiled to the same interface.
@@ -1687,7 +1685,6 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
     }
 }
 
-#include "W3SIncs/stocks_precache"
 #include "W3SIncs/War3Source_L4D_Interface"
 #include "W3SIncs/War3Source_CS_Interface"
 #include "W3SIncs/War3Source_TF2_Interface"
@@ -1703,3 +1700,4 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_AttributeBuffs"
 #include "W3SIncs/War3Source_Events"
 #include "W3SIncs/War3Source_Currency"
+#include "W3SIncs/War3Source_Effects"

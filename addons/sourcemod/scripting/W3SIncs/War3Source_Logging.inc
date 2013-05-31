@@ -44,6 +44,7 @@ native War3_LogError(const String:fmt[], any:...);
 
 /**
  * Log a critical message. Something has gone very wrong and we're unable to handle it.
+ * Also writes the message to the Sourcemod error log
  */
 native War3_LogCritical(const String:fmt[], any:...);
 

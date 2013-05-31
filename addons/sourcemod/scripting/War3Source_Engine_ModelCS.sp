@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/sdkhooks"
+#include "sdkhooks"
 
 public Plugin:myinfo = 
 {

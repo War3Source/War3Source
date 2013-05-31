@@ -124,7 +124,7 @@ And that's the art of the test!
 #define WAR3MAIN
  
 #include <sourcemod>
-#include "W3SIncs/sdkhooks"
+#include "sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 #include "W3SIncs/War3SourceMain"
 
