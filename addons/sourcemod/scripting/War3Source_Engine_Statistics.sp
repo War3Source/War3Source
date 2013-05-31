@@ -176,12 +176,12 @@ public OnMapStart(){
     
     
     
-    //CreateTimer(1.0,PerMapQueries);
+    CreateTimer(1.0,PerMapQueries);
     
     lastserverinfoupdate=0.0;
 }
 
-/*
+
 public Action:PerMapQueries(Handle:h)
 {
     W3Socket("w3stat/war3minver.php", SockCallbackMinVersion);
@@ -189,6 +189,7 @@ public Action:PerMapQueries(Handle:h)
 
 public SockCallbackMinVersion(bool:success,fail,String:ret[])
 {
+    /*
     if(success){
         new String:exploded[2][32];
         ExplodeString(ret, "::", exploded, 2, 32);
@@ -201,8 +202,8 @@ public SockCallbackMinVersion(bool:success,fail,String:ret[])
             War3Failed("War3Source is out of date, please update war3source");
         }
     }
+    */
 }
-*/
 
 
 public Action:ManyMinTimer(Handle:h,any:a){
@@ -219,7 +220,10 @@ public Action:ManyMinTimer(Handle:h,any:a){
         W3Socket("w3stat/lateststable.php",SockCallbackVersion);
     }
 }
+
+
 public SockCallbackVersion(bool:success,fail,String:ret[]){
+    /*
     new revour=W3GetW3Revision();
     if(success){
         new String:exploded[2][32];
@@ -230,8 +234,11 @@ public SockCallbackVersion(bool:success,fail,String:ret[]){
             UpdateMsg();
         }
     }
+    */
 }
 
+
+/*
 UpdateMsg(){
     PrintToServer("A newer version of War3Source is available\nPlease download @ www.war3source.com");
     for(new i=1;i<=MaxClients;i++){
@@ -241,7 +248,7 @@ UpdateMsg(){
         }
     }
 }
-
+*/
 
 
 
