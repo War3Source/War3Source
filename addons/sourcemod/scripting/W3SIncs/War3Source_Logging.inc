@@ -4,7 +4,7 @@
  * Author(s): War3Source Team  
  */
 
-;enum War3_LogLevel
+enum War3_LogLevel
 {
     LOG_LEVEL_OFF,
     LOG_LEVEL_CRITICAL,

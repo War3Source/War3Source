@@ -64,3 +64,6 @@ stock War3_SetCSArmorHasHelmet(client,bool:hashelmet) {
  * @noreturn
  */
 native War3_RestoreCachedCSArmor(client);
+
+native bool:War3_CSAddCustomModel(client,String:weapon[],modelIndex,mdltype);
+native bool:War3_CSRemoveCustomModel(client,String:weapon[],mdltype);

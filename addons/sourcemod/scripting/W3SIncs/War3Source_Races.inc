@@ -72,7 +72,7 @@ native W3GetRaceMinLevelRequired(raceid);
 native W3IsRaceTranslated(raceid);
 
 native W3GetRaceCell(raceid,ENUM_RaceObject:property);
-native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue)
+native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
 
 //probably usefull since it allready gots a getbyshortname brother
 stock War3_GetRaceIDByName(const String:racename[64]) {

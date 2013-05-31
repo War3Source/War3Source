@@ -27,9 +27,9 @@ new bool:IsCustom[MAXPLAYERSCUSTOM];
 public bool:InitNativesForwards()
 {
     //native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
-    CreateNative("War3_AddCustomModel",NWar3_SetModel);
+    CreateNative("War3_CSAddCustomModel",NWar3_SetModel);
     //native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
-    CreateNative("War3_RemoveCustomModel",NWar3_DelModel);
+    CreateNative("War3_CSRemoveCustomModel",NWar3_DelModel);
     return true;
 }
 

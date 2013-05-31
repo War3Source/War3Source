@@ -123,9 +123,6 @@ stock SetSafeMenuTitle(Handle:menu, const String:fmt[], any:...)
     SetMenuTitle(menu, menuTitle);
 }
 
-native bool:War3_AddCustomModel(client,String:weapon[],modelIndex,mdltype);
-native bool:War3_RemoveCustomModel(client,String:weapon[],mdltype);
-
 native W3GetW3Version(String:retstr[],maxlen);//str
 native W3GetW3Revision();//int
 native W3GetStatsVersion();//int
