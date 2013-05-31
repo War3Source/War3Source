@@ -32,19 +32,22 @@ public OnPluginStart()
 
 public OnWar3EventSpawn(client)
 {
-    ORIGINALHP[client]=GetClientHealth(client);
-    
-    if(mytimer[client]!=INVALID_HANDLE)
+    if (ValidPlayer(client))
     {
-        CloseHandle(mytimer[client]);
+        ORIGINALHP[client]=GetClientHealth(client);
+        
+        if(mytimer[client]!=INVALID_HANDLE)
+        {
+            CloseHandle(mytimer[client]);
+        }
+    
+        mytimer[client] = CreateTimer(0.01, CheckHP, EntIndexToEntRef(client));
     }
-
-    mytimer[client] = CreateTimer(0.01, CheckHP, client);
 }
 
 public OnWar3EventDeath(victim, attacker)
 {
-    if(GAMETF)
+    if(GAMETF && ValidPlayer(attacker))
     {
         // This isn't written for randomizer or TF2Items shenanigans in general, sorry :-)
         if (TF2_GetPlayerClass(attacker) == TFClass_DemoMan)
@@ -75,7 +78,9 @@ public Action:checkHeadsTimer(Handle:h, any:attackerRef)
     }
 }
 
-public Action:CheckHP(Handle:h,any:client){
+public Action:CheckHP(Handle:h, any:clientRef)
+{
+    new client = EntRefToEntIndex(clientRef);
     mytimer[client]=INVALID_HANDLE;
     if(ValidPlayer(client,true) && !bHealthAddedThisSpawn[client])
     {
