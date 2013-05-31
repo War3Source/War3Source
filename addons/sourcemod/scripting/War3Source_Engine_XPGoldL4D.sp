@@ -40,6 +40,8 @@ public APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_ma
 
 public OnPluginStart()
 {
+    LoadTranslations("w3s.engine.xpgold.txt");
+    
     HealPlayerXPCvar=CreateConVar("war3_l4d_healxp","100","XP awarded to a player healing another");
     RevivePlayerXPCvar=CreateConVar("war3_l4d_revivexp","300","XP awarded to a player reviving another");
     RescuePlayerXPCvar=CreateConVar("war3_l4d_rescueexp","100","XP awarded to a player rescueing somebody from a closet");

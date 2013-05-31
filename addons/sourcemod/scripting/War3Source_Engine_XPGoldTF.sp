@@ -32,6 +32,7 @@ new Handle:MvMMedicSharedPowerupXPCvar;
 
 public OnPluginStart()
 {
+    LoadTranslations("w3s.engine.xpgold.txt");
 
     PointCaptureXPCvar=CreateConVar("war3_percent_tf_pointcapturexp","25","Percent of kill XP awarded to the capturing team");
     PointCapBlockXPCvar=CreateConVar("war3_percent_tf_blockcapturexp","20","Percent of kill XP awarded for blocking a capture");

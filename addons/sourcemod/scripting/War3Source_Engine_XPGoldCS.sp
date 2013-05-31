@@ -24,6 +24,8 @@ new Handle:touchedHostage[MAXPLAYERSCUSTOM];
 
 public OnPluginStart()
 {
+    LoadTranslations("w3s.engine.xpgold.txt");
+    
     for(new i=0;i<MAXPLAYERSCUSTOM;i++){
         touchedHostage[i]=CreateArray();
     }
