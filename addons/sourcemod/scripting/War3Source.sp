@@ -14,7 +14,7 @@
     
     War3source written by PimpinJuice (anthony) and Ownz (Dark Energy)
     All rights reserved.
-*/    
+*/
 
 /*
 * File: War3Source.sp
@@ -114,8 +114,15 @@ And that's the art of the test!
 
 #define VERSION_NUM "2.0.0.1"
 #define REVISION_NUM 20666 //increment every release
-//ownz: im not going to bother updating this every time, i can't tell what the next rev is. revision_num was intended for this purpose
-#define REVISION_SVN "855" //Add 1 to the number of the current SVN before you commit
+
+public Plugin:myinfo = 
+{
+    name = "War3Source",
+    author = "War3Source Team",
+    description="Brings a Warcraft like gamemode to the Source engine.",
+    version=VERSION_NUM
+};
+
 
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
 #define ORIGINAL_AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
@@ -128,15 +135,13 @@ And that's the art of the test!
 #include "W3SIncs/War3Source_Interface"
 #include "W3SIncs/War3SourceMain"
 
-public Plugin:myinfo = 
-{
-    name = "War3Source",
-    author = "War3Source Team",
-    description="Brings a Warcraft like gamemode to the Source engine.",
-    version=VERSION_NUM
-};
-
 new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
+new Handle:hRaceLimitEnabled;
+new Handle:hChangeGameDescCvar;
+new Handle:hUseMetric;
+new Handle:introclannamecvar;
+new Handle:clanurl;
+
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
@@ -145,11 +150,8 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
     
     
     new String:version[64];
-    new String:revision[64];
     Format(version,sizeof(version),"%s by the War3Source Team",VERSION_NUM);
-    Format(revision,sizeof(revision),"SVN Revision %s",REVISION_SVN);
     CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
-    CreateConVar("war3_svn",revision,"War3Source SVN.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("a_war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     
     CreateNative("W3GetW3Version",NW3GetW3Version);
@@ -775,4 +777,20 @@ public War3Source_IntroMenu_Select(Handle:menu,MenuAction:action,client,selectio
     {
         CloseHandle(menu);
     }
+}
+
+War3Source_InitCVars()
+{
+    introclannamecvar=CreateConVar("war3_introclanname","war3_introclanname","Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
+    clanurl=CreateConVar("war3_clanurl","Www.OwnageClan.Com (set war3_clanurl)","The url to display on intro menu");
+
+    hRaceLimitEnabled=CreateConVar("war3_racelimit_enable","1","Should race limit restrictions per team be enabled");
+    W3SetVar(hRaceLimitEnabledCvar,hRaceLimitEnabled);
+
+
+    hChangeGameDescCvar=CreateConVar("war3_game_desc","1","change game description to war3source? does not affect player connect");
+    
+    hUseMetric=CreateConVar("war3_metric_system","0","Do you want use metric system? 1-Yes, 0-No");
+    W3SetVar(hUseMetricCvar,hUseMetric);
+    return true;
 }

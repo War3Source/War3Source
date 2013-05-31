@@ -20,7 +20,6 @@
 
 // War3Source Includes
 
-#include "W3SIncs/cvar"
 #include "W3SIncs/forwards"
  
 
