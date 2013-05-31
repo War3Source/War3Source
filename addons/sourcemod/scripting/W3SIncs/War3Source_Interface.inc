@@ -14,7 +14,7 @@
 #include "W3SIncs/War3Source_Constants"
 #include "W3SIncs/War3Source_Bots"
 #include "W3SIncs/colors"
-#include "W3SIncs/aura"
+#include "W3SIncs/War3Source_Aura"
 #include "W3SIncs/War3Source_Wards"
 #include "W3SIncs/War3Source_Races"
 #include "W3SIncs/War3Source_Logging"
