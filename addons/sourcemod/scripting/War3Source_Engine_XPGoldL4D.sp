@@ -61,7 +61,7 @@ public OnPluginStart()
     IncapXPCvar=CreateConVar("war3_l4d_incapxp","100","XP awarded to a infected incapping a survivor");
     KillSurvivorXPCvar=CreateConVar("war3_l4d_killsurvivorxp","200","XP awarded to a infected killing a survivor");
 
-    if(War3_IsL4DEngine())
+    if(GAMEL4DANY)
     {        
         if(!HookEventEx("heal_success", War3Source_HealSuccessEvent))
         {

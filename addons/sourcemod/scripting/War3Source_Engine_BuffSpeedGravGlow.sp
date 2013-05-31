@@ -415,7 +415,7 @@ public OnGameFrame()
                  *      TODO: Fix properly ;)
                  */
                 
-                if(currentmovetype!=shouldmoveas && !War3_IsL4DEngine()){
+                if(currentmovetype!=shouldmoveas && !GAMEL4DANY){
                     SetEntityMoveType(client,shouldmoveas);
                 }
                 //PrintToChatAll("end");

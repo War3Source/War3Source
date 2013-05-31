@@ -287,7 +287,7 @@ public ShowXP(client)
 //main plugin forwards this, does not forward on spy dead ringer, blocks double forward within same frame of same victim
 public OnWar3EventDeath(victim,attacker){
     new Handle:event=W3GetVar(SmEvent);
-    if(War3_IsL4DEngine())
+    if(GAMEL4DANY)
     {
         if (attacker > 0 && GetClientTeam(attacker) == TEAM_SURVIVORS)
         {

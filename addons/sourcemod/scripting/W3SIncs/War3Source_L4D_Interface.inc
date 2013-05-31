@@ -111,10 +111,6 @@ stock bool:War3_ZombieHittingSurvivor(victim, attacker)
 //  * type != 0: Explosion
 native War3_L4D_Explode(attacker, Float:pos[3], type);
 
-stock bool:War3_IsL4DEngine() {
-    return (War3_GetGame() == Game_L4D || War3_GetGame() == Game_L4D2);
-}
-
 stock bool:War3_IsPlayerIncapped(client)
 {
     if (GetEntProp(client, Prop_Send, "m_isIncapacitated", 1)) return true;
@@ -122,7 +118,7 @@ stock bool:War3_IsPlayerIncapped(client)
 }
 
 stock bool:War3_IsL4DZombieEntity(iEntity) {
-    if (War3_IsL4DEngine()) {
+    if (GAMEL4DANY) {
         return (War3_IsCommonInfected(iEntity) || War3_IsWitch(iEntity));
     }
 
@@ -215,7 +211,7 @@ stock GetAmountOfTanks()
 
 stock GetMaxMagSize(const String:weapon[])
 {
-    if (War3_IsL4DEngine())
+    if (GAMEL4DANY)
     {
         if ((StrEqual(weapon, "weapon_rifle", false)) || (StrEqual(weapon, "weapon_rifle_sg552", false)) || (StrEqual(weapon, "weapon_smg", false) || StrEqual(weapon, "weapon_smg_silenced", false) || StrEqual(weapon, "weapon_smg_mp5", false)))
         {
@@ -309,7 +305,7 @@ stock GetCurrentBackupAmmo(client)
 
 stock GetMaxBackupAmmo(const String:weapon[])
 {
-    if (War3_IsL4DEngine())
+    if (GAMEL4DANY)
     {
         if (StrEqual(weapon, "weapon_rifle", false) || StrEqual(weapon, "weapon_rifle_ak47", false) || StrEqual(weapon, "weapon_rifle_desert", false) || StrEqual(weapon, "weapon_rifle_sg552", false))
         {

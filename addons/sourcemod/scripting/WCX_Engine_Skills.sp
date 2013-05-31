@@ -10,11 +10,6 @@ public Plugin:myinfo =
     description="Engine for generic skills"
 };
 
-//new String:explosionSound1[]="war3source/particle_suck1.wav";
-#if defined WAR3MAIN
-        PrintToServer("[War3Source] Game set: Counter Strike Global Offensive");
-#endif
-
 new String:explosionSound1[256];
 
 
@@ -33,17 +28,6 @@ new SuicideTeam[MAXPLAYERSCUSTOM];
 new Float:SuicideRadius[MAXPLAYERSCUSTOM];
 new SuicideSkillID[MAXPLAYERSCUSTOM];
 new Float:SuicideDamage[MAXPLAYERSCUSTOM];
-
-/*
-new ClientTracer;
-new Float:emptypos[3];
-new Float:oldpos[MAXPLAYERSCUSTOM][3];
-new Float:teleportpos[MAXPLAYERSCUSTOM][3];
-new bool:inteleportcheck[MAXPLAYERSCUSTOM];
-
-
-new String:teleportSound[]="war3source/blinkarrival.wav";
-*/
 
 public OnPluginStart()
 {

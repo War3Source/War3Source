@@ -108,12 +108,15 @@ And that's the art of the test!
 
 #pragma semicolon 1
 
+#include <sourcemod>
+#include "sdkhooks"
+#include "W3SIncs/War3Source_Interface"
+
 // BRANCH and BUILD_NUMBER are set through Jenkins :)
 #define BRANCH "{branch}"
 #define BUILD_NUMBER "{build_number}"
 
-#define VERSION_NUM "2.0.0.1"
-#define REVISION_NUM 20666 //increment every release
+#define VERSION_NUM "2.ALPHA"
 
 public Plugin:myinfo = 
 {
@@ -123,16 +126,8 @@ public Plugin:myinfo =
     version=VERSION_NUM
 };
 
-
 //DO NOT REMOVE THE OFFICIAL AUTHORS. YOU SHALL NOT DEPRIVE THEM OF THE CREDIT THEY DESERVE
-#define ORIGINAL_AUTHORS "PimpinJuice and Ownz (DarkEnergy)" 
-
-//used for some special things in interface
-#define WAR3MAIN
- 
-#include <sourcemod>
-#include "sdkhooks"
-#include "W3SIncs/War3Source_Interface"
+#define ORIGINAL_AUTHORS "PimpinJuice and Ownz (DarkEnergy)"
 
 new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
 new Handle:hRaceLimitEnabled;
@@ -153,21 +148,19 @@ new Handle:g_War3InterfaceExecFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-    
-    PrintToServer("--------------------------AskPluginLoad2Custom----------------------\n[War3Source] Plugin loading...");
-    
-    
     new String:version[64];
-    Format(version,sizeof(version),"%s by the War3Source Team",VERSION_NUM);
-    CreateConVar("war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
-    CreateConVar("a_war3_version",version,"War3Source version.",FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    Format(version, sizeof(version), "%s by the War3Source Team", VERSION_NUM);
+    CreateConVar("war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    CreateConVar("a_war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    CreateConVar("war3_branch", BRANCH, "War3Source branch.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    CreateConVar("war3_buildnumber", BUILD_NUMBER, "War3Source build number.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     
-    CreateNative("W3GetW3Version",NW3GetW3Version);
-    CreateNative("W3GetW3Revision",NW3GetW3Revision);
+    CreateNative("W3GetW3Version", NW3GetW3Version);
+    CreateNative("W3GetW3Revision", NW3GetW3Revision);
 
     if(!War3Source_InitForwards())
     {
-        LogError("[War3Source] There was a failure in creating the forward based functions, definately halting.");
+        War3_LogCritical("There was a failure in creating the forward based functions, definately halting.");
         return APLRes_Failure;
     }
     
@@ -176,340 +169,151 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
 
 public OnPluginStart()
 {
-    
-    PrintToServer("--------------------------OnPluginStart----------------------");
-    
-    if(GetExtensionFileStatus("sdkhooks.ext") < 1)
-        SetFailState("SDK Hooks is not loaded.");
-    
     if(!War3Source_HookEvents())
+    {
         SetFailState("[War3Source] There was a failure in initiating event hooks.");
-    if(!War3Source_InitCVars()) //especially sdk hooks
+    }
+    if(!War3Source_InitCVars())
+    {
         SetFailState("[War3Source] There was a failure in initiating console variables.");
+    }
 
-    CreateTimer(0.1,DeciSecondLoop,_,TIMER_REPEAT);
-        
-    PrintToServer("[War3Source] Plugin finished loading.\n-------------------END OnPluginStart-------------------");
-    
-/*    RegServerCmd("loadraces",CmdLoadRaces);
-    
-    RegConsoleCmd("dmgtest",CmdDmgTest);
-    #if defined WAR3DEBUGBUILD
-    //testihng commands here
-    RegConsoleCmd("flashscreen",FlashTest);
-    RegConsoleCmd("ubertest",UberTest);
-//    RegConsoleCmd("fullskill",FullSkilltest);
-*/
+    CreateTimer(0.1, LoadingXPHintTimer, _, TIMER_REPEAT);
+
+    // Developer debug functions
     RegConsoleCmd("war3refresh",refreshcooldowns);
     RegConsoleCmd("armortest",armortest);
-/*    RegConsoleCmd("calltest",calltest);
-    RegConsoleCmd("calltest2",calltest2);
-    
-    RegServerCmd("whichmode",cmdwhichmode);
-    
-    #endif
-    
-*/
 }
 
-public Action:DeciSecondLoop(Handle:timer)
+War3Source_InitCVars()
 {
-    // Boy, this is going to be fun.
-    for(new client=1;client<=MaxClients;client++)
+    introclannamecvar = CreateConVar("war3_introclanname", "war3_introclanname", "Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
+    clanurl = CreateConVar("war3_clanurl", "www.ownageclan.Com (set war3_clanurl)", "The url to display on intro menu");
+    hChangeGameDescCvar = CreateConVar("war3_game_desc", "1", "change game description to war3source? does not affect player connect");
+    
+    hRaceLimitEnabled = CreateConVar("war3_racelimit_enable", "1", "Should race limit restrictions per team be enabled");
+    W3SetVar(hRaceLimitEnabledCvar, hRaceLimitEnabled);
+
+    hUseMetric = CreateConVar("war3_metric_system", "1", "Do you want use metric system? 1-Yes, 0-No");
+    W3SetVar(hUseMetricCvar, hUseMetric);
+    
+    return true;
+}
+
+bool:War3Source_InitForwards()
+{
+    g_OnWar3PluginReadyHandle = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered", ET_Ignore, Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle2 = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2", ET_Ignore, Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle3 = CreateGlobalForward("OnWar3PluginReady", ET_Ignore); //unodered rest of the items or races. backwards compatable..
+    
+    g_OnWar3EventSpawnFH = CreateGlobalForward("OnWar3EventSpawn", ET_Ignore, Param_Cell);
+    g_OnWar3EventDeathFH = CreateGlobalForward("OnWar3EventDeath", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
+
+    g_CheckCompatabilityFH = CreateGlobalForward("CheckWar3Compatability", ET_Ignore, Param_String);
+    g_War3InterfaceExecFH = CreateGlobalForward("War3InterfaceExec", ET_Ignore);
+    
+    return true;
+}
+
+public Action:LoadingXPHintTimer(Handle:timer)
+{
+    for(new client=1; client <= MaxClients; client++)
     {
         if(ValidPlayer(client,true))
         {
-            //for(new i=0;i<=W3GetItemsLoaded()+War3_GetRacesLoaded();i++)
-            //{
-            //    PrintToServer("denybuff val: %d iter %d", buffdebuff[client][bBuffDeny][i],i);
-            //}
             if(!W3IsPlayerXPLoaded(client))
             {
-                if(GetGameTime()>LastLoadingHintMsg[client]+4.0)
+                if(GetGameTime() > LastLoadingHintMsg[client] + 4.0)
                 {
-                    PrintHintText(client,"%T","Loading XP... Please Wait",client);
-                    LastLoadingHintMsg[client]=GetGameTime();
+                    PrintHintText(client, "%T", "Loading XP... Please Wait", client);
+                    LastLoadingHintMsg[client] = GetGameTime();
                 }
-                continue;
             }
         }
     }
 }
 
-/*
-
-public Action:calltest(client,args){
-    new Handle:plugins[100];
-    new Function:funcs[100];
-    new length;
-    
-    new Handle:iter = GetPluginIterator();
-    new Handle:pl;
-    new Function:func;
-
-    while (MorePlugins(iter))
+public Action:armortest(client, args)
+{
+    if(W3IsDeveloper(client))
     {
-        pl = ReadPlugin(iter);
-        func=GetFunctionByName(pl,"CheckWar3Compatability");
-        if(func!=INVALID_FUNCTION){
-            plugins[length]=pl;
-            funcs[length]=func;
-            length++;
-            
-        }
-    }
-    CloseHandle(iter);
-    
-    
-    
-    for(new i=0;i<1000;i++){
-        Call_StartForward(g_CheckCompatabilityFH);
-        Call_PushString(interfaceVersion);
-        Call_Finish();
-    }
-    
-}
-public Action:calltest2(client,args){
-    new Handle:plugins[100];
-    new Function:funcs[100];
-    new length;
-    
-    new Handle:iter = GetPluginIterator();
-    new Handle:pl;
-    new Function:func;
-    while (MorePlugins(iter))
-    {
-        pl = ReadPlugin(iter);
-        func=GetFunctionByName(pl,"CheckWar3Compatability");
-        if(func!=INVALID_FUNCTION){
-            plugins[length]=pl;
-            funcs[length]=func;
-            length++;
-            
-        }
-    }
-    CloseHandle(iter);
-    
-    for(new i=0;i<1000;i++){
-    
-        for(new x=0;x<length;x++){
-            
-            Call_StartFunction(plugins[x],funcs[x]);
-            Call_PushString(interfaceVersion);
-            Call_Finish();
-        }
-    }
-}?*/
-public Action:armortest(client,args){
-    if(W3IsDeveloper(client)){
-        for(new i=1;i<=MaxClients;i++){
-            new String:arg[10];
-            GetCmdArg(1,arg,sizeof(arg));
-            new Float:num=StringToFloat(arg);
-            War3_SetBuff(i,fArmorPhysical,1,num);
-            War3_SetBuff(i,fArmorMagic,1,num);
-        }
-    }
-}/*
-public Action:CmdDmgTest(client,args){
-    War3_DealDamage(client,50,_,_,"testdmg");
-}
-public Action:CmdLoadRaces(args){
-    PrintToServer("FORCE LOADING ALL RACES AND ITEMS");
-    LoadRacesAndItems();
-    return Plugin_Handled;
-}*/
-public Action:refreshcooldowns(client,args){
-    if(W3IsDeveloper(client)){
-        new raceid=War3_GetRace(client);
-        if(raceid>0){
-            for( new skillnum=1;skillnum<=War3_GetRaceSkillCount(raceid);skillnum++){
-                War3_CooldownMGR(client,0.0,raceid,skillnum,false,false);
-            }
-        }
-    }
-}
-/*
-public Action:FlashTest(client,args){
-    if(args==6){
-        new String:arg[32];
-        GetCmdArg(1,arg,sizeof(arg));
-        new r=StringToInt(arg);
-        GetCmdArg(2,arg,sizeof(arg));
-        new g=StringToInt(arg);
-        GetCmdArg(3,arg,sizeof(arg));
-        new b=StringToInt(arg);
-        GetCmdArg(4,arg,sizeof(arg));
-        new a=StringToInt(arg);
-        GetCmdArg(5,arg,sizeof(arg));
-        new Float:duration=StringToFloat(arg);
-        
-        GetCmdArg(6,arg,sizeof(arg));
-        new Float:duration2=StringToFloat(arg);
-        
-        new Handle:hBf=StartMessageOne("Fade",client);
-        if(hBf!=INVALID_HANDLE)
+        for(new i=1; i <= MaxClients; i++)
         {
-            BfWriteShort(hBf,RoundFloat(duration*255));
-            BfWriteShort(hBf,RoundFloat(duration2*255));
-            BfWriteShort(hBf,0x0001); 
-            BfWriteByte(hBf,r);
-            BfWriteByte(hBf,g);
-            BfWriteByte(hBf,b);
-            BfWriteByte(hBf,a);
-            EndMessage();
-        }
-        
-    }
-}
-public Action:UberTest(client,args){
-    if(W3IsDeveloper(client)){
-        ReplyToCommand(client,"is ubered? %s",War3_IsUbered(client)?"true":"false");
-        if(args==2){
-            new String:buf[10];
-            GetCmdArg(1,buf,sizeof(buf));
-            new n1=StringToInt(buf);
-            GetCmdArg(2,buf,sizeof(buf));
-            new n2=StringToInt(buf);
-            War3_SetXP(client,n1,n2);
-        }
-        if(args==1){
-            new String:buf[10];
-            GetCmdArg(1,buf,sizeof(buf));
-            new n1=StringToInt(buf);
+            new String:arg[10];
+            GetCmdArg(1, arg, sizeof(arg));
+            new Float:num = StringToFloat(arg);
             
-            if(!War3_GetOwnsItem(client,n1)){
-                            
-                W3SetVar(TheItemBoughtOrLost,n1);
-                W3CreateEvent(DoForwardClientBoughtItem,client);
-            }
-            else{
-                ReplyToCommand(client,"Already haz item %d",n1);
-                
-            }
+            War3_SetBuff(i, fArmorPhysical, 1, num);
+            War3_SetBuff(i, fArmorMagic, 1, num);
         }
     }
 }
 
 
-
-public Action:FullSkilltest(client,args){
-    new race=War3_GetRace(client);
-    new SkillCount = War3_GetRaceSkillCount(race);
-    for(new i=1;i<=SkillCount;i++){
-        War3_SetSkillLevelINTERNAL(client,race,i,4);
+public Action:refreshcooldowns(client, args)
+{
+    if(W3IsDeveloper(client))
+    {
+        new raceid = War3_GetRace(client);
+        if(raceid > 0)
+        {
+            for(new skillnum=1; skillnum <= War3_GetRaceSkillCount(raceid); skillnum++)
+            {
+                War3_CooldownMGR(client, 0.0, raceid, skillnum, false, false);
+            }
+        }
     }
 }
-
-
-
-
-
-
-
-*/
-
 
 
 public OnMapStart()
 {
-    PrintToServer("OnMapStart");
-    W3CreateEvent(UNLOADPLUGINSBYMODE,0); // not something that is considered unapprovable but make sure your defines have naming schemas like War3Event_Blah
-                
     DoWar3InterfaceExecForward();
-    
     LoadRacesAndItems();
     
-    CreateTimer(5.0, CheckCvars, 0);
-
-    
-    
-    
     OneTimeForwards();
-
 }
-
-///test script
-public Action:CheckCvars(Handle:timer, any:client)
-{
-    new Handle:convarList = INVALID_HANDLE, Handle:conVar = INVALID_HANDLE;
-    new bool:isCommand;
-    new flags;
-    new String:buffer[70], String:buffer2[70], String:desc[256];
-    
-    convarList = FindFirstConCommand(buffer, sizeof(buffer), isCommand, flags, desc, sizeof(desc));
-    if(convarList == INVALID_HANDLE)
-        return Plugin_Handled;
-    
-    do
-    {
-        // don't print commands or convars without the NOTIFY flag
-        if(isCommand || (!isCommand && (flags & FCVAR_NOTIFY == 0)))
-            continue;
-        
-        conVar = FindConVar(buffer);
-        GetConVarString(conVar, buffer2, sizeof(buffer2));
-        SetConVarString(conVar, buffer2, false, false);
-        CloseHandle(conVar);
-        
-    } while(FindNextConCommand(convarList, buffer, sizeof(buffer), isCommand, flags, desc, sizeof(desc)));
-    
-    if(convarList != INVALID_HANDLE)
-        CloseHandle(convarList);
-    
-    return Plugin_Handled;
-}
-
-
-
 
 public Action:OnGetGameDescription(String:gameDesc[64])
 {
-    if(GetConVarInt(hChangeGameDescCvar)>0)
+    if(GetConVarInt(hChangeGameDescCvar) > 0)
     {
-        Format(gameDesc,sizeof(gameDesc),"War3Source %s",VERSION_NUM);
+        Format(gameDesc, sizeof(gameDesc), "War3Source %s", VERSION_NUM);
+        
         return Plugin_Changed;
     }
+    
     return Plugin_Continue;
 }
 
-public OnAllPluginsLoaded() //called once only, will not call again when map changes
-{
-    PrintToServer("OnAllPluginsLoaded");
-}
-
-
 LoadRacesAndItems()
 {    
+    new Float:fStartTime = GetEngineTime();
 
-    PrintToServer("RACE ITEM LOAD");
-    new Float:starttime=GetEngineTime();
     //ordered loads
     new res;
-    for(new i;i<=MAXRACES*10;i++)
+    for(new i; i <= MAXRACES * 10; i++)
     {
         Call_StartForward(g_OnWar3PluginReadyHandle);
-        Call_PushCell(i);        
+        Call_PushCell(i);
         Call_Finish(res);
     }
     
     //orderd loads 2
-    for(new i;i<=MAXRACES*10;i++)
+    for(new i; i <= MAXRACES * 10; i++)
     {
         Call_StartForward(g_OnWar3PluginReadyHandle2);
-        Call_PushCell(i);        
+        Call_PushCell(i);
         Call_Finish(res);
     }
     
     //unorderd loads
     Call_StartForward(g_OnWar3PluginReadyHandle3);
     Call_Finish(res);
-    
 
-    PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds",GetEngineTime()-starttime);
+    PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds", GetEngineTime() - fStartTime);
     
     DelayedWar3SourceCfgExecute();
-    
 }
 
 DelayedWar3SourceCfgExecute()
@@ -528,28 +332,34 @@ DelayedWar3SourceCfgExecute()
 
 public OnClientPutInServer(client)
 {
-    LastLoadingHintMsg[client]=GetGameTime();
-    //DatabaseSaveXP now handles clearing of vars and triggering retrieval
+    LastLoadingHintMsg[client] = GetGameTime();
 }
 
 public NW3GetW3Revision(Handle:plugin,numParams)
 {
-    return REVISION_NUM;
+    new revision = StringToInt(BUILD_NUMBER);
+    if (revision == 0)
+    {
+        revision = -1;
+    }
+    
+    // Revision -1 means developer build :P
+    return revision;
 }
-public NW3GetW3Version(Handle:plugin,numParams)
+public NW3GetW3Version(Handle:plugin, numParams)
 {    
-    SetNativeString(1,VERSION_NUM,GetNativeCell(2));
+    SetNativeString(1, VERSION_NUM, GetNativeCell(2));
 }
 
 bool:War3Source_HookEvents()
 {
     // Events for all games
-    if(!HookEventEx("player_spawn",War3Source_PlayerSpawnEvent,EventHookMode_Pre)) //,EventHookMode_Pre
+    if(!HookEventEx("player_spawn", War3Source_PlayerSpawnEvent, EventHookMode_Pre))
     {
         PrintToServer("[War3Source] Could not hook the player_spawn event.");
         return false;
     }
-    if(!HookEventEx("player_death",War3Source_PlayerDeathEvent,EventHookMode_Pre))
+    if(!HookEventEx("player_death", War3Source_PlayerDeathEvent, EventHookMode_Pre))
     {
         PrintToServer("[War3Source] Could not hook the player_death event.");
         return false;
@@ -561,62 +371,51 @@ bool:War3Source_HookEvents()
 
 public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-    if(GetEventInt(event,"userid")>0)
+
+    new client = GetClientOfUserId(GetEventInt(event, "userid"));
+    if(ValidPlayer(client,true))
     {
-        new client=GetClientOfUserId(GetEventInt(event,"userid"));
-        if(ValidPlayer(client,true))
+        War3_SetMaxHP_INTERNAL(client, GetClientHealth(client));
+        
+        CheckPendingRace(client);
+        
+        //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
+        if(IsFakeClient(client) && W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
         {
-            
-            ///DP("spawn %d",client);
-            
-            
-            
-            //bIgnoreTrackGF[client]=false;
-            War3_SetMaxHP_INTERNAL(client,GetClientHealth(client));
-            //PrintToChatAll("%d",GetClientHealth(index)); 
-            
-            CheckPendingRace(client);
-            
-            //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
-            if(IsFakeClient(client) && W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
-            {
-                War3_bots_pickrace(client);        
-            }
-            
-            new raceid=War3_GetRace(client);
-            if(!W3GetPlayerProp(client,SpawnedOnce))
-            {
-                War3Source_IntroMenu(client);
-                W3SetPlayerProp(client,SpawnedOnce,true);
-            }
-            else if(raceid<1&&W3IsPlayerXPLoaded(client))
-            {
-                ShowChangeRaceMenu(client);
-            }
-            else if(raceid>0&&GetConVarInt(hRaceLimitEnabled)>0&&GetRacesOnTeam(raceid,GetClientTeam(client),true)>W3GetRaceMaxLimitTeam(raceid,GetClientTeam(client))){
-                CheckRaceTeamLimit(raceid,GetClientTeam(client));  //show changerace inside
-            }
-            raceid=War3_GetRace(client);//get again it may have changed
-            if(raceid>0){
-                
-                W3DoLevelCheck(client);
-                War3_ShowXP(client);
-                
-                W3CreateEvent(DoCheckRestrictedItems,client);
-            }
-                
-                
-            
-            //forward to all other plugins last
-            DoForward_OnWar3EventSpawn(client);
-            
-            W3SetPlayerProp(client,bStatefulSpawn,false); //no longer a "stateful" spawn
+            War3_bots_pickrace(client);
         }
+        
+        new raceid = War3_GetRace(client);
+        if(!W3GetPlayerProp(client, SpawnedOnce))
+        {
+            War3Source_IntroMenu(client);
+            W3SetPlayerProp(client, SpawnedOnce, true);
+        }
+        else if(raceid < 1 && W3IsPlayerXPLoaded(client))
+        {
+            ShowChangeRaceMenu(client);
+        }
+        else if(raceid > 0 && GetConVarInt(hRaceLimitEnabled) > 0 && GetRacesOnTeam(raceid, GetClientTeam(client), true) > W3GetRaceMaxLimitTeam(raceid, GetClientTeam(client)))
+        {
+            CheckRaceTeamLimit(raceid, GetClientTeam(client));  //show changerace inside
+        }
+        raceid = War3_GetRace(client);//get again it may have changed
+        if(raceid > 0)
+        {
+            W3DoLevelCheck(client);
+            War3_ShowXP(client);
+            
+            W3CreateEvent(DoCheckRestrictedItems,client);
+        }
+
+        //forward to all other plugins last
+        DoForward_OnWar3EventSpawn(client);
+        
+        W3SetPlayerProp(client, bStatefulSpawn, false); //no longer a "stateful" spawn
     }
 }
 
-
-public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
+public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
     new uid_victim = GetEventInt(event, "userid");
     new uid_attacker = GetEventInt(event, "attacker");
@@ -625,44 +424,38 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
     new victimIndex = 0;
     new attackerIndex = 0;
     
-    if(uid_attacker>0){
-        attackerIndex=GetClientOfUserId(uid_attacker);
+    if(uid_attacker > 0)
+    {
+        attackerIndex = GetClientOfUserId(uid_attacker);
     }
     
-    if (War3_IsL4DEngine() && War3_IsCommonInfected(uid_entity))
+    if (GAMEL4DANY && War3_IsCommonInfected(uid_entity))
     {
         new death_race = War3_GetRace(victimIndex);
-        W3SetVar(DeathRace,death_race);
-        new Handle:oldevent=W3GetVar(SmEvent);
-        W3SetVar(SmEvent,event); //stacking on stack 
+        W3SetVar(DeathRace, death_race);
+        new Handle:oldevent = W3GetVar(SmEvent);
+        W3SetVar(SmEvent, event); //stacking on stack 
         
         W3SetVar(EventArg1, attackerIndex);
-        //W3CreateEvent(OnDeathPre, uid_entity);
         
         //post death event actual forward
         DoForward_OnWar3EventDeath(uid_entity, attackerIndex, death_race);
         
-        W3SetVar(SmEvent,oldevent); //restore on stack , if any
+        W3SetVar(SmEvent, oldevent); //restore on stack , if any
         return Plugin_Continue;
     }
     else
     {
-        victimIndex=GetClientOfUserId(uid_victim);
+        victimIndex = GetClientOfUserId(uid_victim);
     }
-    //new uid_assister=0;
-    //if(War3_GetGame()==Game_TF)
-    //{
-    //    uid_assister=GetEventInt(event,"assister");
-    //}
     
-    new bool:deadringereath=false;
-    if(uid_victim>0)
+    new bool:deadringereath = false;
+    if(uid_victim > 0)
     {    
         new deathFlags = GetEventInt(event, "death_flags");
-        if (War3_GetGame()==Game_TF&&deathFlags & 32) //TF_DEATHFLAG_DEADRINGER
+        if (GAMETF && deathFlags & TF_DEATHFLAG_DEADRINGER)
         {
-            deadringereath=true;
-            //PrintToChat(client,"war3 debug: dead ringer kill");
+            deadringereath = true;
         }
         else
         {
@@ -670,75 +463,72 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
         }
     }
     
-    //lastly
-    //DP("died? %d",bHasDiedThisFrame[victimIndex]);
-    if(victimIndex&&!deadringereath) //forward to all other plugins last
+    if(victimIndex && !deadringereath) //forward to all other plugins last
     {
         new death_race = War3_GetRace(victimIndex);
         W3SetVar(DeathRace,death_race);
         
         new Handle:oldevent=W3GetVar(SmEvent);
-    //    DP("new event %d",event);
         W3SetVar(SmEvent,event); //stacking on stack 
         
         ///pre death event, internal event
-        W3SetVar(EventArg1,attackerIndex);
-        W3CreateEvent(OnDeathPre,victimIndex);
+        W3SetVar(EventArg1, attackerIndex);
+        W3CreateEvent(OnDeathPre, victimIndex);
         
         //post death event actual forward
         DoForward_OnWar3EventDeath(victimIndex, attackerIndex, death_race);
         
         W3SetVar(SmEvent,oldevent); //restore on stack , if any
-        //DP("restore event %d",event);
+
         //then we allow change race AFTER death forward
-        W3SetPlayerProp(victimIndex,bStatefulSpawn,true);//next spawn shall be stateful
+        W3SetPlayerProp(victimIndex, bStatefulSpawn, true); //next spawn shall be stateful
         CheckPendingRace(victimIndex);
-        
     }
+    
     return Plugin_Continue;
 }
 
 
-CheckPendingRace(client){
-    new pendingrace=W3GetPendingRace(client);
-    if(pendingrace>0)
+CheckPendingRace(client)
+{
+    new pendingrace = W3GetPendingRace(client);
+    if(pendingrace > 0)
     {
         W3SetPendingRace(client,-1);
         
-        
-        /*GetConVarInt(W3GetVar(hRaceLimitEnabledCvar))>0&&
-        GetRacesOnTeam(pendingrace,GetClientTeam(client))>=W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client))*/
-        if(    CanSelectRace(client,pendingrace)||W3IsDeveloper(client)){
-            War3_SetRace(client,pendingrace); 
+        if(CanSelectRace(client, pendingrace) || W3IsDeveloper(client))
+        {
+            War3_SetRace(client, pendingrace); 
         }
-        else
-        {   //already at limit
-            //War3_ChatMessage(client,"%T","Race limit for your team has been reached, please select a different race. (MAX {amount})",GetTrans(),W3GetRaceMaxLimitTeam(pendingrace,GetClientTeam(client)));
-            War3_LogInfo("race %d blocked on client %d due to restrictions limit (CheckPendingRace)",pendingrace,client);
-            W3CreateEvent(DoShowChangeRaceMenu,client);
+        else //already at limit
+        {
+            War3_LogInfo("Race \"{race %i}\" blocked on player \"{client %i}\" due to restrictions limit (CheckPendingRace)", pendingrace, client);
+            W3CreateEvent(DoShowChangeRaceMenu, client);
         }
         
     }
-    ///wasnt pending
-    else if(War3_GetRace(client)==0){
-        W3CreateEvent(DoShowChangeRaceMenu,client);
+    else if(War3_GetRace(client) == 0) ///wasnt pending
+    {
+        W3CreateEvent(DoShowChangeRaceMenu, client);
     }
-    else if(War3_GetRace(client)>0){
-        if(!CanSelectRace(client,War3_GetRace(client))){
-            War3_SetRace(client,0);
-            PrintToConsole(client,"Your race is set to zero via gameevents.inc");
+    else if(War3_GetRace(client) > 0)
+    {
+        if(!CanSelectRace(client, War3_GetRace(client)))
+        {
+            War3_SetRace(client, 0);
         }
     }
 }
 
 War3Source_IntroMenu(client)
 {
-    new Handle:introMenu=CreateMenu(War3Source_IntroMenu_Select);
+    new Handle:introMenu = CreateMenu(War3Source_IntroMenu_Select);
     
     new String:clanname[32];
-    GetConVarString(introclannamecvar,clanname,sizeof(clanname));
+    GetConVarString(introclannamecvar, clanname, sizeof(clanname));
 
     new String:welcome[512];
+    
     // locally compiled version
     if (StrEqual(BRANCH, "{branch}"))
     {
@@ -754,86 +544,63 @@ War3Source_IntroMenu(client)
     {
         Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER); 
     }
-    SetSafeMenuTitle(introMenu,welcome);
-    SetMenuExitButton(introMenu,false);
-    new String:buf[64];
-    Format(buf,sizeof(buf),"%T","ForHelpIntro",client);
-    AddMenuItem(introMenu,"exit",buf);
     
-    GetConVarString(clanurl,buf,sizeof(buf));
-    if(strlen(buf)){
-        AddMenuItem(introMenu,"exit",buf);
+    SetSafeMenuTitle(introMenu, welcome);
+    SetMenuExitButton(introMenu, false);
+    
+    new String:buf[64];
+    Format(buf, sizeof(buf), "%T", "ForHelpIntro", client);
+    AddMenuItem(introMenu, "exit", buf);
+    
+    GetConVarString(clanurl, buf, sizeof(buf));
+    if(strlen(buf))
+    {
+        AddMenuItem(introMenu, "exit", buf);
     }
-    Format(buf,sizeof(buf),"www.war3source.com");
-    AddMenuItem(introMenu,"exit",buf);
-    DisplayMenu(introMenu,client,MENU_TIME_FOREVER);
+    
+    Format(buf, sizeof(buf), "www.war3source.com");
+    AddMenuItem(introMenu, "exit", buf);
+    DisplayMenu(introMenu, client, MENU_TIME_FOREVER);
 }
 
-public War3Source_IntroMenu_Select(Handle:menu,MenuAction:action,client,selection)
+public War3Source_IntroMenu_Select(Handle:menu, MenuAction:action, client, selection)
 {
-    if(ValidPlayer(client)&&War3_GetRace(client)==0)
+    if(ValidPlayer(client) && War3_GetRace(client) == 0)
     {
-        if(W3IsPlayerXPLoaded(client)){
-            W3CreateEvent(DoShowChangeRaceMenu,client);
+        if(W3IsPlayerXPLoaded(client))
+        {
+            W3CreateEvent(DoShowChangeRaceMenu, client);
         }
-        else{
-            War3_ChatMessage(client,"%T","Please be patient while we load your XP",client);
+        else
+        {
+            War3_ChatMessage(client, "%T", "Please be patient while we load your XP", client);
         }
     }
     
-    if(action==MenuAction_End)
+    if(action == MenuAction_End)
     {
         CloseHandle(menu);
     }
 }
 
-War3Source_InitCVars()
-{
-    introclannamecvar=CreateConVar("war3_introclanname","war3_introclanname","Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
-    clanurl=CreateConVar("war3_clanurl","Www.OwnageClan.Com (set war3_clanurl)","The url to display on intro menu");
-
-    hRaceLimitEnabled=CreateConVar("war3_racelimit_enable","1","Should race limit restrictions per team be enabled");
-    W3SetVar(hRaceLimitEnabledCvar,hRaceLimitEnabled);
-
-
-    hChangeGameDescCvar=CreateConVar("war3_game_desc","1","change game description to war3source? does not affect player connect");
-    
-    hUseMetric=CreateConVar("war3_metric_system","0","Do you want use metric system? 1-Yes, 0-No");
-    W3SetVar(hUseMetricCvar,hUseMetric);
-    return true;
-}
-
-bool:War3Source_InitForwards()
-{
-    
-    
-    g_OnWar3PluginReadyHandle=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered",ET_Ignore,Param_Cell);//ordered
-    g_OnWar3PluginReadyHandle2=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2",ET_Ignore,Param_Cell);//ordered
-    g_OnWar3PluginReadyHandle3=CreateGlobalForward("OnWar3PluginReady",ET_Ignore); //unodered rest of the items or races. backwards compatable..
-    
-    g_OnWar3EventSpawnFH=CreateGlobalForward("OnWar3EventSpawn",ET_Ignore,Param_Cell);
-    g_OnWar3EventDeathFH=CreateGlobalForward("OnWar3EventDeath",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
-
-    g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
-    g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
-    
-    return true;
-}
-
 //mapstart
-OneTimeForwards(){
+OneTimeForwards()
+{
     Call_StartForward(g_CheckCompatabilityFH);
     Call_PushString(interfaceVersion);
     Call_Finish();
 
 }
 
-DoForward_OnWar3EventSpawn(client){
+DoForward_OnWar3EventSpawn(client)
+{
     Call_StartForward(g_OnWar3EventSpawnFH);
     Call_PushCell(client);
     Call_Finish();
 }
-DoForward_OnWar3EventDeath(victim,killer,deathrace){
+
+DoForward_OnWar3EventDeath(victim,killer,deathrace)
+{
     Call_StartForward(g_OnWar3EventDeathFH);
     Call_PushCell(victim);
     Call_PushCell(killer);
@@ -841,7 +608,8 @@ DoForward_OnWar3EventDeath(victim,killer,deathrace){
     Call_Finish();
 }
 
-DoWar3InterfaceExecForward(){
+DoWar3InterfaceExecForward()
+{
     Call_StartForward(g_War3InterfaceExecFH);
     Call_Finish();
 }

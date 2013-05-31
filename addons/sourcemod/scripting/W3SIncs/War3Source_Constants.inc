@@ -114,8 +114,6 @@ enum W3EVENT
     DoShowPlayerInfoTarget, ///EventArg1 = target = the person whos info is shown, client=SHOW TO 
     
 
-    
-    UNLOADPLUGINSBYMODE,//testing plugin unload
     DatabaseConnected,
     
     OnBuffChanged, //a buff has changed

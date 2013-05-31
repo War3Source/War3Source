@@ -37,7 +37,7 @@ public OnPluginStart()
     RegConsoleCmd("war3notdev",cmdwar3notdev);
     HookEvent("player_team", Event_PlayerTeam);
 
-    if(War3_IsL4DEngine())
+    if(GAMEL4DANY)
     {
         g_hGameMode = FindConVar("mp_gamemode");
         if(!HookEventEx("survival_round_start", War3Source_SurvivalStartEvent))
@@ -441,7 +441,7 @@ public OnWar3Event(W3EVENT:event,client)
             }
         }
         
-        if (!War3_IsL4DEngine())
+        if (!GAMEL4DANY)
         {
             for(new i=0;i<MAXITEMS;i++){
                 W3SetVar(TheItemBoughtOrLost,i);
@@ -469,7 +469,7 @@ public OnWar3Event(W3EVENT:event,client)
     if(event == DoResetSkills)
     {
         new raceid = War3_GetRace(client);
-        if(War3_IsL4DEngine())
+        if(GAMEL4DANY)
         {
             if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_INFECTED && IsPlayerGhost(client))
             {

@@ -20,7 +20,7 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    if (War3_GetGame() == Game_TF || War3_IsL4DEngine())
+    if (War3_GetGame() == Game_TF || GAMEL4DANY)
     {
         War3_PrecacheParticle("achieved");
     }
@@ -54,7 +54,7 @@ public OnWar3Event(W3EVENT:event, client)
         {
             CSParticle(client, level);
         }
-        else if (War3_IsL4DEngine() && GetClientTeam(client) == TEAM_SURVIVORS)
+        else if (GAMEL4DANY && GetClientTeam(client) == TEAM_SURVIVORS)
         {
             // Glider: I never checked if l4d1 has this particle & attachment, l4d2 has 'em
             AttachThrowAwayParticle(client, "achieved", NULL_VECTOR, "eyes", 5.0);

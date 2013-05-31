@@ -117,7 +117,7 @@ stock SetSafeMenuTitle(Handle:menu, const String:fmt[], any:...)
 
     // There's a silly bug with the Left4Dead engine where menus won't
     // show up if the title starts with [ :(
-    if(GAMEL4DAny && menuTitle[0] == '[')
+    if(GAMEL4DANY && menuTitle[0] == '[')
     {
         Format(menuTitle, sizeof(menuTitle), " %s", menuTitle);
     }

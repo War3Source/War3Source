@@ -123,7 +123,7 @@ public NW3GetDamageStack(Handle:plugin,numParams){
 
 public OnEntityCreated(entity, const String:classname[])
 {
-    if(War3_IsL4DEngine())
+    if(GAMEL4DANY)
     {
         if (StrEqual(classname, CLASSNAME_INFECTED, false) || StrEqual(classname, CLASSNAME_WITCH, false))
         {

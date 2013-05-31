@@ -20,7 +20,7 @@ new CatCount;
 
 public OnPluginStart()
 {
-    if(War3_IsL4DEngine())
+    if(GAMEL4DANY)
     {
         g_hGameMode = FindConVar("mp_gamemode");
         if(!HookEventEx("survival_round_start", War3Source_SurvivalStartEvent))
@@ -524,7 +524,7 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
                 //has race, set pending, 
                 if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
                 {
-                    if(War3_IsL4DEngine())
+                    if(GAMEL4DANY)
                     {
                         if (GetClientTeam(client) == TEAM_INFECTED) {
                             if (IsPlayerGhost(client)) {
