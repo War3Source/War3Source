@@ -133,7 +133,6 @@ public Plugin:myinfo =
 #include <sourcemod>
 #include "sdkhooks"
 #include "W3SIncs/War3Source_Interface"
-#include "W3SIncs/War3SourceMain"
 
 new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
 new Handle:hRaceLimitEnabled;
@@ -142,6 +141,15 @@ new Handle:hUseMetric;
 new Handle:introclannamecvar;
 new Handle:clanurl;
 
+new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
+new Handle:g_OnWar3PluginReadyHandle2; //other races
+new Handle:g_OnWar3PluginReadyHandle3; //other races backwards compatable
+
+new Handle:g_OnWar3EventSpawnFH;
+new Handle:g_OnWar3EventDeathFH;
+
+new Handle:g_CheckCompatabilityFH;
+new Handle:g_War3InterfaceExecFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
@@ -793,4 +801,47 @@ War3Source_InitCVars()
     hUseMetric=CreateConVar("war3_metric_system","0","Do you want use metric system? 1-Yes, 0-No");
     W3SetVar(hUseMetricCvar,hUseMetric);
     return true;
+}
+
+bool:War3Source_InitForwards()
+{
+    
+    
+    g_OnWar3PluginReadyHandle=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered",ET_Ignore,Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle2=CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2",ET_Ignore,Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle3=CreateGlobalForward("OnWar3PluginReady",ET_Ignore); //unodered rest of the items or races. backwards compatable..
+    
+    g_OnWar3EventSpawnFH=CreateGlobalForward("OnWar3EventSpawn",ET_Ignore,Param_Cell);
+    g_OnWar3EventDeathFH=CreateGlobalForward("OnWar3EventDeath",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+
+    g_CheckCompatabilityFH=CreateGlobalForward("CheckWar3Compatability",ET_Ignore,Param_String);
+    g_War3InterfaceExecFH=CreateGlobalForward("War3InterfaceExec",ET_Ignore);
+    
+    return true;
+}
+
+//mapstart
+OneTimeForwards(){
+    Call_StartForward(g_CheckCompatabilityFH);
+    Call_PushString(interfaceVersion);
+    Call_Finish();
+
+}
+
+DoForward_OnWar3EventSpawn(client){
+    Call_StartForward(g_OnWar3EventSpawnFH);
+    Call_PushCell(client);
+    Call_Finish();
+}
+DoForward_OnWar3EventDeath(victim,killer,deathrace){
+    Call_StartForward(g_OnWar3EventDeathFH);
+    Call_PushCell(victim);
+    Call_PushCell(killer);
+    Call_PushCell(deathrace);
+    Call_Finish();
+}
+
+DoWar3InterfaceExecForward(){
+    Call_StartForward(g_War3InterfaceExecFH);
+    Call_Finish();
 }
