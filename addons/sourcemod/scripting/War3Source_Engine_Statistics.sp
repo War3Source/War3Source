@@ -176,14 +176,15 @@ public OnMapStart(){
     
     
     
-    CreateTimer(1.0,PerMapQueries);
+    //CreateTimer(1.0,PerMapQueries);
     
     lastserverinfoupdate=0.0;
 }
 
+/*
 public Action:PerMapQueries(Handle:h)
 {
-    W3Socket("w3stat/war3minver.php",SockCallbackMinVersion);
+    W3Socket("w3stat/war3minver.php", SockCallbackMinVersion);
 }
 
 public SockCallbackMinVersion(bool:success,fail,String:ret[])
@@ -195,11 +196,13 @@ public SockCallbackMinVersion(bool:success,fail,String:ret[])
         
         new minimum=StringToInt(exploded[1]);
         //PrintToServer("%s %d",exploded[1],minimum);
-        if(W3GetW3Revision()<minimum){
+        if(W3GetW3Revision() < minimum)
+        {
             War3Failed("War3Source is out of date, please update war3source");
         }
     }
 }
+*/
 
 
 public Action:ManyMinTimer(Handle:h,any:a){
