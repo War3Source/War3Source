@@ -10,7 +10,6 @@ public Plugin:myinfo =
 
 new Handle:g_War3GlobalEventFH; 
 new Handle:g_hfwddenyable; 
-new dummyreturn;
 new bool:notdenied=true;
 new W3VarArr[W3Var];
 
@@ -43,7 +42,7 @@ DoFwd_War3_Event(W3EVENT:event,client){
     Call_StartForward(g_War3GlobalEventFH);
     Call_PushCell(event);
     Call_PushCell(client);
-    Call_Finish(dummyreturn);
+    Call_Finish();
 }
 
 public NW3Denied(Handle:plugin,numParams){
@@ -51,7 +50,7 @@ public NW3Denied(Handle:plugin,numParams){
     Call_StartForward(g_hfwddenyable);
     Call_PushCell(GetNativeCell(1)); //event,/
     Call_PushCell(GetNativeCell(2));    //client
-    Call_Finish(dummyreturn);
+    Call_Finish();
     return !notdenied;
 }
 public NW3Deny(Handle:plugin,numParams){

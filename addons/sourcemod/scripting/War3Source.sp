@@ -136,6 +136,8 @@ public Plugin:myinfo =
     version=VERSION_NUM
 };
 
+new Float:LastLoadingHintMsg[MAXPLAYERSCUSTOM];
+
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
     
@@ -153,11 +155,6 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
     CreateNative("W3GetW3Version",NW3GetW3Version);
     CreateNative("W3GetW3Revision",NW3GetW3Revision);
 
-    if(!War3Source_InitNatives())
-    {
-        LogError("[War3Source] There was a failure in creating the native based functions, definately halting.");
-        return APLRes_Failure;
-    }
     if(!War3Source_InitForwards())
     {
         LogError("[War3Source] There was a failure in creating the forward based functions, definately halting.");
@@ -258,7 +255,7 @@ public Action:calltest(client,args){
     for(new i=0;i<1000;i++){
         Call_StartForward(g_CheckCompatabilityFH);
         Call_PushString(interfaceVersion);
-        Call_Finish(dummyreturn);
+        Call_Finish();
     }
     
 }
@@ -289,7 +286,7 @@ public Action:calltest2(client,args){
             
             Call_StartFunction(plugins[x],funcs[x]);
             Call_PushString(interfaceVersion);
-            Call_Finish(dummyreturn);
+            Call_Finish();
         }
     }
 }?*/

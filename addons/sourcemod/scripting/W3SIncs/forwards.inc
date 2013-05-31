@@ -72,24 +72,24 @@ bool:War3Source_InitForwards()
 OneTimeForwards(){
     Call_StartForward(g_CheckCompatabilityFH);
     Call_PushString(interfaceVersion);
-    Call_Finish(dummyreturn);
+    Call_Finish();
 
 }
 
 DoForward_OnWar3EventSpawn(client){
     Call_StartForward(g_OnWar3EventSpawnFH);
     Call_PushCell(client);
-    Call_Finish(dummyreturn);
+    Call_Finish();
 }
 DoForward_OnWar3EventDeath(victim,killer,deathrace){
     Call_StartForward(g_OnWar3EventDeathFH);
     Call_PushCell(victim);
     Call_PushCell(killer);
     Call_PushCell(deathrace);
-    Call_Finish(dummyreturn);
+    Call_Finish();
 }
 
 DoWar3InterfaceExecForward(){
     Call_StartForward(g_War3InterfaceExecFH);
-    Call_Finish(dummyreturn);
+    Call_Finish();
 }

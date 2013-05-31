@@ -6,8 +6,6 @@
 
 #include "W3SIncs/War3Source_Bots.inc"
 
-new iRoundNumber;
-
 public bool:War3Source_HookEvents()
 {
     // Events for all games
@@ -21,36 +19,7 @@ public bool:War3Source_HookEvents()
         PrintToServer("[War3Source] Could not hook the player_death event.");
         return false;
     }
-    if(War3_GetGame()==Game_CS)
-    {
-        if(!HookEventEx("round_start",War3Source_RoundStartEvent))
-        {
-            PrintToServer("[War3Source] Could not hook the round_start event.");
-            return false;
-        }
-        iRoundNumber=0;
-        bInFreezeTime=false;
-        
-        if(!HookEventEx("round_end",War3Source_RoundOverEvent))
-        {
-            PrintToServer("[War3Source] Could not hook the round_end event.");
-            return false;
-        }
-    }
-    else if(War3_GetGame()==Game_DOD)
-    {
-        // TODO: DOD specific events
-    }
-    else if(War3_GetGame()==Game_TF)
-    {
-        if(!HookEventEx("teamplay_round_win",War3Source_RoundOverEvent))
-        {
-            PrintToServer("[War3Source] Could not hook the teamplay_round_win event.");
-            return false;
-        }
 
-    }
-    
     return true;
     
 }
@@ -194,55 +163,6 @@ public  Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool
     return Plugin_Continue;
 }
 
-public Action:EndFreezeTime(Handle:timer,any:roundNum)
-{
-    if(roundNum==iRoundNumber)
-    {
-        bInFreezeTime=false;
-    }
-}
-
-public War3Source_RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
-{
-    bInFreezeTime=true;
-    ++iRoundNumber;
-    new Handle:freezeTimeCvar=FindConVar("mp_freezetime");
-    if(freezeTimeCvar)
-    {
-        new Float:fFreezeTime=GetConVarFloat(freezeTimeCvar);
-        if(fFreezeTime>0.0)
-        {
-            CreateTimer(fFreezeTime,EndFreezeTime,iRoundNumber);
-        }
-        else
-        {
-            bInFreezeTime=false;
-        }
-    }
-    else
-    {
-        bInFreezeTime=false;
-    }
-}
-
-public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
-{
-    // cs - int winner
-    // tf2 - int team
-    new team=-1;
-    if(War3_GetGame()==Game_TF)
-    {
-        team=GetEventInt(event,"team");
-    }
-    else
-    {
-        team=GetEventInt(event,"winner");
-    }
-    if(team>-1)
-    {
-        //winner team...
-    }
-}
 
 CheckPendingRace(client){
     new pendingrace=W3GetPendingRace(client);
