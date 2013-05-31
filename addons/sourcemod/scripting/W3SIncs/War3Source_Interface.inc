@@ -4,13 +4,15 @@
  * Author(s): War3Source Team  
  */
 #pragma semicolon 1
+
 #undef REQUIRE_EXTENSIONS
 #include <sdktools>
 #include <tf2>
 #include <tf2_stocks>
 #include <cstrike>
 
-#include "W3SIncs/constants"
+#include "W3SIncs/War3Source_Constants"
+#include "W3SIncs/War3Source_Bots"
 #include "W3SIncs/colors"
 #include "W3SIncs/aura"
 #include "W3SIncs/War3Source_Wards"
