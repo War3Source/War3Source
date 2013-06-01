@@ -43,4 +43,8 @@ native War3_ApplyTimedDebuff(client, attributeId, any:value, Float:fDuration,
 native War3_ApplyRaceBuff(client, attributeId, any:value, raceID, W3BuffSource:sourceType, source);
 native War3_ApplyRaceDebuff(client, attributeId, any:value, raceID, W3BuffSource:sourceType, source);
 
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
 native War3_RemoveBuff(buffIndex);

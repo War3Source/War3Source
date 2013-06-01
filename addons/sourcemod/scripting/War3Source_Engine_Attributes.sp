@@ -49,7 +49,8 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetAttributeDescription", Native_War3_GetAttributeDescription);
 
     CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
-    CreateNative("War3_ModifyAttribute", Native_War3_ModifyAttribute);
+    CreateNative("War3_AddToAttribute", Native_War3_AddToAttribute);
+    CreateNative("War3_SubstractFromAttribute", Native_War3_SubstractFromAttribute);
     
     CreateNative("War3_ResetAttributes", Native_War3_ResetAttributes);
 
@@ -119,13 +120,24 @@ public Native_War3_SetAttribute(Handle:plugin, numParams)
     SetAttribute(client, iAttributeId, value);
 }
 
-public Native_War3_ModifyAttribute(Handle:plugin, numParams)
+public Native_War3_AddToAttribute(Handle:plugin, numParams)
 {
     new client = GetNativeCell(1);
     new iAttributeId = GetNativeCell(2);
     new any:value = GetNativeCell(3);
+    new any:oldValue = GetAttributeValue(client, iAttributeId);
     
-    ModifyAttribute(client, iAttributeId, value);
+    SetAttribute(client, iAttributeId, oldValue + value);
+}
+
+public Native_War3_SubstractFromAttribute(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+    new iAttributeId = GetNativeCell(2);
+    new any:value = GetNativeCell(3);
+    new any:oldValue = GetAttributeValue(client, iAttributeId);
+    
+    SetAttribute(client, iAttributeId, oldValue - value);
 }
 
 public Native_War3_GetAttributeDescription(Handle:plugin, numParams)
@@ -188,14 +200,6 @@ RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], any:De
     }
     
     return attributeId;
-}
-
-ModifyAttribute(client, attributeID, value)
-{
-    new oldValue = GetAttributeValue(client, attributeID);
-    SetAttribute(client, attributeID, oldValue - value);
-    
-    War3_LogInfo("Modifying attribute %i for client %i by value %f", attributeID, client, value);
 }
 
 GetAttributeName(attributeId, String:sName[], iBufferSize)
@@ -272,7 +276,9 @@ any:GetAttributeValue(client, attributeId)
 {
     if(!ValidPlayer(client))
     {
-        return -1;
+        War3_LogError("GetAttributeValue called for invalid client index %i", client);
+        
+        return 0.0;
     }
     
     return GetArrayCell(g_hAttributeValue[client], attributeId);
@@ -282,8 +288,14 @@ SetAttribute(client, attributeId, any:value)
 {
     if(!ValidPlayer(client))
     {
+        War3_LogError("SetAttribute called for invalid client index %i", client);
+        
         return;
     }
+    
+    War3_LogInfo("Calling SetAttribute with Float value %f", Float:value);
+    
+    SetArrayCell(g_hAttributeValue[client], attributeId, value);
     
     Call_StartForward(g_War3_OnAttributeChanged);
     Call_PushCell(client);

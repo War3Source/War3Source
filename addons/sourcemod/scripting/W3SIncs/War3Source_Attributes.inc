@@ -11,6 +11,8 @@
  * Some documentation can be found here: https://github.com/War3Source/War3Source/issues/48
  */
 
+#define INVALID_ATTRIBUTE           -1
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Create new attributes
@@ -32,10 +34,8 @@ native any:War3_GetAttributeValue(client, attributeId);
 // Functions to modify the values of an attribute. You usually don't want to use these,
 // instead have a look at War3Source_AttributeBuffs.inc on how to make buffs that modify a attribute!
 
-// This adds the given value to the current value of the attribute
-// So passing -5 to the function would reduce the current value by 5, etc.
-// this is permanent, so handle with care!
-native War3_ModifyAttribute(client, attributeId, any:value);
+native War3_AddToAttribute(client, attributeId, any:value);
+native War3_SubstractFromAttribute(client, attributeId, any:value);
 
 // This sets attribute directly. Designed for internal usage, be careful with this one!
 native War3_SetAttribute(client, attributeId, any:value);

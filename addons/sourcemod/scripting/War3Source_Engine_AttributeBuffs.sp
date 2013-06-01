@@ -107,7 +107,12 @@ ApplyTimedBuffOrDebuff(W3BuffType:buffType)
     new W3BuffSourceType:sourceType = GetNativeCell(5);
     new source = GetNativeCell(6);
     new expireFlag = GetNativeCell(7);
-    new bool:bCanStack = GetNativeCell(9);
+    new bool:bCanStack = GetNativeCell(8);
+    
+    if(iAttributeId == INVALID_ATTRIBUTE)
+    {
+        return INVALID_BUFF;
+    }
     
     // Check if the client already has this buff/debuff and if he has check if it's stackable
     if (!bCanStack)
@@ -122,8 +127,28 @@ ApplyTimedBuffOrDebuff(W3BuffType:buffType)
                 new W3BuffSourceType:buffedSourceType = GetArrayCell(g_hBuffSourceType, i);
                 new bool:bBuffedCanStack = GetArrayCell(g_hBuffCanStack, i);
                 
-                if ((buffedSource != source) || (buffedSourceType != sourceType) || !bBuffedCanStack)
+                if ((buffedSource == source) && (buffedSourceType == sourceType) && !bBuffedCanStack)
                 {
+                    new bool:bBuffActive = GetArrayCell(g_hBuffActive, i);
+                    if(!bBuffActive)
+                    {
+                        SetArrayCell(g_hBuffValue, i, value);
+                        SetArrayCell(g_hBuffExpireFlag, i, expireFlag);
+                        SetArrayCell(g_hBuffType, i, buffType);
+
+                        // Timed buffs
+                        SetArrayCell(g_hBuffDuration, i, fDuration);
+                        SetArrayCell(g_hBuffCanStack, i, bCanStack);
+                        
+                        // Internals
+                        SetArrayCell(g_hBuffActive, i, true);
+                        SetArrayCell(g_hBuffExpireTime, i, GetEngineTime() + fDuration);
+                        
+                        War3_AddToAttribute(client, iAttributeId, value);
+                        
+                        return i;
+                    }
+                    
                     return INVALID_BUFF;
                 }
             }
@@ -150,7 +175,7 @@ ApplyTimedBuffOrDebuff(W3BuffType:buffType)
     PushArrayCell(g_hBuffActive, true);
     PushArrayCell(g_hBuffExpireTime, GetEngineTime() + fDuration);
     
-    War3_ModifyAttribute(client, iAttributeId, value);
+    War3_AddToAttribute(client, iAttributeId, value);
     
     return buffindex;
 }
@@ -233,7 +258,27 @@ RemoveBuff(buffIndex)
     War3_LogInfo("Removing buff %i for attribute %i on client %i", buffIndex, iAttributeId, client);
     
     new any:value = GetArrayCell(g_hBuffValue, buffIndex);
-    War3_ModifyAttribute(client, iAttributeId, -value);
+    War3_SubstractFromAttribute(client, iAttributeId, value);
     
     SetArrayCell(g_hBuffActive, buffIndex, false);
+    
+    // You can't play around with the arrays during runtime as we need the index
+    // to retrieve the value of buffs 
+    /*
+    RemoveFromArray(g_hAttributeID, buffIndex);
+    RemoveFromArray(g_hBuffClient, buffIndex);
+    RemoveFromArray(g_hBuffSource, buffIndex);
+    RemoveFromArray(g_hBuffSourceType, buffIndex);
+    RemoveFromArray(g_hBuffValue, buffIndex);
+
+    RemoveFromArray(g_hBuffDuration, buffIndex);
+    RemoveFromArray(g_hBuffCanStack, buffIndex);
+    RemoveFromArray(g_hBuffExpireFlag, buffIndex);
+
+    RemoveFromArray(g_hRaceBuffRaceId, buffIndex);
+
+    RemoveFromArray(g_hBuffActive, buffIndex);
+    RemoveFromArray(g_hBuffExpireTime, buffIndex);
+    RemoveFromArray(g_hBuffType, buffIndex);
+    */
 }

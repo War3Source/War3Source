@@ -16,9 +16,14 @@ public OnPluginLoad()
     aSpeed = War3_RegisterAttribute("speed", "speed", 1.0);
 }
 
+public OnWar3EventSpawn(client)
+{
+    War3_ResetAttributes(client);
+}
+
 public War3_OnAttributeChanged(client, attributeId, any:oldValue, any:newValue)
 {
-    War3_LogInfo("Player \"{client %i}\" changed attribute {attribute %i} from %s to %s", client, attributeId, oldValue, newValue);
+    War3_LogInfo("Player \"{client %i}\" changed attribute {attribute %i} from %f to %f", client, attributeId, Float:oldValue, Float:newValue);
 
     if (attributeId == aSpeed)
     {

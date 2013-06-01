@@ -35,7 +35,10 @@ public OnGameFrame()
     {
         if(ValidPlayer(client,true))
         {
-            new Float:fBuffSum = War3_GetAttributeValue(client, iAttributeRegen) - War3_GetAttributeValue(client, iAttributeDecay);
+            new Float:fRegen = War3_GetAttributeValue(client, iAttributeRegen);
+            new Float:fDecay = War3_GetAttributeValue(client, iAttributeDecay);
+            
+            new Float:fBuffSum = fRegen - fDecay;
 
             if(fBuffSum < 0.01 && fBuffSum > -0.01)
             {
@@ -46,6 +49,8 @@ public OnGameFrame()
             new Float:period = FloatAbs(1.0 / fBuffSum);
             if(now - g_fLastTick[client] > period)
             {
+                War3_ChatMessage(client, "Your regen: %f your decay: %f", fRegen, fDecay);
+                
                 g_fLastTick[client] += period;
 
                 if(fBuffSum > 0.01)
