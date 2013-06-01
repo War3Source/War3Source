@@ -40,6 +40,9 @@ native War3_ModifyAttribute(client, attributeId, any:value);
 // This sets attribute directly. Designed for internal usage, be careful with this one!
 native War3_SetAttribute(client, attributeId, any:value);
 
+// Reset all attributes to their default
+native War3_ResetAttributes(client);
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Events

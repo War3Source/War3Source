@@ -14,6 +14,14 @@ new Float:g_fLastTick[MAXPLAYERSCUSTOM];
 
 #define KILL_NAME GameTF() ? "bleed_kill" : "damageovertime"
 
+new iAttributeRegen, iAttributeDecay;
+
+public OnPluginStart()
+{
+    iAttributeRegen = War3_RegisterAttribute("Regen", "Regen", 0.0);
+    iAttributeDecay = War3_RegisterAttribute("Decay", "Decay", 0.0);
+}
+
 public OnWar3EventSpawn(client)
 {
     g_fLastTick[client] = GetEngineTime();
@@ -27,30 +35,24 @@ public OnGameFrame()
     {
         if(ValidPlayer(client,true))
         {
-            new Float:fbuffsum = 0.0;
-            if(!W3GetBuffHasTrue(client, bBuffDenyAll))
-            {
-                fbuffsum += W3GetBuffSumFloat(client, fHPRegen);
-            }
+            new Float:fBuffSum = War3_GetAttributeValue(client, iAttributeRegen) - War3_GetAttributeValue(client, iAttributeDecay);
 
-            fbuffsum -= W3GetBuffSumFloat(client, fHPDecay);
-
-            if(fbuffsum < 0.01 && fbuffsum > -0.01)
+            if(fBuffSum < 0.01 && fBuffSum > -0.01)
             {
                 g_fLastTick[client] = now;
                 continue;
             }
 
-            new Float:period = FloatAbs(1.0 / fbuffsum);
+            new Float:period = FloatAbs(1.0 / fBuffSum);
             if(now - g_fLastTick[client] > period)
             {
                 g_fLastTick[client] += period;
 
-                if(fbuffsum > 0.01)
+                if(fBuffSum > 0.01)
                 {
                     War3_HealToMaxHP(client, 1);
 
-                    if(GameTF())
+                    if(GAMETF)
                     {
                         g_iRegenParticleSkip[client]++;
                         if(g_iRegenParticleSkip[client] > 4 && !IsInvis(client))
@@ -62,9 +64,9 @@ public OnGameFrame()
                     }
                 }
 
-                if(fbuffsum < -0.01)
+                if(fBuffSum < -0.01)
                 {
-                    if(GameTF())
+                    if(GAMETF)
                     {
                         g_iDecayParticleSkip[client]++;
                         if(g_iDecayParticleSkip[client] > 2 && !IsInvis(client)) 

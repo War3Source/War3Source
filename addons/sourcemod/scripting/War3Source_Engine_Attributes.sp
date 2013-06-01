@@ -50,6 +50,8 @@ public bool:InitNativesForwards()
 
     CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
     CreateNative("War3_ModifyAttribute", Native_War3_ModifyAttribute);
+    
+    CreateNative("War3_ResetAttributes", Native_War3_ResetAttributes);
 
     return true;
 } 
@@ -151,6 +153,13 @@ public Native_War3_GetAttributeDescription(Handle:plugin, numParams)
     }
     
     SetNativeString(4, sDescription, iBufferSize);
+}
+
+public Native_War3_ResetAttributes(Handle:plugin, numParams)
+{
+    new client = GetNativeCell(1);
+    
+    ResetAttributesForPlayer(client);
 }
 
 /* ACTUAL IMPLEMENTATIONS FOR THE NATIVES TO CALL */
