@@ -14,6 +14,9 @@ public Plugin:myinfo =
 new Handle:g_hAttributeName = INVALID_HANDLE;
 new Handle:g_hAttributeShortname = INVALID_HANDLE;
 new Handle:g_hAttributeDefault = INVALID_HANDLE;
+new Handle:g_hAttributeType = INVALID_HANDLE;
+new Handle:g_hAttributeMinValue = INVALID_HANDLE;
+new Handle:g_hAttributeMaxValue = INVALID_HANDLE;
 
 // Stores the attributes of a player
 new Handle:g_hAttributeValue[MAXPLAYERS] = INVALID_HANDLE;
@@ -28,6 +31,10 @@ public OnPluginStart()
     g_hAttributeName = CreateArray(FULLNAMELEN);
     g_hAttributeDefault = CreateArray(1);
     g_hAttributeShortname = CreateArray(SHORTNAMELEN);
+    
+    g_hAttributeType = CreateArray(1);
+    g_hAttributeMinValue = CreateArray(1);
+    g_hAttributeMaxValue = CreateArray(1);
     
     for (new i=0; i < MAXPLAYERS; i++)
     {
@@ -48,7 +55,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetAttributeValue", Native_War3_GetAttributeValue);
     CreateNative("War3_GetAttributeDescription", Native_War3_GetAttributeDescription);
 
-    CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
+    //CreateNative("War3_SetAttribute", Native_War3_SetAttribute);
     CreateNative("War3_AddToAttribute", Native_War3_AddToAttribute);
     CreateNative("War3_SubstractFromAttribute", Native_War3_SubstractFromAttribute);
     
@@ -62,15 +69,20 @@ public bool:InitNativesForwards()
 
 public Native_War3_RegisterAttribute(Handle:plugin, numParams)
 {
+    // War3_RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], AttributeType:AttrType, any:DefaultVal, any:MinValue, any:MaxValue);
+    
     decl String:sName[FULLNAMELEN];
     GetNativeString(1, sName, sizeof(sName));
 
     decl String:sShortname[SHORTNAMELEN];
     GetNativeString(2, sShortname, sizeof(sShortname));
 
-    new any:DefaultVal = GetNativeCell(3);
-    
-    return RegisterAttribute(sName, String: sShortname, DefaultVal);
+    new AttributeType:attrType = GetNativeCell(3);
+    new any:DefaultVal = GetNativeCell(4);
+    new any:MinVal = GetNativeCell(5);
+    new any:MaxVal = GetNativeCell(6);
+
+    return RegisterAttribute(sName, String: sShortname, attrType, DefaultVal, MinVal, MaxVal);
 }
 
 public Native_War3_GetAttributeName(Handle:plugin, numParams)
@@ -111,6 +123,7 @@ public Native_War3_GetAttributeValue(Handle:plugin, numParams)
     return any:GetAttributeValue(client, iAttributeId);
 }
 
+/*
 public Native_War3_SetAttribute(Handle:plugin, numParams)
 {
     new client = GetNativeCell(1);
@@ -119,6 +132,7 @@ public Native_War3_SetAttribute(Handle:plugin, numParams)
     
     SetAttribute(client, iAttributeId, value);
 }
+*/
 
 public Native_War3_AddToAttribute(Handle:plugin, numParams)
 {
@@ -176,7 +190,7 @@ public Native_War3_ResetAttributes(Handle:plugin, numParams)
 
 /* ACTUAL IMPLEMENTATIONS FOR THE NATIVES TO CALL */
 
-RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], any:DefaultVal)
+RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], AttributeType:AttrType, any:DefaultVal, any:MinValue, any:MaxValue)
 {
     new attributeId = GetAttributeIDByShortname(sAttributeShortName);
     
@@ -186,13 +200,14 @@ RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], any:De
         return attributeId;
     }
     
-    PushArrayString(g_hAttributeName, sAttributeName);
+    attributeId = PushArrayString(g_hAttributeName, sAttributeName);
     PushArrayString(g_hAttributeShortname, sAttributeShortName);
     PushArrayCell(g_hAttributeDefault, DefaultVal);
+    PushArrayCell(g_hAttributeType, AttrType);
+    PushArrayCell(g_hAttributeMinValue, MinValue);
+    PushArrayCell(g_hAttributeMaxValue, MaxValue);
 
-    attributeId = GetArraySize(g_hAttributeName) - 1;
-
-    War3_LogInfo("Created new attribute: %i - \"{attribute %i}\"", attributeId, attributeId);
+    War3_LogInfo("Created new attribute: %i - \"{attribute %i}\" Min: %f Max: %f", attributeId, attributeId, Float:MinValue, Float:MaxValue);
        
     for (new i=0; i < MAXPLAYERS; i++)
     {
@@ -291,6 +306,19 @@ SetAttribute(client, attributeId, any:value)
         War3_LogError("SetAttribute called for invalid client index %i", client);
         
         return;
+    }
+    new any:MinVal = GetArrayCell(g_hAttributeMinValue, attributeId);
+    new any:MaxVal = GetArrayCell(g_hAttributeMaxValue, attributeId);
+    
+    War3_LogInfo("Calling SetAttribute with Raw Float value %f", Float:value);
+    
+    if(value < MinVal)
+    {
+        value = MinVal;
+    }
+    else if (value > MaxVal)
+    {
+        value = MaxVal;
     }
     
     War3_LogInfo("Calling SetAttribute with Float value %f", Float:value);

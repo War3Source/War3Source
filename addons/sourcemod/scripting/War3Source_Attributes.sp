@@ -13,7 +13,7 @@ new aSpeed;
 
 public OnPluginLoad()
 {
-    aSpeed = War3_RegisterAttribute("speed", "speed", 1.0);
+    aSpeed = War3_RegisterAttribute("speed", "speed", TYPE_FLOAT, 1.0, 0.01, 10.0);
 }
 
 public OnWar3EventSpawn(client)

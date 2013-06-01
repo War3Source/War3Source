@@ -18,8 +18,8 @@ new iAttributeRegen, iAttributeDecay;
 
 public OnPluginStart()
 {
-    iAttributeRegen = War3_RegisterAttribute("Regen", "Regen", 0.0);
-    iAttributeDecay = War3_RegisterAttribute("Decay", "Decay", 0.0);
+    iAttributeRegen = War3_RegisterAttribute("Regen", "Regen", TYPE_FLOAT, 0.0, 0.0, 1000.0);
+    iAttributeDecay = War3_RegisterAttribute("Decay", "Decay", TYPE_FLOAT, 0.0, -1000.0, 0.0); 
 }
 
 public OnWar3EventSpawn(client)
@@ -37,6 +37,8 @@ public OnGameFrame()
         {
             new Float:fRegen = War3_GetAttributeValue(client, iAttributeRegen);
             new Float:fDecay = War3_GetAttributeValue(client, iAttributeDecay);
+
+            War3_ChatMessage(client, "Your regen: %f your decay: %f", fRegen, fDecay);
             
             new Float:fBuffSum = fRegen - fDecay;
 
@@ -49,8 +51,6 @@ public OnGameFrame()
             new Float:period = FloatAbs(1.0 / fBuffSum);
             if(now - g_fLastTick[client] > period)
             {
-                War3_ChatMessage(client, "Your regen: %f your decay: %f", fRegen, fDecay);
-                
                 g_fLastTick[client] += period;
 
                 if(fBuffSum > 0.01)

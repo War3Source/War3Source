@@ -102,7 +102,7 @@ ApplyTimedBuffOrDebuff(W3BuffType:buffType)
 {
     new client = GetNativeCell(1);
     new iAttributeId = GetNativeCell(2);
-    new any:value = GetNativeCell(3);
+    new Float:value = GetNativeCell(3);
     new Float:fDuration = GetNativeCell(4);
     new W3BuffSourceType:sourceType = GetNativeCell(5);
     new source = GetNativeCell(6);
@@ -255,9 +255,9 @@ RemoveBuff(buffIndex)
     new iAttributeId = GetArrayCell(g_hAttributeID, buffIndex);
     
     // implement
-    War3_LogInfo("Removing buff %i for attribute %i on client %i", buffIndex, iAttributeId, client);
-    
-    new any:value = GetArrayCell(g_hBuffValue, buffIndex);
+    new Float:value = GetArrayCell(g_hBuffValue, buffIndex);
+    War3_LogInfo("Removing buff %i for attribute %i on client %i - was value %f", buffIndex, iAttributeId, client, value);
+
     War3_SubstractFromAttribute(client, iAttributeId, value);
     
     SetArrayCell(g_hBuffActive, buffIndex, false);

@@ -11,13 +11,19 @@
  * Some documentation can be found here: https://github.com/War3Source/War3Source/issues/48
  */
 
+enum AttributeType {
+    TYPE_FLOAT,
+    TYPE_INTEGER,
+    TYPE_BOOLEAN
+};
+
 #define INVALID_ATTRIBUTE           -1
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Create new attributes
 
-native War3_RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], any:DefaultVal);
+native War3_RegisterAttribute(String:sAttributeName[], String: sAttributeShortName[], AttributeType:AttrType, any:DefaultVal, any:MinValue, any:MaxValue);
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -38,7 +44,7 @@ native War3_AddToAttribute(client, attributeId, any:value);
 native War3_SubstractFromAttribute(client, attributeId, any:value);
 
 // This sets attribute directly. Designed for internal usage, be careful with this one!
-native War3_SetAttribute(client, attributeId, any:value);
+//native War3_SetAttribute(client, attributeId, any:value);
 
 // Reset all attributes to their default
 native War3_ResetAttributes(client);

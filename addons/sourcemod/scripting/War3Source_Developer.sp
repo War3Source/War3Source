@@ -28,6 +28,6 @@ public OnUltimateCommand(client, race, bool:pressed)
         new regenAttribute = War3_GetAttributeIDByShortname("Regen");
         new buff = War3_ApplyTimedBuff(client, regenAttribute, 10.0, 3.0, BUFF_SKILL, SKILL_DEVELOP, BUFF_EXPIRES_ON_DEATH | BUFF_EXPIRES_ON_SPAWN | BUFF_EXPIRES_ON_TIMER, true);
         
-        War3_ChatMessage(0, "Buff %i", buff);
+        War3_LogInfo("Applied buff %i", buff);
     }
 }
