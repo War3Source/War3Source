@@ -75,7 +75,7 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
         if(GetClientTeam(victim)!=GetClientTeam(attacker))
         {
             if(bSmittened[attacker]){
-                War3_DamageModPercent(SmittendMultiplier[victim]);
+                War3_DamageModPercent(SmittendMultiplier[attacker]);
             }
             
         }
