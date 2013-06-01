@@ -11,17 +11,20 @@ public Plugin:myinfo =
     description = "The Rainbow Dash race for War3Source."
 };
 
+new HaloSprite, XBeamSprite;
 new thisRaceID;
 
 new Float:fEvadeChance[5]={0.0,0.05,0.10,0.15,0.20};
-new Float:attackspeed[5]={1.0,1.04,1.08,1.12,1.15};
+new Float:fSwiftASPDBuff[5]={1.0,1.04,1.08,1.12,1.15};
 new Float:abilityspeed[5]={1.0,1.15,1.23,1.32,1.40};
+new Float:rainboomradius[5]={0.0,200.0,266.0,333.0,400.0};
 
 new Float:LastDamageTime[MAXPLAYERSCUSTOM];
+new Handle:speedendtimer[MAXPLAYERSCUSTOM];
+new bool:inSpeed[MAXPLAYERSCUSTOM];
 
-new SKILL_EVADE,SKILL_SWIFT,SKILL_SPEED,ULTIMATE;
+new SKILL_EVADE, SKILL_SWIFT, SKILL_SPEED, ULTIMATE;
 
-new Float:rainboomradius[5]={0.0,200.0,266.0,333.0,400.0};
 public OnWar3LoadRaceOrItemOrdered(num)
 {    
     if(num==230)
@@ -35,121 +38,95 @@ public OnWar3LoadRaceOrItemOrdered(num)
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
         
         War3_AddSkillBuff(thisRaceID, SKILL_EVADE, fDodgeChance, fEvadeChance);
+        War3_AddSkillBuff(thisRaceID, SKILL_SWIFT, fAttackSpeed, fSwiftASPDBuff);
     }
 }
-public FOO(){
-    SKILL_EVADE=SKILL_EVADE+0;
-}
-public OnPluginStart()
-{
-    CreateTimer(1.0,CalcWards,_,TIMER_REPEAT);
-    
-}
 
-new HaloSprite,XBeamSprite;
 public OnMapStart()
 {
     HaloSprite = War3_PrecacheHaloSprite();
     XBeamSprite = War3_PrecacheBeamSprite();
 }
-public Action:CalcWards(Handle:t){
-    for(new i=1;i<66;i++){
-        if(ValidPlayer(i)&&!IsFakeClient(i)){
-                
-//TF2_AddCondition(i,TFCond_SpeedBuffAlly,1.3);
-//TF2_AddCondition(i,TFCond_Buffed,1.3);
-    
 
-//TF2_AddCondition(i,TFCond_Charging,1.3);
-    
-        //DP("tick");
-        //static data;
-        //DP("level %d data %d",W3_GenericSkillLevel(i,SKILL_GENERIC,data),data);
-        //DP("data %d",data);
+public OnAbilityCommand(client,ability,bool:pressed)
+{
+    if(ValidPlayer(client, true) && pressed)
+    {
+        new skill_level = War3_GetSkillLevel(client, thisRaceID, SKILL_SPEED);
+        if(skill_level > 0)
+        {
+            if(SkillAvailable(client, thisRaceID, SKILL_SPEED))
+            {
+                inSpeed[client] = true;
+                if(GAMETF)
+                {
+                    TF2_AddCondition(client, TFCond_SpeedBuffAlly, 6.0);
+                    War3_SetBuff(client, fMaxSpeed, thisRaceID, abilityspeed[skill_level]);
+                    War3_SetBuff(client, fSlow, thisRaceID, 0.740740741); //slow down by the factor of the SpeedBuffAlly (1.35)
+                }
+                else
+                {
+                    War3_SetBuff(client, fMaxSpeed, thisRaceID, abilityspeed[skill_level]);
+                }
+                speedendtimer[client] = CreateTimer(6.0, EndSpeed, EntIndexToEntRef(client));
+                War3_CooldownMGR(client, 20.0, thisRaceID, SKILL_SPEED, _, _);
+            }
         }
     }
 }
 
-///look attack speed
-public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{
-    if(race==thisRaceID&&skill==SKILL_SWIFT)
+public Action:EndSpeed(Handle:t, any:clientRef){
+    new client = EntRefToEntIndex(clientRef);
+    
+    if(GAMETF)
     {
-        War3_SetBuff(client,fAttackSpeed,thisRaceID,attackspeed[newskilllevel]);
+        TF2_RemoveCondition(client, TFCond_SpeedBuffAlly);
     }
+
+    War3_SetBuff(client, fMaxSpeed, thisRaceID, 1.0);
+    War3_SetBuff(client, fSlow, thisRaceID, 1.0);
+    
+    speedendtimer[client] = INVALID_HANDLE;
+    inSpeed[client] = false;
 }
 
-new bool:inSpeed[MAXPLAYERSCUSTOM];
-new Handle:speedendtimer[MAXPLAYERSCUSTOM];
-////speed ability
-public OnAbilityCommand(client,ability,bool:pressed)
+public OnWar3EventDeath(client)
 {
-    if(ValidPlayer(client,true)&& pressed && IsPlayerAlive(client))
+    if(speedendtimer[client] != INVALID_HANDLE)
     {
-        
-            new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_SPEED);
-            if(skill_level>0)
-            {
-                if(SkillAvailable(client,thisRaceID,SKILL_SPEED)){
-                    inSpeed[client]=true;
-                    if(GameTF()){
-                        TF2_AddCondition(client,TFCond_SpeedBuffAlly,6.0);
-                        War3_SetBuff(client,fMaxSpeed,thisRaceID,abilityspeed[skill_level]);
-                        War3_SetBuff(client,fSlow,thisRaceID,0.740740741); //slow down by the factor of the SpeedBuffAlly (1.35)
-                    }
-                    else{
-                        War3_SetBuff(client,fMaxSpeed,thisRaceID,abilityspeed[skill_level]);
-                    }
-                    speedendtimer[client]=CreateTimer(6.0,EndSpeed,client);
-                    War3_CooldownMGR(client,20.0,thisRaceID,SKILL_SPEED,_,_);
-                }
-            }
-
-    }
-}
-public Action:EndSpeed(Handle:t,any:client){
-    if(GameTF()){
-        //DP("end");
-        TF2_RemoveCondition(client,TFCond_SpeedBuffAlly);
-    }
-    War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
-    War3_SetBuff(client,fSlow,thisRaceID,1.0);
-    speedendtimer[client]=INVALID_HANDLE;
-    inSpeed[client]=false;
-}
-public OnWar3EventDeath(client){
-    if(speedendtimer[client]!=INVALID_HANDLE){
         TriggerTimer(speedendtimer[client]);
     }
 }
+
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    LastDamageTime[victim]=GetEngineTime();
-    if(speedendtimer[victim]!=INVALID_HANDLE){
+    LastDamageTime[victim] = GetEngineTime();
+    if(speedendtimer[victim] != INVALID_HANDLE)
+    {
         TriggerTimer(speedendtimer[victim]);
     }
-    else if(War3_GetRace(victim)==thisRaceID){
-        War3_CooldownMGR(victim,10.0,thisRaceID,SKILL_SPEED,_,_);
+    else if(War3_GetRace(victim)==thisRaceID)
+    {
+        War3_CooldownMGR(victim, 10.0, thisRaceID, SKILL_SPEED, _, _);
     }
 }
 
 
-public OnUltimateCommand(client,race,bool:pressed)
+public OnUltimateCommand(client, race, bool:pressed)
 {
-    if(race==thisRaceID && pressed && ValidPlayer(client,true))
+    if(race == thisRaceID && pressed && ValidPlayer(client, true))
     {
-        
-        new skill=War3_GetSkillLevel(client,race,ULTIMATE);
-        if(skill>0)
+        new skill = War3_GetSkillLevel(client, race, ULTIMATE);
+        if(skill > 0)
         {
-            if(SkillAvailable(client,thisRaceID,ULTIMATE))
+            if(SkillAvailable(client, thisRaceID, ULTIMATE))
             {
-                if(!inSpeed[client]){
-                    PrintHintText(client,"You must be in speed mode (ability)");
+                if(!inSpeed[client])
+                {
+                    PrintHintText(client, "You must be in speed mode (ability)");
                 }
                 else{
-                    //TriggerTimer(speedendtimer[client]);
-                    War3_CooldownMGR(client,20.0,thisRaceID,ULTIMATE,_,_);
+                    War3_CooldownMGR(client, 20.0, thisRaceID, ULTIMATE, _, _);
                     
                     decl Float:start_pos[3];
                     GetClientAbsOrigin(client,start_pos);
@@ -169,18 +146,21 @@ public OnUltimateCommand(client,race,bool:pressed)
                     TE_SendToAll(0.15);
                     TE_SetupBeamRingPoint(start_pos,                 20.0,            rainboomradius[skill]*2,             XBeamSprite, HaloSprite,     0,         1,                 0.5,     30.0,         0.0,             {143, 0, 255,255}, 10,     0);
                     TE_SendToAll(0.17);
-                    //DP("%f %f",rainboomradius[skill],rainboomradius[skill]*2);
                 
                     decl Float:TargetPos[3];
-                    for (new i = 1; i <= MaxClients; i++) {
-                        if(ValidPlayer(i,true) && GetClientTeam(i) == GetClientTeam(client)&&GetClientTeam(client) == GetApparentTeam(i)) {
-                            
+                    for (new i = 1; i <= MaxClients; i++) 
+                    {
+                        if(ValidPlayer(i,true) && GetClientTeam(i) == GetClientTeam(client) && GetClientTeam(client) == GetApparentTeam(i)) 
+                        {
                             GetClientAbsOrigin(i, TargetPos);
-                            if (GetVectorDistance(start_pos, TargetPos) <= rainboomradius[skill]) {
-                                if(GameTF()){
-                                    TF2_AddCondition(i,TFCond_Buffed,4.0);
+                            if (GetVectorDistance(start_pos, TargetPos) <= rainboomradius[skill]) 
+                            {
+                                if(GAMETF)
+                                {
+                                    TF2_AddCondition(i, TFCond_Buffed, 4.0);
                                 }
-                                War3_ShakeScreen(i,0.5,100.0,80.0);
+                                
+                                War3_ShakeScreen(i, 0.5, 100.0, 80.0);
                             }
                         }
                     }
