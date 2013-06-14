@@ -16,32 +16,27 @@ public Plugin:myinfo =
     description = "Controls a players Max HP via Buffs"
 };
 
-new Handle:mytimer[MAXPLAYERSCUSTOM]; //INVLAID_HHANDLE is default 0
-new Float:LastDamageTime[MAXPLAYERSCUSTOM];
-new ORIGINALHP[MAXPLAYERSCUSTOM];
-new bool:bHealthAddedThisSpawn[MAXPLAYERSCUSTOM];
-new Handle:mytimer2[MAXPLAYERSCUSTOM];
+new Float:fLastDamageTime[MAXPLAYERSCUSTOM];
+new iClientSpawnHP[MAXPLAYERSCUSTOM];
+new Handle:hCheckBuffTimer[MAXPLAYERSCUSTOM];
 
-public OnPluginStart()
-{
-    if(GAMETF)
-    {
-        CreateTimer(0.1, TFHPBuff, _, TIMER_REPEAT);
-    }
-}
+#define TF_BUFF_INTERVAL 0.1
+new Float:fNextTFHPBuffTick[MAXPLAYERSCUSTOM];
 
 public OnWar3EventSpawn(client)
 {
     if (ValidPlayer(client))
     {
-        ORIGINALHP[client]=GetClientHealth(client);
+        fNextTFHPBuffTick[client] = GetEngineTime();
+        iClientSpawnHP[client] = GetClientHealth(client);
         
-        if(mytimer[client]!=INVALID_HANDLE)
-        {
-            CloseHandle(mytimer[client]);
-        }
-    
-        mytimer[client] = CreateTimer(0.01, CheckHP, EntIndexToEntRef(client));
+        new iAdditionalHP = W3GetBuffSumInt(client, iAdditionalMaxHealth);
+        new curhp = GetClientHealth(client);
+        SetEntityHealth(client, curhp + iAdditionalHP);
+        
+        iAdditionalHP += W3GetBuffSumInt(client, iAdditionalMaxHealthNoHPChange);
+        War3_SetMaxHP_INTERNAL(client, iClientSpawnHP[client] + iAdditionalHP);
+        fLastDamageTime[client] = 0.0;
     }
 }
 
@@ -58,7 +53,6 @@ public OnWar3EventDeath(victim, attacker)
         }
     }
     
-    bHealthAddedThisSpawn[victim] = false;
 }
 
 public Action:checkHeadsTimer(Handle:h, any:attackerRef)
@@ -78,50 +72,39 @@ public Action:checkHeadsTimer(Handle:h, any:attackerRef)
     }
 }
 
-public Action:CheckHP(Handle:h, any:clientRef)
-{
-    new client = EntRefToEntIndex(clientRef);
-    mytimer[client]=INVALID_HANDLE;
-    if(ValidPlayer(client,true) && !bHealthAddedThisSpawn[client])
-    {
-        new buff1=W3GetBuffSumInt(client, iAdditionalMaxHealth);
-        new curhp = GetClientHealth(client);
-        SetEntityHealth(client, curhp + buff1);
-        new buff2 = W3GetBuffSumInt(client, iAdditionalMaxHealthNoHPChange);
-        War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client] + buff1 + buff2); //set max hp
-        LastDamageTime[client]=GetEngineTime()-100.0;
-    }
-}
-
 public OnWar3Event(W3EVENT:event,client)
 {
-    if(event==OnBuffChanged)
+    if(event == OnBuffChanged)
     {
-        if(W3GetVar(EventArg1)==iAdditionalMaxHealth &&ValidPlayer(client,true)){
-            if(mytimer2[client]==INVALID_HANDLE){    
-                mytimer2[client]=CreateTimer(0.1,CheckHPBuffChange,client);
+        if(W3GetVar(EventArg1) == iAdditionalMaxHealth && ValidPlayer(client, true))
+        {
+            // Only queue this once
+            if(hCheckBuffTimer[client] == INVALID_HANDLE)
+            {    
+                hCheckBuffTimer[client] = CreateTimer(0.1, CheckHPBuffChange, client);
             }
         }
     }
 }
 
-public Action:CheckHPBuffChange(Handle:h,any:client){
-    mytimer2[client]=INVALID_HANDLE;
+public Action:CheckHPBuffChange(Handle:h,any:client)
+{
+    hCheckBuffTimer[client] = INVALID_HANDLE;
     
-    if(ValidPlayer(client,true))
+    if(ValidPlayer(client, true))
     {
-        new newbuff=W3GetBuffSumInt(client,iAdditionalMaxHealth);
-        new newbuff2=W3GetBuffSumInt(client,iAdditionalMaxHealthNoHPChange);
-        new oldbuff=War3_GetMaxHP(client)-ORIGINALHP[client]-newbuff2;
-        War3_SetMaxHP_INTERNAL(client,ORIGINALHP[client]+newbuff+newbuff2); //set max hp
+        new iAdditionalHP = W3GetBuffSumInt(client, iAdditionalMaxHealth);
+        new iAdditionalHPNoBuff = W3GetBuffSumInt(client, iAdditionalMaxHealthNoHPChange);
+        new iOldBuff = War3_GetMaxHP(client) - iClientSpawnHP[client] - iAdditionalHPNoBuff;
+        War3_SetMaxHP_INTERNAL(client, iClientSpawnHP[client] + iAdditionalHP + iAdditionalHPNoBuff); //set max hp
         
-        new newhp=GetClientHealth(client)+newbuff-oldbuff; //difference
+        new newhp = GetClientHealth(client) + iAdditionalHP - iOldBuff; //difference
         if(newhp < 1)
         {
-            newhp=1;
+            newhp = 1;
         }
-        //add or decrease health
-        SetEntityHealth(client,newhp);
+
+        SetEntityHealth(client, newhp);
     }
 }
 
@@ -129,33 +112,42 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 {
     if (ValidPlayer(victim)) 
     {
-        LastDamageTime[victim]=GetEngineTime();
+        fLastDamageTime[victim] = GetEngineTime();
     }
 }
 
-public Action:TFHPBuff(Handle:h,any:data)
+// FOR GALLIFREY, err, OnGameFrame, I mean...
+
+public OnGameFrame()
 {
-    new Float:now=GetEngineTime();
-    for(new i=1;i<=MaxClients;i++)
+    new Float:now = GetEngineTime();
+    
+    for(new i = 0; i < MaxClients; i++)
     {
-        if(ValidPlayer(i,true))
+        if(!ValidPlayer(i, true))
         {
-            if(now>LastDamageTime[i]+10.0)
+            continue;
+        }
+        
+        if(GAMETF)
+        {
+            if((now >= fLastDamageTime[i] + 10.0) && (now >= fNextTFHPBuffTick[i]))
             {
-                // Devotion Aura
-                new curhp =GetClientHealth(i);
-                new hpadd= W3GetBuffSumInt(i,iAdditionalMaxHealth);
-                new maxhp = War3_GetMaxHP(i)-hpadd; //nomal player hp
+                new curhp = GetClientHealth(i);
+                new hpadd = W3GetBuffSumInt(i, iAdditionalMaxHealth);
+                new maxhp = War3_GetMaxHP(i) - hpadd; //nomal player hp
                 
-                if(curhp>=maxhp&&curhp<maxhp+hpadd)
+                if(curhp >= maxhp && curhp < maxhp + hpadd)
                 { 
-                    new newhp=curhp+2;
-                    if(newhp>maxhp+hpadd)
+                    new newhp = curhp + 2;
+                    if(newhp > maxhp + hpadd)
                     {
-                        newhp=maxhp+hpadd;
+                        newhp = maxhp + hpadd;
                     }
                     SetEntityHealth(i, newhp);
                 }
+                
+                fNextTFHPBuffTick[i] += TF_BUFF_INTERVAL;
             }
         }
     }
