@@ -58,9 +58,9 @@ stock bool:War3_AddCustomSound(const String:sound[], bool:precache = true, bool:
  * @param precache        If precache is true the file will be precached.
  * @param preload        If preload is true the file will be precached before level startup.
  * 
- * @return True if successfully precached, false otherwise.
+ * @return Model index or 0
  */
-stock bool:War3_AddCustomModel(const String:model[], bool:precache = true, bool:preload = true)
+stock War3_AddCustomModel(const String:model[], bool:precache = true, bool:preload = true)
 {
     if (FileExists(model)) 
     {
@@ -76,7 +76,7 @@ stock bool:War3_AddCustomModel(const String:model[], bool:precache = true, bool:
         ThrowError("Model file \"%s\" not found", model);
     }
     
-    return false;
+    return 0;
 }
 
 /**
