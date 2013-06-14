@@ -65,7 +65,7 @@
  * @param noWarning: Prevent warning print when using DealDamage from a event where it's error prone
  * @return bool: did damage go through, false if player was immune to that damage type or damage was zero or something else failed
  */
-native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC,String:weaponNameStr[], War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED , War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC , bool:respectVictimImmunity=true , bool:countAsFirstDamageRetriggered=false, bool:noWarning=false);
+native bool:War3_DealDamage(victim,damage,attacker=0,damage_type=DMG_GENERIC|DMG_PREVENT_PHYSICS_FORCE,String:weaponNameStr[], War3DamageOrigin:W3DMGORIGIN=W3DMGORIGIN_UNDEFINED , War3DamageType:W3DMGTYPE=W3DMGTYPE_MAGIC , bool:respectVictimImmunity=true , bool:countAsFirstDamageRetriggered=false, bool:noWarning=false);
 
 /*
  * forces the damage to be multiplied by @num

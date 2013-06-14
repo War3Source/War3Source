@@ -99,12 +99,7 @@ public Action:Heal_BurningSpearTimer(Handle:h,any:data) //1 sec
                     }
                     else
                     {
-                        if(GameCS() && GetClientHealth(i)>damage){ //cs damages slows....
-                            SetEntityHealth(i,GetClientHealth(i)-damage);
-                        }
-                        else{
-                            War3_DealDamage(i,damage,attacker,_,"burningspear"); // Generic skill name
-                        }
+                        War3_DealDamage(i,damage,attacker,_,"burningspear"); // Generic skill name
                     }
                     VictimSpearTicks[i]--;
                 }
@@ -261,14 +256,14 @@ public OnUltimateCommand(client,race,bool:pressed)
                         new Float:VictimMaxHP = float(War3_GetMaxHP(target));
                         new Damage = RoundToFloor(LifeBreakHPVictim[ult_level] * VictimMaxHP);
                         
-                        if(War3_DealDamage(target,Damage,client,DMG_BULLET,"lifebreak")) // do damage to nearest enemy
+                        if(War3_DealDamage(target,Damage,client,DMG_BULLET|DMG_PREVENT_PHYSICS_FORCE,"lifebreak")) // do damage to nearest enemy
                         {
                             W3PrintSkillDmgHintConsole(target,client,War3_GetWar3DamageDealt(),ULT_BREAK); // print damage done
                             W3FlashScreen(target,RGBA_COLOR_RED); // notify victim he got hurt
                             W3FlashScreen(client,RGBA_COLOR_RED); // notify he got hurt
                             
                             //EmitSoundToAll(ultimateSound,client);
-                            War3_DealDamage(client,SelfDamage,client,DMG_BULLET,"lifebreak"); // Do damage to attacker
+                            War3_DealDamage(client,SelfDamage,client,DMG_BULLET|DMG_PREVENT_PHYSICS_FORCE,"lifebreak"); // Do damage to attacker
                             War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_BREAK); // invoke cooldown
                             
                             PrintHintText(client,"%T","Life Break",client);

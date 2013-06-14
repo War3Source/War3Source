@@ -103,23 +103,30 @@ public Native_War3_DamageModPercent(Handle:plugin,numParams)
 
 
 
-public NW3GetDamageType(Handle:plugin,numParams){
+public NW3GetDamageType(Handle:plugin, numParams)
+{
     return g_CurDamageType;
 }
-public NW3GetDamageInflictor(Handle:plugin,numParams){
+
+public NW3GetDamageInflictor(Handle:plugin, numParams
+){
     return g_CurInflictor;
 }
-public NW3GetDamageIsBullet(Handle:plugin,numParams){
+
+public NW3GetDamageIsBullet(Handle:plugin, numParams)
+{
     return _:(!g_CurDamageIsWarcraft);
 }
-public NW3ForceDamageIsBullet(Handle:plugin,numParams){
-    g_CurDamageIsWarcraft=false;
+
+public NW3ForceDamageIsBullet(Handle:plugin, numParams)
+{
+    g_CurDamageIsWarcraft = false;
 }
-public NW3GetDamageStack(Handle:plugin,numParams){
+
+public NW3GetDamageStack(Handle:plugin, numParams)
+{
     return damagestack;
 }
-
-
 
 public OnEntityCreated(entity, const String:classname[])
 {
@@ -145,16 +152,12 @@ public OnClientDisconnect(client)
 }
 
 
-public Native_W3ChanceModifier(Handle:plugin,numParams)
+public Native_W3ChanceModifier(Handle:plugin, numParams)
 {
-    
-    new attacker=GetNativeCell(1);
-    //new inflictor=W3GetDamageInflictor();
-    //new damagetype=W3GetDamageType();
-    if(!GameTF()||attacker<=0 || attacker>MaxClients || !IsValidEdict(attacker)){
+    new attacker = GetNativeCell(1);
+    if(!GameTF() || !ValidPlayer(attacker) || !IsValidEdict(attacker)){
         return _:1.0;
     }
-    
     
     return _:ChanceModifier[attacker];
 }
@@ -168,7 +171,8 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
     
     // If we got a l4d infected or witch then this continues instead of checking
     // if its alive since that is not a player and therefor IsPlayerAlive fails
-    if(War3_IsL4DZombieEntity(victim) ||  ValidPlayer(victim,true)){
+    if(War3_IsL4DZombieEntity(victim) ||  ValidPlayer(victim,true))
+    {
         //store old variables on local stack!
     
         new old_DamageType= g_CurDamageType;
@@ -314,6 +318,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
     // GHOSTS!!
     if (weapon == -1 && inflictor == -1)
     {
+        War3_LogError("OnTakeDamagePostHook: Who was pho^H^H^Hweapon?");
         return;
     }
     
