@@ -93,7 +93,7 @@ forward APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_m
  * Return true to allow loading
  * Return false to silently disable loading 
  */
-forward bool:LoadCheck();
+forward LoadCheck();
 
 
 //Called for each category if the user opens the catted cr menu
