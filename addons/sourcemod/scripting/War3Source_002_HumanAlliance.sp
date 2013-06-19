@@ -51,13 +51,11 @@ public OnPluginStart()
 
 public OnWar3LoadRaceOrItemOrdered(num)
 {
-    if(GAMECSANY)
+    //if(GAMECSANY)
+    //{
+    if(num == 1)
     {
-        if(num == 1)
-        {
-            GENERIC_SKILL_TELEPORT=War3_CreateGenericSkill("g_teleport");
-            //DP("registereing gernicsadlfjasf");
-        }
+        GENERIC_SKILL_TELEPORT=War3_CreateGenericSkill("g_teleport");
     }
     if(num == 20)
     {
@@ -69,17 +67,17 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_INVIS=War3_AddRaceSkillT(thisRaceID,"Invisibility",false,4,"60% (CS), 40% (TF)");
         SKILL_HEALTH=War3_AddRaceSkillT(thisRaceID,"DevotionAura",false,4,"15/25/35/45");
         SKILL_BASH=War3_AddRaceSkillT(thisRaceID,"Bash",false,4,"7/13/19/25%","0.2");
-        if(GAMETF)
-        {
-            ULT_TELEPORT=War3_AddRaceSkillT(thisRaceID,"Teleport",true,4,"600/800/1000/1200");
-        }
-        else
-        {
-            new Handle:genericSkillOptions=CreateArray(5,2); //block size, 5 can store an array of 5 cells
-            SetArrayArray(genericSkillOptions,0,TeleportDistance,sizeof(TeleportDistance));
-            SetArrayCell(genericSkillOptions,1,ultCooldownCvar);
-            ULT_TELEPORT=War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"Teleport","",true);
-        }
+        //if(GAMETF)
+        //{
+        //    ULT_TELEPORT=War3_AddRaceSkillT(thisRaceID,"Teleport",true,4,"600/800/1000/1200");
+        //}
+        //else
+        //{
+        new Handle:genericSkillOptions=CreateArray(5,2); //block size, 5 can store an array of 5 cells
+        SetArrayArray(genericSkillOptions,0,TeleportDistance,sizeof(TeleportDistance));
+        SetArrayCell(genericSkillOptions,1,ultCooldownCvar);
+        ULT_TELEPORT=War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"Teleport","",true);
+        //}
         
         W3SkillCooldownOnSpawn(thisRaceID,ULT_TELEPORT,10.0,_);
         
@@ -101,15 +99,11 @@ public OnMapStart()
     War3_AddCustomSound(teleportSound);
 }
 
-public OnRaceChanged(client,oldrace,newrace)
-{
-    if(newrace == thisRaceID)
-    {
-        ActivateSkills(client);
-    }
-}
 
-    
+public OnWar3EventSpawn(client)
+{
+    ActivateSkills(client); //DO NOT OPTIMIZE, ActivateSkills checks for skill level
+}
 public ActivateSkills(client)
 {
     new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);
@@ -141,75 +135,39 @@ new TPFailCDResetToSkill[MAXPLAYERSCUSTOM];
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
-    if(GAMETF)
+
+    if( pressed  && ValidPlayer(client,true) && !Silenced(client))
     {
-        //. TF2 having problems with the ultimate created for CS:GO
-        //DP("GAMETF");
-        new userid=GetClientUserId(client);
-        if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) && !Silenced(client))
+        new Handle:genericSkillOptions;
+        new Float:distances[5];
+        new customerrace,customerskill;
+    
+        new level=W3_GenericSkillLevel(client,GENERIC_SKILL_TELEPORT,genericSkillOptions,customerrace,customerskill);
+        //DP("level CUSrace CUSskill %d %d %d",level,customerrace,customerskill);
+        if(level)
         {
-            new ult_level=War3_GetSkillLevel(client,race,ULT_TELEPORT);
-            if(ult_level>0)
-            {
-                if(War3_SkillNotInCooldown(client,thisRaceID,ULT_TELEPORT,true)) //not in the 0.2 second delay when we check stuck via moving
-                {
-                    new bool:success = Teleport(client,TeleportDistance[ult_level]);
-                    if(success)
-                    {
-                        new Float:cooldown=GetConVarFloat(ultCooldownCvar);
-                        War3_CooldownMGR(client,cooldown,thisRaceID,ULT_TELEPORT,_,_);
-                    }
-                }
-            }
-            else
-            {
-                W3MsgUltNotLeveled(client);
-            }
-        }
-        else
-        {
-            if(Silenced(client))
-            {
-                W3Hint(client,HINT_LOWEST,5.0,"Can't use teleport because you have been silenced!");
-            }
-        }
-    }
-    else
-    {
-        // If game cs or cs go or whatever:
-        //DP("GAMECSANY");
-        if( pressed  && ValidPlayer(client,true) && !Silenced(client))
-        {
-            new Handle:genericSkillOptions;
-            new Float:distances[5];
-            new customerrace,customerskill;
-        
-            new level=W3_GenericSkillLevel(client,GENERIC_SKILL_TELEPORT,genericSkillOptions,customerrace,customerskill);
-            //DP("level CUSrace CUSskill %d %d %d",level,customerrace,customerskill);
-            if(level){
-                GetArrayArray(genericSkillOptions,    0,distances);
-                new Float:cooldown=GetConVarFloat(GetArrayCell(genericSkillOptions,1));
+            GetArrayArray(genericSkillOptions,    0,distances);
+            new Float:cooldown=GetConVarFloat(GetArrayCell(genericSkillOptions,1));
             //    DP("cool %f",cooldown);
-                if(War3_SkillNotInCooldown(client,customerrace,customerskill,true)) //not in the 0.2 second delay when we check stuck via moving
-                {
-                    new bool:success = Teleport(client,distances[level]);
-                    if(success)
-                    {
-                        TPFailCDResetToRace[client]=customerrace;
-                        TPFailCDResetToSkill[client]=customerskill;
-                        //new Float:cooldown=GetConVarFloat(ultCooldownCvar);
-                        War3_CooldownMGR(client,cooldown,customerrace,customerskill,_,_);
-                    }
-                }
-            
-            }
-            else if(War3_GetRace(client)==customerrace)
+            if(War3_SkillNotInCooldown(client,customerrace,customerskill,true)) //not in the 0.2 second delay when we check stuck via moving
             {
-                W3MsgUltNotLeveled(client);
-                //DP("customerace=%d",customerrace);
+                new bool:success = Teleport(client,distances[level]);
+                if(success)
+                {
+                    TPFailCDResetToRace[client]=customerrace;
+                    TPFailCDResetToSkill[client]=customerskill;
+                    //new Float:cooldown=GetConVarFloat(ultCooldownCvar);
+                    War3_CooldownMGR(client,cooldown,customerrace,customerskill,_,_);
+                }
             }
+        
+        }
+        else if(War3_GetRace(client)==customerrace)
+        {
+            W3MsgUltNotLeveled(client);
         }
     }
+
 }
 
 
@@ -222,12 +180,7 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
     }
 }
 
-public OnWar3EventSpawn(client){
-    if(War3_GetRace(client)==thisRaceID)
-    {
-        ActivateSkills(client);
-    }
-}
+
 
 
 
@@ -237,7 +190,8 @@ public OnWar3EventSpawn(client){
 
 
 
-bool:Teleport(client,Float:distance){
+bool:Teleport(client,Float:distance)
+{
     if(!inteleportcheck[client])
     {
         

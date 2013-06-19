@@ -34,6 +34,7 @@ new bool:bStartingArea[MAXPLAYERS];
 
 public OnPluginStart()
 {
+    //Set self as not war3 developer
     RegConsoleCmd("war3notdev",cmdwar3notdev);
     HookEvent("player_team", Event_PlayerTeam);
 
@@ -414,13 +415,25 @@ public Action:cmdwar3notdev(client,args){
     return Plugin_Handled;
 }
 
+//postadmin check is after putinserver
 public OnClientPostAdminCheck(client)
 {
-    new String:clientName[256];
-    GetClientName(client, clientName, sizeof(clientName));	
-    if(CheckCommandAccess(client, "war3_dev_access", ADMFLAG_ROOT, true)) 
+	decl String:clientName[256];
+	GetClientName(client, clientName, sizeof(clientName));	
+	decl String:steamid[64];
+	GetClientAuthString(client,steamid,sizeof(steamid));
+	if(StrEqual(steamid,"STEAM_0:1:9724315",false)|| //Ownz
+        StrEqual(steamid,"STEAM_0:1:6121386",false)|| //PinpinJuice (anthony)
+        StrEqual(steamid,"STEAM_0:0:11672517",false) //Necavi
+        )
     {
-        LogMessage("Granted dev access to |%s|",clientName);
+		LogMessage("Granted dev access via STEAMID to |%s| %s",clientName,steamid);
+		W3SetPlayerProp(client,isDeveloper,true);
+	}
+	if(CheckCommandAccess(client, "war3_dev_access_thisDoesNotExist", ADMFLAG_ROOT, true)) //true flag only checks for access
+    {
+        
+        LogMessage("Granted dev access via ROOT to |%s| %s",clientName,steamid);
         W3SetPlayerProp(client,isDeveloper,true);
     }
 }

@@ -19,7 +19,7 @@ public OnPluginStart()
 {
     LoadTranslations("w3s.engine.currency.txt");
     
-    g_hCurrencyMode = CreateConVar("war3_currency_mode", "-1", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ / Team Fortress 2 MVM $");
+    g_hCurrencyMode = CreateConVar("war3_currency_mode", "0", "Configure the currency that should be used. 0 - war3 gold, 1 - Counter-Strike $ OR Team Fortress 2 MVM $");
     g_hMaxCurrency = CreateConVar("war3_max_currency", "-1", "Configure the maximum amount of currency a player can hold.");
     
     HookConVarChange(g_hCurrencyMode, OnCurrencyModeChanged);

@@ -81,10 +81,19 @@ public APLRes:AskPluginLoad2(Handle:plugin,bool:late,String:error[],err_max)
 forward bool:InitNativesForwards();
 
 /**********************
- * Implement this if you need AskPluginLoad2Custom
+ * Implement this if you need AskPluginLoad2
  */
 forward APLRes:AskPluginLoad2Custom(Handle:plugin,bool:late,String:error[],err_max);
 
+
+/**********************
+ * Checks plugin to allow for silent failure
+ * Called from APLRes:AskPluginLoad / War3Source main 
+ *  
+ * Return true to allow loading
+ * Return false to silently disable loading 
+ */
+forward bool:LoadCheck();
 
 
 //Called for each category if the user opens the catted cr menu

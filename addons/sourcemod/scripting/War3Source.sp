@@ -150,8 +150,17 @@ new Handle:g_War3InterfaceExecFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-	//do not remove this print, its for spacial separation for the server console output 
-    PrintToServer("[W3S] ---=== LOADING W3S ===----");
+    //DO NOT REMOVE this print, its for spacial separation for the server console output 
+    //Easier for the developer to see were relevant output begins
+    PrintToServer("[W3S] -= LOADING W3S =-");
+    PrintToServer("[W3S] #       #    #####     #####  ");
+    PrintToServer("[W3S] #   #   #   #     #   #     # ");
+    PrintToServer("[W3S] #   #   #         #   #       ");
+    PrintToServer("[W3S] #   #   #    #####     #####  ");
+    PrintToServer("[W3S] #   #   #         #         # ");
+    PrintToServer("[W3S] #   #   #   #     #   #     # ");
+    PrintToServer("[W3S]  ### ###     #####     #####  ");
+                         
     
     new String:version[64];
     Format(version, sizeof(version), "%s by the War3Source Team", VERSION_NUM);

@@ -15,7 +15,7 @@ new String:hintstring[4096];
 
 public LoadCheck()
 {
-	// Revan: keyhinttext works with CS:GO but weird symbols will be displayed
+    // Revan: keyhinttext works with CS:GO but weird symbols will be displayed
     g_hCvarEnable = CreateConVar("War3_RightTextDisp",(War3_GetGame() == Game_CSGO) ? "0" : "1", "Enables the right-hand text display of war3source information",_,true,0.0,true,1.0);
     g_hHudSynchronizer = CreateHudSynchronizer();
     if(g_hHudSynchronizer == INVALID_HANDLE && GameCSANY()) {
