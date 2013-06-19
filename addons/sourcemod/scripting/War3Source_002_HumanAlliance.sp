@@ -44,7 +44,7 @@ new String:teleportSound[256];
 
 public OnPluginStart()
 {
-    ultCooldownCvar=CreateConVar("war3_human_teleport_cooldown","20.0","Cooldown between teleports");
+    ultCooldownCvar = CreateConVar("war3_human_teleport_cooldown","20.0","Cooldown between teleports");
     
     LoadTranslations("w3s.race.human.phrases");
 }
@@ -53,13 +53,13 @@ public OnWar3LoadRaceOrItemOrdered(num)
 {
     if(GAMECSANY)
     {
-        if(num==1)
+        if(num == 1)
         {
             GENERIC_SKILL_TELEPORT=War3_CreateGenericSkill("g_teleport");
             //DP("registereing gernicsadlfjasf");
         }
     }
-    if(num==20)
+    if(num == 20)
     {
     
         
