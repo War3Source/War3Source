@@ -80,6 +80,8 @@ And that's the art of the test!
 // 
 // total_hours_wasted_here = 39
 // 
+
+
 /**
 * For the brave souls who get this far: You are the chosen ones,
 * the valiant knights of programming who toil away, without rest,
@@ -148,6 +150,9 @@ new Handle:g_War3InterfaceExecFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
+	//do not remove this print, its for spacial separation for the server console output 
+    PrintToServer("[W3S] ---=== LOADING W3S ===----");
+    
     new String:version[64];
     Format(version, sizeof(version), "%s by the War3Source Team", VERSION_NUM);
     CreateConVar("war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);

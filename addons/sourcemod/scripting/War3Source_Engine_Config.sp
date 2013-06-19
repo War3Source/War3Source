@@ -409,7 +409,7 @@ public Native_War3_SetRaceGlobalConfigString(Handle:plugin, numParams)
     new String:value[valuelen];
     GetNativeString(2, value, valuelen);
     KvSetString(g_hGlobalRaceDefault, key, value);
-    PrintToServer("Adding new global key: %s and value: %s", key, value);
+    PrintToServer("[W3GlobalConfig] Adding new global key: %s and value: %s", key, value);
 }
 
 public Native_War3_GotoRaceConfigArray(Handle:plugin, numParams)
