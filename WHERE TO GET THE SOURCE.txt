@@ -1,5 +1,5 @@
 Source is now available on github: 
-https://github.com/War3Source/War3Source/tree/War3Source-2
+https://github.com/War3Source/War3Source
 
 We encourage you to contribute to the code because 
 others have worked to make this mod available to you.
