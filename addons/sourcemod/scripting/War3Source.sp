@@ -118,7 +118,7 @@ And that's the art of the test!
 #define BRANCH "{branch}"
 #define BUILD_NUMBER "{build_number}"
 
-#define VERSION_NUM "2.ALPHA"
+#define VERSION_NUM "2.{build_number}"
 
 public Plugin:myinfo = 
 {
