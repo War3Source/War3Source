@@ -56,8 +56,8 @@ native bool:W3RaceHasFlag(raceid,String:flag[]);
 
 //returns a simple array of race IDs, sorted properly.
 //Does not include "hidden" races
-//pass array of MAXRACES, returns number of races in the array. starts at 0
-//ordered properly
+//pass array of MAXRACES, returns number of races in the array. starts at index 0
+//ordered properly (war3_sort_minlevel or <shortname>_raceorder
 //returns the size of the array
 native W3GetRaceList(racelist[]);
 

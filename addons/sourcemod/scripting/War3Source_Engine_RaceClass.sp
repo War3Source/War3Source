@@ -48,6 +48,7 @@ new RestrictItemsCvar[MAXRACES];
 new RestrictLimitCvar[MAXRACES][2];
 
 new Handle:m_MinimumUltimateLevel;
+new Handle:hCvarSortByMinLevel;
 
 new bool:racecreationended=true;
 new String:creatingraceshortname[16];
@@ -62,6 +63,7 @@ public OnPluginStart()
     //silence error
     skillProp[0][0][0]=0;
     m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
+    hCvarSortByMinLevel=CreateConVar("war3_sort_minlevel","0","Strictly sort by minlevel, (then shortname_raceorder tie breaker)");
 }
 
 
@@ -361,7 +363,7 @@ public NW3GetRaceList(Handle:plugin,numParams)
         }
     }
     new racelist[MAXRACES];
-    SortADTArrayCustom(racesAvailable, SortRacesByRaceOrder);
+    SortADTArrayCustom(racesAvailable, SortRacesByRaceOrder,racesAvailable);
     for(new i = 0; i < listcount; i++)
     {
         racelist[i] = GetArrayCell(racesAvailable, i);
@@ -863,10 +865,36 @@ GetRaceIDByShortname(String:shortname[]){
     }
     return -1;
 }
-public SortRacesByRaceOrder(race1, race2, Handle:races, Handle:hndl)
+
+//return -1 if race1 < race2     race1 earlier on list
+//return 1 if race1 > race2      race1 later on the list
+//higher order means later in the menu
+public SortRacesByRaceOrder(index1, index2, Handle:races, Handle:hndl_optional)
 {
-    if(race1 > 0 && race2 > 0)
+    //BLAME: Necavi / glider
+    //callback passes indexes, not races dude!
+    new race1=GetArrayCell(races,index1);
+    new race2=GetArrayCell(races,index2);
+    
+    if(race1 > 0 && race2 > 0 )
     {
+        if(GetConVarInt(hCvarSortByMinLevel)>0)
+        {
+            new minlevel1=W3GetRaceMinLevelRequired(race1);
+            new minlevel2=W3GetRaceMinLevelRequired(race2);
+            
+            if(minlevel1 < minlevel2)
+            {
+                return -1;
+            } 
+            else if(minlevel1 > minlevel2)
+            {
+                return 1;
+            }
+            //if TIE, use race order
+            
+        }
+        //race order is the cvar <race>_raceorder
         new order1 = W3GetRaceOrder(race1);
         new order2 = W3GetRaceOrder(race2);
         if(order1 < order2)
@@ -878,7 +906,7 @@ public SortRacesByRaceOrder(race1, race2, Handle:races, Handle:hndl)
             return 1;
         }
     }
-    return 0;
+    return 0;  //tie
 }
 
 
