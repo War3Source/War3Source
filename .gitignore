@@ -1,7 +1,0 @@
-*.smx
-
-/addons/sourcemod/scripting/include
-/addons/sourcemod/scripting/COMPILE.exe
-/addons/sourcemod/scripting/SMBatchCompile.exe
-/addons/sourcemod/scripting/compile.dat
-/addons/sourcemod/scripting/spcomp.exe
