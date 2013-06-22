@@ -62,6 +62,7 @@ native bool:W3RaceHasFlag(raceid,String:flag[]);
 native W3GetRaceList(racelist[]);
 
 //a valid race is >0
+//returns 0 if not found
 native War3_GetRaceIDByShortname(String:raceshortname[]);
 
 native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);

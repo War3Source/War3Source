@@ -138,9 +138,6 @@ new Handle:hUseMetric;
 new Handle:introclannamecvar;
 new Handle:clanurl;
 
-new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
-new Handle:g_OnWar3PluginReadyHandle2; //other races
-new Handle:g_OnWar3PluginReadyHandle3; //other races backwards compatable
 
 new Handle:g_OnWar3EventSpawnFH;
 new Handle:g_OnWar3EventDeathFH;
@@ -216,10 +213,7 @@ War3Source_InitCVars()
 
 bool:War3Source_InitForwards()
 {
-    g_OnWar3PluginReadyHandle = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered", ET_Ignore, Param_Cell);//ordered
-    g_OnWar3PluginReadyHandle2 = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2", ET_Ignore, Param_Cell);//ordered
-    g_OnWar3PluginReadyHandle3 = CreateGlobalForward("OnWar3PluginReady", ET_Ignore); //unodered rest of the items or races. backwards compatable..
-    
+   
     g_OnWar3EventSpawnFH = CreateGlobalForward("OnWar3EventSpawn", ET_Ignore, Param_Cell);
     g_OnWar3EventDeathFH = CreateGlobalForward("OnWar3EventDeath", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
 
@@ -283,8 +277,9 @@ public Action:refreshcooldowns(client, args)
 public OnMapStart()
 {
     DoWar3InterfaceExecForward();
-    LoadRacesAndItems();
     
+    
+    DelayedWar3SourceCfgExecute();
     OneTimeForwards();
 }
 
@@ -300,35 +295,7 @@ public Action:OnGetGameDescription(String:gameDesc[64])
     return Plugin_Continue;
 }
 
-LoadRacesAndItems()
-{    
-    new Float:fStartTime = GetEngineTime();
 
-    //ordered loads
-    new res;
-    for(new i; i <= MAXRACES * 10; i++)
-    {
-        Call_StartForward(g_OnWar3PluginReadyHandle);
-        Call_PushCell(i);
-        Call_Finish(res);
-    }
-    
-    //orderd loads 2
-    for(new i; i <= MAXRACES * 10; i++)
-    {
-        Call_StartForward(g_OnWar3PluginReadyHandle2);
-        Call_PushCell(i);
-        Call_Finish(res);
-    }
-    
-    //unorderd loads
-    Call_StartForward(g_OnWar3PluginReadyHandle3);
-    Call_Finish(res);
-
-    PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds", GetEngineTime() - fStartTime);
-    
-    DelayedWar3SourceCfgExecute();
-}
 
 DelayedWar3SourceCfgExecute()
 {

@@ -76,29 +76,7 @@ public Action:TwoSecondTimer(Handle:h,any:a){
 }
 
 
-stock Handle:FindPluginByFileCustom(const String:filename[])
-{
-    decl String:buffer[256];
-    
-    new Handle:iter = GetPluginIterator();
-    new Handle:pl;
-    
-    while (MorePlugins(iter))
-    {
-        pl = ReadPlugin(iter);
-        
-        GetPluginFilename(pl, buffer, sizeof(buffer));
-        if (StrContains(buffer,filename,false)>-1) //not case sensitive
-        {
-            CloseHandle(iter);
-            return pl;
-        }
-    }
-    
-    CloseHandle(iter);
-    
-    return INVALID_HANDLE;
-}
+
 
 DoNatives(){
 

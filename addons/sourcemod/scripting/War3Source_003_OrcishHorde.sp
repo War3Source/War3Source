@@ -86,6 +86,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         }
         
         thisRaceID=War3_CreateNewRaceT("orc");
+        //DP("registered ORC %d",thisRaceID);
         SKILL_CRIT=War3_AddRaceSkillT(thisRaceID,"CriticalStrike",false,4);
         SKILL_NADE_INVIS=War3_AddRaceSkillT(thisRaceID,skill1_name,false,4);
         SKILL_RECARN_WARD=War3_AddRaceSkillT(thisRaceID,skill2_name,false,4);
@@ -194,9 +195,11 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    //DP("ZthisRaceID:%d race race %d %d alive %d",thisRaceID,race,War3_GetRace(client),IsPlayerAlive(client));
     if(race==thisRaceID && pressed && IsPlayerAlive(client))
     {
         new skill=War3_GetSkillLevel(client,race,ULT_LIGHTNING);
+        //DP("skill level %d",skill);
         if(skill>0)
         {
             

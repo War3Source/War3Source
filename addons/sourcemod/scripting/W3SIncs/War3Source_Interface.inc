@@ -1525,6 +1525,32 @@ stock DPP(Plugin:plugin)
     DP("[Debug PrintP] %s", szBuffer);
 }
 
+//First match bases, insensitive
+stock Handle:FindPluginByFileCustom(const String:filename[])
+{
+    decl String:buffer[256];
+    
+    new Handle:iter = GetPluginIterator();
+    new Handle:pl;
+    
+    while (MorePlugins(iter))
+    {
+        pl = ReadPlugin(iter);
+        
+        GetPluginFilename(pl, buffer, sizeof(buffer));
+        //DP("%s",buffer);
+        if (StrContains(buffer,filename,false)>-1) //not case sensitive
+        {
+            CloseHandle(iter);
+            return pl;
+        }
+    }
+    
+    CloseHandle(iter);
+    
+    return INVALID_HANDLE;
+}
+
 stock PrintPlugin(Handle:plugin) {
     new String:str[100];
     GetPluginFilename(Handle:plugin, str, sizeof(str));
