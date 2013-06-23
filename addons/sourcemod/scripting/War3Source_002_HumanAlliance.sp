@@ -132,6 +132,13 @@ public ActivateSkills(client)
 }
 
 
+public OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill)
+{
+    //new String:name[32];
+    //GetClientName(client,name,sizeof(name));
+    //DP("client %d %s genericskill %d level %d, cus %d %d",client,name,generic_skill_id,newlevel,customer_race,customer_skill);
+}
+
 new TPFailCDResetToRace[MAXPLAYERSCUSTOM];
 new TPFailCDResetToSkill[MAXPLAYERSCUSTOM];
 

@@ -808,6 +808,10 @@ forward OnAbilityCommand(client,ability,bool:pressed);
  * Gets called when a skill level is changed.
  */
 forward OnSkillLevelChanged(client, race, skill, newskilllevel);
+/**
+ * Gets called when a GENERIC skill level is changed.
+ */
+forward OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill);
 
 //when a weapon fires, via weapon_fire or TF2 Calc critical (which crits must be on)
 forward OnWeaponFired(victim,attacker,Float:damage);

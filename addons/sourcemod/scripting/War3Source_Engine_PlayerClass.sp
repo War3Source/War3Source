@@ -26,6 +26,7 @@ new String:levelupSound[256]; //="war3source/levelupcaster.mp3";
 new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
+new Handle:g_OnGenericSkillLevelChangedHandle;
 
 // l4d
 new Handle:g_hGameMode;
@@ -82,7 +83,7 @@ public bool:InitNativesForwards()
     g_On_Race_Changed=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
     g_On_Race_Selected=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
     g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
-    
+    g_OnGenericSkillLevelChangedHandle=CreateGlobalForward("OnGenericSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
     
     
     CreateNative("War3_SetRace",NWar3_SetRace); 
@@ -136,7 +137,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
             }
             
             
-            p_properties[client][CurrentRace]=newrace;
+            
             
             if(oldrace>0){
                 //we move all the old skill levels (apparrent ones)
@@ -147,8 +148,30 @@ public NWar3_SetRace(Handle:plugin,numParams){
                     Call_PushCell(i); //i is skillid
                     Call_PushCell(0); //force 0
                     Call_Finish(dummy);
+                    
+                    new genericSkillid=W3_IsSkillUsingGenericSkill(oldrace,i);
+                    //ONLY if this skill IS using a generic skill
+                    if(genericSkillid){
+                        
+                        //get data and push for conveinence
+                        new Handle:genericSkillOptions;
+                        new customerrace,customerskill;
+                        new glevel=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+                        glevel++;//hide compiler warning 
+                        Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                        Call_PushCell(client);
+                        Call_PushCell(genericSkillid);
+                        Call_PushCell(0); //force 0
+                        Call_PushCell(genericSkillOptions); 
+                        Call_PushCell(customerrace); 
+                        Call_PushCell(customerskill);
+                        Call_Finish(dummy);
+                    }
                 }
             }
+            //INTERNALLY SET NEW RACE
+            p_properties[client][CurrentRace]=newrace;
+            
             if(newrace>0){
                 for(new i=1;i<=War3_GetRaceSkillCount(newrace);i++){
                     Call_StartForward(g_OnSkillLevelChangedHandle);
@@ -157,7 +180,29 @@ public NWar3_SetRace(Handle:plugin,numParams){
                     Call_PushCell(i); //i is skillid
                     Call_PushCell(War3_GetSkillLevelINTERNAL(client,newrace,i)); //i is skillid
                     Call_Finish(dummy);
+                    
+                    new genericSkillid=W3_IsSkillUsingGenericSkill(newrace,i);
+                    //ONLY if this skill IS using a generic skill
+                    if(genericSkillid){
+                        
+                        //get data and push for conveinence
+                        new Handle:genericSkillOptions;
+                        new customerrace,customerskill;
+                        new level=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+        
+                        Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                        Call_PushCell(client);
+                        Call_PushCell(genericSkillid);
+                        Call_PushCell(level);
+                        Call_PushCell(genericSkillOptions); 
+                        Call_PushCell(customerrace); 
+                        Call_PushCell(customerskill);
+                        Call_Finish(dummy);
+                    }
+                    
                 }
+                
+                //
             }
             
             
@@ -177,16 +222,24 @@ public NWar3_SetRace(Handle:plugin,numParams){
             Call_Finish(dummy);
             
             if(newrace>0) {
-                if(IsPlayerAlive(client)){
-                    EmitSoundToAll(levelupSound,client);
+                if(IsPlayerAlive(client))
+                {
+                    //in world, from the client entity position
+                    EmitSoundToAll(levelupSound,client); 
                 }
-                else{
-                    EmitSoundToClient(client,levelupSound);
+                else
+                {
+                    //not in world, but just to client, so that fantom sounds 
+                    //dont happen on real map where player is spectating
+                    EmitSoundToClient(client,levelupSound); 
                 }
                 
                 if(W3SaveEnabled()){ //save enabled
                 }
-                else {//if(oldrace>0)
+                else 
+                {
+                    //short term XP
+                    //copy XP over
                     War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
                     War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
                     W3DoLevelCheck(client);
@@ -300,6 +353,25 @@ public NWar3_SetSkillLevelINTERNAL(Handle:plugin,numParams){
             Call_PushCell(skill);
             Call_PushCell(level);
             Call_Finish(dummy);
+            
+            new genericSkillid=W3_IsSkillUsingGenericSkill(race,skill);
+            //ONLY if this skill IS using a generic skill
+            if(genericSkillid){
+                
+                //get data and push for conveinence
+                new Handle:genericSkillOptions;
+                new customerrace,customerskill;
+                new glevel=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+
+                Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                Call_PushCell(client);
+                Call_PushCell(genericSkillid);
+                Call_PushCell(glevel); //force 0
+                Call_PushCell(genericSkillOptions); 
+                Call_PushCell(customerrace); 
+                Call_PushCell(customerskill);
+                Call_Finish(dummy);
+            }
         }
     }
     

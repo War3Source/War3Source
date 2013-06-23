@@ -34,8 +34,8 @@ enum SkillRedirect
 {
     genericskillid,
 }*/
-new bool:SkillRedirected[MAXRACES][MAXSKILLCOUNT];
-new SkillRedirectedToSkill[MAXRACES][MAXSKILLCOUNT];
+//new bool:bSkillRedirected[MAXRACES][MAXSKILLCOUNT];
+new SkillRedirectedToGSkill[MAXRACES][MAXSKILLCOUNT];
 
 new bool:skillIsUltimate[MAXRACES][MAXSKILLCOUNT];
 new skillMaxLevel[MAXRACES][MAXSKILLCOUNT];
@@ -91,6 +91,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_CreateGenericSkill",NWar3_CreateGenericSkill);
     CreateNative("War3_UseGenericSkill",NWar3_UseGenericSkill);
     CreateNative("W3_GenericSkillLevel",NW3_GenericSkillLevel);
+    CreateNative("W3_IsSkillUsingGenericSkill",NW3_IsSkillUsingGenericSkill);
     
     CreateNative("War3_CreateRaceEnd",NWar3_CreateRaceEnd);
     
@@ -657,7 +658,7 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                     &&
                     GenericSkill[genericskillid][redirectedfromskill][j]==newskillnum
                     )
-                    {  //EXISTING
+                    {   //EXISTING
                         //NOTE THE HANDLE IS KILLED IF CUSTOM RACE IS KILLED, therefore dont close here
                         //Since function IsValidHandle is not allowed, we have to assume it was killed
                         if(GenericSkill[genericskillid][raceskilldatahandle][j]!=INVALID_HANDLE && GenericSkill[genericskillid][raceskilldatahandle][j] !=genericSkillData){
@@ -680,8 +681,8 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                         raceSkillDescReplaceNum[raceid][newskillnum]++;
                     }
                     
-                    SkillRedirected[raceid][newskillnum]=true;
-                    SkillRedirectedToSkill[raceid][newskillnum]=genericskillid;
+                    //bSkillRedirected[raceid][newskillnum]=true;
+                    SkillRedirectedToGSkill[raceid][newskillnum]=genericskillid;
                     
                     
                     GenericSkill[genericskillid][raceskilldatahandle][genericcustomernumber]=genericSkillData;
@@ -713,12 +714,12 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     for(new i=0;i<count;i++){
         if(clientrace==GenericSkill[genericskill][redirectedfromrace][i]){
             level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]);
-            if(level)
-            { 
-                found++;
-                reallevel=level;
-                customernumber=i;
-            }
+            ////if(level)
+            //{ 
+            found++;
+            reallevel=level;
+            customernumber=i;
+            //}
         }
     }
     if(found>1){
@@ -737,7 +738,12 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     return reallevel;
     
 }
-
+public NW3_IsSkillUsingGenericSkill(Handle:plugin,numParams)
+{
+    new raceid=GetNativeCell(1);
+    new skill_id=GetNativeCell(2);
+    return SkillRedirectedToGSkill[raceid][skill_id];
+}
 
 CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     

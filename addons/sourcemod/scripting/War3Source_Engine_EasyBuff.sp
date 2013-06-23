@@ -7,6 +7,8 @@ public Plugin:myinfo =
     author = "War3Source Team",
     description = "Easily link together skills + buffs in War3Source"
 };
+//Ownz: OMG HANDLES, OMG OMG OMG, dont you miss object oriented programming?
+
 
 // EasyBuffs for skills
 new Handle:g_hSkillBuffs = INVALID_HANDLE; // Holds the W3Buff
@@ -44,7 +46,14 @@ public OnPluginStart()
     g_hBuffItem = CreateArray(1);
     g_hItemBuffValue = CreateArray(1);
 }
-
+public Native_War3_AddSkillBuff(Handle:plugin, numParams)
+{
+    AddSkillBuff();
+    
+    // This ain't a aura
+    // to keep alightment of the data arrays
+    PushArrayCell(g_hAuraId, -1);
+}
 AddSkillBuff()
 {
     new iRace = GetNativeCell(1);
@@ -76,13 +85,7 @@ AddSkillBuff()
     War3_LogInfo("[SKILL] Created buff %i for skill \"{skill %i}\" in \"{race %i}\"", buff, iSkill, iRace);
 }
 
-public Native_War3_AddSkillBuff(Handle:plugin, numParams)
-{
-    AddSkillBuff();
-    
-    // This ain't a aura
-    PushArrayCell(g_hAuraId, -1);
-}
+
 
 public Native_War3_AddSkillAuraBuff(Handle:plugin, numParams)
 {
@@ -127,26 +130,27 @@ public Native_War3_AddItemBuff(Handle:plugin, numParams)
 
 public OnWar3EventSpawn(client)
 {
-    InitSkills(client, War3_GetRace(client));
+    SetSkillBuffs(client, War3_GetRace(client));
 }
 
 public OnSkillLevelChanged(client, race, skill, newskilllevel)
 {
-    InitSkills(client, race);
+    SetSkillBuffs(client, race);
 }
 
 public OnWar3EventDeath(victim, client, deathrace)
 {
-    ResetSkills(victim, deathrace);
+    ResetSkillBuffs(victim, deathrace);
 }
 
+//NOT needed anymore? since skill changes handle it?
 public OnRaceChanged(client, oldrace, newrace)
 {
-	ResetSkills(client, oldrace);
-	InitSkills(client, newrace);
+	ResetSkillBuffs(client, oldrace);
+	SetSkillBuffs(client, newrace);
 }
 
-ResetSkills(client, race)
+ResetSkillBuffs(client, race)
 {
     for(new i = 0; i < GetArraySize(g_hSkillBuffs); i++)
     {
@@ -171,7 +175,7 @@ ResetSkills(client, race)
     }
 }
 
-InitSkills(client, race)
+SetSkillBuffs(client, race)
 {
     for(new i = 0; i < GetArraySize(g_hSkillBuffs); i++)
     {
