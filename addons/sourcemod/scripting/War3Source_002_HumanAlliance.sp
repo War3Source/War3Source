@@ -87,7 +87,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         
         War3_AddSkillBuff(thisRaceID, SKILL_BASH, fBashChance, BashChance);
         War3_AddSkillBuff(thisRaceID, SKILL_INVIS, fInvisibilitySkill, GameTF() ? InvisibilityAlphaTF : InvisibilityAlphaCS);
-        War3_AddSkillBuff(thisRaceID, SKILL_BASH, iAdditionalMaxHealth, DevotionHealth);
+        War3_AddSkillBuff(thisRaceID, SKILL_HEALTH, iAdditionalMaxHealth, DevotionHealth);
     }
 }
 
