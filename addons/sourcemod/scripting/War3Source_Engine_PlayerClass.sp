@@ -217,7 +217,7 @@ public NWar3_GetRace(Handle:plugin,numParams){
 public NWar3_SetLevel(Handle:plugin,numParams){
     new client = GetNativeCell(1);
     new race = GetNativeCell(2);
-    if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+    if (client > 0 && client <= MaxClients && race > 0 && race < MAXRACES)
     {
         //new String:name[32];
         //GetPluginFilename(plugin,name,sizeof(name));
