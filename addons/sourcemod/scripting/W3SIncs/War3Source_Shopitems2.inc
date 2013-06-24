@@ -31,7 +31,7 @@ native War3_GetItem2IdByShortname(String:itemshortname[]);
 
 native W3GetItem2Name(itemid,String:ret[],maxlen);
 native W3GetItem2Shortname(itemid,String:ret[],maxlen);
-native W3GetItem2Description(itemid,String:ret[],maxlen);
+native W3GetItem2Desc(itemid,String:ret[],maxlen);
 
 native W3GetItem2Cost(itemid);
 native W3GetItem2Order(itemid);

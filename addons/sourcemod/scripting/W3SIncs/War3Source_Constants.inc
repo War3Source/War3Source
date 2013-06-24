@@ -125,6 +125,8 @@ enum W3EVENT
 	DoTriedToBuyItem2,
 	DoForwardClientBoughtItem2, //tell item ownership to call lost and bought forwards
 	DoForwardClientLostItem2, //uses TheItemBoughtOrLost
+	DoShowItems2InfoMenu,
+
 }
 enum W3DENY{
 	DN_ShowChangeRace, //can show the menu
