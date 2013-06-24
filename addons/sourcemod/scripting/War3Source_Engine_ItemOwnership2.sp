@@ -25,7 +25,7 @@ public Plugin:myinfo=
 public OnPluginStart()
 {
 	//hitemRestrictionCvar2=CreateConVar("war3_item2_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
-	hCvarMaxShopitems2=CreateConVar("war3_max_shopitems2","3");
+	hCvarMaxShopitems2=CreateConVar("war3_max_shopitems2","2","max shop2 items a player can hold");
 }
 
 public bool:InitNativesForwards()
