@@ -1,0 +1,11 @@
+﻿"Phrases"
+{
+	"sbracelt_temName"
+	{
+		"ru"		"Змеинный Браслет"
+	}
+	"sbracelt_temDesc"
+	{
+		"ru"		"5% улонения."
+	}
+}
