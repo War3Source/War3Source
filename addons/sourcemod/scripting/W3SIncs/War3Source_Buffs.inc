@@ -12,7 +12,7 @@
 
 // THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
 // If player has race/skill, the value[] corresponding to the level is applied on the buff
-// values = array (usually length 5, with 0th index included)
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
 // of values to set the buff as, CELLS please (int or float, determined by buff itself)
 // MAX LENGTH of values is 32
 // RECALL safe
@@ -21,7 +21,7 @@ native War3_AddSkillBuff(raceID, skill_ID, W3Buff:buff, any:values[]);
 
 // THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
 // If player has race/skill, the value[] corresponding to the level is applied on the buff
-// values = array (usually length 5, with 0th index included)
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
 // of values to set the buff as, CELLS please (int or float, determined by buff itself)
 // MAX LENGTH of values is 32
 // RECALL safe
@@ -30,7 +30,7 @@ native War3_AddItemBuff(item_ID, W3Buff:buff, any:value);
 
 // THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
 // If player has race/skill, the value[] corresponding to the level is applied on the buff
-// values = array (usually length 5, with 0th index included)
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
 // of values to set the buff as, CELLS please (int or float, determined by buff itself)
 // Beware of duplicate aura short names
 // MAX LENGTH of values is 32
