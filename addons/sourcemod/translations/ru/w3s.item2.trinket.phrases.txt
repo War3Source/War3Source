@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"trinket_ItemName"
+	{
+		"ru"		"Амулет Восстановления"
+	}
+	"trinket_ItemDesc"
+	{
+		"ru"		"+0.5 регенерации HP."
+	}
+}

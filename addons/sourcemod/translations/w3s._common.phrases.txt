@@ -114,6 +114,16 @@
 		"#format"	"{1:s},{2:d}"
 		"en"		"Admin \"{1}\" set your gold to {2}."
 	}
+	"[War3Source] You just set player {player} diamonds to {amount}"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"[War3Source] You just set player \"{1}'s\" diamonds to {2}."
+	}
+	"Admin {player} set your diamonds to {amount}"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"Admin \"{1}\" set your diamonds to {2}."
+	}
 	"[War3Source] The syntax of the command is: war3_givegold <player> <gold>"
 	{
 		"en"		"[War3Source] The syntax of the command is: war3_givegold <player> <gold>"

@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"posthaste_ItemName"
+	{
+		"ru"		"Поножи Скорости"
+	}
+	"posthaste_ItemDesc"
+	{
+		"ru"		"+3% скорости передвижения."
+	}
+}

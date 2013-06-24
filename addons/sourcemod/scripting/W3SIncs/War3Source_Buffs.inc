@@ -56,6 +56,7 @@ stock ValidBuff(W3Buff:buffindex) {
  * 
  */
 native War3_SetBuff(client,W3Buff:buffindex,raceid,any:value);
+native War3_SetBuffItem2(client,W3Buff:buffindex,itemid,any:value);
 
 /*
  * set a buff, identified as coming from a item

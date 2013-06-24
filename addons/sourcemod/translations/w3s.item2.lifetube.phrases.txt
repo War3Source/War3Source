@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"lifetube_temName"
+	{
+		"en"		"Lifetube"
+	}
+	"lifetube_temDesc"
+	{
+		"en"		"+1 HP regeneration."
+	}
+}
