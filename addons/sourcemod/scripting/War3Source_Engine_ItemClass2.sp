@@ -32,13 +32,15 @@ public Plugin:myinfo=
 	url="http://war3source.com/"
 };
 
-/*
+
 public OnPluginStart()
 {
 	//DiamondTimerHandle=CreateTimer(66.0,Diamond_Timer,TIMER_REPEAT);
 	//CreateTimer(60.0,Diamond_Timer,TIMER_REPEAT);
+	CreateTimer(60.0,Timer_Diamonds);
 }
 
+/*
 public OnPluginEnd()
 {
 	KillTimer(DiamondTimerHandle);
@@ -79,6 +81,21 @@ public bool:InitNativesForwards()
 	
 	return true;
 }
+
+public Action:Timer_Diamonds(Handle:timer, any:userid)
+{
+	//PrintToServer("DIAMOND");
+	for(new i=1; i<GetMaxClients(); i++)
+	{
+		if(ValidPlayer(i))
+		{
+			new GivePlayerDiamonds = War3_GetDiamonds(i) + 1;
+			War3_SetDiamonds(i, GivePlayerDiamonds);
+		}
+	}
+	CreateTimer(60.0,Timer_Diamonds);
+}
+
 
 public NWar3_CreateShopItem2(Handle:plugin,numParams)
 {
