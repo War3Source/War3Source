@@ -2,10 +2,10 @@
 {
 	
 	//War3Source_Engine_MenuShopmenu2.sp
-	"[War3Evo] Select an item to buy. You have {amount}/{amount} items"
+	"[War3Source] Select an item to buy. You have {amount}/{amount} items"
 	{
 		"#format"	"{1:d},{2:d}"
-		"en"		"[War3Evo] Select an item to buy. You have {1}/{2} items"
+		"en"		"[War3Source] Select an item to buy. You have {1}/{2} items"
 	}
 	"You have {amount} Diamonds"
 	{
