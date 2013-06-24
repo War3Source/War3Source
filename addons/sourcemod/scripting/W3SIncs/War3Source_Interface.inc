@@ -1706,6 +1706,7 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 #include "W3SIncs/War3Source_Currency"
 #include "W3SIncs/War3Source_Effects"
 #include "W3SIncs/War3Source_PrecacheDownload"
+#include "W3SIncs/War3Source_Shopitems2"
 
 
 /*
@@ -1766,3 +1767,11 @@ stock bool:War3_PrecacheSound(String:sound[])
 	return false;
 }
 
+// For Shopmenu 2
+stock War3_GetDiamonds(client) {
+	return W3GetPlayerProp(client, PlayerDiamonds);
+}
+// For Shopmenu 2
+stock War3_SetDiamonds(client, newd) {
+	W3SetPlayerProp(client, PlayerDiamonds, newd);
+}
