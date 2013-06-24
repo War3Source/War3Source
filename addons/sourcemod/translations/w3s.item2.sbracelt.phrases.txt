@@ -1,0 +1,11 @@
+"Phrases"
+{
+	"sbracelt_temName"
+	{
+		"en"		"Snake Bracelet"
+	}
+	"sbracelt_temDesc"
+	{
+		"en"		"5% Evasion."
+	}
+}
