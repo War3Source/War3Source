@@ -438,9 +438,12 @@ public War3Source_Admin_SetRace(client,target)
         decl String:racename[64];
         decl String:buf[4];
         Format(buf,sizeof(buf),"%d",target);
-        new RacesLoaded = War3_GetRacesLoaded();
-        for(new x=1;x<=RacesLoaded;x++)
+        
+        new racelist[MAXRACES];
+        new racecountreturned=W3GetRaceList(racelist); 
+        for(new i=0;i<racecountreturned;i++) //notice this starts at zero!
         {
+            new    x=racelist[i];
             War3_GetRaceName(x,racename,sizeof(racename));
             AddMenuItem(menu,buf,racename);
         }

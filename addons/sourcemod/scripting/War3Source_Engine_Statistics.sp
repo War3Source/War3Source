@@ -36,12 +36,14 @@ new bool:collectkdstats;
 new Handle:hUpdateTimer;
 new Handle:hCollectingStats;
 
-new bool:bCollectStats;
+#define bCollectStats GetConVarBool(hCollectingStats )
+
+
 
 public OnPluginStart()
 {    
-    hCollectingStats = CreateConVar("war3_enable_stat_collection", "1", "Controls if K/D and W/L stats should be collected", _, true, 0.0, true, 1.0);
-    HookConVarChange(hCollectingStats, StatCollectionCallback);
+    hCollectingStats = CreateConVar("war3_enable_stat_collection", "1", "0/1. Controls if K/D and W/L stats should be collected");
+    //HookConVarChange(hCollectingStats, StatCollectionCallback);
     
     collectwlstats=true;
     collectkdstats=true;
@@ -104,10 +106,7 @@ public OnPluginStart()
     return;
 }
 
-public StatCollectionCallback(Handle:cvar, const String:oldVal[], const String:newVal[])
-{
-    bCollectStats = GetConVarBool(cvar);
-}
+
 
 
 public bool:InitNativesForwards()

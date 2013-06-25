@@ -736,7 +736,7 @@ KvMergeSubkeys(Handle:origin, Handle:dest)
         KvGetSectionName(origin, section, sizeof(section));
         KvJumpToKey(dest, section, true);
         KvCopySubkeys(origin, dest);
-        PrintToServer("Merging: %s", section);
+        PrintToServer("[W3Config] Merging: %s", section);
         
     } while (KvGotoNextKey(origin));
 }

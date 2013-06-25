@@ -26,6 +26,7 @@ new String:levelupSound[256]; //="war3source/levelupcaster.mp3";
 new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
+new Handle:g_OnGenericSkillLevelChangedHandle;
 
 // l4d
 new Handle:g_hGameMode;
@@ -79,132 +80,184 @@ public OnMapStart()
 
 public bool:InitNativesForwards()
 {
-		g_On_Race_Changed=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
-		g_On_Race_Selected=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
-		g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
-		
-		
-		
-		CreateNative("War3_SetRace",NWar3_SetRace); 
-		CreateNative("War3_GetRace",NWar3_GetRace); 
-		
-		CreateNative("War3_SetLevel",NWar3_SetLevel); 
-		CreateNative("War3_GetLevel",NWar3_GetLevel); 
-		
-		CreateNative("War3_SetXP",NWar3_SetXP); 
-		CreateNative("War3_GetXP",NWar3_GetXP); 
-		
-		//these return false if the player is not this race
-		//CreateNative("War3_SetSkillLevel",NWar3_SetSkillLevel); 
-		CreateNative("War3_GetSkillLevel",NWar3_GetSkillLevel); 
-		
-		//these return the skill without accounting if there are the current race
-		CreateNative("War3_SetSkillLevelINTERNAL",NWar3_SetSkillLevelINTERNAL); 
-		CreateNative("War3_GetSkillLevelINTERNAL",NWar3_GetSkillLevelINTERNAL); 
-		
-		CreateNative("W3SetPlayerProp",NW3SetPlayerProp);
-		CreateNative("W3GetPlayerProp",NW3GetPlayerProp);
-		
-		CreateNative("W3GetTotalLevels",NW3GetTotalLevels);
-		CreateNative("W3GetLevelsSpent",NW3GetLevelsSpent);
-		CreateNative("W3ClearSkillLevels",NW3ClearSkillLevels);
-		
-		CreateNative("War3_SpawnPlayer",NWar3_SpawnPlayer);
-		return true;
+    g_On_Race_Changed=CreateGlobalForward("OnRaceChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell);
+    g_On_Race_Selected=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
+    g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
+    g_OnGenericSkillLevelChangedHandle=CreateGlobalForward("OnGenericSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
+    
+    
+    CreateNative("War3_SetRace",NWar3_SetRace); 
+    CreateNative("War3_GetRace",NWar3_GetRace); 
+    
+    CreateNative("War3_SetLevel",NWar3_SetLevel); 
+    CreateNative("War3_GetLevel",NWar3_GetLevel); 
+    
+    CreateNative("War3_SetXP",NWar3_SetXP); 
+    CreateNative("War3_GetXP",NWar3_GetXP); 
+    
+    //these return false if the player is not this race
+    //CreateNative("War3_SetSkillLevel",NWar3_SetSkillLevel); 
+    CreateNative("War3_GetSkillLevel",NWar3_GetSkillLevel); 
+    
+    //these return the skill without accounting if there are the current race
+    CreateNative("War3_SetSkillLevelINTERNAL",NWar3_SetSkillLevelINTERNAL); 
+    CreateNative("War3_GetSkillLevelINTERNAL",NWar3_GetSkillLevelINTERNAL); 
+    
+    CreateNative("W3SetPlayerProp",NW3SetPlayerProp);
+    CreateNative("W3GetPlayerProp",NW3GetPlayerProp);
+    
+    CreateNative("W3GetTotalLevels",NW3GetTotalLevels);
+    CreateNative("W3GetLevelsSpent",NW3GetLevelsSpent);
+    CreateNative("W3ClearSkillLevels",NW3ClearSkillLevels);
+    
+    CreateNative("War3_SpawnPlayer",NWar3_SpawnPlayer);
+    return true;
 }
 
 public NWar3_SetRace(Handle:plugin,numParams){
-		
-		//set old race
-		new client=GetNativeCell(1);
-		new newrace=GetNativeCell(2);
-		if(newrace<0||newrace>War3_GetRacesLoaded()){
-				//W3LogError("WARNING SET INVALID RACE for client %d to race %d",client,newrace);
-				return;
-		}
-		if (client > 0 && client <= MaxClients)
-		{
-				new oldrace=p_properties[client][CurrentRace];
-				if(oldrace==newrace){
-						//WTF ABORT
-				}
-				else{
-						W3SetVar(OldRace,p_properties[client][CurrentRace]);
-						
-						if(oldrace>0&&ValidPlayer(client)){
-								W3SaveXP(client,oldrace);
-						}
-						
-						
-						p_properties[client][CurrentRace]=newrace;
-						
-						if(oldrace>0){
-								//we move all the old skill levels (apparrent ones)
-								for(new i=1;i<=War3_GetRaceSkillCount(oldrace);i++){
-										Call_StartForward(g_OnSkillLevelChangedHandle);
-										Call_PushCell(client);
-										Call_PushCell(oldrace);
-										Call_PushCell(i); //i is skillid
-										Call_PushCell(0); //force 0
-										Call_Finish(dummy);
-								}
-						}
-						if(newrace>0){
-								for(new i=1;i<=War3_GetRaceSkillCount(newrace);i++){
-										Call_StartForward(g_OnSkillLevelChangedHandle);
-										Call_PushCell(client);
-										Call_PushCell(newrace);
-										Call_PushCell(i); //i is skillid
-										Call_PushCell(War3_GetSkillLevelINTERNAL(client,newrace,i)); //i is skillid
-										Call_Finish(dummy);
-								}
-						}
-						
-						
-						
-						
-						//announce race change
-						Call_StartForward(g_On_Race_Changed);
-						Call_PushCell(client);
-						Call_PushCell(oldrace);
-						Call_PushCell(newrace);
-						Call_Finish(dummy);
-						
-						//REMOVE DEPRECATED
-						Call_StartForward(g_On_Race_Selected);
-						Call_PushCell(client);
-						Call_PushCell(newrace);
-						Call_Finish(dummy);
-						
-						if(newrace>0) {
-								if(IsPlayerAlive(client)){
-										EmitSoundToAll(levelupSound,client);
-								}
-								else{
-										EmitSoundToClient(client,levelupSound);
-								}
-								
-								if(W3SaveEnabled()){ //save enabled
-								}
-								else {//if(oldrace>0)
-										War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
-										War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
-										W3DoLevelCheck(client);
-								}
-								
-								decl String:buf[64];
-								War3_GetRaceName(newrace,buf,sizeof(buf));
-								War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
-								
-								if(oldrace==0){
-										War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
-								}
-								W3CreateEvent(DoCheckRestrictedItems,client);
-						}
-				}
-		}
-		
-		return;
+    
+    //set old race
+    new client=GetNativeCell(1);
+    new newrace=GetNativeCell(2);
+    if(newrace<0||newrace>War3_GetRacesLoaded()){
+        //W3LogError("WARNING SET INVALID RACE for client %d to race %d",client,newrace);
+        return;
+    }
+    if (client > 0 && client <= MaxClients)
+    {
+        new oldrace=p_properties[client][CurrentRace];
+        if(oldrace==newrace){
+            //WTF ABORT
+        }
+        else{
+            W3SetVar(OldRace,p_properties[client][CurrentRace]);
+            
+            if(oldrace>0&&ValidPlayer(client)){
+                W3SaveXP(client,oldrace);
+            }
+            
+            
+            
+            
+            if(oldrace>0){
+                //we move all the old skill levels (apparrent ones)
+                for(new i=1;i<=War3_GetRaceSkillCount(oldrace);i++){
+                    Call_StartForward(g_OnSkillLevelChangedHandle);
+                    Call_PushCell(client);
+                    Call_PushCell(oldrace);
+                    Call_PushCell(i); //i is skillid
+                    Call_PushCell(0); //force 0
+                    Call_Finish(dummy);
+                    
+                    new genericSkillid=W3_IsSkillUsingGenericSkill(oldrace,i);
+                    //ONLY if this skill IS using a generic skill
+                    if(genericSkillid){
+                        
+                        //get data and push for conveinence
+                        new Handle:genericSkillOptions;
+                        new customerrace,customerskill;
+                        new glevel=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+                        glevel++;//hide compiler warning 
+                        Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                        Call_PushCell(client);
+                        Call_PushCell(genericSkillid);
+                        Call_PushCell(0); //force 0
+                        Call_PushCell(genericSkillOptions); 
+                        Call_PushCell(customerrace); 
+                        Call_PushCell(customerskill);
+                        Call_Finish(dummy);
+                    }
+                }
+            }
+            //INTERNALLY SET NEW RACE
+            p_properties[client][CurrentRace]=newrace;
+            
+            if(newrace>0){
+                for(new i=1;i<=War3_GetRaceSkillCount(newrace);i++){
+                    Call_StartForward(g_OnSkillLevelChangedHandle);
+                    Call_PushCell(client);
+                    Call_PushCell(newrace);
+                    Call_PushCell(i); //i is skillid
+                    Call_PushCell(War3_GetSkillLevelINTERNAL(client,newrace,i)); //i is skillid
+                    Call_Finish(dummy);
+                    
+                    new genericSkillid=W3_IsSkillUsingGenericSkill(newrace,i);
+                    //ONLY if this skill IS using a generic skill
+                    if(genericSkillid){
+                        
+                        //get data and push for conveinence
+                        new Handle:genericSkillOptions;
+                        new customerrace,customerskill;
+                        new level=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+        
+                        Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                        Call_PushCell(client);
+                        Call_PushCell(genericSkillid);
+                        Call_PushCell(level);
+                        Call_PushCell(genericSkillOptions); 
+                        Call_PushCell(customerrace); 
+                        Call_PushCell(customerskill);
+                        Call_Finish(dummy);
+                    }
+                    
+                }
+                
+                //
+            }
+            
+            
+            
+            
+            //announce race change
+            Call_StartForward(g_On_Race_Changed);
+            Call_PushCell(client);
+            Call_PushCell(oldrace);
+            Call_PushCell(newrace);
+            Call_Finish(dummy);
+            
+            //REMOVE DEPRECATED
+            Call_StartForward(g_On_Race_Selected);
+            Call_PushCell(client);
+            Call_PushCell(newrace);
+            Call_Finish(dummy);
+            
+            if(newrace>0) {
+                if(IsPlayerAlive(client))
+                {
+                    //in world, from the client entity position
+                    EmitSoundToAll(levelupSound,client); 
+                }
+                else
+                {
+                    //not in world, but just to client, so that fantom sounds 
+                    //dont happen on real map where player is spectating
+                    EmitSoundToClient(client,levelupSound); 
+                }
+                
+                if(W3SaveEnabled()){ //save enabled
+                }
+                else 
+                {
+                    //short term XP
+                    //copy XP over
+                    War3_SetXP(client,newrace,War3_GetXP(client,oldrace));
+                    War3_SetLevel(client,newrace,War3_GetLevel(client,oldrace));
+                    W3DoLevelCheck(client);
+                }
+                
+                decl String:buf[64];
+                War3_GetRaceName(newrace,buf,sizeof(buf));
+                War3_ChatMessage(client,"%T","You are now {racename}",client,buf);
+                
+                if(oldrace==0){
+                    War3_ChatMessage(client,"%T","say war3bug <description> to file a bug report",client);
+                }
+                W3CreateEvent(DoCheckRestrictedItems,client);
+            }
+        }
+    }
+    
+    return;
 }
 public NWar3_GetRace(Handle:plugin,numParams){
 		new client = GetNativeCell(1);
@@ -215,15 +268,15 @@ public NWar3_GetRace(Handle:plugin,numParams){
 }
 
 public NWar3_SetLevel(Handle:plugin,numParams){
-		new client = GetNativeCell(1);
-		new race = GetNativeCell(2);
-		if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
-		{
-				//new String:name[32];
-				//GetPluginFilename(plugin,name,sizeof(name));
-				//DP("SETLEVEL %d %s",GetNativeCell(3),name);
-				p_level[client][race]=GetNativeCell(3);
-		}
+    new client = GetNativeCell(1);
+    new race = GetNativeCell(2);
+    if (client > 0 && client <= MaxClients && race > 0 && race < MAXRACES)
+    {
+        //new String:name[32];
+        //GetPluginFilename(plugin,name,sizeof(name));
+        //DP("SETLEVEL %d %s",GetNativeCell(3),name);
+        p_level[client][race]=GetNativeCell(3);
+    }
 }
 public NWar3_GetLevel(Handle:plugin,numParams){
 		new client = GetNativeCell(1);
@@ -286,23 +339,42 @@ public NWar3_GetSkillLevel(Handle:plugin,numParams){
 
 
 public NWar3_SetSkillLevelINTERNAL(Handle:plugin,numParams){
-		new client=GetNativeCell(1);
-		new race=GetNativeCell(2);
-		new skill=GetNativeCell(3);
-		new level=GetNativeCell(4);
-		if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
-		{
-				p_skilllevel[client][race][skill]=level;
-				if(War3_GetRace(client)==race){
-						Call_StartForward(g_OnSkillLevelChangedHandle);
-						Call_PushCell(client);
-						Call_PushCell(race);
-						Call_PushCell(skill);
-						Call_PushCell(level);
-						Call_Finish(dummy);
-				}
-		}
-		
+    new client=GetNativeCell(1);
+    new race=GetNativeCell(2);
+    new skill=GetNativeCell(3);
+    new level=GetNativeCell(4);
+    if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
+    {
+        p_skilllevel[client][race][skill]=level;
+        if(War3_GetRace(client)==race){
+            Call_StartForward(g_OnSkillLevelChangedHandle);
+            Call_PushCell(client);
+            Call_PushCell(race);
+            Call_PushCell(skill);
+            Call_PushCell(level);
+            Call_Finish(dummy);
+            
+            new genericSkillid=W3_IsSkillUsingGenericSkill(race,skill);
+            //ONLY if this skill IS using a generic skill
+            if(genericSkillid){
+                
+                //get data and push for conveinence
+                new Handle:genericSkillOptions;
+                new customerrace,customerskill;
+                new glevel=W3_GenericSkillLevel(client,genericSkillid,genericSkillOptions,customerrace,customerskill);
+
+                Call_StartForward(g_OnGenericSkillLevelChangedHandle);
+                Call_PushCell(client);
+                Call_PushCell(genericSkillid);
+                Call_PushCell(glevel); //force 0
+                Call_PushCell(genericSkillOptions); 
+                Call_PushCell(customerrace); 
+                Call_PushCell(customerskill);
+                Call_Finish(dummy);
+            }
+        }
+    }
+    
 }
 public NWar3_GetSkillLevelINTERNAL(Handle:plugin,numParams){
 		new client=GetNativeCell(1);

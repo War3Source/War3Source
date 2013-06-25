@@ -7,6 +7,8 @@ public Plugin:myinfo =
     author = "War3Source Team",
     description = "Easily link together skills + buffs in War3Source"
 };
+//Ownz: OMG HANDLES, OMG OMG OMG, dont you miss object oriented programming?
+
 
 // EasyBuffs for skills
 new Handle:g_hSkillBuffs = INVALID_HANDLE; // Holds the W3Buff
@@ -45,7 +47,7 @@ public OnPluginStart()
     g_hItemBuffValue = CreateArray(1);
 }
 
-AddSkillBuff()
+bool:AddSkillBuff()
 {
     new iRace = GetNativeCell(1);
     new iSkill = GetNativeCell(2);
@@ -58,7 +60,7 @@ AddSkillBuff()
            GetArrayCell(g_hSkillBuffs, i) == buff)
         {
             War3_LogInfo("[SKILL] Skipping buff %i for skill \"{skill %i}\" in \"{race %i}\": Already exists!", buff, iSkill, iRace);
-            return;
+            return false;
         }
     }
     
@@ -74,29 +76,33 @@ AddSkillBuff()
     PushArrayArray(g_hBuffSkillValues, values);
 
     War3_LogInfo("[SKILL] Created buff %i for skill \"{skill %i}\" in \"{race %i}\"", buff, iSkill, iRace);
+    
+    return true;
 }
 
 public Native_War3_AddSkillBuff(Handle:plugin, numParams)
 {
-    AddSkillBuff();
-    
-    // This ain't a aura
-    PushArrayCell(g_hAuraId, -1);
+    if(AddSkillBuff())
+    {
+        // This ain't a aura
+        PushArrayCell(g_hAuraId, -1);
+    }
 }
 
 public Native_War3_AddSkillAuraBuff(Handle:plugin, numParams)
 {
-    AddSkillBuff();
-    
-    decl String:auraShortName[32];
-    GetNativeString(5, auraShortName, sizeof(auraShortName));
-    new Float:distance = GetNativeCell(6);
-    new bool:bTrackOtherTeam = GetNativeCell(7);
-    
-    new iAuraID = W3RegisterAura(auraShortName, distance, bTrackOtherTeam);
-    PushArrayCell(g_hAuraId, iAuraID);
-    
-    War3_LogInfo("[AURA] Registered aura ID %i", iAuraID);
+    if(AddSkillBuff())
+    {
+        decl String:auraShortName[32];
+        GetNativeString(5, auraShortName, sizeof(auraShortName));
+        new Float:distance = GetNativeCell(6);
+        new bool:bTrackOtherTeam = GetNativeCell(7);
+        
+        new iAuraID = W3RegisterAura(auraShortName, distance, bTrackOtherTeam);
+        PushArrayCell(g_hAuraId, iAuraID);
+        
+        War3_LogInfo("[AURA] Registered aura ID %i", iAuraID);
+    }
 }
 
 public Native_War3_AddItemBuff(Handle:plugin, numParams)
@@ -140,6 +146,7 @@ public OnWar3EventDeath(victim, client, deathrace)
     ResetSkills(victim, deathrace);
 }
 
+//NOT needed anymore? since skill changes handle it?
 public OnRaceChanged(client, oldrace, newrace)
 {
 	ResetSkills(client, oldrace);

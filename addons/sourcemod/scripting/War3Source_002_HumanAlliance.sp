@@ -17,6 +17,8 @@ new Handle:ultCooldownCvar;
 // Chance/Info Arrays
 new Float:BashChance[5]={0.0,0.07,0.13,0.19,0.25};
 new Float:TeleportDistance[5]={0.0,600.0,700.0,850.0,1000.0};
+//TEST ONLY
+//new Float:TeleportDistance[5]={0.0,240.0,240.0,240.0,240.0};
 
 new Float:InvisibilityAlphaTF[5]={1.0,0.84,0.68,0.56,0.40};
 
@@ -85,7 +87,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         
         War3_AddSkillBuff(thisRaceID, SKILL_BASH, fBashChance, BashChance);
         War3_AddSkillBuff(thisRaceID, SKILL_INVIS, fInvisibilitySkill, GameTF() ? InvisibilityAlphaTF : InvisibilityAlphaCS);
-        War3_AddSkillBuff(thisRaceID, SKILL_BASH, iAdditionalMaxHealth, DevotionHealth);
+        War3_AddSkillBuff(thisRaceID, SKILL_HEALTH, iAdditionalMaxHealth, DevotionHealth);
     }
 }
 
@@ -130,12 +132,19 @@ public ActivateSkills(client)
 }
 
 
+public OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill)
+{
+    //new String:name[32];
+    //GetClientName(client,name,sizeof(name));
+    //DP("client %d %s genericskill %d level %d, cus %d %d",client,name,generic_skill_id,newlevel,customer_race,customer_skill);
+}
+
 new TPFailCDResetToRace[MAXPLAYERSCUSTOM];
 new TPFailCDResetToSkill[MAXPLAYERSCUSTOM];
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
-
+    //DP("ult pressed");
     if( pressed  && ValidPlayer(client,true) && !Silenced(client))
     {
         new Handle:genericSkillOptions;
@@ -148,7 +157,7 @@ public OnUltimateCommand(client,race,bool:pressed)
         {
             GetArrayArray(genericSkillOptions,    0,distances);
             new Float:cooldown=GetConVarFloat(GetArrayCell(genericSkillOptions,1));
-            //    DP("cool %f",cooldown);
+            //DP("cool %f",cooldown);
             if(War3_SkillNotInCooldown(client,customerrace,customerskill,true)) //not in the 0.2 second delay when we check stuck via moving
             {
                 new bool:success = Teleport(client,distances[level]);

@@ -808,6 +808,10 @@ forward OnAbilityCommand(client,ability,bool:pressed);
  * Gets called when a skill level is changed.
  */
 forward OnSkillLevelChanged(client, race, skill, newskilllevel);
+/**
+ * Gets called when a GENERIC skill level is changed.
+ */
+forward OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill);
 
 //when a weapon fires, via weapon_fire or TF2 Calc critical (which crits must be on)
 forward OnWeaponFired(victim,attacker,Float:damage);
@@ -1529,6 +1533,32 @@ stock DPP(Plugin:plugin)
 	new String:szBuffer[1000];
 	GetPluginFilename(Handle:plugin, szBuffer,sizeof(szBuffer));
 	DP("[Debug PrintP] %s", szBuffer);
+}
+
+//First match bases, insensitive
+stock Handle:FindPluginByFileCustom(const String:filename[])
+{
+    decl String:buffer[256];
+    
+    new Handle:iter = GetPluginIterator();
+    new Handle:pl;
+    
+    while (MorePlugins(iter))
+    {
+        pl = ReadPlugin(iter);
+        
+        GetPluginFilename(pl, buffer, sizeof(buffer));
+        //DP("%s",buffer);
+        if (StrContains(buffer,filename,false)>-1) //not case sensitive
+        {
+            CloseHandle(iter);
+            return pl;
+        }
+    }
+    
+    CloseHandle(iter);
+    
+    return INVALID_HANDLE;
 }
 
 stock PrintPlugin(Handle:plugin) {

@@ -1,7 +1,24 @@
+//Ownz:
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+//THIS IS ANCIENT HISTORY, BUT DO NOT MODIFY, DO NOT DELETE FROM REPO
+
 #pragma semicolon 1
 
 #include <sourcemod>
-#include "sdkhooks"
 #include "W3SIncs/War3Source_Interface"
 
 #define COREPLUGINSNUM 9
@@ -13,6 +30,7 @@ public Plugin:myinfo =
     description = "Verify we got some necessary engines"
 };
 
+//if these plugins fail, HALT all war3 plugins
 new String:coreplugins[COREPLUGINSNUM][]={
 "War3Source.smx",
 "War3Source_Engine_CooldownMgr",
@@ -76,29 +94,7 @@ public Action:TwoSecondTimer(Handle:h,any:a){
 }
 
 
-stock Handle:FindPluginByFileCustom(const String:filename[])
-{
-    decl String:buffer[256];
-    
-    new Handle:iter = GetPluginIterator();
-    new Handle:pl;
-    
-    while (MorePlugins(iter))
-    {
-        pl = ReadPlugin(iter);
-        
-        GetPluginFilename(pl, buffer, sizeof(buffer));
-        if (StrContains(buffer,filename,false)>-1) //not case sensitive
-        {
-            CloseHandle(iter);
-            return pl;
-        }
-    }
-    
-    CloseHandle(iter);
-    
-    return INVALID_HANDLE;
-}
+
 
 DoNatives(){
 

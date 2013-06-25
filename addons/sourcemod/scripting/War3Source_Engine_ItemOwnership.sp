@@ -19,8 +19,8 @@ new Handle:hCvarMaxShopitems;
 
 public OnPluginStart()
 {
-    hitemRestrictionCvar=CreateConVar("war3_item_restrict","","Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
-    hCvarMaxShopitems=CreateConVar("war3_max_shopitems","2");
+    hitemRestrictionCvar=CreateConVar("war3_item_restrict","","GLOBAL Disallow items in shopmenu, shortname separated by comma only ie:'claw,orb'");
+    hCvarMaxShopitems=CreateConVar("war3_max_shopitems","2","How much shop items can one player have");
 }
 
 public bool:InitNativesForwards()

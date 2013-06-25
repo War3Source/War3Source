@@ -29,12 +29,13 @@ new bool:skillTranslated[MAXRACES][MAXSKILLCOUNT];
 new String:raceString[MAXRACES][RaceString][512];
 new String:raceSkillString[MAXRACES][MAXSKILLCOUNT][SkillString][512];
 
+/*
 enum SkillRedirect
 {
     genericskillid,
-}
-new bool:SkillRedirected[MAXRACES][MAXSKILLCOUNT];
-new SkillRedirectedToSkill[MAXRACES][MAXSKILLCOUNT];
+}*/
+//new bool:bSkillRedirected[MAXRACES][MAXSKILLCOUNT];
+new SkillRedirectedToGSkill[MAXRACES][MAXSKILLCOUNT];
 
 new bool:skillIsUltimate[MAXRACES][MAXSKILLCOUNT];
 new skillMaxLevel[MAXRACES][MAXSKILLCOUNT];
@@ -56,19 +57,30 @@ new String:creatingraceshortname[16];
 new raceCell[MAXRACES][ENUM_RaceObject];
 
 
+new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
+new Handle:g_OnWar3PluginReadyHandle2; //other races
+new Handle:g_OnWar3PluginReadyHandle3; //other races backwards compatable
+
+
 //END race instance variables
 
 public OnPluginStart()
 {
-    //silence error
+    //silence compiler error
     skillProp[0][0][0]=0;
     m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
     hCvarSortByMinLevel=CreateConVar("war3_sort_minlevel","0","Strictly sort by minlevel, (then shortname_raceorder tie breaker)");
+
+    RegServerCmd("war3_reloadrace", CmdReloadRace,"Reload A Race");
 }
 
 
 public bool:InitNativesForwards()
 {
+    g_OnWar3PluginReadyHandle = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered", ET_Ignore, Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle2 = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2", ET_Ignore, Param_Cell);//ordered
+    g_OnWar3PluginReadyHandle3 = CreateGlobalForward("OnWar3PluginReady", ET_Ignore); //unodered rest of the items or races. backwards compatable..
+    
     
     CreateNative("War3_CreateNewRace",NWar3_CreateNewRace);
     CreateNative("War3_AddRaceSkill",NWar3_AddRaceSkill);
@@ -79,6 +91,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_CreateGenericSkill",NWar3_CreateGenericSkill);
     CreateNative("War3_UseGenericSkill",NWar3_UseGenericSkill);
     CreateNative("W3_GenericSkillLevel",NW3_GenericSkillLevel);
+    CreateNative("W3_IsSkillUsingGenericSkill",NW3_IsSkillUsingGenericSkill);
     
     CreateNative("War3_CreateRaceEnd",NWar3_CreateRaceEnd);
     
@@ -119,6 +132,140 @@ public bool:InitNativesForwards()
     CreateNative("W3SetRaceCell",NW3SetRaceCell);
     return true;
 }
+
+public OnMapStart()
+{
+    LoadRacesAndItems();
+}
+LoadRacesAndItems()
+{    
+    new Float:fStartTime = GetEngineTime();
+
+    //ordered loads
+    new res;
+    for(new i; i <= MAXRACES * 10; i++)
+    {
+        Call_StartForward(g_OnWar3PluginReadyHandle);
+        Call_PushCell(i);
+        Call_Finish(res);
+    }
+    
+    //orderd loads 2
+    for(new i; i <= MAXRACES * 10; i++)
+    {
+        Call_StartForward(g_OnWar3PluginReadyHandle2);
+        Call_PushCell(i);
+        Call_Finish(res);
+    }
+    
+    //unorderd loads
+    Call_StartForward(g_OnWar3PluginReadyHandle3);
+    Call_Finish(res);
+
+    PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds", GetEngineTime() - fStartTime);
+    
+    
+}
+
+
+new Handle:mystack;
+new String:arg1_shortname[64];
+new String:arg2_plugin[64];
+new String:pluginname[256];
+new raceid_reload;
+public Action:CmdReloadRace(args)
+{
+    if(args<2){
+        DP("Need 2 arguments: <raceshortname> <part of the plugin to reload>");
+        return Plugin_Handled;
+    }
+    GetCmdArg(1, arg1_shortname, sizeof(arg1_shortname));
+    DP("Shortrace Name: %s",arg1_shortname);
+    
+    
+    GetCmdArg(2, arg2_plugin, sizeof(arg2_plugin));
+    DP("Trying to find plugin with name: %s",arg2_plugin);
+    
+    new Handle:plugin = FindPluginByFileCustom(arg2_plugin);
+    if(plugin==INVALID_HANDLE){
+        return Plugin_Handled;
+    }
+    //plugin valid
+    
+    GetPluginFilename(plugin, pluginname, sizeof(pluginname));
+    DP("Plugin Found (first match, verify this): %s",pluginname);
+    
+    raceid_reload=War3_GetRaceIDByShortname(arg1_shortname);
+    if(raceid_reload==0)
+    {
+        DP("Race NOT FOUND by shortname '%s'",arg1_shortname);
+        return Plugin_Handled;
+    }
+    
+    
+    DP("Removing everyone from the race");
+    
+    
+    mystack=CreateStack();
+    for(new client=1;client<=MaxClients;client++){
+        if(War3_GetRace(client)==raceid_reload)
+        {
+            DP("client %d",client);
+            War3_SetRace(client,0);
+            PushStackCell(mystack,client);
+        }
+    }
+    //KILL DA SKILLS!
+    raceSkillCount[raceid_reload]=0;
+    
+    
+    DP("UNLOADING %s",arg2_plugin);
+    ServerCommand("sm plugins unload \"%s\"",pluginname);
+    DP("LOADING %s",arg2_plugin);
+    ServerCommand("sm plugins load \"%s\"",pluginname);
+    CreateTimer(0.1,ReloadRace2);
+    return Plugin_Handled;
+}
+public Action:ReloadRace2(Handle:t,any:a)
+{
+    DP("Issuing race load forwards %s",arg2_plugin);
+    LoadRacesAndItems();
+    
+    DP("Putting races back on clients",arg2_plugin);
+    while(!IsStackEmpty(mystack))
+    {
+        
+        new client;
+        PopStackCell(mystack,client);
+        DP("client %d",client);
+        War3_SetRace(client, raceid_reload);
+    
+    }
+    CloseHandle(mystack);
+    DP("Race reload complete, possible side effects / leaks");
+    //return Plugin_Handled;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 public NWar3_CreateNewRace(Handle:plugin,numParams){
@@ -476,9 +623,9 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
     GetNativeString(2,genskillname,sizeof(genskillname));
     new Handle:genericSkillData=Handle:GetNativeCell(3);
     //start from 1
-    for(new i=1;i<=genericskillcount;i++){
+    for(new genericskillid=1;genericskillid<=genericskillcount;genericskillid++){
         //DP("1 %s %s ]",genskillname,GenericSkill[i][cskillname]);
-        if(StrEqual(genskillname,GenericSkill[i][cskillname])){
+        if(StrEqual(genskillname,GenericSkill[genericskillid][cskillname])){
             //DP("2");
             if(raceid>0){
                 
@@ -504,24 +651,27 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                 }
                 
                 //check that the data handle isnt leaking
-                new genericcustomernumber=GenericSkill[i][redirectedcount];
+                new genericcustomernumber=GenericSkill[genericskillid][redirectedcount];
                 for(new j=0;j<=genericcustomernumber;j++){
                     if(
-                    GenericSkill[i][redirectedfromrace][j]==raceid
+                    GenericSkill[genericskillid][redirectedfromrace][j]==raceid
                     &&
-                    GenericSkill[i][redirectedfromskill][j]==newskillnum
-                    ){
-                        if(GenericSkill[i][raceskilldatahandle][j]!=INVALID_HANDLE && GenericSkill[i][raceskilldatahandle][j] !=genericSkillData){
+                    GenericSkill[genericskillid][redirectedfromskill][j]==newskillnum
+                    )
+                    {   //EXISTING
+                        //NOTE THE HANDLE IS KILLED IF CUSTOM RACE IS KILLED, therefore dont close here
+                        //Since function IsValidHandle is not allowed, we have to assume it was killed
+                        if(GenericSkill[genericskillid][raceskilldatahandle][j]!=INVALID_HANDLE && GenericSkill[genericskillid][raceskilldatahandle][j] !=genericSkillData){
                             //DP("ERROR POSSIBLE HANDLE LEAK, NEW GENERIC SKILL DATA HANDLE PASSED, CLOSING OLD GENERIC DATA HANDLE");
-                            CloseHandle(GenericSkill[i][raceskilldatahandle][j]);
-                            GenericSkill[i][raceskilldatahandle][j]=genericSkillData;
+                            //CloseHandle(GenericSkill[genericskillid][raceskilldatahandle][j]);
+                            GenericSkill[genericskillid][raceskilldatahandle][j]=genericSkillData;
                         }    
                     }
                     
                 }
                 
                 
-                //first time creating the race
+                //first time creating the race, otherwise this data already exists
                 if(ignoreRaceEnd==false)
                 {
                     //variable args start at 8
@@ -531,15 +681,15 @@ public NWar3_UseGenericSkill(Handle:plugin,numParams){
                         raceSkillDescReplaceNum[raceid][newskillnum]++;
                     }
                     
-                    SkillRedirected[raceid][newskillnum]=true;
-                    SkillRedirectedToSkill[raceid][newskillnum]=i;
+                    //bSkillRedirected[raceid][newskillnum]=true;
+                    SkillRedirectedToGSkill[raceid][newskillnum]=genericskillid;
                     
                     
-                    GenericSkill[i][raceskilldatahandle][genericcustomernumber]=genericSkillData;
-                    GenericSkill[i][redirectedfromrace][GenericSkill[i][redirectedcount]]=raceid;
+                    GenericSkill[genericskillid][raceskilldatahandle][genericcustomernumber]=genericSkillData;
+                    GenericSkill[genericskillid][redirectedfromrace][GenericSkill[genericskillid][redirectedcount]]=raceid;
                     
-                    GenericSkill[i][redirectedfromskill][GenericSkill[i][redirectedcount]]=newskillnum;
-                    GenericSkill[i][redirectedcount]++;
+                    GenericSkill[genericskillid][redirectedfromskill][GenericSkill[genericskillid][redirectedcount]]=newskillnum;
+                    GenericSkill[genericskillid][redirectedcount]++;
                     //DP("FOUND GENERIC SKILL %d, real skill id for race %d",i,newskillnum);
                 }
                 
@@ -564,12 +714,12 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     for(new i=0;i<count;i++){
         if(clientrace==GenericSkill[genericskill][redirectedfromrace][i]){
             level = War3_GetSkillLevel( client, GenericSkill[genericskill][redirectedfromrace][i], GenericSkill[genericskill][redirectedfromskill][i]);
-            if(level)
-            { 
-                found++;
-                reallevel=level;
-                customernumber=i;
-            }
+            ////if(level)
+            //{ 
+            found++;
+            reallevel=level;
+            customernumber=i;
+            //}
         }
     }
     if(found>1){
@@ -588,7 +738,12 @@ public NW3_GenericSkillLevel(Handle:plugin,numParams){
     return reallevel;
     
 }
-
+public NW3_IsSkillUsingGenericSkill(Handle:plugin,numParams)
+{
+    new raceid=GetNativeCell(1);
+    new skill_id=GetNativeCell(2);
+    return SkillRedirectedToGSkill[raceid][skill_id];
+}
 
 CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     
@@ -863,7 +1018,7 @@ GetRaceIDByShortname(String:shortname[]){
             return raceid;
         }
     }
-    return -1;
+    return 0;
 }
 
 //return -1 if race1 < race2     race1 earlier on list

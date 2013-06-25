@@ -9,9 +9,34 @@
 //=======================================================================
 
 // Easy natives to apply a W3Buff based on a skill/item
-native War3_AddSkillBuff(raceID, skill, W3Buff:buff, any:values[]);
-native War3_AddItemBuff(itemID, W3Buff:buff, any:value);
-native War3_AddAuraSkillBuff(raceID, skill, W3Buff:buff, any:values[], 
+
+// THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
+// If player has race/skill, the value[] corresponding to the level is applied on the buff
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
+// of values to set the buff as, CELLS please (int or float, determined by buff itself)
+// MAX LENGTH of values is 32
+// RECALL safe
+// no return
+native War3_AddSkillBuff(raceID, skill_ID, W3Buff:buff, any:values[]);
+
+// THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
+// If player has race/skill, the value[] corresponding to the level is applied on the buff
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
+// of values to set the buff as, CELLS please (int or float, determined by buff itself)
+// MAX LENGTH of values is 32
+// RECALL safe
+// no return
+native War3_AddItemBuff(item_ID, W3Buff:buff, any:value);
+
+// THESE PERMAMENTLY links to the player's skill level and changes the buffs acordingly
+// If player has race/skill, the value[] corresponding to the level is applied on the buff
+// values = array (usually length 5, with 0th index included, zeroth index is ignored however, internally it calls a resetbuff function to restore default value)
+// of values to set the buff as, CELLS please (int or float, determined by buff itself)
+// Beware of duplicate aura short names
+// MAX LENGTH of values is 32
+// RECALL safe
+// no return
+native War3_AddAuraSkillBuff(race_ID, skill_ID, W3Buff:buff, any:values[], 
                              String:auraShortName[], Float:distance, 
                              bool:trackotherteam);
 
@@ -77,7 +102,9 @@ native W3GetBuffMinInt(client,W3Buff:buffindex);
 
 //calculate player speed next frame
 native W3ReapplySpeed(client);
-native W3GetSpeedMulti(client); //get the effective speed multipler for TF
+
+//get the effective speed multipler for TF
+native W3GetSpeedMulti(client); 
 
 stock bool:W3HasImmunity(client,War3Immunity:immunityindex) 
 {
@@ -105,17 +132,25 @@ stock bool:W3HasImmunity(client,War3Immunity:immunityindex)
     return false;
 
 }
+//Is the player immune to other people's skills
 stock bool:IsSkillImmune(client) {
     return W3GetBuffHasTrue(client,bImmunitySkills);
 }
+
+//Is the player immune to other people's ultimates
 stock bool:IsUltImmune(client) {
     return W3GetBuffHasTrue(client,bImmunityUltimates);
 }
 
-//statuses
+//is player stunned?
 stock bool:Stunned(client) {
     return W3GetBuffHasTrue(client,bStunned);
 }
+
+//is player silenced?
+//block active skill ACTIVATION
+//silence still should allow skill PROC, item PROC, and item ACTIVATION
+//auto cast spells should be blocked
 stock bool:Silenced(client,printSilenced=true) {
     new bool:silenced=(W3GetBuffHasTrue(client,bSilenced)||Stunned(client));
     if(silenced&&printSilenced) {
@@ -140,6 +175,8 @@ stock bool:Silenced(client,printSilenced=true) {
     }
     return silenced;
 }
+
+//is player hexed? (OUR definition is: no skill proc, usually from chance based skills)
 stock bool:Hexed(client,printmsg=true) {
     new bool:status=(W3GetBuffHasTrue(client,bHexed)||W3GetBuffHasTrue(client,bStunned));
     if(status&&printmsg) {
@@ -155,6 +192,8 @@ stock bool:Hexed(client,printmsg=true) {
     }
     return status;
 }
+
+//is player perplexed, (no item activation, no item proc by chance)
 stock bool:Perplexed(client,printmsg=true) {
     new bool:perplexed=(W3GetBuffHasTrue(client,bPerplexed)||W3GetBuffHasTrue(client,bStunned));
     if(perplexed&&printmsg) {

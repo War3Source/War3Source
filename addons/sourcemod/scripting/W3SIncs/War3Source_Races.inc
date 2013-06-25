@@ -36,11 +36,22 @@ native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
 #pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
 
+
+//ALLOCATES an ID ( >0 ) for a generic skill, identified by gskillname
+//recall safe
 native War3_CreateGenericSkill(String:gskillname[]);
+
 //genericSkillData is an array or trie that modifies behavior of that generic skill
-//if NEW HANDLE is passed, OLD one will be closed (i e during create race call after race has been created like on a map change)
+//if NEW HANDLE is passed, OLD will NOT be closed (it is possible that it already closed if you unloaded the original race)
 //this means you CAN recreate new handles and pass them, the old one will be closed
+//recall safe
+//returns a usual skill_id for the race
 native War3_UseGenericSkill(raceid,String:gskillname[],Handle:genericSkillData,String:yourskillname[],String:untranslatedSkillDescription[]="ERR: No Skill Description Entered.",bool:translated=false,bool:isUltimate=false,maxskilllevel=DEF_MAX_SKILL_LEVEL,any:...);
+
+//is raceid, skillid using generic skill
+//generic skillid id returned, otherwise 0 if its not using a generic skill
+native W3_IsSkillUsingGenericSkill(raceid,skill_id);
+
 
 native War3_GetRacesLoaded();
 native W3GetRaceMaxLevel(race);
@@ -62,6 +73,7 @@ native bool:W3RaceHasFlag(raceid,String:flag[]);
 native W3GetRaceList(racelist[]);
 
 //a valid race is >0
+//returns 0 if not found
 native War3_GetRaceIDByShortname(String:raceshortname[]);
 
 native W3GetRaceAccessFlagStr(raceid,String:ret[],maxlen);
