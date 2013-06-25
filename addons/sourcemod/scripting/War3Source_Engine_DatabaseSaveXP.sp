@@ -87,7 +87,7 @@ Initialize_SQLTable()
 				}
 				else
 				{	
-				
+				    //DO NOT DELETE, FOR FUTURE REFRENCE
 					if(!SQL_FieldNameToNum(query, "levelbankV2", dummy))
 					{
 						AddColumn(hDB,"levelbankV2","int","war3source");
@@ -95,14 +95,15 @@ Initialize_SQLTable()
 					
 					if(!SQL_FieldNameToNum(query, "gold", dummy))
 					{
-						if(g_SQLType==SQLType_SQLite){
+					   //DO NOT DELETE, FOR FUTURE REFRENCE
+						/*if(g_SQLType==SQLType_SQLite){
 							//sqlite cannot rename column
 							AddColumn(hDB,"gold","INT","war3source");
 						}
 						else{
 							SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
 							PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
-						}
+						}*/
 					}
 					if(!SQL_FieldNameToNum(query, "diamonds", dummy))
 					{
