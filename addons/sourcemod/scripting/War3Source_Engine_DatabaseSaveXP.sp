@@ -113,12 +113,6 @@ Initialize_SQLTable()
 				}
 				else
 				{
-						// Old Databases may not have diamonds since the removal of it in 2.0
-						// Adding this for a just in case.
-						if(!SQL_FieldNameToNum(query, "diamonds", dummy))
-						{
-							AddColumn(hDB,"diamonds","int","war3source");
-						}
 
 						//table exists by now, add skill columns if not exists
 						new String:columnname[16];
