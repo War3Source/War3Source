@@ -85,6 +85,33 @@ Initialize_SQLTable()
 								SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
 						}
 				}
+				else
+				{	
+				
+					if(!SQL_FieldNameToNum(query, "levelbankV2", dummy))
+					{
+						AddColumn(hDB,"levelbankV2","int","war3source");
+					}
+					
+					if(!SQL_FieldNameToNum(query, "gold", dummy))
+					{
+						if(g_SQLType==SQLType_SQLite){
+							//sqlite cannot rename column
+							AddColumn(hDB,"gold","INT","war3source");
+						}
+						else{
+							SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
+							PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
+						}
+					}
+					if(!SQL_FieldNameToNum(query, "diamonds", dummy))
+					{
+						AddColumn(hDB,"diamonds","int","war3source");
+					}
+				
+					CloseHandle(query);
+				}
+	
 
 				///NEW DATABASE STRUCTURE
 				query = SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1");
@@ -102,24 +129,23 @@ Initialize_SQLTable()
 								SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
 						}
 
-						//get another handle for next table check
-						query = SQL_Query(hDB, "SELECT * from war3source_racedata1 LIMIT 1");
+						
+						
 				}
-
+				else{
+					CloseHandle(query);
+				}
+				//get another handle for next table check
 				//do another check for handle, cuz we may have just created database
+				query = SQL_Query(hDB, "SELECT * from war3source_racedata1 LIMIT 1");
+
+				
 				if(query == INVALID_HANDLE)
 				{
 						SetFailState("invalid handle to data");
 				}
 				else
 				{
-						// Old Databases may not have diamonds since the removal of it in 2.0
-						// Adding this for a just in case.
-						if(!SQL_FieldNameToNum(query, "diamonds", dummy))
-						{
-							AddColumn(hDB,"diamonds","int","war3source");
-						}
-
 						//table exists by now, add skill columns if not exists
 						new String:columnname[16];
 						new dummyfield;
