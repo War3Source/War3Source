@@ -423,10 +423,12 @@ public War3Source_Admin_GSI_Select(Handle:menu,MenuAction:action,client,selectio
     
 }
 
+new AdminMenuSetRaceTarget[MAXPLAYERSCUSTOM];
 public War3Source_Admin_SetRace(client,target)
 {
     if(ValidPlayer(target,false))
     {
+        AdminMenuSetRaceTarget[client]=target;
         SetTrans(client);
         new Handle:menu=CreateMenu(War3Source_Admin_SetRace_Select);
         SetMenuExitButton(menu,true);
@@ -435,17 +437,19 @@ public War3Source_Admin_SetRace(client,target)
         GetClientName(target,playername,sizeof(playername));
         SetSafeMenuTitle(menu,"%T","[War3Source] Select a race for {player}",client,playername);
         
-        decl String:racename[64];
-        decl String:buf[4];
-        Format(buf,sizeof(buf),"%d",target);
+        decl String:racefullname[64];
+        decl String:raceshortname[32];
+        
         
         new racelist[MAXRACES];
         new racecountreturned=W3GetRaceList(racelist); 
+        AddMenuItem(menu,"norace","No Race");
         for(new i=0;i<racecountreturned;i++) //notice this starts at zero!
         {
-            new    x=racelist[i];
-            War3_GetRaceName(x,racename,sizeof(racename));
-            AddMenuItem(menu,buf,racename);
+            new    raceid=racelist[i];
+            War3_GetRaceName(raceid,racefullname,sizeof(racefullname));
+            War3_GetRaceShortname(raceid,raceshortname,sizeof(raceshortname));
+            AddMenuItem(menu,raceshortname,racefullname);
         }
         DisplayMenu(menu,client,20);
     }
@@ -458,15 +462,16 @@ public War3Source_Admin_SetRace_Select(Handle:menu,MenuAction:action,client,sele
 {
     if(action==MenuAction_Select)
     {
-        decl String:SelectionInfo[4];
+        decl String:SelectionInfo[32];
         decl String:SelectionDispText[256];
         new SelectionStyle;
         GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
-        new target=StringToInt(SelectionInfo);
+        new target=AdminMenuSetRaceTarget[client];
 
         //selection++; // hacky, should work tho?
-        new race=selection+1;
-        if(target>-1)
+        //DP("%s",SelectionInfo);
+        new race=War3_GetRaceIDByShortname(SelectionInfo);
+        if(ValidPlayer(target))
         {
         
             W3SetPlayerProp(target,RaceChosenTime,GetGameTime());
