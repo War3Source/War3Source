@@ -6,7 +6,7 @@
 #include "W3SIncs/War3Source_Interface"
 
 //new Handle:hShopMenu2RequiredFlag;
-
+new Handle:hShop2Enabled;
 public Plugin:myinfo= 
 {
 	name="War3Source Menus Shopmenus 2",
@@ -22,6 +22,10 @@ public OnPluginStart()
 	LoadTranslations("w3s.shopmenu2.phrases");
 	//W3CreateCvar("w3shop2menu","loaded","is the shop2 loaded");
 	//hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2. Flag name (like kick)");
+	hShop2Enabled=CreateConVar("war3_shop2_enabled","1","is shopmenu 2 enabled");
+}
+Shop2Enabled(){
+    return GetConVarInt(hShop2Enabled);
 }
 
 //flag to access shop 2
@@ -247,9 +251,17 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
 }
 
 public OnWar3Event(W3EVENT:event,client){
-	if(event==DoShowShopMenu2){
-		ShowMenuShop2(client);
+	if(event==DoShowShopMenu2)
+    {
+        if(Shop2Enabled())
+        {
+		      ShowMenuShop2(client);
 		}
+		else
+        {
+            War3_ChatMessage(client,"Shopmenu 2 is disabled on this server");
+		}
+	}
 
 	if(event==DoTriedToBuyItem2){ //via say?
 		InternalTriedToBuyItem2(client,W3GetVar(EventArg1),W3GetVar(EventArg2)); ///ALWAYS SET ARG2 before calling this event
