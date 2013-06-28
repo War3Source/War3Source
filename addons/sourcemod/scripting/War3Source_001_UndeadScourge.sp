@@ -3,6 +3,7 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
+//test commit
 public Plugin:myinfo = 
 {
     name = "War3Source - Race - Undead Scourge",
