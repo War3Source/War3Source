@@ -78,13 +78,41 @@ Initialize_SQLTable()
         if(query == INVALID_HANDLE)
         {
             new String:createtable[3000];
-            Format(createtable, sizeof(createtable), "CREATE TABLE war3source (steamid varchar(64) UNIQUE, name varchar(64), currentrace varchar(16), gold int, total_level int, total_xp int, levelbankV2 int, last_seen int) %s", War3SQLType:W3GetVar(hDatabaseType) == SQLType_MySQL ? "DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci" : "" );
+            Format(createtable, sizeof(createtable), "CREATE TABLE war3source (steamid varchar(64) UNIQUE, name varchar(64), currentrace varchar(16), gold int, diamonds int, total_level int, total_xp int, levelbankV2 int, last_seen int) %s", War3SQLType:W3GetVar(hDatabaseType) == SQLType_MySQL ? "DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci" : "" );
             if(!SQL_FastQueryLogOnError(hDB, createtable) ||
                !SQL_FastQueryLogOnError(hDB, "CREATE UNIQUE INDEX war3_steamid ON war3source (steamid)"))
             {
                 SetFailState("[War3Source] ERROR in the creation of the SQL table war3source.");
             }
         }
+        else
+        { 
+            //DO NOT DELETE, FOR FUTURE REFRENCE
+          if(!SQL_FieldNameToNum(query, "levelbankV2", dummy))
+          {
+            AddColumn(hDB,"levelbankV2","int","war3source");
+          }
+          
+          if(!SQL_FieldNameToNum(query, "gold", dummy))
+          {
+             //DO NOT DELETE, FOR FUTURE REFRENCE
+            /*if(g_SQLType==SQLType_SQLite){
+              //sqlite cannot rename column
+              AddColumn(hDB,"gold","INT","war3source");
+            }
+            else{
+              SQL_FastQueryLogOnError(hDB,"ALTER TABLE war3source CHANGE credits gold INT");
+              PrintToServer("[War3Source] Tried to change column from 'credits' to 'gold'");
+            }*/
+          }
+          if(!SQL_FieldNameToNum(query, "diamonds", dummy))
+          {
+            AddColumn(hDB,"diamonds","int","war3source");
+          }
+        
+          CloseHandle(query);
+        }
+  
 
         ///NEW DATABASE STRUCTURE
         query = SQL_Query(hDB,"SELECT * from war3source_racedata1 LIMIT 1");
@@ -102,11 +130,17 @@ Initialize_SQLTable()
                 SetFailState("[War3Source] ERROR in the creation of the SQL table war3source_racedata1");
             }
 
-            //get another handle for next table check
-            query = SQL_Query(hDB, "SELECT * from war3source_racedata1 LIMIT 1");
+            
+            
         }
-
+        else{
+          CloseHandle(query);
+        }
+        //get another handle for next table check
         //do another check for handle, cuz we may have just created database
+        query = SQL_Query(hDB, "SELECT * from war3source_racedata1 LIMIT 1");
+
+        
         if(query == INVALID_HANDLE)
         {
             SetFailState("invalid handle to data");
@@ -236,7 +270,7 @@ War3_SavePlayerMainData(client)
         decl String:name[64];
         if(GetClientAuthString(client, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
         {
-            ReplaceString(name, sizeof(name), "'","", true); //REMOVE IT //double escape because \\ turns into -> \  after the %s insert into sql statement
+            ReplaceString(name, sizeof(name), "'","", true); //REMOVE IT //double escape because \\ turns into -> \ after the %s insert into sql statement
 
             new String:szSafeName[(sizeof(name) * 2) - 1];
             SQL_EscapeString(hDB, name, szSafeName, sizeof(szSafeName));
@@ -253,7 +287,7 @@ War3_SavePlayerMainData(client)
             new last_seen=GetTime();
             new String:short[16];
             War3_GetRaceShortname(War3_GetRace(client),short,sizeof(short));
-            Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'", szSafeName, short, War3_GetGold(client), total_level, total_xp, last_seen, W3GetLevelBank(client), steamid);
+            Format(longquery,sizeof(longquery),"UPDATE war3source SET name='%s',currentrace='%s',gold='%d',diamonds='%d',total_level='%d',total_xp='%d',last_seen='%d',levelbankV2='%d' WHERE steamid = '%s'", szSafeName, short, War3_GetGold(client), War3_GetDiamonds(client), total_level, total_xp, last_seen, W3GetLevelBank(client), steamid);
             new Handle:querytrie=CreateTrie();
             SetTrieString(querytrie,"query",longquery);
             SQL_TQuery(hDB,T_CallbackUpdatePDataMain,longquery,querytrie);
@@ -335,7 +369,7 @@ War3Source_LoadPlayerData(client)
         new String:longquery[4000];
 
         //Prepare select query for main data
-        Format(longquery, sizeof(longquery), "SELECT currentrace, gold, levelbankV2 FROM war3source WHERE steamid='%s'", steamid);
+        Format(longquery, sizeof(longquery), "SELECT currentrace, gold, diamonds, levelbankV2 FROM war3source WHERE steamid='%s'", steamid);
         //Pass off to threaded call back at normal prority
         SQL_TQuery(hDB,T_CallbackSelectPDataMain, longquery, client);
 
@@ -382,6 +416,9 @@ public T_CallbackSelectPDataMain(Handle:owner, Handle:hndl, const String:error[]
             {
                 new gold = W3SQLPlayerInt(hndl, "gold");
                 War3_SetGold(client, gold);
+                
+                new diamonds=W3SQLPlayerInt(hndl,"diamonds");
+                War3_SetDiamonds(client,diamonds);
 
                 new levelbankamount = W3SQLPlayerInt(hndl, "levelbankV2");
 
@@ -433,7 +470,7 @@ public T_CallbackSelectPDataMain(Handle:owner, Handle:hndl, const String:error[]
             //get their name and steamid
             if(GetClientAuthString(client, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
             {
-                ReplaceString(name, sizeof(name), "'", "", true); //REMOVE IT//double escape because \\ turns into -> \  after the %s insert into sql statement
+                ReplaceString(name, sizeof(name), "'", "", true); //REMOVE IT//double escape because \\ turns into -> \ after the %s insert into sql statement
 
                 new String:szSafeName[(sizeof(name) * 2) -1];
                 SQL_EscapeString(hDB, name, szSafeName, sizeof(szSafeName));
