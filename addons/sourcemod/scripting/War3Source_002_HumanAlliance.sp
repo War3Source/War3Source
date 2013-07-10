@@ -78,7 +78,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         new Handle:genericSkillOptions=CreateArray(5,2); //block size, 5 can store an array of 5 cells
         SetArrayArray(genericSkillOptions,0,TeleportDistance,sizeof(TeleportDistance));
         SetArrayCell(genericSkillOptions,1,ultCooldownCvar);
-        ULT_TELEPORT=War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"Teleport","",true);
+        ULT_TELEPORT=War3_UseGenericSkill(thisRaceID,"g_teleport",genericSkillOptions,"Teleport","",true,true);
         //}
         
         W3SkillCooldownOnSpawn(thisRaceID,ULT_TELEPORT,10.0,_);
