@@ -5,6 +5,8 @@
  */
 
 // Generic damage event, derived from SDKHooks
+// This damage is POSTHURT and damage CANNOT BE MODIFIED
+// Use OnW3TakeDmgAllPre if you need to modify damage
 forward OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft);
 
 /**
@@ -20,7 +22,8 @@ forward OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[
  * damageall
  * bullet  (if bullet)       
  */
-//FF triggers this function!!! even though it didnt damage any teammate
+//Friendly Fire triggers this function!!! even though it didnt damage any teammate
+//Ubered victim triggers this function, even though it didnt damage the enemy (BLOCKED INTERNALLY BY WAR3 from forwarding)
 //THIS is a theoretical damage given by the engine, if u want real damage dealt use the hurt-event 
 //use natives to retrieve inflictor and game damagetype
 //becareful when using this, u should only use this to reduce incoming damage. if you want to return damge, only use on bullet (first trigger damage)(below) or check IsBullet

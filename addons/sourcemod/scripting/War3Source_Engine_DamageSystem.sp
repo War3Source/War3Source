@@ -173,6 +173,7 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
     // if its alive since that is not a player and therefor IsPlayerAlive fails
     if(War3_IsL4DZombieEntity(victim) ||  ValidPlayer(victim,true))
     {
+        //DP("pre damage %f",damage);
         //store old variables on local stack!
     
         new old_DamageType= g_CurDamageType;
@@ -322,6 +323,12 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
         return;
     }
     
+    //Block uber hits (no actual damage)
+    if(GAMETF && War3_IsUbered(victim))
+    {
+        //DP("ubered but SDK OnTakeDamagePostHook called, damage %f",damage);
+        return;
+    }
     damagestack++;
     
     new bool:old_CanDealDamage=g_CanDealDamage;
