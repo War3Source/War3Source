@@ -21,7 +21,7 @@ ShowWar3Menu(client){
     new String:transbuf[32];
     new String:menustr[100];
     for(new i=0;i<=limit;i++)
-	{
+    {
     
         Format(transbuf,sizeof(transbuf),"War3Menu_Item%d",i);
         Format(menustr,sizeof(menustr),"%T",transbuf,client);

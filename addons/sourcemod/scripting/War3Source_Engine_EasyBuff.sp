@@ -7,8 +7,6 @@ public Plugin:myinfo =
     author = "War3Source Team",
     description = "Easily link together skills + buffs in War3Source"
 };
-//Ownz: OMG HANDLES, OMG OMG OMG, dont you miss object oriented programming?
-
 
 // EasyBuffs for skills
 new Handle:g_hSkillBuffs = INVALID_HANDLE; // Holds the W3Buff
@@ -146,11 +144,10 @@ public OnWar3EventDeath(victim, client, deathrace)
     ResetSkills(victim, deathrace);
 }
 
-//NOT needed anymore? since skill changes handle it?
 public OnRaceChanged(client, oldrace, newrace)
 {
-	ResetSkills(client, oldrace);
-	InitSkills(client, newrace);
+    ResetSkills(client, oldrace);
+    InitSkills(client, newrace);
 }
 
 ResetSkills(client, race)

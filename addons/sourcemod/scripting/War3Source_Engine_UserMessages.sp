@@ -140,7 +140,7 @@ public Native_War3_KeyHintText(Handle:plugin,numParams)
         }
 
         if (g_bCanEnumerateMsgType && GetUserMessageType() == UM_Protobuf)
-	    {
+        {
             PbSetString(userMessage, "hints", format);
         }
         else
@@ -156,8 +156,8 @@ public Native_War3_KeyHintText(Handle:plugin,numParams)
 
 stock Handle:StartMessageExOne(UserMsg:msg, client, flags=0)
 {
-	new players[1];
-	players[0] = client;
+    new players[1];
+    players[0] = client;
 
-	return StartMessageEx(msg, players, 1, flags);
+    return StartMessageEx(msg, players, 1, flags);
 }

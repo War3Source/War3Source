@@ -77,7 +77,7 @@ ReloadConfig()
     }
     g_hActualRaceValues = CreateKeyValues("Race Config");
     KvRewind(g_hGlobalRaceDefault);
-	// Adds global defaults to each race's KV section
+    // Adds global defaults to each race's KV section
     new String:shortname[SHORTNAMELEN];
     new String:name[FULLNAMELEN];
     for(new i = 1; i < War3_GetRacesLoaded(); i++) 
@@ -92,7 +92,7 @@ ReloadConfig()
     KvRewind(g_hActualRaceValues);
     KvRewind(g_hDefaultRaceValues);
     KvGotoFirstSubKey(g_hDefaultRaceValues);
-	// Merges specific race defaults to the global KV
+    // Merges specific race defaults to the global KV
     KvMergeSubkeys(g_hDefaultRaceValues, g_hActualRaceValues);
     new String:file[PLATFORM_MAX_PATH];
     new Handle:kv;
@@ -103,13 +103,13 @@ ReloadConfig()
         kv = CreateKeyValues("Race Config");
         FileToKeyValues(kv, file);
         KvGotoFirstSubKey(kv);
-		// Merges in the server specific race config (ideally overriding only keys 
+        // Merges in the server specific race config (ideally overriding only keys 
         KvMergeSubkeys(kv, g_hActualRaceValues);
         CloseHandle(kv);
     }
     KvRewind(g_hActualRaceValues);
     KeyValuesToFile(g_hActualRaceValues, file);
-	/*
+    /*
     new String:mapname[32];
     GetCurrentMap(mapname, sizeof(mapname));
     BuildPath(Path_SM, file, sizeof(file), "configs/maps/war3source_races_%s.cfg", mapname);
@@ -409,7 +409,7 @@ public Native_War3_SetRaceGlobalConfigString(Handle:plugin, numParams)
     new String:value[valuelen];
     GetNativeString(2, value, valuelen);
     KvSetString(g_hGlobalRaceDefault, key, value);
-    PrintToServer("[W3GlobalConfig] Adding new global key: %s and value: %s", key, value);
+    PrintToServer("Adding new global key: %s and value: %s", key, value);
 }
 
 public Native_War3_GotoRaceConfigArray(Handle:plugin, numParams)
@@ -736,7 +736,7 @@ KvMergeSubkeys(Handle:origin, Handle:dest)
         KvGetSectionName(origin, section, sizeof(section));
         KvJumpToKey(dest, section, true);
         KvCopySubkeys(origin, dest);
-        PrintToServer("[W3Config] Merging: %s", section);
+        PrintToServer("Merging: %s", section);
         
     } while (KvGotoNextKey(origin));
 }
