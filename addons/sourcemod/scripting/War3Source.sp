@@ -112,6 +112,7 @@ And that's the art of the test!
 
 #include <sourcemod>
 #include "sdkhooks"
+#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
 // BRANCH and BUILD_NUMBER are set through Jenkins :)
@@ -575,9 +576,16 @@ OneTimeForwards()
 
 DoForward_OnWar3EventSpawn(client)
 {
+    //new Handle:prof=CreateProfiler();
+    //StartProfiling(prof);
     Call_StartForward(g_OnWar3EventSpawnFH);
     Call_PushCell(client);
     Call_Finish();
+    //StopProfiling(prof);
+    //new String:racename[64];
+    //War3_GetRaceName(War3_GetRace(client),racename,sizeof(racename));
+    //DP("%s %f",racename,GetProfilerTime(prof));
+    //CloseHandle(prof);
 }
 
 DoForward_OnWar3EventDeath(victim,killer,deathrace)

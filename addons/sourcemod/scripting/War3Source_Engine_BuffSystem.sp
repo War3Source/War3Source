@@ -301,18 +301,21 @@ ResetBuffParticularRaceOrItem(client,W3Buff:buffindex,particularraceitemindex){
 }
 
 DoCalculateBuffCache(client,W3Buff:buffindex,particularraceitemindex){
-  ///after we set it, we do an entire calculation to cache its value ( on selected buffs , mainly bools we test for HasTrue )
-  switch(BuffCacheType(buffindex)){
-    case DoNotCache: {}
-    case bHasOneTrue: BuffCached[client][buffindex]=CalcBuffHasOneTrue(client,buffindex);
-    case iAbsolute: BuffCached[client][buffindex]=CalcBuffSumInt(client,buffindex);
-    case fAbsolute: BuffCached[client][buffindex]=CalcBuffSumFloat(client,buffindex);
-    case fStacked: BuffCached[client][buffindex]=CalcBuffStackedFloat(client,buffindex);
-    case fMaximum: BuffCached[client][buffindex]=CalcBuffMax(client,buffindex);
-    case fMinimum: BuffCached[client][buffindex]=CalcBuffMin(client,buffindex);
-    case iMinimum: BuffCached[client][buffindex]=CalcBuffMinInt(client,buffindex);
-    case iLastValue: BuffCached[client][buffindex]=CalcBuffRecentValue(client,buffindex,particularraceitemindex);
-  }
+    //temporarily disable caching
+    //return;
+    ///after we set it, we do an entire calculation to cache its value ( on selected buffs , mainly bools we test for HasTrue )
+    switch(BuffCacheType(buffindex)){
+        case DoNotCache: {}
+        case bHasOneTrue: BuffCached[client][buffindex]=CalcBuffHasOneTrue(client,buffindex);
+        case iAbsolute: BuffCached[client][buffindex]=CalcBuffSumInt(client,buffindex);
+        case fAbsolute: BuffCached[client][buffindex]=CalcBuffSumFloat(client,buffindex);
+        case fStacked: BuffCached[client][buffindex]=CalcBuffStackedFloat(client,buffindex);
+        case fMaximum: BuffCached[client][buffindex]=CalcBuffMax(client,buffindex);
+        case fMinimum: BuffCached[client][buffindex]=CalcBuffMin(client,buffindex);
+        case iMinimum: BuffCached[client][buffindex]=CalcBuffMinInt(client,buffindex);
+        case iLastValue: BuffCached[client][buffindex]=CalcBuffRecentValue(client,buffindex,particularraceitemindex);
+    }
+    return;
 }
 
 
