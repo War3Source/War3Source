@@ -56,6 +56,7 @@ public bool:InitNativesForwards()
 {
     hCanDrawCat=CreateGlobalForward("OnW3DrawCategory",ET_Hook,Param_Cell,Param_Cell);
     CreateNative("W3GetCategoryName",Native_GetCategoryName);
+    CreateNative("W3UserTriedToSelectRace",NW3UserTriedToSelectRace);
     return true;
 }
 
@@ -419,174 +420,112 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
             new SelectionStyle;
             GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
             new race_selected=StringToInt(SelectionInfo);
-            new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
-            
-            if(race_selected==-1) {
+            if(race_selected==-1) 
+            {
                 War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
                 return;
-            }            
-            else if(allowChooseRace==false){
-                War3Source_ChangeRaceMenu(client);//derpy hooves
             }
-            
-            
-        /* MOVED TO RESTRICT ENGINE
-            if(allowChooseRace){
-                // Minimum level?
-                
-                new total_level=0;
-                new RacesLoaded = War3_GetRacesLoaded();
-                for(new x=1;x<=RacesLoaded;x++)
-                {
-                    total_level+=War3_GetLevel(client,x);
-                }
-                new min_level=W3GetRaceMinLevelRequired(race_selected);
-                if(min_level<0) min_level=0;
-                
-                if(min_level!=0&&min_level>total_level&&!W3IsDeveloper(client))
-                {
-                    War3_ChatMessage(client,"%T","You need {amount} more total levels to use this race",GetTrans(),min_level-total_level);
-                    War3Source_ChangeRaceMenu(client);
-                    allowChooseRace=false;
-                }
-            }
-                */
-                
-            // GetUserFlagBits(client)&ADMFLAG_ROOT??
-            
-            
-            
-            
-            ///MOVED TO RESTRICT ENGINE
-            /*
-            new String:requiredflagstr[32];
-            
-            W3GetRaceAccessFlagStr(race_selected,requiredflagstr,sizeof(requiredflagstr));  ///14 = index, see races.inc
-            
-            if(allowChooseRace&&!StrEqual(requiredflagstr, "0", false)&&!StrEqual(requiredflagstr, "", false)&&!W3IsDeveloper(client)){
-                
-                new AdminId:admin = GetUserAdmin(client);
-                if(admin == INVALID_ADMIN_ID) //flag is required and this client is not admin
-                {
-                    allowChooseRace=false;
-                    War3_ChatMessage(client,"%T","Restricted Race. Ask an admin on how to unlock",GetTrans());
-                    PrintToConsole(client,"%T","No Admin ID found",client);
-                    War3Source_ChangeRaceMenu(client);
-                    
-                }
-                else{
-                    decl AdminFlag:flag;
-                    if (!FindFlagByChar(requiredflagstr[0], flag)) //this gets the flag class from the string
-                    {
-                        War3_ChatMessage(client,"%T","ERROR on admin flag check {flag}",client,requiredflagstr);
-                        allowChooseRace=false;
-                    }
-                    else
-                    {
-                        if (!GetAdminFlag(admin, flag)){
-                            allowChooseRace=false;
-                            War3_ChatMessage(client,"%T","Restricted race, ask an admin on how to unlock",GetTrans());
-                            PrintToConsole(client,"%T","Admin ID found, but no required flag",client);
-                            War3Source_ChangeRaceMenu(client);
-                        }
-                    }
-                }
-            }
-            
-            */
-            
-        
-            
-                //PrintToChatAll("1");
-            decl String:buf[192];
-            War3_GetRaceName(race_selected,buf,sizeof(buf));
-            if(allowChooseRace&&race_selected==War3_GetRace(client)/*&&(   W3GetPendingRace(client)<1||W3GetPendingRace(client)==War3_GetRace(client)    ) */){ //has no other pending race, cuz user might wana switch back
-                
-                War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
-                //if(W3GetPendingRace(client)){
-                W3SetPendingRace(client,-1);
-                    
-                //}
-                allowChooseRace=false;
-                
-            }
-        
-                
-                
-                
-                
-            
-            if(allowChooseRace)
+            else
             {
-                W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
-                W3SetPlayerProp(client,RaceSetByAdmin,false);
+                UserTriedToSelectRace(client,race_selected,true);
+            }
+        }
+        if(action==MenuAction_End)
+        {
+            CloseHandle(menu);
+        }
+    } 
+}
+
+//just a native wrapper
+public NW3UserTriedToSelectRace(Handle:plugin,numParams){
+    UserTriedToSelectRace(GetNativeCell(1),GetNativeCell(2),bool:GetNativeCell(3));
+}               
+UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
+{     
+    if(ValidPlayer(client))
+    {   
+        new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
+        if(allowChooseRace==false && show_menu_again){
+            War3Source_ChangeRaceMenu(client);
+        }
+        
+        //PrintToChatAll("1");
+        decl String:buf[192];
+        War3_GetRaceName(race_selected,buf,sizeof(buf));
+        if(allowChooseRace&&race_selected==War3_GetRace(client)){ //has no other pending race, cuz user might wana switch back
             
-                //has race, set pending, 
-                if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+            War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);      
+            W3SetPendingRace(client,-1);
+            allowChooseRace=false;
+            
+        } 
+        
+        if(allowChooseRace)
+        {
+            W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
+            W3SetPlayerProp(client,RaceSetByAdmin,false);
+        
+            //has race, set pending, 
+            if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
+            {
+                if(GAMEL4DANY)
                 {
-                    if(GAMEL4DANY)
-                    {
-                        if (GetClientTeam(client) == TEAM_INFECTED) {
-                            if (IsPlayerGhost(client)) {
-                                W3SetPendingRace(client,-1);
-                                War3_SetRace(client, race_selected);
-                                W3DoLevelCheck(client);
-                            }
+                    if (GetClientTeam(client) == TEAM_INFECTED) {
+                        if (IsPlayerGhost(client)) {
+                            W3SetPendingRace(client,-1);
+                            War3_SetRace(client, race_selected);
+                            W3DoLevelCheck(client);
                         }
-                        else {
-                            decl String:sGameMode[16];
-                            
-                            GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
-                            if (StrEqual(sGameMode, "survival", false))
-                            {
-                                if (!bSurvivalStarted)
-                                {
-                                    W3SetPendingRace(client,-1);
-                                    War3_SetRace(client,race_selected);
-                                    W3DoLevelCheck(client);
-                                }
-                            }
-                            else if (bStartingArea[client])
+                    }
+                    else {
+                        decl String:sGameMode[16];
+                        
+                        GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
+                        if (StrEqual(sGameMode, "survival", false))
+                        {
+                            if (!bSurvivalStarted)
                             {
                                 W3SetPendingRace(client,-1);
                                 War3_SetRace(client,race_selected);
                                 W3DoLevelCheck(client);
                             }
-                            else
-                            {
-                                W3SetPendingRace(client,race_selected);
-                                
-                                War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
-                            }
+                        }
+                        else if (bStartingArea[client])
+                        {
+                            W3SetPendingRace(client,-1);
+                            War3_SetRace(client,race_selected);
+                            W3DoLevelCheck(client);
+                        }
+                        else
+                        {
+                            W3SetPendingRace(client,race_selected);
+                            
+                            War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
                         }
                     }
-                    else
-                    {
-                        W3SetPendingRace(client,race_selected);
-                        
-                        War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
-                    }
                 }
-                //HAS NO RACE, CHANGE NOW
-                else //schedule the race change
+                else
                 {
-                    W3SetPendingRace(client,-1);
-                    War3_SetRace(client,race_selected);
+                    W3SetPendingRace(client,race_selected);
                     
-                    //PrintToChatAll("2");
-                    //print is in setrace
-                    //War3_ChatMessage(client,"You are now %s",buf);
-                    
-                    W3DoLevelCheck(client);
+                    War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
                 }
             }
+            //HAS NO RACE, CHANGE NOW
+            else
+            {
+                W3SetPendingRace(client,-1);
+                War3_SetRace(client,race_selected);
+                
+                //PrintToChatAll("2");
+                //print is in setrace
+                //War3_ChatMessage(client,"You are now %s",buf);
+                
+                W3DoLevelCheck(client);
+            }
         }
-//    }
-    }
-    if(action==MenuAction_End)
-    {
-        CloseHandle(menu);
-    }
+    } 
 }
 
 //category stocks

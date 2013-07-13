@@ -86,6 +86,10 @@ native W3IsRaceTranslated(raceid);
 native W3GetRaceCell(raceid,ENUM_RaceObject:property);
 native W3SetRaceCell(raceid,ENUM_RaceObject:property,any:somevalue);
 
+//Trigger as if plwyer tried to select this race from changerace menu, usual restriction checks apply
+//can show changerace menu again if restrictions detected
+native W3UserTriedToSelectRace(client,raceid_selected,bool:show_changeracemenu_again_if_fail=true);
+
 //probably usefull since it allready gots a getbyshortname brother
 stock War3_GetRaceIDByName(const String:racename[64]) {
     new RacesLoaded = War3_GetRacesLoaded();

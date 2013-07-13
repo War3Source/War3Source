@@ -53,6 +53,7 @@ public bool:InitNativesForwards()
 new String:command2[70];
 new String:command3[70];
 
+//
 public bool:CommandCheck(String:compare[],String:command[])
 {
   Format(command2,sizeof(command2),"\\%s",command);
@@ -91,9 +92,11 @@ public Action:War3Source_CmdShopmenu(client,args)
 
 public Action:War3Source_SayCommand(client,args)
 {
+  //arg0 is say
+  //arg1 is argument, ie "playerinfo ownz"
   decl String:arg1[70];
   GetCmdArg(1,arg1,sizeof(arg1));
-
+  TrimString(arg1);
   new top_num;
 
   new Action:returnblocking = (GetConVarInt(Cvar_ChatBlocking)>0)?Plugin_Handled:Plugin_Continue;
@@ -102,9 +105,52 @@ public Action:War3Source_SayCommand(client,args)
     War3_ShowXP(client);
     return returnblocking;
   }
-  else if(CommandCheck(arg1,"changerace"))
+  else if(CommandCheckStartsWith(arg1,"changerace"))
   {
-    W3CreateEvent(DoShowChangeRaceMenu,client);
+    
+    //index 2 is right after the changerace word
+    new String:changeraceArg[32];
+    new bool:succ=StrToken(arg1,2,changeraceArg,sizeof(changeraceArg));
+    //DP("%s",changeraceArg);
+    new raceFound=0;
+    if(succ){
+        
+        new String:sRaceName[64];
+        new RacesLoaded=War3_GetRacesLoaded();
+        SetTrans(client);
+        //full name
+        for(new race=1;race<=RacesLoaded;race++)
+        {
+            War3_GetRaceName(race,sRaceName,sizeof(sRaceName));
+            if(StrContains(sRaceName,changeraceArg,false)>-1){
+                raceFound=race;
+                break;
+            }
+            War3_GetRaceShortname(race,sRaceName,sizeof(sRaceName));
+        }
+        //shortname
+        for(new race=1;raceFound==0&&race<=RacesLoaded;race++)
+        {
+            War3_GetRaceShortname(race,sRaceName,sizeof(sRaceName));
+            if(StrContains(sRaceName,changeraceArg,false)>-1){
+                raceFound=race;
+                break;
+            }
+        }
+        if(raceFound>0)
+        {
+            W3UserTriedToSelectRace(client,raceFound,true);
+        }
+        //no race found, show menu
+        else
+        {
+            W3CreateEvent(DoShowChangeRaceMenu,client);
+        }
+    }
+    else //no second argument, show menu
+    {
+        W3CreateEvent(DoShowChangeRaceMenu,client);
+    }
     return returnblocking;
   }
   else if(CommandCheck(arg1,"war3help")||CommandCheck(arg1,"help")||CommandCheck(arg1,"wchelp"))
