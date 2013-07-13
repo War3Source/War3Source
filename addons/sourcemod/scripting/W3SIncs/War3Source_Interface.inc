@@ -1261,30 +1261,40 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 
 
 // Stocks
-stock StrToken(const String:inputstr[],tokennum,String:outputstr[],maxlen)
+
+/******
+ * Grabs a section of a string based on the space token
+ * "changerace foo foo2" will return { 1="changerace",  2="foo",3="foo2" }
+ * "changerace " will return {1="changerace"}
+ * returns false if given tokenum is invalid (0, or 4 in first example)
+ *  
+ */ 
+stock bool:StrToken(const String:inputstr[],tokennum,String:outputstr[],maxlen)
 {
   new String:buf[maxlen+1];
   new cur_idx;
   new idx;
   new curind;
-  idx=BreakString(inputstr,buf,maxlen);
+  idx=BreakString(inputstr,buf,maxlen); //DELIMTER IS WHITESPACE OR NULL
   if(tokennum==1)
   {
     strcopy(outputstr,maxlen,buf);
-    return;
+    return true;
   }
   curind=1;
   while(idx!=-1)
   {
     cur_idx+=idx;
+    //breakstring starts from a different section of the string
     idx=BreakString(inputstr[cur_idx],buf,maxlen);
     curind++;
     if(tokennum==curind)
     {
       strcopy(outputstr,maxlen,buf);
-      break;
+      return true;
     }
   }
+  return false;
 }
 
 stock StrTokenCount(const String:input[])
