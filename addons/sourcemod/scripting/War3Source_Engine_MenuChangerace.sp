@@ -430,11 +430,12 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
                 UserTriedToSelectRace(client,race_selected,true);
             }
         }
-        if(action==MenuAction_End)
-        {
-            CloseHandle(menu);
-        }
+        
     } 
+    if(action==MenuAction_End)
+    {
+        CloseHandle(menu);
+    }
 }
 
 //just a native wrapper
