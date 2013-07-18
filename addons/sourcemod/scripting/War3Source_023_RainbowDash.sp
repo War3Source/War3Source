@@ -14,9 +14,9 @@ public Plugin:myinfo =
 new HaloSprite, XBeamSprite;
 new thisRaceID;
 
-new Float:fEvadeChance[5]={0.0,0.05,0.10,0.15,0.20};
+new Float:fEvadeChance[5]={0.0,0.05,0.09,0.12,0.15};
 new Float:fSwiftASPDBuff[5]={1.0,1.04,1.08,1.12,1.15};
-new Float:abilityspeed[5]={1.0,1.15,1.23,1.32,1.40};
+new Float:abilityspeed[5]={1.0,1.075,1.15,1.225,1.30};
 new Float:rainboomradius[5]={0.0,200.0,266.0,333.0,400.0};
 
 new Float:LastDamageTime[MAXPLAYERSCUSTOM];
@@ -30,9 +30,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
     if(num==230)
     {
         thisRaceID = War3_CreateNewRace("[MLP:FIM] Rainbow Dash","rainbowdash");
-        SKILL_EVADE = War3_AddRaceSkill(thisRaceID,"Evasion","20% evasion.");
+        SKILL_EVADE = War3_AddRaceSkill(thisRaceID,"Evasion","15% evasion.");
         SKILL_SWIFT = War3_AddRaceSkill(thisRaceID,"Swiftness","+ 15% Attack Speed");
-        SKILL_SPEED = War3_AddRaceSkill(thisRaceID,"Speed","(ability) +40% speed for 6 seconds.\nMust not be injured in the last 10 seconds.\nEnds if injured.");
+        SKILL_SPEED = War3_AddRaceSkill(thisRaceID,"Speed","(ability) +30% speed for 6 seconds.\nMust not be injured in the last 10 seconds.\nEnds if injured.");
         ULTIMATE = War3_AddRaceSkill(thisRaceID,"Sonic Rainboom","Buff teammates' damage around you for 4 sec, 200-400 units. Must be in speed (ability) mode to cast.",true); 
         
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
@@ -68,15 +68,14 @@ public OnAbilityCommand(client,ability,bool:pressed)
                 {
                     War3_SetBuff(client, fMaxSpeed, thisRaceID, abilityspeed[skill_level]);
                 }
-                speedendtimer[client] = CreateTimer(6.0, EndSpeed, EntIndexToEntRef(client));
+                speedendtimer[client] = CreateTimer(6.0, EndSpeed, client);
                 War3_CooldownMGR(client, 20.0, thisRaceID, SKILL_SPEED, _, _);
             }
         }
     }
 }
 
-public Action:EndSpeed(Handle:t, any:clientRef){
-    new client = EntRefToEntIndex(clientRef);
+public Action:EndSpeed(Handle:t, any:client){
     
     if(GAMETF)
     {
