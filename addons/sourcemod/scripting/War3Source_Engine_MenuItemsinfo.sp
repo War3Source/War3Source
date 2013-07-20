@@ -24,10 +24,13 @@ ShowMenuItemsinfo(client){
     new ItemsLoaded = W3GetItemsLoaded();
     for(new x=1;x<=ItemsLoaded;x++)
     {
-        W3GetItemName(x,str,sizeof(str));
-        IntToString(x,numstr,sizeof(numstr));
-        //PrintToChatAll("%s %s",numstr,str);
-        AddMenuItem(helpMenu,numstr,str);
+        if(!W3IsItemDisabledGlobal(x) && !W3ItemHasFlag(x, "hidden"))
+        {
+            W3GetItemName(x,str,sizeof(str));
+            IntToString(x,numstr,sizeof(numstr));
+            //PrintToChatAll("%s %s",numstr,str);
+            AddMenuItem(helpMenu,numstr,str);
+        }
     }
     DisplayMenu(helpMenu,client,MENU_TIME_FOREVER);
 }
