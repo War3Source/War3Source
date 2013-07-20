@@ -19,7 +19,7 @@ new Float:SuicideBomberDamageTF[5] = {0.0, 133.0, 175.0, 250.0, 300.0};
 
 new Float:UnholySpeed[5] = {1.0, 1.05, 1.10, 1.15, 1.20};
 new Float:LevitationGravity[5] = {1.0, 0.85, 0.7, 0.6, 0.5};
-new Float:VampirePercent[5] = {0.0, 0.08, 0.14, 0.20, 0.25};
+new Float:VampirePercent[5] = {0.0, 0.05, 0.10, 0.15, 0.20};
 
 new SKILL_LEECH, SKILL_SPEED, SKILL_LOWGRAV, SKILL_SUICIDE;
 
@@ -33,7 +33,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
     if(num == 10)
     {
         thisRaceID = War3_CreateNewRaceT("undead");
-        SKILL_LEECH = War3_AddRaceSkillT(thisRaceID, "VampiricAura", false, 4, "25%");
+        SKILL_LEECH = War3_AddRaceSkillT(thisRaceID, "VampiricAura", false, 4, "20%");
         SKILL_SPEED = War3_AddRaceSkillT(thisRaceID, "UnholyAura", false, 4, "20%");
         SKILL_LOWGRAV = War3_AddRaceSkillT(thisRaceID, "Levitation", false, 4, "0.5");
         SKILL_SUICIDE = War3_AddRaceSkillT(thisRaceID, "SuicideBomber", true, 4); 
