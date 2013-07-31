@@ -1,5 +1,5 @@
 #pragma semicolon 1
-#pragma dynamic 10000
+#pragma dynamic 20000
 
 #include <sourcemod>
 #include "sdkhooks"
@@ -26,6 +26,7 @@ new String:serverip[16];
 new serverport;
 new String:game[32];
 
+
 //new Float:lastErrorTime;
 
 new Float:lastserverinfoupdate;
@@ -38,10 +39,13 @@ new Handle:hCollectingStats;
 
 #define bCollectStats GetConVarBool(hCollectingStats )
 
-
+new Handle:GameAndServerKDR;
 
 public OnPluginStart()
 {    
+    //just always create it, so we can always close it
+    
+    GameAndServerKDR=CreateTrie();
     hCollectingStats = CreateConVar("war3_enable_stat_collection", "1", "0/1. Controls if K/D and W/L stats should be collected");
     //HookConVarChange(hCollectingStats, StatCollectionCallback);
     
@@ -112,16 +116,20 @@ public OnPluginStart()
 public bool:InitNativesForwards()
 {
     CreateNative("W3GetStatsVersion",NW3GetStatsVersion);
+    CreateNative("W3GetStatsKDRTrie",NW3GetStatsKDRTrie);
     return true;
 }
 public NW3GetStatsVersion(Handle:plugin,numParams){
     return war3statsversion;
 }
-
+public NW3GetStatsKDRTrie(Handle:plugin,numParams){
+    return any:GameAndServerKDR;
+}
 
 public Action:cmdcheckupdate(client,args){
     if(client==0){
         ManyMinTimer(INVALID_HANDLE,0);
+        
     }
     return Plugin_Handled;
 }
@@ -218,6 +226,7 @@ public Action:ManyMinTimer(Handle:h,any:a){
     {
         W3Socket("w3stat/lateststable.php",SockCallbackVersion);
     }
+    UpdateKDR();
 }
 
 
@@ -599,6 +608,8 @@ public Action:ExecOnceTimer(Handle:h){
     W3Socket2("w3stat/serverinfolong.php",longquery,GenericSocketCallback);
     
     
+    UpdateKDR();
+    
 }
 public RaceInsertCallback(bool:success,bool:fail,String:str[])
 {
@@ -606,8 +617,57 @@ public RaceInsertCallback(bool:success,bool:fail,String:str[])
 public CrashLogCallback(bool:success,bool:fail,String:str[])
 {
 }
+
 public GenericSocketCallback(bool:success,bool:fail,String:str[])
 {
+}
+
+
+UpdateKDR()
+{
+    new String:longquery[4000];
+    Format(longquery,sizeof(longquery),"serverip=%s&game=",serverip);
+    W3Socket2("w3getstat/getracestats.php",longquery,Sock_getracestats_Callback);
+}
+public Sock_getracestats_Callback(bool:success,bool:fail,String:str[])
+{
+    new String:chopped[218];
+    
+    //DP(str[12000]);
+    //DP("%d",strlen(str));
+    //STRIP IT!
+    if(str[0]=='{' && str[strlen(str)-1]=='}')
+    {
+        CloseHandle(GameAndServerKDR);
+        GameAndServerKDR=CreateTrie();
+        str[strlen(str)-1]='\0';
+        //DP("got it!");
+        
+        //shift down
+        Format(str,strlen(str),"%s",str[1]);
+        
+        while(ChopString(str,",",chopped,sizeof(chopped))){
+            
+            // "game_raceshort_something":0
+            // "server_raceshort_something":0
+            new String:exploded2[2][64];
+            new number2=ExplodeString(chopped, ":", exploded2, 2, 64);
+            number2++;//STFU error
+            new String:key[64];
+            new String:value[64];
+            strcopy(key,sizeof(key),exploded2[0]);
+            strcopy(value,sizeof(value),exploded2[1]);
+            StripQuotes(key);
+            SetTrieString(GameAndServerKDR, key, value);
+            //DP("%s %s",key,value);
+            //DP(str);
+        }
+        //DP("size %d",GetTrieSize(GameAndServerKDR));
+    }
+    else
+    {
+        War3_LogError("Sock_getracestats_Callback no matching braces %s",str);
+    }
 }
 
 public Action:MinuteTimer(Handle:h)

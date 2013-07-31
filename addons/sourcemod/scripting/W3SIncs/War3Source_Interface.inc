@@ -137,9 +137,15 @@ stock SetSafeMenuTitle(Handle:menu, const String:fmt[], any:...)
 native W3GetW3Version(String:retstr[],maxlen);//str
 native W3GetW3Revision();//int
 native W3GetStatsVersion();//int
+//returns the TRIE that contains stats key value pairs, for GAME and SERVER stats
+native Handle:W3GetStatsKDRTrie();
 
 //Socket functions
+//GET or normal
+//URL can be full url with http:// or just path without leading slash
 native W3Socket(String:url[],Function:callback);
+//POST
+//URL can be full url with http:// or just path without leading slash
 native W3Socket2(String:url[],String:postdata[],Function:callback);
 
 //forces weapon drop, given a weapon entity
@@ -153,8 +159,8 @@ native W3DropWeapon(client, weaponent);
 #pragma deprecated
 native bool:War3_InFreezeTime();
 
-/* BEGIN GLOBAL VARS */
-//retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
+
+//set / retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
 //this mostly used for accessing a variable without creating a special native just for it
 //this returns any:, you should tag it if return value is not suppose to be normal integer. like Float:W3GetVar( or Handle:W3GetVar(
 //most are temporary variables and this function should be called immidiately in the right functions
@@ -162,8 +168,16 @@ native bool:War3_InFreezeTime();
 //See W3Var enum in constants to get a list
 //Do not get/set vars arbitrarily unless you know what you are doing
 native any:W3GetVar(W3Var:variabletoretrieve);
+
+//set / retrieves specified values from the main war3 plugin, see W3Var enum in constants.inc, only those values are allowed
+//this mostly used for accessing a variable without creating a special native just for it
+//this returns any:, you should tag it if return value is not suppose to be normal integer. like Float:W3GetVar( or Handle:W3GetVar(
+//most are temporary variables and this function should be called immidiately in the right functions
+//examples W3GetVar(OldRace)   W3GetVar(DeathRace)
+//See W3Var enum in constants to get a list
+//Do not get/set vars arbitrarily unless you know what you are doing
 native any:W3SetVar(W3Var:variabletoretrieve,any:value);
-/* END GLOBAL VARS */
+
 
 /**
  * Registers a help command with the War3Source plugin for war3help
@@ -1263,7 +1277,7 @@ stock AddColumn(Handle:DB,const String:columnname[],const String:datatype[],cons
 // Stocks
 
 /******
- * Grabs a section of a string based on the space token
+ * Grabs a section of a string based on the "space" token
  * "changerace foo foo2" will return { 1="changerace",  2="foo",3="foo2" }
  * "changerace " will return {1="changerace"}
  * returns false if given tokenum is invalid (0, or 4 in first example)
@@ -1312,6 +1326,40 @@ stock StrTokenCount(const String:input[])
   return curind;
 }
 
+//Grab the front end of a string, separated by delimter, delimiter example string ","
+//foo,bar,lol => chopped=foo AND input=bar,lol 
+//case sensitive delimiter
+//returns false if nothing is found, or end
+stock bool:ChopString(String:input[],String:delimiter[],String:chopped[],choppedmaxlen)
+{
+    new location=StrContains(input,delimiter);
+    if(location==0){ //move one, retry
+        return ChopString(input[strlen(delimiter)],delimiter,chopped,choppedmaxlen);
+    }
+    else if(location >0)
+    {
+        //notice size MinInt(choppedmaxlen,location+1) limits the copy length
+        Format(chopped,MinInt(choppedmaxlen,location+strlen(delimiter)),"%s",input);
+        Format(input,strlen(input),"%s",input[location+strlen(delimiter)]);
+        return true;
+    }
+    else{ //strcontains returned -1
+        //no more delimters found, return whole string if any
+        if(strlen(input)){
+            strcopy(chopped,choppedmaxlen,input);
+            input[0]='\0';
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+}
+stock MinInt(a,b){
+    return a>b?b:a;
+}
 stock Float:GetPlayerDistance(client1,client2) {
   static Float:vec1[3];
   static Float:vec2[3];

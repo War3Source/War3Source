@@ -141,6 +141,23 @@ public War3_raceinfoSelected(Handle:menu,MenuAction:action,client,selection)
   }
 }
 
+bool:GetRaceStat(raceid,bool:game=false,String:type[]="kdr",&Float:floatresult){
+    new Handle:trie=W3GetStatsKDRTrie();
+    
+    //new String:result;
+    new String:prepend[116];
+    new String:raceshort[32];
+    War3_GetRaceShortname(raceid,raceshort,sizeof(raceshort));
+    
+    Format(prepend,sizeof(prepend),"%s_%s_%s",game?"game":"server",raceshort,type);
+    //DP("prepend %s",prepend);
+    new String:value[32];
+    if(GetTrieString(trie,prepend,value,sizeof(value))){
+        floatresult=StringToFloat(value);
+        return true;
+    }
+    return false;
+}
 public War3_ShowParticularRaceInfoMenu(client,raceid){
   SetTrans(client);
   new Handle:hMenu=CreateMenu(War3_particularraceinfoSelected);
@@ -156,11 +173,39 @@ public War3_ShowParticularRaceInfoMenu(client,raceid){
   
   new String:selectioninfo[32];
   
-  
-  SetSafeMenuTitle(hMenu,"%T\n \n","[War3Source] Information for race: {racename} (LVL {amount}/{amount})",client,racename,War3_GetLevel(client,raceid),W3GetRaceMaxLevel(raceid));
+  new String:title[512];
+  Format(title,sizeof(title),"%T","[War3Source] Information for race: {racename} (LVL {amount}/{amount})",client,racename,War3_GetLevel(client,raceid),W3GetRaceMaxLevel(raceid));
     
-
-  
+  //DP("%d",raceinfoshowskillnumber[client]);
+  if(raceinfoshowskillnumber[client]==-1){
+    new Float:ratio;
+    
+    if(GetRaceStat(raceid,false,"kdr",ratio)){
+        Format(title[strlen(title)],sizeof(title),"\nServer Kill/Death: %0.2f",ratio);
+        //DP("got ratio");
+    }
+    if(GetRaceStat(raceid,false,"wlr",ratio)){
+        Format(title[strlen(title)],sizeof(title),"\nServer Win/Loss: %0.2f",ratio);
+        //DP("got ratio");
+    }
+    if(GetRaceStat(raceid,true,"kdr",ratio)){
+        Format(title[strlen(title)],sizeof(title),"\nGame K/D: %0.2f",ratio);
+        //DP("got ratio");
+    }
+    if(GetRaceStat(raceid,true,"wlr",ratio)){
+        Format(title[strlen(title)],sizeof(title),"\nGame W/L: %0.2f",ratio);
+        //DP("got ratio");
+    }
+    
+    //DP("%f",ratio);
+    
+    
+    
+     
+        
+  }
+  StrCat(title,sizeof(title),"\n \n");
+  SetSafeMenuTitle(hMenu,title);
   new level;
   new SkillCount = War3_GetRaceSkillCount(raceid);
   for(new x=1;x<=SkillCount;x++)
@@ -248,9 +293,9 @@ public War3_particularraceinfoSelected(Handle:menu,MenuAction:action,client,sele
       ExplodeString(SelectionInfo, ",", exploded, 3, 32);
       new raceid=StringToInt(exploded[0]);
       
-      if(StrEqual(exploded[1],"skill")){
+      if(StrEqual(exploded[1],"skill")){ //OR ULT
         new skillnum=StringToInt(exploded[2]);
-        if(raceinfoshowskillnumber[client]==selection){
+        if(raceinfoshowskillnumber[client]==skillnum){ //cancel
           raceinfoshowskillnumber[client]=-1;
         }
         else{
