@@ -62,6 +62,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
         
         War3_AddSkillBuff(thisRaceID, SKILL_FROSTARMOR, fArmorPhysical, FrostArmorAmount);
         War3_AddSkillBuff(thisRaceID, SKILL_FROSTARMOR, fArmorMagic, FrostArmorAmount);
+        
+        //prevent respawn and spamming (switching class in TF2 respawn;
+        W3SkillCooldownOnSpawn(thisRaceID,ULT_DEATHDECAY,10.0,_);
     }
 
 }
