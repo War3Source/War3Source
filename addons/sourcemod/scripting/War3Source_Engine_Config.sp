@@ -22,7 +22,6 @@ public bool:InitNativesForwards()
     CreateNative("War3_SetRaceConfigInt", Native_War3_SetRaceConfigInt);
     CreateNative("War3_SetRaceConfigBool", Native_War3_SetRaceConfigBool);
     CreateNative("War3_SetRaceConfigArray", Native_War3_SetRaceConfigArray);
-    CreateNative("War3_SetRaceConfigArrayValue", Native_War3_SetRaceConfigArrayValue);
     CreateNative("War3_SetRaceGlobalConfigString", Native_War3_SetRaceGlobalConfigString);
     
     CreateNative("War3_GetRaceConfigString", Native_War3_GetRaceConfigString);
@@ -30,8 +29,6 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetRaceConfigInt", Native_War3_GetRaceConfigInt);
     CreateNative("War3_GetRaceConfigBool", Native_War3_GetRaceConfigBool);
     CreateNative("War3_GetRaceConfigArray", Native_War3_GetRaceConfigArray);
-    CreateNative("War3_GetRaceConfigArrayValue", Native_War3_GetRaceConfigArrayValue);
-    CreateNative("War3_GotoRaceConfigArray", Native_War3_GotoRaceConfigArray);
     CreateNative("War3_GetRaceConfigArrayNextValue", Native_War3_GetRaceConfigArrayNextValue);
     
     CreateNative("War3_SetItemConfigString", Native_War3_SetItemConfigString);
@@ -39,7 +36,6 @@ public bool:InitNativesForwards()
     CreateNative("War3_SetItemConfigInt", Native_War3_SetItemConfigInt);
     CreateNative("War3_SetItemConfigBool", Native_War3_SetItemConfigBool);
     CreateNative("War3_SetItemConfigArray", Native_War3_SetItemConfigArray);
-    CreateNative("War3_SetItemConfigArrayValue", Native_War3_SetItemConfigArrayValue);
     CreateNative("War3_SetItemGlobalConfigString", Native_War3_SetItemGlobalConfigString);
     
     CreateNative("War3_GetItemConfigString", Native_War3_GetItemConfigString);
@@ -47,8 +43,6 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetItemConfigInt", Native_War3_GetItemConfigInt);
     CreateNative("War3_GetItemConfigBool", Native_War3_GetItemConfigBool);
     CreateNative("War3_GetItemConfigArray", Native_War3_GetItemConfigArray);
-    CreateNative("War3_GetItemConfigArrayValue", Native_War3_GetItemConfigArrayValue); 
-    CreateNative("War3_GotoItemConfigArray", Native_War3_GotoItemConfigArray);
     CreateNative("War3_GetItemConfigArrayNextValue", Native_War3_GetItemConfigArrayNextValue);
     
     g_hGlobalRaceDefault = CreateKeyValues("Global Race Defaults");
