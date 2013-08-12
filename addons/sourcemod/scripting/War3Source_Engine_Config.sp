@@ -14,6 +14,7 @@ new Handle:g_hRaceCachedValues[MAXRACES] = {INVALID_HANDLE, ...};
 public bool:InitNativesForwards() 
 {
 	g_hRaceDefaultValues = CreateKeyValues("defaults");
+    /*
     CreateNative("War3_SetRaceConfigString", Native_War3_SetRaceConfigString);
     CreateNative("War3_SetRaceConfigFloat", Native_War3_SetRaceConfigFloat);
     CreateNative("War3_SetRaceConfigInt", Native_War3_SetRaceConfigInt);
@@ -26,7 +27,6 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetRaceConfigInt", Native_War3_GetRaceConfigInt);
     CreateNative("War3_GetRaceConfigBool", Native_War3_GetRaceConfigBool);
     CreateNative("War3_GetRaceConfigArray", Native_War3_GetRaceConfigArray);
-    /*
     CreateNative("War3_SetItemConfigString", Native_War3_SetItemConfigString);
     CreateNative("War3_SetItemConfigFloat", Native_War3_SetItemConfigFloat);
     CreateNative("War3_SetItemConfigInt", Native_War3_SetItemConfigInt);
