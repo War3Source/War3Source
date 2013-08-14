@@ -561,7 +561,12 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
                     {
                         Format(column, sizeof(column), "skill%d", skillid);
                         skilllevel = W3SQLPlayerInt(hndl, column);
-
+                        //Prevent Future Problems when we remove skill levels from certain races (EL DIABLO)
+                        new SkillMaxLevel=W3GetRaceSkillMaxLevel(raceid,skillid);
+                        if(skilllevel>SkillMaxLevel)
+                        {
+                            skilllevel=SkillMaxLevel;
+                        }
                         War3_SetSkillLevelINTERNAL(client,raceid,skillid,skilllevel);
                     }
                     usefulretrievals++;
