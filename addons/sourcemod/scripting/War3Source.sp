@@ -112,7 +112,7 @@ And that's the art of the test!
 
 #include <sourcemod>
 #include "sdkhooks"
-#include <profiler>
+//#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
 // BRANCH and BUILD_NUMBER are set through Jenkins :)
