@@ -156,7 +156,7 @@ public Action:ResWarning(Handle:timer,any:userid)
         if(War3_GetGame()==Game_TF && RESwarn[client] && ValidPlayer(client))
         {
             SetHudTextParams(-1.0, -1.0, 0.1, 255, 255, 0, 255);
-            ShowSyncHudText(client, ClientReviveMessage, "PREPARE FOR CHANCE TO REVIVE!");
+            ShowSyncHudText(client, ClientReviveMessage, "PREPARE FOR RESPAWN!");
         }
     }
 }
@@ -683,9 +683,9 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
                                 RESwarn[victim]=true;
                                 if(War3_GetGame()!=Game_TF)
                                 {
-                                    W3Hint(victim,HINT_SKILL_STATUS,5.0,"PREPARE FOR CHANCE TO REVIVE!");
-                                    PrintCenterText(victim,"PREPARE FOR CHANCE TO REVIVE!");
-                                    War3_ChatMessage(victim,"PREPARE FOR CHANCE TO REVIVE!");
+                                    W3Hint(victim,HINT_SKILL_STATUS,5.0,"PREPARE FOR RESPAWN!");
+                                    PrintCenterText(victim,"PREPARE FOR RESPAWN!");
+                                    War3_ChatMessage(victim,"PREPARE FOR RESPAWN!");
                                 }
                                 CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
                                 break;
