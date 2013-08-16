@@ -50,39 +50,73 @@ public bool:InitNativesForwards()
   return true;
 }
 
-new String:command2[70];
-new String:command3[70];
 
-//
-public bool:CommandCheck(String:compare[],String:command[])
+
+//insensitive
+//say foo
+//say /foo
+//say \foo
+//returns TRUE if found
+public bool:CommandCheck(String:compare[],String:commandwanted[])
 {
-  Format(command2,sizeof(command2),"\\%s",command);
-  Format(command3,sizeof(command3),"/%s",command);
-  if(!strcmp(compare,command,false)||!strcmp(compare,command2,false)||!strcmp(compare,command3,false))
+  new String:commandwanted2[70];
+  new String:commandwanted3[70];
+  Format(commandwanted2,sizeof(commandwanted2),"\\%s",commandwanted);
+  Format(commandwanted3,sizeof(commandwanted3),"/%s",commandwanted);
+  if(strcmp(compare,commandwanted,false)==0||strcmp(compare,commandwanted2,false)==0||strcmp(compare,commandwanted3,false)==0)
+  {
     return true;
+  }
 
   return false;
 }
 
-public CommandCheckEx(String:compare[],String:command[])
+//RETURNS FINAL INTEGER VALUE IN COMMAND
+//war3top10 -> 10 if command is "war3top"
+//insensitive
+//say foo
+//say /foo
+//say \foo
+//returns -1 if NO COMMAND
+public CommandCheckEx(String:compare[],String:commandwanted[])
 {
-  if(StrEqual(command,"",false))
-    return -1;
-  Format(command2,sizeof(command2),"\\%s",command);
-  Format(command3,sizeof(command3),"/%s",command);
-  if(!StrContains(compare,command,false)||!StrContains(compare,command2,false)||!StrContains(compare,command3,false))
+  if(StrEqual(commandwanted,"",false))
   {
-    ReplaceString(compare,70,command,"",false);
-    ReplaceString(compare,70,command2,"",false);
-    ReplaceString(compare,70,command3,"",false);
+    return -1;
+  }
+  
+  new String:commandwanted2[70];
+  new String:commandwanted3[70];
+  Format(commandwanted2,sizeof(commandwanted2),"\\%s",commandwanted);
+  Format(commandwanted3,sizeof(commandwanted3),"/%s",commandwanted);
+  if(StrContains(compare,commandwanted,false)==0||StrContains(compare,commandwanted2,false)==0||StrContains(compare,commandwanted3,false)==0)
+  {
+    ReplaceString(compare,70,commandwanted,"",false);
+    ReplaceString(compare,70,commandwanted2,"",false);
+    ReplaceString(compare,70,commandwanted3,"",false);
     new val=StringToInt(compare);
     if(val>0)
+    {
       return val;
+    }
   }
   return -1;
 }
-public bool:CommandCheckStartsWith(String:compare[],String:lookingfor[]) {
-  return StrContains(compare, lookingfor, false)==0;
+
+public bool:CommandCheckStartsWith(String:compare[],String:commandwanted[])
+{
+  new String:commandwanted2[70];
+  new String:commandwanted3[70];
+  Format(commandwanted2,sizeof(commandwanted2),"\\%s",commandwanted);
+  Format(commandwanted3,sizeof(commandwanted3),"/%s",commandwanted);
+  //matching at == 0 means string is found and is at index 0
+  if(StrContains(compare, commandwanted, false)==0||
+     StrContains(compare, commandwanted2, false)==0||
+     StrContains(compare, commandwanted3, false)==0)
+  {
+    return true;
+  }
+  return false;
 }
 public Action:War3Source_CmdShopmenu(client,args)
 {
@@ -105,7 +139,7 @@ public Action:War3Source_SayCommand(client,args)
     War3_ShowXP(client);
     return returnblocking;
   }
-  else if(CommandCheckStartsWith(arg1,"changerace"))
+  else if(CommandCheckStartsWith(arg1,"changerace")||CommandCheckStartsWith(arg1,"cr ")||CommandCheck(arg1,"cr"))
   {
     
     //index 2 is right after the changerace word
