@@ -684,6 +684,8 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
                                 if(War3_GetGame()!=Game_TF)
                                 {
                                     W3Hint(victim,HINT_SKILL_STATUS,5.0,"PREPARE FOR CHANCE TO REVIVE!");
+                                    PrintCenterText(victim,"PREPARE FOR CHANCE TO REVIVE!");
+                                    War3_ChatMessage(victim,"PREPARE FOR CHANCE TO REVIVE!");
                                 }
                                 CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
                                 break;
