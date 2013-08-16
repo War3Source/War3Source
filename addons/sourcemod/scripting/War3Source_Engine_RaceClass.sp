@@ -93,6 +93,8 @@ public OnPluginStart()
     RegAdminCmd("war3_racelist",Cmdracelist,ADMFLAG_ROOT);
     // Only loads Custom Reload Races into the server at anytime, even if they didn't make it ontime for mapchange
     RegAdminCmd("war3_crrloadraces",Cmdraceload,ADMFLAG_ROOT);
+
+    RegAdminCmd("war3_assignrace",Cmdassignrace,ADMFLAG_ROOT);
 }
 
 public Action:Cmdracelist(client,args){
@@ -302,6 +304,97 @@ public Action:ReloadRace2(Handle:t,any:a)
     DP("Race reload complete, possible side effects / leaks");
     //return Plugin_Handled;
 }
+
+
+stock RaceNameSearch(String:changeraceArg[64])
+{
+        new String:sRaceName[64];
+        new RacesLoaded=War3_GetRacesLoaded();
+        new race=0;
+        //full name
+        for(race=1;race<=RacesLoaded;race++)
+        {
+            War3_GetRaceName(race,sRaceName,sizeof(sRaceName));
+            if(StrContains(sRaceName,changeraceArg,false)>-1){
+                return race;
+            }
+        }
+        //shortname // checks inside of for() for raceFound==
+        for(race=1;race<=RacesLoaded;race++)
+        {
+            War3_GetRaceShortname(race,sRaceName,sizeof(sRaceName));
+            if(StrContains(sRaceName,changeraceArg,false)>-1){
+                return race;
+            }
+        }
+        return -1;
+}
+
+
+
+
+/*****************************************************************************/
+/************El Diablo's assign races function********************************/
+/*****************************************************************************/
+/*****************************************************************************/
+
+public Action:Cmdassignrace(client,args)
+{
+    if (args < 2)
+    {
+        ReplyToCommand(client, "[War3Source] Usage: war3_assignrace <#userid|name> <part of race name>");
+        return Plugin_Handled;
+    }
+
+    decl String:arg[65];
+    GetCmdArg(1, arg, sizeof(arg));
+
+    decl String:arg2[64];
+    GetCmdArg(2, arg2, sizeof(arg2));
+    
+    new RaceID=RaceNameSearch(arg2);
+    
+    if(RaceID<=0)
+    {
+        ReplyToCommand(client, "[War3Source] could not find race name.");
+        return Plugin_Handled;
+    }
+
+    decl String:target_name[MAX_TARGET_LENGTH];
+    decl target_list[MAXPLAYERS], target_count, bool:tn_is_ml;
+
+    if ((target_count = ProcessTargetString(
+            arg,
+            client,
+            target_list,
+            MAXPLAYERS,
+            COMMAND_FILTER_CONNECTED,
+            target_name,
+            sizeof(target_name),
+            tn_is_ml)) <= 0)
+    {
+        ReplyToTargetError(client, target_count);
+        return Plugin_Handled;
+    }
+
+    decl String:sClientName[128];
+    decl String:sRaceName[64];
+    War3_GetRaceName(RaceID,sRaceName,sizeof(sRaceName));
+    for (new i = 0; i < target_count; i++)
+    {
+        if(ValidPlayer(target_list[i]))
+        {
+            War3_SetRace(target_list[i],RaceID);
+            GetClientName(target_list[i],sClientName,sizeof(sClientName));
+            War3_ChatMessage(client,"%s set to %s",sClientName,sRaceName);
+        }
+    }
+    return Plugin_Handled;
+}
+
+/*****************************************************************************/
+/*****************************************************************************/
+/*****************************************************************************/
 
 
 
