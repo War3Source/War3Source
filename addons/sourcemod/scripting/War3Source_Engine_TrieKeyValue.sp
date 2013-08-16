@@ -42,7 +42,10 @@ public NW3CreateCvar(Handle:plugin,numParams){
     GetNativeString(1,cvar,sizeof(cvar));
     GetNativeString(2,value,sizeof(value));
     GetNativeString(3,desc,sizeof(desc));
-    if(!SetTrieString(Cvartrie,cvar,value,false)){
+    
+    new bool:ReplaceCvars=GetNativeCell(4)>=1?true:false;
+    
+    if(!SetTrieString(Cvartrie,cvar,value,ReplaceCvars)){
         ThrowError("W3 Cvar %s %s already created, or creation failed",cvar,desc);
         
     }

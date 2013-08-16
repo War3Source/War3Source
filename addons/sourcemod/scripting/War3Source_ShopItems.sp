@@ -251,9 +251,77 @@ public OnWar3EventSpawn(client)
     bDidDie[client] = false;
 }
 
+public OnW3TakeDmgAll(victim,attacker,Float:damage)
+{
+    if  (War3_GetGame()==Game_TF
+        // !W3IsOwnerSentry must be inside of OnW3Take* functions
+        &&!W3IsOwnerSentry(attacker)
+        &&W3GetDamageIsBullet()
+        &&ValidPlayer(victim)
+        &&ValidPlayer(attacker,true)
+        &&GetClientTeam(victim)!=GetClientTeam(attacker))
+    {
+        if(!W3HasImmunity(victim,Immunity_Items)&&!Perplexed(attacker))
+        {
+            if(War3_GetOwnsItem(attacker,iShopitem[ITEM_CLAW])&&ValidPlayer(victim,true,true)&&W3Chance(W3ChanceModifier(attacker)) && !W3HasImmunity(victim, Immunity_Items)) // claws of attack
+            {
+                new Float:dmg=FloatMul(damage,GetConVarFloat(hClawsDamageCvar));
+                if(dmg<0.0)     dmg=0.0;
+                
+                if(W3Chance(W3ChanceModifier(attacker))){
+                dmg*=W3ChanceModifier(attacker);
+                }
+                else{
+                    dmg*=0.50;
+                }
+                if(War3_DealDamage(victim,RoundFloat(dmg),attacker,_,"claws",W3DMGORIGIN_ITEM,W3DMGTYPE_PHYSICAL,_,_,true)){ //real damage with indicator
+                
+                    PrintToConsole(attacker,"%T","+{amount} Claws Damage",attacker,War3_GetWar3DamageDealt());
+                }
+            }
+            if( War3_GetOwnsItem(attacker,iShopitem[ITEM_FROST]) && !bFrosted[victim] && !W3HasImmunity(victim, Immunity_Items))
+            {
+                if(W3Chance(W3ChanceModifier(attacker)) && !W3HasImmunity(victim, Immunity_Items) && GetRandomFloat(0.0,1.0)<=0.25)
+                {
+                    new Float:speed_frost=GetConVarFloat(hOrbSlowCvar);
+                    if(speed_frost<=0.0) speed_frost=0.01; // 0.0 for override removes
+                    if(speed_frost>1.0) speed_frost=1.0;
+                    War3_SetBuffItem(victim,fSlow,iShopitem[ITEM_FROST],speed_frost);
+                    bFrosted[victim]=true;
+                    PrintToConsole(attacker, "%T", "ORB OF FROST!", attacker);
+                    PrintToConsole(victim, "%T", "Frosted, reducing your speed", victim);
+                    CreateTimer(2.0,Timer_Unfrost,victim);
+                }
+            }
+            
+            // Mask of death item for to make sure sentry owner can't proc,
+            // but waiting to find out if I should implement this or not
+            /*
+            if(War3_GetOwnsItem(attacker,shopItem[MASK]) && !W3HasImmunity(victim, Immunity_Items)) // Mask of death  && W3Chance(W3ChanceModifier(attacker))
+            {
+                new Float:hp_percent=GetConVarFloat(MaskDeathCvar);
+                if(hp_percent<0.0)  hp_percent=0.0;
+                if(hp_percent>1.0)  hp_percent=1.0;  //1 = 100%
+                new add_hp=RoundFloat(FloatMul(damage,hp_percent));
+                if(add_hp>40)   add_hp=40; // awp or any other weapon, just limit it
+                War3_HealToBuffHP(attacker,add_hp);
+                if(War3_TrackDelayExpired(maskSoundDelay[attacker])){
+                    EmitSoundToAll(masksnd,attacker);
+                    War3_TrackDelay(maskSoundDelay[attacker],0.25);
+                }
+                if(War3_TrackDelayExpired(maskSoundDelay[victim])){
+                    EmitSoundToAll(masksnd,victim);
+                    War3_TrackDelay(maskSoundDelay[victim],0.25);
+                }
+                PrintToConsole(attacker,"%T","+{amount} Mask leeched HP",attacker,add_hp);
+            } */
+        }
+    }
+}
+
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(!isWarcraft && ValidPlayer(victim) && 
+    if(War3_GetGame()!=Game_TF && !isWarcraft && ValidPlayer(victim) && 
        ValidPlayer(attacker, true) && 
        ValidPlayer(victim, true, true) && 
        GetClientTeam(victim) != GetClientTeam(attacker))

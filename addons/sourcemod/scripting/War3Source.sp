@@ -112,7 +112,7 @@ And that's the art of the test!
 
 #include <sourcemod>
 #include "sdkhooks"
-#include <profiler>
+//#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
 // BRANCH and BUILD_NUMBER are set through Jenkins :)
@@ -139,6 +139,8 @@ new Handle:hUseMetric;
 new Handle:introclannamecvar;
 new Handle:clanurl;
 
+new Handle:hLoadWar3CFGEveryMapCvar;
+new bool:war3source_config_loaded;
 
 new Handle:g_OnWar3EventSpawnFH;
 new Handle:g_OnWar3EventDeathFH;
@@ -203,6 +205,8 @@ War3Source_InitCVars()
     clanurl = CreateConVar("war3_clanurl", "www.ownageclan.Com (set war3_clanurl)", "The url to display on intro menu");
     hChangeGameDescCvar = CreateConVar("war3_game_desc", "1", "change game description to war3source? does not affect player connect");
     
+    hLoadWar3CFGEveryMapCvar = CreateConVar("war3_load_war3source_cfg_every_map", "1", "May help speed up map changes if disabled.");
+    
     hRaceLimitEnabled = CreateConVar("war3_racelimit_enable", "1", "Should race limit restrictions per team be enabled");
     W3SetVar(hRaceLimitEnabledCvar, hRaceLimitEnabled);
 
@@ -211,6 +215,7 @@ War3Source_InitCVars()
     
     return true;
 }
+
 
 bool:War3Source_InitForwards()
 {
@@ -300,16 +305,32 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 
 DelayedWar3SourceCfgExecute()
 {
-    if(FileExists("cfg/war3source.cfg"))
+    if(GetConVarBool(hLoadWar3CFGEveryMapCvar))
     {
-        ServerCommand("exec war3source.cfg");
-        PrintToServer("[War3Source] Executing war3source.cfg");
+        if(FileExists("cfg/war3source.cfg"))
+        {
+            ServerCommand("exec war3source.cfg");
+            PrintToServer("[War3Source] Executing war3source.cfg");
+            war3source_config_loaded=true;
+        }
+        else
+        {
+            PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        }
     }
-    else
+    else if(!war3source_config_loaded)
     {
-        PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        if(FileExists("cfg/war3source.cfg"))
+        {
+            ServerCommand("exec war3source.cfg");
+            PrintToServer("[War3Source] Executing war3source.cfg");
+            war3source_config_loaded=true;
+        }
+        else
+        {
+            PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        }
     }
-
 }
 
 public OnClientPutInServer(client)

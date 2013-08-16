@@ -176,7 +176,7 @@ public Action:War3Source_SayCommand(client,args)
             W3UserTriedToSelectRace(client,raceFound,true);
         }
         //no race found, show menu
-        else
+        else if(!CommandCheckStartsWith(arg1,"cr"))
         {
             W3CreateEvent(DoShowChangeRaceMenu,client);
         }
