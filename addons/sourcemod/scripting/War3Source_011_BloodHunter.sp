@@ -221,7 +221,7 @@ public Action:BloodCrazyDOTLoop(Handle:h,any:data)
 
 public OnW3EnemyTakeDmgBulletPre(victim,attacker,Float:damage)
 {
-    if(War3_GetRace(attacker) == thisRaceID && !Hexed(attacker, false))
+    if(!W3IsOwnerSentry(attacker) && War3_GetRace(attacker) == thisRaceID && !Hexed(attacker, false) && !W3HasImmunity(victim,Immunity_Skills))
     {
         new skilllevel = War3_GetSkillLevel(attacker, thisRaceID, SKILL_CRAZY);
         if(skilllevel > 0)

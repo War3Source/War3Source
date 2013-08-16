@@ -123,7 +123,7 @@ public OnW3TakeDmgBullet( victim, attacker, Float:damage )
             if( race_attacker == thisRaceID &&!Hexed(attacker))
             {
 
-                if( skill_level > 0 && SkillAvailable(attacker,thisRaceID,SKILL_MOONBEAM,false) &&!W3HasImmunity( victim, Immunity_Skills ))
+                if( !W3IsOwnerSentry(attacker) && skill_level > 0 && SkillAvailable(attacker,thisRaceID,SKILL_MOONBEAM,false) &&!W3HasImmunity( victim, Immunity_Skills ))
                 {
                     MoonBeamDamageAndEffect(victim, attacker, LucentBeamMin[skill_level], LucentBeamMax[skill_level]);
 

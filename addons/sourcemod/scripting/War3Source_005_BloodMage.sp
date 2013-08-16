@@ -286,7 +286,9 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 {
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&attacker!=victim&&GetClientTeam(attacker)!=GetClientTeam(victim))
     {
-        if(War3_GetRace(attacker)==thisRaceID)
+        // W3IsOwnerSentry checks for game tf and returns false if not, so it should go thru if not game tf anyhow.
+        // if it is game tf and is sentry owner, it will not proc for sentry.
+        if(!W3IsOwnerSentry(attacker) && War3_GetRace(attacker)==thisRaceID)
         {
             new Float:chance_mod=W3ChanceModifier(attacker);    
             if(IsPlayerAlive(attacker)&&IsPlayerAlive(victim))
