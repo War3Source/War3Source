@@ -2,7 +2,7 @@
 /**
  * A NON-TRANSLATED RACE FOR WAR3SOURCE
  * 
- * This is for an example of how to create a smart reload race.
+ * This is for an example of how to create a custom race reload race.
 */
 
 #pragma semicolon 1
@@ -54,21 +54,21 @@ public OnPluginStart()
 
     ultCooldownCvar=CreateConVar("war3_Dwarven_ultimate_cooldown","30.0","Cooldown between teleports");
     
-    // Needed for Smart Reload:
+    // Needed for Custom Race Reload:
     War3_RaceOnPluginStart("dstronghold");
 }
 
-// Needed for Smart Reload:
+// Needed for Custom Race Reload:
 public OnPluginEnd()
 {
     if(LibraryExists("RaceClass"))
         War3_RaceOnPluginEnd("dstronghold");
 }
 
-// Needed for Smart Reload:
+// Needed for Custom Race Reload:
 public OnWar3LoadRaceOrItemOrderedCRR(num,reloadrace_id,String:shortname[])
 {
-    // Needed for Smart Reload:
+    // Needed for Custom Race Reload:
     if(num==29||(reloadrace_id>0&&StrEqual("dstronghold",shortname,false)))
     {
         // create a "Race trait comment = You do normal damage with seige and half damage without siege"
