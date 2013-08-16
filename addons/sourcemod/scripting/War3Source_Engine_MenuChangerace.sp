@@ -303,6 +303,10 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                     Format(extra,sizeof(extra),"<");
                     
                 }
+
+                if(StrEqual(rname,""))
+                    strcopy(rname,sizeof(rname),"Race Unloaded");
+
                 Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
                 new minlevel=W3GetRaceMinLevelRequired(x);
                 if(minlevel<0) minlevel=0;
@@ -313,8 +317,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                 //if(!HasRaceAccess(client,race)){ //show that it is restricted?
                 //    Format(rdisp,sizeof(rdisp),"%s\nRestricted",rdisp);
                 //}
-                if(StrEqual(rname,"")){
-                    strcopy(rname,sizeof(rname),"Race Unloaded");
+                if(StrEqual(rname,"Race Unloaded")){
                     AddMenuItem(crMenu,rbuf,rdisp,ITEMDRAW_DISABLED);
                     continue;
                 }
