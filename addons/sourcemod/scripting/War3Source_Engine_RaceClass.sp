@@ -94,6 +94,7 @@ public OnPluginStart()
     RegServerCmd("war3_reloadrace", CmdReloadRace,"Reload A Race");
     
     RegAdminCmd("war3_racelist",Cmdracelist,ADMFLAG_ROOT);
+    RegAdminCmd("war3_forceloadraces",Cmdraceload,ADMFLAG_ROOT);
 }
 
 public hCvarLoadRacesAndItemsOnMapStartChanged(Handle:convar, const String:oldValue[], const String:newValue[])
@@ -319,6 +320,24 @@ public Action:ReloadRace2(Handle:t,any:a)
 /************El Diablo's Custom Race Reload Race Functions********************/
 /*****************************************************************************/
 /*****************************************************************************/
+
+public Action:Cmdraceload(client,args)
+{
+    new res;
+    
+    // Custom Race Load Races
+    for(new i; i <= MAXRACES * 10; i++)
+    {
+        Call_StartForward(g_OnWar3PluginReadyHandleCRR);
+        Call_PushCell(i);
+        Call_PushCell(-1);
+        Call_PushString("");
+        Call_Finish(res);
+    }
+
+    return Plugin_Handled;
+}
+
 
 public NWar3_IsRaceReloading(Handle:plugin,numParams){
 
