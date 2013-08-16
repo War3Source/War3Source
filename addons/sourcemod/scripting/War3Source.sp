@@ -140,7 +140,6 @@ new Handle:introclannamecvar;
 new Handle:clanurl;
 
 new Handle:hLoadWar3CFGEveryMapCvar;
-new bool:LoadWar3CFGEveryMap;
 new bool:war3source_config_loaded;
 
 new Handle:g_OnWar3EventSpawnFH;
@@ -207,8 +206,6 @@ War3Source_InitCVars()
     hChangeGameDescCvar = CreateConVar("war3_game_desc", "1", "change game description to war3source? does not affect player connect");
     
     hLoadWar3CFGEveryMapCvar = CreateConVar("war3_load_war3source_cfg_every_map", "1", "May help speed up map changes if disabled.");
-    LoadWar3CFGEveryMap=GetConVarBool(hLoadWar3CFGEveryMapCvar);
-    HookConVarChange(hLoadWar3CFGEveryMapCvar, hLoadWar3CFGEveryMapCvarChanged);
     
     hRaceLimitEnabled = CreateConVar("war3_racelimit_enable", "1", "Should race limit restrictions per team be enabled");
     W3SetVar(hRaceLimitEnabledCvar, hRaceLimitEnabled);
@@ -217,11 +214,6 @@ War3Source_InitCVars()
     W3SetVar(hUseMetricCvar, hUseMetric);
     
     return true;
-}
-
-public hLoadWar3CFGEveryMapCvarChanged(Handle:convar, const String:oldValue[], const String:newValue[])
-{
-    LoadWar3CFGEveryMap=GetConVarBool(hLoadWar3CFGEveryMapCvar);
 }
 
 
@@ -313,7 +305,7 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 
 DelayedWar3SourceCfgExecute()
 {
-    if(LoadWar3CFGEveryMap)
+    if(GetConVarBool(hLoadWar3CFGEveryMapCvar))
     {
         if(FileExists("cfg/war3source.cfg"))
         {
@@ -326,7 +318,7 @@ DelayedWar3SourceCfgExecute()
             PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
         }
     }
-    else if(!LoadWar3CFGEveryMap&&!war3source_config_loaded)
+    else if(!war3source_config_loaded)
     {
         if(FileExists("cfg/war3source.cfg"))
         {

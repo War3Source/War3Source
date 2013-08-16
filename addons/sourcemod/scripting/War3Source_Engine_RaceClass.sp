@@ -68,7 +68,6 @@ new Handle:hCvarSetRaceBack;
 
 // El Diablo's Quick Map change
 new Handle:hCvarLoadRacesAndItemsOnMapStart;
-new bool:LoadRacesAndItemsOnMapStart;
 new bool:RacesAndItemsLoaded;
 
 new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
@@ -88,18 +87,11 @@ public OnPluginStart()
     hCvarShowChangeRaceMenu=CreateConVar("war3_changeracemenu_on_racereload","0","0 = Disable | 1 = Enable, Show Change Race Menu when reloading a race to affected clients?");
     hCvarSetRaceBack=CreateConVar("war3_set_players_race_back_after_reload","1","0 = Disable | 1 = Enable, Set a players race back after reload? | Untested from map to map.");
     hCvarLoadRacesAndItemsOnMapStart=CreateConVar("war3_Load_RacesAndItems_every_map","1","0 = Disable | 1 = Enable, May help speed up map changes if disabled.");
-    LoadRacesAndItemsOnMapStart=GetConVarBool(hCvarLoadRacesAndItemsOnMapStart);
-    HookConVarChange(hCvarLoadRacesAndItemsOnMapStart, hCvarLoadRacesAndItemsOnMapStartChanged);
 
     RegServerCmd("war3_reloadrace", CmdReloadRace,"Reload A Race");
     
     RegAdminCmd("war3_racelist",Cmdracelist,ADMFLAG_ROOT);
     RegAdminCmd("war3_forceloadraces",Cmdraceload,ADMFLAG_ROOT);
-}
-
-public hCvarLoadRacesAndItemsOnMapStartChanged(Handle:convar, const String:oldValue[], const String:newValue[])
-{
-    LoadRacesAndItemsOnMapStart=GetConVarBool(hCvarLoadRacesAndItemsOnMapStart);
 }
 
 public Action:Cmdracelist(client,args){
@@ -181,11 +173,11 @@ public bool:InitNativesForwards()
 
 public OnMapStart()
 {
-    if(LoadRacesAndItemsOnMapStart)
+    if(GetConVarBool(hCvarLoadRacesAndItemsOnMapStart))
     {
         LoadRacesAndItems();
         RacesAndItemsLoaded=true;
-    } else if(!LoadRacesAndItemsOnMapStart&&!RacesAndItemsLoaded)
+    } else if(!RacesAndItemsLoaded)
     {
         LoadRacesAndItems();
         RacesAndItemsLoaded=true;
