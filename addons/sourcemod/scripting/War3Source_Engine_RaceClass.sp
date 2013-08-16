@@ -56,10 +56,25 @@ new String:creatingraceshortname[16];
 
 new raceCell[MAXRACES][ENUM_RaceObject];
 
+// El Diablo's Custom Race Reload
+new bool:ReloadRaces_Id[MAXRACES];
+new ReloadRaces_Client_Race[MAXPLAYERSCUSTOM];
+new ReloadRaces_Client_UserID[MAXPLAYERSCUSTOM];
+new String:ReloadRaces_Shortname[MAXRACES][16];
+new String:ReloadRaces_longname[MAXRACES][32];
+new Handle:hCvarShowChangeRaceMenu;
+new Handle:hCvarSetRaceBack;
+// End of El Diablo's Custom Race Reload
+
+// El Diablo's Quick Map change
+new Handle:hCvarLoadRacesAndItemsOnMapStart;
+new bool:LoadRacesAndItemsOnMapStart;
+new bool:RacesAndItemsLoaded;
 
 new Handle:g_OnWar3PluginReadyHandle; //loadin default races in order
 new Handle:g_OnWar3PluginReadyHandle2; //other races
 new Handle:g_OnWar3PluginReadyHandle3; //other races backwards compatable
+new Handle:g_OnWar3PluginReadyHandleCRR; //El Diablo's Custom Race Reload
 
 
 //END race instance variables
@@ -70,17 +85,45 @@ public OnPluginStart()
     skillProp[0][0][0]=0;
     m_MinimumUltimateLevel=CreateConVar("war3_minimumultimatelevel","6");
     hCvarSortByMinLevel=CreateConVar("war3_sort_minlevel","0","Strictly sort by minlevel, (then shortname_raceorder tie breaker)");
+    hCvarShowChangeRaceMenu=CreateConVar("war3_changeracemenu_on_racereload","0","0 = Disable | 1 = Enable, Show Change Race Menu when reloading a race to affected clients?");
+    hCvarSetRaceBack=CreateConVar("war3_set_players_race_back_after_reload","1","0 = Disable | 1 = Enable, Set a players race back after reload? | Untested from map to map.");
+    hCvarLoadRacesAndItemsOnMapStart=CreateConVar("war3_Load_RacesAndItems_every_map","1","0 = Disable | 1 = Enable, May help speed up map changes if disabled.");
+    LoadRacesAndItemsOnMapStart=GetConVarBool(hCvarLoadRacesAndItemsOnMapStart);
+    HookConVarChange(hCvarLoadRacesAndItemsOnMapStart, hCvarLoadRacesAndItemsOnMapStartChanged);
 
     RegServerCmd("war3_reloadrace", CmdReloadRace,"Reload A Race");
+    
+    RegAdminCmd("war3_racelist",Cmdracelist,ADMFLAG_ROOT);
 }
 
+public hCvarLoadRacesAndItemsOnMapStartChanged(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+    LoadRacesAndItemsOnMapStart=GetConVarBool(hCvarLoadRacesAndItemsOnMapStart);
+}
+
+public Action:Cmdracelist(client,args){
+  new RacesLoaded = GetRacesLoaded();
+  new String:LongRaceName[64];
+  for(new x=1;x<=RacesLoaded;x++)
+  {
+    War3_GetRaceName(x,LongRaceName,64);
+    if(ValidPlayer(client))
+      War3_ChatMessage(client,"RaceList [Debug] Race: %s Race ID: %i",LongRaceName,x);
+  }
+  return Plugin_Handled;
+}
 
 public bool:InitNativesForwards()
 {
     g_OnWar3PluginReadyHandle = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered", ET_Ignore, Param_Cell);//ordered
     g_OnWar3PluginReadyHandle2 = CreateGlobalForward("OnWar3LoadRaceOrItemOrdered2", ET_Ignore, Param_Cell);//ordered
     g_OnWar3PluginReadyHandle3 = CreateGlobalForward("OnWar3PluginReady", ET_Ignore); //unodered rest of the items or races. backwards compatable..
+    g_OnWar3PluginReadyHandleCRR = CreateGlobalForward("OnWar3LoadRaceOrItemOrderedCRR", ET_Ignore, Param_Cell, Param_Cell, Param_String); // El Diablo's Custom Race Reload
     
+    // Custom Race Reloading Races does not work for translated races.
+    CreateNative("War3_RaceOnPluginStart",NWar3_RaceOnPluginStart);
+    CreateNative("War3_RaceOnPluginEnd",NWar3_RaceOnPluginEnd);
+    CreateNative("War3_IsRaceReloading",NWar3_IsRaceReloading);
     
     CreateNative("War3_CreateNewRace",NWar3_CreateNewRace);
     CreateNative("War3_AddRaceSkill",NWar3_AddRaceSkill);
@@ -130,12 +173,22 @@ public bool:InitNativesForwards()
     
     CreateNative("W3GetRaceCell",NW3GetRaceCell);
     CreateNative("W3SetRaceCell",NW3SetRaceCell);
+    
+    RegPluginLibrary("RaceClass");
     return true;
 }
 
 public OnMapStart()
 {
-    LoadRacesAndItems();
+    if(LoadRacesAndItemsOnMapStart)
+    {
+        LoadRacesAndItems();
+        RacesAndItemsLoaded=true;
+    } else if(!LoadRacesAndItemsOnMapStart&&!RacesAndItemsLoaded)
+    {
+        LoadRacesAndItems();
+        RacesAndItemsLoaded=true;
+    }
 }
 LoadRacesAndItems()
 {    
@@ -161,6 +214,16 @@ LoadRacesAndItems()
     //unorderd loads
     Call_StartForward(g_OnWar3PluginReadyHandle3);
     Call_Finish(res);
+    
+    // Custom Race Reload Races
+    for(new i; i <= MAXRACES * 10; i++)
+    {
+        Call_StartForward(g_OnWar3PluginReadyHandleCRR);
+        Call_PushCell(i);
+        Call_PushCell(-1);
+        Call_PushString("");
+        Call_Finish(res);
+    }
 
     PrintToServer("RACE ITEM LOAD FINISHED IN %.2f seconds", GetEngineTime() - fStartTime);
     
@@ -252,9 +315,167 @@ public Action:ReloadRace2(Handle:t,any:a)
 
 
 
+/*****************************************************************************/
+/************El Diablo's Custom Race Reload Race Functions********************/
+/*****************************************************************************/
+/*****************************************************************************/
 
+public NWar3_IsRaceReloading(Handle:plugin,numParams){
 
+  return Internal_NWar3_IsRaceReloading()==1?true:false;
+}
 
+Internal_NWar3_IsRaceReloading()
+{
+  new RacesLoaded = GetRacesLoaded();
+  new bool:findtherace=false;
+  for(new x=1;x<=RacesLoaded;x++)
+  {
+    if(ReloadRaces_Id[x]==true)
+      {
+        findtherace=true;
+        break;
+      }
+  }
+  return findtherace?1:0;
+}
+
+public NWar3_RaceOnPluginEnd(Handle:plugin,numParams){
+  new String:shortname[16];
+  GetNativeString(1,shortname,sizeof(shortname));
+  if(StrEqual(shortname,"",false))
+    return;
+  new RaceOnPluginEndID=GetRaceIDByShortname(shortname);
+  if(RaceOnPluginEndID>0)
+  {
+    new String:LongRaceName[64];
+    War3_GetRaceName(RaceOnPluginEndID,LongRaceName,64);
+    for(new i=1;i<MaxClients;i++){
+      if(ValidPlayer(i))
+      {
+        if(War3_GetRace(i)==RaceOnPluginEndID)
+        {
+          ReloadRaces_Client_Race[i]=RaceOnPluginEndID;
+          ReloadRaces_Client_UserID[i]=GetClientUserId(i);
+          PrintCenterText(i,"%s is being unloaded!",LongRaceName);
+          W3Hint(i,HINT_NORMAL,5.0,"%s is being unloaded!",LongRaceName);
+        }
+      }
+    }
+    ReloadRaces_Id[RaceOnPluginEndID]=true;
+    strcopy(ReloadRaces_longname[RaceOnPluginEndID], 32, raceName[RaceOnPluginEndID]);
+    strcopy(ReloadRaces_Shortname[RaceOnPluginEndID], 16, raceShortname[RaceOnPluginEndID]);
+    strcopy(raceName[RaceOnPluginEndID], 32, "");
+    strcopy(raceShortname[RaceOnPluginEndID], 16, "");
+    // erase races skill info here
+    for(new i=0;i<MAXSKILLCOUNT;i++){
+      strcopy(raceSkillName[RaceOnPluginEndID][i], 32, "");
+      strcopy(raceSkillDescription[RaceOnPluginEndID][i], 512, "");
+      skillIsUltimate[RaceOnPluginEndID][i]=false;
+      skillMaxLevel[RaceOnPluginEndID][i]=0;
+      raceSkillDescReplaceNum[RaceOnPluginEndID][i]=0;
+      skillTranslated[RaceOnPluginEndID][i]=false;
+      skillIsUltimate[RaceOnPluginEndID][i]=false;
+      for(new arg=0;arg<4;arg++){
+        strcopy(raceSkillDescReplace[RaceOnPluginEndID][i][arg], 64, "");
+      }
+    }
+    War3_RemoveDependency(RaceOnPluginEndID,raceSkillCount[RaceOnPluginEndID]);
+    raceSkillCount[RaceOnPluginEndID]=0;
+    new String:ClientName[128];
+    for(new i=1;i<MaxClients;i++){
+      if(ValidPlayer(i))
+      {
+        if(ReloadRaces_Client_Race[i]==RaceOnPluginEndID)
+        {
+          War3_SetRace(i,0);
+          GetClientName(i,ClientName,sizeof(ClientName));
+          PrintToServer("[Race Unload] %s : %d race set to 0",ClientName,i);
+          War3_ChatMessage(i,"{lightgreen}[Race Unload] {default} %s is now no race. | client %i | race 0",ClientName,i);
+          if(GetConVarBool(hCvarShowChangeRaceMenu))
+          {
+            War3_ChatMessage(i,"{lightgreen}[Race Unload] {default}%s please choose another race.",ClientName);
+            if(GetConVarBool(hCvarSetRaceBack))
+            {
+              War3_ChatMessage(i,"{lightgreen}[Race Unload] {default}You will be set back to this race once it is loaded back.",ClientName);
+            }
+            W3CreateEvent(DoShowChangeRaceMenu,i);
+          }
+        }
+      }
+    }
+  }
+}
+
+// NOTE: reloading races to will not work with translated races.
+public NWar3_RaceOnPluginStart(Handle:plugin,numParams){
+
+  new String:shortname[16];
+  GetNativeString(1,shortname,sizeof(shortname));
+  if(!StrEqual(shortname,"",false))
+  {
+    new RacesLoaded = GetRacesLoaded();
+    new x;
+    new bool:findtherace=false;
+    for(x=1;x<=RacesLoaded;x++)
+    {
+      if(StrEqual(shortname,ReloadRaces_Shortname[x],false))
+        {
+          findtherace=true;
+          break;
+        }
+    }
+    new res;
+    
+    if(!findtherace)
+      return false;
+    raceSkillCount[x]=0;
+    
+    for(new i=0;i<MAXSKILLCOUNT;i++){
+      raceSkillDescReplaceNum[x][i]=0;
+    }
+    Call_StartForward(g_OnWar3PluginReadyHandleCRR);
+    Call_PushCell(-1);
+    Call_PushCell(x);
+    Call_PushString(shortname);
+    Call_Finish(res);
+  }
+  return true;
+}
+
+Race_Finished_Reload(raceid)
+{
+  new String:LongRaceName[64];
+  new String:ClientName[128];
+  War3_GetRaceName(raceid,LongRaceName,64);
+  
+  PrintToChatAll("%s has been updated!",LongRaceName);  
+  
+  for(new i=1;i<MAXPLAYERSCUSTOM;i++){
+    if(ReloadRaces_Client_Race[i]==raceid)
+    {
+      new ClientID=GetClientOfUserId(ReloadRaces_Client_UserID[i]);
+      if(ValidPlayer(ClientID))
+      {
+        PrintCenterText(ClientID,"%s has been updated.",LongRaceName);
+        W3Hint(ClientID,HINT_NORMAL,5.0,"%s has been updated.",LongRaceName);
+        if(GetConVarBool(hCvarSetRaceBack))
+        {
+          War3_SetRace(ClientID,raceid);
+          ReloadRaces_Client_Race[i]=0;
+          GetClientName(ClientID,ClientName,sizeof(ClientName));
+          PrintToServer("[Race Reloaded] %s is now %s. | client %i | race %i",ClientName,LongRaceName,ClientID,raceid);
+          War3_ChatMessage(ClientID,"{lightgreen}[Race Reloaded] {default}%s is now %s. | client %i | race %i",ClientName,LongRaceName,ClientID,raceid);
+        }
+      }
+    }
+  }
+}
+
+/*****************************************************************************/
+/******END OF El Diablo's Custom Race Reload Race Functions*******************/
+/*****************************************************************************/
+/*****************************************************************************/
 
 
 
@@ -274,10 +495,11 @@ public NWar3_CreateNewRace(Handle:plugin,numParams){
     decl String:name[64],String:shortname[16];
     GetNativeString(1,name,sizeof(name));
     GetNativeString(2,shortname,sizeof(shortname));
+    new ReloadRaceId_info=GetNativeCell(3);
     
     War3_LogInfo("add race %s %s",name,shortname);
     
-    return CreateNewRace(name,shortname);
+    return CreateNewRace(name,shortname,ReloadRaceId_info);
     
 }
 
@@ -309,7 +531,7 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
     
     decl String:name[64],String:shortname[32];
     GetNativeString(1,shortname,sizeof(shortname));
-    new newraceid=CreateNewRace(name,shortname);
+    new newraceid=CreateNewRace(name,shortname,0); // Translated races are not supported in custom race reload
     if(newraceid)
     {
         raceTranslated[newraceid]=true;
@@ -745,18 +967,18 @@ public NW3_IsSkillUsingGenericSkill(Handle:plugin,numParams)
     return SkillRedirectedToGSkill[raceid][skill_id];
 }
 
-CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
+CreateNewRace(String:tracename[]  ,  String:traceshortname[], TheReloadRaceId){
     
     
     
-    if(RaceExistsByShortname(traceshortname)){
+    if(RaceExistsByShortname(traceshortname)&&TheReloadRaceId<=0){
         new oldraceid=GetRaceIDByShortname(traceshortname);
         //PrintToServer("Race already exists: %s, returning old raceid %d",traceshortname,oldraceid);
         ignoreRaceEnd=true;
         return oldraceid;
     }
     
-    if(totalRacesLoaded+1==MAXRACES){ //make sure we didnt reach our race capacity limit
+    if(totalRacesLoaded+1==MAXRACES&&TheReloadRaceId<=0){ //make sure we didnt reach our race capacity limit
         LogError("MAX RACES REACHED, CANNOT REGISTER %s %s",tracename,traceshortname);
         return 0;
     }
@@ -781,16 +1003,32 @@ CreateNewRace(String:tracename[]  ,  String:traceshortname[]){
     }
     
     
-    totalRacesLoaded++;
-    new traceid=totalRacesLoaded;
     
-    strcopy(raceName[traceid], 31, tracename);
-    strcopy(raceShortname[traceid], 16, traceshortname);
+    new traceid;
+    if(TheReloadRaceId>0)
+    {
+        traceid=TheReloadRaceId;
+        strcopy(raceName[traceid], 31, tracename);
+        strcopy(raceShortname[traceid], 16, traceshortname);
+
+        //make all skills zero so we can easily debug
+        for(new i=0;i<MAXSKILLCOUNT;i++){
+            Format(raceSkillName[traceid][i],31,"NO SKILL DEFINED %d",i);
+            Format(raceSkillDescription[traceid][i],2000,"NO SKILL DESCRIPTION DEFINED %d",i);
+        }
+    }
+    else
+    {
+        totalRacesLoaded++;
+        traceid=totalRacesLoaded;
+        strcopy(raceName[traceid], 31, tracename);
+        strcopy(raceShortname[traceid], 16, traceshortname);
     
-    //make all skills zero so we can easily debug
-    for(new i=0;i<MAXSKILLCOUNT;i++){
-        Format(raceSkillName[traceid][i],31,"NO SKILL DEFINED %d",i);
-        Format(raceSkillDescription[traceid][i],2000,"NO SKILL DESCRIPTION DEFINED %d",i);
+        //make all skills zero so we can easily debug
+        for(new i=0;i<MAXSKILLCOUNT;i++){
+            Format(raceSkillName[traceid][i],31,"NO SKILL DEFINED %d",i);
+            Format(raceSkillDescription[traceid][i],2000,"NO SKILL DESCRIPTION DEFINED %d",i);
+        }
     }
     
     return traceid; //this will be the new race's id / index
@@ -932,6 +1170,20 @@ AddRaceSkill(raceid,String:skillname[],String:skilldescription[],bool:isUltimate
         raceSkillCount[raceid]++;
         
         strcopy(raceSkillName[raceid][raceSkillCount[raceid]], 32, skillname);
+        
+        if(ReloadRaces_Id[raceid]==true)
+        {
+            new String:LongRaceName[64];
+            War3_GetRaceName(raceid,LongRaceName,64);
+            PrintToServer("Reloading %s: AddRaceSkill: Skill %s skillid %d",LongRaceName,skillname,raceSkillCount[raceid]);
+
+            for(new i=0;i<MaxClients;i++){    // was MAXPLAYERSCUSTOM
+                if(War3_GetRace(i)==raceid)
+                {
+                    PrintToConsole(i,"Reloading %s: AddRaceSkill: Skill %s skillid %d",LongRaceName,skillname,raceSkillCount[raceid]);
+                }
+            }
+        }
         strcopy(raceSkillDescription[raceid][raceSkillCount[raceid]], 2000, skilldescription);
         skillIsUltimate[raceid][raceSkillCount[raceid]]=isUltimate;
         
@@ -952,43 +1204,50 @@ CreateRaceEnd(raceid){
         racecreationended=true;
         Format(creatingraceshortname,sizeof(creatingraceshortname),"");
         ///now we put shit into the database and create cvars
-        if(!ignoreRaceEnd&&raceid>0)
+        if(!ignoreRaceEnd&&raceid>0 && ReloadRaces_Id[raceid]==false)  // Dont let reload races over write these variables.
         {
             new String:shortname[16];
             GetRaceShortname(raceid,shortname,sizeof(shortname));
             
             new String:cvarstr[64];
             Format(cvarstr,sizeof(cvarstr),"%s_minlevel",shortname);
-            MinLevelCvar[raceid]=W3CreateCvar(cvarstr,"0","Minimum level for race");
+            MinLevelCvar[raceid]=W3CreateCvar(cvarstr,"0","Minimum level for race",Internal_NWar3_IsRaceReloading());
             
             Format(cvarstr,sizeof(cvarstr),"%s_accessflag",shortname);
-            AccessFlagCvar[raceid]=W3CreateCvar(cvarstr,"0","Admin access flag required for race");
+            AccessFlagCvar[raceid]=W3CreateCvar(cvarstr,"0","Admin access flag required for race",Internal_NWar3_IsRaceReloading());
             
             Format(cvarstr,sizeof(cvarstr),"%s_raceorder",shortname);
             new String:buf[16];
             Format(buf,sizeof(buf),"%d",raceid*100);
-            RaceOrderCvar[raceid]=W3CreateCvar(cvarstr,buf,"This race's Race Order on changerace menu");
+            RaceOrderCvar[raceid]=W3CreateCvar(cvarstr,buf,"This race's Race Order on changerace menu",Internal_NWar3_IsRaceReloading());
             
             Format(cvarstr,sizeof(cvarstr),"%s_flags",shortname);
-            RaceFlagsCvar[raceid]=W3CreateCvar(cvarstr,"","This race's flags, ie 'hidden,etc");
+            RaceFlagsCvar[raceid]=W3CreateCvar(cvarstr,"","This race's flags, ie 'hidden,etc",Internal_NWar3_IsRaceReloading());
             
             Format(cvarstr,sizeof(cvarstr),"%s_restrict_items",shortname);
-            RestrictItemsCvar[raceid]=W3CreateCvar(cvarstr,"","Which items to restrict for people on this race. Separate by comma, ie 'claw,orb'");
+            RestrictItemsCvar[raceid]=W3CreateCvar(cvarstr,"","Which items to restrict for people on this race. Separate by comma, ie 'claw,orb'",Internal_NWar3_IsRaceReloading());
             
             Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,1);
-            RestrictLimitCvar[raceid][0]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 1 (RED/T)");
+            RestrictLimitCvar[raceid][0]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 1 (RED/T)",Internal_NWar3_IsRaceReloading());
             Format(cvarstr,sizeof(cvarstr),"%s_team%d_limit",shortname,2);
-            RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)");
+            RestrictLimitCvar[raceid][1]=W3CreateCvar(cvarstr,"99","How many people can play this race on team 2 (BLU/CT)",Internal_NWar3_IsRaceReloading());
             
             new temp;
             Format(cvarstr,sizeof(cvarstr),"%s_restrictclass",shortname);
-            temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma. MAXIMUM OF 2!! list: scout,sniper,soldier,demoman,medic,heavy,pyro,spy,engineer");
+            temp=W3CreateCvar(cvarstr,"","Which classes are not allowed to play this race? Separate by comma. MAXIMUM OF 2!! list: scout,sniper,soldier,demoman,medic,heavy,pyro,spy,engineer",Internal_NWar3_IsRaceReloading());
             W3SetRaceCell(raceid,ClassRestrictionCvar,temp);
             
             Format(cvarstr,sizeof(cvarstr),"%s_category",shortname);
-            W3SetRaceCell(raceid,RaceCategorieCvar,W3CreateCvar(cvarstr,"default","Determines in which Category the race should be displayed(if cats are active)"));
+            W3SetRaceCell(raceid,RaceCategorieCvar,W3CreateCvar(cvarstr,"default","Determines in which Category the race should be displayed(if cats are active)",Internal_NWar3_IsRaceReloading()));
             
         }
+        if(ReloadRaces_Id[raceid]==true)
+        {
+            Race_Finished_Reload(raceid);
+        }
+        ReloadRaces_Id[raceid]=false;
+        strcopy(ReloadRaces_longname[raceid], 32, "");
+        strcopy(ReloadRaces_Shortname[raceid], 16, "");
         ignoreRaceEnd=false;
     }
 }

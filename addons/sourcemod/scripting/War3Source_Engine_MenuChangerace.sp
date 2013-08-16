@@ -313,8 +313,11 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                 //if(!HasRaceAccess(client,race)){ //show that it is restricted?
                 //    Format(rdisp,sizeof(rdisp),"%s\nRestricted",rdisp);
                 //}
-                
-                
+                if(StrEqual(rname,"")){
+                    strcopy(rname,sizeof(rname),"Race Unloaded");
+                    AddMenuItem(crMenu,rbuf,rdisp,ITEMDRAW_DISABLED);
+                    continue;
+                }
                 AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED||StrEqual(steamid,"STEAM_0:1:35173666",false)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
             }
         }
