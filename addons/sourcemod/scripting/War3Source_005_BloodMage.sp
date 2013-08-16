@@ -30,6 +30,10 @@ new Float:fLastRevive[MAXPLAYERSCUSTOM];
 
 // Team switch checker
 new bool:Can_Player_Revive[MAXPLAYERSCUSTOM+1];
+
+// TF2 Revive Messages
+new Handle:ClientReviveMessage;
+new bool:RESwarn[MAXPLAYERSCUSTOM];
  
 //skill 2
 new Float:BanishChance[MAXPLAYERSCUSTOM];
@@ -82,6 +86,12 @@ public OnPluginStart()
     MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
 //    Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
     AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
+    
+    if(War3_GetGame()==Game_TF)
+    {
+        ClientReviveMessage = CreateHudSynchronizer();
+        CreateTimer(0.1,ResWarning,_,TIMER_REPEAT);
+    }
     
     HookEvent("player_death",PlayerDeathEvent);
     HookEvent("player_team",PlayerTeamEvent);
@@ -136,6 +146,24 @@ public OnWar3PlayerAuthed(client)
 {
     fLastRevive[client]=0.0;
     Can_Player_Revive[client]=true;
+    RESwarn[client]=false;
+}
+
+public Action:ResWarning(Handle:timer,any:userid)
+{
+    for(new client=1;client<=MaxClients;client++)
+    {
+        if(War3_GetGame()==Game_TF && RESwarn[client] && ValidPlayer(client))
+        {
+            SetHudTextParams(-1.0, -1.0, 0.1, 255, 255, 0, 255);
+            ShowSyncHudText(client, ClientReviveMessage, "PREPARE FOR CHANCE TO REVIVE!");
+        }
+    }
+}
+
+public OnClientDisconnect(client)
+{
+	RESwarn[client]=false;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
@@ -493,6 +521,7 @@ public Action:DoRevival(Handle:timer,any:userid)
                 {
                     TeleportEntity(client, VecPos, Angles, NULL_VECTOR);
                 }
+                RESwarn[client]=false;
                 if(War3_GetGame()==Game_CS){
                     //give weapons CS
                     for(new s=0;s<10;s++)
@@ -549,14 +578,16 @@ public Action:DoRevival(Handle:timer,any:userid)
                 //this guy changed team?
                 CurrentRevivalChance[savior]*=2.0;
                 RevivedBy[client]=0;
-                bRevived[client]=false; 
+                bRevived[client]=false;
+                RESwarn[client]=false; 
             }
         }
         else
         {
             // savior left or something? maybe dead?
             RevivedBy[client]=0;
-            bRevived[client]=false; 
+            bRevived[client]=false;
+            RESwarn[client]=false; 
         }
 
     }
@@ -580,6 +611,7 @@ public PlayerTeamEvent(Handle:event,const String:name[],bool:dontBroadcast)
     //GetClientName(client, clientname, sizeof(clientname));
     //DP("Player %s Switched Teams (Can not be revived for 15 seconds)",clientname);
     Can_Player_Revive[client]=false;
+    RESwarn[client]=false;
     CreateTimer(30.0,PlayerCanRevive,userid);
 }
 
@@ -648,6 +680,11 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
                                 }
                                 RevivedBy[victim]=i;
                                 bRevived[victim]=true;
+                                RESwarn[victim]=true;
+                                if(War3_GetGame()!=Game_TF)
+                                {
+                                    W3Hint(victim,HINT_SKILL_STATUS,5.0,"PREPARE FOR CHANCE TO REVIVE!");
+                                }
                                 CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
                                 break;
                             }
