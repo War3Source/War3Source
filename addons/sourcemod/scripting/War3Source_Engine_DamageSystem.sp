@@ -40,6 +40,9 @@ new g_NextDamageIsTrueDamage=0;
 static const String:CLASSNAME_INFECTED[]      = "infected";
 static const String:CLASSNAME_WITCH[]         = "witch";
 
+//global
+new ownerOffset;
+
 new dummyresult;
 
 
@@ -67,6 +70,8 @@ public bool:InitNativesForwards()
 
     CreateNative("W3ChanceModifier",Native_W3ChanceModifier);
 
+    CreateNative("W3IsOwnerSentry",Native_W3IsOwnerSentry);
+
 
     FHOnW3TakeDmgAllPre=CreateGlobalForward("OnW3TakeDmgAllPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
     FHOnW3TakeDmgBulletPre=CreateGlobalForward("OnW3TakeDmgBulletPre",ET_Hook,Param_Cell,Param_Cell,Param_Cell);
@@ -83,6 +88,14 @@ public bool:InitNativesForwards()
     
     
     return true;
+}
+
+public OnPluginStart()
+{
+    if(War3_GetGame()==Game_TF)
+    {
+        ownerOffset = FindSendPropInfo("CBaseObject", "m_hBuilder");
+    }
 }
 
 public Native_War3_DamageModPercent(Handle:plugin,numParams)
@@ -151,6 +164,33 @@ public OnClientDisconnect(client)
     SDKUnhook(client, SDKHook_OnTakeDamagePost, OnTakeDamagePostHook); 
 }
 
+public Native_W3IsOwnerSentry(Handle:plugin,numParams)
+{
+    if(War3_GetGame()==Game_TF)
+    {
+        new client=GetNativeCell(1);
+        new bool:UseInternalInflictor=GetNativeCell(2);
+        new pSentry;
+        if(UseInternalInflictor)
+            pSentry=g_CurInflictor;
+        else
+            pSentry=GetNativeCell(3);
+        if(ValidPlayer(client))
+        {
+            if(IsValidEntity(pSentry)&&TF2_GetPlayerClass(client)==TFClass_Engineer)
+            {
+                decl String:netclass[32];
+                GetEntityNetClass(pSentry, netclass, sizeof(netclass));
+                if (strcmp(netclass, "CObjectSentrygun") == 0)
+                {
+                    if (GetEntDataEnt2(pSentry, ownerOffset) == client)
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 
 public Native_W3ChanceModifier(Handle:plugin, numParams)
 {
