@@ -157,18 +157,20 @@ public PickRace(client)
     
     new attempts = 0;
     new race = -1;
+    new racelist[MAXRACES];
+    new size=W3GetRaceList(racelist);  //DOES NOT INCLUDE HIDDEN RACES ANYWAY
     while (attempts <= MAX_RACE_PICK_ATTEMPTS)
     {
-        race = GetRandomInt(1, War3_GetRacesLoaded());
+        race = racelist[GetRandomInt(0, size-1)];
         
-        if (!W3RaceHasFlag(race, "nobots"))
+        if (!W3RaceHasFlag(race, "nobots")&&!W3RaceHasFlag(race, "hidden"))
         {
-            break;
+            break; //skip this block and allow the race
         }    
         
         attempts++;
     }
-
+    //does not HANDLE when bot CANNOT select a race.........
     
     new level = 0;
     new race_max_level = W3GetRaceMaxLevel(race);
