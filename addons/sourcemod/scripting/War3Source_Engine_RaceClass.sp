@@ -91,7 +91,8 @@ public OnPluginStart()
     RegServerCmd("war3_reloadrace", CmdReloadRace,"Reload A Race");
     
     RegAdminCmd("war3_racelist",Cmdracelist,ADMFLAG_ROOT);
-    RegAdminCmd("war3_forceloadraces",Cmdraceload,ADMFLAG_ROOT);
+    // Only loads Custom Reload Races into the server at anytime, even if they didn't make it ontime for mapchange
+    RegAdminCmd("war3_crrloadraces",Cmdraceload,ADMFLAG_ROOT);
 }
 
 public Action:Cmdracelist(client,args){
