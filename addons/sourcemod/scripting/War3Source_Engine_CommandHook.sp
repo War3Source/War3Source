@@ -105,7 +105,45 @@ public Action:War3Source_SayCommand(client,args)
     War3_ShowXP(client);
     return returnblocking;
   }
-  else if(CommandCheckStartsWith(arg1,"changerace")||CommandCheckStartsWith(arg1,"cr"))
+  // Work in progress
+  /*
+  else if(CommandCheckStartsWith(arg1,"cr"))
+  {
+    War3_ChatMessage(client,"[%s]",arg1[2]);
+    if(StrEqual(" ",arg1[2]))
+    {
+      new String:CompareStr[64];
+      strcopy(CompareStr,sizeof(CompareStr),arg1[3]);
+      //War3_ChatMessage(client,"Searching: %s",CompareStr);
+      new RacesLoaded = War3_GetRacesLoaded();
+      new String:sRaceName[64];
+      new x;
+      new bool:foundit=false;
+      for(x=1;x<=RacesLoaded;x++)
+      {
+        War3_GetRaceName(x,sRaceName,sizeof(sRaceName));
+        //War3_ChatMessage(client,"Job Name = %s",sRaceName);
+        if(StrContains(sRaceName,CompareStr,false)>-1)
+        {
+          //War3_ChatMessage(client,"FOUND IT! %i",x);
+          foundit=true;
+          break;
+        }
+      }
+      if(foundit)
+      {
+        W3UserTriedToSelectRace(client,x,true);
+      }
+      //no race found, show menu
+      else
+      {
+          W3CreateEvent(DoShowChangeRaceMenu,client);
+      }
+      return returnblocking;
+    }
+  }
+  */
+  else if(CommandCheckStartsWith(arg1,"changerace"))
   {
     
     //index 2 is right after the changerace word
@@ -142,7 +180,7 @@ public Action:War3Source_SayCommand(client,args)
             W3UserTriedToSelectRace(client,raceFound,true);
         }
         //no race found, show menu
-        else
+        else if(!CommandCheckStartsWith(arg1,"cr"))
         {
             W3CreateEvent(DoShowChangeRaceMenu,client);
         }
