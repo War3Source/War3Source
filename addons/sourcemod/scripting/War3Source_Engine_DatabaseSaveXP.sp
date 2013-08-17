@@ -221,7 +221,7 @@ War3_SavePlayerRace(client,race)
         if(GetClientAuthString(client,steamid,sizeof(steamid)))
         {
 
-            new level=War3_GetLevel(client,race);
+            new level=War3_GetLevelEx(client,race,true);
             new xp=War3_GetXP(client,race);
             //DP("%d,%d,",level,xp);
             new String:raceshortname[16];
@@ -599,7 +599,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
                     War3_GetRaceShortname(raceid,short,sizeof(short));
 
                     new last_seen=GetTime();
-                    Format(longquery,sizeof(longquery),"INSERT INTO war3source_racedata1 (steamid,raceshortname,level,xp,last_seen) VALUES ('%s','%s','%d','%d','%d')",steamid,short,War3_GetLevel(client,raceid),War3_GetXP(client,raceid),last_seen);
+                    Format(longquery,sizeof(longquery),"INSERT INTO war3source_racedata1 (steamid,raceshortname,level,xp,last_seen) VALUES ('%s','%s','%d','%d','%d')",steamid,short,War3_GetLevelEx(client,raceid,true),War3_GetXP(client,raceid),last_seen);
 
                     SQL_TQuery(hDB,T_CallbackInsertPDataRace,longquery,client);
                     inserts++;

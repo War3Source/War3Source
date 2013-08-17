@@ -538,6 +538,7 @@ native War3_SetRace(client, race);
 
 native War3_SetLevel(client, race, level);
 native War3_GetLevel(client, race);
+native War3_GetLevelEx(client, race, bool:trueLevel=false);
 
 native W3GetTotalLevels(client); //sum of  levels in each race
 
