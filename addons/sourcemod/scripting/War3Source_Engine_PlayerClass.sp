@@ -231,10 +231,13 @@ public NWar3_GetLevel(Handle:plugin,numParams){
     if (client > 0 && client <= MaxClients && race >= 0 && race < MAXRACES)
     {
         //DP("%d",p_level[client][race]);
-        return p_level[client][race];
+        new level=p_level[client][race];
+        if(level>W3GetRaceMaxLevel(race))
+            level=W3GetRaceMaxLevel(race);
+        return level;
     }
-    else
-        return 0;
+    //else
+    return 0;
 }
 
 public NWar3_GetLevelEx(Handle:plugin,numParams){
