@@ -31,11 +31,13 @@ native War3_CreateRaceEnd(raceid);
 native War3_GetRaceName(raceid,String:retstr[],maxlen);
 native War3_GetRaceShortname(raceid,String:retstr[],maxlen);
 
+/*
+// Temporary removed, it seems to serve no purpose
 #pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
 #pragma deprecated Not Fully Implemented, possibly in the future
-native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
-
+//native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
+*/
 
 //ALLOCATES an ID ( >0 ) for a generic skill, identified by gskillname
 //recall safe
