@@ -27,6 +27,24 @@ native War3_ShowXP(client);
 //automatically prints gained or lost xp/gold
 native W3GiveXPGold(client,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[]);
 
+/**
+ * Gives Fake XP Gold.
+ * @param client: Client index
+ * @param victim: Victim index
+ * @param assiter: Assist index
+ * @param W3XPAwardedBy: A list is below: 
+ * XPAwardByGeneric,XPAwardByKill,XPAwardByAssist,XPAwardByWin,XPAwardByBomb,XPAwardByHostage,
+ * XPAwardByPointCap,XPAwardByPointCapBlock,XPAwardByFlagCap,XPAwardByHealing,XPAwardByReviving,XPAwardByRescueing
+ * @param xpamount: xp
+ * @param goldamount: gold
+ * @param awardstringreason: reason to award.
+ * @param extra1:  Currently used for bool on fake headshot when used along with XPAwardByKill and 0 gold and 0 xp
+ * @param extra2:  Currently used for bool on fake melee damage when used along with XPAwardByKill and 0 gold and 0 xp
+ * if(awardby==XPAwardByKill && gold==0 && xp==0) then it assigns default xp / gold value for Kill, awardstring preset
+ * if(awardby==XPAwardByAssist && gold==0 && xp==0) then it assigns default xp / gold value for assist, awardstring preset
+ * Anything else you set will be faked and as is.  It will not give xp or gold, but fakes it.
+ */
+native W3GiveFakeXPGold(client,victim=-1,assiter=-1,W3XPAwardedBy:awardreason=XPAwardByGeneric,xpamount=0,goldamount=0,String:awardstringreason[],bool:extra1=false,bool:extra2=false);
 //=======================================================================
 //                             FORWARDS
 //=======================================================================

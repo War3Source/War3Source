@@ -107,6 +107,7 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetAssistCurrency",Native_War3_GetAssistCurrency);
     CreateNative("W3GiveXPGold",NW3GiveXPGold);
     
+    CreateNative("W3GiveFakeXPGold",NW3GiveFakeXPGold);
     return true;
 }
 
@@ -156,7 +157,30 @@ public NW3GiveXPGold(Handle:plugin,args){
     new gold=GetNativeCell(4);
     new String:strreason[64];
     GetNativeString(5,strreason,sizeof(strreason));
-    TryToGiveXPGold(client,awardby,xp,gold,strreason);
+    TryToGiveXPGold(client,awardby,xp,gold,strreason,false);
+}
+public NW3GiveFakeXPGold(Handle:plugin,args){
+    new clientIndex=GetNativeCell(1);
+    new victimIndex=GetNativeCell(2);
+    new assisterIndex=GetNativeCell(3);
+    new W3XPAwardedBy:awardby=W3XPAwardedBy:GetNativeCell(4);
+    new xp=GetNativeCell(5);
+    new gold=GetNativeCell(6);
+    new String:strreason[64];
+    GetNativeString(7,strreason,sizeof(strreason));
+    new bool:extra1=bool:GetNativeCell(8); // is_hs
+    new bool:extra2=bool:GetNativeCell(9); // is_melee
+    if(awardby==XPAwardByKill && gold==0 && xp==0)
+    {
+        GiveKillXPCreds(clientIndex,victimIndex,extra1,extra2, true);
+        return;
+    }
+    if(awardby==XPAwardByAssist && gold==0 && xp==0)
+    {
+        GiveAssistKillXP(assisterIndex, victimIndex, true);
+        return;
+    }
+    TryToGiveXPGold(clientIndex,awardby,xp,gold,strreason,true);
 }
 
 // Todo, Hook convar changed
@@ -331,7 +355,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }
             else if (StrEqual(victimclass, "Boomer"))
             {
@@ -345,7 +369,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }
             else if (StrEqual(victimclass, "Witch"))
             {
@@ -367,7 +391,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }                
             else if (StrEqual(victimclass, "Spitter"))
             {
@@ -381,7 +405,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }
             else if (StrEqual(victimclass, "Jockey"))
             {
@@ -395,7 +419,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }
             else if (StrEqual(victimclass, "Charger"))
             {
@@ -409,7 +433,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false);
+                    GiveKillXPCreds(attacker, victim, false, false, false);
             }
         }
         // finished with l4d xp stuff, everything else is related to other games
@@ -462,10 +486,10 @@ public OnWar3EventDeath(victim,attacker){
                     
             if(assister>=0 && War3_GetRace(assister)>0)
             {
-                GiveAssistKillXP(assister, victim);
+                GiveAssistKillXP(assister, victim, false);
             }
             
-            GiveKillXPCreds(attacker,victim,is_hs,is_melee);
+            GiveKillXPCreds(attacker,victim,is_hs,is_melee, false);
         }
     }
     
@@ -516,7 +540,7 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
 
 
 
-TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToAdd, String:awardedprintstring[])
+TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToAdd, String:awardedprintstring[], bool:IsFake)
 {
     SetTrans(client);
     new race = War3_GetRace(client);
@@ -544,9 +568,16 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     {
         XPToAdd = -1 * War3_GetXP(client, War3_GetRace(client));
     }
-    
-    War3_SetXP(client, race, War3_GetXP(client, War3_GetRace(client)) + XPToAdd);
-    new bool:bAddedCurrency = War3_AddCurrency(client, currencyToAdd);
+    new bool:bAddedCurrency;
+    if(!IsFake)
+    {
+        War3_SetXP(client, race, War3_GetXP(client, War3_GetRace(client)) + XPToAdd);
+        bAddedCurrency = War3_AddCurrency(client, currencyToAdd);
+    }
+    else
+    {
+        bAddedCurrency=true;
+    }
     
     decl String:currencyName[MAX_CURRENCY_NAME];
     War3_GetCurrencyName(currencyToAdd, currencyName, sizeof(currencyName));
@@ -583,7 +614,7 @@ TryToGiveXPGold(client, W3XPAwardedBy:XPAwardEvent, baseXPToAdd, baseCurrencyToA
     W3CreateEvent(OnPostGiveXPGold, client);
 }
 
-GiveKillXPCreds(client, playerkilled, bool:headshot, bool:melee)
+GiveKillXPCreds(client, playerkilled, bool:headshot, bool:melee, bool:IsFake)
 {
     new race = War3_GetRace(client);
     if(race <= 0)
@@ -614,10 +645,10 @@ GiveKillXPCreds(client, playerkilled, bool:headshot, bool:melee)
     
     new String:killaward[64];
     Format(killaward, sizeof(killaward), "%T", "a kill", client);
-    W3GiveXPGold(client, XPAwardByKill, addxp, War3_GetKillCurrency(), killaward);
+    TryToGiveXPGold(client, XPAwardByKill, addxp, War3_GetKillCurrency(), killaward, IsFake);
 }
 
-public GiveAssistKillXP(client, playerkilled)
+GiveAssistKillXP(client, playerkilled, bool:IsFake)
 {
     new addxp=((W3GetKillXP(client)*GetConVarInt(AssistKillXPCvar))/100);
     
@@ -629,7 +660,7 @@ public GiveAssistKillXP(client, playerkilled)
     
     new String:helpkillaward[64];
     Format(helpkillaward, sizeof(helpkillaward), "%T","assisting a kill", client);
-    W3GiveXPGold(client ,XPAwardByAssist, addxp, War3_GetAssistCurrency(), helpkillaward);
+    TryToGiveXPGold(client ,XPAwardByAssist, addxp, War3_GetAssistCurrency(), helpkillaward, IsFake);
 }
 
 bool:IsShortTerm(){

@@ -459,6 +459,26 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
         if (GAMETF && deathFlags & TF_DEATHFLAG_DEADRINGER)
         {
             deadringereath = true;
+
+            new assister=GetClientOfUserId(GetEventInt(event,"assister"));
+
+            if(victimIndex!=attackerIndex&&ValidPlayer(attackerIndex))
+            {
+                if(GetClientTeam(attackerIndex)!=GetClientTeam(victimIndex))
+                {
+                    decl String:weapon[64];
+                    GetEventString(event,"weapon",weapon,sizeof(weapon));
+                    new bool:is_hs,bool:is_melee;
+                    is_hs=(GetEventInt(event,"customkill")==1);
+                    //DP("wep %s",weapon);
+                    is_melee=W3IsDamageFromMelee(weapon);
+                    if(assister>=0 && War3_GetRace(assister)>0)
+                    {
+                        W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByAssist,_,_,"",_,_);
+                    }
+                    W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByKill,0,0,"",is_hs,is_melee);
+                }
+            }
         }
         else
         {

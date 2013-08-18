@@ -26,8 +26,9 @@ new raceSkillDescReplaceNum[MAXRACES][MAXSKILLCOUNT];
 new String:raceSkillDescReplace[MAXRACES][MAXSKILLCOUNT][5][64]; ///MAX 5 params for replacement //64 string length
 new bool:skillTranslated[MAXRACES][MAXSKILLCOUNT];
 
-new String:raceString[MAXRACES][RaceString][512];
-new String:raceSkillString[MAXRACES][MAXSKILLCOUNT][SkillString][512];
+// Seems to serve no purpose at this time, why waste memory?
+//new String:raceString[MAXRACES][RaceString][512];
+//new String:raceSkillString[MAXRACES][MAXSKILLCOUNT][SkillString][512];
 
 /*
 enum SkillRedirect
@@ -139,7 +140,9 @@ public bool:InitNativesForwards()
     
     CreateNative("War3_GetRaceName",Native_War3_GetRaceName);
     CreateNative("War3_GetRaceShortname",Native_War3_GetRaceShortname);
-    CreateNative("W3GetRaceString",NW3GetRaceString);
+    
+    //Seems to serve no purpose:
+    //CreateNative("W3GetRaceString",NW3GetRaceString);
     
     
     CreateNative("War3_GetRaceIDByShortname",NWar3_GetRaceIDByShortname);
@@ -743,6 +746,8 @@ public NWar3_IsSkillUltimate(Handle:plugin,numParams)
     return IsSkillUltimate(GetNativeCell(1),GetNativeCell(2));
 }
 
+/*
+// Temporary Removing, as it seem to serve no purpose.
 public NW3GetRaceString(Handle:plugin,numParams)
 {
     new race=GetNativeCell(1);
@@ -762,7 +767,7 @@ public NW3GetRaceSkillString(Handle:plugin,numParams)
     new String:longbuf[1000];
     Format(longbuf,sizeof(longbuf),raceSkillString[race][skill][raceskillstringid]);
     SetNativeString(4,longbuf,GetNativeCell(5));
-}
+} */
 
 public NW3GetRaceSkillName(Handle:plugin,numParams)
 {
