@@ -454,7 +454,7 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
     
     new bool:deadringereath = false;
     if(uid_victim > 0)
-    {    
+    {
         new deathFlags = GetEventInt(event, "death_flags");
         if (GAMETF && deathFlags & TF_DEATHFLAG_DEADRINGER)
         {
