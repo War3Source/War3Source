@@ -468,15 +468,15 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
                 {
                     decl String:weapon[64];
                     GetEventString(event,"weapon",weapon,sizeof(weapon));
-                    new bool:is_hs,bool:is_melee;
-                    is_hs=(GetEventInt(event,"customkill")==1);
+                    new bool:killed_by_headshot,bool:killed_by_melee;
+                    killed_by_headshot=(GetEventInt(event,"customkill")==1);
                     //DP("wep %s",weapon);
-                    is_melee=W3IsDamageFromMelee(weapon);
+                    killed_by_melee=W3IsDamageFromMelee(weapon);
                     if(assister>=0 && War3_GetRace(assister)>0)
                     {
                         W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByAssist,_,_,"",_,_);
                     }
-                    W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByKill,0,0,"",is_hs,is_melee);
+                    W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByKill,0,0,"",killed_by_headshot,killed_by_melee);
                 }
             }
         }
