@@ -168,19 +168,22 @@ public NW3GiveFakeXPGold(Handle:plugin,args){
     new gold=GetNativeCell(6);
     new String:strreason[64];
     GetNativeString(7,strreason,sizeof(strreason));
-    new bool:extra1=bool:GetNativeCell(8); // is_hs
-    new bool:extra2=bool:GetNativeCell(9); // is_melee
+    new bool:extra1=bool:GetNativeCell(8);
+    new bool:extra2=bool:GetNativeCell(9);
+    const bool:IsFake=true;
     if(awardby==XPAwardByKill && gold==0 && xp==0)
     {
-        GiveKillXPCreds(clientIndex,victimIndex,extra1,extra2, true);
+    	// extra1 = is_headshot
+    	// extra2 = is_melee
+        GiveKillXPCreds(clientIndex,victimIndex,extra1,extra2, IsFake);
         return;
     }
     if(awardby==XPAwardByAssist && gold==0 && xp==0)
     {
-        GiveAssistKillXP(assisterIndex, victimIndex, true);
+        GiveAssistKillXP(assisterIndex, victimIndex, IsFake);
         return;
     }
-    TryToGiveXPGold(clientIndex,awardby,xp,gold,strreason,true);
+    TryToGiveXPGold(clientIndex,awardby,xp,gold,strreason, IsFake);
 }
 
 // Todo, Hook convar changed
@@ -311,23 +314,24 @@ public ShowXP(client)
 //main plugin forwards this, does not forward on spy dead ringer, blocks double forward within same frame of same victim
 public OnWar3EventDeath(victim,attacker){
     new Handle:event=W3GetVar(SmEvent);
+    new bool:killed_by_headshot=false,bool:killed_by_melee=false;
+    const bool:is_reward_fake=false;
     if(GAMEL4DANY)
     {
         if (attacker > 0 && GetClientTeam(attacker) == TEAM_SURVIVORS)
         {
             
-            new bool:is_hs = GetEventBool(event,"headshot");        
+            new bool:is_headshot = GetEventBool(event,"headshot");        
             
             decl String:victimclass[32];
             GetEventString(event, "victimname", victimclass, sizeof(victimclass));
-            
             
             if (StrEqual(victimclass, "Infected"))
             {
                 if (War3_IsUncommonInfected(GetEventInt(event, "entityid")))
                 {
                     new addxp = GetConVarInt(KillUncommonXPCvar);
-                    if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                    if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                     
                     new String:killaward[64];
                     Format(killaward,sizeof(killaward),"%T","killing a uncommon infected",attacker);
@@ -336,7 +340,7 @@ public OnWar3EventDeath(victim,attacker){
                 else
                 {
                     new addxp = GetConVarInt(KillCommonXPCvar);
-                    if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                    if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                     
                     new String:killaward[64];
                     Format(killaward,sizeof(killaward),"%T","killing a common infected",attacker);
@@ -347,7 +351,7 @@ public OnWar3EventDeath(victim,attacker){
             {
                 new addxp = GetConVarInt(KillSmokerXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Smoker",attacker);
@@ -355,13 +359,13 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }
             else if (StrEqual(victimclass, "Boomer"))
             {
                 new addxp = GetConVarInt(KillBoomerXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Boomer",attacker);
@@ -369,7 +373,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }
             else if (StrEqual(victimclass, "Witch"))
             {
@@ -383,7 +387,7 @@ public OnWar3EventDeath(victim,attacker){
             {
                 new addxp = GetConVarInt(KillHunterXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Hunter",attacker);
@@ -391,13 +395,13 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }                
             else if (StrEqual(victimclass, "Spitter"))
             {
                 new addxp = GetConVarInt(KillSpitterXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Spitter",attacker);
@@ -405,13 +409,13 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }
             else if (StrEqual(victimclass, "Jockey"))
             {
                 new addxp = GetConVarInt(KillJockeyXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Jockey",attacker);
@@ -419,13 +423,13 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }
             else if (StrEqual(victimclass, "Charger"))
             {
                 new addxp = GetConVarInt(KillChargerXPCvar);
                 new currencyToAdd = GetConVarInt(g_hKillCurrencyCvar);
-                if(is_hs) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
+                if(is_headshot) addxp += ((addxp*GetConVarInt(HeadshotXPCvar))/100);
                 
                 new String:killaward[64];
                 Format(killaward,sizeof(killaward),"%T","killing a Charger",attacker);
@@ -433,7 +437,7 @@ public OnWar3EventDeath(victim,attacker){
                 if (ValidPlayer(victim) && IsFakeClient(victim))
                     W3GiveXPGold(attacker,XPAwardByKill,addxp,currencyToAdd,killaward);
                 else
-                    GiveKillXPCreds(attacker, victim, false, false, false);
+                    GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
             }
         }
         // finished with l4d xp stuff, everything else is related to other games
@@ -454,21 +458,20 @@ public OnWar3EventDeath(victim,attacker){
         {
             decl String:weapon[64];
             GetEventString(event,"weapon",weapon,sizeof(weapon));
-            new bool:is_hs,bool:is_melee;
             if(IsFakeClient(victim) && GetConVarBool(BotIgnoreXPCvar))
                 return;
             if(War3_GetGame()==Game_TF)
             {
-                is_hs=(GetEventInt(event,"customkill")==1);
+                killed_by_headshot=(GetEventInt(event,"customkill")==1);
                 
             }
             else
             {
-                is_hs=GetEventBool(event,"headshot");
+                killed_by_headshot=GetEventBool(event,"headshot");
                 
             }
             //DP("wep %s",weapon);
-            is_melee=W3IsDamageFromMelee(weapon);
+            killed_by_melee=W3IsDamageFromMelee(weapon);
             //DP("me %d",is_melee);
             /*(StrEqual(weapon,"bat",false) ||
                     StrEqual(weapon,"bat_wood",false) ||
@@ -486,10 +489,10 @@ public OnWar3EventDeath(victim,attacker){
                     
             if(assister>=0 && War3_GetRace(assister)>0)
             {
-                GiveAssistKillXP(assister, victim, false);
+                GiveAssistKillXP(assister, victim, is_reward_fake);
             }
             
-            GiveKillXPCreds(attacker,victim,is_hs,is_melee, false);
+            GiveKillXPCreds(attacker, victim, killed_by_headshot, killed_by_melee, is_reward_fake);
         }
     }
     
