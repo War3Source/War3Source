@@ -115,11 +115,18 @@ And that's the art of the test!
 //#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
-// BRANCH and BUILD_NUMBER are set through Jenkins :)
-#define BRANCH "{branch}"
-#define BUILD_NUMBER "{build_number}"
 
-#define VERSION_NUM "2.{build_number}"
+//THESE are updated less frequently
+//JENKINS overwrites these
+#define BRANCH "undef"
+#define BUILD_NUMBER "undef"
+#define VERSION_NUM "2.130"
+
+#tryinclude "../../../jenkins.inc"
+// BRANCH and BUILD_NUMBER are set through Jenkins :)
+// They will overwrite these VERSION_NUM constants
+
+
 
 public Plugin:myinfo = 
 {
