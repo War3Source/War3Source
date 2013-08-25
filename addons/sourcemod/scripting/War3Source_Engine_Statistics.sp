@@ -386,14 +386,16 @@ public Action:cmdsay(client,args){
     {
         if(War3_TrackDelayExpired(reportBugDelayTracker[client]))
         {
-            if(strlen(arg1)<8)
+            //DP("%s",arg1);
+            if(strlen(arg1)<9)
             {
                 War3_ChatMessage(client,"%T ","Report a war3source bug: say war3bug <detailed description>",client);
             }
             else
             {
                 FileBugReport(client,arg1[8]);
-                War3_TrackDelay(reportBugDelayTracker[client],1.0);
+                War3_ChatMessage(client,"Reported: %s",arg1[8]);
+                War3_TrackDelay(reportBugDelayTracker[client],10.0); //10 second delay
             }
         }
         else
@@ -408,16 +410,18 @@ public bool:CommandCheckStartsWith(String:compare[],String:lookingfor[]) {
 
 
 FileBugReport(client,String:reportstr[]){
+    //DP("REPORT '%s'",reportstr);
     new String:longquery[2000];
     
     new String:name[32];
     GetClientName(client,name,sizeof(name));
     new String:clientip[32];
     GetClientIP(client, clientip, sizeof(clientip));
-    new String:steamid[32];
+    new String:steamid[64];
     GetClientAuthString(client,steamid,sizeof(steamid));
-    new String:hostname[64];
-    GetConVarString(FindConVar("hostname"),hostname,sizeof(hostname));
+    //DP("steamid %s",steamid);
+    new String:hostname[64]; 
+    GetConVarString(FindConVar("hostname"),hostname,64);
     new String:version[32];
     W3GetW3Version(version,sizeof(version));
     
@@ -451,7 +455,9 @@ FileBugReport(client,String:reportstr[]){
     
     URLEncode(reportstr_url,sizeof(reportstr_url));
     URLEncode(name,sizeof(name));
+    //DP("encode %s",steamid);
     URLEncode(hostname,sizeof(hostname));
+    //DP("encode %s",steamid);
     URLEncode(steamid, sizeof(steamid));
     URLEncode(clientip, sizeof(clientip));
     URLEncode(version,sizeof(version));
@@ -795,15 +801,25 @@ public SQLTCallbackFileBug(Handle:owner,Handle:hndl,const String:error[],any:cli
 // Example usage: index.php?a=URLEncode(param_1)&b=URLEncode(param_2)&c=URLEncode(param_3)
 stock URLEncode(String:str[],len)
 {
+    new String:str2[len*3+1];
+    Format(str2,len*3+1,"%s",str);
     // Make sure % is first to avoid collisions.
     new String:ReplaceThis[20][] = {"%", " ", "!", "*", "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "#", "[", "]"};
     new String:ReplaceWith[20][] = {"%25", "%20", "%21", "%2A", "%27", "%28", "%29", "%3B", "%3A", "%40", "%26", "%3D", "%2B", "%24", "%2C", "%2F", "%3F", "%23", "%5B", "%5D"};
     for(new x=0;x<20;x++)
     {
-        ReplaceString(str, len, ReplaceThis[x], ReplaceWith[x]);
+        //REPLACE STRING BUG https://bugs.alliedmods.net/show_bug.cgi?id=4943
+        //DP("%d '%s'",strlen(str2),str2);
+        ReplaceString(str2, len, ReplaceThis[x], ReplaceWith[x]);
+        
     }
+    if(strlen(str2)>len*3){
+        War3_LogError("statistics encode url exceeded length (%d): %s",len*3,str2);
+        War3Failed("statistics encode url exceeded length"); //this should never happen as ReplaceString was fixed not to overwrite its length
+    }
+    Format(str,len,"%s",str2);
     if(strlen(str)>len-1){
-        War3_LogError("statistics encode url exceeded length: %s",str);
+        War3_LogError("statistics encode url exceeded length (%d): %s",len,str);
         War3Failed("statistics encode url exceeded length"); //this should never happen as ReplaceString was fixed not to overwrite its length
     }
 }
