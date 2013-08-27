@@ -538,6 +538,7 @@ native War3_SetRace(client, race);
 
 native War3_SetLevel(client, race, level);
 native War3_GetLevel(client, race);
+native War3_GetLevelEx(client, race, bool:trueLevel=false);
 
 native W3GetTotalLevels(client); //sum of  levels in each race
 
@@ -575,7 +576,7 @@ native any:W3GetPlayerProp(client,W3PlayerProp:property);
 ///Creates internal war3 cvars. returns a id to your cvar, store it!
 //cvarid of 0 is null null (filled auto)
 //make sure native have binded (on plugin start is fine)
-native W3CreateCvar(String:cvarstr[],String:cvarvalue[],String:cvardesc[]);
+native W3CreateCvar(String:cvarstr[],String:cvarvalue[],String:cvardesc[],ReplaceCvar=0);
 native W3GetCvar(cvarid,String:returnstr[],maxlen);
 native W3SetCvar(cvarid,String:cvarvalue[]);
 

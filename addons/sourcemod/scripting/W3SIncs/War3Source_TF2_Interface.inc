@@ -4,6 +4,29 @@
  * Author(s): War3Source Team  
  */
 
+
+
+/**
+ * Checks to see if this is a Owner's sentry.
+ *
+ * best use inside OnW3TakeDmgBullet or OnW3TakeDmgBullet or SDKHooks calls that have inflictors
+ * where you can use this code:
+ *  new inflictor = W3GetDamageInflictor();
+ *  then pass the inflictor as the entity below:
+ *
+ * @param client: client you wish to check as the owner
+ * @param UseInternalInflictor: true if you wish the native to grab the W3GetDamageInflictor for you.
+ *         ^ only use if you are using inside a OnW3TakeDamage function type, else use your own
+ *         (Default true)
+ * @param ExternalInflictor: entity you wish to check that maybe a sentry / optional
+ *        Make sure you put UseInternalInflictor as false.
+ *
+ * @param return: true if the client is the sentry owner and the entity is the owned sentry
+ *
+ */
+native bool:W3IsOwnerSentry(client,bool:UseInternalInflictor=true,ExternalInflictor=0);
+
+
 stock bool:Spying(client) {
     return GameTF()&&( TF2_IsPlayerInCondition(client,TFCond_Disguising)||TF2_IsPlayerInCondition(client,TFCond_Disguised) || TF2_IsPlayerInCondition(client,TFCond_Cloaked));
 }

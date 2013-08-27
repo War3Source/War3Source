@@ -160,11 +160,11 @@ public OnUltimateCommand(client,race,bool:pressed)
             //DP("cool %f",cooldown);
             if(War3_SkillNotInCooldown(client,customerrace,customerskill,true)) //not in the 0.2 second delay when we check stuck via moving
             {
+                TPFailCDResetToRace[client]=customerrace;
+                TPFailCDResetToSkill[client]=customerskill;
                 new bool:success = Teleport(client,distances[level]);
                 if(success)
                 {
-                    TPFailCDResetToRace[client]=customerrace;
-                    TPFailCDResetToSkill[client]=customerskill;
                     //new Float:cooldown=GetConVarFloat(ultCooldownCvar);
                     War3_CooldownMGR(client,cooldown,customerrace,customerskill,_,_);
                 }

@@ -10,14 +10,14 @@
 
 //creates a new race, returns the race id
 //a valid race is >0
-native War3_CreateNewRace(String:name[],String:shortname[]);
+native War3_CreateNewRace(String:name[],String:shortname[],reload_race_id=0);
 
 //adds a skill or a ultimate
 native War3_AddRaceSkill(raceid,String:tskillorultname[],String:tskillorultdescription[],bool:isult=false,maxskilllevel=DEF_MAX_SKILL_LEVEL);
 
 //translated
 //creates a new race, returns the race id
-native War3_CreateNewRaceT(String:shortname[]);
+native War3_CreateNewRaceT(String:shortname[],reload_race_id=0);
 
 //translated
 //adds a skill or a ultimate
@@ -31,11 +31,13 @@ native War3_CreateRaceEnd(raceid);
 native War3_GetRaceName(raceid,String:retstr[],maxlen);
 native War3_GetRaceShortname(raceid,String:retstr[],maxlen);
 
+/*
+// Temporary removed, it seems to serve no purpose
 #pragma deprecated Not Fully Implemented, possibly in the future
 native W3GetRaceString(raceid,RaceString:property,String:retstr[],maxlen);
 #pragma deprecated Not Fully Implemented, possibly in the future
-native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
-
+//native W3GetRaceSkillString(raceid,skillnum,SkillString:property,String:retstr[],maxlen);
+*/
 
 //ALLOCATES an ID ( >0 ) for a generic skill, identified by gskillname
 //recall safe
@@ -105,3 +107,10 @@ stock War3_GetRaceIDByName(const String:racename[64]) {
     }
     return id;
 }
+
+// Makes it so that your races are reloadable
+// You need to use OnWar3SmartLoadRaceOrItemOrdered in your race instead of the
+// usual OnWar3LoadRaceOrItemOrdered or OnWar3LoadRaceOrItemOrdered2.
+native War3_RaceOnPluginStart(String:shortname[16]);
+native War3_RaceOnPluginEnd(String:shortname[16]);
+native bool:War3_IsRaceReloading();

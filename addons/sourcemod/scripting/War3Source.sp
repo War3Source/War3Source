@@ -112,14 +112,21 @@ And that's the art of the test!
 
 #include <sourcemod>
 #include "sdkhooks"
-#include <profiler>
+//#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
-// BRANCH and BUILD_NUMBER are set through Jenkins :)
-#define BRANCH "{branch}"
-#define BUILD_NUMBER "{build_number}"
 
-#define VERSION_NUM "2.{build_number}"
+//THESE are updated less frequently
+//JENKINS overwrites these
+#define BRANCH "undef"
+#define BUILD_NUMBER "undef"
+#define VERSION_NUM "2.130"
+
+#tryinclude "../../../jenkins.inc"
+// BRANCH and BUILD_NUMBER are set through Jenkins :)
+// They will overwrite these VERSION_NUM constants
+
+
 
 public Plugin:myinfo = 
 {
@@ -139,6 +146,8 @@ new Handle:hUseMetric;
 new Handle:introclannamecvar;
 new Handle:clanurl;
 
+new Handle:hLoadWar3CFGEveryMapCvar;
+new bool:war3source_config_loaded;
 
 new Handle:g_OnWar3EventSpawnFH;
 new Handle:g_OnWar3EventDeathFH;
@@ -203,6 +212,8 @@ War3Source_InitCVars()
     clanurl = CreateConVar("war3_clanurl", "www.ownageclan.Com (set war3_clanurl)", "The url to display on intro menu");
     hChangeGameDescCvar = CreateConVar("war3_game_desc", "1", "change game description to war3source? does not affect player connect");
     
+    hLoadWar3CFGEveryMapCvar = CreateConVar("war3_load_war3source_cfg_every_map", "1", "May help speed up map changes if disabled.");
+    
     hRaceLimitEnabled = CreateConVar("war3_racelimit_enable", "1", "Should race limit restrictions per team be enabled");
     W3SetVar(hRaceLimitEnabledCvar, hRaceLimitEnabled);
 
@@ -211,6 +222,7 @@ War3Source_InitCVars()
     
     return true;
 }
+
 
 bool:War3Source_InitForwards()
 {
@@ -300,16 +312,32 @@ public Action:OnGetGameDescription(String:gameDesc[64])
 
 DelayedWar3SourceCfgExecute()
 {
-    if(FileExists("cfg/war3source.cfg"))
+    if(GetConVarBool(hLoadWar3CFGEveryMapCvar))
     {
-        ServerCommand("exec war3source.cfg");
-        PrintToServer("[War3Source] Executing war3source.cfg");
+        if(FileExists("cfg/war3source.cfg"))
+        {
+            ServerCommand("exec war3source.cfg");
+            PrintToServer("[War3Source] Executing war3source.cfg");
+            war3source_config_loaded=true;
+        }
+        else
+        {
+            PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        }
     }
-    else
+    else if(!war3source_config_loaded)
     {
-        PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        if(FileExists("cfg/war3source.cfg"))
+        {
+            ServerCommand("exec war3source.cfg");
+            PrintToServer("[War3Source] Executing war3source.cfg");
+            war3source_config_loaded=true;
+        }
+        else
+        {
+            PrintToServer("[War3Source] Could not find war3source.cfg, we recommend all servers have this file");
+        }
     }
-
 }
 
 public OnClientPutInServer(client)
@@ -433,11 +461,31 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
     
     new bool:deadringereath = false;
     if(uid_victim > 0)
-    {    
+    {
         new deathFlags = GetEventInt(event, "death_flags");
         if (GAMETF && deathFlags & TF_DEATHFLAG_DEADRINGER)
         {
             deadringereath = true;
+
+            new assister=GetClientOfUserId(GetEventInt(event,"assister"));
+
+            if(victimIndex!=attackerIndex&&ValidPlayer(attackerIndex))
+            {
+                if(GetClientTeam(attackerIndex)!=GetClientTeam(victimIndex))
+                {
+                    decl String:weapon[64];
+                    GetEventString(event,"weapon",weapon,sizeof(weapon));
+                    new bool:killed_by_headshot,bool:killed_by_melee;
+                    killed_by_headshot=(GetEventInt(event,"customkill")==1);
+                    //DP("wep %s",weapon);
+                    killed_by_melee=W3IsDamageFromMelee(weapon);
+                    if(assister>=0 && War3_GetRace(assister)>0)
+                    {
+                        W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByAssist,_,_,"",_,_);
+                    }
+                    W3GiveFakeXPGold(attackerIndex,victimIndex,assister,XPAwardByKill,0,0,"",killed_by_headshot,killed_by_melee);
+                }
+            }
         }
         else
         {

@@ -253,7 +253,8 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(!isWarcraft && ValidPlayer(victim) && 
+    //W3ISOwnerSentry Checks for GAMETF internally
+    if(!W3IsOwnerSentry(attacker) && !isWarcraft && ValidPlayer(victim) && 
        ValidPlayer(attacker, true) && 
        ValidPlayer(victim, true, true) && 
        GetClientTeam(victim) != GetClientTeam(attacker))
