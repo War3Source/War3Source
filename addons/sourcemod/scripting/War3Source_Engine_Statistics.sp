@@ -632,7 +632,7 @@ public GenericSocketCallback(bool:success,bool:fail,String:str[])
 UpdateKDR()
 {
     new String:longquery[4000];
-    Format(longquery,sizeof(longquery),"serverip=%s&game=",serverip);
+    Format(longquery,sizeof(longquery),"serverip=%s:%d&game=",serverip,serverport);
     W3Socket2("w3getstat/getracestats.php",longquery,Sock_getracestats_Callback);
 }
 public Sock_getracestats_Callback(bool:success,bool:fail,String:str[])
