@@ -88,7 +88,6 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
     }
 } 
 
-new Handle:StareEndTimer[MAXPLAYERSCUSTOM]; //invalid handle by default
 new StareVictim[MAXPLAYERSCUSTOM];
 
 public OnAbilityCommand(client,ability,bool:pressed)
@@ -111,7 +110,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
                     War3_SetBuff(target,bDisarm,thisRaceID,true);
                     PrintHintText(client,"%t","STOP AND STARE",client);
                     PrintHintText(target,"%t","You are being stared at.Don't look at her in the eye!!!",client);
-                    StareEndTimer[client]=CreateTimer(StareDuration[skilllvl],EndStare,client);
+                    CreateTimer(StareDuration[skilllvl],EndStare,client);
                     StareVictim[client]=target;
                     War3_CooldownMGR(client,15.0,thisRaceID,SKILL_STARE);
                 }
@@ -128,12 +127,16 @@ public Action:EndStare(Handle:t,any:client){
     War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
     War3_SetBuff(StareVictim[client],bDisarm,thisRaceID,false);
     StareVictim[client]=0;
-    StareEndTimer[client]=INVALID_HANDLE;
 }
+
 public OnWar3EventDeath(client){ //end stare if fluttershy dies
-    if(StareEndTimer[client]){
-        TriggerTimer(StareEndTimer[client]);
-        StareEndTimer[client]=INVALID_HANDLE;
+    if(ValidPlayer(client))
+    {
+        War3_SetBuff(client,bBashed,thisRaceID,false);
+        War3_SetBuff(client,bDisarm,thisRaceID,false);
+        War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
+        War3_SetBuff(StareVictim[client],bDisarm,thisRaceID,false);
+        StareVictim[client]=0;
     }
 }
 

@@ -1,4 +1,6 @@
- 
+// Release date is based on Month.Day.Year of when it was last changed
+#define RELEASE_DATE "9/1/2013"
+
 /*  This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -115,7 +117,6 @@ And that's the art of the test!
 //#include <profiler>
 #include "W3SIncs/War3Source_Interface"
 
-
 //THESE are updated less frequently
 //JENKINS overwrites these
 #define BRANCH "undef"
@@ -175,6 +176,7 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
     CreateConVar("a_war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("war3_branch", BRANCH, "War3Source branch.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("war3_buildnumber", BUILD_NUMBER, "War3Source build number.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    CreateConVar("war3_release", RELEASE_DATE, "War3Source version release date.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     
     CreateNative("W3GetW3Version", NW3GetW3Version);
     CreateNative("W3GetW3Revision", NW3GetW3Revision);
