@@ -36,7 +36,7 @@ new standStillCount[MAXPLAYERSCUSTOM];
 // Effects
 //new BeamSprite,HaloSprite;
 
-new auras[5];
+new thisAuraID;
 
 public OnPluginStart()
 {
@@ -67,11 +67,8 @@ public OnWar3LoadRaceOrItemOrdered(num)
         ULT_MARKSMAN=War3_AddRaceSkillT(thisRaceID,"Marksman",true,4,"1.2-1.6"); 
     
         War3_CreateRaceEnd(thisRaceID);
-        
-        auras[1] =W3RegisterAura("scout_reveal1",EyeRadius[1],true);
-        auras[2] =W3RegisterAura("scout_reveal2",EyeRadius[2],true);
-        auras[3] =W3RegisterAura("scout_reveal3",EyeRadius[3],true);    
-        auras[4] =W3RegisterAura("scout_reveal4",EyeRadius[4],true);
+         //EyeRadius[1]
+        thisAuraID =W3RegisterChangingDistanceAura("scout_reveal",true);
 
         //ServerCommand("war3 scout_flags hidden");
         //ServerExecute();
@@ -84,11 +81,11 @@ public OnRaceChanged(client,oldrace,newrace)
     {
         new level=War3_GetSkillLevel(client,thisRaceID,SKILL_TRUESIGHT);
         if(level>0){
-            W3SetAuraFromPlayer(auras[level],client,true,level);
+            W3SetPlayerAura(thisAuraID,client,EyeRadius[level],level);
         }
     }
     else if(oldrace==thisRaceID){
-        ClearAura(client);
+        W3RemovePlayerAura(thisAuraID,client);
     }
 }
 
@@ -99,19 +96,14 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
     {
         if(skill==SKILL_TRUESIGHT) //1
         {
-            ClearAura(client);
+            W3RemovePlayerAura(thisAuraID,client);
             if(newskilllevel>0){
-                W3SetAuraFromPlayer(auras[newskilllevel],client,true,newskilllevel);
+                W3SetPlayerAura(thisAuraID,client,EyeRadius[newskilllevel],newskilllevel);
             }
         }
     }
 }
-ClearAura(client){
-    W3SetAuraFromPlayer(auras[1],client,false);
-    W3SetAuraFromPlayer(auras[2],client,false);
-    W3SetAuraFromPlayer(auras[3],client,false);
-    W3SetAuraFromPlayer(auras[4],client,false);
-}
+
 public OnWar3EventSpawn(client){
     if(bDisarmed[client]){
         EndInvis2(INVALID_HANDLE,client);
@@ -259,12 +251,9 @@ public OnUltimateCommand(client,race,bool:pressed)
     }
 }
 public OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level){
-    if(tAuraID==auras[1]||
-    tAuraID==auras[2]||
-    tAuraID==auras[3]||
-    tAuraID==auras[4]){
+    if(tAuraID==thisAuraID){
+        //DP(inAura?"In Aura":"Not in Aura");
         War3_SetBuff(client,bInvisibilityDenyAll,thisRaceID,inAura);
-        
     }
     
 }

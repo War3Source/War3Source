@@ -1,5 +1,5 @@
 // Release date is based on Month.Day.Year of when it was last changed
-#define RELEASE_DATE "9/1/2013"
+#define RELEASE_DATE "9/3/2013"
 
 /*  This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

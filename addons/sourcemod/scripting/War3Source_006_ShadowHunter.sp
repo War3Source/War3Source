@@ -21,7 +21,7 @@ new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 
 //skill 1
 new Float:HealingWaveAmountArr[]={0.0,1.0,2.0,3.0,4.0};
-new Float:HealingWaveDistance=500.0;
+new Float:HealingWaveDistance[]={0.0,450.0,500.0,550.0,600.0};
 new ParticleEffect[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // ParticleEffect[Source][Destination]
 
 //skill 2
@@ -75,7 +75,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_WARD=War3_AddRaceSkillT(thisRaceID,"SerpentWards",false,4);
         ULT_VOODOO=War3_AddRaceSkillT(thisRaceID,"BigBadVoodoo",true,4); 
         War3_CreateRaceEnd(thisRaceID);
-        AuraID=W3RegisterAura("hunter_healwave",HealingWaveDistance);
+        AuraID=W3RegisterChangingDistanceAura("hunter_healwave");
         
     }
 
@@ -101,13 +101,16 @@ public OnRaceChanged(client,oldrace,newrace)
     if(newrace==thisRaceID)
     {
         new level=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALINGWAVE);
-        W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
+        if(level>0)
+        {
+            W3SetPlayerAura(AuraID,client,HealingWaveDistance[level],level);
+        }
         
     }
     else{
         //PrintToServer("deactivate aura");
         War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
-        W3SetAuraFromPlayer(AuraID,client,false);
+        W3RemovePlayerAura(AuraID,client);
     }
 }
 
@@ -118,7 +121,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
     {
         if(skill==SKILL_HEALINGWAVE) //1
         {
-            W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
+            W3RemovePlayerAura(AuraID,client);
+            if(newskilllevel>0)
+            {
+                W3SetPlayerAura(AuraID,client,HealingWaveDistance[newskilllevel],newskilllevel);
+            }
         }
     }
 }
@@ -296,6 +303,7 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
     if(aura==AuraID)
     {
+        //DP(inAura?"[SH] in aura":"[SH] not in aura");
         War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealingWaveAmountArr[level]:0.0);
     }
 }
