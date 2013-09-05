@@ -20,7 +20,7 @@ public LoadCheck(){
 
 new SKILL_STARE,SKILL_TOLERATE,SKILL_KINDNESS,ULTIMATE_YOUBEGENTLE;
 new AuraID;
-new Float:HealingWaveDistance=133.0;
+new Float:HealingWaveDistance[5]={0.0,100.0,125.0,150.0,175.0};
 new Float:starerange=300.0;
 new Float:StareDuration[5]={0.0,1.5,2.0,2.5,3.0};
 new Float:ArmorPhysical[5]={0.0,0.5,1.0,1.5,2.0};
@@ -42,7 +42,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
         
         
-        AuraID=W3RegisterAura("fluttershy_healwave",HealingWaveDistance);
+        AuraID=W3RegisterChangingDistanceAura("fluttershy_healwave");
     }
 }
 
@@ -153,7 +153,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
     }
     if(race==thisRaceID &&skill==SKILL_KINDNESS) //1
     {
-            W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
+        W3RemovePlayerAura(AuraID,client);
+        if(newskilllevel>0)
+        {
+            W3SetPlayerAura(AuraID,client,HealingWaveDistance[newskilllevel],newskilllevel);
+        }
     }
 }
 
@@ -182,7 +186,7 @@ RecalculateHealing(){
     {
         if(ValidPlayer(client,true)&&W3HasAura(AuraID,client,level)){
             for(new i=0;i<playercount;i++){
-                if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance){
+                if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance[level]){
                     auraactivated[playercount]++;
                     auraactivated[i]++;
                 }
