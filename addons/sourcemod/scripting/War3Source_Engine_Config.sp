@@ -55,7 +55,7 @@ public bool:InitNativesForwards()
         CloseHandle(g_hGlobalRaceDefault);
     }
     g_hGlobalRaceDefault = CreateKeyValues("Global Race Defaults");
-    if(g_hGlobalRaceDefault != INVALID_HANDLE)
+    if(g_hGlobalItemDefault != INVALID_HANDLE)
     {
         CloseHandle(g_hGlobalItemDefault);
     }
