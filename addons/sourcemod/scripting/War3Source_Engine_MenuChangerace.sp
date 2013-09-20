@@ -197,14 +197,6 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
 {
     if(W3IsPlayerXPLoaded(client))
     {
-        //Check for Races Developer:
-        //El Diablo: Adding myself as a races developer so that I can double check for any errors
-        //in the races content of any server.  This allows me to have all races enabled.
-        //I do not have any other access other than all races to make sure that
-        //all races work correctly with war3source.
-        new String:steamid[32];
-        GetClientAuthString(client,steamid,sizeof(steamid));
-
         SetTrans(client);
         decl Handle:crMenu;
         if( IsCategorized() && !forceUncategorized ) {
@@ -321,7 +313,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                     AddMenuItem(crMenu,rbuf,rdisp,ITEMDRAW_DISABLED);
                     continue;
                 }
-                AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED||StrEqual(steamid,"STEAM_0:1:35173666",false)?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
+                AddMenuItem(crMenu,rbuf,rdisp,(minlevel<=W3GetTotalLevels(client)||W3IsDeveloper(client))?ITEMDRAW_DEFAULT:ITEMDRAW_DISABLED);
             }
         }
         DisplayMenu(crMenu,client,MENU_TIME_FOREVER);
