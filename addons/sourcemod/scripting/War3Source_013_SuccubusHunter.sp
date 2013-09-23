@@ -163,7 +163,7 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker)
+    if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker && GetClientTeam( victim ) != GetClientTeam( attacker ))
     {
         new skilllevelheadhunter = War3_GetSkillLevel(attacker, thisRaceID, SKILL_HEADHUNTER);
         if (skilllevelheadhunter > 0 && !W3HasImmunity(victim, Immunity_Skills) && !Hexed(attacker))
