@@ -45,15 +45,20 @@
 		"en"		"Get less gravity, more speed, and more HP. Costs 1/2/3/4 SKULLs"
 	}
 
-	"[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP"
+	"[Totem Incantation] You gained {amount} HP, {amount} dollars and {amount} XP"
 	{
 		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
 		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} dollars and {5} XP."
 	}
-	"[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP"
+	"[Totem Incantation] You gained {amount} HP, {amount} credits and {amount} XP"
 	{
 		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
 		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} credits and {5} XP."
+	}
+	"[Totem Incantation] You gained {amount} HP, {amount} gold and {amount} XP"
+	{
+		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
+		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} gold and {5} XP."
 	}
 	"[Daemonic Knife] You inflicted +{amount} Damage"
 	{
@@ -87,12 +92,12 @@
 	}
 	"You have ({amount}/{amount}) SKULLs"
 	{
-		"#format"	"{1:d},{2:d},{3:ñ},{4:ñ}"
+		"#format"	"{1:d},{2:d},{3:ï¿½},{4:ï¿½}"
 		"en"		"You have ({1}/{2}) {3}SKULL{4}s."
 	}
 	"You have {amount} SKULLs"
 	{
-		"#format"	"{1:d},{2:ñ},{3:ñ}"
+		"#format"	"{1:d},{2:ï¿½},{3:ï¿½}"
 		"en"		"You have {1} {2}SKULL{3}s."
 	}
 	"Entity limit is nearly reached: {amount}/{amount} ({amount}):{message}"
