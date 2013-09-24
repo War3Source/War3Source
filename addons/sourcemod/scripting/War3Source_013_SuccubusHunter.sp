@@ -16,7 +16,7 @@ public Plugin:myinfo =
 };
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
-new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
+new m_iAccount = -1,m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 
 //new bool:hurt_flag = true;
@@ -29,6 +29,7 @@ new Laser;
 
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar;
+new Handle:totemCurrencyCvar;
 
 new Float:assaultcooldown=10.0;
 
@@ -72,7 +73,10 @@ public OnPluginStart()
     AddCommandListener(SayCommand, "say");
     AddCommandListener(SayCommand, "say_team");
     
+    m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
+    
     ultCooldownCvar=CreateConVar("war3_succ_ult_cooldown","20","Cooldown for succubus ultimate");
+    totemCurrencyCvar=CreateConVar("war3_succ_totem_currency","0","Currency to use for totem | 0=currency, 1=gold, 2=money");
     
     LoadTranslations("w3s.race.succubus.phrases");
 }
@@ -147,15 +151,57 @@ public OnWar3EventSpawn(client)
                 War3_SetXP(client,thisRaceID,old_XP+xp);
             }
             
-            dollar /= 16;
+            
             //PrintToChat(client,"new_credits %d",new_credits);
             if(W3GetPlayerProp(client,bStatefulSpawn))
             {
-                new oldCash = War3_GetCurrency(client);
-                War3_AddCurrency(client, dollar);
-                new newCash = War3_GetCurrency(client);
-                
-                War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                new totemCurrencySwitch = GetConVarInt(totemCurrencyCvar);
+                new oldCash, newCash;
+                switch(totemCurrencySwitch)
+                {
+                    // use system set currency
+                    case 0: 
+                    {
+                        dollar /= 16;
+                        oldCash = War3_GetCurrency(client);
+                        War3_AddCurrency(client, dollar);
+                        newCash = War3_GetCurrency(client);
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                    }
+                    // use gold
+                    case 1: 
+                    {
+                        new Handle:g_hMaxCurrency = FindConVar("war3_max_currency");
+                        new max;
+                        if(g_hMaxCurrency != INVALID_HANDLE)
+                        {
+                            max=GetConVarInt(g_hMaxCurrency);
+                        }
+                        else
+                        {
+                            max = 100;
+                        }
+                            
+
+                        oldCash=War3_GetGold(client);
+                        dollar /= 16;
+                        newCash = oldCash + dollar;
+                        if (newCash > max)
+                            newCash = max;
+                        War3_SetGold(client,newCash);
+                        
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} gold and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+
+                    }
+                    // use money
+                    case 2: 
+                    {
+                        oldCash=GetEntData(client, m_iAccount);
+                        newCash = oldCash + dollar;
+                        SetEntData(client, m_iAccount, newCash);
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} cash and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                    }
+                }
             }
         }
     }
