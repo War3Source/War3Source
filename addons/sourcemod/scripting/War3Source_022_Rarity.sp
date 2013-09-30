@@ -124,7 +124,7 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
         if(lvl > 0)
         {
             if(!IsSkillImmune(victim)){
-                if(!Hexed(attacker)&&War3_SkillNotInCooldown(attacker,thisRaceID,SKILL_SMITTEN,false))
+                if(!Hexed(attacker)&&War3_SkillNotInCooldown(attacker,thisRaceID,SKILL_SMITTEN,false)&&GetClientTeam(attacker)!=GetClientTeam(victim))
                 {
                     bSmittened[victim]=true;
                     SmittendMultiplier[victim]=smittenMultiplier[lvl];
