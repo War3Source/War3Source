@@ -394,7 +394,7 @@ IsInOwnSphere(client){
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true))
+    if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true) &&GetClientTeam(attacker)!=GetClientTeam(victim))
     {    
         
         new skilllevel=War3_GetSkillLevel(victim,thisRaceID,SKILL_REWIND);
