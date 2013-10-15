@@ -76,7 +76,7 @@ public OnMapStart()
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
+    if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker&&GetClientTeam(attacker)!=GetClientTeam(victim)){
         new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
         if(level>0&&!Hexed(attacker,false)&&W3Chance(W3ChanceModifier(attacker))){
             if(!W3HasImmunity(victim,Immunity_Skills)){    
