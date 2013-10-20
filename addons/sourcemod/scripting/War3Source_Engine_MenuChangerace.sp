@@ -380,7 +380,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                         else if(W3GetPendingRace(client)==x){
                             Format(extra,sizeof(extra),"<");
                         }
-                        Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+                        Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
                         new minlevel=W3GetRaceMinLevelRequired(x);
                         if(minlevel<0) minlevel=0;
                         if(minlevel)
