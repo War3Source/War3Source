@@ -299,7 +299,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                 if(StrEqual(rname,""))
                     strcopy(rname,sizeof(rname),"Race Unloaded");
 
-                Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+                Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
                 new minlevel=W3GetRaceMinLevelRequired(x);
                 if(minlevel<0) minlevel=0;
                 if(minlevel)
