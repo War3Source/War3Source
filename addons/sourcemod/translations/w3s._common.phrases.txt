@@ -820,10 +820,10 @@
 		"#format"	"{1:d}"
 		"en"		"You Have {1} levels in levelbank.\nSay levelbank to use it."
 	}
-	"{racename} [L {amount}]"
+	"{racename} [L {amount}/{total}]"
 	{
-		"#format"	"{1:s},{2:d}"
-		"en"		"{1} [L {2}]"
+		"#format"	"{1:s},{2:d},{3:d}"
+		"en"		"{1} [L {2}/{3}]"
 	}
 	"reqlvl {amount}"
 	{
