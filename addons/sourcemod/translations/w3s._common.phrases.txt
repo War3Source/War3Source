@@ -825,6 +825,11 @@
 		"#format"	"{1:s},{2:d},{3:d}"
 		"en"		"{1} [L {2}/{3}]"
 	}
+	"{racename} [L {amount}]"
+	{
+		"#format"	"{1:s},{2:d}"
+		"en"		"{1} [L {2}]"
+	}
 	"reqlvl {amount}"
 	{
 		"#format"	"{1:d}"
