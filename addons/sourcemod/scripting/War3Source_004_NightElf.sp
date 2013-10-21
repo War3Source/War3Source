@@ -182,7 +182,7 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 {
     if(!isWarcraft && ValidPlayer(victim) && victim != attacker && War3_GetRace(victim) == thisRaceID)
     {
-        new iThornsLevel = War3_GetSkillLevel(victim, thisRaceID, iThornsLevel);
+        new iThornsLevel = War3_GetSkillLevel(victim, thisRaceID, SKILL_THORNS );
         if(iThornsLevel > 0 && !Hexed(victim, false))
         {
             // Don't return friendly fire damage
