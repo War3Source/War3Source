@@ -49,7 +49,7 @@ public OnPluginStart()
         }
     }
     hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
-    hShowTotalLevel = CreateConVar("war3_racecats_show_total_level","false","If true total levels will be shown in changerace menu");
+    hShowTotalLevel = CreateConVar("war3_racecats_show_total_level","0","If true total levels will be shown in changerace menu");
     RegServerCmd("war3_reloadcats", Command_ReloadCats);
 }
 
