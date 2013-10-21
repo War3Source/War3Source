@@ -199,7 +199,7 @@ public OnWar3EventSpawn(client)
                         oldCash=GetEntData(client, m_iAccount);
                         newCash = oldCash + dollar;
                         SetEntData(client, m_iAccount, newCash);
-                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} cash and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
                     }
                 }
             }
