@@ -26,6 +26,8 @@ new Handle:BotIgnoreXPCvar;
 new Handle:hBotXPRate;
 new Handle:hLevelDifferenceBounus;
 new Handle:hMaxLevelDifferenceBounus;
+new Handle:hTotalLevelDifferenceBounus;
+new Handle:hTotalMaxLevelDifferenceBounus;
 new Handle:minplayersXP;
 new Handle:NoSpendSkillsLimitCvar;
 
@@ -57,6 +59,10 @@ public OnPluginStart()
 
     hLevelDifferenceBounus = CreateConVar("war3_xp_level_difference_bonus", "0", "Bonus Xp awarded per level if victim has a higher level");
     hMaxLevelDifferenceBounus = CreateConVar("war3_xp_level_difference_max_bonus", "0", "Where to cap the bonus XP at. 0 to disable");
+    
+    hTotalLevelDifferenceBounus = CreateConVar("war3_xp_total_level_difference_bonus","0","Bonus XP awarded per level if attacker has a higher total level");
+    hTotalMaxLevelDifferenceBounus = CreateConVar("war3_xp_total_level_difference_max_bonus","0","Where to cap the bonus total level XP at. 0.0 to disable");
+    
     
     minplayersXP = CreateConVar("war3_min_players_xp_gain", "2", "minimum amount of players needed on teams for people to gain xp");
     
@@ -130,19 +136,29 @@ public NW3GetKillXP(Handle:plugin, numParams)
         if(level>MAXLEVELXPDEFINED)
             level=MAXLEVELXPDEFINED;
         new leveldiff=    GetNativeCell(2);
+        new totalleveldiff = GetNativeCell(3);
         
         if(leveldiff<0) leveldiff=0;
+        if(totalleveldiff<0) totalleveldiff=0;
         
         new xp_to_give = IsShortTerm() ? XPShortTermKillXP[level] : XPLongTermKillXP[level];
         new bonus_xp = GetConVarInt(hLevelDifferenceBounus) * leveldiff;
         new max_bonus_xp = GetConVarInt(hMaxLevelDifferenceBounus);
-        
+
         if ((max_bonus_xp != 0) && (max_bonus_xp < bonus_xp))
         {
             bonus_xp = max_bonus_xp;
         }
         
-        return xp_to_give + bonus_xp;
+        new total_bonus_xp = GetConVarInt(hTotalLevelDifferenceBounus) * leveldiff;
+        new total_max_bonus_xp = GetConVarInt(hTotalMaxLevelDifferenceBounus);
+        
+        if ((total_max_bonus_xp != 0) && (total_max_bonus_xp < total_bonus_xp))
+        {
+            total_bonus_xp = total_max_bonus_xp;
+        }
+        
+        return xp_to_give + bonus_xp + total_bonus_xp;
     }
     return 0;
 }    
@@ -629,7 +645,11 @@ GiveKillXPCreds(client, playerkilled, bool:headshot, bool:melee, bool:IsFake)
     new killerlevel = War3_GetLevel(client, War3_GetRace(client));
     new victimlevel = War3_GetLevel(playerkilled, War3_GetRace(playerkilled));
     
-    new killxp = W3GetKillXP(client, victimlevel - killerlevel);
+    new killertotallevel = W3GetTotalLevels(client);
+    new victimtotallevel = W3GetTotalLevels(playerkilled);
+    
+    
+    new killxp = W3GetKillXP(client, victimlevel - killerlevel, victimtotallevel - killertotallevel);
     
     new addxp = killxp;
     if(headshot)
