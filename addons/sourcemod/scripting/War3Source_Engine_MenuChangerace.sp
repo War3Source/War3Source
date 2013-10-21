@@ -14,7 +14,7 @@ new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
 
 //race cat defs
-new Handle:hUseCategories,Handle:hCanDrawCat;
+new Handle:hUseCategories,Handle:hCanDrawCat,Handle:hShowTotalLevel;
 new String:strCategories[MAXCATS][64];
 new CatCount;
 
@@ -49,6 +49,7 @@ public OnPluginStart()
         }
     }
     hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
+    hShowTotalLevel = CreateConVar("war3_racecats_show_total_level","false","If true total levels will be shown in changerace menu");
     RegServerCmd("war3_reloadcats", Command_ReloadCats);
 }
 
@@ -258,7 +259,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             //        racelist[x]=x+1;
             //    }
             //}
-            
+            new bool:showtotal = GetConVarBool(hShowTotalLevel);
             for(new i=0;i<racedisplay;i++) //notice this starts at zero!
             {
                 new    x=racelist[i];
@@ -267,6 +268,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                 
                 War3_GetRaceName(x,rname,sizeof(rname));
                 new yourteam,otherteam;
+                
                 for(new y=1;y<=MaxClients;y++)
                 {
                     
@@ -298,8 +300,14 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
 
                 if(StrEqual(rname,""))
                     strcopy(rname,sizeof(rname),"Race Unloaded");
-
-                Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
+                if(showtotal)
+                {
+                    Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
+                }
+                else
+                {
+                    Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+                }
                 new minlevel=W3GetRaceMinLevelRequired(x);
                 if(minlevel<0) minlevel=0;
                 if(minlevel)
@@ -346,6 +354,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                 // Iteriate through the races and print them out                
                 new racelist[MAXRACES];
                 new racedisplay=W3GetRaceList(racelist);
+                new bool:showtotal = GetConVarBool(hShowTotalLevel);
                 for(new i=0;i<racedisplay;i++)
                 {
                     new    x=racelist[i],String:rcvar[64];
@@ -380,7 +389,15 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                         else if(W3GetPendingRace(client)==x){
                             Format(extra,sizeof(extra),"<");
                         }
-                        Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
+                        
+                        if(showtotal)
+                        {
+                            Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
+                        }
+                        else
+                        {
+                            Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}]",GetTrans(),rname,War3_GetLevel(client,x));
+                        }
                         new minlevel=W3GetRaceMinLevelRequired(x);
                         if(minlevel<0) minlevel=0;
                         if(minlevel)
