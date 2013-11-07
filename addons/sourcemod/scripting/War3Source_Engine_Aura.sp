@@ -10,6 +10,7 @@ public Plugin:myinfo =
     description = "Aura Engine for War3Source"
 };
 
+new AuraOwner[MAXPLAYERSCUSTOM][MAXAURAS];
 new bool:AuraOrigin[MAXPLAYERSCUSTOM][MAXAURAS];
 new AuraOriginLevel[MAXPLAYERSCUSTOM][MAXAURAS];
 
@@ -217,6 +218,7 @@ public Action:CalcAura(Handle:t)
                             
                             {
                                 //DP("aura target on %d",target);
+                                AuraOwner[target][aura]=client;
                                 HasAura[target][aura]++;
                                 HasAuraLevel[target][aura]=IntMax(HasAuraLevel[target][aura],AuraOriginLevel[client][aura]); //what level is larger, old level or new level brought by the new origin player
                             }
@@ -227,6 +229,7 @@ public Action:CalcAura(Handle:t)
                                 //|| (AuraTrackOtherTeam[aura]&&teamclient!=teamtarget)
                             
                             {
+                                AuraOwner[client][aura]=target;
                                 HasAura[client][aura]++;
                                 HasAuraLevel[client][aura]=IntMax(HasAuraLevel[client][aura],AuraOriginLevel[target][aura]);
                             }
@@ -254,6 +257,7 @@ public Action:CalcAura(Handle:t)
                 Call_PushCell(aura);
                 Call_PushCell(HasAura[client][aura]);
                 Call_PushCell(HasAuraLevel[client][aura]);
+                Call_PushCell(AuraOwner[client][aura]);
                 Call_Finish(dummy);
             }
         }
