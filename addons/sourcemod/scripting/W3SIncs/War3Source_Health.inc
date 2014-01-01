@@ -1,6 +1,6 @@
 /**
- * File: War3Source_Damage.inc
- * Description: Stocks regarding Damage
+ * File: War3Source_Health.inc
+ * Description: Stocks regarding health management
  * Author(s): War3Source Team  
  */
 
@@ -293,17 +293,21 @@ stock bool:War3_HealToMaxHP(client, health)
  */
 stock bool:War3HealToHP(client, addhp, maximumHP) {
     new currenthp = GetClientHealth(client);
-    new newhp = currenthp + addhp;
-    if (newhp > maximumHP) 
+    if(currenthp < maximumHP)
     {
-        newhp = maximumHP;
-    }
-    
-    SetEntityHealth(client, newhp);
-    if (currenthp < newhp)
-    {
-        War3_TFHealingEvent(client, newhp - currenthp);
-        return true;
+        new newhp = currenthp + addhp;
+        if (newhp > maximumHP) 
+        {
+            newhp = maximumHP;
+        }
+        
+        SetEntityHealth(client, newhp);
+        
+        if (currenthp < newhp)
+        {
+            War3_TFHealingEvent(client, newhp - currenthp);
+            return true;
+        }
     }
     return false;
 }
