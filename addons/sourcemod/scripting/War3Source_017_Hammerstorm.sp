@@ -19,8 +19,8 @@ new g_HaloSprite;
 
 // Storm Bolt 
 new BoltDamage[5] = {0,5,10,15,20};
-new Float:BoltRange[5]={0.0,150.0,175.0,200.0,225.0};
-new Float:BoltStunDuration=0.3;
+new Float:BoltRange[5]={0.0,100.0,200.0,300.0,400.0};
+new Float:BoltStunDuration=0.5;
 new Float:StormCooldownTime=15.0;
 
 
