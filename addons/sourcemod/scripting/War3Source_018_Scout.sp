@@ -64,7 +64,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_TRUESIGHT=War3_AddRaceSkillT(thisRaceID,"TrueSight",false,4,"400-800");
         
         SKILL_DISARM=War3_AddRaceSkillT(thisRaceID,"Disarm",false,4,"6/10/13/15%");
-        ULT_MARKSMAN=War3_AddRaceSkillT(thisRaceID,"Marksman",true,4,"1.2-1.6"); 
+        ULT_MARKSMAN=War3_AddRaceSkillT(thisRaceID,"Marksman",true,4,"1.6-2.0"); 
     
         War3_CreateRaceEnd(thisRaceID);
          //EyeRadius[1]
