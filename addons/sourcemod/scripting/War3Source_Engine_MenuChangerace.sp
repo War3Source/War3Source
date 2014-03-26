@@ -2,7 +2,7 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
     name = "War3Source - Engine - Menu Changerace",
     author = "War3Source Team",
@@ -14,7 +14,7 @@ new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
 
 //race cat defs
-new Handle:hUseCategories,Handle:hCanDrawCat,Handle:hShowTotalLevel;
+new Handle:hUseCategories,Handle:hCanDrawCat,Handle:hShowTotalLevel,Handle:hAllowCategoryDefault,Handle:hAllowAllRacesCategory;
 new String:strCategories[MAXCATS][64];
 new CatCount;
 
@@ -49,6 +49,8 @@ public OnPluginStart()
         }
     }
     hUseCategories = CreateConVar("war3_racecats","0","If non-zero race categories will be enabled");
+    hAllowCategoryDefault = CreateConVar("war3_allow_default_cats","0","Allow Default categories to show in category menu? (default 0)");
+    hAllowAllRacesCategory = CreateConVar("war3_allow_all_races_cats","0","Allow Default categories to show in category menu? (default 1)");
     hShowTotalLevel = CreateConVar("war3_racecats_show_total_level","0","If true total levels will be shown in changerace menu");
     RegServerCmd("war3_reloadcats", Command_ReloadCats);
 }
@@ -75,15 +77,15 @@ public War3Source_EnterCheckEvent(Handle:event,const String:name[],bool:dontBroa
         if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
         {
             bStartingArea[client] = true;
-            
+
             if (W3GetPendingRace(client) > 0 && W3GetPendingRace(client) != War3_GetRace(client))
             {
                 War3_SetRace(client, W3GetPendingRace(client));
             }
-            else 
+            else
             {
                 decl String:sGameMode[16];
-                
+
                 GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
                 if (!StrEqual(sGameMode, "survival", false))
                 {
@@ -102,7 +104,7 @@ public War3Source_LeaveCheckEvent(Handle:event,const String:name[],bool:dontBroa
         if (ValidPlayer(client, true) && GetClientTeam(client) == TEAM_SURVIVORS)
         {
             decl String:sGameMode[16];
-            
+
             GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
             if (!StrEqual(sGameMode, "survival", false))
             {
@@ -206,7 +208,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             //- translation support
             crMenu=CreateMenu(War3Source_CRMenu_SelCat);
             SetMenuExitButton(crMenu,true);
-            
+
             new String:title[400];
             if(strlen(dbErrorMsg)){
                 Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
@@ -218,10 +220,15 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             SetSafeMenuTitle(crMenu,"%s\n \n",title);
             decl String:strCat[64];
             //Prepend 'All Races' entry.
-            AddMenuItem(crMenu,"-1","All Races");
+            if(GetConVarBool(hAllowAllRacesCategory))
+            {
+                AddMenuItem(crMenu,"-1","All Races");
+            }
             //At first we gonna add the categories
             for(new i=1;i<CatCount;i++) {
                 W3GetCategory(i,strCat,sizeof(strCat));
+                if(StrEqual(strCat,"default") && !GetConVarBool(hAllowCategoryDefault))
+                    continue;
                 if(strlen(strCat)>0) {
                     if(HasCategoryAccess(client,i)) {
                         new amount=GetNewRacesInCat(client,strCat);
@@ -237,7 +244,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
         else {
             crMenu=CreateMenu(War3Source_CRMenu_Selected);
             SetMenuExitButton(crMenu,true);
-            
+
             new String:title[400], String:rbuf[4];
             if(strlen(dbErrorMsg)){
                 Format(title,sizeof(title),"%s\n \n",dbErrorMsg);
@@ -250,8 +257,8 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             // Iteriate through the races and print them out
             decl String:rname[64];
             decl String:rdisp[128];
-            
-            
+
+
             new racelist[MAXRACES];
             new racedisplay=W3GetRaceList(racelist);
             //if(GetConVarInt(W3GetVar(hSortByMinLevelCvar))<1){
@@ -263,15 +270,15 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
             for(new i=0;i<racedisplay;i++) //notice this starts at zero!
             {
                 new    x=racelist[i];
-                
+
                 Format(rbuf,sizeof(rbuf),"%d",x); //DATA FOR MENU!
-                
+
                 War3_GetRaceName(x,rname,sizeof(rname));
                 new yourteam,otherteam;
-                
+
                 for(new y=1;y<=MaxClients;y++)
                 {
-                    
+
                     if(ValidPlayer(y,false))
                     {
                         if(War3_GetRace(y)==x)
@@ -291,11 +298,11 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
                 if(War3_GetRace(client)==x)
                 {
                     Format(extra,sizeof(extra),">");
-                    
+
                 }
                 else if(W3GetPendingRace(client)==x){
                     Format(extra,sizeof(extra),"<");
-                    
+
                 }
 
                 if(StrEqual(rname,""))
@@ -329,7 +336,7 @@ War3Source_ChangeRaceMenu(client,bool:forceUncategorized=false)
     else{
         War3_ChatMessage(client,"%T","Your XP Has not been fully loaded yet",GetTrans());
     }
-    
+
 }
 
 public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
@@ -351,7 +358,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                 SetMenuExitButton(crMenu,true);
                 Format(title,sizeof(title),"%T","[War3Source] Select your desired race",GetTrans());
                 SetSafeMenuTitle(crMenu,"%s\nCategory: %s\n",title,sItem);
-                // Iteriate through the races and print them out                
+                // Iteriate through the races and print them out
                 new racelist[MAXRACES];
                 new racedisplay=W3GetRaceList(racelist);
                 new bool:showtotal = GetConVarBool(hShowTotalLevel);
@@ -365,7 +372,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                         decl String:extra[3],yourteam,otherteam;
                         for(new y=1;y<=MaxClients;y++)
                         {
-                            
+
                             if(ValidPlayer(y,false))
                             {
                                 if(War3_GetRace(y)==x)
@@ -389,7 +396,7 @@ public War3Source_CRMenu_SelCat(Handle:menu,MenuAction:action,client,selection)
                         else if(W3GetPendingRace(client)==x){
                             Format(extra,sizeof(extra),"<");
                         }
-                        
+
                         if(showtotal)
                         {
                             Format(rdisp,sizeof(rdisp),"%s%T",extra,"{racename} [L {amount}/{total}]",GetTrans(),rname,War3_GetLevel(client,x),W3GetRaceMaxLevel(x));
@@ -428,14 +435,14 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
             SetTrans(client);
             //new menuselectindex=selection+1;
             //if(racechosen>0&&racechosen<=War3_GetRacesLoaded())
-            
+
             decl String:SelectionInfo[4];
             decl String:SelectionDispText[256];
-            
+
             new SelectionStyle;
             GetMenuItem(menu,selection,SelectionInfo,sizeof(SelectionInfo),SelectionStyle, SelectionDispText,sizeof(SelectionDispText));
             new race_selected=StringToInt(SelectionInfo);
-            if(race_selected==-1) 
+            if(race_selected==-1)
             {
                 War3Source_ChangeRaceMenu(client); //user came from the categorized cr menu and clicked the back button
                 return;
@@ -445,8 +452,8 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
                 UserTriedToSelectRace(client,race_selected,true);
             }
         }
-        
-    } 
+
+    }
     if(action==MenuAction_End)
     {
         CloseHandle(menu);
@@ -456,33 +463,33 @@ public War3Source_CRMenu_Selected(Handle:menu,MenuAction:action,client,selection
 //just a native wrapper
 public NW3UserTriedToSelectRace(Handle:plugin,numParams){
     UserTriedToSelectRace(GetNativeCell(1),GetNativeCell(2),bool:GetNativeCell(3));
-}               
+}
 UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
-{     
+{
     if(ValidPlayer(client))
-    {   
+    {
         new bool:allowChooseRace=bool:CanSelectRace(client,race_selected); //this is the deny system W3Denyable
         if(allowChooseRace==false && show_menu_again){
             War3Source_ChangeRaceMenu(client);
         }
-        
+
         //PrintToChatAll("1");
         decl String:buf[192];
         War3_GetRaceName(race_selected,buf,sizeof(buf));
         if(allowChooseRace&&race_selected==War3_GetRace(client)){ //has no other pending race, cuz user might wana switch back
-            
-            War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);      
+
+            War3_ChatMessage(client,"%T","You are already {racename}",GetTrans(),buf);
             W3SetPendingRace(client,-1);
             allowChooseRace=false;
-            
-        } 
-        
+
+        }
+
         if(allowChooseRace)
         {
             W3SetPlayerProp(client,RaceChosenTime,GetGameTime());
             W3SetPlayerProp(client,RaceSetByAdmin,false);
-        
-            //has race, set pending, 
+
+            //has race, set pending,
             if(War3_GetRace(client)>0&&IsPlayerAlive(client)&&!W3IsDeveloper(client)) //developer direct set (for testing purposes)
             {
                 if(GAMEL4DANY)
@@ -496,7 +503,7 @@ UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
                     }
                     else {
                         decl String:sGameMode[16];
-                        
+
                         GetConVarString(g_hGameMode, sGameMode, sizeof(sGameMode));
                         if (StrEqual(sGameMode, "survival", false))
                         {
@@ -516,7 +523,7 @@ UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
                         else
                         {
                             W3SetPendingRace(client,race_selected);
-                            
+
                             War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
                         }
                     }
@@ -524,7 +531,7 @@ UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
                 else
                 {
                     W3SetPendingRace(client,race_selected);
-                    
+
                     War3_ChatMessage(client,"%T","You will be {racename} after death or spawn",GetTrans(),buf);
                 }
             }
@@ -533,15 +540,15 @@ UserTriedToSelectRace(client , race_selected , bool:show_menu_again)
             {
                 W3SetPendingRace(client,-1);
                 War3_SetRace(client,race_selected);
-                
+
                 //PrintToChatAll("2");
                 //print is in setrace
                 //War3_ChatMessage(client,"You are now %s",buf);
-                
+
                 W3DoLevelCheck(client);
             }
         }
-    } 
+    }
 }
 
 //category stocks
