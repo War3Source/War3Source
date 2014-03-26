@@ -43,4 +43,6 @@ native bool:W3HasAura(tAuraID,client,&level);
 
 //forward when a player's aura state changes, ie leaves the area, or dies
 //however player may be dead while the aura lingers, always check for alive in your function
-forward OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level,AuraOwner);
+// Temporary removed pull request until AuraOwner can be fixed/added
+//forward OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level,AuraOwner);
+forward OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level);
