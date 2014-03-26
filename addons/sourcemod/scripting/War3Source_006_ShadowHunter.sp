@@ -29,7 +29,7 @@ new Float:HexChanceArr[]={0.00,0.025,0.05,0.075,0.100};
 
 //skill 3
 new MaximumWards[]={0,1,2,3,4}; 
-new WardDamage[]={0,1,2,3,4};
+new WardDamage[]={0,2,4,6,8};
 
 new Float:LastThunderClap[MAXPLAYERSCUSTOM];
 
