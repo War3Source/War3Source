@@ -92,7 +92,7 @@ new StareVictim[MAXPLAYERSCUSTOM];
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-    if(ValidPlayer(client,true),War3_GetRace(client)==thisRaceID && ability==0 && pressed )
+    if(ValidPlayer(client,true) && War3_GetRace(client)==thisRaceID && ability==0 && pressed )
     {
         if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_STARE,true))
         {
