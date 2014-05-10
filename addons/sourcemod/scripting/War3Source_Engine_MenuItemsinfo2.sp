@@ -6,7 +6,7 @@
 #include "W3SIncs/War3Source_Interface"
 
 
-public Plugin:myinfo= 
+public Plugin:myinfo=
 {
   name="War3Source Menus itemsinfo",
   author="Ownz (DarkEnergy)",
@@ -14,13 +14,6 @@ public Plugin:myinfo=
   version="1.0",
   url="http://war3source.com/"
 };
-
-
-
-public OnPluginStart()
-{
-  
-}
 
 public OnWar3Event(W3EVENT:event,client){
   if(event==DoShowItems2InfoMenu){
@@ -31,10 +24,10 @@ ShowMenuItemsinfo(client){
   SetTrans(client);
   new Handle:helpMenu=CreateMenu(ShowMenuItemsinfoSelected);
   SetMenuExitButton(helpMenu,true);
-  SetMenuTitle(helpMenu,"%T","[War3Evo] Shopmenu items",client);
+  SetMenuTitle(helpMenu,"%T","[War3Source] Shopmenu items",client);
   decl String:str[64];
   decl String:numstr[4];
-  
+
   new ItemsLoaded = W3GetItems2Loaded();
   for(new x=1;x<=ItemsLoaded;x++)
   {
@@ -67,25 +60,25 @@ public ShowMenuItemsinfo2(client,itemnum){
   SetTrans(client);
   new Handle:helpMenu=CreateMenu(ShowMenuItemsinfo2Selected);
   SetMenuExitButton(helpMenu,true);
-  
+
   decl String:str[256];
   W3GetItem2Name(itemnum,str,255);
-  
+
   decl String:shortname[16];
   W3GetItem2Shortname(itemnum,shortname,sizeof(shortname));
-  
-  
-  decl String:str2[256];
-  W3GetItem2Desc(itemnum,str2,sizeof(str2)); 
-  
 
-  
-  Format(str,sizeof(str),"%T\n%s","[War3Evo] Item: {item} (identifier: {id})",client,str,shortname,str2);
-  
+
+  decl String:str2[256];
+  W3GetItem2Desc(itemnum,str2,sizeof(str2));
+
+
+
+  Format(str,sizeof(str),"%T\n%s","[War3Source] Item: {item} (identifier: {id})",client,str,shortname,str2);
+
   SetMenuTitle(helpMenu,str);
-  
+
   Format(str,sizeof(str),"%T","Back",client);
-  
+
   AddMenuItem(helpMenu,"-1",str);
   DisplayMenu(helpMenu,client,MENU_TIME_FOREVER);
 }
