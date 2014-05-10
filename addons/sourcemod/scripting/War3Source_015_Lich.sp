@@ -16,6 +16,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_FROSTNOVA,SKILL_FROSTARMOR,SKILL_DARKRITUAL,ULT_DEATHDECAY;
 
 //skill 1
@@ -82,6 +98,11 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_FROSTNOVA);
@@ -121,6 +142,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public Action:BurnLoop(Handle:timer,any:attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
 
     if(ValidPlayer(attacker) && FrostNovaLoopCountdown[attacker]>0)
     {
@@ -166,6 +192,11 @@ public Action:BurnLoop(Handle:timer,any:attacker)
     }
 }
 public Action:RemoveFrostNova(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,fSlow,thisRaceID,1.0);
     War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0);
 }
@@ -202,6 +233,11 @@ public Action: farmor(Handle:timer,any:attacker)
 */    
 public OnWar3EventDeath(victim,attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new team;
     if(ValidPlayer(victim)){
         team=GetClientTeam(victim);
@@ -229,6 +265,11 @@ public OnWar3EventDeath(victim,attacker)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);            
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {

@@ -13,6 +13,23 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
+
 new SKILL_SMITTEN,SKILL_HEARTACHE,SKILL_SLEEP,ULTIMATE;
 ///based on succubus HON
 
@@ -63,6 +80,11 @@ public OnMapStart()
 
 }
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bSmittened[client]=false;
 }
 
@@ -70,6 +92,11 @@ public OnWar3EventSpawn(client){
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim)&&ValidPlayer(attacker)&&attacker!=victim )
     {
         if(GetClientTeam(victim)!=GetClientTeam(attacker))
@@ -99,6 +126,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 
 public Action:UnSmitten(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bSmittened[client]=false;
 }
 
@@ -109,6 +141,11 @@ public Action:UnSmitten(Handle:timer,any:client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!isWarcraft && War3_GetRace(attacker)==thisRaceID ){
         new lvl = War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEARTACHE);
         if(lvl > 0  )
@@ -144,12 +181,22 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 
 public bool:AbilityFilter(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     return (!IsSkillImmune(client));
 }
 
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new lvl = War3_GetSkillLevel(client,thisRaceID,SKILL_SLEEP);
@@ -185,6 +232,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
     }
 }
 Sleep(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bStunned,thisRaceID,true);
     PrintHintText(client,"%T","You are Mesmerized",client);
     if(GameTF()){
@@ -193,6 +245,10 @@ Sleep(client){
 }
 
 public Action:EndSleep(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
 
     SleepTimer[client]=INVALID_HANDLE;
     CloseHandle(SleepHandle[client]);
@@ -201,6 +257,11 @@ public Action:EndSleep(Handle:t,any:client){
     UnSleep(client);
 }
 UnSleep(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bStunned,thisRaceID,false);
     PrintHintText(client,"%T","No Longer Mesmerized",client);
 }

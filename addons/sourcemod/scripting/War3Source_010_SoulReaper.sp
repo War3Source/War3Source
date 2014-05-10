@@ -16,6 +16,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Handle:ultCooldownCvar;
 
 new SKILL_JUDGE, SKILL_PRESENCE,SKILL_INHUMAN, ULT_EXECUTE;
@@ -78,6 +95,11 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_JUDGE);
@@ -121,6 +143,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && IsPlayerAlive(client))
     {
         //if(
@@ -163,6 +190,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetEventInt(event,"userid");
     new victim=GetClientOfUserId(userid);
     

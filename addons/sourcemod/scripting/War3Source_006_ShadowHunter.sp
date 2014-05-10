@@ -17,6 +17,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 
 //skill 1
@@ -98,6 +114,11 @@ public OnWar3PlayerAuthed(client)
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(newrace==thisRaceID)
     {
         new level=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALINGWAVE);
@@ -116,6 +137,11 @@ public OnRaceChanged(client,oldrace,newrace)
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
     {
@@ -132,6 +158,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {
@@ -161,6 +192,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public Action:EndVoodoo(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bVoodoo[client]=false;
     W3ResetPlayerColor(client,thisRaceID);
     if(ValidPlayer(client,true))
@@ -171,6 +207,11 @@ public Action:EndVoodoo(Handle:timer,any:client)
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_WARD);
@@ -231,6 +272,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0) //block self inflicted damage
     {
         if(bVoodoo[victim]&&attacker==victim){
@@ -267,6 +313,11 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 
 // Events
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bVoodoo[client]=false;
     StopParticleEffect(client, true);
 }
@@ -278,11 +329,21 @@ public OnClientDisconnect(client)
 
 public OnWar3EventDeath(victim, attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     StopParticleEffect(victim, false);
 }
 
 public Action:CalcHexHealWaves(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(thisRaceID>0)
     {
         for(new i=1;i<=MaxClients;i++)
@@ -301,6 +362,11 @@ public Action:CalcHexHealWaves(Handle:timer,any:userid)
 }
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(aura==AuraID)
     {
         //DP(inAura?"[SH] in aura":"[SH] not in aura");

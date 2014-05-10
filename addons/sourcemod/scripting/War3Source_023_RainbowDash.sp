@@ -14,6 +14,22 @@ public Plugin:myinfo =
 new HaloSprite, XBeamSprite;
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Float:fEvadeChance[5]={0.0,0.05,0.09,0.12,0.15};
 new Float:fSwiftASPDBuff[5]={1.0,1.04,1.08,1.12,1.15};
 new Float:abilityspeed[5]={1.0,1.075,1.15,1.225,1.30};
@@ -50,6 +66,11 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client, true) && pressed)
     {
         new skill_level = War3_GetSkillLevel(client, thisRaceID, SKILL_SPEED);
@@ -76,7 +97,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 }
 
 public Action:EndSpeed(Handle:t, any:client){
-    
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(GAMETF)
     {
         TF2_RemoveCondition(client, TFCond_SpeedBuffAlly);
@@ -91,6 +116,11 @@ public Action:EndSpeed(Handle:t, any:client){
 
 public OnWar3EventDeath(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(speedendtimer[client] != INVALID_HANDLE)
     {
         TriggerTimer(speedendtimer[client]);
@@ -99,6 +129,11 @@ public OnWar3EventDeath(client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     LastDamageTime[victim] = GetEngineTime();
     if(speedendtimer[victim] != INVALID_HANDLE)
     {
@@ -113,6 +148,11 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 
 public OnUltimateCommand(client, race, bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race == thisRaceID && pressed && ValidPlayer(client, true))
     {
         new skill = War3_GetSkillLevel(client, race, ULTIMATE);

@@ -114,3 +114,10 @@ stock War3_GetRaceIDByName(const String:racename[64]) {
 native War3_RaceOnPluginStart(String:shortname[16]);
 native War3_RaceOnPluginEnd(String:shortname[16]);
 native bool:War3_IsRaceReloading();
+
+//=============================================================================
+// RACE Forwards
+//=============================================================================
+forward OnWar3RaceEnabled(newrace);
+forward OnWar3RaceDisabled(oldrace);
+

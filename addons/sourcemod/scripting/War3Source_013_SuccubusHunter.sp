@@ -16,6 +16,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new m_iAccount = -1,m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 
@@ -81,12 +98,22 @@ public OnPluginStart()
     LoadTranslations("w3s.race.succubus.phrases");
 }
 public OnRaceChanged(client,oldrace,newrace){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(oldrace==thisRaceID){
         War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
     }
 }
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new race=War3_GetRace(client); 
     if (race==thisRaceID) 
     {
@@ -209,6 +236,11 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker && GetClientTeam( victim ) != GetClientTeam( attacker ))
     {
         new skilllevelheadhunter = War3_GetSkillLevel(attacker, thisRaceID, SKILL_HEADHUNTER);
@@ -316,6 +348,11 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 }
 */
 public OnWar3EventDeath(victim,attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new skilllevelheadhunter=War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEADHUNTER);
     if (skilllevelheadhunter &&!Hexed(attacker)&&victim!=attacker)
     {
@@ -437,6 +474,11 @@ DP("death");
 */
 public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new client=GetClientOfUserId(GetEventInt(event,"userid"));
     new race=War3_GetRace(client);
     if (race==thisRaceID)
@@ -502,6 +544,11 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
+    if(RaceDisabled)
+    {
+        return Plugin_Continue;
+    }
+
 
     if (!GAMECSANY && (buttons & IN_JUMP)) //assault for non CS games
     {
@@ -621,6 +668,11 @@ public OnClientPutInServer(client)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client,true)&&pressed && race==thisRaceID)
     {
         new skill_trans=War3_GetSkillLevel(client,race,ULT_TRANSFORM);
@@ -660,6 +712,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public Action:Finishtrans(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     if(m_IsULT_TRANSFORMformed[client]){
         War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);

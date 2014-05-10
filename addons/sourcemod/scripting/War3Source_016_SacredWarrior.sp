@@ -11,6 +11,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_VITALITY, SKILL_SPEAR, SKILL_BLOOD, ULT_BREAK;
 
 // Inner Vitality, HP healed
@@ -59,7 +76,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 public OnWar3EventSpawn(client)
 {
-    
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     VictimSpearStacks[client] = 0;  // deactivate Burning Spear
     VictimSpearTicks[client] = 0;
     bSpearActivated[client] = false;  // on spawn
@@ -68,6 +89,11 @@ public OnWar3EventSpawn(client)
 
 public Action:Heal_BurningSpearTimer(Handle:h,any:data) //1 sec
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new attacker;
     new damage;
     //new SelfDamage;
@@ -117,6 +143,11 @@ public Action:Heal_BurningSpearTimer(Handle:h,any:data) //1 sec
 
 public Action:BerserkerCalculateTimer(Handle:timer,any:userid) // Check each 0.5 second if the conditions for Berserkers Blood have changed
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(thisRaceID>0)
     {
         for(new i=1;i<=MaxClients;i++)
@@ -150,6 +181,11 @@ public Action:BerserkerCalculateTimer(Handle:timer,any:userid) // Check each 0.5
 }
 
 public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
         if(War3_GetRace(attacker)==thisRaceID)
@@ -172,13 +208,28 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage){
     }
 }
 public OnSkillLevelChanged(client,race,skill,newskilllevel){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     CheckSkills(client);
 }
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     CheckSkills(client);
 }
 CheckSkills(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)!=thisRaceID)
     {
         War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0); // Remove ASPD buff when changing races
@@ -206,6 +257,11 @@ CheckSkills(client){
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new skill = War3_GetSkillLevel(client, thisRaceID, SKILL_SPEAR);
     if(skill>0 && War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client)&&!Silenced(client))
     {
@@ -229,7 +285,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
-    
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && ValidPlayer(client,true) &&!Silenced(client) )
     {
         new ult_level=War3_GetSkillLevel(client,race,ULT_BREAK);
@@ -284,5 +344,10 @@ public OnUltimateCommand(client,race,bool:pressed)
 }
 public bool:ConeTargetFilter(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     return (!W3HasImmunity(client,Immunity_Ultimates));
 }

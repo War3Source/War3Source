@@ -14,6 +14,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 public LoadCheck(){
     return GameTF();
 }
@@ -53,6 +69,11 @@ public OnPluginStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && ValidPlayer(client,true) )
     {
         new ult_level=War3_GetSkillLevel(client,race,ULTIMATE_YOUBEGENTLE);
@@ -80,9 +101,19 @@ public OnUltimateCommand(client,race,bool:pressed)
     }            
 }
 public Action:EndNotBad(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bNoDamage[client]=false;
 }
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(attacker)&&bNoDamage[attacker]){
         War3_DamageModPercent(0.0);
     }
@@ -92,6 +123,11 @@ new StareVictim[MAXPLAYERSCUSTOM];
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client,true) && War3_GetRace(client)==thisRaceID && ability==0 && pressed )
     {
         if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_STARE,true))
@@ -122,6 +158,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
     }
 }
 public Action:EndStare(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bBashed,thisRaceID,false);
     War3_SetBuff(client,bDisarm,thisRaceID,false);
     War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
@@ -130,6 +171,11 @@ public Action:EndStare(Handle:t,any:client){
 }
 
 public OnWar3EventDeath(client){ //end stare if fluttershy dies
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client))
     {
         War3_SetBuff(client,bBashed,thisRaceID,false);
@@ -147,7 +193,12 @@ public OnWar3EventDeath(client){ //end stare if fluttershy dies
 
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{    
+{
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID &&skill==SKILL_TOLERATE)    {
         War3_SetBuff(client,fArmorPhysical,thisRaceID,ArmorPhysical[newskilllevel]);
     }
@@ -163,6 +214,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(aura==AuraID&&inAura==false) //lost aura, remove helaing
     {
         War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
@@ -170,12 +226,22 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
     }
 }
 public OnWar3Event(W3EVENT:event,client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(event==OnAuraCalculationFinished){
         RecalculateHealing();
     //    DP("re");
     }
 }
 RecalculateHealing(){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new level;
     new playerlist[66];
     new auralevel[66];

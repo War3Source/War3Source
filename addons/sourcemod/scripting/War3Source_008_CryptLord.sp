@@ -16,6 +16,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_IMPALE,SKILL_SPIKE,SKILL_BEETLES,ULT_LOCUST;
 
 //skill 1
@@ -69,6 +85,10 @@ public OnMapStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
 
     if(race==thisRaceID && pressed && ValidPlayer(client,true) )
     {
@@ -133,6 +153,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
         if(War3_GetRace(victim)==thisRaceID)
@@ -147,6 +172,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 }
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!isWarcraft&&ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
     

@@ -27,14 +27,36 @@ new Handle:g_On_Race_Changed;
 new Handle:g_On_Race_Selected;
 new Handle:g_OnSkillLevelChangedHandle;
 
+new Handle:g_OnWar3RaceEnabled;
+new Handle:g_OnWar3RaceDisabled;
+
 // l4d
 new Handle:g_hGameMode;
 new bool:bSurvivalStarted;
 new bool:bStartingArea[MAXPLAYERS];
 
+new Handle:hRaceEnableOrDisableCvar;
+new Handle:hRaceEnableOrDisableFullCvar;
+
 public OnPluginStart()
 {
     RegConsoleCmd("war3notdev",cmdwar3notdev);
+
+    RegAdminCmd("war3_all_races_enabled", cmdwar3RaceDynamicLoadingOn, ADMFLAG_ROOT, "war3_all_races_enabled");
+    RegAdminCmd("war3_all_races_disabled", cmdwar3RaceDynamicLoadingOff, ADMFLAG_ROOT, "war3_all_races_disabled");
+
+    // sets everything to default loading
+    RegAdminCmd("war3_enable_race_dynamic_loading", cmdwar3EnableRaceDynamicLoading, ADMFLAG_ROOT, "war3_enable_race_dynamic_loading");
+
+    // If set to 1, it will enable / disable races automatically.
+    // if set to 0, it will enable races automatically and not disable them.
+    hRaceEnableOrDisableCvar=CreateConVar("war3_race_dynamic_loading","1","1 to enable, 0 to disable (default 1)");
+    
+    // does not allow enabling or disabling of races
+    // Do not set this to 1 on start up or no races willl be enabled!
+    hRaceEnableOrDisableFullCvar=CreateConVar("war3_race_dynamic_loading_fulldisable","0","1 to enable, 0 to disable (default 0)");
+
+    
     HookEvent("player_team", Event_PlayerTeam);
 
     if(GAMEL4DANY)
@@ -82,7 +104,8 @@ public bool:InitNativesForwards()
     g_On_Race_Selected=CreateGlobalForward("OnRaceSelected",ET_Ignore,Param_Cell,Param_Cell);
     g_OnSkillLevelChangedHandle=CreateGlobalForward("OnSkillLevelChanged",ET_Ignore,Param_Cell,Param_Cell,Param_Cell,Param_Cell);
     
-    
+    g_OnWar3RaceEnabled=CreateGlobalForward("OnWar3RaceEnabled",ET_Ignore,Param_Cell);
+    g_OnWar3RaceDisabled=CreateGlobalForward("OnWar3RaceDisabled",ET_Ignore,Param_Cell);
     
     CreateNative("War3_SetRace",NWar3_SetRace); 
     CreateNative("War3_GetRace",NWar3_GetRace); 
@@ -113,6 +136,115 @@ public bool:InitNativesForwards()
     return true;
 }
 
+EnableRace(newrace)
+{
+    if(GetConVarBool(hRaceEnableOrDisableFullCvar)) return;
+    
+    // Enable new race
+    Call_StartForward(g_OnWar3RaceEnabled);
+    Call_PushCell(newrace);
+    Call_Finish(dummy);
+}
+
+DisableRace(oldrace)
+{
+    if(!GetConVarBool(hRaceEnableOrDisableCvar)) return;
+    if(GetConVarBool(hRaceEnableOrDisableFullCvar)) return;
+    
+    new iRaceCount=0;
+    for(new i=1;i<=MaxClients;i++)
+    {
+        if(War3_GetRace(i)==oldrace)
+        {
+            iRaceCount++;
+        }
+    }
+    
+    if(iRaceCount==0)
+    {
+        // disable unused race
+        Call_StartForward(g_OnWar3RaceDisabled);
+        Call_PushCell(oldrace);
+        Call_Finish(dummy);
+    }
+}
+
+public Action:cmdwar3RaceDynamicLoadingOn(client,args){
+    new RacesLoaded = War3_GetRacesLoaded();
+    new String:LongRaceName[64];
+    for(new x=1;x<=RacesLoaded;x++)
+    {
+        Call_StartForward(g_OnWar3RaceEnabled);
+        Call_PushCell(x);
+        Call_Finish(dummy);
+        SetTrans(client);
+        War3_GetRaceName(x,LongRaceName,sizeof(LongRaceName));
+        PrintToConsole(client,"%s Enabled",LongRaceName);
+    }
+
+    return Plugin_Handled;
+}
+
+public Action:cmdwar3RaceDynamicLoadingOff(client,args){
+    new RacesLoaded = War3_GetRacesLoaded();
+    new String:LongRaceName[64];
+    for(new x=1;x<=RacesLoaded;x++)
+    {
+        
+        Call_StartForward(g_OnWar3RaceDisabled);
+        Call_PushCell(x);
+        Call_Finish(dummy);
+        SetTrans(client);
+        War3_GetRaceName(x,LongRaceName,sizeof(LongRaceName));
+        PrintToConsole(client,"%s Disabled",LongRaceName);
+    }
+
+    return Plugin_Handled;
+}
+
+
+public Action:cmdwar3EnableRaceDynamicLoading(client,args){
+    SetConVarInt(hRaceEnableOrDisableCvar, 1);
+    SetConVarInt(hRaceEnableOrDisableFullCvar, 0);
+    new RacesLoaded = War3_GetRacesLoaded();
+    new String:LongRaceName[64];
+    new iRaceCount=0;
+    for(new x=1;x<=RacesLoaded;x++)
+    {
+        iRaceCount=0;
+        
+        for(new i=1;i<=MaxClients;i++)
+        {
+            if(War3_GetRace(i)==x)
+            {
+                iRaceCount++;
+            }
+        }
+
+        if(iRaceCount==0)
+        {
+            Call_StartForward(g_OnWar3RaceDisabled);
+            Call_PushCell(x);
+            Call_Finish(dummy);
+            SetTrans(client);
+            War3_GetRaceName(x,LongRaceName,sizeof(LongRaceName));
+            PrintToConsole(client,"%s Disabled",LongRaceName);
+        }
+        else
+        {
+            Call_StartForward(g_OnWar3RaceEnabled);
+            Call_PushCell(x);
+            Call_Finish(dummy);
+            SetTrans(client);
+            War3_GetRaceName(x,LongRaceName,sizeof(LongRaceName));
+            PrintToConsole(client,"%s Enabled",LongRaceName);
+        }
+    }
+
+    return Plugin_Handled;
+}
+
+
 public NWar3_SetRace(Handle:plugin,numParams){
     
     //set old race
@@ -127,8 +259,11 @@ public NWar3_SetRace(Handle:plugin,numParams){
         new oldrace=p_properties[client][CurrentRace];
         if(oldrace==newrace){
             //WTF ABORT
+            return;
         }
         else{
+            EnableRace(newrace);
+            
             W3SetVar(OldRace,p_properties[client][CurrentRace]);
             
             if(oldrace>0&&ValidPlayer(client)){
@@ -202,6 +337,7 @@ public NWar3_SetRace(Handle:plugin,numParams){
                 W3CreateEvent(DoCheckRestrictedItems,client);
             }
         }
+        DisableRace(oldrace);
     }
     
     return;

@@ -17,6 +17,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Handle:ultCooldownCvar;
 
 new SKILL_TIDE, SKILL_CONDUIT, SKILL_STATIC, ULT_OVERLOAD;
@@ -115,6 +132,11 @@ public OnMapStart()
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(/*War3_GetRace(client)==thisRaceID &&*/ ability==0 && pressed && ValidPlayer(client, true))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_TIDE);
@@ -153,12 +175,22 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public Action:SecondRing(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new client=GetClientOfUserId(userid);
     TE_SetupBeamRingPoint(ElectricTideOrigin[client], ElectricTideRadius+50,20.0, BeamSprite, HaloSprite, 0, 5, 0.5, 10.0, 1.0, {255,0,255,133}, 60, 0);
     TE_SendToAll();
 }
 public Action:BurnLoop(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new attacker=GetClientOfUserId(userid);
     if(ValidPlayer(attacker) && ElectricTideLoopCountdown[attacker]>0)
     {
@@ -213,10 +245,20 @@ public Action:BurnLoop(Handle:timer,any:userid)
 
 
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     UltimateZapsRemaining[client]=0;
 }
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && IsPlayerAlive(client))
     {
         //if(
@@ -249,6 +291,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 }
 public Action:UltimateLoop(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new attacker=GetClientOfUserId(userid);
     if(ValidPlayer(attacker) && UltimateZapsRemaining[attacker]>0&&IsPlayerAlive(attacker))
     {
@@ -319,6 +366,11 @@ public Action:UltimateLoop(Handle:timer,any:userid)
     }
 }
 public Action:UltStateSound(Handle:t,any:attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(attacker,true)&&UltimateZapsRemaining[attacker]>0){
         W3EmitSoundToAll(overloadstate,attacker);
         CreateTimer(3.7,UltStateSound,attacker);
@@ -327,6 +379,11 @@ public Action:UltStateSound(Handle:t,any:attacker){
 
 public bool:CanHitThis(entity, mask, any:data)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(entity == data)
     {// Check if the TraceRay hit the itself.
         return false; // Don't allow self to be hit
@@ -342,6 +399,11 @@ public bool:CanHitThis(entity, mask, any:data)
 
 public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
     {
         new vteam=GetClientTeam(victim);
@@ -365,6 +427,11 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 
 public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetEventInt(event,"userid");
     new attacker_userid=GetEventInt(event,"attacker");
     new dmg=GetEventInt(event,"dmg_health");
@@ -461,6 +528,11 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:CalcConduit(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new Float:time = GetGameTime();
     for(new i=1;i<=MaxClients;i++){
         if(time>ConduitUntilTime[i]){
@@ -471,6 +543,11 @@ public Action:CalcConduit(Handle:timer,any:userid)
     }
 }
 public OnClientPutInServer(i){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     ConduitBy[i]=0;
     ConduitUntilTime[i]=0.0;
     ConduitSubtractDamage[i]=0;
