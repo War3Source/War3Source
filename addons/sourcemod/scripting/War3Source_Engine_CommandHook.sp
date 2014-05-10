@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include "W3SIncs/War3Source_Interface"
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
   name = "War3Source - Engine - Command Hooks",
   author = "War3Source Team",
@@ -84,7 +84,7 @@ public CommandCheckEx(String:compare[],String:commandwanted[])
   {
     return -1;
   }
-  
+
   new String:commandwanted2[70];
   new String:commandwanted3[70];
   Format(commandwanted2,sizeof(commandwanted2),"\\%s",commandwanted);
@@ -141,14 +141,14 @@ public Action:War3Source_SayCommand(client,args)
   }
   else if(CommandCheckStartsWith(arg1,"changerace")||CommandCheckStartsWith(arg1,"cr ")||CommandCheck(arg1,"cr"))
   {
-    
+
     //index 2 is right after the changerace word
     new String:changeraceArg[32];
     new bool:succ=StrToken(arg1,2,changeraceArg,sizeof(changeraceArg));
     //DP("%s",changeraceArg);
     new raceFound=0;
     if(succ){
-        
+
         new String:sRaceName[64];
         new RacesLoaded=War3_GetRacesLoaded();
         SetTrans(client);
@@ -206,6 +206,11 @@ public Action:War3Source_SayCommand(client,args)
   else if(CommandCheck(arg1,"itemsinfo")||CommandCheck(arg1,"iteminfo"))
   {
     W3CreateEvent(DoShowItemsInfoMenu,client);
+    return returnblocking;
+  }
+  else if(CommandCheck(arg1,"itemsinfo2")||CommandCheck(arg1,"iteminfo2"))
+  {
+    W3CreateEvent(DoShowItems2InfoMenu,client);
     return returnblocking;
   }
   else if(CommandCheckStartsWith(arg1,"playerinfo"))
