@@ -12,6 +12,21 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
 
 
 new SKILL_INVIS, SKILL_TRUESIGHT, SKILL_DISARM, ULT_MARKSMAN;
@@ -77,6 +92,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(newrace==thisRaceID)
     {
         new level=War3_GetSkillLevel(client,thisRaceID,SKILL_TRUESIGHT);
@@ -91,6 +111,11 @@ public OnRaceChanged(client,oldrace,newrace)
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
     {
@@ -105,6 +130,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 }
 
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(bDisarmed[client]){
         EndInvis2(INVALID_HANDLE,client);
     }
@@ -116,6 +146,11 @@ public OnWar3EventSpawn(client){
 }
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID &&  pressed && IsPlayerAlive(client))
     {
         new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_INVIS);
@@ -146,6 +181,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 }
 public Action:EndInvis(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     InInvis[client]=false;
     War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0);
     War3_SetBuff(client,fHPDecay,thisRaceID,0.0);
@@ -154,12 +194,22 @@ public Action:EndInvis(Handle:timer,any:client)
     
 }
 public Action:EndInvis2(Handle:timer,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bDisarm,thisRaceID,false);
     bDisarmed[client]=false;
 }
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim)&&ValidPlayer(attacker))
     {
         new vteam=GetClientTeam(victim);
@@ -191,6 +241,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!isWarcraft && ValidPlayer(victim,true)&&ValidPlayer(attacker,true)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {    
         if(War3_GetRace(attacker)==thisRaceID)
@@ -210,11 +265,21 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
     }           
 }
 public Action:Undisarm(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bDisarm,thisRaceID,false);
 }
 
 
 public Action:DeciSecondTimer(Handle:t){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new client=1;client<=MaxClients;client++){\
         if(ValidPlayer(client,true)&&War3_GetRace(client)==thisRaceID){
             static Float:vec[3];
@@ -234,6 +299,11 @@ public Action:DeciSecondTimer(Handle:t){
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && IsPlayerAlive(client) && pressed)
     {
         new skill_level=War3_GetSkillLevel(client,race,SKILL_TRUESIGHT);
@@ -251,6 +321,11 @@ public OnUltimateCommand(client,race,bool:pressed)
     }
 }
 public OnW3PlayerAuraStateChanged(client,tAuraID,bool:inAura,level){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(tAuraID==thisAuraID){
         //DP(inAura?"In Aura":"Not in Aura");
         War3_SetBuff(client,bInvisibilityDenyAll,thisRaceID,inAura);

@@ -14,6 +14,23 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
+
 public LoadCheck(){
     return GameTF();
 }
@@ -100,6 +117,11 @@ public OnMapStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {
@@ -132,11 +154,21 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public bool:DragonFilter(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     return (!W3HasImmunity(client,Immunity_Ultimates));
 }
 
 public Action:HalfSecondTimer(Handle:timer,any:clientz) //footsy flame/water effects only on ground yay!
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new client=1; client <= MaxClients; client++)
     {
         if(ValidPlayer(client, true))
@@ -152,13 +184,18 @@ public Action:HalfSecondTimer(Handle:timer,any:clientz) //footsy flame/water eff
     }
 }
 
-public Action:stopspeed(Handle:t,any:client){
+//public Action:stopspeed(Handle:t,any:client){
 //W3ResetBuffRace(client,fMaxSpeed,thisRaceID);
 //TF2_StunPlayer(client,0.0, 0.0,TF_STUNFLAGS_LOSERSTATE,0);
-}
+//}
 //Roar - If it's too overpowered I might add in an adrenaline effect to all clients effect afterward (Increased speed during thirdperson stun animation)
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     //TF2_StunPlayer(client,5.0, 0.0,TF_STUNFLAG_SLOWDOWN|TF_STUNFLAG_THIRDPERSON,0);
     //War3_SetBuff(client,fMaxSpeed,thisRaceID,2.0);
     //CreateTimer(1.0,stopspeed,client);
@@ -210,6 +247,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public InitPassiveSkills(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID)
     {
         //dragonborn
@@ -237,6 +279,11 @@ public InitPassiveSkills(client)
     }
 }
 RemoveImmunity(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bImmunityWards,thisRaceID,0);
     War3_SetBuff(client,bImmunitySkills,thisRaceID,0);
     War3_SetBuff(client,bSlowImmunity,thisRaceID,0);
@@ -244,6 +291,11 @@ RemoveImmunity(client){
 }
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(newrace==thisRaceID)
     {    
         InitPassiveSkills(client);

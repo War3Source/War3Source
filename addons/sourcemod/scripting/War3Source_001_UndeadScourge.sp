@@ -13,6 +13,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Float:SuicideBomberRadius[5] = {0.0, 250.0, 290.0, 310.0, 333.0}; 
 new Float:SuicideBomberDamage[5] = {0.0, 166.0, 200.0, 233.0, 266.0};
 new Float:SuicideBomberDamageTF[5] = {0.0, 133.0, 175.0, 250.0, 300.0}; 
@@ -48,6 +64,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnUltimateCommand(client, race, bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(pressed && War3_GetRace(client) == thisRaceID && IsPlayerAlive(client) && !Silenced(client))
     {
         new ult_level = War3_GetSkillLevel(client, race, SKILL_SUICIDE);
@@ -57,6 +78,11 @@ public OnUltimateCommand(client, race, bool:pressed)
 
 public OnWar3EventDeath(victim, attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new race = W3GetVar(DeathRace);
     new skill = War3_GetSkillLevel(victim, thisRaceID, SKILL_SUICIDE);
     if(race == thisRaceID && skill > 0 && !Hexed(victim))

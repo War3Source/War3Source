@@ -11,6 +11,22 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 
 new SKILL_FADE,SKILL_SLOWFALL,SKILL_TRIBUNAL,ULTIMATE_DARKORB;
 
@@ -73,6 +89,11 @@ public OnMapStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {
@@ -105,11 +126,21 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public bool:DarkorbFilter(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     return (!W3HasImmunity(client,Immunity_Ultimates));
 }
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
     {
         new vteam=GetClientTeam(victim);
@@ -136,6 +167,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 
 public Action:FadeTimer(Handle:timer,any:victim)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
 
     War3_SetBuff(victim,fInvisibilitySkill,thisRaceID,1.0);
     
@@ -143,11 +179,21 @@ public Action:FadeTimer(Handle:timer,any:victim)
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     StopTribunal(client);
 }
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && ValidPlayer(client,true))
     {
         new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_TRIBUNAL);
@@ -186,6 +232,11 @@ public Action:TribunalTimer(Handle:timer,any:client)
 
 public Action:SlowfallTimer(Handle:timer,any:zclient)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new client=1; client <= MaxClients; client++)
     {
         if(ValidPlayer(client, true))
@@ -201,6 +252,11 @@ public Action:SlowfallTimer(Handle:timer,any:zclient)
 }
 public Action:Slowfall2Timer(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client, true)){
         GetClientAbsOrigin(client,darkvec);
         new flags = GetEntityFlags(client);
@@ -230,6 +286,11 @@ public Action:Slowfall2Timer(Handle:timer,any:client)
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(oldrace==thisRaceID)
     {
         War3_SetBuff(client,fLowGravitySkill,thisRaceID,1.0);
@@ -245,6 +306,11 @@ public OnRaceChanged(client,oldrace,newrace)
 
 StopTribunal(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     IsInTribunal[client]=false;
     War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);
     War3_SetBuff(client,fHPDecay,thisRaceID,0.0);

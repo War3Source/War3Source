@@ -18,6 +18,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_REVIVE, SKILL_BANISH, SKILL_MONEYSTEAL,ULT_FLAMESTRIKE;
 
 //skill 1
@@ -151,6 +167,11 @@ public OnWar3PlayerAuthed(client)
 
 public Action:ResWarning(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new client=1;client<=MaxClients;client++)
     {
         if(War3_GetGame()==Game_TF && RESwarn[client] && ValidPlayer(client))
@@ -163,11 +184,21 @@ public Action:ResWarning(Handle:timer,any:userid)
 
 public OnClientDisconnect(client)
 {
-	RESwarn[client]=false;
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    RESwarn[client]=false;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if( newrace!=thisRaceID)
     {
         new userid=GetClientUserId(client);
@@ -187,6 +218,11 @@ public OnRaceChanged(client,oldrace,newrace)
 new FireEntityEffect[MAXPLAYERSCUSTOM];
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {
@@ -249,10 +285,20 @@ public OnUltimateCommand(client,race,bool:pressed)
 }
 public bool:IsBurningFilter(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     return (BurnsRemaining[client]<=0 && !W3HasImmunity(client,Immunity_Ultimates));
 }
 public Action:BurnLoop(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new victim=GetClientOfUserId(userid);
     new attacker=GetClientOfUserId(BeingBurnedBy[victim]);
     if(victim>0 && attacker>0 && BurnsRemaining[victim]>0 && IsClientInGame(victim) && IsClientInGame(attacker) && IsPlayerAlive(victim))
@@ -277,7 +323,11 @@ public Action:BurnLoop(Handle:timer,any:userid)
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
-    
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID)
     {
         if(newskilllevel>=0)
@@ -302,16 +352,31 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 stock GetMoney(player)
 {
+    if(RaceDisabled)
+    {
+        return 0;
+    }
+
     return GetEntData(player,MoneyOffsetCS);
 }
 
 stock SetMoney(player,money)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     SetEntData(player,MoneyOffsetCS,money);
 }
 
 public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&attacker!=victim&&GetClientTeam(attacker)!=GetClientTeam(victim))
     {
         // W3IsOwnerSentry checks for game tf and returns false if not, so it should go thru if not game tf anyhow.
@@ -423,6 +488,11 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 }
 
 stock siphonsfx(victim) {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     decl Float:vecAngles[3];
     GetClientEyeAngles(victim,vecAngles);
     decl Float:target_pos[3];
@@ -433,6 +503,11 @@ stock siphonsfx(victim) {
 }
 
 stock respawnsfx(target) {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new Float:effect_vec[3];
     GetClientAbsOrigin(target,effect_vec);
     effect_vec[2]+=15.0;
@@ -449,6 +524,11 @@ stock respawnsfx(target) {
 // Events
 public PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetEventInt(event,"userid");
     new client=GetClientOfUserId(userid);
     if(client>0)
@@ -474,6 +554,11 @@ public PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     for(new i=1;i<=MaxClients;i++)
     {
@@ -490,6 +575,11 @@ public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:DoRevival(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return Plugin_Handled;
+    }
+
     new client=GetClientOfUserId(userid);
     if(Can_Player_Revive[client]==false)
     {
@@ -596,6 +686,11 @@ public Action:DoRevival(Handle:timer,any:userid)
 
 bool:CooldownRevive(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(GetGameTime() >= (fLastRevive[client]+30.0))
         return true;
     return false;
@@ -603,6 +698,11 @@ bool:CooldownRevive(client)
 
 public PlayerTeamEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
 // Team Switch checker
     new userid=GetEventInt(event,"userid");
     new client=GetClientOfUserId(userid);
@@ -617,6 +717,11 @@ public PlayerTeamEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:PlayerCanRevive(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
 // Team Switch checker
     new client=GetClientOfUserId(userid);
     // For testing purposes:
@@ -628,6 +733,11 @@ public Action:PlayerCanRevive(Handle:timer,any:userid)
 
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetEventInt(event,"userid");
     new victim=GetClientOfUserId(userid);
     if(victim>0)
@@ -702,6 +812,11 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:Unbanish(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     // never EVER use client in a timer. userid is safe
     new client=GetClientOfUserId(userid);
     if(client>0)
@@ -713,6 +828,11 @@ public Action:Unbanish(Handle:timer,any:userid)
 new absincarray[]={0,4,-4,8,-8,12,-12,18,-18,22,-22,25,-25,27,-27,30,-30};//,33,-33,40,-40};
 
 public bool:testhull(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     //PrintToChatAll("BEG");
     new Float:mins[3];
@@ -776,6 +896,11 @@ public bool:testhull(client){
 
 public bool:CanHitThis(entityhit, mask, any:data)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(entityhit == data )
     {// Check if the TraceRay hit the itself.
         return false; // Don't allow self to be hit, skip this result
