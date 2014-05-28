@@ -35,7 +35,6 @@ new iShopitem[ITEM_LAST];
 new iTomeSoundDelay[MAXPLAYERSCUSTOM];
 
 // Offsets
-new iActiveWeaponOffset;
 new iOriginOffset;
 new iMyWeaponsOffset;
 
@@ -70,7 +69,6 @@ public OnPluginStart()
 
     iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
     iMyWeaponsOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hMyWeapons");
-    iActiveWeaponOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hActiveWeapon");
     
     hBootsSpeedCvar = CreateConVar("war3_shop_boots_speed", "1.2", "Boots speed, 1.2 is default");
     hClawsDamageCvar = CreateConVar("war3_shop_claws_damage", GameTF() ? "10" : "6", "Claws of attack additional damage per bullet (CS) or per second (TF)");
@@ -150,25 +148,19 @@ public OnMapStart()
     }
 }
 
-public doCloak()
+doCloak()
 {
     for(new x=1; x <= MaxClients; x++)
     {
         if(ValidPlayer(x, true) && War3_GetOwnsItem(x, iShopitem[ITEM_CLOAK]))
         {
-            War3_SetBuffItem(x, fInvisibilityItem, iShopitem[ITEM_CLOAK], 0.6);
-
-            // Melee?
-            new ent = GetEntDataEnt2(x, iActiveWeaponOffset);
-            if(ent > 0 && IsValidEdict(ent))
-            {
-                decl String:sWeaponName[64];
-                GetEdictClassname(ent, sWeaponName, sizeof(sWeaponName));
-                if(StrEqual(sWeaponName, "weapon_knife", false))
-                {
-                    War3_SetBuffItem(x, fInvisibilityItem, iShopitem[ITEM_CLOAK], 0.4);
-                }
-            }
+			new iWeaponEntity = W3GetCurrentWeaponEnt(x);
+			if(War3_IsMeleeWeapon(iWeaponEntity))
+			{
+				War3_SetBuffItem(x, fInvisibilityItem, iShopitem[ITEM_CLOAK], 0.4);
+			} else {
+				War3_SetBuffItem(x, fInvisibilityItem, iShopitem[ITEM_CLOAK], 0.6);
+			}
         }
     }
 }
