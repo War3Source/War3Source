@@ -24,8 +24,7 @@ If you plan to run War3Source with a Left4Dead game you will have to get custom 
 
 ## Installation guide ##
 
-* If you don't know anything about compiling the source manually you can grab a compiled build from our build server at http://ci.0xf.org/job/War3Source/
- * The builds marked with the little [GA] symbol are stable builds that should run fine. Builds without it are experimental and might have issues
+* If you don't know anything about compiling the source manually you can grab a compiled build from our build server at http://ownageclan.com/jenkins/job/War3Source-Default1/
 
 * Simply put the addons folder into your game folder where Source- and Metamod should have already created a addons folder
 * The sound folder belongs into your games sound folder as well as on your fastdl server
