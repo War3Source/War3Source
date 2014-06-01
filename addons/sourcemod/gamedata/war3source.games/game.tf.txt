@@ -13,10 +13,6 @@
 					/* Call to IsMeleeWeapon in CTFBotDefendPoint::Update function. */
 					"signature" "CTFBotDefendPoint_Update"
 				}
-				"linux"
-				{
-					"signature" "IsMeleeWeapon"
-				}
 			}
 		}
 		
