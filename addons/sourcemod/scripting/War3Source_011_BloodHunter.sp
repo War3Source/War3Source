@@ -11,6 +11,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Handle:ultCooldownCvar;
 
 new SKILL_CRAZY, SKILL_FEAST,SKILL_SENSE,ULT_RUPTURE;
@@ -66,6 +83,11 @@ public OnMapStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race == thisRaceID && pressed && ValidPlayer(client, true))
     {
         new skill = War3_GetSkillLevel(client, race, ULT_RUPTURE);
@@ -104,12 +126,22 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bRuptured[client] = false;
     bCrazyDot[client] = false;
 }
 
 public OnWar3EventDeath(victim, attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(attacker,true))
     {
         if(War3_GetRace(attacker) == thisRaceID)
@@ -126,6 +158,11 @@ public OnWar3EventDeath(victim, attacker)
 
 public Action:RuptureCheckLoop(Handle:h, any:data)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new Float:origin[3];
     new attacker;
     new skilllevel;
@@ -183,6 +220,11 @@ public Action:RuptureCheckLoop(Handle:h, any:data)
 }
 public Action:BloodCrazyDOTLoop(Handle:h,any:data)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new attacker;
     for(new i=1; i <= MaxClients; i++)
     {
@@ -221,6 +263,11 @@ public Action:BloodCrazyDOTLoop(Handle:h,any:data)
 
 public OnW3EnemyTakeDmgBulletPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!W3IsOwnerSentry(attacker) && War3_GetRace(attacker) == thisRaceID && !Hexed(attacker, false) && !W3HasImmunity(victim,Immunity_Skills))
     {
         new skilllevel = War3_GetSkillLevel(attacker, thisRaceID, SKILL_CRAZY);
@@ -246,12 +293,22 @@ public OnW3EnemyTakeDmgBulletPre(victim,attacker,Float:damage)
 
 public Gore(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     WriteParticle(client, "blood_spray_red_01_far");
     WriteParticle(client, "blood_impact_red_01");
 }
 
 WriteParticle(client, String:ParticleName[])
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     decl Float:fPos[3], Float:fAngles[3];
 
     fAngles[0] = GetRandomFloat(0.0, 360.0);

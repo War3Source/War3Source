@@ -64,10 +64,8 @@ public OnWardPulse(wardindex, behavior)
 public OnWardTrigger(wardindex, victim, owner, behavior) 
 {
     decl data[MAXWARDDATA];
-    decl Float:VictimPos[3];
     
     War3_GetWardData(wardindex, data);
-    GetClientAbsOrigin(victim, VictimPos);
     
     if (behavior == BehaviorIndex[BEHAVIOR_DAMAGE]) 
     {
@@ -79,9 +77,10 @@ public OnWardTrigger(wardindex, victim, owner, behavior)
         {
             new damage = data[War3_GetSkillLevel(owner, War3_GetRace(owner), War3_GetWardSkill(wardindex))];
             
-            War3_DealDamage(victim, damage, owner, _, "weapon_wards");
-            VictimPos[2] += 65.0;
-            War3_TF_ParticleToClient(0, GetApparentTeam(victim) == TEAM_RED ? "healthlost_red" : "healthlost_blu", VictimPos);
+            if(War3_DealDamage(victim, damage, owner, _, "weapon_wards"))
+            {
+                War3_ShowHealthLostParticle(victim);
+            }
         }
     }
     
@@ -91,8 +90,7 @@ public OnWardTrigger(wardindex, victim, owner, behavior)
 
         if (War3_HealToMaxHP(victim, healAmount))
         {
-            VictimPos[2] += 65.0;
-            War3_TF_ParticleToClient(0, GetApparentTeam(victim) == TEAM_RED ? "healthgained_red" : "healthgained_blu", VictimPos);
+            War3_ShowHealthGainedParticle(victim);
         }
     }
     

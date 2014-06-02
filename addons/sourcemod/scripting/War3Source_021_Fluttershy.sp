@@ -14,13 +14,29 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 public LoadCheck(){
     return GameTF();
 }
 
 new SKILL_STARE,SKILL_TOLERATE,SKILL_KINDNESS,ULTIMATE_YOUBEGENTLE;
 new AuraID;
-new Float:HealingWaveDistance=133.0;
+new Float:HealingWaveDistance[5]={0.0,100.0,125.0,150.0,175.0};
 new Float:starerange=300.0;
 new Float:StareDuration[5]={0.0,1.5,2.0,2.5,3.0};
 new Float:ArmorPhysical[5]={0.0,0.5,1.0,1.5,2.0};
@@ -42,7 +58,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         War3_CreateRaceEnd(thisRaceID); ///DO NOT FORGET THE END!!!
         
         
-        AuraID=W3RegisterAura("fluttershy_healwave",HealingWaveDistance);
+        AuraID=W3RegisterChangingDistanceAura("fluttershy_healwave");
     }
 }
 
@@ -53,6 +69,11 @@ public OnPluginStart()
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && ValidPlayer(client,true) )
     {
         new ult_level=War3_GetSkillLevel(client,race,ULTIMATE_YOUBEGENTLE);
@@ -80,20 +101,34 @@ public OnUltimateCommand(client,race,bool:pressed)
     }            
 }
 public Action:EndNotBad(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bNoDamage[client]=false;
 }
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(attacker)&&bNoDamage[attacker]){
         War3_DamageModPercent(0.0);
     }
 } 
 
-new Handle:StareEndTimer[MAXPLAYERSCUSTOM]; //invalid handle by default
 new StareVictim[MAXPLAYERSCUSTOM];
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
-    if(ValidPlayer(client,true),War3_GetRace(client)==thisRaceID && ability==0 && pressed )
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    if(ValidPlayer(client,true) && War3_GetRace(client)==thisRaceID && ability==0 && pressed )
     {
         if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_STARE,true))
         {
@@ -111,7 +146,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
                     War3_SetBuff(target,bDisarm,thisRaceID,true);
                     PrintHintText(client,"%t","STOP AND STARE",client);
                     PrintHintText(target,"%t","You are being stared at.Don't look at her in the eye!!!",client);
-                    StareEndTimer[client]=CreateTimer(StareDuration[skilllvl],EndStare,client);
+                    CreateTimer(StareDuration[skilllvl],EndStare,client);
                     StareVictim[client]=target;
                     War3_CooldownMGR(client,15.0,thisRaceID,SKILL_STARE);
                 }
@@ -123,17 +158,31 @@ public OnAbilityCommand(client,ability,bool:pressed)
     }
 }
 public Action:EndStare(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bBashed,thisRaceID,false);
     War3_SetBuff(client,bDisarm,thisRaceID,false);
     War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
     War3_SetBuff(StareVictim[client],bDisarm,thisRaceID,false);
     StareVictim[client]=0;
-    StareEndTimer[client]=INVALID_HANDLE;
 }
+
 public OnWar3EventDeath(client){ //end stare if fluttershy dies
-    if(StareEndTimer[client]){
-        TriggerTimer(StareEndTimer[client]);
-        StareEndTimer[client]=INVALID_HANDLE;
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    if(ValidPlayer(client))
+    {
+        War3_SetBuff(client,bBashed,thisRaceID,false);
+        War3_SetBuff(client,bDisarm,thisRaceID,false);
+        War3_SetBuff(StareVictim[client],bBashed,thisRaceID,false);
+        War3_SetBuff(StareVictim[client],bDisarm,thisRaceID,false);
+        StareVictim[client]=0;
     }
 }
 
@@ -144,18 +193,32 @@ public OnWar3EventDeath(client){ //end stare if fluttershy dies
 
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
-{    
+{
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID &&skill==SKILL_TOLERATE)    {
         War3_SetBuff(client,fArmorPhysical,thisRaceID,ArmorPhysical[newskilllevel]);
     }
     if(race==thisRaceID &&skill==SKILL_KINDNESS) //1
     {
-            W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
+        W3RemovePlayerAura(AuraID,client);
+        if(newskilllevel>0)
+        {
+            W3SetPlayerAura(AuraID,client,HealingWaveDistance[newskilllevel],newskilllevel);
+        }
     }
 }
 
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(aura==AuraID&&inAura==false) //lost aura, remove helaing
     {
         War3_SetBuff(client,fHPRegen,thisRaceID,0.0);
@@ -163,12 +226,22 @@ public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
     }
 }
 public OnWar3Event(W3EVENT:event,client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(event==OnAuraCalculationFinished){
         RecalculateHealing();
     //    DP("re");
     }
 }
 RecalculateHealing(){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new level;
     new playerlist[66];
     new auralevel[66];
@@ -179,7 +252,7 @@ RecalculateHealing(){
     {
         if(ValidPlayer(client,true)&&W3HasAura(AuraID,client,level)){
             for(new i=0;i<playercount;i++){
-                if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance){
+                if(GetPlayerDistance(playerlist[i],client)<HealingWaveDistance[level]){
                     auraactivated[playercount]++;
                     auraactivated[i]++;
                 }

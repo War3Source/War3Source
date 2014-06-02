@@ -23,6 +23,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new bool:bHasRespawned[MAXPLAYERSCUSTOM]; //cs
 new Handle:RespawnDelayCvar;
 new Handle:ultCooldownCvar;
@@ -120,6 +137,11 @@ public OnMapStart()
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(oldrace==thisRaceID && War3_GetGame()==Game_TF)
     {
         War3_SetBuff(client,fInvisibilitySkill,thisRaceID,1.0); // for tf2, remove alpha
@@ -132,6 +154,11 @@ public OnRaceChanged(client,oldrace,newrace)
 
 public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new target=0;
     new Float:target_dist=distance+1.0; // just an easy way to do this
     new caster_team=GetClientTeam(client);
@@ -195,6 +222,11 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     //DP("ZthisRaceID:%d race race %d %d alive %d",thisRaceID,race,War3_GetRace(client),IsPlayerAlive(client));
     if(race==thisRaceID && pressed && IsPlayerAlive(client))
     {
@@ -224,6 +256,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetGame()==Game_TF && War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_RECARN_WARD);
@@ -247,6 +284,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetGame()==Game_TF&&race==thisRaceID&&skill==SKILL_NADE_INVIS&&newskilllevel>=0&&War3_GetRace(client)==thisRaceID)
     {
         new Float:alpha=WindWalkAlpha[newskilllevel];
@@ -277,6 +319,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new x=1;x<=MaxClients;x++)
         bBeenHit[client][x]=false;
     
@@ -297,6 +344,11 @@ new damagestackcritmatch=-1;
 new Float:critpercent=0.0;
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
     {
         new vteam=GetClientTeam(victim);
@@ -327,6 +379,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage)
 //need event for weapon string
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(victim>0&&attacker>0&&victim!=attacker)
     {
         new race_attacker=War3_GetRace(attacker);
@@ -423,7 +480,12 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 
 
 public OnWar3EventDeath(index,attacker)
-{    
+{
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(index)){
         new race=W3GetVar(DeathRace); //get  immediate variable, which indicates the race of the player when he died
         if(race==thisRaceID&&!bHasRespawned[index]&&War3_GetGame()!=Game_TF)
@@ -448,6 +510,11 @@ public OnWar3EventDeath(index,attacker)
 
 public Action:RespawnPlayer(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client)&&!IsPlayerAlive(client)&&GetClientTeam(client)>1)
     {
         War3_SpawnPlayer(client);
@@ -504,12 +571,22 @@ public Action:RespawnPlayer(Handle:timer,any:client)
 
 public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new x=1;x<=64;x++)
         bHasRespawned[x]=false;
 }
 
 public Action:DeciSecondTimer(Handle:h)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetGame()==Game_TF){
         
         for(new x=1;x<=MaxClients;x++)

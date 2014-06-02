@@ -5,6 +5,22 @@
 #include <sdktools>
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 public Plugin:myinfo =
 {
     name = "War3Source - Race - Night Elf",
@@ -67,6 +83,11 @@ public bool:AimTargetFilter(entity,mask)
 
 public bool:ImmunityCheck(client)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(bIsEntangled[client] || W3HasImmunity(client, Immunity_Ultimates))
     {
         return false;
@@ -77,6 +98,11 @@ public bool:ImmunityCheck(client)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race == thisRaceID && ValidPlayer(client, true) && pressed)
     {
         new iEntangleLevel = War3_GetSkillLevel(client, race, ULT_ENTANGLE);
@@ -149,6 +175,11 @@ public Action:StopEntangle(Handle:timer, any:client)
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(bIsEntangled[client])
     {
         Untangle(client);
@@ -157,6 +188,11 @@ public OnWar3EventSpawn(client)
 
 public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(attacker != victim)
     {
         // Trueshot
@@ -180,9 +216,14 @@ public OnW3TakeDmgBulletPre(victim, attacker, Float:damage)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(!isWarcraft && ValidPlayer(victim) && victim != attacker && War3_GetRace(victim) == thisRaceID)
     {
-        new iThornsLevel = War3_GetSkillLevel(victim, thisRaceID, iThornsLevel);
+        new iThornsLevel = War3_GetSkillLevel(victim, thisRaceID, SKILL_THORNS );
         if(iThornsLevel > 0 && !Hexed(victim, false))
         {
             // Don't return friendly fire damage

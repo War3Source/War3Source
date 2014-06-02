@@ -12,6 +12,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new Handle:ultCooldownCvar;
 
 // Chance/Info Arrays
@@ -104,10 +120,20 @@ public OnMapStart()
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     ActivateSkills(client); //DO NOT OPTIMIZE, ActivateSkills checks for skill level
 }
 public ActivateSkills(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new skill_devo=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALTH);
     if(skill_devo)
     {
@@ -132,18 +158,23 @@ public ActivateSkills(client)
 }
 
 
-public OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill)
-{
+//public OnGenericSkillLevelChanged(client,generic_skill_id,newlevel,Handle:generic_Skill_Options,customer_race,customer_skill)
+//{
     //new String:name[32];
     //GetClientName(client,name,sizeof(name));
     //DP("client %d %s genericskill %d level %d, cus %d %d",client,name,generic_skill_id,newlevel,customer_race,customer_skill);
-}
+//}
 
 new TPFailCDResetToRace[MAXPLAYERSCUSTOM];
 new TPFailCDResetToSkill[MAXPLAYERSCUSTOM];
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     //DP("ult pressed");
     if( pressed  && ValidPlayer(client,true) && !Silenced(client))
     {
@@ -183,6 +214,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID)
     {
         ActivateSkills(client); //on a race change, this is called 4 times, but that performance hit is insignificant
@@ -201,6 +237,11 @@ public OnSkillLevelChanged(client,race,skill,newskilllevel)
 
 bool:Teleport(client,Float:distance)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(!inteleportcheck[client])
     {
         
@@ -278,6 +319,11 @@ bool:Teleport(client,Float:distance)
     return false;
 }
 public Action:checkTeleport(Handle:h,any:client){
+    if(RaceDisabled)
+    {
+        return Plugin_Handled;
+    }
+
     inteleportcheck[client]=false;
     new Float:pos[3];
     
@@ -297,6 +343,7 @@ public Action:checkTeleport(Handle:h,any:client){
         PrintHintText(client,"%T","Teleported",client);
         
     }
+    return Plugin_Continue;
 }
 public bool:AimTargetFilter(entity,mask)
 {
@@ -307,7 +354,11 @@ public bool:AimTargetFilter(entity,mask)
 new absincarray[]={0,4,-4,8,-8,12,-12,18,-18,22,-22,25,-25};//,27,-27,30,-30,33,-33,40,-40}; //for human it needs to be smaller
 
 public bool:getEmptyLocationHull(client,Float:originalpos[3]){
-    
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     
     new Float:mins[3];
     new Float:maxs[3];
@@ -355,11 +406,16 @@ public bool:getEmptyLocationHull(client,Float:originalpos[3]){
         }
         
     }
-    
+    return true;
 } 
 
 public bool:CanHitThis(entityhit, mask, any:data)
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(entityhit == data )
     {// Check if the TraceRay hit the itself.
         return false; // Don't allow self to be hit, skip this result
@@ -373,6 +429,11 @@ public bool:CanHitThis(entityhit, mask, any:data)
 
 public bool:enemyImmunityInRange(client,Float:playerVec[3])
 {
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     //ELIMINATE ULTIMATE IF THERE IS IMMUNITY AROUND
     new Float:otherVec[3];
     new team = GetClientTeam(client);

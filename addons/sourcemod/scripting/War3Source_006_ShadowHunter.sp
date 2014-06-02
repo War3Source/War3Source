@@ -17,11 +17,27 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_HEALINGWAVE, SKILL_HEX, SKILL_WARD, ULT_VOODOO;
 
 //skill 1
 new Float:HealingWaveAmountArr[]={0.0,1.0,2.0,3.0,4.0};
-new Float:HealingWaveDistance=500.0;
+new Float:HealingWaveDistance[]={0.0,450.0,500.0,550.0,600.0};
 new ParticleEffect[MAXPLAYERSCUSTOM][MAXPLAYERSCUSTOM]; // ParticleEffect[Source][Destination]
 
 //skill 2
@@ -29,7 +45,7 @@ new Float:HexChanceArr[]={0.00,0.025,0.05,0.075,0.100};
 
 //skill 3
 new MaximumWards[]={0,1,2,3,4}; 
-new WardDamage[]={0,1,2,3,4};
+new WardDamage[]={0,2,4,6,8};
 
 new Float:LastThunderClap[MAXPLAYERSCUSTOM];
 
@@ -75,7 +91,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
         SKILL_WARD=War3_AddRaceSkillT(thisRaceID,"SerpentWards",false,4);
         ULT_VOODOO=War3_AddRaceSkillT(thisRaceID,"BigBadVoodoo",true,4); 
         War3_CreateRaceEnd(thisRaceID);
-        AuraID=W3RegisterAura("hunter_healwave",HealingWaveDistance);
+        AuraID=W3RegisterChangingDistanceAura("hunter_healwave");
         
     }
 
@@ -98,33 +114,55 @@ public OnWar3PlayerAuthed(client)
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(newrace==thisRaceID)
     {
         new level=War3_GetSkillLevel(client,thisRaceID,SKILL_HEALINGWAVE);
-        W3SetAuraFromPlayer(AuraID,client,level>0?true:false,level);
+        if(level>0)
+        {
+            W3SetPlayerAura(AuraID,client,HealingWaveDistance[level],level);
+        }
         
     }
     else{
         //PrintToServer("deactivate aura");
         War3_SetBuff(client,bImmunitySkills,thisRaceID,false);
-        W3SetAuraFromPlayer(AuraID,client,false);
+        W3RemovePlayerAura(AuraID,client);
     }
 }
 
 public OnSkillLevelChanged(client,race,skill,newskilllevel)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     if(race==thisRaceID && War3_GetRace(client)==thisRaceID)
     {
         if(skill==SKILL_HEALINGWAVE) //1
         {
-            W3SetAuraFromPlayer(AuraID,client,newskilllevel>0?true:false,newskilllevel);
+            W3RemovePlayerAura(AuraID,client);
+            if(newskilllevel>0)
+            {
+                W3SetPlayerAura(AuraID,client,HealingWaveDistance[newskilllevel],newskilllevel);
+            }
         }
     }
 }
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new userid=GetClientUserId(client);
     if(race==thisRaceID && pressed && userid>1 && IsPlayerAlive(client) )
     {
@@ -154,6 +192,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public Action:EndVoodoo(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bVoodoo[client]=false;
     W3ResetPlayerColor(client,thisRaceID);
     if(ValidPlayer(client,true))
@@ -164,6 +207,11 @@ public Action:EndVoodoo(Handle:timer,any:client)
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skill_level=War3_GetSkillLevel(client,thisRaceID,SKILL_WARD);
@@ -224,6 +272,11 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0) //block self inflicted damage
     {
         if(bVoodoo[victim]&&attacker==victim){
@@ -260,6 +313,11 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage)
 
 // Events
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bVoodoo[client]=false;
     StopParticleEffect(client, true);
 }
@@ -271,11 +329,21 @@ public OnClientDisconnect(client)
 
 public OnWar3EventDeath(victim, attacker)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     StopParticleEffect(victim, false);
 }
 
 public Action:CalcHexHealWaves(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(thisRaceID>0)
     {
         for(new i=1;i<=MaxClients;i++)
@@ -294,8 +362,14 @@ public Action:CalcHexHealWaves(Handle:timer,any:userid)
 }
 public OnW3PlayerAuraStateChanged(client,aura,bool:inAura,level)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(aura==AuraID)
     {
+        //DP(inAura?"[SH] in aura":"[SH] not in aura");
         War3_SetBuff(client,fHPRegen,thisRaceID,inAura?HealingWaveAmountArr[level]:0.0);
     }
 }

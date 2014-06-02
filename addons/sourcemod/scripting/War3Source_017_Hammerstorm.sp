@@ -11,6 +11,23 @@ public Plugin:myinfo =
 };
 
 new thisRaceID;
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new SKILL_BOLT, SKILL_CLEAVE, SKILL_WARCRY, ULT_STRENGTH;
 
 // Tempents
@@ -19,8 +36,8 @@ new g_HaloSprite;
 
 // Storm Bolt 
 new BoltDamage[5] = {0,5,10,15,20};
-new Float:BoltRange[5]={0.0,150.0,175.0,200.0,225.0};
-new Float:BoltStunDuration=0.3;
+new Float:BoltRange[5]={0.0,100.0,200.0,300.0,400.0};
+new Float:BoltStunDuration=0.5;
 new Float:StormCooldownTime=15.0;
 
 
@@ -83,11 +100,21 @@ public OnMapStart()
 
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bStrengthActivated[client] = false;
     W3ResetPlayerColor(client, thisRaceID);
 }
 
 public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
         if(War3_GetRace(attacker)==thisRaceID)
@@ -105,6 +132,11 @@ public OnW3TakeDmgBulletPre(victim,attacker,Float:damage){
 }
             
 public OnW3TakeDmgBullet(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim,true)&&ValidPlayer(attacker,false)&&GetClientTeam(victim)!=GetClientTeam(attacker))
     {
         if(War3_GetRace(attacker)==thisRaceID)
@@ -144,6 +176,11 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage){
 
 public OnAbilityCommand(client,ability,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(War3_GetRace(client)==thisRaceID && ability==0 && pressed && IsPlayerAlive(client))
     {
         new skilllvl = War3_GetSkillLevel(client,thisRaceID,SKILL_BOLT);
@@ -199,12 +236,22 @@ public OnAbilityCommand(client,ability,bool:pressed)
 
 public Action:UnstunPlayer(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bStunned,thisRaceID,false);
     W3ResetPlayerColor(client, thisRaceID);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && ValidPlayer(client,true))
     {
         new skilllvl = War3_GetSkillLevel(client,thisRaceID,ULT_STRENGTH);
@@ -227,6 +274,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 
 public Action:stopUltimate(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     bStrengthActivated[client] = false;
     if(ValidPlayer(client,true)){
         PrintHintText(client,"%T","You feel less powerful",client);

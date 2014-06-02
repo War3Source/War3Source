@@ -22,6 +22,7 @@ new item2FlagsCvar[MAXITEMS];
 new item2CategoryCvar[MAXITEMS];
 
 new bool:item2Translated[MAXITEMS];
+new Handle:hShop2Enabled;
 
 public Plugin:myinfo= 
 {
@@ -40,6 +41,19 @@ public OnPluginStart()
   CreateTimer(60.0,Timer_Diamonds);
 }
 
+public OnAllPluginsLoaded()
+{
+	hShop2Enabled = FindConVar("war3_shop2_enabled");
+}
+
+bool:Shop2Enabled()
+{
+	if(hShop2Enabled != INVALID_HANDLE)
+	{
+		return GetConVarBool(hShop2Enabled);
+	}
+	return false;
+}
 /*
 public OnPluginEnd()
 {
@@ -84,16 +98,18 @@ public bool:InitNativesForwards()
 
 public Action:Timer_Diamonds(Handle:timer, any:userid)
 {
-  //PrintToServer("DIAMOND");
-  for(new i=1; i<GetMaxClients(); i++)
-  {
-    if(ValidPlayer(i))
-    {
-      new GivePlayerDiamonds = War3_GetDiamonds(i) + 1;
-      War3_SetDiamonds(i, GivePlayerDiamonds);
-    }
-  }
-  CreateTimer(60.0,Timer_Diamonds);
+	if(Shop2Enabled())
+	{
+		for(new i=1; i<GetMaxClients(); i++)
+		{
+			if(ValidPlayer(i))
+			{
+				new GivePlayerDiamonds = War3_GetDiamonds(i) + 1;
+				War3_SetDiamonds(i, GivePlayerDiamonds);
+			}
+		}
+	}
+	CreateTimer(60.0,Timer_Diamonds);
 }
 
 

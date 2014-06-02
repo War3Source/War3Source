@@ -13,6 +13,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 new bool:bTrapped[MAXPLAYERSCUSTOM];
@@ -101,6 +117,11 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new client=GetClientOfUserId(GetEventInt(event,"userid"));
 
     if(ValidPlayer(client,true)){
@@ -134,6 +155,11 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
+    if(RaceDisabled)
+    {
+        return Plugin_Continue;
+    }
+
 
     if (!GAMECSANY && (buttons & IN_JUMP)) //assault for non CS games
     {
@@ -214,6 +240,11 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && IsPlayerAlive(client) && pressed)
     {
         new skill_level=War3_GetSkillLevel(client,race,ULT_SPHERE);
@@ -283,6 +314,11 @@ public OnUltimateCommand(client,race,bool:pressed)
     }
 }
 public Action:sphereLoop(Handle:h,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(hasSphere[client]&&SphereEndTime[client]>GetGameTime()){
         new Float:victimpos[3];
         new team=GetClientTeam(client);
@@ -320,6 +356,11 @@ public Action:sphereLoop(Handle:h,any:client){
     
 }
 public Action:unBashUlt(Handle:h,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bBashed,thisRaceID,false);
     War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0);
     bTrapped[client]=false;
@@ -328,11 +369,21 @@ public Action:unBashUlt(Handle:h,any:client){
     
 }
 public Action:sphereend(Handle:h,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     hasSphere[client]=false;
     
 }
 
 public OnW3TakeDmgAllPre(victim,attacker,Float:damage){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(bTrapped[victim]){ ///trapped people can only be damaged with knife
         if(ValidPlayer(attacker,true)){
             new wpnent = W3GetCurrentWeaponEnt(attacker);
@@ -382,6 +433,11 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage){
     }
 }
 IsInOwnSphere(client){
+    if(RaceDisabled)
+    {
+        return false;
+    }
+
     if(hasSphere[client]){
         new Float:pos[3];
         GetClientEyePosition(client,pos);
@@ -394,7 +450,12 @@ IsInOwnSphere(client){
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true))
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    if(ValidPlayer(victim,true)&&ValidPlayer(attacker,true) &&GetClientTeam(attacker)!=GetClientTeam(victim))
     {    
         
         new skilllevel=War3_GetSkillLevel(victim,thisRaceID,SKILL_REWIND);
@@ -431,14 +492,29 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
 
 public Action:UnfreezeStun(Handle:h,any:client) //always keep timer data generic
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,bStunned,thisRaceID,false);
 }
 public OnWar3EventDeath(victim,attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     RewindHPAmount[victim]=0;
 }
 new skip;
 public OnGameFrame() //this is a sourcemod forward?, every game frame it is called. forwards if u implement it sourcemod will call you
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(skip==0){
     
         for(new i=1;i<=MaxClients;i++){

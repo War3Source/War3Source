@@ -16,6 +16,22 @@ public Plugin:myinfo =
 
 new thisRaceID;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new String:sOldModel[MAXPLAYERSCUSTOM][256];
 new OriginOffset;
 
@@ -118,11 +134,21 @@ public OnMapStart()
 }
 
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     StrikesRemaining[client]=0;
 }
 
 public OnRaceChanged(client,oldrace,newrace)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(newrace!=thisRaceID)
     {    
         War3_SetBuff(client,bImmunityUltimates,thisRaceID,false);
@@ -133,6 +159,11 @@ public OnRaceChanged(client,oldrace,newrace)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     // TODO: Increment UltimateUsed[client]
     if(race==thisRaceID && pressed && IsPlayerAlive(client))
     {
@@ -180,6 +211,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IS_PLAYER(victim)&&IS_PLAYER(attacker)&&victim>0&&attacker>0&&attacker!=victim)
     {
         if(IsPlayerAlive(attacker)&&IsPlayerAlive(victim)&&GetClientTeam(victim)!=GetClientTeam(attacker))
@@ -280,6 +316,11 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 }
 public Action:ShadowStrikeLoop(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new victim = GetClientOfUserId(userid);
     if(StrikesRemaining[victim]>0 && ValidPlayer(BeingStrikedBy[victim]) && ValidPlayer(victim,true))
     {
@@ -296,6 +337,11 @@ public Action:ShadowStrikeLoop(Handle:timer,any:userid)
 
 stock TE_SetupDynamicLight(const Float:vecOrigin[3], r,g,b,iExponent,Float:fRadius,Float:fTime,Float:fDecay)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     TE_Start("Dynamic Light");
     TE_WriteVector("m_vecOrigin",vecOrigin);
     TE_WriteNum("r",r);
@@ -309,6 +355,11 @@ stock TE_SetupDynamicLight(const Float:vecOrigin[3], r,g,b,iExponent,Float:fRadi
 
 public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     for(new i=1;i<=MaxClients;i++)
     {
         ultUsedTimes[i]=0;
@@ -330,12 +381,22 @@ public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public StartMole(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new Float:mole_time=5.0;
     W3MsgMoleIn(client,mole_time);
     CreateTimer(0.2+mole_time,DoMole,client);
 }
 public Action:DoMole(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client,true))
     {
         new team=GetClientTeam(client);
@@ -394,6 +455,11 @@ public Action:DoMole(Handle:timer,any:client)
 }
 public Action:ResetModel(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client,true))
     {
         SetEntityModel(client,sOldModel[client]);
@@ -405,6 +471,11 @@ public Action:ResetModel(Handle:timer,any:client)
 
 public Action:CalcBlink(Handle:timer,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(thisRaceID>0)
     {
         for(new i=1;i<=MaxClients;i++)
@@ -420,6 +491,11 @@ public Action:CalcBlink(Handle:timer,any:userid)
 
 public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new victim=GetClientOfUserId(GetEventInt(event,"userid"));
     new attacker=GetClientOfUserId(GetEventInt(event,"attacker"));
     new bool:should_vengence=false;
@@ -486,6 +562,11 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public GiveDeathWeapons(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(client>0)
     {
         // reincarnate with weapons
@@ -530,6 +611,11 @@ public GiveDeathWeapons(client)
 
 public Action:VengenceRespawn(Handle:t,any:userid)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new client=GetClientOfUserId(userid);
     if(client>0 && War3_GetRace(client)==thisRaceID) //did he become alive?
     {
@@ -572,6 +658,11 @@ public Action:VengenceRespawn(Handle:t,any:userid)
 
 public bool:blockingVengence(client)  //TF2 only
 {
+    if(RaceDisabled)
+    {
+        return true;
+    }
+
     //ELIMINATE ULTIMATE IF THERE IS IMMUNITY AROUND
     new Float:playerVec[3];
     GetClientAbsOrigin(client,playerVec);

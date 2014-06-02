@@ -496,6 +496,7 @@ native Float:W3GetMagicArmorMulti(client); //damage multipler for client by acco
 
 native W3GetCurrentWeaponEnt(client); //get the entity of the current (active) weapon
 
+native War3_IsMeleeWeapon(weaponIndex);
 
 native W3GetMinUltLevel();
 

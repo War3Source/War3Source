@@ -50,10 +50,25 @@ public bool:InitNativesForwards()
     CreateNative("War3_GetItemConfigArrayValue", Native_War3_GetItemConfigArrayValue); 
     CreateNative("War3_GotoItemConfigArray", Native_War3_GotoItemConfigArray);
     CreateNative("War3_GetItemConfigArrayNextValue", Native_War3_GetItemConfigArrayNextValue);
-    
+    if(g_hGlobalRaceDefault != INVALID_HANDLE)
+    {
+        CloseHandle(g_hGlobalRaceDefault);
+    }
     g_hGlobalRaceDefault = CreateKeyValues("Global Race Defaults");
+    if(g_hGlobalItemDefault != INVALID_HANDLE)
+    {
+        CloseHandle(g_hGlobalItemDefault);
+    }
     g_hGlobalItemDefault = CreateKeyValues("Global Item Defaults");
+    if(g_hDefaultRaceValues != INVALID_HANDLE)
+    {
+        CloseHandle(g_hDefaultRaceValues);
+    }
     g_hDefaultRaceValues = CreateKeyValues("Race Defaults");
+    if(g_hDefaultItemValues != INVALID_HANDLE)
+    {
+        CloseHandle(g_hDefaultItemValues);
+    }
     g_hDefaultItemValues = CreateKeyValues("Item Defaults");
     return true;
 }

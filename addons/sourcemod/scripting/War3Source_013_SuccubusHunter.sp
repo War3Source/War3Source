@@ -16,7 +16,24 @@ public Plugin:myinfo =
 };
 
 new thisRaceID, SKILL_HEADHUNTER, SKILL_TOTEM, SKILL_ASSAULT, ULT_TRANSFORM;
-new m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
+
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
+new m_iAccount = -1,m_vecVelocity_0, m_vecVelocity_1, m_vecBaseVelocity; //offsets
 
 
 //new bool:hurt_flag = true;
@@ -29,6 +46,7 @@ new Laser;
 
 new bool:lastframewasground[MAXPLAYERSCUSTOM];
 new Handle:ultCooldownCvar;
+new Handle:totemCurrencyCvar;
 
 new Float:assaultcooldown=10.0;
 
@@ -72,17 +90,30 @@ public OnPluginStart()
     AddCommandListener(SayCommand, "say");
     AddCommandListener(SayCommand, "say_team");
     
+    m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
+    
     ultCooldownCvar=CreateConVar("war3_succ_ult_cooldown","20","Cooldown for succubus ultimate");
+    totemCurrencyCvar=CreateConVar("war3_succ_totem_currency","0","Currency to use for totem | 0=currency, 1=gold, 2=money");
     
     LoadTranslations("w3s.race.succubus.phrases");
 }
 public OnRaceChanged(client,oldrace,newrace){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(oldrace==thisRaceID){
         War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
     }
 }
 public OnWar3EventSpawn(client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new race=War3_GetRace(client); 
     if (race==thisRaceID) 
     {
@@ -147,15 +178,57 @@ public OnWar3EventSpawn(client)
                 War3_SetXP(client,thisRaceID,old_XP+xp);
             }
             
-            dollar /= 16;
+            
             //PrintToChat(client,"new_credits %d",new_credits);
             if(W3GetPlayerProp(client,bStatefulSpawn))
             {
-                new oldCash = War3_GetCurrency(client);
-                War3_AddCurrency(client, dollar);
-                new newCash = War3_GetCurrency(client);
-                
-                War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                new totemCurrencySwitch = GetConVarInt(totemCurrencyCvar);
+                new oldCash, newCash;
+                switch(totemCurrencySwitch)
+                {
+                    // use system set currency
+                    case 0: 
+                    {
+                        dollar /= 16;
+                        oldCash = War3_GetCurrency(client);
+                        War3_AddCurrency(client, dollar);
+                        newCash = War3_GetCurrency(client);
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                    }
+                    // use gold
+                    case 1: 
+                    {
+                        new Handle:g_hMaxCurrency = FindConVar("war3_max_currency");
+                        new max;
+                        if(g_hMaxCurrency != INVALID_HANDLE)
+                        {
+                            max=GetConVarInt(g_hMaxCurrency);
+                        }
+                        else
+                        {
+                            max = 100;
+                        }
+                            
+
+                        oldCash=War3_GetGold(client);
+                        dollar /= 16;
+                        newCash = oldCash + dollar;
+                        if (newCash > max)
+                            newCash = max;
+                        War3_SetGold(client,newCash);
+                        
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} gold and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+
+                    }
+                    // use money
+                    case 2: 
+                    {
+                        oldCash=GetEntData(client, m_iAccount);
+                        newCash = oldCash + dollar;
+                        SetEntData(client, m_iAccount, newCash);
+                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                    }
+                }
             }
         }
     }
@@ -163,7 +236,12 @@ public OnWar3EventSpawn(client)
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker)
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    if(!isWarcraft && ValidPlayer(victim, true, true) && ValidPlayer(attacker) && victim != attacker && GetClientTeam( victim ) != GetClientTeam( attacker ))
     {
         new skilllevelheadhunter = War3_GetSkillLevel(attacker, thisRaceID, SKILL_HEADHUNTER);
         if (skilllevelheadhunter > 0 && !W3HasImmunity(victim, Immunity_Skills) && !Hexed(attacker))
@@ -270,6 +348,11 @@ public PlayerHurtEvent(Handle:event,const String:name[],bool:dontBroadcast)
 }
 */
 public OnWar3EventDeath(victim,attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new skilllevelheadhunter=War3_GetSkillLevel(attacker,thisRaceID,SKILL_HEADHUNTER);
     if (skilllevelheadhunter &&!Hexed(attacker)&&victim!=attacker)
     {
@@ -391,6 +474,11 @@ DP("death");
 */
 public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     new client=GetClientOfUserId(GetEventInt(event,"userid"));
     new race=War3_GetRace(client);
     if (race==thisRaceID)
@@ -456,6 +544,11 @@ public PlayerJumpEvent(Handle:event,const String:name[],bool:dontBroadcast)
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
+    if(RaceDisabled)
+    {
+        return Plugin_Continue;
+    }
+
 
     if (!GAMECSANY && (buttons & IN_JUMP)) //assault for non CS games
     {
@@ -575,6 +668,11 @@ public OnClientPutInServer(client)
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(client,true)&&pressed && race==thisRaceID)
     {
         new skill_trans=War3_GetSkillLevel(client,race,ULT_TRANSFORM);
@@ -614,6 +712,11 @@ public OnUltimateCommand(client,race,bool:pressed)
 
 public Action:Finishtrans(Handle:timer,any:client)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     
     if(m_IsULT_TRANSFORMformed[client]){
         War3_SetBuff(client,fMaxSpeed,thisRaceID,1.0);

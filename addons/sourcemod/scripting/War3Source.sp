@@ -1,4 +1,6 @@
- 
+// Release date is based on Month.Day.Year of when it was last changed
+#define RELEASE_DATE "5/10/2014"
+
 /*  This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -11,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
+
     War3source written by PimpinJuice (anthony) and Ownz (Dark Energy)
     All rights reserved.
 */
@@ -70,16 +72,16 @@ Working hard, never stressed
 And that's the art of the test!
 
 */
-// 
+//
 // Dear maintainer:
-// 
+//
 // Once you are done trying to 'optimize' this routine,
 // and have realized what a terrible mistake that was,
 // please increment the following counter as a warning
 // to the next guy:
-// 
+//
 // total_hours_wasted_here = 39
-// 
+//
 
 
 /**
@@ -103,10 +105,10 @@ And that's the art of the test!
  * night cursing the moment you thought youd be clever
  * enough to "optimize" the code below.
  * Now close this file and go play with something else.
- */ 
- 
-//Dear future me. Please forgive me. 
-//I can't even begin to express how sorry I am.  
+ */
+
+//Dear future me. Please forgive me.
+//I can't even begin to express how sorry I am.
 
 #pragma semicolon 1
 
@@ -114,7 +116,6 @@ And that's the art of the test!
 #include "sdkhooks"
 //#include <profiler>
 #include "W3SIncs/War3Source_Interface"
-
 
 //THESE are updated less frequently
 //JENKINS overwrites these
@@ -128,7 +129,7 @@ And that's the art of the test!
 
 
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
     name = "War3Source",
     author = "War3Source Team",
@@ -157,7 +158,7 @@ new Handle:g_War3InterfaceExecFH;
 
 public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_max)
 {
-    //DO NOT REMOVE this print, its for spacial separation for the server console output 
+    //DO NOT REMOVE this print, its for spacial separation for the server console output
     //Easier for the developer to see were relevant output begins
     PrintToServer("[W3S] -= LOADING W3S =-");
     PrintToServer("[W3S] #       #    #####     #####  ");
@@ -167,15 +168,16 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
     PrintToServer("[W3S] #   #   #         #         # ");
     PrintToServer("[W3S] #   #   #   #     #   #     # ");
     PrintToServer("[W3S]  ### ###     #####     #####  ");
-                         
-    
+
+
     new String:version[64];
     Format(version, sizeof(version), "%s by the War3Source Team", VERSION_NUM);
     CreateConVar("war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("a_war3_version", version, "War3Source version.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("war3_branch", BRANCH, "War3Source branch.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     CreateConVar("war3_buildnumber", BUILD_NUMBER, "War3Source build number.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
-    
+    CreateConVar("war3_release", RELEASE_DATE, "War3Source version release date.", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+
     CreateNative("W3GetW3Version", NW3GetW3Version);
     CreateNative("W3GetW3Revision", NW3GetW3Revision);
 
@@ -184,7 +186,7 @@ public APLRes:AskPluginLoad2Custom(Handle:myself,bool:late,String:error[],err_ma
         War3_LogCritical("There was a failure in creating the forward based functions, definately halting.");
         return APLRes_Failure;
     }
-    
+
     return APLRes_Success;
 }
 
@@ -211,28 +213,28 @@ War3Source_InitCVars()
     introclannamecvar = CreateConVar("war3_introclanname", "war3_introclanname", "Intro menu clan name (welcome to 'YOUR CLAN NAME' War3Source server!)");
     clanurl = CreateConVar("war3_clanurl", "www.ownageclan.Com (set war3_clanurl)", "The url to display on intro menu");
     hChangeGameDescCvar = CreateConVar("war3_game_desc", "1", "change game description to war3source? does not affect player connect");
-    
+
     hLoadWar3CFGEveryMapCvar = CreateConVar("war3_load_war3source_cfg_every_map", "1", "May help speed up map changes if disabled.");
-    
+
     hRaceLimitEnabled = CreateConVar("war3_racelimit_enable", "1", "Should race limit restrictions per team be enabled");
     W3SetVar(hRaceLimitEnabledCvar, hRaceLimitEnabled);
 
     hUseMetric = CreateConVar("war3_metric_system", "1", "Do you want use metric system? 1-Yes, 0-No");
     W3SetVar(hUseMetricCvar, hUseMetric);
-    
+
     return true;
 }
 
 
 bool:War3Source_InitForwards()
 {
-   
+
     g_OnWar3EventSpawnFH = CreateGlobalForward("OnWar3EventSpawn", ET_Ignore, Param_Cell);
     g_OnWar3EventDeathFH = CreateGlobalForward("OnWar3EventDeath", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
 
     g_CheckCompatabilityFH = CreateGlobalForward("CheckWar3Compatability", ET_Ignore, Param_String);
     g_War3InterfaceExecFH = CreateGlobalForward("War3InterfaceExec", ET_Ignore);
-    
+
     return true;
 }
 
@@ -263,7 +265,7 @@ public Action:armortest(client, args)
             new String:arg[10];
             GetCmdArg(1, arg, sizeof(arg));
             new Float:num = StringToFloat(arg);
-            
+
             War3_SetBuff(i, fArmorPhysical, 1, num);
             War3_SetBuff(i, fArmorMagic, 1, num);
         }
@@ -290,8 +292,8 @@ public Action:refreshcooldowns(client, args)
 public OnMapStart()
 {
     DoWar3InterfaceExecForward();
-    
-    
+
+
     DelayedWar3SourceCfgExecute();
     OneTimeForwards();
 }
@@ -301,10 +303,10 @@ public Action:OnGetGameDescription(String:gameDesc[64])
     if(GetConVarInt(hChangeGameDescCvar) > 0)
     {
         Format(gameDesc, sizeof(gameDesc), "War3Source %s", VERSION_NUM);
-        
+
         return Plugin_Changed;
     }
-    
+
     return Plugin_Continue;
 }
 
@@ -352,12 +354,12 @@ public NW3GetW3Revision(Handle:plugin,numParams)
     {
         revision = -1;
     }
-    
+
     // Revision -1 means developer build :P
     return revision;
 }
 public NW3GetW3Version(Handle:plugin, numParams)
-{    
+{
     SetNativeString(1, VERSION_NUM, GetNativeCell(2));
 }
 
@@ -376,7 +378,7 @@ bool:War3Source_HookEvents()
     }
 
     return true;
-    
+
 }
 
 public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBroadcast)
@@ -386,15 +388,15 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
     if(ValidPlayer(client,true))
     {
         War3_SetMaxHP_INTERNAL(client, GetClientHealth(client));
-        
+
         CheckPendingRace(client);
-        
+
         //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
         if(IsFakeClient(client) && W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
         {
             War3_bots_pickrace(client);
         }
-        
+
         new raceid = War3_GetRace(client);
         if(!W3GetPlayerProp(client, SpawnedOnce))
         {
@@ -414,13 +416,13 @@ public War3Source_PlayerSpawnEvent(Handle:event,const String:name[],bool:dontBro
         {
             W3DoLevelCheck(client);
             War3_ShowXP(client);
-            
+
             W3CreateEvent(DoCheckRestrictedItems,client);
         }
 
         //forward to all other plugins last
         DoForward_OnWar3EventSpawn(client);
-        
+
         W3SetPlayerProp(client, bStatefulSpawn, false); //no longer a "stateful" spawn
     }
 }
@@ -430,27 +432,27 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
     new uid_victim = GetEventInt(event, "userid");
     new uid_attacker = GetEventInt(event, "attacker");
     new uid_entity = GetEventInt(event, "entityid");
-    
+
     new victimIndex = 0;
     new attackerIndex = 0;
-    
+
     if(uid_attacker > 0)
     {
         attackerIndex = GetClientOfUserId(uid_attacker);
     }
-    
+
     if (GAMEL4DANY && War3_IsCommonInfected(uid_entity))
     {
         new death_race = War3_GetRace(victimIndex);
         W3SetVar(DeathRace, death_race);
         new Handle:oldevent = W3GetVar(SmEvent);
-        W3SetVar(SmEvent, event); //stacking on stack 
-        
+        W3SetVar(SmEvent, event); //stacking on stack
+
         W3SetVar(EventArg1, attackerIndex);
-        
+
         //post death event actual forward
         DoForward_OnWar3EventDeath(uid_entity, attackerIndex, death_race);
-        
+
         W3SetVar(SmEvent, oldevent); //restore on stack , if any
         return Plugin_Continue;
     }
@@ -458,7 +460,7 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
     {
         victimIndex = GetClientOfUserId(uid_victim);
     }
-    
+
     new bool:deadringereath = false;
     if(uid_victim > 0)
     {
@@ -489,32 +491,32 @@ public Action:War3Source_PlayerDeathEvent(Handle:event,const String:name[],bool:
         }
         else
         {
-            W3DoLevelCheck(victimIndex);    
+            W3DoLevelCheck(victimIndex);
         }
     }
-    
+
     if(victimIndex && !deadringereath) //forward to all other plugins last
     {
         new death_race = War3_GetRace(victimIndex);
         W3SetVar(DeathRace,death_race);
-        
+
         new Handle:oldevent=W3GetVar(SmEvent);
-        W3SetVar(SmEvent,event); //stacking on stack 
-        
+        W3SetVar(SmEvent,event); //stacking on stack
+
         ///pre death event, internal event
         W3SetVar(EventArg1, attackerIndex);
         W3CreateEvent(OnDeathPre, victimIndex);
-        
+
         //post death event actual forward
         DoForward_OnWar3EventDeath(victimIndex, attackerIndex, death_race);
-        
+
         W3SetVar(SmEvent,oldevent); //restore on stack , if any
 
         //then we allow change race AFTER death forward
         W3SetPlayerProp(victimIndex, bStatefulSpawn, true); //next spawn shall be stateful
         CheckPendingRace(victimIndex);
     }
-    
+
     return Plugin_Continue;
 }
 
@@ -525,17 +527,17 @@ CheckPendingRace(client)
     if(pendingrace > 0)
     {
         W3SetPendingRace(client,-1);
-        
+
         if(CanSelectRace(client, pendingrace) || W3IsDeveloper(client))
         {
-            War3_SetRace(client, pendingrace); 
+            War3_SetRace(client, pendingrace);
         }
         else //already at limit
         {
             War3_LogInfo("Race \"{race %i}\" blocked on player \"{client %i}\" due to restrictions limit (CheckPendingRace)", pendingrace, client);
             W3CreateEvent(DoShowChangeRaceMenu, client);
         }
-        
+
     }
     else if(War3_GetRace(client) == 0) ///wasnt pending
     {
@@ -553,12 +555,12 @@ CheckPendingRace(client)
 War3Source_IntroMenu(client)
 {
     new Handle:introMenu = CreateMenu(War3Source_IntroMenu_Select);
-    
+
     new String:clanname[32];
     GetConVarString(introclannamecvar, clanname, sizeof(clanname));
 
     new String:welcome[512];
-    
+
     // locally compiled version
     if (StrEqual(BRANCH, "{branch}"))
     {
@@ -572,22 +574,22 @@ War3Source_IntroMenu(client)
     // Branch autobuild
     else
     {
-        Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER); 
+        Format(welcome, sizeof(welcome), "%T\n \n", "WelcomeToServer", client, clanname, BRANCH, BUILD_NUMBER);
     }
-    
+
     SetSafeMenuTitle(introMenu, welcome);
     SetMenuExitButton(introMenu, false);
-    
+
     new String:buf[64];
     Format(buf, sizeof(buf), "%T", "ForHelpIntro", client);
     AddMenuItem(introMenu, "exit", buf);
-    
+
     GetConVarString(clanurl, buf, sizeof(buf));
     if(strlen(buf))
     {
         AddMenuItem(introMenu, "exit", buf);
     }
-    
+
     Format(buf, sizeof(buf), "www.war3source.com");
     AddMenuItem(introMenu, "exit", buf);
     DisplayMenu(introMenu, client, MENU_TIME_FOREVER);
@@ -606,7 +608,7 @@ public War3Source_IntroMenu_Select(Handle:menu, MenuAction:action, client, selec
             War3_ChatMessage(client, "%T", "Please be patient while we load your XP", client);
         }
     }
-    
+
     if(action == MenuAction_End)
     {
         CloseHandle(menu);

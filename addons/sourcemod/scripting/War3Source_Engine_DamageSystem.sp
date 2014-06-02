@@ -202,10 +202,36 @@ public Native_W3ChanceModifier(Handle:plugin, numParams)
     return _:ChanceModifier[attacker];
 }
 
+new VictimCheck=-666;
+new AttackerCheck=-666;
+new InflictorCheck=-666;
+new Float:DamageCheck=-666.6;
+new DamageTypeCheck=-666;
+new WeaponCheck=-666;
+new Float:damageForceCheck[3];
+new Float:damagePositionCheck[3];
+new damagecustomCheck = -666;
 
-public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:damage,&damagetype)
+public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:damage,&damagetype,&weapon,Float:damageForce[3], Float:damagePosition[3], damagecustom)
 {
-    
+    if(VictimCheck==victim
+    &&AttackerCheck==attacker
+    &&InflictorCheck==inflictor
+    &&DamageCheck==damage
+    &&DamageTypeCheck==damagetype
+    &&WeaponCheck==weapon
+    &&damageForceCheck[0]==damageForce[0]
+    &&damageForceCheck[1]==damageForce[1]
+    &&damageForceCheck[2]==damageForce[2]
+    &&damagePositionCheck[0]==damagePosition[0]
+    &&damagePositionCheck[1]==damagePosition[1]
+    &&damagePositionCheck[2]==damagePosition[2]
+    &&damagecustomCheck==damagecustom
+    )
+    {
+        return Plugin_Continue;
+    }
+
     new String:race[32];
     War3_GetRaceName(War3_GetRace(attacker),race,sizeof(race));
     
@@ -344,6 +370,21 @@ public Action:SDK_Forwarded_OnTakeDamage(victim,&attacker,&inflictor,&Float:dama
         
         
         damagestack--;
+
+        VictimCheck=victim;
+        AttackerCheck=attacker;
+        InflictorCheck=inflictor;
+        DamageCheck=damage;
+        DamageTypeCheck=damagetype;
+        WeaponCheck=weapon;
+        damageForceCheck[0]=damageForce[0];
+        damageForceCheck[1]=damageForce[1];
+        damageForceCheck[2]=damageForce[2];
+        damagePositionCheck[0]=damagePosition[0];
+        damagePositionCheck[1]=damagePosition[1];
+        damagePositionCheck[2]=damagePosition[2];
+        damagecustomCheck=damagecustom;
+
         #if defined DEBUG
         
         DP2("sdktakedamage %d->%d END dmg [%.2f]",attacker,victim,damage);

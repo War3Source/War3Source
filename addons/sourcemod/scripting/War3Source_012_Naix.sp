@@ -34,6 +34,22 @@ new Handle:ultCooldownCvar;
 
 new thisRaceID, SKILL_INFEST, SKILL_BLOODBATH, SKILL_FEAST, ULT_RAGE;
 
+new bool:RaceDisabled=true;
+public OnWar3RaceEnabled(newrace)
+{
+    if(newrace==thisRaceID)
+    {
+        RaceDisabled=false;
+    }
+}
+public OnWar3RaceDisabled(oldrace)
+{
+    if(oldrace==thisRaceID)
+    {
+        RaceDisabled=true;
+    }
+}
+
 new String:skill1snd[256]; //="war3source/naix/predskill1.mp3";
 new String:ultsnd[256]; //="war3source/naix/predult.mp3";
 
@@ -60,8 +76,12 @@ public OnWar3LoadRaceOrItemOrdered(num)
 }
 
 stock bool:IsOurRace(client) {
+    if(RaceDisabled)
+    {
+        return false;
+    }
 
-  return (War3_GetRace(client)==thisRaceID);
+    return (War3_GetRace(client)==thisRaceID);
 }
 
 
@@ -76,7 +96,12 @@ public OnMapStart()
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)
 {
-    if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
+    if(ValidPlayer(victim)&&W3Chance(W3ChanceModifier(attacker))&&ValidPlayer(attacker)&&IsOurRace(attacker)&&victim!=attacker&&GetClientTeam(attacker)!=GetClientTeam(victim)){
         new level = War3_GetSkillLevel(attacker, thisRaceID, SKILL_FEAST);
         if(level>0&&!Hexed(attacker,false)&&W3Chance(W3ChanceModifier(attacker))){
             if(!W3HasImmunity(victim,Immunity_Skills)){    
@@ -91,6 +116,11 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
     }
 }
 public OnWar3EventSpawn(client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(IsOurRace(client)){
         new level = War3_GetSkillLevel(client, thisRaceID, SKILL_BLOODBATH);
         if(level>=0){ //zeroth level passive
@@ -111,12 +141,22 @@ public OnRaceChanged(client,oldrace,newrace)
 }*/
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon)
 {
+    if(RaceDisabled)
+    {
+        return Plugin_Continue;
+    }
+
     
     bDucking[client]=(buttons & IN_DUCK)?true:false;
     return Plugin_Continue;
 }
 //new Float:teleportTo[66][3];
 public OnWar3EventDeath(victim,attacker){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(ValidPlayer(victim)&&ValidPlayer(attacker)&&IsOurRace(attacker)){
         new iSkillLevel=War3_GetSkillLevel(attacker,thisRaceID,SKILL_INFEST);
         if (iSkillLevel>0)
@@ -167,6 +207,11 @@ public Action:setlocation(Handle:t,any:attacker){
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     if(race==thisRaceID && pressed && ValidPlayer(client,true))
     {
         new ultLevel=War3_GetSkillLevel(client,thisRaceID,ULT_RAGE);
@@ -202,6 +247,11 @@ public OnUltimateCommand(client,race,bool:pressed)
     }
 }
 public Action:stopRage(Handle:t,any:client){
+    if(RaceDisabled)
+    {
+        return;
+    }
+
     War3_SetBuff(client,fAttackSpeed,thisRaceID,1.0);
     if(ValidPlayer(client,true)){
         PrintHintText(client,"%T","You are no longer in rage mode",client);
