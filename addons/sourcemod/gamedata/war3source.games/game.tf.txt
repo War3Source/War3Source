@@ -1,0 +1,44 @@
+/* Team Fortress 2 GameData */
+"Games"
+{
+	"tf"
+	{
+		/* Only used on SM 1.6 and above. */
+		"Addresses"
+		{
+			"IsMeleeWeapon"
+			{
+				"windows"
+				{
+					/* Call to IsMeleeWeapon in CTFBotDefendPoint::Update function. */
+					"signature" "CTFBotDefendPoint_Update"
+				}
+			}
+		}
+		
+		"Signatures"
+		{
+			/* This function does not have a 100% unique windows signature.
+			 * So I had to un-wildcard some cherry-picked bytes.
+			 * Please note that this signature isn't very reliable!
+			 * However, if we're running on sourcemod 1.6 and above we can specify
+			 * raw memory addresses for a SDKCall thus we can search for references to
+			 * the IsMeleeWeapon function, sigscan them, and calculate the real VA of
+			 * the function by it's JMP offset and the value of EIP. */
+			"IsMeleeWeapon"
+			{
+				"library"	"server"
+				"windows"	"\x0F\xB7\x81\x2A\x2A\x2A\x2A\x50\xE8\x2A\x2A\x2A\x2A\x83\xC4\x04\x8A\x80\xC8\x06\x00\x00"
+				"linux"		"@_ZNK17CBaseCombatWeapon13IsMeleeWeaponEv"
+			}
+			
+			/* See above for more detail. This points us directly to:
+			 * E8 67 34 CE FF | call CBaseCombatWeapon__IsMeleeWeapon */
+			"CTFBotDefendPoint_Update"
+			{
+				"library"	"server"
+				"windows"	"\xE8\x2A\x2A\x2A\x2A\x84\xC0\x75\x0D\x6A\x19\x8B\xCE\xE8\x2A\x2A\x2A\x2A\x84\xC0\x74\x65"
+			}
+		}
+	}
+}

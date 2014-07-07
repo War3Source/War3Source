@@ -1,0 +1,11 @@
+﻿"Phrases"
+{
+	"fbracer_ItemName"
+	{
+		"ru"		"Наручи"
+	}
+	"fbracer_ItemDesc"
+	{
+		"ru"		"+10 максимального HP."
+	}
+}

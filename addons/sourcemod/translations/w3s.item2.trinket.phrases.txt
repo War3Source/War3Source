@@ -1,10 +1,10 @@
 "Phrases"
 {
-	"trinket_ItemName"
+	"trinket_temName"
 	{
 		"en"		"Trinket of Restoration"
 	}
-	"trinket_ItemDesc"
+	"trinket_temDesc"
 	{
 		"en"		"+0.5 HP regeneration."
 	}

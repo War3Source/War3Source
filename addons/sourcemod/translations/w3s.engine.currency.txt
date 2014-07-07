@@ -1,0 +1,19 @@
+Phrases
+{
+    "War3_Currency_Singular"
+    {
+        "en"        "gold"
+    }
+    "War3_Currency_Plural"
+    {
+        "en"        "gold"
+    }
+    "War3_DollarCurrency_Singular"
+    {
+        "en"        "$"
+    }
+    "War3_DollarCurrency_Plural"
+    {
+        "en"        "$"
+    }
+}

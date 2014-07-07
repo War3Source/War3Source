@@ -162,30 +162,30 @@ native Steam_GetClientDLC(client, index);
 
 stock bool:Steam_CheckClientSubscription(client, subid)
 {
-	new subCount = Steam_GetNumClientSubscriptions(client);
-	for (new x = 0; x < subCount; x++)
-	{
-		if (Steam_GetClientSubscription(client, x) == subid)
-		{
-			return true;
-		}
-	}
+    new subCount = Steam_GetNumClientSubscriptions(client);
+    for (new x = 0; x < subCount; x++)
+    {
+        if (Steam_GetClientSubscription(client, x) == subid)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 stock bool:Steam_CheckClientDLC(client, appid)
 {
-	new subCount = Steam_GetNumClientDLCs(client);
-	for (new x = 0; x < subCount; x++)
-	{
-		if (Steam_GetClientDLC(client, x) == appid)
-		{
-			return true;
-		}
-	}
+    new subCount = Steam_GetNumClientDLCs(client);
+    for (new x = 0; x < subCount; x++)
+    {
+        if (Steam_GetClientDLC(client, x) == appid)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 native Steam_GetCSteamIDForClient(client, String:steamID[], maxlength);
@@ -201,76 +201,76 @@ native Steam_CSteamIDToGroupID(const String:steamID[]);
 
 enum HTTPRequestHandle
 {
-	INVALID_HTTP_HANDLE = 0,
+    INVALID_HTTP_HANDLE = 0,
 };
 
 enum HTTPMethod
 {
-	HTTPMethod_Invalid = 0,
-	HTTPMethod_GET,
-	HTTPMethod_HEAD,
-	HTTPMethod_POST,
+    HTTPMethod_Invalid = 0,
+    HTTPMethod_GET,
+    HTTPMethod_HEAD,
+    HTTPMethod_POST,
 };
 
 enum HTTPStatusCode
 {
-	HTTPStatusCode_Invalid =						0,
+    HTTPStatusCode_Invalid =                        0,
 
-	// Informational codes
-	HTTPStatusCode_Continue =						100,
-	HTTPStatusCode_SwitchingProtocols =				101,
+    // Informational codes
+    HTTPStatusCode_Continue =                        100,
+    HTTPStatusCode_SwitchingProtocols =                101,
 
-	// Success codes
-	HTTPStatusCode_OK =								200,
-	HTTPStatusCode_Created =						201,
-	HTTPStatusCode_Accepted =						202,
-	HTTPStatusCode_NonAuthoritative =				203,
-	HTTPStatusCode_NoContent =						204,
-	HTTPStatusCode_ResetContent =					205,
-	HTTPStatusCode_PartialContent =					206,
+    // Success codes
+    HTTPStatusCode_OK =                                200,
+    HTTPStatusCode_Created =                        201,
+    HTTPStatusCode_Accepted =                        202,
+    HTTPStatusCode_NonAuthoritative =                203,
+    HTTPStatusCode_NoContent =                        204,
+    HTTPStatusCode_ResetContent =                    205,
+    HTTPStatusCode_PartialContent =                    206,
 
-	// Redirection codes
-	HTTPStatusCode_MultipleChoices =				300,
-	HTTPStatusCode_MovedPermanently =				301,
-	HTTPStatusCode_Found =							302,
-	HTTPStatusCode_SeeOther =						303,
-	HTTPStatusCode_NotModified =					304,
-	HTTPStatusCode_UseProxy =						305,
-	HTTPStatusCode_TemporaryRedirect =				307,
+    // Redirection codes
+    HTTPStatusCode_MultipleChoices =                300,
+    HTTPStatusCode_MovedPermanently =                301,
+    HTTPStatusCode_Found =                            302,
+    HTTPStatusCode_SeeOther =                        303,
+    HTTPStatusCode_NotModified =                    304,
+    HTTPStatusCode_UseProxy =                        305,
+    HTTPStatusCode_TemporaryRedirect =                307,
 
-	// Error codes
-	HTTPStatusCode_BadRequest =						400,
-	HTTPStatusCode_Unauthorized =					401,
-	HTTPStatusCode_PaymentRequired =				402,
-	HTTPStatusCode_Forbidden =						403,
-	HTTPStatusCode_NotFound =						404,
-	HTTPStatusCode_MethodNotAllowed =				405,
-	HTTPStatusCode_NotAcceptable =					406,
-	HTTPStatusCode_ProxyAuthRequired =				407,
-	HTTPStatusCode_RequestTimeout =					408,
-	HTTPStatusCode_Conflict =						409,
-	HTTPStatusCode_Gone =							410,
-	HTTPStatusCode_LengthRequired =					411,
-	HTTPStatusCode_PreconditionFailed =				412,
-	HTTPStatusCode_RequestEntityTooLarge =			413,
-	HTTPStatusCode_RequestURITooLong =				414,
-	HTTPStatusCode_UnsupportedMediaType =			415,
-	HTTPStatusCode_RequestedRangeNotSatisfiable =	416,
-	HTTPStatusCode_ExpectationFailed =				417,
-	
-	// Server error codes
-	HTTPStatusCode_InternalServerError =			500,
-	HTTPStatusCode_NotImplemented =					501,
-	HTTPStatusCode_BadGateway =						502,
-	HTTPStatusCode_ServiceUnavailable =				503,
-	HTTPStatusCode_GatewayTimeout =					504,
-	HTTPStatusCode_HTTPVersionNotSupported =		505,
+    // Error codes
+    HTTPStatusCode_BadRequest =                        400,
+    HTTPStatusCode_Unauthorized =                    401,
+    HTTPStatusCode_PaymentRequired =                402,
+    HTTPStatusCode_Forbidden =                        403,
+    HTTPStatusCode_NotFound =                        404,
+    HTTPStatusCode_MethodNotAllowed =                405,
+    HTTPStatusCode_NotAcceptable =                    406,
+    HTTPStatusCode_ProxyAuthRequired =                407,
+    HTTPStatusCode_RequestTimeout =                    408,
+    HTTPStatusCode_Conflict =                        409,
+    HTTPStatusCode_Gone =                            410,
+    HTTPStatusCode_LengthRequired =                    411,
+    HTTPStatusCode_PreconditionFailed =                412,
+    HTTPStatusCode_RequestEntityTooLarge =            413,
+    HTTPStatusCode_RequestURITooLong =                414,
+    HTTPStatusCode_UnsupportedMediaType =            415,
+    HTTPStatusCode_RequestedRangeNotSatisfiable =    416,
+    HTTPStatusCode_ExpectationFailed =                417,
+    
+    // Server error codes
+    HTTPStatusCode_InternalServerError =            500,
+    HTTPStatusCode_NotImplemented =                    501,
+    HTTPStatusCode_BadGateway =                        502,
+    HTTPStatusCode_ServiceUnavailable =                503,
+    HTTPStatusCode_GatewayTimeout =                    504,
+    HTTPStatusCode_HTTPVersionNotSupported =        505,
 };
 
 funcenum HTTPRequestComplete
 {
-	public(HTTPRequestHandle:HTTPRequest, bool:requestSuccessful, HTTPStatusCode:statusCode),
-	public(HTTPRequestHandle:HTTPRequest, bool:requestSuccessful, HTTPStatusCode:statusCode, any:contextData),
+    public(HTTPRequestHandle:HTTPRequest, bool:requestSuccessful, HTTPStatusCode:statusCode),
+    public(HTTPRequestHandle:HTTPRequest, bool:requestSuccessful, HTTPStatusCode:statusCode, any:contextData),
 };
 
 native HTTPRequestHandle:Steam_CreateHTTPRequest(HTTPMethod:HTTPRequestMethod, const String:absoluteURL[]);
@@ -290,16 +290,16 @@ native Float:Steam_GetHTTPDownloadProgressPercent(HTTPRequestHandle:HTTPRequest)
 
 public Extension:__ext_SteamTools = 
 {
-	name = "SteamTools",
-	file = "steamtools.ext",
+    name = "SteamTools",
+    file = "steamtools.ext",
 #if defined AUTOLOAD_EXTENSIONS
-	autoload = 1,
+    autoload = 1,
 #else
-	autoload = 0,
+    autoload = 0,
 #endif
 #if defined REQUIRE_EXTENSIONS
-	required = 1,
+    required = 1,
 #else
-	required = 0,
+    required = 0,
 #endif
 }
