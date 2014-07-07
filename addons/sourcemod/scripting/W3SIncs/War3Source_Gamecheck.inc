@@ -44,6 +44,10 @@ stock DetermineGameMode()
     {
         tValveGame = _:Game_DOD;
     }
+    else if (StrContains(gameDir, "fof", false) == 0) 
+    {
+        tValveGame = _:Game_FOF;
+    }
     else if(StrContains(gameDir, "tf", false) == 0)
     {
         tValveGame = _:Game_TF;

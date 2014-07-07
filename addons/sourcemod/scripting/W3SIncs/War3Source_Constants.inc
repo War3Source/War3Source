@@ -194,14 +194,17 @@ enum ValveGameEnum
   Game_L4D=4,
   Game_L4D2=5,
   Game_CSGO=6,
+  Game_FOF=7,
   
   //Are you feeling Lazy? use this!
   CS=Game_CS,
   DOD=Game_DOD,
+  FOF=Game_FOF,
   TF=Game_TF,
   L4D=Game_L4D,
   L4D2=Game_L4D2,
   CSGO=Game_CSGO
+  
 }
 
 //Basically Instance variables for the Player Class
