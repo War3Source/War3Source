@@ -59,7 +59,7 @@ public OnPluginStart()
     
     CreateTimer(0.3,BerserkerCalculateTimer,_,TIMER_REPEAT);      // Berserker ASPD Buff timer
     CreateTimer(1.0,Heal_BurningSpearTimer,_,TIMER_REPEAT);  // Burning Spear DoT Timer
-    LoadTranslations("w3s.race.sacredw.phrases");
+    LoadTranslations("w3s.race.sacredw.phrases.txt");
     ultCooldownCvar=CreateConVar("war3_sacredw_ult_cooldown","20","Cooldown time for ult.");
 }
 public OnWar3LoadRaceOrItemOrdered(num)

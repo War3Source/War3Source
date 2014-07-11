@@ -18,7 +18,7 @@ public Plugin:myinfo =
 
 new Handle:nosuicidecvar;
 public OnPluginStart(){
-    LoadTranslations("w3s.addon.nospysuicide.phrases");
+    LoadTranslations("w3s.addon.nospysuicide.phrases.txt");
     nosuicidecvar=CreateConVar("war3_no_spy_suicide","1");
 }
 public OnW3Denyable(W3DENY:event, client)

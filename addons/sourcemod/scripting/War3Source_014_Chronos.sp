@@ -81,7 +81,7 @@ public OnPluginStart()
         HookEvent("player_jump",PlayerJumpEvent);
     }
     RegConsoleCmd("bashme",Cmdbashme);
-    LoadTranslations("w3s.race.chronos.phrases");
+    LoadTranslations("w3s.race.chronos.phrases.txt");
 }
 public Action:Cmdbashme(client,args){
     static bool:foo=false;

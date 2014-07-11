@@ -112,7 +112,7 @@ public OnPluginStart()
     HookEvent("player_death",PlayerDeathEvent);
     HookEvent("player_team",PlayerTeamEvent);
     
-    LoadTranslations("w3s.race.mage.phrases");
+    LoadTranslations("w3s.race.mage.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

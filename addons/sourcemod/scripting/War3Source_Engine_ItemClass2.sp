@@ -145,7 +145,7 @@ public NWar3_CreateShopItem2T(Handle:plugin,numParams)
   */
   
   new String:buf[64];
-  Format(buf,sizeof(buf),"w3s.item2.%s.phrases",shortname);
+  Format(buf,sizeof(buf),"w3s.item2.%s.phrases.txt",shortname);
   LoadTranslations(buf);
   return itemid;
 }

@@ -72,7 +72,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.rarity.phrases");
+    LoadTranslations("w3s.race.rarity.phrases.txt");
 }
 
 public OnMapStart()

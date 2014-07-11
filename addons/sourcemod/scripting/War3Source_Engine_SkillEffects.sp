@@ -29,8 +29,8 @@ public bool:InitNativesForwards()
 public OnPluginStart()
 {
     // Yes, this should be a "skilleffects" translation file later ;)
-    LoadTranslations("w3s.race.undead.phrases");
-    LoadTranslations("w3s.race.human.phrases");
+    LoadTranslations("w3s.race.undead.phrases.txt");
+    LoadTranslations("w3s.race.human.phrases.txt");
     
     for(new i=1; i <= MaxClients; i++)
     {

@@ -12,7 +12,7 @@ new Handle:h_ForwardOnWar3VampirismPost = INVALID_HANDLE;
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.undead.phrases");
+    LoadTranslations("w3s.race.undead.phrases.txt");
 }
 
 public bool:InitNativesForwards()

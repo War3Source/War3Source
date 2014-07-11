@@ -47,7 +47,7 @@ public OnPluginStart()
 {
     EntangleCooldownCvar=CreateConVar("war3_nightelf_entangle_cooldown", "20", "Cooldown timer.");
 
-    LoadTranslations("w3s.race.nightelf.phrases");
+    LoadTranslations("w3s.race.nightelf.phrases.txt");
 }
 
 public OnMapStart()

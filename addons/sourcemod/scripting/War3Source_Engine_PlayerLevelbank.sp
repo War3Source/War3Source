@@ -23,7 +23,7 @@ public OnPluginStart()
     hLevelup=CreateConVar("war3_levelbank_method","0","Selects the method the levelbank uses the levelup a player(available: 0=just increase current race level(default) 1=give required XP to levelup)");
 
     RegAdminCmd("war3_addlevelbank",War3Source_CMD_addlevelbank,ADMFLAG_RCON,"Add to user(steamid)'s level bank");
-    LoadTranslations("w3s.levelbank.phrases");
+    LoadTranslations("w3s.levelbank.phrases.txt");
 }
 
 public bool:InitNativesForwards()

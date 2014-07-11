@@ -57,7 +57,7 @@ public OnPluginStart()
 {
     ultCooldownCvar=CreateConVar("war3_naix_ult_cooldown","20","Cooldown time for Rage.");
     
-    LoadTranslations("w3s.race.naix.phrases");
+    LoadTranslations("w3s.race.naix.phrases.txt");
 }
 public OnWar3LoadRaceOrItemOrdered(num)
 {

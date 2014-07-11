@@ -36,7 +36,7 @@ public OnPluginStart()
     RegConsoleCmd("war3_bonusclan", Command_TellStatus,"Gives information about your current group status.");
     // refreshes groupcache
     RegServerCmd("war3_bonusclan_refresh", Command_Refresh,"Refresh War3Source groupcache.");
-    LoadTranslations ("w3s.addon.clanbonusxp.phrases");
+    LoadTranslations ("w3s.addon.clanbonusxp.phrases.txt");
 }
 
 public bool:InitNativesForwards()

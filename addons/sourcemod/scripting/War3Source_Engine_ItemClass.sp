@@ -83,7 +83,7 @@ public NWar3_CreateShopItemT(Handle:plugin,numParams)
     }
     
     new String:buf[64];
-    Format(buf,sizeof(buf),"w3s.item.%s.phrases",shortname);
+    Format(buf,sizeof(buf),"w3s.item.%s.phrases.txt",shortname);
     LoadTranslations(buf);
     return itemid;
 }

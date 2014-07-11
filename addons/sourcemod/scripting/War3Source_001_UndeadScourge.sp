@@ -41,7 +41,7 @@ new SKILL_LEECH, SKILL_SPEED, SKILL_LOWGRAV, SKILL_SUICIDE;
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.undead.phrases");
+    LoadTranslations("w3s.race.undead.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

@@ -64,7 +64,7 @@ public OnPluginStart()
 {
     ultCooldownCvar = CreateConVar("war3_human_teleport_cooldown","20.0","Cooldown between teleports");
     
-    LoadTranslations("w3s.race.human.phrases");
+    LoadTranslations("w3s.race.human.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

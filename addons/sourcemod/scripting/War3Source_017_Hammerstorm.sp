@@ -82,7 +82,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnPluginStart()
 {
     ultCooldownCvar=CreateConVar("war3_hammerstorm_strength_cooldown","25","Cooldown timer.");
-    LoadTranslations("w3s.race.hammerstorm.phrases");
+    LoadTranslations("w3s.race.hammerstorm.phrases.txt");
 }
 
 public OnMapStart()

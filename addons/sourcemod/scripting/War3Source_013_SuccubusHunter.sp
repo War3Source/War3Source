@@ -95,7 +95,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_succ_ult_cooldown","20","Cooldown for succubus ultimate");
     totemCurrencyCvar=CreateConVar("war3_succ_totem_currency","0","Currency to use for totem | 0=currency, 1=gold, 2=money");
     
-    LoadTranslations("w3s.race.succubus.phrases");
+    LoadTranslations("w3s.race.succubus.phrases.txt");
 }
 public OnRaceChanged(client,oldrace,newrace){
     if(RaceDisabled)

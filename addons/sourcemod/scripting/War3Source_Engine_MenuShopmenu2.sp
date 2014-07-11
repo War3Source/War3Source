@@ -19,7 +19,7 @@ public Plugin:myinfo=
 
 public OnPluginStart()
 {
-  LoadTranslations("w3s.shopmenu2.phrases");
+  LoadTranslations("w3s.shopmenu2.phrases.txt");
   //W3CreateCvar("w3shop2menu","loaded","is the shop2 loaded");
   //hShopMenu2RequiredFlag=CreateConVar("war3_shopmenu2_flag","0","Flag(or 0 to disable) which is required to access shopmenu2. Flag name (like kick)");
   hShop2Enabled=CreateConVar("war3_shop2_enabled","1","is shopmenu 2 enabled");

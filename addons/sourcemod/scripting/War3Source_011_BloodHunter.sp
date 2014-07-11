@@ -58,7 +58,7 @@ public OnPluginStart()
     CreateTimer(0.1, RuptureCheckLoop, _, TIMER_REPEAT);
     CreateTimer(0.5, BloodCrazyDOTLoop, _, TIMER_REPEAT);
     
-    LoadTranslations("w3s.race.bh.phrases");
+    LoadTranslations("w3s.race.bh.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

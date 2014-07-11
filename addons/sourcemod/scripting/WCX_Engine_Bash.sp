@@ -12,7 +12,7 @@ new g_iPlayerRace[MAXPLAYERSCUSTOM]; // So we unbash the right race
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.human.phrases");
+    LoadTranslations("w3s.race.human.phrases.txt");
 }
 
 public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[32], bool:isWarcraft)

@@ -28,7 +28,7 @@ public OnPluginStart()
     War3_AddCustomSound(helmSound2);
     War3_AddCustomSound(helmSound3);
     
-    LoadTranslations("w3s.item.helm.phrases");
+    LoadTranslations("w3s.item.helm.phrases.txt");
 }
 public OnWar3LoadRaceOrItemOrdered2(num)
 {
