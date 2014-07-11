@@ -10,6 +10,7 @@
 
 #define GAMECS GameCS()
 #define GAMETF GameTF()
+#define GAMEFOF GameFOF()
 #define GAMEL4D1 GameL4D1()
 #define GAMEL4D2 GameL4D2()
 #define GAMEL4DANY GameL4DAny()
@@ -103,4 +104,9 @@ stock bool:GameCSANY()
     new ValveGameEnum:war3Game = War3_GetGame();
     
     return (war3Game == Game_CS || war3Game == Game_CSGO); 
+}
+
+stock bool:GameFOF() 
+{
+    return War3_GetGame() == Game_FOF;
 }
