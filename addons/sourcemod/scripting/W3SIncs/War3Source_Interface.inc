@@ -102,7 +102,7 @@ forward Action:OnW3DrawCategory(client,categoryindex,String:categoryname[]);
 //Warcraft required executions, does common tasks, such as loading translations.
 forward War3InterfaceExec();
 public War3InterfaceExec() {
-  LoadTranslations("w3s._common.phrases");
+  LoadTranslations("w3s._common.phrases.txt");
 }
 
 /*
@@ -526,6 +526,9 @@ native Float:W3ChanceModifier(attacker);
 native War3_KeyHintText(client, const String:szFormat[], any:...);
 
 //print via hint engine. format accepts translations
+// W3Hint_Default create lowest priority with 5 second duration (for those of us whom are lazy)
+native W3Hint_Default(client,String:format[],any:...);
+
 //maximum duration is 20.0
 native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
 
@@ -1779,6 +1782,10 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
   if(GAMECSGO)
   {
     strcopy(sSoundFile, maxlength, "music/war3source/csgo/ui/hint.mp3");
+  }
+  else if(GAMEFOF)
+  {
+    strcopy(sSoundFile, maxlength, "war3source/csgo/ui/hint.mp3");
   }
   else
   {
