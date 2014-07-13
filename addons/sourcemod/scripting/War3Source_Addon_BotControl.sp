@@ -65,7 +65,7 @@ public OnPluginStart()
     botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance", "70","Chance a bot will buy an item on spawn.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
     botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance", "0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
     
-    LoadTranslations ("w3s.addon.botcontrol.phrases");
+    LoadTranslations ("w3s.addon.botcontrol.phrases.txt");
 }
 
 public bool:InitNativesForwards()

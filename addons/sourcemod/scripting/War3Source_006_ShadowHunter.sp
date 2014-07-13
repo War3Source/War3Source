@@ -76,7 +76,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_hunter_voodoo_cooldown","20","Cooldown between Big Bad Voodoo (ultimate)");
     CreateTimer(1.0,CalcHexHealWaves,_,TIMER_REPEAT);
     
-    LoadTranslations("w3s.race.hunter.phrases");
+    LoadTranslations("w3s.race.hunter.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

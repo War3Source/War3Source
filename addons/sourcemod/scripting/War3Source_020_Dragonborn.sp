@@ -93,7 +93,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 public OnPluginStart()
 {
     CreateTimer(0.5,HalfSecondTimer,_,TIMER_REPEAT); //The footstep effect
-    LoadTranslations("w3s.race.dragonborn_o.phrases");
+    LoadTranslations("w3s.race.dragonborn_o.phrases.txt");
 }
 
 public OnMapStart()

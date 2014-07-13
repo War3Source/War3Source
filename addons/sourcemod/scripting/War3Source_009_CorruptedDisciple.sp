@@ -91,7 +91,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_cd_ult_cooldown","30","Cooldown time for CD ult overload.");
     CreateTimer(0.2,CalcConduit,_,TIMER_REPEAT);
     
-    LoadTranslations("w3s.race.cd.phrases");
+    LoadTranslations("w3s.race.cd.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

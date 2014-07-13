@@ -87,7 +87,7 @@ public OnPluginStart()
         iTomeSoundDelay[i] = War3_RegisterDelayTracker();
     }
 
-    LoadTranslations("w3s.item.antiward.phrases");
+    LoadTranslations("w3s.item.antiward.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

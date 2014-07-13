@@ -59,7 +59,7 @@ public OnPluginStart()
 
     //UltCooldownCvar=CreateConVar("war3_scout_ult_cooldown","20","Cooldown timer.");
     
-    LoadTranslations("w3s.race.scout_o.phrases");
+    LoadTranslations("w3s.race.scout_o.phrases.txt");
     CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
 }
 

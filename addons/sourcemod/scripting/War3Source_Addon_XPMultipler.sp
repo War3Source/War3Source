@@ -22,7 +22,7 @@ public OnWar3Event(W3EVENT:event,client)
 {
     if(event==OnPreGiveXPGold)
     {
-        W3SetVar(EventArg2,FloatMul(W3GetVar(EventArg2),GetConVarFloat(MultiplierCVars[0])));
-        W3SetVar(EventArg3,FloatMul(W3GetVar(EventArg3),GetConVarFloat(MultiplierCVars[1])));
+        W3SetVar(EventArg2,RoundToCeil(FloatMul(float(W3GetVar(EventArg2)),GetConVarFloat(MultiplierCVars[0]))));
+        W3SetVar(EventArg3,RoundToCeil(FloatMul(float(W3GetVar(EventArg3)),GetConVarFloat(MultiplierCVars[1]))));
     }
 }

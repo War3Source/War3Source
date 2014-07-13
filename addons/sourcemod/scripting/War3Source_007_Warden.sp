@@ -95,7 +95,7 @@ public OnPluginStart()
         ultMaxCvar=CreateConVar("war3_warden_vengence_max","0","Max number of revivals from vengence per round (CS only), 0 for unlimited");
     }
     
-    LoadTranslations("w3s.race.warden.phrases");
+    LoadTranslations("w3s.race.warden.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

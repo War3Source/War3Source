@@ -31,8 +31,8 @@ new Float:SuicideDamage[MAXPLAYERSCUSTOM];
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.human.phrases");
-    LoadTranslations("w3s.race.undead.phrases");
+    LoadTranslations("w3s.race.human.phrases.txt");
+    LoadTranslations("w3s.race.undead.phrases.txt");
 }
 
 public OnMapStart()

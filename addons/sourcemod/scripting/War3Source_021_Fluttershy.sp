@@ -64,7 +64,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.race.fluttershy.phrases");
+    LoadTranslations("w3s.race.fluttershy.phrases.txt");
 }
 
 public OnUltimateCommand(client,race,bool:pressed)

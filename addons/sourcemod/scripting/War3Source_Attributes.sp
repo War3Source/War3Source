@@ -31,7 +31,7 @@ public War3_OnAttributeDescriptionRequested(client, attributeId, any:value, Stri
 {
     if(attributeId == aSpeed)
     {
-        LoadTranslations("w3s.attributes.speed.phrases");
+        LoadTranslations("w3s.attributes.speed.phrases.txt");
         SetTrans(client);
         
         new Float:fSpeed = value;

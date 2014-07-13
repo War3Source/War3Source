@@ -15,7 +15,7 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-    LoadTranslations("w3s.addon.levelupparticle.phrases");    
+    LoadTranslations("w3s.addon.levelupparticle.phrases.txt");    
 }
 
 public OnMapStart()

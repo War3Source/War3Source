@@ -644,7 +644,7 @@ public NWar3_CreateNewRaceT(Handle:plugin,numParams){
     {
         raceTranslated[newraceid]=true;
         new String:buf[64];
-        Format(buf,sizeof(buf),"w3s.race.%s.phrases",shortname);
+        Format(buf,sizeof(buf),"w3s.race.%s.phrases.txt",shortname);
         LoadTranslations(buf);
     }
     return newraceid;

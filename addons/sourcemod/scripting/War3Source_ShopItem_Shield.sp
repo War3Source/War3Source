@@ -18,7 +18,7 @@ public OnPluginStart()
 {
     ShieldRestrictionCvar=CreateConVar("war3_shop_shield_restriction", "0", "Set this to 1 if you want to forbid necklace + shield. 0 default");
     
-    LoadTranslations("w3s.item.shield.phrases");
+    LoadTranslations("w3s.item.shield.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered2(num)

@@ -62,7 +62,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_lich_deathdecay_cooldown","30","Cooldown between ultimate usage");
     ultRangeCvar=CreateConVar("war3_lich_deathdecay_range","99999","Range of death and decay ultimate");
     
-    LoadTranslations("w3s.race.lich_o.phrases");
+    LoadTranslations("w3s.race.lich_o.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

@@ -95,7 +95,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_succ_ult_cooldown","20","Cooldown for succubus ultimate");
     totemCurrencyCvar=CreateConVar("war3_succ_totem_currency","0","Currency to use for totem | 0=currency, 1=gold, 2=money");
     
-    LoadTranslations("w3s.race.succubus.phrases");
+    LoadTranslations("w3s.race.succubus.phrases.txt");
 }
 public OnRaceChanged(client,oldrace,newrace){
     if(RaceDisabled)
@@ -193,7 +193,14 @@ public OnWar3EventSpawn(client)
                         oldCash = War3_GetCurrency(client);
                         War3_AddCurrency(client, dollar);
                         newCash = War3_GetCurrency(client);
-                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                        if(!GAMEFOF)
+                        {
+                            War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                        }
+                        else
+                        {
+                            War3_ChatMessage(client,"%T","[Totem Incanation FOF] You gained {amount} HP, {amount} credits and {amount} XP",client,hp,(newCash - oldCash),xp);
+                        }
                     }
                     // use gold
                     case 1: 

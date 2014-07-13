@@ -40,7 +40,7 @@ public OnPluginStart()
 {
     ultCooldownCvar=CreateConVar("war3_luna_ultimate_cooldown","20","Luna Moonfangs ultimate cooldown (ultimate)");
     //CreateTimer(3.0,CalcBlessing,_,TIMER_REPEAT);
-    LoadTranslations("w3s.race.luna.phrases");
+    LoadTranslations("w3s.race.luna.phrases.txt");
 }
 
 public OnMapStart()

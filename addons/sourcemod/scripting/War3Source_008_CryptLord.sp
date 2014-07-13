@@ -60,7 +60,7 @@ public OnPluginStart()
     ultCooldownCvar=CreateConVar("war3_crypt_locust_cooldown","20","Cooldown between ultimate usage");
     ultRangeCvar=CreateConVar("war3_crypt_locust_range","800","Range of locust ultimate");
     
-    LoadTranslations("w3s.race.crypt.phrases");
+    LoadTranslations("w3s.race.crypt.phrases.txt");
 }
 
 public OnWar3LoadRaceOrItemOrdered(num)

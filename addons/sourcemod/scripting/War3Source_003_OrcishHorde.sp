@@ -85,7 +85,7 @@ public OnPluginStart()
     AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
     CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
     
-    LoadTranslations("w3s.race.orc.phrases");
+    LoadTranslations("w3s.race.orc.phrases.txt");
 }  
    
 
