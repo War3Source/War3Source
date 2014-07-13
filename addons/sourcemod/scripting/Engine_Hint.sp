@@ -20,7 +20,6 @@ new Handle:hObjArray[MAXPLAYERSCUSTOM][W3HintPriority];
 public bool:InitNativesForwards()
 {
     CreateNative("W3Hint", NW3Hint);
-    CreateNative("W3Hint_Default", NW3Hint_Default);
 
     return true;
 }
@@ -110,25 +109,6 @@ W3Hint_Internal(client,W3HintPriority:priority,Float:fDuration,String:sOutput[12
         bUpdateNextFrame[client] = true;
     }
     
-    return 1;
-}
-
-public NW3Hint_Default(Handle:plugin,numParams)
-{
-    if(bEnabled)
-    {
-        new client = GetNativeCell(1);
-
-        if(!ValidPlayer(client)) 
-        {
-            return 0;
-        }
-
-        new String:sOutput[128];
-        FormatNativeString(0, 2, 3, sizeof(sOutput), dummy, sOutput);
-
-        return W3Hint_Internal(client,HINT_LOWEST,5.0,sOutput);
-    }
     return 1;
 }
 

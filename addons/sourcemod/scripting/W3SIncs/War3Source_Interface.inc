@@ -527,7 +527,12 @@ native War3_KeyHintText(client, const String:szFormat[], any:...);
 
 //print via hint engine. format accepts translations
 // W3Hint_Default create lowest priority with 5 second duration (for those of us whom are lazy)
-native W3Hint_Default(client,String:format[],any:...);
+stock W3Hint_Default(client, String:format[], any:...)
+{
+	decl String:sOutput[128];
+	VFormat(sOutput, sizeof(sOutput), format, 3);
+	return W3Hint(client, _, _, sOutput);
+}
 
 //maximum duration is 20.0
 native W3Hint(client,W3HintPriority:type=HINT_LOWEST,Float:duration=5.0,String:format[],any:...);
