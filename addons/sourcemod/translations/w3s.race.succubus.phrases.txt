@@ -48,22 +48,22 @@
 	"[Totem Incantation] You gained {amount} HP, {amount} dollars and {amount} XP"
 	{
 		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
-		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} dollars and {5} XP."
+		"en"		"{1}[Totem Incantation] {2}You gained {3} HP, {4} dollars and {5} XP."
 	}
-	"[Totem Incanation FOF] You gained {amount} HP, {amount} credits and {amount} XP"
+	"[Totem Incantation FOF] You gained {amount} HP, {amount} credits and {amount} XP"
 	{
 		"#format"	"{1:d},{2:d},{3:d}"
-		"en"		"{green}[Totem Incanation] {default}You gained {1} HP, {2} credits and {3} XP."
+		"en"		"{green}[Totem Incantation] {default}You gained {1} HP, {2} credits and {3} XP."
 	}
 	"[Totem Incantation] You gained {amount} HP, {amount} credits and {amount} XP"
 	{
 		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
-		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} credits and {5} XP."
+		"en"		"{1}[Totem Incantation] {2}You gained {3} HP, {4} credits and {5} XP."
 	}
 	"[Totem Incantation] You gained {amount} HP, {amount} gold and {amount} XP"
 	{
 		"#format"	"{1:c},{2:c},{3:d},{4:d},{5:d}"
-		"en"		"{1}[Totem Incanation] {2}You gained {3} HP, {4} gold and {5} XP."
+		"en"		"{1}[Totem Incantation] {2}You gained {3} HP, {4} gold and {5} XP."
 	}
 	"[Daemonic Knife] You inflicted +{amount} Damage"
 	{
