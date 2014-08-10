@@ -195,11 +195,11 @@ public OnWar3EventSpawn(client)
                         newCash = War3_GetCurrency(client);
                         if(!GAMEFOF)
                         {
-                            War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                            War3_ChatMessage(client,"%T","[Totem Incantation] You gained {amount} HP, {amount} credits and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
                         }
                         else
                         {
-                            War3_ChatMessage(client,"%T","[Totem Incanation FOF] You gained {amount} HP, {amount} credits and {amount} XP",client,hp,(newCash - oldCash),xp);
+                            War3_ChatMessage(client,"%T","[Totem Incantation FOF] You gained {amount} HP, {amount} credits and {amount} XP",client,hp,(newCash - oldCash),xp);
                         }
                     }
                     // use gold
@@ -224,7 +224,7 @@ public OnWar3EventSpawn(client)
                             newCash = max;
                         War3_SetGold(client,newCash);
                         
-                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} gold and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                        War3_ChatMessage(client,"%T","[Totem Incantation] You gained {amount} HP, {amount} gold and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
 
                     }
                     // use money
@@ -233,7 +233,7 @@ public OnWar3EventSpawn(client)
                         oldCash=GetEntData(client, m_iAccount);
                         newCash = oldCash + dollar;
                         SetEntData(client, m_iAccount, newCash);
-                        War3_ChatMessage(client,"%T","[Totem Incanation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
+                        War3_ChatMessage(client,"%T","[Totem Incantation] You gained {amount} HP, {amount} dollars and {amount} XP",client,0x04,0x01,hp,newCash - oldCash,xp);
                     }
                 }
             }
