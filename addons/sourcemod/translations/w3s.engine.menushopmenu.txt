@@ -50,4 +50,8 @@
         "#format"   "{1:d},{2:s}"
         "en"        "[War3Source] You already have a max of {1} items.\nChoose an item to replace with {2}.\nYou will not get money back."
     }
+    "You cannot buy items during warmup"
+    {
+        "en"        "You cannot buy items during warmup"
+    }
 }
