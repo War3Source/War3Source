@@ -102,9 +102,9 @@ public OnWar3LoadRaceOrItemOrdered(num)
         
         if(GAMECSANY)
         {
-            iShopitem[ITEM_ANKH] = War3_CreateShopItemT("ankh", 3);
+            iShopitem[ITEM_ANKH] = War3_CreateShopItemT("ankh", 3, false);
             iShopitem[ITEM_GLOVES] = War3_CreateShopItemT("glove", 5);
-            iShopitem[ITEM_MOLE] = War3_CreateShopItemT("mole", 10);
+            iShopitem[ITEM_MOLE] = War3_CreateShopItemT("mole", 10, false);
         }
 
         iShopitem[ITEM_BOOTS] = War3_CreateShopItemT("boot", 3);
