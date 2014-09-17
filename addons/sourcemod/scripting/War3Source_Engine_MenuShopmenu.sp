@@ -221,7 +221,14 @@ War3_TriedToBuyItem(client, item, bool:reshowmenu=true)
             War3_ChatMessage(client, "%T", "{itemname} is disabled", GetTrans(), itemname);
             bCanBuy = false;
         }
-
+        else if(GAMECSGO && War3_GetCurrencyMode() == CURRENCY_MODE_DORRAR)
+        {
+            if(GameRules_GetProp("m_bWarmupPeriod") == 1) 
+            {
+                War3_ChatMessage(client, "%T", "You cannot buy items during warmup", GetTrans());
+                bCanBuy = false;
+            }
+        }
         else if(W3IsItemDisabledForRace(race,item)) 
         {
             new String:racename[64];

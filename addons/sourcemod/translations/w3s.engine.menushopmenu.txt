@@ -21,6 +21,10 @@
         "#format"   "{1:s}"
         "en"        "{1} is disabled"
     }
+    "You cannot buy items during warmup"
+    {
+        "en"        "You cannot buy items during warmup"
+    }
     "You may not purchase {itemname} when you are {racename}"
     {
         "#format"   "{1:s},{2:s}"
