@@ -825,7 +825,7 @@ public NW3RaceHasFlag(Handle:plugin,numParams)
     
     new String:flagsearch[32];
     GetNativeString(2,flagsearch,sizeof(flagsearch));
-    return (StrContains(buf,flagsearch)>-1);
+    return (StrContains(buf,flagsearch, false)>-1);
 }
 public NW3GetRaceList(Handle:plugin,numParams)
 {
