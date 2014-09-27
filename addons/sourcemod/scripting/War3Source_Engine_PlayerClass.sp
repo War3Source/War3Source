@@ -505,7 +505,10 @@ public NW3GetTotalLevels(Handle:plugin,numParams){
         new racesLoaded = War3_GetRacesLoaded(); 
         for(new r=1;r<=racesLoaded;r++)
         {
-            total_level+=War3_GetLevel(client,r);
+            if(!W3RaceHasFlag(r,"DoNotCountForTotalLevels"))
+            {
+                total_level+=War3_GetLevel(client,r);
+            }
         }
     }
     return  total_level;
