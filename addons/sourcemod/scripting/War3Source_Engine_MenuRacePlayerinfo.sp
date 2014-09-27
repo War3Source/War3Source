@@ -528,7 +528,7 @@ War3_playertargetMenu(client,target) {
   new String:title[3000];
 
   Format(title,sizeof(title),"%T\n \n","[War3Source] Information for {player}",client,targetname);
-  Format(title,sizeof(title),"%s%T\n \n",title,"Total levels: {amount}",client,GetClientTotalLevels(target));
+  Format(title,sizeof(title),"%s%T\n \n",title,"Total levels: {amount}",client,W3GetTotalLevels(target));
   
   if(level<W3GetRaceMaxLevel(raceid)){
     Format(title,sizeof(title),"%s%T",title,"Current Race: {racename} (LVL {amount}/{amount}) XP: {amount}/{amount}",client,racename,level,W3GetRaceMaxLevel(raceid),War3_GetXP(target,raceid),W3GetReqXP(level+1));
@@ -740,19 +740,5 @@ public War3_playertargetMenuSelected(Handle:menu,MenuAction:action,client,select
   }
 }
 
-
-
-
-
-GetClientTotalLevels(client)
-{
-  new total_level=0;
-  new RacesLoaded = War3_GetRacesLoaded();
-  for(new r=1;r<=RacesLoaded;r++)
-  {
-    total_level+=War3_GetLevel(client,r);
-  }
-  return  total_level;
-}
 
 
