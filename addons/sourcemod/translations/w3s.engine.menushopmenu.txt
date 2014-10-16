@@ -54,4 +54,8 @@
     {
         "en"        "You cannot buy items during warmup"
     }
+	"You cannot buy items during round end"
+    {
+        "en"        "You cannot buy items during round end"
+    }
 }
