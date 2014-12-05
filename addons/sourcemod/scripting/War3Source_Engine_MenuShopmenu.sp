@@ -11,7 +11,7 @@ public Plugin:myinfo =
 new Handle:hUseCategorysCvar;
 new String:sBuyItemSound[256];
 new WantsToBuy[MAXPLAYERSCUSTOM];
-new roundEnd;
+new bool:bRoundEnd = false;
 
 public OnPluginStart()
 {
@@ -19,13 +19,16 @@ public OnPluginStart()
     
     hUseCategorysCvar = CreateConVar("war3_buyitems_category", "0", "Enable/Disable shopitem categorys", 0, true, 0.0, true, 1.0);
     
-    if (!HookEventEx("round_start",War3Source_RoundStartEvent))
+    if(GAMECSGO)
     {
-        PrintToServer("[War3Source] Could not hook the round_start event.");
-    }
-    if (!HookEventEx("round_end",War3Source_RoundOverEvent))
-    {
-        PrintToServer("[War3Source] Could not hook the round_end event.");
+        if (!HookEventEx("round_start",War3Source_RoundStartEvent))
+        {
+            PrintToServer("[War3Source] Could not hook the round_start event.");
+        }
+        if (!HookEventEx("round_end",War3Source_RoundOverEvent))
+        {
+            PrintToServer("[War3Source] Could not hook the round_end event.");
+        }
     }
 }
 
@@ -37,12 +40,12 @@ public OnMapStart()
 
 public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	roundEnd = 1;
+	bRoundEnd = true;
 }
 
 public War3Source_RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
 {
-	roundEnd = 0;
+	bRoundEnd = false;
 }
 
 public OnWar3Event(W3EVENT:event,client)
@@ -246,9 +249,9 @@ War3_TriedToBuyItem(client, item, bool:reshowmenu=true)
             War3_ChatMessage(client, "%T", "You cannot buy items during warmup", GetTrans());
             bCanBuy = false;
         }
-        else if(GAMECSGO && roundEnd && War3_GetCurrencyMode() == CURRENCY_MODE_DORRAR)
+        else if(GAMECSGO && bRoundEnd && War3_GetCurrencyMode() == CURRENCY_MODE_DORRAR)
         {
-            War3_ChatMessage(client, "%T", "You cannot buy items during end", GetTrans());
+            War3_ChatMessage(client, "%T", "You cannot buy items during round end", GetTrans());
             bCanBuy = false;
         }
         else if(W3IsItemDisabledForRace(race,item)) 
