@@ -384,5 +384,8 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
                 }
             }
         }
+    } else if(action == MenuAction_End)
+    {
+        CloseHandle(menu);
     }
 }
