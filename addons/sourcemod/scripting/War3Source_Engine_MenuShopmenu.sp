@@ -355,6 +355,9 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
             new itemtolose=StringToInt(SelectionInfo);
             if(itemtolose>0&&itemtolose<=W3GetItemsLoaded())
             {
+                decl String:itemname[64];
+                W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
+
                 // see if player still has old item that's going to be removed.
                 if(!War3_GetOwnsItem(client, itemtolose))
                 {
@@ -365,9 +368,6 @@ public OnSelectExceededMaxItemsMenuBuy(Handle:menu,MenuAction:action,client,sele
                 // check he can afford new item
                 new currency = War3_GetCurrency(client);
                 new cost = W3GetItemCost(WantsToBuy[client]);
-                decl String:itemname[64];
-                W3GetItemName(WantsToBuy[client],itemname,sizeof(itemname));
-
                 if(currency < currency) {
                     War3_ChatMessage(client,"%T","You cannot afford {itemname}",GetTrans(),itemname);
                     ShowMenuShop(client);
