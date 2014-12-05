@@ -58,4 +58,9 @@
     {
         "en"        "You cannot buy items during round end"
     }
+     "You no longer possess {itemname}"
+    {
+        "#format"   "{1:s}"
+        "en"        "You no longer possess {1}."
+    }
 }
