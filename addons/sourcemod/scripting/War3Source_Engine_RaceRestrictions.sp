@@ -21,7 +21,6 @@ public OnW3Denyable(W3DENY:event,client){
         }
         //MIN LEVEL CHECK
         new total_level=W3GetTotalLevels(client);
-        new RacesLoaded = War3_GetRacesLoaded();
         new min_level=W3GetRaceMinLevelRequired(race_selected);
         if(min_level<0) min_level=0;
 
