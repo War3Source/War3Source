@@ -104,7 +104,7 @@ public OnRaceChanged(client,oldrace,newrace){
     }
 
     if(oldrace==thisRaceID){
-        War3_SetBuff(client,iAdditionalMaxHealth,thisRaceID,0);
+        W3ResetAllBuffRace( client, thisRaceID );
     }
 }
 public OnWar3EventSpawn(client)
