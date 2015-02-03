@@ -49,7 +49,7 @@ public Action:Command_Refresh(args)
 {
     for(new client=1;client<=MaxClients;client++)
     {
-        if(ValidPlayer(client,false))
+        if(ValidPlayer(client,false) && IsClientAuthorized(client))
         {
             Steam_RequestGroupStatus(client, GetConVarInt(g_hClanID));
         }
