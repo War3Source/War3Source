@@ -16,7 +16,7 @@ public Plugin:myinfo =
     description = "Become immune to headshots"
 };
 
-public OnPluginStart()
+public OnMapStart()
 {
     War3_AddSoundFolder(helmSound0, sizeof(helmSound0), "helm/metal_solid_impact_bullet1.mp3");
     War3_AddSoundFolder(helmSound1, sizeof(helmSound1), "helm/metal_solid_impact_bullet2.mp3");
