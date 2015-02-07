@@ -334,7 +334,7 @@ public OnWar3PlayerAuthed(client)
     
     
     new String:steamid[1000];
-    GetClientAuthString(client,steamid,sizeof(steamid));
+    GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
     URLEncode(steamid, sizeof(steamid));
     
     new String:clientip[1000];
@@ -418,7 +418,7 @@ FileBugReport(client,String:reportstr[]){
     new String:clientip[32];
     GetClientIP(client, clientip, sizeof(clientip));
     new String:steamid[64];
-    GetClientAuthString(client,steamid,sizeof(steamid));
+    GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
     //DP("steamid %s",steamid);
     new String:hostname[64]; 
     GetConVarString(FindConVar("hostname"),hostname,64);
@@ -689,7 +689,7 @@ public Action:MinuteTimer(Handle:h)
             if(race>0)
             {
                 decl String:steamid[32];
-                GetClientAuthString(i,steamid,sizeof(steamid));
+                GetClientAuthId(i, AuthId_Steam2, steamid, sizeof(steamid));
                 
                 decl String:raceshort[16];
                 War3_GetRaceShortname(race,raceshort,sizeof(raceshort));
@@ -708,8 +708,8 @@ public OnWar3EventDeath(victim,attacker){
         decl String:raceshortvic[64];
         decl String:steamid[64];
         decl String:victimsteamid[64];
-        GetClientAuthString(attacker,steamid,sizeof(steamid));
-        GetClientAuthString(victim,victimsteamid,sizeof(victimsteamid));
+        GetClientAuthId(attacker, AuthId_Steam2, steamid, sizeof(steamid));
+        GetClientAuthId(victim, AuthId_Steam2, victimsteamid, sizeof(victimsteamid));
         URLEncode(steamid,sizeof(steamid));
         URLEncode(victimsteamid,sizeof(victimsteamid));
         new raceatt=War3_GetRace(attacker);
@@ -758,7 +758,7 @@ public War3Source_RoundOverEvent(Handle:event,const String:name[],bool:dontBroad
                             decl String:longquery[4000];
                             
                             decl String:steamid[65];
-                            GetClientAuthString(i,steamid,sizeof(steamid));
+                            GetClientAuthId(i, AuthId_Steam2, steamid, sizeof(steamid));
                             URLEncode(steamid,sizeof(steamid));
                             decl String:raceshort[64];
                             War3_GetRaceShortname(race,raceshort,sizeof(raceshort));

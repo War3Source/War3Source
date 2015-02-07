@@ -112,7 +112,7 @@ public T_RetrieveRankCache(Handle:owner,Handle:query,const String:error[],any:us
     if(client<=0)
         return; // fuck it, the player left
     new String:client_steamid[64];
-    if(!GetClientAuthString(client,client_steamid,sizeof(client_steamid)))
+    if(!GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
         return; // invalid auth string, probably a fake steam account
     if(IsFakeClient(client))
         return; // why the fuck is a bot requesting their rank?

@@ -149,7 +149,7 @@ public Action:War3Source_CMD_addlevelbank(client,args){
         new String:othersteamid[32];
         for(new i=1;i<=MaxClients;i++){
             if(ValidPlayer(i)&&W3IsPlayerXPLoaded(i)){
-                GetClientAuthString(i, othersteamid, sizeof(othersteamid));
+                GetClientAuthId(i, AuthId_Steam2, othersteamid, sizeof(othersteamid));
                 if(StrEqual(steamid,othersteamid,false)){
                     ReplyToCommand(client,"Found client %d in game with steamid %s, giving adding to level bank levels now",i,steamid);
                     ingameoldlevelbank = W3GetLevelBank(i);

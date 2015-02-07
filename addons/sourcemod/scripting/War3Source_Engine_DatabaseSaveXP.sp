@@ -218,7 +218,7 @@ War3_SavePlayerRace(client,race)
         //PrintToServer("race %d client %d",race,client);
         decl String:steamid[64];
 
-        if(GetClientAuthString(client,steamid,sizeof(steamid)))
+        if(GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
         {
 
             new level=War3_GetLevelEx(client,race,true);
@@ -268,7 +268,7 @@ War3_SavePlayerMainData(client)
     {
         decl String:steamid[64];
         decl String:name[64];
-        if(GetClientAuthString(client, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
+        if(GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
         {
             ReplaceString(name, sizeof(name), "'","", true); //REMOVE IT //double escape because \\ turns into -> \ after the %s insert into sql statement
 
@@ -364,7 +364,7 @@ War3Source_LoadPlayerData(client)
     //need space for steam id
     decl String:steamid[64];
 
-    if(hDB && !IsFakeClient(client) && GetClientAuthString(client,steamid,sizeof(steamid)))
+    if(hDB && !IsFakeClient(client) && GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
     {
         new String:longquery[4000];
 
@@ -468,7 +468,7 @@ public T_CallbackSelectPDataMain(Handle:owner, Handle:hndl, const String:error[]
             decl String:steamid[64];
             decl String:name[64];
             //get their name and steamid
-            if(GetClientAuthString(client, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
+            if(GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)) && GetClientName(client, name, sizeof(name)))
             {
                 ReplaceString(name, sizeof(name), "'", "", true); //REMOVE IT//double escape because \\ turns into -> \ after the %s insert into sql statement
 
@@ -592,7 +592,7 @@ public T_CallbackSelectPDataRace(Handle:owner,Handle:hndl,const String:error[],a
             {
                 //no record make one
                 decl String:steamid[64];
-                if(GetClientAuthString(client, steamid, sizeof(steamid)))
+                if(GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
                 {
                     new String:longquery[4000];
                     new String:short[16];
