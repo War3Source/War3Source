@@ -217,7 +217,7 @@ public Action:cmdbufflist(client, args){
   if(args==1){
     new String:arg[32];
     GetCmdArg(1,arg,sizeof(arg));
-    new int=StringToInt(arg);
+    new buff=StringToInt(arg);
     new ItemsLoaded = W3GetItemsLoaded();
     new RacesPlusItems = ItemsLoaded+War3_GetRacesLoaded();
     for(new i=1;i<=RacesPlusItems;i++){
@@ -228,7 +228,7 @@ public Action:cmdbufflist(client, args){
       else{
         War3_GetRaceShortname(i-ItemsLoaded,name,sizeof(name));
       }
-      War3_LogInfo("buff for client %d buffid %d : %d %f race/item %s",client,int,buffdebuff[client][W3Buff:int][i],buffdebuff[client][W3Buff:int][i],name);
+      War3_LogInfo("buff for client %d buffid %d : %d %f race/item %s",client,buff,buffdebuff[client][W3Buff:buff][i],buffdebuff[client][W3Buff:buff][i],name);
       
     }
   }
