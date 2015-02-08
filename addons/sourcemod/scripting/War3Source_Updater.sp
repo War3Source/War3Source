@@ -323,7 +323,7 @@ Handle:OCHTTPrequest(String:path[], Function:callback)
         SetTrieString(trie, "host", host);
         SetTrieString(trie, "path", path);
         SetTrieValue(trie, "data", data);
-        SetTrieValue(trie, "callback", callback);
+        SetTrieValue(trie, "callback", _:callback);
         
         SocketSetArg(socket,trie);
         

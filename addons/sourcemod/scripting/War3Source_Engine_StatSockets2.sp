@@ -92,11 +92,11 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
         new Function:func;
         if(type==HTTPGET){
             
-            func=Function:GetNativeCell(2); //callback;
+            func=GetNativeCell(2); //callback;
         }
         else if(type==HTTPPOST){
             GetNativeString(2,data,sizeof(data));///ASSUME DATA IS PHP ESCAPED
-            func=Function:GetNativeCell(3); //callback;
+            func=GetNativeCell(3); //callback;
         }
         
         
@@ -107,20 +107,10 @@ PrepareSocket(Handle:plugin,SOCKETTYPE:type)
         SetTrieString(trie,"host", host);
         SetTrieString(trie,"path", path);
         SetTrieString(trie,"data", data);
-        SetTrieValue(trie,"func", func);
+        SetTrieValue(trie,"func", _:func);
         SetTrieValue(trie,"plugin", plugin);
         SetTrieString(trie,"response", "RESPONSE:");
         SetTrieValue(trie,"type", type);
-    /*    SetTrieString(trie,"TEST","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST1","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST2","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST111","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST112","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST11","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST111","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-        SetTrieString(trie,"TEST112","NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-    */    
         if(socketCount<MAXSOCKETS&&backoffcounter==0)
         {
             InitiateSocket(trie);
@@ -260,7 +250,7 @@ public OnSocketDisconnected(Handle:socket, any:trie) {
     }
     
     new Function:func;
-    GetTrieValue(trie,"func",func);
+    GetTrieValue(trie,"func", _:func);
     new Handle:plugin;
     GetTrieValue(trie,"plugin",plugin);
     
@@ -297,19 +287,6 @@ public OnSocketError(Handle:socket, const errorType, const errorNum, any:trie) {
     SetTrieString(trie,"response","");
     FrontInsertQueue(trie);
     backoffcounter+=5;
-/*    new Function:func;
-    GetTrieValue(trie,"func",func);
-    new Handle:plugin;
-    GetTrieValue(trie,"plugin",plugin);
-    
-    
-    CloseHandle(trie);
-    trieCount--;
-    
-    Call_StartFunction(plugin,func);
-    Call_PushCell(0);
-    Call_PushCell(1);
-    Call_Finish(dummy);*/
     
 }
 FrontInsertQueue(Handle:trie)

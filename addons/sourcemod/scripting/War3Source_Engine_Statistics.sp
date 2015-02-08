@@ -141,9 +141,9 @@ public Action:cmdupdatestatus(client,args){
         else{
             new String:argzs[6];
             GetCmdArg(1,argzs,sizeof(argzs));
-            new int=StringToInt(argzs);
-            PrintToServer("update %d times",int);
-            for(new i=0;i<int;i++){
+            new updates=StringToInt(argzs);
+            PrintToServer("update %d times",updates);
+            for(new i=0;i<updates;i++){
                 UpdateServerInfo(INVALID_HANDLE,0);
             }
             

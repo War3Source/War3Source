@@ -17,7 +17,7 @@ public bool:InitNativesForwards()
     /* PrepSDKCall_SetAddress is only available in 1.6 and above. */
     MarkNativeAsOptional("PrepSDKCall_SetAddress");
     
-    CreateNative("War3_IsMeleeWeapon", any:Native_War3_IsMeleeWeapon);
+    CreateNative("War3_IsMeleeWeapon", NativeCall:Native_War3_IsMeleeWeapon);
     return true;
 }
 
