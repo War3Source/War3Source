@@ -141,15 +141,9 @@ public Action:cmdupdatestatus(client,args){
         else{
             new String:argzs[6];
             GetCmdArg(1,argzs,sizeof(argzs));
-<<<<<<< HEAD
-            new updates=StringToInt(argzs);
-            PrintToServer("update %d times",updates);
-            for(new i=0;i<updates;i++){
-=======
             new intval=StringToInt(argzs);
             PrintToServer("update %d times",intval);
             for(new i=0;i<intval;i++){
->>>>>>> 79b578a1538aa5ea37815fcd00abfb8f21d0f1e3
                 UpdateServerInfo(INVALID_HANDLE,0);
             }
             
