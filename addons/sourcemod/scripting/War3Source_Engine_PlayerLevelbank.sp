@@ -86,7 +86,7 @@ public OnSelectShowLevelBankMenu(Handle:menu,MenuAction:action,client,selection)
 {
     if(action==MenuAction_Select)
     {
-        if(selection==0){
+        if(selection==0 && W3Denyable(DN_ShowLevelbank,client)){        
             SetTrans(client);
             if(W3GetLevelBank(client)<=0){
                 War3_ChatMessage(client,"%T","You do not have any levels in the level bank",client);
