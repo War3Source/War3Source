@@ -42,7 +42,7 @@
 	}
 	"chronos_skill_Chronosphere_desc"
 	{
-		"en"		"Rip space and time to trap enemy.\nTrapped victims cannot move and can only deal/receive melee damage,\nSphere protects chornos from outside damage"
+		"en"		"Rip space and time to trap enemy.\nTrapped victims cannot move and can only deal/receive melee damage,\nSphere protects chronos from outside damage"
 	}
 
 	"You have been trapped by a Chronosphere! You can only receive Melee damage"
