@@ -443,7 +443,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             }
         }
         // just as a note: if player receives falldamage the inflictor will be "worldspawn"
-	} else {
+    } else {
         // Figure out what really hit us. A weapon? A sentry gun?
         new realWeapon = weapon == -1 ? inflictor : weapon;
         GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
