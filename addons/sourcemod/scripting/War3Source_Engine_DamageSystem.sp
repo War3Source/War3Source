@@ -417,11 +417,38 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
     
     g_CurInflictor = inflictor;
     
-    // Figure out what really hit us. A weapon? A sentry gun?
     new String:weaponName[64];
-    new realWeapon = weapon == -1 ? inflictor : weapon;
-    GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
-
+    // Revan 29/06/2015:
+    // cstrike handles this pretty weird.. basically the inflictor is either a grenade or the player
+    // the existing code expects strings in the "weapon_XYZ" format so this works like a translator..
+    if(GameCSANY)
+    {
+        GetEntityClassname(inflictor, weaponName, sizeof(weaponName));
+        if(strcmp(weaponName, "hegrenade_projectile") == 0)
+        {
+            strcopy(weaponName, sizeof(weaponName), "weapon_hegreande");
+        } else if(strcmp(weaponName, "flashbang_projectile") == 0)
+        {
+            strcopy(weaponName, sizeof(weaponName), "weapon_flashbang");
+        } else if(strcmp(weaponName, "smokegrenade_projectile") == 0)
+        {
+            strcopy(weaponName, sizeof(weaponName), "weapon_smokegrenade");
+        } else if(strcmp(weaponName, "player") == 0) {
+            // okay, so the damage was inflicted by the player itself(which means by a weapon)!
+            // bullets hit their target instantaneously so we simply use the classname of the players weapon(if any)
+            new realWeapon = W3GetCurrentWeaponEnt(inflictor);
+            if(realWeapon > 0)
+            {
+                GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
+            }
+        }
+        // just as a note: if player receives falldamage the inflictor will be "worldspawn"
+	} else {
+        // Figure out what really hit us. A weapon? A sentry gun?
+        new realWeapon = weapon == -1 ? inflictor : weapon;
+        GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
+    }
+    
     War3_LogInfo("OnTakeDamagePostHook called with weapon \"%s\"", weaponName);
 
     Call_StartForward(g_OnWar3EventPostHurtFH);
