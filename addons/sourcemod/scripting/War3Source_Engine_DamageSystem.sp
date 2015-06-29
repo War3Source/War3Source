@@ -421,7 +421,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
     // Revan 29/06/2015:
     // cstrike handles this pretty weird.. basically the inflictor is either a grenade or the player
     // the existing code expects strings in the "weapon_XYZ" format so this works like a translator..
-    if(GameCSANY)
+    if(GAMECSANY)
     {
         GetEntityClassname(inflictor, weaponName, sizeof(weaponName));
         if(strcmp(weaponName, "hegrenade_projectile") == 0)
