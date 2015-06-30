@@ -420,19 +420,19 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
     new String:weaponName[64];
     // Revan 29/06/2015:
     // cstrike handles this pretty weird.. basically the inflictor is either a grenade or the player
-    // the existing code expects strings in the "weapon_XYZ" format so this works like a translator..
+    // the existing code expects the weapon name without "weapon_" so this works like a translator..
     if(GAMECSANY)
     {
         GetEntityClassname(inflictor, weaponName, sizeof(weaponName));
         if(strcmp(weaponName, "hegrenade_projectile") == 0)
         {
-            strcopy(weaponName, sizeof(weaponName), "weapon_hegreande");
+            strcopy(weaponName, sizeof(weaponName), "hegreande");
         } else if(strcmp(weaponName, "flashbang_projectile") == 0)
         {
-            strcopy(weaponName, sizeof(weaponName), "weapon_flashbang");
+            strcopy(weaponName, sizeof(weaponName), "flashbang");
         } else if(strcmp(weaponName, "smokegrenade_projectile") == 0)
         {
-            strcopy(weaponName, sizeof(weaponName), "weapon_smokegrenade");
+            strcopy(weaponName, sizeof(weaponName), "smokegrenade");
         } else if(strcmp(weaponName, "player") == 0) {
             // okay, so the damage was inflicted by the player itself(which means by a weapon)!
             // bullets hit their target instantaneously so we simply use the classname of the players weapon(if any)
@@ -440,6 +440,11 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
             if(realWeapon > 0)
             {
                 GetEntityClassname(realWeapon, weaponName, sizeof(weaponName));
+                
+                // skip the "weapon_" part of the string
+                if(strncmp(weaponName, "weapon_", 7) == 0) {
+                    strcopy(weaponName, sizeof(weaponName), weaponName[7]);
+                }
             }
         }
         // just as a note: if player receives falldamage the inflictor will be "worldspawn"
