@@ -426,7 +426,7 @@ public OnTakeDamagePostHook(victim, attacker, inflictor, Float:damage, damagetyp
         GetEntityClassname(inflictor, weaponName, sizeof(weaponName));
         if(strcmp(weaponName, "hegrenade_projectile") == 0)
         {
-            strcopy(weaponName, sizeof(weaponName), "hegreande");
+            strcopy(weaponName, sizeof(weaponName), "hegrenade");
         } else if(strcmp(weaponName, "flashbang_projectile") == 0)
         {
             strcopy(weaponName, sizeof(weaponName), "flashbang");
