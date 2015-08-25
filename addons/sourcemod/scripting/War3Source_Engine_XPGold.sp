@@ -800,10 +800,10 @@ LevelCheck(client){
 
                     //PrintToChatAll("LEVEL %d  xp2 %d",War3_GetXP(client,race),ReqLevelXP(curlevel+1));
                     if(IsPlayerAlive(client)){
-                        EmitSoundToAll(levelupSound,client);
+                        EmitSoundToAllAny(levelupSound,client);
                     }
                     else{
-                        EmitSoundToClient(client,levelupSound);
+                        EmitSoundToClientAny(client,levelupSound);
                     }
                     W3CreateEvent(PlayerLeveledUp,client);
                 }

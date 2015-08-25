@@ -176,8 +176,8 @@ public OnW3TakeDmgBullet( victim, attacker, Float:damage )
                         }
                     }
                     if(GameCS()) {
-                        EmitSoundToAll(lunasnd2,victim);
-                        EmitSoundToAll(lunasnd2,attacker);
+                        EmitSoundToAllAny(lunasnd2,victim);
+                        EmitSoundToAllAny(lunasnd2,attacker);
                     }
                 }
             }
@@ -298,7 +298,7 @@ MoonBeamDamageAndEffect(victim, attacker, min, max) {
     War3_DealDamage(victim, GetRandomInt(min, max), attacker ,DMG_FALL, "lucentbeam");
     W3PrintSkillDmgHintConsole(victim, attacker, War3_GetWar3DamageDealt(), SKILL_MOONBEAM);
 
-    EmitSoundToAll(beamsnd, victim);
-    EmitSoundToAll(beamsnd, attacker);
+    EmitSoundToAllAny(beamsnd, victim);
+    EmitSoundToAllAny(beamsnd, attacker);
 
 }

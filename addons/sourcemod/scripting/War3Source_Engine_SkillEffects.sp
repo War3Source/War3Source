@@ -148,13 +148,13 @@ public Native_VampirismEffect(Handle:plugin, numParams)
     
     if(War3_TrackDelayExpired(iMaskSoundDelay[attacker]))
     {
-        EmitSoundToAll(sMaskSound, attacker);
+        EmitSoundToAllAny(sMaskSound, attacker);
         War3_TrackDelay(iMaskSoundDelay[attacker], 0.25);
     }
     
     if(War3_TrackDelayExpired(iMaskSoundDelay[victim]))
     {
-        EmitSoundToAll(sMaskSound, victim);
+        EmitSoundToAllAny(sMaskSound, victim);
         War3_TrackDelay(iMaskSoundDelay[victim], 0.25);
     }
     

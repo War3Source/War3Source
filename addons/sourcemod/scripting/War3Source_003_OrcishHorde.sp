@@ -213,7 +213,7 @@ public DoChain(client,Float:distance,dmg,bool:first_call,last_target)
         GetClientEyeAngles(target,vecAngles);
         TE_SetupBloodSprite(target_pos, vecAngles, {200, 20, 20, 255}, 28, BloodSpray, BloodDrop);
         TE_SendToAll();
-        EmitSoundToAll( lightningSound , target,_,SNDLEVEL_TRAIN);
+        EmitSoundToAllAny( lightningSound , target,_,SNDLEVEL_TRAIN);
         new new_dmg=RoundFloat(float(dmg)*0.66);
         
         DoChain(client,distance,new_dmg,false,target);

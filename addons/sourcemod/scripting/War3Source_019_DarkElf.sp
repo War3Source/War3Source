@@ -83,8 +83,8 @@ public OnMapStart()
         War3_PrecacheParticle("teleporter_blue_entrance");
         War3_PrecacheParticle("ghost_smoke");
     }
-    //War3_AddCustomSound(tribunal);
-    //War3_AddCustomSound(darkorb);
+    War3_AddCustomSound(tribunal);
+    War3_AddCustomSound(darkorb);
 }
 
 public OnUltimateCommand(client,race,bool:pressed)
@@ -110,8 +110,8 @@ public OnUltimateCommand(client,race,bool:pressed)
                     GetClientAbsOrigin(target,victimvec);
                     //W3FlashScreen(target,RGBA_COLOR_BLACK,duration,0.5,FFADE_OUT); RGBA_COLOR_etc doesn't work.
                     W3FlashScreen(target,{0,0,0,255},duration,0.5,FFADE_OUT);
-                    //EmitSoundToAll(darkorb,target);
-                    //EmitSoundToAll(darkorb,target);
+                    EmitSoundToAllAny(darkorb,target);
+                    EmitSoundToAllAny(darkorb,target);
                     if(War3_GetGame()==Game_TF) {
                         AttachThrowAwayParticle(target, "ghost_smoke", victimvec, "", duration);
                     }
@@ -204,7 +204,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
             if(!Silenced(client))
             {    //W3SetPlayerColor(client,raceid,r,g,b,a=255,overridepriority=GLOW_DEFAULT)
                 //W3SetPlayerColor(client,thisRaceID,128,0,128,255); //purple:D not sure if works
-                //EmitSoundToAll(tribunal,client);
+                EmitSoundToAllAny(tribunal,client);
                 if(IsInTribunal[client]){
                     StopTribunal(client);    
                 }

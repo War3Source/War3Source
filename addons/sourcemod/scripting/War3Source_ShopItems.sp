@@ -363,11 +363,11 @@ public OnItemPurchase(client,item)
         {
             if (IsPlayerAlive(client))
             {
-                EmitSoundToAll(sBuyTomeSound, client);
+                EmitSoundToAllAny(sBuyTomeSound, client);
             }
             else
             {
-                EmitSoundToClient(client, sBuyTomeSound);
+                EmitSoundToClientAny(client, sBuyTomeSound);
             }
             
             War3_TrackDelay(iTomeSoundDelay[client], 0.25);

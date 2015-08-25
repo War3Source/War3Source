@@ -136,8 +136,8 @@ public OnUltimateCommand(client,race,bool:pressed)
                 //new Float:duration = DarkorbDuration[ult_level];
                 if(target>0)
                 {
-                    EmitSoundToAll(ultsndblue,client);
-                    EmitSoundToAll(ultsndblue,client);
+                    EmitSoundToAllAny(ultsndblue,client);
+                    EmitSoundToAllAny(ultsndblue,client);
                     GetClientAbsOrigin(target,victimvec);
                     TF2_AddCondition(target, TFCond_Jarated, 5.0);
                     AttachThrowAwayParticle(target, "waterfall_bottomwaves", victimvec, "", 2.0);

@@ -38,28 +38,21 @@ public OnPluginStart()
 public OnMapStart()
 {
     War3_AddSoundFolder(explosionSound1, sizeof(explosionSound1), "particle_suck1.mp3");
-
+    War3_AddCustomSound(explosionSound1);
+    
     if(GAMETF)
     {
         ExplosionModel=PrecacheModel("materials/particles/explosion/explosionfiresmoke.vmt",false);
-        PrecacheSound("weapons/explode1.wav",false);
+        PrecacheSoundAny("weapons/explode1.wav",false);
     }
-    else if(GAMECS)
+    else
     {
         ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
-        PrecacheSound("weapons/explode5.wav",false);
-    }
-    else if(GAMECSGO)
-    {
-        ExplosionModel=PrecacheModel("materials/sprites/zerogxplode.vmt",false);
-        //War3_AddCustomSound("music/war3source/csgo/weapons/explode5.mp3");
-        //PrecacheSound("music/war3source/csgo/weapons/explode5.mp3",false);
+        PrecacheSoundAny("weapons/explode5.wav",false);
     }
 
     BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
-
-    War3_AddCustomSound(explosionSound1);
     
 //    War3_AddCustomSound(teleportSound);
 }
@@ -139,19 +132,15 @@ public Action:SuicideAction(Handle:timer,any:client)
                 SuicideLocation[client][2]+=40.0;
             }
             
-            EmitSoundToAll(explosionSound1,client);
+            EmitSoundToAllAny(explosionSound1,client);
             
             if(GAMETF)
             {
-                EmitSoundToAll("weapons/explode1.wav",client);
+                EmitSoundToAllAny("weapons/explode1.wav",client);
             }
-            else if(GAMECS)
+            else
             {
-                EmitSoundToAll("weapons/explode5.wav",client);
-            }
-            else if(GAMECSGO)
-            {
-                W3EmitSoundToAll("music/war3source/csgo/weapons/explode5.mp3",client);
+                EmitSoundToAllAny("weapons/explode5.wav",client);
             }
         }
         new bool:friendlyfire = GetConVarBool(FindConVar("mp_friendlyfire"));

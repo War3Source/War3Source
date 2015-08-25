@@ -80,14 +80,9 @@ public OnPluginStart()
     if(GAMECSANY){
         HookEvent("player_jump",PlayerJumpEvent);
     }
-    RegConsoleCmd("bashme",Cmdbashme);
     LoadTranslations("w3s.race.chronos.phrases.txt");
 }
-public Action:Cmdbashme(client,args){
-    static bool:foo=false;
-    War3_SetBuff(client,bStunned,thisRaceID,foo);
-    foo=(!foo);
-}
+
 new glowsprite;
 public OnMapStart()
 {

@@ -399,7 +399,7 @@ CooldownExpired(i,bool:expiredByTimer)
                 W3Hint(client,HINT_COOLDOWN_EXPIRED,4.0,str);
                 W3Hint(client,HINT_COOLDOWN_NOTREADY,0.0,""); //if something is ready, force erase the not ready
             
-                EmitSoundToAll( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);
+                EmitSoundToAllAny( War3_IsSkillUltimate(raceid,skillNum)?ultimateReadySound:abilityReadySound , client);
             }
         }
     }

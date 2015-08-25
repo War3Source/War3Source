@@ -303,11 +303,11 @@ War3_TriedToBuyItem(client, item, bool:reshowmenu=true)
 
             if (IsPlayerAlive(client))
             {
-                EmitSoundToAll(sBuyItemSound, client);
+                EmitSoundToAllAny(sBuyItemSound, client);
             }
             else
             {
-                EmitSoundToClient(client, sBuyItemSound);
+                EmitSoundToClientAny(client, sBuyItemSound);
             }
             
             W3SetVar(TheItemBoughtOrLost,item);

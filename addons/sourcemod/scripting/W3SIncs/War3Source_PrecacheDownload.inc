@@ -3,6 +3,7 @@
  * Description: Various functions for precaching or adding to the download table
  * Author(s): War3Source Team  
  */
+ 
 /**
  * Adds a file to the downloadables network string table.
  *
@@ -39,7 +40,7 @@ stock bool:War3_AddCustomSound(const String:sound[], bool:precache = true, bool:
         AddFileToDownloadsTable(path);
         if (precache)
         {
-            return PrecacheSound(sound, preload);
+            return PrecacheSoundAny(sound, preload);
         }
         
     } 

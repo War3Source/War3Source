@@ -14,6 +14,7 @@
 #include "W3SIncs/War3Source_Constants"
 #include "W3SIncs/War3Source_Bots"
 #include "W3SIncs/colors"
+#include "W3SIncs/emitsoundany"
 #include "W3SIncs/War3Source_Aura"
 #include "W3SIncs/War3Source_Wards"
 #include "W3SIncs/War3Source_Races"
@@ -1699,7 +1700,7 @@ stock W3EmitSoundToAll(const String:sample[],
     bool:updatePos = true,
     Float:soundtime = 0.0)
 {
-  EmitSoundToAll(sample,entity,channel,level,flags,volume,pitch,speakerentity,origin,dir,updatePos,soundtime);
+  EmitSoundToAllAny(sample,entity,channel,level,flags,volume,pitch,speakerentity,origin,dir,updatePos,soundtime);
 }
 
 /**
@@ -1774,7 +1775,7 @@ stock CheckRaceTeamLimit(raceid, team){
  */
 stock War3_AddSoundFolder(String:sBaseString[], maxlength, String:sSoundFile[])
 {
-  Format(sBaseString, maxlength, GAMECSGO ? "music/war3source/%s" : "war3source/%s", sSoundFile);
+  Format(sBaseString, maxlength, "war3source/%s", sSoundFile);
   
   War3_LogInfo("Constructed sound path: \"%s\"", sBaseString);
 }

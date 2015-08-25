@@ -296,8 +296,8 @@ bool:Teleport(client,Float:distance)
         
         
         TeleportEntity(client,emptypos,NULL_VECTOR,NULL_VECTOR);
-        EmitSoundToAll(teleportSound,client);
-        EmitSoundToAll(teleportSound,client);
+        EmitSoundToAllAny(teleportSound,client);
+        EmitSoundToAllAny(teleportSound,client);
         
         
         

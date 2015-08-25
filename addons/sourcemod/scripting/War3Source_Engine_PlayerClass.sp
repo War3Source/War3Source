@@ -313,10 +313,10 @@ public NWar3_SetRace(Handle:plugin,numParams){
             
             if(newrace>0) {
                 if(IsPlayerAlive(client)){
-                    EmitSoundToAll(levelupSound,client);
+                    EmitSoundToAllAny(levelupSound,client);
                 }
                 else{
-                    EmitSoundToClient(client,levelupSound);
+                    EmitSoundToClientAny(client,levelupSound);
                 }
                 
                 if(W3SaveEnabled()){ //save enabled

@@ -131,7 +131,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
                     }
                 }
                 PrintHintText(client,"%T","+/- {amount} HP",client,amount);
-                W3EmitSoundToAll(judgesnd,client);
+                EmitSoundToAllAny(judgesnd,client);
                 //EmitSoundToAll(judgesnd,client);
                 War3_CooldownMGR(client,JudgementCooldownTime,thisRaceID,SKILL_JUDGE,true,true);
                 
@@ -170,9 +170,9 @@ public OnUltimateCommand(client,race,bool:pressed)
                         PrintToConsole(client,"T%","Executed for {amount} damage",client,War3_GetWar3DamageDealt());
                         War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_EXECUTE,true,true);
                     
-                        W3EmitSoundToAll(ultsnd,client);
+                        EmitSoundToAllAny(ultsnd,client);
                         
-                        W3EmitSoundToAll(ultsnd,target);
+                        EmitSoundToAllAny(ultsnd,target);
                     }
                 }
                 else

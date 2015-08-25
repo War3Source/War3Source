@@ -201,8 +201,8 @@ public OnAbilityCommand(client,ability,bool:pressed)
                 TE_SetupBeamRingPoint(AttackerPos, 10.0, BoltRange[skilllvl]*2.0, g_BeamSprite, g_HaloSprite, 0, 25, 0.5, 5.0, 0.0, StormCol, 10, 0);
                 TE_SendToAll();
                 
-                W3EmitSoundToAll(hammerboltsound,client);
-                W3EmitSoundToAll(hammerboltsound,client);
+                EmitSoundToAllAny(hammerboltsound,client);
+                EmitSoundToAllAny(hammerboltsound,client);
                 
                 for(new i=1;i<=MaxClients;i++)
                 {
@@ -259,8 +259,8 @@ public OnUltimateCommand(client,race,bool:pressed)
         {    
             if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,ULT_STRENGTH,true ))
             {
-                W3EmitSoundToAll(ultsnd,client);
-                W3EmitSoundToAll(ultsnd,client);
+                EmitSoundToAllAny(ultsnd,client);
+                EmitSoundToAllAny(ultsnd,client);
                 PrintHintText(client,"%T","The gods lend you their strength",client);
                 bStrengthActivated[client] = true;
                 CreateTimer(5.0,stopUltimate,client);

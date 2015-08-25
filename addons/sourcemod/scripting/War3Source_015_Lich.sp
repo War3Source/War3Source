@@ -111,7 +111,7 @@ public OnAbilityCommand(client,ability,bool:pressed)
             if(!Silenced(client)&&War3_SkillNotInCooldown(client,thisRaceID,SKILL_FROSTNOVA,true))
                 {
             
-                    W3EmitSoundToAll(novasnd,client);
+                    EmitSoundToAllAny(novasnd,client);
                     GetClientAbsOrigin(client,FrostNovaOrigin[client]);
                     FrostNovaOrigin[client][2]+=15.0;
                     FrostNovaLoopCountdown[client]=20;
@@ -324,7 +324,7 @@ public OnUltimateCommand(client,race,bool:pressed)
                         }
                         PrintHintText(client,"%T","Death and Decay attacked for {amount} total damage!",client,damage*targetsfound);
                         War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT_DEATHDECAY,_,_);
-                        W3EmitSoundToAll(ultsnd,client);
+                        EmitSoundToAllAny(ultsnd,client);
                     }
                 }
                 
