@@ -27,6 +27,29 @@ public OnPluginStart()
 {
     CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
     
+    if(GAMECSGO)
+    {
+        new Handle:hCvar = FindConVar("sv_disable_immunity_alpha");
+        if(hCvar == INVALID_HANDLE)
+        {
+            War3_LogError("Couldn't find cvar: \"sv_disable_immunity_alpha\"");
+            return;
+        }
+        
+        /* Enable convar and make sure it can't be changed by accident. */
+        SetConVarInt(hCvar, true);
+        HookConVarChange(hCvar, ConVarChange_DisableImmunityAlpha);
+    }
+}
+
+public ConVarChange_DisableImmunityAlpha(Handle:convar, const String:oldValue[], const String:newValue[])
+{
+	if(!GetConVarBool(convar))
+	{
+        /* Force enable sv_disable_immunity_alpha */
+		SetConVarBool(convar, true);
+		PrintToServer("[W3S] sv_disable_immunity_alpha is locked and can't be changed!");
+	}
 }
 
 public bool:InitNativesForwards()
