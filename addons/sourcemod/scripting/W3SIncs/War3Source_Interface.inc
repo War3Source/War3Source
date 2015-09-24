@@ -1787,7 +1787,7 @@ stock War3_GetHintSound(String:sSoundFile[], maxlength)
 {
   if(GAMECSGO)
   {
-    strcopy(sSoundFile, maxlength, "music/war3source/csgo/ui/hint.mp3");
+    sSoundFile[0] = '\0';
   }
   else if(GAMEFOF)
   {
