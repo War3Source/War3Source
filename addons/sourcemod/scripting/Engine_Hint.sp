@@ -203,17 +203,17 @@ public OnGameFrame()
 
                     if(strlen(sOutput) > 1) 
                     {
-                        if(GAMECSGO)
+                        // If this game has hudhint sounds make sure the player never hears them.
+                        if(!GAMECSGO)
                         {
-                            StopSound(client, SNDCHAN_STATIC, "music/war3source/csgo/ui/hint.mp3");
-                        }
-                        else if(GAMEFOF)
-                        {
-                            StopSound(client, SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
-                        }
-                        else
-                        {
-                            StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
+                            if(GAMEFOF)
+                            {
+                                StopSound(client, SNDCHAN_STATIC, "war3source/csgo/ui/hint.mp3");
+                            }
+                            else
+                            {
+                                StopSound(client, SNDCHAN_STATIC, "UI/hint.wav");
+                            }
                         }
 
                         new len = strlen(sOutput);
@@ -289,14 +289,12 @@ public Action:MsgHook_HintText(UserMsg:msg_id, Handle:bf, const players[], playe
         {
             if (players[i] != 0 && IsClientInGame(players[i]) && !IsFakeClient(players[i]))
             {
-                if(GAMECSGO)
-                {
-                    StopSound(players[i], SNDCHAN_STATIC, "music/war3source/csgo/ui/hint.mp3");
-                }
-                else
+                // Stop hudhint sound. This is not required on csgo because there is no sound.
+                if(!GAMECSGO)
                 {
                     StopSound(players[i], SNDCHAN_STATIC, "UI/hint.wav");
                 }
+                
                 if (bIntercept)
                 {
                     // Place the hint and shedule it to be shown immediately
