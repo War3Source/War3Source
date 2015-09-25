@@ -81,7 +81,7 @@ public OnWar3PluginReady()
     War3_SetRaceGlobalConfigString("restricted_hugalug","None");
     War3_SetRaceGlobalConfigString("restricted_blah","Some");
     War3_SetRaceGlobalConfigString("restricted_blah23","Some");
-    ReloadConfig();
+    //ReloadConfig();
 }
 
 ReloadConfig()
