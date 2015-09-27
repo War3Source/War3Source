@@ -379,7 +379,7 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage){
         return;
     }
 
-    if(bTrapped[victim]){ ///trapped people can only be damaged with knife
+    if(IS_PLAYER(victim) && bTrapped[victim]){ ///trapped people can only be damaged with knife
         if(ValidPlayer(attacker)){
             new wpnent = W3GetCurrentWeaponEnt(attacker);
             if(!War3_IsMeleeWeapon(wpnent)){
@@ -391,7 +391,7 @@ public OnW3TakeDmgAllPre(victim,attacker,Float:damage){
             return;
         }
     }
-    if(bTrapped[attacker]&&ValidPlayer(attacker)){ //trapped people can only use knife
+    if(ValidPlayer(attacker) && bTrapped[attacker]){ //trapped people can only use knife
         new wpnent = W3GetCurrentWeaponEnt(attacker);
         if(!War3_IsMeleeWeapon(wpnent)){
             PrintHintText(attacker,"%T","You can only damage with knife",attacker);
