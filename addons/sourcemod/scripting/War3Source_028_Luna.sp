@@ -56,8 +56,8 @@ public OnMapStart()
     //BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     if(War3_GetGame() == Game_CSGO) {
-        CoreSprite = PrecacheModel( "effects/combinemuzzle1.vmt" );
-        MoonSprite = PrecacheModel( "particle/particle_glow_01" );
+        CoreSprite = PrecacheModel( "materials/effects/combinemuzzle1.vmt" );
+        MoonSprite = PrecacheModel( "materials/sprites/light_glow02.vmt" );
         XBeamSprite = PrecacheModel( "materials/sprites/physbeam.vmt" );
         //PrecacheModel("particle/particle_flares/particle_flare_004");
     }
@@ -223,7 +223,7 @@ public OnUltimateCommand( client, race, bool:pressed )
                 TE_SendToAll();
                 TE_SetupBeamRingPoint(StartPos, 400.0, 500.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
                 TE_SendToAll();
-                TE_SetupBeamRingPoint(StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 3.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
+                TE_SetupBeamRingPoint(StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 5.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
                 TE_SendToAll(3.0);
 
                 War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT,true,true);
