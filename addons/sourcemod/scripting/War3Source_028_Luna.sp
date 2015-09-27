@@ -46,13 +46,15 @@ public OnPluginStart()
 public OnMapStart()
 {
     War3_AddSoundFolder(beamsnd, sizeof(beamsnd), "moonqueen/beam.mp3");
-    War3_AddSoundFolder(lunasnd2, sizeof(lunasnd2), "flashbang_explode2.mp3");
-
-    War3_AddCustomSound( beamsnd );
     if(GameCS()) {
-
-        War3_AddCustomSound( lunasnd2 );
+        War3_AddSoundFolder(lunasnd2, sizeof(lunasnd2), "flashbang_explode2.mp3");
+    } else {
+        War3_AddSoundFolder(lunasnd2, sizeof(lunasnd2), "moonqueen/flashbang_explode1.mp3");
     }
+    
+    War3_AddCustomSound( beamsnd );
+    War3_AddCustomSound( lunasnd2 );
+    
     //BeamSprite=War3_PrecacheBeamSprite();
     HaloSprite=War3_PrecacheHaloSprite();
     if(War3_GetGame() == Game_CSGO) {
@@ -175,10 +177,8 @@ public OnW3TakeDmgBullet( victim, attacker, Float:damage )
                             }
                         }
                     }
-                    if(GameCS()) {
-                        EmitSoundToAllAny(lunasnd2,victim);
-                        EmitSoundToAllAny(lunasnd2,attacker);
-                    }
+                    EmitSoundToAllAny(lunasnd2,victim);
+                    EmitSoundToAllAny(lunasnd2,attacker);
                 }
             }
 
@@ -223,7 +223,7 @@ public OnUltimateCommand( client, race, bool:pressed )
                 TE_SendToAll();
                 TE_SetupBeamRingPoint(StartPos, 400.0, 500.0, CoreSprite, HaloSprite, 0, 3, 5.0, 90.0, 0.0, {255,255,255,255}, 10, 0);
                 TE_SendToAll();
-                TE_SetupBeamRingPoint(StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 5.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
+                TE_SetupBeamRingPoint(StartPos, 200.0, 90.0, XBeamSprite, HaloSprite, 0, 3, 3.0, 100.0, 0.0, {128,0,255,255}, 10, 0);
                 TE_SendToAll(3.0);
 
                 War3_CooldownMGR(client,GetConVarFloat(ultCooldownCvar),thisRaceID,ULT,true,true);
