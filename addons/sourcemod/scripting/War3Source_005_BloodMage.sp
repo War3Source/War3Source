@@ -140,12 +140,12 @@ public OnMapStart()
     if(War3_GetGame() == Game_CSGO) {
         BloodDrop = PrecacheModel("decals/blood1.vmt");
         FireSprite     = PrecacheModel("materials/sprites/glow07.vmt");
-        War3_PrecacheParticle("weapon_molotov_thrown_glow");
-        War3_PrecacheParticle("burning_character");
+        War3_PrecacheParticle("molotov_explosion");
     }
     else {
         BloodDrop = PrecacheModel("sprites/blood.vmt");
         FireSprite     = PrecacheModel("materials/sprites/fireburst.vmt");
+        War3_PrecacheParticle("env_fire_medium_smoke");
     }
     
     War3_AddCustomSound(reviveSound);
