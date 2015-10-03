@@ -248,27 +248,26 @@ public OnUltimateCommand(client,race,bool:pressed)
                     PrintHintText(client,"%T","Flame Strike!",client);
                     PrintHintText(target,"%T","You have been struck with Flame Strike!",target);
                     W3SetPlayerColor(target,thisRaceID,255,128,0,_,GLOW_ULTIMATE);
-                    new Float:effect_vec[3];
-                    GetClientAbsOrigin(target,effect_vec);
+                    decl Float:effect_vec[3];
+                    GetClientAbsOrigin(target, effect_vec);
                     effect_vec[2]+=150.0;
                     TE_SetupGlowSprite(effect_vec, FireSprite, 2.0, 4.0, 255);
                     TE_SendToAll();
-                    if(War3_GetGame()!=Game_CSGO) {
-                        TE_SetupGlowSprite(effect_vec, FireSprite, 4.0, 3.0, 255);
-                        TE_SendToAll();
-                    }
-                    else {
-                        effect_vec[2]-=180;
-                        ThrowAwayParticle("weapon_molotov_thrown_glow", effect_vec, 3.5);
-                        AttachParticle(target, "burning_character", effect_vec, "rfoot");
-                        effect_vec[2]+=180;
-                    }
-                    if(War3_GetGame()==Game_CS) {
+                    if(GAMECSGO) {
+                        decl Float:effect_angles[3];
+                        GetClientEyeAngles(target, effect_angles);
+                        effect_angles[0]=-90.0;
+                        effect_vec[2]-=130;
+                        ThrowAwayParticle("molotov_explosion", effect_vec, 3.5, effect_angles);
+                    } else if(GAMECS) {
                         //I'm unsure about how it works in other games than cs:source
                         effect_vec[2]-180;
                         new ent = AttachParticle(target, "env_fire_medium_smoke", effect_vec, "rfoot");
                         FireEntityEffect[target]=ent;
-                    }
+                    } else {
+                        TE_SetupGlowSprite(effect_vec, FireSprite, 4.0, 3.0, 255);
+                        TE_SendToAll();
+                    } 
                 }
                 else
                 {
@@ -311,10 +310,13 @@ public Action:BurnLoop(Handle:timer,any:userid)
         if(BurnsRemaining[victim]<=0)
         {
             W3ResetPlayerColor(victim,thisRaceID);
-            if (IsValidEdict(FireEntityEffect[victim]))
+            if(War3_GetGame()==Game_CS)
             {
-                AcceptEntityInput(FireEntityEffect[victim], "Kill");
-                FireEntityEffect[victim]=-1;
+                if (FireEntityEffect[victim] > 0 && IsValidEdict(FireEntityEffect[victim]))
+                {
+                    AcceptEntityInput(FireEntityEffect[victim], "Kill");
+                    FireEntityEffect[victim]=-1;
+                }
             }
         } 
     }
@@ -747,10 +749,13 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
         new victimTeam = GetClientTeam(victim);
         new skillevel;
         
-        if (IsValidEdict(FireEntityEffect[victim]))
+        if(War3_GetGame()==Game_CS)
         {
-            AcceptEntityInput(FireEntityEffect[victim], "TurnOff");
-            FireEntityEffect[victim]=-1;
+            if (FireEntityEffect[victim] > 0 && IsValidEdict(FireEntityEffect[victim]))
+            {
+                AcceptEntityInput(FireEntityEffect[victim], "TurnOff");
+                FireEntityEffect[victim]=-1;
+            }
         }
         
         new deathFlags = GetEventInt(event, "death_flags");
@@ -827,7 +832,7 @@ public Action:Unbanish(Handle:timer,any:userid)
 
 new absincarray[]={0,4,-4,8,-8,12,-12,18,-18,22,-22,25,-25,27,-27,30,-30};//,33,-33,40,-40};
 
-public bool:testhull(client){
+stock bool:testhull(client){
     if(RaceDisabled)
     {
         return;
