@@ -575,17 +575,6 @@ public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
     }
 }
 
-public Action:DoRevivalFX(Handle:timer,any:userid)
-{
-    if(RaceDisabled)
-    {
-        return Plugin_Handled;
-    }
-
-    new client=GetClientOfUserId(userid);
-    respawnsfx(client);
-}
-
 public Action:DoRevival(Handle:timer,any:userid)
 {
     if(RaceDisabled)
@@ -812,8 +801,7 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
                                     PrintCenterText(victim,"PREPARE FOR RESPAWN!");
                                     War3_ChatMessage(victim,"PREPARE FOR RESPAWN!");
                                 }
-                                new Float:flRespawnFXDelay = GetConVarFloat(hrevivalDelayCvar) - 0.6;
-                                CreateTimer(flRespawnFXDelay > 0.0 ? flRespawnFXDelay : 0.0, DoRevivalFX, GetClientUserId(victim));
+                                
                                 CreateTimer(GetConVarFloat(hrevivalDelayCvar), DoRevival, GetClientUserId(victim));
                                 break;
                             }
