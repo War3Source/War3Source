@@ -137,15 +137,24 @@ public OnMapStart()
     HaloSprite=War3_PrecacheHaloSprite();
     //we gonna use theese bloodsprite as "money blood"(change color)
     BloodSpray = PrecacheModel("sprites/bloodspray.vmt");
-    if(War3_GetGame() == Game_CSGO) {
+    
+    if(GAMETF) {
+        PrecacheSoundAny("weapons/explode1.wav",false);
+    } else if(GAMECSGO) {
         BloodDrop = PrecacheModel("decals/blood1.vmt");
         FireSprite     = PrecacheModel("materials/sprites/glow07.vmt");
         War3_PrecacheParticle("molotov_explosion");
+        PrecacheSoundAny("weapons/incgrenade/inc_grenade_detonate_swt_01.wav",false);
     }
     else {
+        // CS:S and other games that share these assets
         BloodDrop = PrecacheModel("sprites/blood.vmt");
         FireSprite     = PrecacheModel("materials/sprites/fireburst.vmt");
-        War3_PrecacheParticle("env_fire_medium_smoke");
+        PrecacheSoundAny("weapons/explode5.wav",false);
+        if(GAMECS) {
+            // This is CS:S only
+            War3_PrecacheParticle("env_fire_medium_smoke");
+        }
     }
     
     War3_AddCustomSound(reviveSound);
@@ -259,6 +268,7 @@ public OnUltimateCommand(client,race,bool:pressed)
                         effect_angles[0]=-90.0;
                         effect_vec[2]-=130;
                         ThrowAwayParticle("molotov_explosion", effect_vec, 3.5, effect_angles);
+                        EmitSoundToAllAny("weapons/incgrenade/inc_grenade_detonate_swt_01.wav", target);
                     } else if(GAMECS) {
                         //I'm unsure about how it works in other games than cs:source
                         effect_vec[2]-180;
@@ -490,11 +500,6 @@ public OnW3TakeDmgBullet(victim,attacker,Float:damage)
 }
 
 stock siphonsfx(victim) {
-    if(RaceDisabled)
-    {
-        return;
-    }
-
     decl Float:vecAngles[3];
     GetClientEyeAngles(victim,vecAngles);
     decl Float:target_pos[3];
@@ -505,22 +510,17 @@ stock siphonsfx(victim) {
 }
 
 stock respawnsfx(target) {
-    if(RaceDisabled)
-    {
-        return;
-    }
-
-    new Float:effect_vec[3];
+    decl Float:effect_vec[3];
     GetClientAbsOrigin(target,effect_vec);
-    effect_vec[2]+=15.0;
-    TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
+    effect_vec[2]+=50.0;
+    TE_SetupBeamRingPoint(effect_vec,80.0,1.0,BeamSprite,HaloSprite,0,15,1.0,8.0,1.0,{255,255,20,255},10,0);
     TE_SendToAll();
-    effect_vec[2]+=15.0;
-    TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
-    TE_SendToAll();
-    effect_vec[2]+=15.0;
-    TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.5,8.0,1.0,{255,255,20,255},10,0);
-    TE_SendToAll();
+    effect_vec[2]-=15.0;
+    TE_SetupBeamRingPoint(effect_vec,60.0,1.0,BeamSprite,HaloSprite,0,15,1.0,8.0,1.0,{255,255,20,255},10,0);
+    TE_SendToAll(0.3);
+    effect_vec[2]-=15.0;
+    TE_SetupBeamRingPoint(effect_vec,40.0,1.0,BeamSprite,HaloSprite,0,15,1.0,8.0,1.0,{255,255,20,255},10,0);
+    TE_SendToAll(0.6);
 }
 
 // Events
@@ -573,6 +573,17 @@ public RoundStartEvent(Handle:event,const String:name[],bool:dontBroadcast)
         //reset everyone's ultimate
         
     }
+}
+
+public Action:DoRevivalFX(Handle:timer,any:userid)
+{
+    if(RaceDisabled)
+    {
+        return Plugin_Handled;
+    }
+
+    new client=GetClientOfUserId(userid);
+    respawnsfx(client);
 }
 
 public Action:DoRevival(Handle:timer,any:userid)
@@ -657,7 +668,6 @@ public Action:DoRevival(Handle:timer,any:userid)
                 
                 
                 testhull(client);
-                
                 
                 fLastRevive[client]=GetGameTime();
                 //test noclip method
@@ -802,7 +812,9 @@ public PlayerDeathEvent(Handle:event,const String:name[],bool:dontBroadcast)
                                     PrintCenterText(victim,"PREPARE FOR RESPAWN!");
                                     War3_ChatMessage(victim,"PREPARE FOR RESPAWN!");
                                 }
-                                CreateTimer(GetConVarFloat(hrevivalDelayCvar),DoRevival,GetClientUserId(victim));
+                                new Float:flRespawnFXDelay = GetConVarFloat(hrevivalDelayCvar) - 0.6;
+                                CreateTimer(flRespawnFXDelay > 0.0 ? flRespawnFXDelay : 0.0, DoRevivalFX, GetClientUserId(victim));
+                                CreateTimer(GetConVarFloat(hrevivalDelayCvar), DoRevival, GetClientUserId(victim));
                                 break;
                             }
                         }
