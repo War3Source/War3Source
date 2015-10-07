@@ -268,16 +268,20 @@ public OnUltimateCommand(client,race,bool:pressed)
                         effect_angles[0]=-90.0;
                         effect_vec[2]-=130;
                         ThrowAwayParticle("molotov_explosion", effect_vec, 3.5, effect_angles);
-                        EmitSoundToAllAny("weapons/incgrenade/inc_grenade_detonate_swt_01.wav", target);
                     } else if(GAMECS) {
                         //I'm unsure about how it works in other games than cs:source
                         effect_vec[2]-180;
                         new ent = AttachParticle(target, "env_fire_medium_smoke", effect_vec, "rfoot");
                         FireEntityEffect[target]=ent;
+                    }
+                    
+                    if(GAMECSGO) {
+                        EmitSoundToAllAny("weapons/incgrenade/inc_grenade_detonate_swt_01.wav", target);
+                    } else if(GAMETF) {
+                        EmitSoundToAllAny("weapons/explode1.wav", target);
                     } else {
-                        TE_SetupGlowSprite(effect_vec, FireSprite, 4.0, 3.0, 255);
-                        TE_SendToAll();
-                    } 
+                        EmitSoundToAllAny("weapons/explode5.wav", target);
+                    }
                 }
                 else
                 {
