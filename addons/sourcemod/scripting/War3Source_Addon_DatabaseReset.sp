@@ -58,14 +58,14 @@ public Action:SayCallback(client, const String:command[], argc)
 
 public Action:Command_ResetDB(client,args)
 {
+    if(g_hDatabase == INVALID_HANDLE)
+    {
+        ReplyToCommand(0, "[War3Source] No database handle available!");
+        return Plugin_Handled;
+    }
+
     if(IS_PLAYER(client))
     {
-        if(g_hDatabase == INVALID_HANDLE)
-        {
-            War3_ChatMessage(client, "No database handle available!");
-            return Plugin_Handled;
-        }
-
         if(g_iConfirmState[client] == CONFIRM_NO)
         {
             /* generate confirmation token */
