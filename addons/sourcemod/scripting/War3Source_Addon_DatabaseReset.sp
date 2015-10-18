@@ -60,7 +60,7 @@ public Action:Command_ResetDB(client,args)
 {
     if(g_hDatabase == INVALID_HANDLE)
     {
-        ReplyToCommand(0, "[War3Source] No database handle available!");
+        ReplyToCommand(client, "[War3Source] No database handle available!");
         return Plugin_Handled;
     }
 
