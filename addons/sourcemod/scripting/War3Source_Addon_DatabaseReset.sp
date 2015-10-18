@@ -70,7 +70,7 @@ public Action:Command_ResetDB(client,args)
         {
             /* generate confirmation token */
             g_iDeleteToken = GetRandomInt(1, 999);
-            g_iConfirmState[1] = CONFIRM_AWAIT;
+            g_iConfirmState[client] = CONFIRM_AWAIT;
             
             /* print chatmsgs */
             War3_ChatMessage(client, "You're about to DELETE the entire War3Source database! Are you really sure?");
