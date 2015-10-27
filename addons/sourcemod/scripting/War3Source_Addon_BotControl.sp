@@ -331,23 +331,31 @@ public OnWar3Event(W3EVENT:event, client)
 // ########################## BOT ITEM CONFIG ############################
 public OnWar3EventSpawn(client)
 {
-    if(ValidPlayer(client) && IsFakeClient(client) && GetConVarBool(botBuysItems))
-    {    
-        new Float:chance = GetConVarFloat(botBuysRandomChance);
-        new Float:multipleChance = GetConVarFloat(botBuysRandomMultipleChance);
-        new maxItems = GetConVarInt(FindConVar("war3_max_shopitems"));
-        new items_holding = GetClientItemsOwned(client);
-        
-        while ( (GetRandomFloat(0.0, 100.0) <= chance) && (items_holding < maxItems) )
+    if(ValidPlayer(client) && IsFakeClient(client))
+    {
+        //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
+        if(W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
         {
-            new item = GetRandomInt(0, W3GetItemsLoaded());
+            War3_bots_pickrace(client);
+        }
+        if(GetConVarBool(botBuysItems))
+        {    
+            new Float:chance = GetConVarFloat(botBuysRandomChance);
+            new Float:multipleChance = GetConVarFloat(botBuysRandomMultipleChance);
+            new maxItems = GetConVarInt(FindConVar("war3_max_shopitems"));
+            new items_holding = GetClientItemsOwned(client);
             
-            // Set the event so the engine can still refuse the purchase
-            // based on the bots gold or another addon
-            W3SetVar(EventArg1, item);
-            W3CreateEvent(DoTriedToBuyItem, client);
-            
-            chance *= multipleChance;
+            while ( (GetRandomFloat(0.0, 100.0) <= chance) && (items_holding < maxItems) )
+            {
+                new item = GetRandomInt(0, W3GetItemsLoaded());
+                
+                // Set the event so the engine can still refuse the purchase
+                // based on the bots gold or another addon
+                W3SetVar(EventArg1, item);
+                W3CreateEvent(DoTriedToBuyItem, client);
+                
+                chance *= multipleChance;
+            }
         }
     }
 }

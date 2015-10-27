@@ -12,7 +12,6 @@
 #include <cstrike>
 
 #include "W3SIncs/War3Source_Constants"
-#include "W3SIncs/War3Source_Bots"
 #include "W3SIncs/colors"
 #include "W3SIncs/emitsoundany"
 #include "W3SIncs/War3Source_Aura"
