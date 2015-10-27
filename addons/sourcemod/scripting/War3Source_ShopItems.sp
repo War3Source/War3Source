@@ -31,6 +31,14 @@ enum {
     ITEM_LAST, // Not a real item, just the last item in the enum!
 }
 
+enum roundState {
+    RS_Pre,
+    RS_First,
+    RS_Normal
+}
+
+new roundState:rsRoundState = RS_Pre;
+
 new iShopitem[ITEM_LAST];
 new iTomeSoundDelay[MAXPLAYERSCUSTOM];
 
@@ -61,10 +69,13 @@ public OnPluginStart()
     {
         SetFailState("Not compatible with the Left4Dead games");
     }
-    
     if(GameCSANY())
     {
         HookEvent("round_start", Event_RoundStart);
+    }
+    if(GAMECSGO())
+    {
+        HookEvent("start_halftime", Event_StartHalftime);
     }
 
     iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
@@ -139,7 +150,7 @@ public OnMapStart()
 {
     War3_AddSoundFolder(sBuyTomeSound, sizeof(sBuyTomeSound), "tomes.mp3");
     War3_AddCustomSound(sBuyTomeSound);
-    
+    rsRoundState = RS_First;
     if(GAMECSGO)
     {
         // These models aren't always precached
@@ -177,9 +188,20 @@ public OnWar3EventDeath(client)
         }
     }
 }
-
+public Event_StartHalftime(Handle:event, const String:name[], bool:dontBroadcast)
+{
+    rsRoundState = RS_First;
+}
 public Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
 {
+    if(rsRoundState == RS_Pre)
+    {
+        rsRoundState = RS_First;
+    }
+    else if(rsRoundState == RS_First)
+    {
+        rsRoundState = RS_Normal;
+    }
     if(!GetConVarBool(hMoleDeathmatchAllowedCvar))
     {
         for(new x=1; x <= MaxClients; x++)
@@ -214,7 +236,7 @@ public OnWar3EventSpawn(client)
     if(GAMECSANY && 
        War3_GetOwnsItem(client, iShopitem[ITEM_ANKH]) && bDidDie[client])
     {
-        if(!bSpawnedViaScrollRespawn[client])
+        if(!bSpawnedViaScrollRespawn[client] && rsRoundState == RS_Normal)
         { 
             //only if he didnt already respawn from the "respawn item" cuz that gives items too
             CreateTimer(0.1, DoAnkhAction, client);
