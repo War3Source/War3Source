@@ -336,7 +336,7 @@ public OnWar3EventSpawn(client)
         //W3IsPlayerXPLoaded(client) is for skipping until putin server is fired (which cleared variables)
         if(W3IsPlayerXPLoaded(client) && War3_GetRace(client) == 0)
         {
-            War3_bots_pickrace(client);
+            PickRace(client);
         }
         if(GetConVarBool(botBuysItems))
         {    
