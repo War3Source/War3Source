@@ -73,7 +73,7 @@ public OnPluginStart()
     {
         HookEvent("round_start", Event_RoundStart);
     }
-    if(GAMECSGO())
+    if(GAMECSGO)
     {
         HookEvent("start_halftime", Event_StartHalftime);
     }
