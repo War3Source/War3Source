@@ -213,118 +213,57 @@ public Native_War3_GetAssistCurrency(Handle:plugin, args)
 {
     return GetConVarInt(g_hAssistCurrencyCvar);
 }
-
+void LevelStringToArray(char[] levelString, int[] levelArray)
+{
+    char levels[MAXLEVELXPDEFINED + 1][16];
+    int tokencount = ExplodeString(levelString, " ", levels, MAXLEVELXPDEFINED + 1, sizeof(levels[]));
+    
+    for(new x = 0; x < MAXLEVELXPDEFINED; x++)
+    {
+        if(x < tokencount)
+        {
+            levelArray[x] = StringToInt(levels[x]);
+        }
+        else
+        {
+            levelArray[x] = StringToInt(levels[tokencount - 1]);   
+        }
+    }
+}
 ParseXPSettingsFile(){
     new Handle:keyValue=CreateKeyValues("War3SourceSettings");
-    decl String:path[1024];
+    decl String:path[PLATFORM_MAX_PATH];
     BuildPath(Path_SM,path,sizeof(path),"configs/war3source.ini");
     FileToKeyValues(keyValue,path);
     // Load level configuration
     KvRewind(keyValue);
 
-
-
     if(!KvJumpToKey(keyValue,"levels"))
         return SetFailState("error, key value for levels configuration not found");
 
 
-    decl String:read[2048];
+    decl String:buffer[2048];
     if(!KvGotoFirstSubKey(keyValue))
         return SetFailState("sub key failed");
 
-
-
-
     // required xp, long term
-    KvGetString(keyValue,"required_xp",read,sizeof(read));
-    new tokencount=StrTokenCount(read);
-
-    if(tokencount>MAXLEVELXPDEFINED+1)
-    {
-        LogError("required_xp long term config improperly formatted, too much levels defined!  Setting for Maximum levels for %d.  tokencount = %d, MAXLEVELXPDEFINED = %d.\nYou can find MAXLEVELXPDEFINED in your War3Source_Constants.inc file.",MAXLEVELXPDEFINED,tokencount,MAXLEVELXPDEFINED);
-        tokencount=MAXLEVELXPDEFINED+1;
-    }
-    else if(tokencount!=MAXLEVELXPDEFINED+1)
-        return SetFailState("required_xp long term config improperly formatted, not enought or too much levels defined?   tokencount = %d, MAXLEVELXPDEFINED = %d",tokencount,MAXLEVELXPDEFINED);
-
-    decl String:temp_iter[16];
-    for(new x=1;x<=tokencount;x++)
-    {
-        // store it
-        StrToken(read,x,temp_iter,15);
-        XPLongTermREQXP[x-1]=StringToInt(temp_iter);
-    }
-
-
-
-
-
+    KvGetString(keyValue, "required_xp", buffer, sizeof(buffer));
+    LevelStringToArray(buffer, XPLongTermREQXP);
+    
     // kill xp, long term
-    KvGetString(keyValue,"kill_xp",read,sizeof(read));
-    tokencount=StrTokenCount(read);
-
-    if(tokencount>MAXLEVELXPDEFINED+1)
-    {
-        LogError("kill_xp config long term improperly formatted, too much levels defined!  Setting for Maximum levels for %d.  tokencount = %d, MAXLEVELXPDEFINED = %d.\nYou can find MAXLEVELXPDEFINED in your War3Source_Constants.inc file.",MAXLEVELXPDEFINED,tokencount,MAXLEVELXPDEFINED);
-        tokencount=MAXLEVELXPDEFINED+1;
-    }
-    else if(tokencount!=MAXLEVELXPDEFINED+1)
-        return SetFailState("kill_xp long term config improperly formatted, not enought or too much levels defined?");
-
-    for(new x=1;x<=tokencount;x++)
-    {
-        // store it
-        StrToken(read,x,temp_iter,15);
-        XPLongTermKillXP[x-1]=StringToInt(temp_iter);
-    }
-
-
-
-
-
-
+    KvGetString(keyValue, "kill_xp", buffer, sizeof(buffer));
+    LevelStringToArray(buffer, XPLongTermKillXP);
 
     if(!KvGotoNextKey(keyValue))
         return SetFailState("XP No Next key");
+    
     // required xp, short term
-    KvGetString(keyValue,"required_xp",read,sizeof(read));
-    tokencount=StrTokenCount(read);
-    if(tokencount>MAXLEVELXPDEFINED+1)
-    {
-        LogError("required_xp short term config improperly formatted, too much levels defined!  Setting for Maximum levels for %d.  tokencount = %d, MAXLEVELXPDEFINED = %d.\nYou can find MAXLEVELXPDEFINED in your War3Source_Constants.inc file.",MAXLEVELXPDEFINED,tokencount,MAXLEVELXPDEFINED);
-        tokencount=MAXLEVELXPDEFINED+1;
-    }
-    else if(tokencount!=MAXLEVELXPDEFINED+1)
-        return SetFailState("required_xp short term config improperly formatted, not enought or too much levels defined?");
-    for(new x=1;x<=tokencount;x++)
-    {
-        // store it
-        StrToken(read,x,temp_iter,15);
-        XPShortTermREQXP[x-1]=StringToInt(temp_iter);
-    }
-
-
-
-
+    KvGetString(keyValue, "required_xp", buffer, sizeof(buffer));
+    LevelStringToArray(buffer, XPShortTermREQXP);
 
     // kill xp, short term
-    KvGetString(keyValue,"kill_xp",read,sizeof(read));
-    tokencount=StrTokenCount(read);
-    if(tokencount>MAXLEVELXPDEFINED+1)
-    {
-        LogError("kill_xp short term config improperly formatted, too much levels defined!  Setting for Maximum levels for %d.  tokencount = %d, MAXLEVELXPDEFINED = %d.\nYou can find MAXLEVELXPDEFINED in your War3Source_Constants.inc file.",MAXLEVELXPDEFINED,tokencount,MAXLEVELXPDEFINED);
-        tokencount=MAXLEVELXPDEFINED+1;
-    }
-    else if(tokencount!=MAXLEVELXPDEFINED+1)
-        return SetFailState("kill_xp short term config improperly formatted, not enought or too much levels defined?");
-
-
-    for(new x=1;x<=tokencount;x++)
-    {
-        // store it
-        StrToken(read,x,temp_iter,15);
-        XPShortTermKillXP[x-1]=StringToInt(temp_iter);
-    }
+    KvGetString(keyValue, "kill_xp", buffer, sizeof(buffer));
+    LevelStringToArray(buffer, XPShortTermKillXP);
 
     return true;
 }
