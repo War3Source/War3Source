@@ -50,7 +50,7 @@ Regex g_reSplitString;
 
 public OnPluginStart()
 {
-    g_reSplitString = new Regex("([0-9]+)")
+    g_reSplitString = new Regex("([0-9]+)");
     LoadTranslations("w3s.engine.xpgold.txt");
 
     BotIgnoreXPCvar = CreateConVar("war3_ignore_bots_xp", "0", "Set to 1 to not award XP for killing bots");
