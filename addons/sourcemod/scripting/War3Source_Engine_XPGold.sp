@@ -50,7 +50,7 @@ Regex g_reSplitString;
 
 public OnPluginStart()
 {
-    g_reSplitString = Regex("([0-9]+)")
+    g_reSplitString = new Regex("([0-9]+)")
     LoadTranslations("w3s.engine.xpgold.txt");
 
     BotIgnoreXPCvar = CreateConVar("war3_ignore_bots_xp", "0", "Set to 1 to not award XP for killing bots");
@@ -219,19 +219,19 @@ public Native_War3_GetAssistCurrency(Handle:plugin, args)
 }
 void LevelStringToArray(char[] levelString, int[] levelArray)
 {
-    int tokencount = g_reSplitString.match(levelString);
+    int tokencount = g_reSplitString.Match(levelString);
     char buffer[16];
     
     for(new x = 0; x < MAXLEVELXPDEFINED; x++)
     {
         if(x < tokencount)
         {
-            g_reSplitString.GetSubString(x, buffer, sizeof(buffer))
+            g_reSplitString.GetSubString(x, buffer, sizeof(buffer));
             levelArray[x] = StringToInt(buffer);
         }
         else
         {
-            g_reSplitString.GetSubString(tokencount - 1, buffer, sizeof(buffer))
+            g_reSplitString.GetSubString(tokencount - 1, buffer, sizeof(buffer));
             levelArray[x] = StringToInt(buffer);   
         }
     }
