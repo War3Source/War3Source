@@ -45,8 +45,11 @@ new Handle:KillUncommonXPCvar;
 new Handle:g_hKillCurrencyCvar;
 new Handle:g_hAssistCurrencyCvar;
 
+Regex g_reSplitString;
+
 public OnPluginStart()
 {
+    g_reSplitString = Regex("([0-9]+)")
     LoadTranslations("w3s.engine.xpgold.txt");
 
     BotIgnoreXPCvar = CreateConVar("war3_ignore_bots_xp", "0", "Set to 1 to not award XP for killing bots");
@@ -215,18 +218,20 @@ public Native_War3_GetAssistCurrency(Handle:plugin, args)
 }
 void LevelStringToArray(char[] levelString, int[] levelArray)
 {
-    char levels[MAXLEVELXPDEFINED + 1][16];
-    int tokencount = ExplodeString(levelString, " ", levels, MAXLEVELXPDEFINED + 1, sizeof(levels[]));
+    int tokencount = g_reSplitString.match(levelString);
+    char buffer[16];
     
     for(new x = 0; x < MAXLEVELXPDEFINED; x++)
     {
         if(x < tokencount)
         {
-            levelArray[x] = StringToInt(levels[x]);
+            g_reSplitString.GetSubString(x, buffer, sizeof(buffer))
+            levelArray[x] = StringToInt(buffer);
         }
         else
         {
-            levelArray[x] = StringToInt(levels[tokencount - 1]);   
+            g_reSplitString.GetSubString(tokencount - 1, buffer, sizeof(buffer))
+            levelArray[x] = StringToInt(buffer);   
         }
     }
 }
