@@ -75,7 +75,7 @@ public OnPluginStart()
     }
     if(GAMECSGO)
     {
-        HookEvent("start_halftime", Event_StartHalftime);
+        HookEvent("announce_phase_end", Event_StartHalftime);
     }
 
     iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
@@ -190,7 +190,7 @@ public OnWar3EventDeath(client)
 }
 public Event_StartHalftime(Handle:event, const String:name[], bool:dontBroadcast)
 {
-    rsRoundState = RS_First;
+    rsRoundState = RS_Pre;
 }
 public Event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
 {
