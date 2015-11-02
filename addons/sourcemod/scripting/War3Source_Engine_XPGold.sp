@@ -46,11 +46,8 @@ new Handle:KillUncommonXPCvar;
 new Handle:g_hKillCurrencyCvar;
 new Handle:g_hAssistCurrencyCvar;
 
-Regex g_reSplitString;
-
 public OnPluginStart()
 {
-    g_reSplitString = new Regex("([0-9]+)");
     LoadTranslations("w3s.engine.xpgold.txt");
 
     BotIgnoreXPCvar = CreateConVar("war3_ignore_bots_xp", "0", "Set to 1 to not award XP for killing bots");
@@ -217,22 +214,62 @@ public Native_War3_GetAssistCurrency(Handle:plugin, args)
 {
     return GetConVarInt(g_hAssistCurrencyCvar);
 }
+int ExplodeStringEx(const char[] text, char split, char[][] buffer, int maxStrings, int maxStringLength)
+{
+    int i;
+    int j;
+    int index;
+    bool inString = false;
+    while(text[index] != '\0')
+    {
+        if(i == maxStrings)
+        {
+            break;
+        }
+        if(text[index] != split)
+        {
+            inString = true;
+            if(j == maxStringLength - 2)
+            {
+                buffer[i][j] = '\0';
+                j++;
+            }
+            else
+            {
+                buffer[i][j] = text[index];
+                j++;
+            }
+        }
+        else
+        {
+            if(inString)
+            {
+                if(j != maxStringLength -1)
+                {
+                    buffer[i][j] = '\0';
+                }
+                i++;
+                j = 0;
+                inString = false;
+            }
+        }
+        index++;
+    }
+    return i;
+}
 void LevelStringToArray(char[] levelString, int[] levelArray)
 {
-    int tokencount = g_reSplitString.Match(levelString);
-    char buffer[16];
-    
+    char buffer[MAXLEVELXPDEFINED][16];
+    int tokencount = ExplodeStringEx(levelString, ' ', buffer, sizeof(buffer), sizeof(buffer[]));
     for(new x = 0; x < MAXLEVELXPDEFINED; x++)
     {
         if(x < tokencount)
         {
-            g_reSplitString.GetSubString(x, buffer, sizeof(buffer));
-            levelArray[x] = StringToInt(buffer);
+            levelArray[x] = StringToInt(buffer[x]);
         }
         else
         {
-            g_reSplitString.GetSubString(tokencount - 1, buffer, sizeof(buffer));
-            levelArray[x] = StringToInt(buffer);   
+            levelArray[x] = StringToInt(buffer[tokencount - 1]);   
         }
     }
 }
