@@ -28,12 +28,15 @@ public OnGameFrame()
         if(ValidPlayer(client,true))
         {
             new Float:fbuffsum = 0.0;
-            if(!W3GetBuffHasTrue(client, bBuffDenyAll))
+            if(!W3GetBuffHasTrue(client, bBuffDenyAll) && !W3GetBuffHasTrue(client, bHPRegenDeny))
             {
                 fbuffsum += W3GetBuffSumFloat(client, fHPRegen);
             }
 
-            fbuffsum -= W3GetBuffSumFloat(client, fHPDecay);
+            if(!W3GetBuffHasTrue(client, bHPDecayDeny))
+            {
+                fbuffsum -= W3GetBuffSumFloat(client, fHPDecay);
+            }
 
             if(fbuffsum < 0.01 && fbuffsum > -0.01)
             {
