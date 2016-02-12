@@ -550,7 +550,7 @@ stock InitiateBuffPropertiesArray(buffpropertiesarray[W3Buff][W3BuffProperties])
   buffpropertiesarray[ iCritMode ][DefaultValue]=-1;
   buffpropertiesarray[ iCritMode ][BuffStackType]=iLastValue;
   
-  buffpropertiesarray[ fCritModifier ][DefaultValue]=0.0;
+  buffpropertiesarray[ fCritModifier ][DefaultValue]=1.0;
   buffpropertiesarray[ fCritModifier ][BuffStackType]=fAbsolute;
   
   buffpropertiesarray[ iDamageBonus ][DefaultValue]=0;
