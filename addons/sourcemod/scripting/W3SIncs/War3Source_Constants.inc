@@ -327,7 +327,8 @@ enum W3Buff
   
   fHPRegen, ///float sum! NO NEGATIVES! MINIM regin rate is 0.5 / second ( 1 hp per 2 seconds)
   fHPDecay, //float sum, NO NEGATIVES, postive means lose this much HP / second, same requirements as fHPRegen
-  bHPRegenDeny, //set true to deny hp regen
+  bHPRegenDeny, //43, set true to deny hp regen
+  fHPRegenDeny = 43, //backwards compatibility macro for 'bHPRegenDeny'
   iAdditionalMaxHealth,   ///increase / decrease in maxhp
   
   //44
@@ -355,7 +356,6 @@ enum W3Buff
   iAdditionalMaxHealthNoHPChange,   ///increase / decrease in maxhp. NO AUTOMATIC HP CHANGE WHEN BUFF IS CHANGED
   bHPDecayDeny, //set true to deny hp decay
   MaxBuffLoopLimitTemp, //this is a variable that is for loops, this number is automatically generated from the enum.
-  fHPRegenDeny = bHPRegenDeny, //backwards compatibility macro for 'bHPRegenDeny'
 }
 stock MaxBuffLoopLimit=_:MaxBuffLoopLimitTemp;
 
