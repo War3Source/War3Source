@@ -546,11 +546,6 @@ public Action:DoMole(Handle:timer, any:client)
         new ent = INVALID_ENT_REFERENCE;
         while((ent = FindEntityByClassname(ent, (iEnemyTeam == TEAM_T) ? "info_player_terrorist" : "info_player_counterterrorist")) != INVALID_ENT_REFERENCE)
         {
-            if(!IsValidEdict(ent)) 
-            {
-                continue;
-            }
-            
             GetEntDataVector(ent, iOriginOffset, fSpawnPosition);
 
             new bool:bIsConflicting = false;

@@ -410,7 +410,6 @@ public Action:DoMole(Handle:timer,any:client)
         new ent=-1;
         while((ent = FindEntityByClassname(ent,(searchteam==2)?"info_player_terrorist":"info_player_counterterrorist"))!=-1)
         {
-            if(!IsValidEdict(ent)) continue;
             GetEntDataVector(ent,OriginOffset,spawnloc);
             
             new bool:is_conflict=false;
