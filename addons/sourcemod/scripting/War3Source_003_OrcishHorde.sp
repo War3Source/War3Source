@@ -384,7 +384,7 @@ public OnWar3EventPostHurt(victim, attacker, Float:damage, const String:weapon[3
         return;
     }
 
-    if(victim>0&&attacker>0&&victim!=attacker)
+    if(victim>0 && attacker>0 && GetClientTeam(attacker)!=GetClientTeam(victim))
     {
         new race_attacker=War3_GetRace(attacker);
         
