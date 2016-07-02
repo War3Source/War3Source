@@ -170,11 +170,6 @@ new TPFailCDResetToSkill[MAXPLAYERSCUSTOM];
 
 public OnUltimateCommand(client,race,bool:pressed)
 {
-    if(RaceDisabled)
-    {
-        return;
-    }
-
     //DP("ult pressed");
     if( pressed  && ValidPlayer(client,true) && !Silenced(client))
     {
