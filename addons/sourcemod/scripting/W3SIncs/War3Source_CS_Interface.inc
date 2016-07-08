@@ -53,8 +53,8 @@ stock bool:War3_GetCSArmorHasHelmet(client) {
  * @param hashelmet   True to give helmet, false to remove
  * @noreturn
  */
-stock War3_SetCSArmorHasHelmet(client,bool:hashelmet) {
-    return SetEntProp(client, Prop_Send, "m_bHasHelmet",hashelmet? 1:0, 1);
+stock War3_SetCSArmorHasHelmet(client, bool:hasHelmet){
+    SetEntProp(client, Prop_Send, "m_bHasHelmet", hasHelmet?1:0, 1 /*size*/); 
 }
 
 /**

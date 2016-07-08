@@ -282,12 +282,18 @@ ParseXPSettingsFile(){
     KvRewind(keyValue);
 
     if(!KvJumpToKey(keyValue,"levels"))
-        return SetFailState("error, key value for levels configuration not found");
+	{
+        SetFailState("error, key value for levels configuration not found");
+        return false;
+	}
 
 
     decl String:buffer[2048];
     if(!KvGotoFirstSubKey(keyValue))
-        return SetFailState("sub key failed");
+    {
+        SetFailState("sub key failed");
+        return false;
+    }
 
     // required xp, long term
     KvGetString(keyValue, "required_xp", buffer, sizeof(buffer));
@@ -298,7 +304,10 @@ ParseXPSettingsFile(){
     LevelStringToArray(buffer, XPLongTermKillXP);
 
     if(!KvGotoNextKey(keyValue))
-        return SetFailState("XP No Next key");
+	{
+		SetFailState("XP No Next key");
+		return false;
+	}
     
     // required xp, short term
     KvGetString(keyValue, "required_xp", buffer, sizeof(buffer));

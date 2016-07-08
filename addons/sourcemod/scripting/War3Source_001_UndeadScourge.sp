@@ -72,7 +72,14 @@ public OnUltimateCommand(client, race, bool:pressed)
     if(pressed && War3_GetRace(client) == thisRaceID && IsPlayerAlive(client) && !Silenced(client))
     {
         new ult_level = War3_GetSkillLevel(client, race, SKILL_SUICIDE);
-        ult_level > 0 ? ForcePlayerSuicide(client) : W3MsgUltNotLeveled(client);
+        if(ult_level > 0)
+        {
+		    ForcePlayerSuicide(client);
+        }
+        else
+        {
+            W3MsgUltNotLeveled(client);
+	    }
     }
 }
 
