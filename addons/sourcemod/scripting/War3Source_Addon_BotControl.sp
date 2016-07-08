@@ -30,7 +30,7 @@ new Handle:botBuysRandomMultipleChance = INVALID_HANDLE;
 public OnPluginStart()
 {
     // ########################## BOT EVASION ################################
-    botEvasionCvar = CreateConVar("war3_bots_invisibility_gives_evasion", "1", "Should invisibility give evasion against bots?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+    botEvasionCvar = CreateConVar("war3_bots_invisibility_gives_evasion", "1", "Should invisibility give evasion against bots?", _, true, 0.0, true, 1.0);
     
     // ########################## BOT RACE/LEVEL SCRAMBLER ###################
     RegAdminCmd("war3_botscramble", RaceScrambler, ADMFLAG_SLAY, "war3_botscramble - Scrambles the bots races.");
@@ -38,8 +38,8 @@ public OnPluginStart()
     g_hGiveBotsRaces = CreateConVar("war3_bots_use_races", "1", "Enable/Disable races for bots");
     g_hBotLevelCvar = CreateConVar("war3_bots_scramble_level", "-1", "The level the bots should be scrambled to.");
     g_hBotLevelRandom = CreateConVar("war3_bots_scramble_random", "1", "Assign bots a random level up to war3_bots_scramble_level or just the defined level?");
-    g_hBotScrambleRound = CreateConVar("war3_bots_scramble_on_round", "1", "Scramble bots each round?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
-    g_hBotAnnounce = CreateConVar("war3_bots_scramble_announce", "1", "Announce the scrambling?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
+    g_hBotScrambleRound = CreateConVar("war3_bots_scramble_on_round", "1", "Scramble bots each round?", _, true, 0.0, true, 1.0);
+    g_hBotAnnounce = CreateConVar("war3_bots_scramble_announce", "1", "Announce the scrambling?", _, true, 0.0, true, 1.0);
     
     g_bEnabled = GetConVarBool(g_hGiveBotsRaces);
     HookConVarChange(g_hGiveBotsRaces, ConVarChange_GiveBotsRaces);
@@ -61,9 +61,9 @@ public OnPluginStart()
     }
     
     // ########################## BOT ITEM CONFIG ############################
-    botBuysItems = CreateConVar("war3_bots_buy_items", "1", "Can bots buy random items?", FCVAR_PLUGIN, true, 0.0, true, 1.0);
-    botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance", "70","Chance a bot will buy an item on spawn.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
-    botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance", "0.8","Chance modifier that is applied each time a bot buys a item.", FCVAR_PLUGIN, true, 0.0, true, 100.0);
+    botBuysItems = CreateConVar("war3_bots_buy_items", "1", "Can bots buy random items?", _, true, 0.0, true, 1.0);
+    botBuysRandomChance = CreateConVar("war3_bots_buy_random_chance", "70","Chance a bot will buy an item on spawn.", _, true, 0.0, true, 100.0);
+    botBuysRandomMultipleChance = CreateConVar("war3_bots_buy_random_multiple_chance", "0.8","Chance modifier that is applied each time a bot buys a item.", _, true, 0.0, true, 100.0);
     
     LoadTranslations ("w3s.addon.botcontrol.phrases.txt");
 }
