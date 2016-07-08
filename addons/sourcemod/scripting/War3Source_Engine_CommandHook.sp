@@ -250,7 +250,7 @@ public Action:War3Source_SayCommand(client,args)
         }
       }
     }
-    new Float:currentmaxspeed=GetEntDataFloat(ClientX,War3_GetGame()==Game_TF?FindSendPropOffs("CTFPlayer","m_flMaxspeed"):FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue"));
+    new Float:currentmaxspeed=GetEntDataFloat(ClientX,War3_GetGame()==Game_TF?FindSendPropInfo("CTFPlayer","m_flMaxspeed"):FindSendPropInfo("CBasePlayer","m_flLaggedMovementValue"));
     if(GameTF())
     {
       if(SpecTarget==true)

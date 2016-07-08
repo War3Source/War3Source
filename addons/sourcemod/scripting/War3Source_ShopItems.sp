@@ -78,8 +78,8 @@ public OnPluginStart()
         HookEvent("announce_phase_end", Event_StartHalftime);
     }
 
-    iOriginOffset = FindSendPropOffs("CBaseEntity", "m_vecOrigin");
-    iMyWeaponsOffset = FindSendPropOffs("CBaseCombatCharacter", "m_hMyWeapons");
+    iOriginOffset = FindSendPropInfo("CBaseEntity", "m_vecOrigin");
+    iMyWeaponsOffset = FindSendPropInfo("CBaseCombatCharacter", "m_hMyWeapons");
     
     hBootsSpeedCvar = CreateConVar("war3_shop_boots_speed", "1.2", "Boots speed, 1.2 is default");
     hClawsDamageCvar = CreateConVar("war3_shop_claws_damage", GameTF() ? "10" : "6", "Claws of attack additional damage per bullet (CS) or per second (TF)");

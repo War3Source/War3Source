@@ -659,11 +659,11 @@ stock SetPlayerRGB(index,r,g,b)
 // Render TransAdd == 5
 stock SetEntityAlpha(index,alpha)
 { 
-  //if(FindSendPropOffs(index,"m_nRenderFX")>-1&&FindSendPropOffs(index,"m_nRenderMode")>-1){
+  //if(FindSendPropInfo(index,"m_nRenderFX")>-1&&FindSendPropInfo(index,"m_nRenderMode")>-1){
   new String:class[32];
   GetEntityNetClass(index, class, sizeof(class) );
   //PrintToServer("%s",class);
-  if(FindSendPropOffs(class,"m_nRenderFX")>-1){
+  if(FindSendPropInfo(class,"m_nRenderFX")>-1){
     SetEntityRenderMode(index,RENDER_TRANSCOLOR);
     SetEntityRenderColor(index,GetPlayerR(index),GetPlayerG(index),GetPlayerB(index),alpha);
   }

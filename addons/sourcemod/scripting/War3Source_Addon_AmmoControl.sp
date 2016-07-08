@@ -51,12 +51,12 @@ public OnPluginStart()
 {
     // Offsets
     g_iOffsetPrimaryAmmoType = FindSendPropInfo("CBaseCombatWeapon", "m_iPrimaryAmmoType");
-    g_iOffsetActiveWeapon = FindSendPropOffs("CBasePlayer", "m_hActiveWeapon");
-    g_iOffsetClip = FindSendPropOffs("CBaseCombatWeapon", "m_iClip1");
-    g_iOffsetAmmo = FindSendPropOffs("CCSPlayer", "m_iAmmo");
+    g_iOffsetActiveWeapon = FindSendPropInfo("CBasePlayer", "m_hActiveWeapon");
+    g_iOffsetClip = FindSendPropInfo("CBaseCombatWeapon", "m_iClip1");
+    g_iOffsetAmmo = FindSendPropInfo("CCSPlayer", "m_iAmmo");
     
     // Convars
-    CreateConVar("war3_ammocontrol_version", PLUGIN_VERSION, "Ammo Control Version", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+    CreateConVar("war3_ammocontrol_version", PLUGIN_VERSION, "Ammo Control Version", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
     g_hCvarEnable = CreateConVar("war3_ammocontrol_enable", "1", "Enable/Disable Ammo Control", _, true, 0.0, true, 1.0);
     
     // Convar Hooks

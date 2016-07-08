@@ -30,8 +30,8 @@ public Native_War3_Progressbar(Handle:plugin,numParams)
     new client = GetNativeCell(1);
     new iDur = GetNativeCell(2);
     
-    iPropTime = FindSendPropOffs("CCSPlayer", g_sPropProgressBarTime);
-    iPropDur = FindSendPropOffs("CCSPlayer", g_sPropProgressBarDur);
+    iPropTime = FindSendPropInfo("CCSPlayer", g_sPropProgressBarTime);
+    iPropDur = FindSendPropInfo("CCSPlayer", g_sPropProgressBarDur);
     
     if (iDur < 1)
     {
@@ -51,7 +51,7 @@ public Native_War3_Progressbar(Handle:plugin,numParams)
 
 public Action:Wcsx_RemoveProgressBar(Handle:hTimer, any:iClient)
 {
-    new iPropDur = FindSendPropOffs("CCSPlayer", g_sPropProgressBarDur);
+    new iPropDur = FindSendPropInfo("CCSPlayer", g_sPropProgressBarDur);
     SetEntData(iClient, iPropDur, 0);
 }
 

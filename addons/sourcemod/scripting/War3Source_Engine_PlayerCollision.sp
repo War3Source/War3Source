@@ -12,7 +12,7 @@ new g_offsCollisionGroup;
 
 public OnPluginStart()
 {
-    g_offsCollisionGroup = FindSendPropOffs("CBaseEntity", "m_CollisionGroup");
+    g_offsCollisionGroup = FindSendPropInfo("CBaseEntity", "m_CollisionGroup");
 }
 
 public bool:InitNativesForwards()

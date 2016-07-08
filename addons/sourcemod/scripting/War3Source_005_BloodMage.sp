@@ -99,9 +99,9 @@ public OnPluginStart()
     hrevivalDelayCvar=CreateConVar("war3_mage_revive_delay","2.0","Delay when reviving a teammate (since death)");
     
     MoneyOffsetCS=FindSendPropInfo("CCSPlayer","m_iAccount");
-    MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
-//    Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
-    AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
+    MyWeaponsOffset=FindSendPropInfo("CBaseCombatCharacter","m_hMyWeapons");
+//    Clip1Offset=FindSendPropInfo("CBaseCombatWeapon","m_iClip1");
+    AmmoOffset=FindSendPropInfo("CBasePlayer","m_iAmmo");
     
     if(War3_GetGame()==Game_TF)
     {

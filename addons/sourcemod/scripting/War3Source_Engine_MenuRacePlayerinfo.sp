@@ -725,7 +725,7 @@ public War3_playertargetMenuSelected(Handle:menu,MenuAction:action,client,select
       }
       if(selection==3){
         if(ValidPlayer(target,true)){
-          SetEntDataEnt2(client, FindSendPropOffs("CBasePlayer", "m_hObserverTarget"),target,true);
+          SetEntDataEnt2(client, FindSendPropInfo("CBasePlayer", "m_hObserverTarget"),target,true);
         }
         else{
           War3_ChatMessage(client,"%T","Player Not Alive",client);

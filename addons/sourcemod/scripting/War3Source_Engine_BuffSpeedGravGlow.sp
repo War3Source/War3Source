@@ -58,17 +58,17 @@ public bool:InitNativesForwards()
     CreateNative("W3ReapplySpeed",NW3ReapplySpeed);//for races
     if(GameTF())
     {
-        m_OffsetSpeed=FindSendPropOffs("CTFPlayer","m_flMaxspeed");
+        m_OffsetSpeed=FindSendPropInfo("CTFPlayer","m_flMaxspeed");
     }
     else{
-        m_OffsetSpeed=FindSendPropOffs("CBasePlayer","m_flLaggedMovementValue");
+        m_OffsetSpeed=FindSendPropInfo("CBasePlayer","m_flLaggedMovementValue");
     }
     if(m_OffsetSpeed==-1)
     {
         PrintToServer("[War3Source] Error finding speed offset.");
     }
     
-    m_OffsetClrRender=FindSendPropOffs("CBaseAnimating","m_clrRender");
+    m_OffsetClrRender=FindSendPropInfo("CBaseAnimating","m_clrRender");
     if(m_OffsetClrRender==-1)
     {
         PrintToServer("[War3Source] Error finding render color offset.");
@@ -492,11 +492,11 @@ stock SetPlayerRGB(index,r,g,b)
 // Render TransAdd == 5
 stock SetEntityAlpha(index,alpha)
 {    
-    //if(FindSendPropOffs(index,"m_nRenderFX")>-1&&FindSendPropOffs(index,"m_nRenderMode")>-1){
+    //if(FindSendPropInfo(index,"m_nRenderFX")>-1&&FindSendPropInfo(index,"m_nRenderMode")>-1){
     new String:class[32];
     GetEntityNetClass(index, class, sizeof(class) );
     //PrintToServer("%s",class);
-    if(FindSendPropOffs(class,"m_nRenderFX")>-1){
+    if(FindSendPropInfo(class,"m_nRenderFX")>-1){
         SetEntityRenderMode(index,RENDER_TRANSCOLOR);
         SetEntityRenderColor(index,GetPlayerR(index),GetPlayerG(index),GetPlayerB(index),alpha);
     }

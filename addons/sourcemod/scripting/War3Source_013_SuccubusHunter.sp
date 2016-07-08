@@ -75,7 +75,7 @@ public OnWar3LoadRaceOrItemOrdered(num)
 
 public OnPluginStart()
 {
-    m_vecVelocity_0 = FindSendPropOffs("CBasePlayer","m_vecVelocity[0]");
+    m_vecVelocity_0 = FindSendPropInfo("CBasePlayer","m_vecVelocity[0]");
     
     //HookEvent("player_hurt",PlayerHurtEvent);
     //HookEvent("player_death",PlayerDeathEvent);
@@ -83,14 +83,14 @@ public OnPluginStart()
     if(GAMECSANY)
     {
         HookEvent("player_jump",PlayerJumpEvent);
-        m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
-        m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
+        m_vecVelocity_1 = FindSendPropInfo("CBasePlayer","m_vecVelocity[1]");
+        m_vecBaseVelocity = FindSendPropInfo("CBasePlayer","m_vecBaseVelocity");
     }
     
     AddCommandListener(SayCommand, "say");
     AddCommandListener(SayCommand, "say_team");
     
-    m_iAccount = FindSendPropOffs("CCSPlayer", "m_iAccount");
+    m_iAccount = FindSendPropInfo("CCSPlayer", "m_iAccount");
     
     ultCooldownCvar=CreateConVar("war3_succ_ult_cooldown","20","Cooldown for succubus ultimate");
     totemCurrencyCvar=CreateConVar("war3_succ_totem_currency","0","Currency to use for totem | 0=currency, 1=gold, 2=money");

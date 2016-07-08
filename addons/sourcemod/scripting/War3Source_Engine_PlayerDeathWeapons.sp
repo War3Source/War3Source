@@ -28,17 +28,17 @@ new AmmoOffset;
 
 public OnPluginStart()
 {
-    MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
+    MyWeaponsOffset=FindSendPropInfo("CBaseCombatCharacter","m_hMyWeapons");
     if(MyWeaponsOffset==-1)
     {
         PrintToServer("[War3Source] Error finding weapon list offset.");
     }
-    Clip1Offset=FindSendPropOffs("CBaseCombatWeapon","m_iClip1");
+    Clip1Offset=FindSendPropInfo("CBaseCombatWeapon","m_iClip1");
     if(Clip1Offset==-1)
     {
         PrintToServer("[War3Source] Error finding clip1 offset.");
     }
-    AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
+    AmmoOffset=FindSendPropInfo("CBasePlayer","m_iAmmo");
     if(AmmoOffset==-1)
     {
         PrintToServer("[War3Source] Error finding ammo offset.");

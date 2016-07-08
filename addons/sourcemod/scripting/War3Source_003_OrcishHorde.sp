@@ -81,8 +81,8 @@ public OnPluginStart()
 
     hCvarDisableCritWithGloves=CreateConVar("war3_orc_nocritgloves","1","Disable nade crit with gloves");
     
-    MyWeaponsOffset=FindSendPropOffs("CBaseCombatCharacter","m_hMyWeapons");
-    AmmoOffset=FindSendPropOffs("CBasePlayer","m_iAmmo");
+    MyWeaponsOffset=FindSendPropInfo("CBaseCombatCharacter","m_hMyWeapons");
+    AmmoOffset=FindSendPropInfo("CBasePlayer","m_iAmmo");
     CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
     
     LoadTranslations("w3s.race.orc.phrases.txt");

@@ -73,9 +73,9 @@ public OnPluginStart()
 {
     ultCooldownCvar=CreateConVar("war3_chronos_ult_cooldown","20");
     
-    m_vecVelocity_0 = FindSendPropOffs("CBasePlayer","m_vecVelocity[0]");
-    m_vecVelocity_1 = FindSendPropOffs("CBasePlayer","m_vecVelocity[1]");
-    m_vecBaseVelocity = FindSendPropOffs("CBasePlayer","m_vecBaseVelocity");
+    m_vecVelocity_0 = FindSendPropInfo("CBasePlayer","m_vecVelocity[0]");
+    m_vecVelocity_1 = FindSendPropInfo("CBasePlayer","m_vecVelocity[1]");
+    m_vecBaseVelocity = FindSendPropInfo("CBasePlayer","m_vecBaseVelocity");
     
     if(GAMECSANY){
         HookEvent("player_jump",PlayerJumpEvent);

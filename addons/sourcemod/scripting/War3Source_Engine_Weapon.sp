@@ -30,12 +30,12 @@ public OnPluginStart()
 {
     CreateTimer(0.1,DeciSecondTimer,_,TIMER_REPEAT);
     
-    m_OffsetActiveWeapon=FindSendPropOffs("CBasePlayer","m_hActiveWeapon");
+    m_OffsetActiveWeapon=FindSendPropInfo("CBasePlayer","m_hActiveWeapon");
     if(m_OffsetActiveWeapon==-1)
     {
         LogError("[War3Source] Error finding active weapon offset.");
     }
-    m_OffsetNextPrimaryAttack= FindSendPropOffs("CBaseCombatWeapon","m_flNextPrimaryAttack");
+    m_OffsetNextPrimaryAttack= FindSendPropInfo("CBaseCombatWeapon","m_flNextPrimaryAttack");
     if(m_OffsetNextPrimaryAttack==-1)
     {
         LogError("[War3Source] Error finding next primary attack offset.");
@@ -184,9 +184,9 @@ public Action:DeciSecondTimer(Handle:h,any:a){
         for(new client=1;client<=MaxClients;client++){
             /*if(true){ //test
             new wpnent = GetCurrentWeaponEnt(client);
-            if(FindSendPropOffs("CWeaponUSP","m_bSilencerOn")>0){
+            if(FindSendPropInfo("CWeaponUSP","m_bSilencerOn")>0){
             
-            SetEntData(wpnent,FindSendPropOffs("CWeaponUSP","m_bSilencerOn"),true,true);
+            SetEntData(wpnent,FindSendPropInfo("CWeaponUSP","m_bSilencerOn"),true,true);
             }
             
             }*/
