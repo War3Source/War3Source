@@ -8,11 +8,10 @@ public Plugin:myinfo =
     description = "Controls the levelbank"
 };
 
-new levelbank[MAXPLAYERSCUSTOM];
-new Handle:hCvar_NewPlayerLevelbank;
-
-new Handle:hCvarPrintLevelBank;
-new Handle:hLevelup;
+int levelbank[MAXPLAYERSCUSTOM];
+ConVar hCvar_NewPlayerLevelbank;
+ConVar hCvarPrintLevelBank;
+ConVar hLevelup;
 
 public OnPluginStart()
 {
