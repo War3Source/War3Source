@@ -213,7 +213,7 @@ public OnWar3EventSpawn(client){
     int printLevelBankCvar = hCvarPrintLevelBank.IntValue;
     int levelsInBank = W3GetLevelBank(client);
     if(printLevelBankCvar > 0 && levelsInBank > 0){
-        if(printLevelBankCvar == 2 && levelsInBank > 0 && levelsInBank != hCvar_NewPlayerLevelbank.IntValue) {
+        if(printLevelBankCvar == 2 && levelsInBank != hCvar_NewPlayerLevelbank.IntValue) {
             // Player used some levels, no need to show levelbank information to him.
             return;
         }
